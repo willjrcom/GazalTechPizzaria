@@ -1,0 +1,189 @@
+/*----HOME----*/
+.logo{
+	z-index: 1;
+	margin-left:1%;
+	margin-top:4.5%;
+	position:absolute;
+	left:80%;
+	top:-6%;
+}
+
+body{
+	background-color: #BFB6BF;
+}
+.navbar{
+	z-index:0;
+	margin-top:3%;
+	background-color: #B40431;
+}
+.nav a{
+	color: black;
+	font-size:20px;
+}
+
+.lab {
+	float: left;
+}
+
+.panel-heading {
+	font-style:oblique;
+	padding-left: 10%;
+	
+}
+
+.control-label {
+	padding-left: 10%;
+	margin-left:-15%;
+}
+
+.form-horizontal:not(.btn) {
+	padding: 1%;
+	background-color:white;
+	margin-left: 30%;
+	margin-right: 30%;
+	border-style:solid;
+	border-radius:15px;
+}
+
+
+.card-arctic{
+	background-color : white;
+	margin-left: 5%;
+	margin-top: 5%;
+	border: 5px solid black;
+	padding: 10px;
+
+}
+
+.descbar{
+	margin-right:4%;	
+}
+
+.descricao {
+	margin-left: 15%;
+	max-width: 48%;
+	max-height: 300px;
+	width: 20%;
+	min-width: 63%;
+	min-height: 100px;;
+}
+
+.btn-am{
+	margin-left: 28%;
+	 white-space: normal !important;
+}
+.wrapper {
+  margin-right: 4%;
+  height: 100%;
+  min-height: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.panel-home{
+	position: relative;
+	margin-left: 2%;
+	margin-right: 2%;
+	padding-bottom: 5%;
+	background-color: #BFB6BF
+}
+
+
+/*-------Casa de Eventos-------*/
+
+
+
+.panel-casa{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.col-md-offset-2{
+	padding-left:1%;
+}
+
+.btn-salvar{
+	width: 10%;
+}
+
+.alert-danger{
+	margin-left:30%;
+	margin-right:30%;
+	border-style:solid;
+	border: solid red;
+	border-radius:15px;
+}
+
+.alert {
+	margin-left:30%;
+	border-radius:15px;
+	margin-right:30%;	
+}
+
+
+/*------Eventos-------*/
+
+.panel-eventos{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.aw-titulo-panel{
+	float: left;
+	padding-top: 2px;
+	
+}
+
+.panel-tabela{
+	padding-top:0px;
+}
+
+/*-------Historico--------*/
+
+.form-historico{
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.nav-tabs{
+	padding-left:20%;
+}
+
+.card {
+	margin:5px;
+	border-style:solid;
+	border: solid black;
+	border-radius:15px;	
+}
+
+.btn-primary {
+	
+}
+.desc{
+	font-size: 150%;
+	overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-box-orient: vertical;
+   -webkit-line-clamp: 5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

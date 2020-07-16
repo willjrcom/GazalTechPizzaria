@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:fragment="head" >
+    <meta charset="utf-8" lang="pt-br"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+	<link href="/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="/css/estilo.css" rel="stylesheet"/>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+</head>
+
+<!--------------------------------------------------------------------------------------------------------->
+<body>
+	<header th:fragment="logo">
+		<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>
+	
+	<nav>
+		<ul class="menu">
+			<li><a class="active" accesskey="N" href="/novoPedido">NOVO PEDIDO</a>
+				<ul>
+					<li><a accesskey="V" href="/verPedido">VER</a></li>
+				</ul>
+			</li>
+			<li><a accesskey="C" href="/cozinha">COZINHA</a></li>
+			<li><a accesskey="P" href="/pronto">PRONTOS</a></li>
+			<li><a accesskey="M" href="/motoboy">MOTOBOY</a>
+				<ul>
+					<li><a accesskey="B" href="/">SAÍDA</a></li>
+				</ul>
+			</li>
+			<li class="Dropdown"><a accesskey="H" href="/cadastros" >CADASTROS</a>
+				<div class="dropdown-content">
+					<a accesskey="J" href="/cadastroCliente">CLIENTE</a>
+					<a accesskey="K" href="/cadastroProduto">PRODUTO</a>
+					<a accesskey="L" href="/cadastroFuncionario">FUNCIONÁRIOS</a>
+				</div>
+			</li>
+			<li><a accesskey="O" href="/sobre">OPÇÕES</a></li>
+			<li><a accesskey="A" href="/">ADM</a></li>
+			<li><a accesskey="S" href="/index">SAIR</a></li>
+			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Shit + Tecla</label></li>
+			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+		</ul>
+	</nav>
+	</header>
+
+<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="login">
+		<div class="elemento1">
+			<div class="corFundo centralizar" style="padding: 10px">
+				
+				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
+				
+				<div>
+					<div class="form-group">
+				 		<label for="exampleInputEmail1">Login</label>
+				    	<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+				    	<small id="emailHelp" class="form-text text-muted">Nunca compartilhe seu email com mais ninguém.</small>
+				  	</div>
+				  	
+				  	<div class="form-group">
+				    	<label for="exampleInputPassword1">Senha</label>
+				    	<input type="password" class="form-control" id="exampleInputPassword1">
+				  	</div>
+				  	
+				  	<div class="form-group">
+				  		<div class="form-check">
+					    	<input type="checkbox" class="form-check-input" id="exampleCheck1">
+					    	<label class="form-check-label" for="exampleCheck1">Ficar conectado</label>
+					  	</div>
+				  	</div>
+				  	
+				  	<a href="/novoPedido"><button type="submit" class="btn btn-primary" >Acessar</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!--------------------------------------------------------------------------------------------------------->
+	<footer th:fragment="footer">
+		<table class="row" style="background-color: #333">
+			<tr class="col-md-4">
+				<td style="background-color: #333; border: none">
+					<p style="color:white; margin-top: 3vh" id="ano-atual"></p>
+					<p style="color:white">TODOS DIREITOS RESERVADOS</p>
+				</td>
+			</tr>
+			
+			<tr class="col-md-4">
+				<td style="background-color: #333; border: none">
+					<h3 class="centralizar" style="color: white">Suporte:</h3>
+					
+					<table style="border: none; background-color: #333">
+						<tr class="row">
+							<td class="col-md-1" style="border: none; background-color: #333; color:white">William Jr</td>
+							<td class="col-md-1" style="border: none; background-color: #333; color:white">(11) 96384-9111</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			
+			<tr class="col-md-4">
+				<td style="background-color: #333; border: none"><h3 style="color: white">Siga-nos</h3><br>
+				<a href="www.facebook.com/william.alfredgazaljunior"><button type="button" class="btn btn-primary">Facebook</button></a></td>
+			</tr>
+		</table>
+		
+		<script src="/js/datas.js"></script>
+	</footer>
+
+<!--------------------------------------------------------------------------------------------------------->
+	<script src="/js/datas.js"></script>
+</body>
+</html>

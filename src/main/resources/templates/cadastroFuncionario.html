@@ -1,0 +1,152 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="/layouts/header :: head" ></head>
+<head><title>Cadastrar Funcionário - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="/layouts/header :: logo"></header>
+
+	<br>
+	<div class="divbaseForm alert alert-primary" role="alert" th:if="${!#strings.isEmpty(mensagem)}" style="background-color: #aad450">
+		<span th:text="${mensagem}"></span>
+	</div>
+				
+	<div class="divbaseForm">
+		<div class="container">
+			
+			<br>
+			<h1 class="h1Logo">Cadastrar Funcionário</h1><br/>
+			
+			<form th:action="@{/cadastroFuncionario}" th:object="${funcionario}" class="form-contact" method="POST" tabindex="1">
+			  
+				<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
+					<div th:each="detailedError : ${#fields.detailedErrors()}">
+						<span th:text="${detailedError.message}"></span>			
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<input type="reset" class="form-control">
+				</div>
+				
+				<input type="hidden" th:field="*{id}"/>
+				
+				<br>
+				<div class="form-group">
+					<label>Nome Completo:<br/></label>
+					<input type="text" class="form-control" autofocus="autofocus" th:field="*{nome}" placeholder="Nome Completo" required/>  
+				</div>
+				
+				<div class="form-group">
+					<label>E-mail:<br/></label>
+					<input type="email" class="form-control" th:field="*{email}" placeholder="nome@exemplo.com" required/>
+				</div>
+				
+				<div class="form-group">
+					<label >Data de nascimento:<br/></label>
+					<input type="date" class="form-control" id="validationCustom01" th:field="*{nascimento}" placeholder="dd/mm/aaaa" required/>
+				</div>
+				
+				<div>
+					<label>CPF:<br/></label>
+					<input type="text" class="form-control " th:field="*{cpf}" placeholder="CPF" required/>
+				</div>
+				
+				<br/>
+				<div class="form-group">
+					<label>Telefones:<br/></label>
+					<input type="tel" class="form-control" th:field="*{celular}" placeholder="Celular xx-xxxxx-xxxx " required/> 
+				</div>
+				
+				<div class="form-group">
+					<label for="cargo">Cargo:<br></label>
+					<select class="form-control" th:field="*{cargo}" required>
+						<option th:each="cargos : ${TipoCargo}" th:value="${cargos}" th:text="${cargos.descricao}"></option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label>Sexo:<br/></label>
+					<select class="form-control" th:field="*{sexo}" required>
+						<option th:each="sexos : ${TipoSexo}" th:value="${sexos}" th:text="${sexos.descricao}"></option>
+					</select>
+				</div>
+				
+				
+				<h3><br/>Endereço:<br/><br/></h3>
+				
+				<div class="form-group">
+					<label>CEP:<br/></label>
+					<input type="text" class="form-control" th:field="*{endereco.cep}" placeholder="CEP" required/> 
+				</div>
+				
+				<div class="form-row">
+					<div class="form-group col-md-10">
+					<label>Rua:<br></label>
+						<input type="text" class="form-control" th:field="*{endereco.rua}" placeholder="Rua" required/>
+					</div>
+					
+					<div class="form-group col-md-2">
+						<label>Nº:<br></label>
+						<input type="text" class="form-control" th:field="*{endereco.n}" placeholder="Nº" size="10" required/>
+					</div>   
+				</div>
+				
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label>Bairro:<br/></label>
+						<input type="text" class="form-control" th:field="*{endereco.bairro}" placeholder="Bairro" required/>  
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label>Cidade:<br/></label>
+						<input type="text" class="form-control" th:field="*{endereco.cidade}" placeholder="Cidade" required/> 
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label>Referência da casa:<br/></label>
+					<textarea class="form-control" th:field="*{endereco.referencia}" placeholder="Referência da casa"></textarea>  
+				</div>
+				
+				<h3>Pagamento:</h3>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label>Data de admissão:<br/></label>
+						<input type="date" class="form-control" th:field="*{admissao}" placeholder="dd/mm/aaaa" required/>
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label>Dia pagamento:<br/></label>
+						<input type="number" class="form-control" th:field="*{diaPagamento}" placeholder="Dia pagamento" min="1" max="31" required/>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label>Salário:<br/></label>
+					<input type="number" class="form-control" th:field="*{salario}" placeholder="Salário" required/>
+				</div>	
+
+				<br>				
+				<div class="form-group">
+					<input type="color" name="favcor" value="#0000FF">
+				</div>
+				
+				<div class="custom-file">
+				  	<input type="file" class="">
+				</div>
+				
+				<br>
+				<button type="submit" class="form-contact-button" name="enviar">Enviar</button>  
+			</form>  
+			
+		</div>  
+	</div>
+	
+	<br>
+	<footer th:replace="/layouts/header :: footer"></footer>
+</body>
+</html>

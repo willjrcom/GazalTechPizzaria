@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="/layouts/header :: head" ></head>
+<head><title>Prontos - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="/layouts/header :: logo"></header>
+	
+	<br>
+	<div class="divbase">
+		<h1 class="h1Logo">Saída de Pedidos</h1>
+		<div>
+		
+		<br>
+		<div>
+			<label for="filtro">Filtrar:</label >
+				<select name="filtro" id="filtro" >
+					<option value="op">Todos</option>
+					<option value="op">pronto</option>
+					<option value="op">Pendente</option>
+				</select>
+		</div>
+		
+		<br>
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center col-md-1"><h3>#</h3></th>
+						<th><h3>Nome</h3></th>
+						<th><h3>Sabor</h3></th>
+						<th><h3>Obs</h3></th>
+						<th><h3>Tipo</h3></th>
+						<th class="text-center col-md-1"><h3>Status</h3></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>William Junior</td>
+						<td>Mussarela</td>
+						<td>Sem tomate</td>
+						<td>E</td>
+						<td><button type="button" class="btn btn-success">Pronto</button></td>
+					</tr>
+						
+					<tr>
+					<td class="fundoList" colspan="6">&nbsp;</td>
+					</tr>
+						
+					<tr>
+						<td>2</td>
+						<td>Nicolas</td>
+						<td>Calabresa 2</td>
+						<td>&nbsp;</td>
+						<td>B</td>
+						<td><button type="button" class="btn btn-danger">Pendente</button></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>Atum</td>
+						<td>Sem mussarela</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					
+					<tr>
+					<td class="fundoList" colspan="6">&nbsp;</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Dani</td>
+						<td>Bauru</td>
+						<td>Sem tomate</td>
+						<td>E</td>
+						<td><button type="button" class="btn btn-danger">Pendente</button></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>Frango</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>Portuguesa</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					
+					<tr>
+					<td class="fundoList" colspan="6">&nbsp;</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+	
+	<br>
+	<footer th:replace="/layouts/header :: footer"></footer>
+</body>
+</html>

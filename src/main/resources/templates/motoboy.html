@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="/layouts/header :: head" ></head>
+<head><title>Motoboy - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="/layouts/header :: logo"></header>
+	
+	<br>
+	<div class="divbase">
+		<h1 class="h1Logo">Motoboy</h1>
+		<br>
+		
+		<div>
+			<label for="filtro">Filtrar:</label>
+				<select name="filtro" id="filtro">
+					<option value="op">Todos</option>
+					<option value="op">Na rua</option>
+					<option value="op">Na pizzaria</option>
+				</select>
+		
+		<br>
+		</div>
+		
+		<div class="table-responsive">
+		<table>
+			<thead>
+				<tr>
+					<th class="text-center col-md-1"><h3>#</h3></th>
+					<th><h3>Nome</h3></th>
+					<th><h3>Rua</h3></th>
+					<th><h3>Bairro</h3></th>
+					<th><h3>Motoboy</h3></th>
+					<th><h3>A/C</h3></th>
+					<th><h3>Saída</h3></th>
+					<th class="text-center col-md-1"><h3>Baixa</h3></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr>
+					<td>1</td>
+					<td>William Junior</td>
+					<td>Luiz Silveira 625</td>
+					<td>Ibiti do paço</td>
+					<td>
+					<div class="distMargin">
+						<select name="filtro" id="filtro" required>
+								<option value="Todos">--</option>
+								<option value="Todos">William</option>
+								<option value="rua">Nicolas</option>
+								<option value="pizzaria">Daniela</option>
+						</select>
+					</div>
+					</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+						<td><button type="button" class="btn btn-success" disabled>Finalizar</button></td>
+				</tr>
+					
+				<tr>
+					<td class="fundoList" colspan="8">&nbsp;</td>
+				</tr>
+					
+				<tr>
+					<td>2</td>
+					<td>Nicolas</td>
+					<td>Dom Aguirre 1500</td>
+					<td>Centro</td>
+					<td>
+					<div class="distMargin">
+						<select name="filtro" id="filtro">
+							<option value="Todos">William</option>
+							<option value="rua">Nicolas</option>
+							<option value="pizzaria">Daniela</option>
+						</select>
+					</div>
+					</td>
+					<td>William</td>
+					<td>18:30</td>
+					<td><button type="button" class="btn btn-success">Finalizar</button></td>
+				</tr>
+				
+				<tr>
+					<td class="fundoList" colspan="8">&nbsp;</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>Dani</td>
+					<td>Victor Andrews 810</td>
+					<td>Zona industrial</td>
+					<td>
+					<div class="distMargin">
+						<select name="filtro" id="filtro" >
+							<option value="Todos">William</option>
+							<option value="rua">Nicolas</option>
+							<option value="pizzaria">Daniela</option>
+						</select>
+					</div>
+					</td>
+					<td>Nicolas</td>
+					<td>19:40</td>
+					<td><button type="button" class="btn btn-success">Finalizar</button></td>
+				</tr>
+				
+				<tr>
+					<td class="fundoList" colspan="8">&nbsp;</td>
+				</tr>
+			</tbody>
+		</table>
+		</div>
+	</div>
+	
+	<br>
+	<footer th:replace="/layouts/header :: footer"></footer>
+</body>
+</html>

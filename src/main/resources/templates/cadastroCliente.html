@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+>
+
+<head th:replace="/layouts/header :: head" ></head>
+<head><title>Cadastrar Cliente - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="/layouts/header :: logo"></header>
+	
+	<br>
+	<div class="divbaseForm alert alert-primary" role="alert" th:if="${!#strings.isEmpty(mensagem)}" style="background-color: #aad450">
+		<span th:text="${mensagem}"></span>
+	</div>
+	
+	<div class="divbaseForm">
+		<div class="container">
+			
+			<br>
+			<h1 class="h1Logo">Cadastrar Cliente</h1><br/>
+			
+			<form th:action="@{/cadastroCliente}" th:object="${cliente}" class="form-contact" method="POST" tabindex="1"> 
+			
+				<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
+					<div th:each="detailedError : ${#fields.detailedErrors()}">
+						<span th:text="${detailedError.message}"></span>			
+					</div>
+				</div> 
+				
+				<div>
+					<input type="reset" class="form-control">
+				</div>
+				
+				<input type="hidden" th:field="*{id}"/>
+				
+				<br>
+				<div class="form-group">
+					<label for="file">Nome Completo:<br/></label>
+					<input type="text" class="form-control" autofocus="autofocus" placeholder="Nome Completo" th:field="*{nome}" required/>
+				</div>
+				
+				<div class="form-group">
+					<label>CPF:<br/></label>
+					<input type="text" class="form-control" th:field="*{cpf}" placeholder="CPF" required/>
+				</div>
+				
+				<div class="form-group">
+					<label>Celular:<br/></label>
+					<input type="tel" class="form-control" th:field="*{celular}" placeholder="Celular 15-9xxxx-xxxx " required/>
+				</div>
+				
+				<h3><br/>Endereço:<br/><br/></h3>
+				
+				<div class="form-group">
+					<label>CEP:<br/></label>
+					<input type="text" class="form-control" th:field="*{endereco.cep}" placeholder="CEP" required/> 
+				</div>
+				
+				<div class="form-row">
+					<div class="form-group col-md-10">
+						<label>Rua:<br/></label>
+						<input type="text" class="form-control" th:field="*{endereco.rua}" placeholder="Rua" required/>  
+					</div>
+					
+					<div class="form-group col-md-2">
+						<label>Nº:<br/></label>
+						<input type="text" class="form-control" th:field="*{endereco.n}" placeholder="Nº" size="10" required/>  
+					</div>
+				</div> 
+				
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label><br/>Bairro:<br/></label>
+						<input type="text" class="form-control" th:field="*{endereco.bairro}" placeholder="Bairro" required/>  
+					</div>
+					
+					<div class="form-group col-md-6">
+						<label><br/>Cidade:<br/></label>
+						<input type="text" class="form-control" th:field="*{endereco.cidade}" placeholder="Cidade" value="Sorocaba" required/> 
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label><br/>Taxa de entrega:<br/></label>
+					<input type="number" class="form-control" th:field="*{endereco.taxa}" placeholder="Taxa de Entrega" value="5" min="5" max="50" required/>
+				</div> 
+				
+				<div class="form-group">
+					<label>Referência da casa:<br/></label>
+					<textarea class="form-control" th:field="*{endereco.referencia}" rows="5" placeholder="Referência da casa"></textarea>  
+				</div>
+				
+				<button type="submit" class="form-contact-button">Enviar</button>  
+			</form>  
+		</div>  
+	</div>
+	
+	<br>
+	<footer th:replace="/layouts/header :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+	background-color: #0069c1; /*cor de fundo*/
+}
+
+.container{
+	background-color: #D8D8D8;
+	height: 70vh;
+	position: relative;
+}
+		
+.centralizar{
+		text-align: center;
+}
+
+.imgFundo{
+	width: 100%;
+	heidth: auto;	
+    background-size: cover;
+}
+
+.elemento1{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 70vh;
+	transform: translate(-50%, -50%);
+}
+
+.corFundo {
+	margin: auto;
+    background: #fff;
+    border: 4px solid #0B4C5F;
+}
+
+button {
+    font-family: sans-serif;
+    font-size: 1em;
+}
+
+.botao {
+    font-size: 1.5em;
+    background: #0069c1;
+    border: 0;
+    margin-bottom: 1em;
+    color: #FFF;
+    padding: 0.2em 3em;
+    box-shadow: 2px 2px 2px rgba(0,0,0,0.2);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.botao:hover {
+    background: #FB0;
+    box-shadow: inset 2px 2px 2px rgba(0,0,0,0.2);
+    text-shadow: none;
+}
+
+.botao, select, label.checkbox {
+    cursor: pointer;
+}
+
+* {
+    margin: 0;
+    padding:0;
+}
+
+/* para garantir que estes elementos ocuparão toda a tela */
+body, html {
+    width: 100%;
+    height: 100%;
+    font-family: Arial, Tahoma, sans-serif;
+}
+
+#fundo-externo {
+    overflow: hidden; /* para que não tenha rolagem se a imagem de fundo for maior que a tela */
+    width: 100%;
+    height: 100%;
+    position: relative; /* criamos um contexto para posicionamento */
+}
+
+#fundo {
+    position: fixed; /* posição fixa para que a possível rolagem da tela não revele espaços em branco */
+    width: 100%;
+    height: 100%;
+}
+
+#fundo img {
+    width: 100%; /* com isso imagem ocupará toda a largura da tela. Se colocarmos height: 100% também, a imagem irá distorcer */
+    position: absolute;
+}
+
+#site {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    width: 560px;
+    padding: 20px;
+    margin-left: -300px; /* por causa do posicionamento absoluto temos que usar margem negativa para centralizar o site */
+    background: #FFF; /* fundo branco para navegadores que não suportam rgba */
+    background: rgba(255,255,255,0.8); /* fundo branco com um pouco de transparência */
+}
+
+p {
+    margin-bottom: 1.5em;
+}
+
+.form-login-input {
+  	width: 80%%;
+  	color: black;
+  	font-size: 18px;
+  	background-color: #d5dedf;
+  	border: 1px solid black;
+  	-moz-border-radius: 5px;
+  	-webkit-border-radius: 5px;
+  	border-radius: 5px;
+  	height: 40px;
+  	margin-bottom: 20px;
+  	text-indent: 10px;
+}

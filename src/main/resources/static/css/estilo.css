@@ -1,0 +1,386 @@
+
+	/* cor do logo #00ffbb*/
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Times New Roman";
+}
+
+a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
+label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
+    margin-left: 0.3em;
+    content: "[" attr(accesskey) "]";
+    }
+    
+body{
+	background-color: #0069c1; /*cor de fundo*/
+}
+
+header{
+	background-color: white;
+}
+
+footer{
+	width: 100%;
+	
+	background-color: #333;
+	border-top: 2px solid black;	
+}
+
+a{
+	background-color: #333;
+}
+table{
+	background-color: white;
+}
+
+thead{
+	background-color: #253b80;	
+}
+
+td{
+    border:1px solid #000;
+}
+	
+ul {
+  	list-style-type: none;
+  	overflow: hidden;
+  	background-color: #333;
+  	z-index: 2;
+}
+
+th h3, td h3, th h5, th h4{
+	color: white;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+}
+.Dropdown:hover .dropdown-content {
+    display: block;
+}
+
+li a {
+  	display: block;
+  	color: white;
+  	text-align: center;
+  	text-decoration: none;
+}
+
+li a:hover {
+  	background-color: #107b11; /*cor verde do menu*/
+}
+
+li:last-child {
+  	border-right: none;
+}
+
+table thead tr th{
+	padding: 5px;
+	text-align: center;
+	border: 1px solid black
+}
+
+table tbody tr td{
+	background-color: white;
+	text-align: center;
+	padding: 2vh;
+	border: 1px solid black
+}
+
+tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+}
+/*-------------------------------------*/
+.centralizar{
+	text-align: center;
+}
+
+.container {
+  	width: 80%;
+ 	margin: 0 auto;
+}
+
+.fundoList{
+	background-color: #D3D3D3;
+}
+
+/*WIDTH---------------------------------*/
+.img {
+    max-width:50px;
+    max-height:30px;
+    width: auto;
+    height: auto;
+    padding: 2px;
+}
+
+.logo {
+    max-width:60%;
+    max-height:40%;
+    width: auto;
+    height: auto;
+}
+
+.logoTitulo {
+    max-width:10%;
+    width: auto;
+    margin-left: 10vh
+}
+img{
+	width: 35px;
+}
+/**/
+
+/*TITULO---------------------------------*/
+
+.h1Logo{
+	text-align: center; 
+	font-size: 45px;
+	border-bottom: 2px solid black;
+}
+/**/
+.sobre{
+	text-align: left; 
+	margin-left: 40%;
+}
+
+.upTam{
+	margin-left:10px; 
+	margin-right:10px;
+}
+.elemento{
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	height: 70vh;
+	transform: translate(-50%, -50%);
+}
+/*MENU---------------------------------*/
+.menu{
+	border-bottom:2px solid black;
+}
+	
+.menu li{
+	float:left; 
+	border-right:1px solid #c0c0c0; 
+}
+
+.menu li a{
+	padding:5px 10px;
+}
+
+.menu li ul{
+	position:absolute; 
+	display:none;
+}   
+
+.menu li ul li{
+	/*border:1px solid #c0c0c0; */
+	display:block; 
+	width:150px;
+}
+
+.menu li:hover ul, .menu li.over ul {
+	display:block;
+}
+
+.menu li a:hover{
+	-moz-box-shadow:0 3px 10px 0 #ccc; 
+	-webkit-box-shadow:0 3px 10px 0 #ccc; 
+	text-shadow:0px 0px 5px #fff; 
+}
+
+a:link{
+	text-decoration: none;
+}
+
+.active {
+  	background-color: #107b11;
+}
+
+input[type="checkbox"]{
+	display: none;
+}
+
+.divbase {
+	margin-left: 10vh; 
+	margin-right: 10vh; 
+	background-color: white; 
+	border: 1px solid black;
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+	padding: 20px;
+}
+
+.divbaseForm {
+	margin-left: 30vh; 
+	margin-right: 30vh; 
+	background-color: #ececec; 
+	border: 1px solid black;
+	border-radius: 20px;
+	-webkit-border-radius: 20px;
+}
+
+.label{
+	padding: 10px;
+	position: absolute;
+	z-index: 2;
+	background-color: white;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+	border-top: 1px solid black;
+	transition: all .5s;
+}
+
+.menuAdd{
+	background-color: white;
+	width: 50vh;
+	left: -51vh;
+	height: 75%;
+	position: absolute;
+	border-left: none;
+	transition: all .5s;
+	border: 2px solid black;
+	z-index: 1;
+}
+
+.ul{
+	top: 60px;
+	position: absolute;
+	width: 100%;
+}
+
+input[type="checkbox"]:checked ~ .menuAdd{
+	transform: translateX(51vh);
+}
+
+input[type="checkbox"]:checked ~ .label{
+	opacity: 50%;
+	border: none;
+}
+
+.borda {
+  position:relative;
+  float:left;
+  padding:0 20px;       /* espaço nas laterais     */
+  font-size:20px;
+}
+
+.borda:before, .borda:after {
+  content:'';
+  display:block;
+  position:absolute;
+  border:1px solid black;
+  top:8px; bottom:8px; /* espaço no topo e embaixo */
+  width:13px;          /* largura das "chaves"     */
+}
+
+.borda:before {
+  left:2px; border-right:none;
+}
+
+.borda:after {
+  right:2px; border-left:none;
+}
+
+#divBusca{
+  background-color:#E0EEEE;
+  border:solid 2px #5F9EA0;
+  border-radius:10px;
+  width:300px;
+  height:32px;
+}
+ 
+#txtBusca{
+  float:left;
+  background-color:transparent;
+  padding-left:5px; 
+  font-size:18px;
+  border:none;
+  height:32px;
+  width:191px;
+}
+ 
+#btnBusca{
+  border:none;
+  float:left;
+  height:32px;
+  border-radius:0 7px 7px 0;
+  width:70px;
+  font-weight:bold;
+  background:#5F9EA0;
+}
+ 
+#divBusca img{
+  float:left;
+}
+
+.form-contact {
+  	width: 100%;
+  	font-family: "Arial", Times, serif;
+}
+
+.form-contact-input {
+  	width: 100%;
+  	color: black;
+  	font-size: 18px;
+  	background-color: #d5dedf;
+  	border: 1px solid black;
+  	-moz-border-radius: 5px;
+  	-webkit-border-radius: 5px;
+  	border-radius: 5px;
+  	height: 40px;
+  	margin-bottom: 20px;
+  	text-indent: 10px;
+}
+
+.form-search-input {
+  	width: 100%;
+  	color: black;
+  	font-size: 18px;
+  	background-color: #d5dedf;
+  	border: 1px solid black;
+  	height: 5vh;
+  	text-indent: 5px;
+}
+
+.form-contact-textarea {
+  	width: 100%;
+  	color: black;
+ 	font-size: 18px;
+ 	background-color: #d5dedf;
+  	border: 1px solid black;
+  	-moz-border-radius: 5px;
+  	-webkit-border-radius: 5px;
+  	border-radius: 5px;
+  	height: 200px;
+  	text-indent: 10px;
+  	padding-top: 16px;
+  	padding-left: 0;
+  	padding-right: 0;
+  	font-family: "Arial", Times, serif;
+}
+
+.form-contact-button {
+  	width: 100%;
+  	font-size: 22px;
+  	border-radius: 4px;
+  	color: #fff;
+  	height: 40px;
+  	opacity: .8;
+  	margin-bottom: 20px;
+  	cursor: pointer;
+  	background: green;
+  	display: block;
+  	border: none;
+  	border-bottom: 1px solid #500707;
+  	border-right: 1px solid #500707;
+  	transition: 1s;
+}
+
+.form-contact-button:hover {
+  	opacity: 1;
+}
