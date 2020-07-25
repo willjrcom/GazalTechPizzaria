@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,7 +44,7 @@ public class CadastroProdutoController {
 	}
 	
 	@RequestMapping("{id}")
-	public ModelAndView alterar(@PathVariable("id") Produto produto) {
+	public ModelAndView alterar(@ModelAttribute("id") Produto produto) {
 		ModelAndView mv = new ModelAndView("cadastroProduto");
 		mv.addObject(produto);
 		return mv;

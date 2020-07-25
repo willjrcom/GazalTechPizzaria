@@ -1,6 +1,7 @@
 package proj_vendas.vendas.model;
 
 public enum TipoBorda {
+	SEM("-----------"),
 	CATUPIRY("Borda Catupiry"),
 	CHEDDAR("Borda Cheddar"),
 	VULCAO("Borda vulcão"),

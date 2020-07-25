@@ -2,7 +2,7 @@
 var ano_atual = new Date();
 ano_atual = ano_atual.getFullYear();
 
-document.getElementById("ano-atual").innerHTML = '<P>' + ano_atual + ' - @copyright - WIHAAS' + '</P>';
+$("#ano-atual").html('<P>' + ano_atual + ' - @copyright - WIHAAS' + '</P>');
 
 window.setInterval(function(){
 	var hora_atual = new Date();
@@ -24,6 +24,6 @@ window.setInterval(function(){
 		}
 		return formatted_time;
 	}
-	document.getElementById("dia-atual").innerHTML = format_time(dia) + '/' + format_time(mes) + '/' + format_time(ano);
-	document.getElementById("hora-atual").innerHTML = format_time(horas) + ':' + format_time(minutos) + ':' + format_time(segundos);
+	$("#dia-atual").html(format_time(dia) + '/' + format_time(mes) + '/' + format_time(ano));
+	$("#hora-atual").html(format_time(horas) + ':' + format_time(minutos) + ':' + format_time(segundos));
 },1000)

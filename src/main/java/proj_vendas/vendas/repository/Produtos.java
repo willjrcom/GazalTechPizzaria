@@ -9,4 +9,6 @@ import proj_vendas.vendas.model.Produto;
 public interface Produtos extends JpaRepository<Produto, Long>{
 	
 	List<Produto> findByNomeProdutoContaining(String nomeProduto);
+	
+	String findByNomeProduto(String nomeProduto);
 }

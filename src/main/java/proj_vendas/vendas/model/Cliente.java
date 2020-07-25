@@ -15,7 +15,7 @@ import lombok.Data;
 @Entity
 @Table(name = "CLIENTES")
 public class Cliente {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -30,10 +30,4 @@ public class Cliente {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
-
-	@Override
-	public String toString() {
-		return "Cliente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", celular=" + celular + ", endereco="
-				+ endereco + "]";
-	}
 }

@@ -1,18 +1,23 @@
 package proj_vendas.vendas.web.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.TipoBorda;
+import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
@@ -33,13 +38,8 @@ public class NovoPedidoController {
 
 	@RequestMapping
 	public ModelAndView novoPedido(@ModelAttribute("filtro") TituloFilter filtro) {
-		String celular = filtro.getCelular() == null ? "%" : filtro.getCelular();
-		//String nomeProduto = filtro.getNomeProduto() == null ? "%" : filtro.getNomeProduto();
-		List<Cliente> todosClientes = clientes.findByCelular(celular);
-		List<Produto> todosProdutos = produtos.findAll();
+		//String celular = filtro.getCelular() == null ? "%" : filtro.getCelular();
 		ModelAndView mv = new ModelAndView("novoPedido");
-		mv.addObject("produtos", todosProdutos);
-		mv.addObject("clientes", todosClientes);
 		mv.addObject("TipoBorda", TipoBorda.values());
 		return mv;
 	}
@@ -49,5 +49,32 @@ public class NovoPedidoController {
 		pedidos.save(pedido);
 		ModelAndView mv = new ModelAndView("novoPedido");
 		return mv;
+	}
+	
+	
+	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Produto> adicionarProduto(@PathVariable long id) {
+		return produtos.findById(id);
+	}
+	
+	@RequestMapping(value = "/numeroCliente/{celular}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Cliente buscarCliente(@PathVariable String celular) {
+		return clientes.findByCelular(celular);
+	}
+	
+	@RequestMapping(value = "/nomeProduto/{nome}", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Produto> buscarProduto(@PathVariable String nome) {
+		return produtos.findByNomeProdutoContaining(nome);
+	}
+	
+	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@ResponseBody
+	public Pedido novoPedido(@RequestBody Pedido pedido) {
+		System.out.println(pedido.toString());
+		pedido.setStatus(TipoStatus.COZINHA);
+		return pedidos.save(pedido);
 	}
 }

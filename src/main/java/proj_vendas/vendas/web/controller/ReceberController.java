@@ -1,7 +1,5 @@
 package proj_vendas.vendas.web.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -15,29 +13,22 @@ import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
-@RequestMapping("/cozinha")
-public class CozinhaController{
+@RequestMapping("/receber")
+public class ReceberController {
 	
 	@Autowired
 	private Pedidos pedidos;
 	
 	@RequestMapping
-	public ModelAndView Cozinha() {
-		ModelAndView mv = new ModelAndView("cozinha");
+	public ModelAndView receberEntregas() {
+		ModelAndView mv = new ModelAndView("receber");
 		return mv;
 	}
 	
-	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/finalizar/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public List<Pedido> todosPedidos() {
-		return pedidos.findAll();
-		
-	}
-	
-	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {//falta enviar as outras variaveis
-		pedido.setStatus(TipoStatus.PRONTO);
+	public Pedido finalizar(@ModelAttribute("id") Pedido pedido) {
+		pedido.setStatus(TipoStatus.FINALIZADO);
 		return pedidos.save(pedido);
 	}
 }

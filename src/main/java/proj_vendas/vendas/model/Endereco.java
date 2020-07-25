@@ -28,9 +28,4 @@ public class Endereco {
 	@JoinColumn(name = "cliente_fk")
 	private Cliente cliente;
 	*/
-	@Override
-	public String toString() {
-		return "Endereco [id=" + id + ", cep=" + cep + ", rua=" + rua + ", n=" + n + ", bairro=" + bairro + ", Cidade="
-				+ Cidade + ", referencia=" + referencia + ", taxa=" + taxa + "]";
-	}
 }

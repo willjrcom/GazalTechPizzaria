@@ -13,21 +13,20 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<div class="divbase">
 		
 		<h1 class="h1Logo">Cozinha</h1>
-		
 		<br>
 		<div class="table-responsive">
 			<table class="table-responsive">
 				<thead>
 					<tr>
-						<th class="col-md-6"><h4>Com borda</h4></th>
-						<th class="col-md-6"><h4>Sem borda</h4></th>
+						<th class="col-md-6"><h4>Total pedidos</h4></th>
+						<th class="col-md-6"><h4>Total pizzas</h4></th>
 					</tr>
 				</thead>
 				
 				<tbody>
 					<tr>
-						<td>5</td>
-						<td>7</td>
+						<td id="Tpedidos"></td>
+						<td id="Tpizzas"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -48,94 +47,23 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<table>
 			<thead>
 				<tr>
-					<th class="text-center col-md-1"><h3>#</h3></th>
-					<th><h3>Nome</h3></th>
-					<th><h3>Borda recheada</h3></th>
-					<th><h3>Tamanho</h3></th>
-					<th><h3>Sabor</h3></th>
-					<th><h3>Obs</h3></th>
+					<th class="text-center col-md-1"><h3>{}</h3></th>
+					<th class="text-center col-md-1"><h3>Nome</h3></th>
+					<th class="text-center col-md-1"><h3>Borda</h3></th>
+					<th class="text-center col-md-1"><h3>Tamanho</h3></th>
+					<th class="text-center col-md-2"><h3>Sabor</h3></th>
+					<th class="text-center col-md-2"><h3>Obs</h3></th>
 					<th class="text-center col-md-1"><h3>Pronto</h3></th>
 				</tr>
 			</thead>
 				
-			<tbody>
-				<tr>
-					<td>1</td>
-					<td>William Junior</td>
-					<td>Borda Catupiry</td>
-					<td>Inteira</td>
-					<td>Mussarela</td>
-					<td>Sem tomate</td>
-					<td><button type="button" class="btn btn-success">Enviar</button></td>
-				</tr>
-								
-				<tr>
-					<td class="fundoList" colspan="7">&nbsp;</td>
-				</tr>
-							
-				<tr>
-					<td>2</td>
-					<td>Nicolas</td>
-					<td>Sem borda</td>
-					<td>Meia</td>
-					<td>Calabresa 2</td>
-					<td>&nbsp;</td>
-					<td><button type="button" class="btn btn-success">Enviar</button></td>
-				</tr>
-			
-				<tr>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>Sem borda</td>
-					<td>Meia</td>
-					<td>Atum</td>
-					<td>Sem Mussarela</td>
-					<td>&nbsp;</td>
-				</tr>
-						
-				<tr>
-					<td class="fundoList" colspan="7">&nbsp;</td>
-				</tr>
-			
-				<tr>
-					<td>3</td>
-					<td>Dani</td>
-					<td>Pãozinho Catupiry</td>
-					<td>1/3</td>
-					<td>Bauru</td>
-					<td>&nbsp;</td>
-					<td><button type="button" class="btn btn-success">Enviar</button></td>
-				</tr>
-			
-				<tr>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>Pãozinho Catupiry</td>
-					<td>1/3</td>
-					<td>Frango</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-				</tr>
-			
-				<tr>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-					<td>Pãozinho Catupiry</td>
-					<td>1/3</td>
-					<td>Portuguesa</td>
-					<td>&nbsp;</td>
-					<td>&nbsp;</td>
-				</tr>
-							
-				<tr>
-					<td class="fundoList" colspan="7">&nbsp;</td>
-				</tr>
-			</tbody>
+			<tbody id="todosPedidos"></tbody>
 		</table>
 		</div>
 	</div>
 	
-	<br>
+	<br><br><br><br><br><br><br><br><br><br>
 	<footer th:replace="/layouts/header :: footer"></footer>
+	<script src="/js/cozinha.js"></script>
 </body>
 </html>

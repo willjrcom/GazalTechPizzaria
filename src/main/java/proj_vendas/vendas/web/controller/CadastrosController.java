@@ -38,16 +38,4 @@ public class CadastrosController {
 		mv.addObject("produtos", todosProdutos);
 		return mv;
 	}
-	/*
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView PesquisarCadastros(@RequestParam(defaultValue = "%") String nome) {
-		List<Cliente> todosClientes = clientes.findByNomeContaining(nome);
-		List<Funcionario> todosFuncionarios = funcionarios.findByNomeContaining(nome);
-		List<Produto> todosProdutos = produtos.findByNomeProdutoContaining(nome);
-		ModelAndView mv = new ModelAndView("todosCadastros");
-		mv.addObject("clientes", todosClientes);
-		mv.addObject("funcionarios", todosFuncionarios);
-		mv.addObject("produtos", todosProdutos);
-		return mv;
-	}*/
 }
