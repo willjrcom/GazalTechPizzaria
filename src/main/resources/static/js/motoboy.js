@@ -19,7 +19,7 @@ window.onload = function() {
 		console.log(e);
 		
 		for(var i = 0; i< e.length; i++){
-			if(e[i].status == "PRONTO"){
+			if((e[i].status == "PRONTO" && e[i].envio == "ENTREGA") || (e[i].status == "PRONTO" && e[i].envio == "IFOOD")){
 				Tpedidos++;
 				
 				pedidos.push({
@@ -27,6 +27,7 @@ window.onload = function() {
 					'nomePedido' : e[i].nomePedido,
 					'celular' : e[i].celular,
 					'endereco': e[i].endereco,
+					'envio': e[i].envio,
 					'total': e[i].total,
 					'troco': e[i].troco,
 					'status': e[i].status

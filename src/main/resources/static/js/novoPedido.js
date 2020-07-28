@@ -40,7 +40,7 @@ $("#buscarCliente").click(function() {
 		if(this.length == 0 || !this){
 			window.location.href = "/cadastroCliente";
 		}
-		
+		console.log(e);
 		let clientes = {};
 			clientes.id = e.id;
 			clientes.nome = e.nome;
@@ -65,7 +65,7 @@ $("#ConfirmarCliente").click(function(){
 	cliente.celular = $("#celCliente").text();
 	cliente.endereco = $("#enderecoCliente").text();
 	cliente.envio = $("#envioCliente").val();
-	
+	console.log(cliente.envio);
 	/*
 	cliente.tempo = $("#tempoCliente").val();
 	cliente.pagamento = $("#pagamentoCliente").val();
@@ -230,16 +230,13 @@ $("#enviarPedido").click(function() {
 	}else if(Object.keys(produtos).length === 0){
 		alert("Nenhum produto adicionado!");	
 	}else{
-		var produtos_json = JSON.stringify(produtos);
-		
 		cliente.total = tPedido;
-		cliente.produtos = produtos;
+		cliente.produtos = JSON.stringify(produtos);
 		cliente.status = "COZINHA";
 		
-		arquivo_json = cliente_json + ", " + produtos_json;
 		console.log(cliente);
 		
-		var enviarPedido = $.ajax({
+		$.ajax({
 			url: "/novoPedido/salvarPedido",
 			type: "PUT",
 			dataType : 'json',

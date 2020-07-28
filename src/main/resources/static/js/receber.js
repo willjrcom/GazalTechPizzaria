@@ -27,6 +27,7 @@ window.onload = function() {
 					'nomePedido' : e[i].nomePedido,
 					'celular' : e[i].celular,
 					'endereco': e[i].endereco,
+					'envio': e[i].envio,
 					'total': e[i].total,
 					'troco': e[i].troco,
 					'status': e[i].status

@@ -28,4 +28,53 @@ public class Endereco {
 	@JoinColumn(name = "cliente_fk")
 	private Cliente cliente;
 	*/
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+	public String getRua() {
+		return rua;
+	}
+	public void setRua(String rua) {
+		this.rua = rua;
+	}
+	public String getN() {
+		return n;
+	}
+	public void setN(String n) {
+		this.n = n;
+	}
+	public String getBairro() {
+		return bairro;
+	}
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+	public String getCidade() {
+		return Cidade;
+	}
+	public void setCidade(String cidade) {
+		Cidade = cidade;
+	}
+	public String getReferencia() {
+		return referencia;
+	}
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
+	public String getTaxa() {
+		return taxa;
+	}
+	public void setTaxa(String taxa) {
+		this.taxa = taxa;
+	}
+	
 }

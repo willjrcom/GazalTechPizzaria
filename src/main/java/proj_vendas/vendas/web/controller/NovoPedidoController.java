@@ -62,6 +62,7 @@ public class NovoPedidoController {
 	@ResponseBody
 	public Cliente buscarCliente(@PathVariable String celular) {
 		return clientes.findByCelular(celular);
+		
 	}
 	
 	@RequestMapping(value = "/nomeProduto/{nome}", method = RequestMethod.PUT)

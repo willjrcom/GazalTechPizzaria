@@ -78,9 +78,7 @@ li:last-child {
 }
 
 table thead tr th{
-	padding: 5px;
 	text-align: center;
-	border: 1px solid black
 }
 
 table tbody tr td{
