@@ -75,6 +75,7 @@ $.ajax({
 				Tpizzas += pedidos[i].produtos[k].qtd;
 			}
 			linhaHtml +=    '<td>' + Tpizzas + '</td>';
+			linhaHtml +=    '<td>R$ ' + pedidos[i].troco + '</td>';
 							
 			linhaHtml += '<td>' 
 						+ '<a class="enviarPedido">'

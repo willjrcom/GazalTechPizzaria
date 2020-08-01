@@ -5,6 +5,7 @@ var linhaCinza = '<tr><td colspan="7" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para fazer!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
+var AllPizzas = 0;
 var divisao;
 
 //Ao carregar a tela
@@ -73,14 +74,24 @@ $.ajax({
 				divisao -= pedidos[i].produtos[0].qtd;
 			}
 			
-			Tpizzas += 1;
 			//mostrar produtos
 			if(pedidos[i].produtos.length > 1){
 				for(var j = 1; j<pedidos[i].produtos.length; j++){	
 					linhaHtml += '<tr>';
+					
 					if(j == 1) {
-						linhaHtml +=	'<td>Nº pizzas: </td>';
-						linhaHtml +=	'<td>' + pedidos[i].produtos.length + '</td>';
+						Tpizzas = 0;
+						for(var k = 0; k<pedidos[i].produtos.length; k++) {
+							Tpizzas += pedidos[i].produtos[k].qtd;
+						}
+						AllPizzas += Tpizzas;
+						
+						if(Tpizzas == 1) {
+							linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
+						}else {
+							linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
+						}
+						
 					}else {
 						linhaHtml +=	'<td colspan="2"></td>';
 					}
@@ -97,8 +108,6 @@ $.ajax({
 					}else {
 						divisao -= pedidos[i].produtos[0].qtd;
 					}
-					
-					Tpizzas += 1;
 				}
 			}
 
@@ -115,38 +124,59 @@ $.ajax({
 		$("#Tpedidos").text(pedidos.length);
 	}
 	
-	if(Tpizzas == 0) {
+	if(AllPizzas == 0) {
 		$("#Tpizzas").text('0');
 	}else {
-		$("#Tpizzas").text(Tpizzas);
+		$("#Tpizzas").text(AllPizzas);
 	}
 });	
 	
 
 //----------------------------------------------------------------------------------------------------------
 function enviarPedido() {
-
-	if(confirm("Enviar pedido?") == true) {
-		var botaoReceber = $(event.currentTarget);
-		var idProduto = botaoReceber.attr('value');
-		var urlEnviar = "/cozinha/enviarPedido/" + idProduto.toString();
-		console.log(urlEnviar);
-		
-		for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
-			if(pedidos[i].id == idProduto){
-				var idBusca = i;
-			}
+	
+	var botaoReceber = $(event.currentTarget);
+	var idProduto = botaoReceber.attr('value');
+	var urlEnviar = "/cozinha/enviarPedido/" + idProduto.toString();
+	console.log(urlEnviar);
+	
+	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
+		if(pedidos[i].id == idProduto){
+			var idBusca = i;
 		}
-		pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
-		
-		$.ajax({
-			url: urlEnviar,
-			type: 'PUT',
-			data: pedidos[idBusca], //dados completos do pedido enviado
-		})
-		.done(function(e){
-			console.log(e);
-			document.location.reload(true);
-		});
 	}
+	
+	$.confirm({
+		icon: 'fa fa-spinner fa-spin',
+		type: 'green',
+	    typeAnimated: true,
+	    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+	    content: 'Enviar pedido?',
+	    buttons: {
+	        confirm: {
+	            text: 'Enviar',
+	            btnClass: 'btn-green',
+	            keys: ['enter'],
+	            action: function(){
+		
+					pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
+					
+					$.ajax({
+						url: urlEnviar,
+						type: 'PUT',
+						data: pedidos[idBusca], //dados completos do pedido enviado
+					})
+					.done(function(e){
+						console.log(e);
+						document.location.reload(true);
+					});
+			    },
+			},
+			cancel: {
+	        	text: 'Voltar',
+	            btnClass: 'btn-red',
+	            keys: ['esc'],
+	        },
+		}
+	});
 };

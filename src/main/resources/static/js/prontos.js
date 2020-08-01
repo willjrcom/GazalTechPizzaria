@@ -88,13 +88,15 @@ $.ajax({
 						
 						//adicionar total de pizzas
 						if(j == 1) {
-							linhaHtml +=	'<td>Nº pizzas: </td>';
-							
 							Tpizzas = 0;
 							for(var k = 0; k<pedidos[i].produtos.length; k++) {
 								Tpizzas += pedidos[i].produtos[k].qtd;
 							}
-							linhaHtml +=	'<td>' + Tpizzas + '</td>';
+							if(Tpizzas == 1) {
+								linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
+							}else {
+								linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
+							}
 						}else {
 							linhaHtml +=	'<td colspan="2"></td>';
 						}

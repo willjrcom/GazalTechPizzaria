@@ -268,25 +268,76 @@ $("#enviarPedido").click(function() {
 	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		alert("Apenas valores inteiros!");	
 	}else{
-		cliente.total = tPedido;
-		cliente.produtos = JSON.stringify(produtos);
-		cliente.status = "COZINHA";
 		
-		console.log(cliente);
+		if(produtos.length != 0) {
+			linhaHtml = "";
+			linhaHtml = '<table><tr>'
+							+ '<td>Borda</td>'
+							+ '<td>Sabor</td>'
+							+ '<td>Obs</td>'
+							+ '<td>Qtd</td>'
+							+ '<td>Preço</td>'
+						'</tr>';
+			
+			for(var i=0; i<produtos.length; i++){
+				linhaHtml += '<table><tr>';
+				linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
+				linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
+				linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
+				linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
+				linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
+				linhaHtml += '</tr>';
+			}
+			linhaHtml += '</table>';
+			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido;	
+			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" required />';
+			linhaHtml += '<br>Deseja enviar o pedido?';
+		}
 		
-		$.ajax({
-			url: "/novoPedido/salvarPedido",
-			type: "PUT",
-			dataType : 'json',
-			contentType: "application/json",
-			data: JSON.stringify(cliente)
-			
-		}).done(function(e){
-			alert("Pedido enviado!");
-			//window.location.href = "/novoPedido"; 
-			
-		}).fail(function(e){
-			alert("Pedido não enviado!");
+		//modal jquery confirmar
+		$.confirm({
+			icon: 'fa fa-spinner fa-spin',
+			type: 'green',
+		    typeAnimated: true,
+		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],
+		    content: 'Produtos escolhidos' + linhaHtml,
+		    buttons: {
+		        confirm: {
+		            text: 'Enviar',
+		            btnClass: 'btn-green',
+		            keys: ['enter'],
+		            action: function(){
+						
+						var troco = this.$content.find('#troco').val();
+						console.log(troco);
+						
+						cliente.troco = parseFloat(troco);
+						cliente.total = tPedido;
+						cliente.produtos = JSON.stringify(produtos);
+						cliente.status = "COZINHA";
+						console.log(cliente);
+						
+						$.ajax({
+							url: "/novoPedido/salvarPedido",
+							type: "PUT",
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(cliente)
+							
+						}).done(function(e){
+							//document.location.reload(true);; 
+							
+						}).fail(function(e){
+							$.alert("Pedido não enviado!");
+						});
+					}
+		        },
+		        cancel: {
+		        	text: 'Voltar',
+		            btnClass: 'btn-red',
+		            keys: ['esc'],
+		        },
+			}
 		});
 	}
 });
