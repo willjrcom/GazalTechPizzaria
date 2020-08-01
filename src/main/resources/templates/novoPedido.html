@@ -11,12 +11,9 @@
 <body>
 	<header th:replace="/layouts/header :: logo"></header>
 
-	<br>
 	<div class="divbase">
-		<h1 class="h1Logo">Novo Pedido</h1>
+		<h1 class="h1Logo esconder1">Novo Pedido</h1>
 
-
-		<br>
 		<div id="divBuscar">
 			<div class="form-group col-md-10">
 				<input type="search" name="celular" id="numeroCliente"
@@ -30,9 +27,9 @@
 					class="form-control btn btn-primary">Buscar</button>
 			</div>
 		</div>
-		
 		<br>
-		<div class="row">
+		
+		<div class="row" id="mostrar">
 			<div class="col-md-4 table-responsive">
 				<table>
 					<thead>
@@ -41,19 +38,19 @@
 						</tr>
 					</thead>
 
-					<tbody>
+					<tbody class="mostrar1">
 						<tr>
-							<td class="text-center col-sm-2">{}</td>
-							<td class="text-center col-md-2" id="idCliente"></td>
+							<td class="text-center col-md-1">{}</td>
+							<td class="text-center col-md-1" id="idCliente"></td>
 						</tr>
 
-						<tr>
-							<td>Nome</td>
-							<td id="nomeCliente"></td>
+						<tr >
+							<td style="background-color: #D3D3D3" class="text-center col-md-1">Nome</td>
+							<td style="background-color: #D3D3D3"class="text-center col-md-1"  id="nomeCliente"></td>
 						</tr>
 						<tr>
-							<td>Celular</td>
-							<td id="celCliente"></td>
+							<td class="text-center col-md-1">Celular</td>
+							<td class="text-center col-md-1" id="celCliente"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -67,31 +64,33 @@
 							<td colspan="2"><h3 style="text-align: center">Opções</h3></td>
 						</tr>
 					</thead>
-
-					<tr>
-						<td><label for="envioCliente">Envio:</label></td>
-						<td><select name="opcao" id="envioCliente">
-								<option value="ENTREGA">Entrega</option>
-								<option value="BALCAO">Balcão</option>
-								<option value="MESA">Mesa</option>
-								<option value="IFOOD">Ifood</option>
-								<option value="DRIVE">Drive-Thru</option>
-						</select></td>
-					</tr>
-
-					<tr>
-						<td><label>Pronto às:</label></td>
-						<td><input type="time" id="tempoCliente" name="aguardar" placeholder="horario" /></td>
-					</tr>
-
-					<tr>
-						<td><label for="pagamentoCliente">Pagamento:</label></td>
-						<td><select name="pagamento" id="pagamentoCliente">
-								<option value="Dinheiro">Dinheiro</option>
-								<option value="Cartão">Cartão</option>
-								<option value="Vale">Vale</option>
-						</select></td>
-					</tr>
+					
+					<tbody class="mostrar1">
+						<tr>
+							<td class="text-center col-md-1"><label for="envioCliente">Envio:</label></td>
+							<td class="text-center col-md-1"><select name="opcao" id="envioCliente">
+									<option value="ENTREGA">Entrega</option>
+									<option value="BALCAO">Balcão</option>
+									<option value="MESA">Mesa</option>
+									<option value="IFOOD">Ifood</option>
+									<option value="DRIVE">Drive-Thru</option>
+							</select></td>
+						</tr>
+	
+						<tr>
+							<td style="background-color: #D3D3D3" class="text-center col-md-1"><label>Pronto às:</label></td>
+							<td style="background-color: #D3D3D3" class="text-center col-md-1">
+								<input type="time" id="tempoCliente" name="aguardar" placeholder="horario" /></td>
+						</tr>
+	
+						<tr>
+							<td class="text-center col-md-1"><label for="pagamentoCliente">Pago:</label></td>
+							<td class="text-center col-md-1"><select name="pagamento" id="pagamentoCliente">
+									<option value="Sim">Sim</option>
+									<option value="Não">Não</option>
+							</select></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 
@@ -102,12 +101,13 @@
 							<td colspan="2"><h3 style="text-align: center">Endereço</h3></td>
 						</tr>
 					</thead>
-					<tbody>
+					
+					<tbody class="mostrar1">
 						<tr>
-							<td id="enderecoCliente" class="col-sm">Rua:</td>
+							<td id="enderecoCliente" class="text-center col-md-1">Rua:</td>
 						</tr>
 						<tr>
-							<td id="taxaCliente" class="col-sm ">Taxa:</td>
+							<td id="taxaCliente" style="background-color: #D3D3D3" class="text-center col-md-1">Taxa:</td>
 						</tr>
 					</tbody>
 				</table>
@@ -116,25 +116,29 @@
 		
 		<div class="btn-group" role="group" aria-label="Second group"
 			style="float: right">
-			<a id="ConfirmarCliente"><button type="button"  class="btn btn-secondary btn-success">
+			<a id="ConfirmarCliente" class="esconder1"><button type="button"  class="btn btn-secondary btn-success">
 			 Confirmar Cliente</button></a>
+		</div>
+		
+		
+		<div class="btn-group" role="group" aria-label="Second group" id="editarCliente">
+			<p id="dados"></p>
+			<a><button type="button"class="btn btn-secondary btn-success">Editar</button></a>
 		</div>
 		<br>
 	</div>
-	<br>
 
 	<!-------------------------------------------------------------------------------------------------------------------------->
 	
 	<br>
-	<div class="divbase">
+	<div class="divbase" id="mostrarProdutos">
 		<div>
 			<h2 style="text-align: center">Pesquisar Produtos:</h2>
 		</div>
-
+	
 		<div align="center">
-			<div class="col-md-6">
-				<input type="search" name="nomeProduto" class="form-control mb-2" id="nomeProduto"
-					style="text-indent: 10px" placeholder="Qual produto está procurando?"/>
+			<div class="col-md-6" id="focusProduto">
+				
 			</div>
 	
 			<div class="col-md-2">
@@ -150,9 +154,9 @@
 				<table>
 					<thead>
 						<tr>
-							<th class="col-md-4"><h5>Borda Recheada</h5></th>
-							<th class="col-md-4"><h5>Qtd</h5></th>
-							<th class="col-md-5"><h5>Observação</h5></th>
+							<th class="col-md-1"><h5>Borda Recheada</h5></th>
+							<th class="col-md-1"><h5>Qtd</h5></th>
+							<th class="col-md-1"><h5>Observação</h5></th>
 						</tr>
 					</thead>
 				
@@ -186,8 +190,8 @@
 		</div>
 	</div>
 <!-- ------------------------------------------------------------------------------------------------- -->
-	<br><br>
-	<div class="divbase">
+	<br>
+	<div class="divbase mostrarPedidos">
 		<h2 class="h1Logo">Pedido</h2>
 		
 		<div class="btn-group" role="group" aria-label="Second group" style="float: right">
@@ -199,11 +203,11 @@
 			<table>
 				<thead>
 					<tr>
-						<th class="col-md-3"><h5>Borda Recheada</h5></th>
-						<th class="col-md-3"><h5>Produto</h5></th>
-						<th class="col-md-3"><h5>Observação</h5></th>
-						<th class="col-md-3"><h5>Qtd</h5></th>
-						<th class="col-md-3"><h5>R$</h5></th>
+						<th class="col-md-1"><h5>Borda Recheada</h5></th>
+						<th class="col-md-1"><h5>Produto</h5></th>
+						<th class="col-md-1"><h5>Observação</h5></th>
+						<th class="col-md-1"><h5>Qtd</h5></th>
+						<th class="col-md-1"><h5>R$</h5></th>
 					</tr>
 				</thead>
 	
@@ -213,7 +217,10 @@
 			<br>
 			<h3 id="Ttotal" style="float: right">Total</h3><br>
 		</div>
-
+	</div>
+	
+	<br>
+	<div class="divbase mostrarPedidos">
 		<h2 class="h1Logo" align="center">Finalizar pedido</h2>
 		
 		<div class="btn-group" role="group" aria-label="Basic example">
@@ -221,14 +228,13 @@
 			Cancelar pedido</button></a>
 		</div>
 
-		<div class="btn-group" role="group" aria-label="Second group"
-			style="float: right">
-			<a id="enviarPedido"><button type="button"  class="btn btn-secondary btn-success">
+		<div class="btn-group" role="group" aria-label="Second group" style="float: right">
+			<a id="enviarPedido"><button type="button" class="btn btn-secondary btn-success">
 			Salvar pedido</button></a>
 		</div>
 	</div>
 
-	<br><br><br><br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<footer th:replace="/layouts/header :: footer"></footer>
 	
     <script src="/js/novoPedido.js"></script>

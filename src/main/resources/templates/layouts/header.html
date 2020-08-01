@@ -9,6 +9,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<link href="/css/bootstrap.min.css" rel="stylesheet"/>
 	<link href="/css/bootstrap-theme.min.css" rel="stylesheet"/>
     <link href="/css/estilo.css" rel="stylesheet"/>
+	<link href="/jquery/jquery-ui.min.css" rel="stylesheet"/>
     <script src="/js/jquery-3.4.1.min.js"></script>
 </head>
 
@@ -32,20 +33,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<a accesskey="R" href="/receber">RECEBER</a>
 				</div>
 			</li>
-			
-			<li class="Dropdown"><a accesskey="H" href="/cadastros">CADASTROS</a>
-				<div class="dropdown-content">
-					<a accesskey="J" href="/cadastroCliente">CLIENTE</a>
-					<a accesskey="K" href="/cadastroProduto">PRODUTO</a>
-					<a accesskey="L" href="/cadastroFuncionario">FUNCIONÁRIOS</a>
-				</div>
-			</li>
-			<li class="Dropdown"><a accesskey="A" href="/">ADM</a>
-				<div  class="dropdown-content">
-					<a accesskey="O" href="/sobre">OPÇÕES</a>
-				</div>
+			<li class="Dropdown"><a accesskey="A" href="/relatorioDia">ADM</a></li>
 			<li><a accesskey="S" href="/index">SAIR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Shit + Tecla</label></li>
+			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+		</ul>
+	</nav>
+	</header>
+	
+	
+<!--------------------------------------------------------------------------------------------------------->
+	<header th:fragment="adm">
+		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
+	
+	<nav>
+		<ul class="menu">
+			<li><a class="active" accesskey="R" href="/relatorioDia">RELATÓRIO</a></li>
+			<li class="Dropdown"><a accesskey="T" href="/cadastros">CADASTROS</a>
+				<div class="dropdown-content">
+					<a accesskey="C" href="/cadastroCliente">CLIENTE</a>
+					<a accesskey="P" href="/cadastroProduto">PRODUTO</a>
+					<a accesskey="F" href="/cadastroFuncionario">FUNCIONÁRIOS</a>
+				</div>
+			</li>
+			<li><a accesskey="O" href="/sobre">OPÇÕES</a></li>
+			<li><a accesskey="U" href="/">PREFERENCIAS</a></li>
+			<li><a accesskey="N" href="/novoPedido">VOLTAR</a></li>
+			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 		</ul>
@@ -113,6 +128,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</table>
 		</div>
 		<script src="/js/datas.js"></script>
+		<script src="/jquery/jquery-ui.min.js"></script>
 	</footer>
 
 <!--------------------------------------------------------------------------------------------------------->

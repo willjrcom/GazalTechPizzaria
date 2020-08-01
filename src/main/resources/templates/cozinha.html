@@ -9,11 +9,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	<header th:replace="/layouts/header :: logo"></header>
 	
-	<br>
 	<div class="divbase">
 		
 		<h1 class="h1Logo">Cozinha</h1>
-		<br>
+		
 		<div class="table-responsive">
 			<table class="table-responsive">
 				<thead>
@@ -40,25 +39,24 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<option value="op">Entrega</option>
 					<option value="op">Balcão</option>
 				</select>
-			<br><br>
 		</div>
 		
 		<div class="table-responsive">
-		<table>
-			<thead>
-				<tr>
-					<th class="text-center col-md-1"><h3>{}</h3></th>
-					<th class="text-center col-md-1"><h3>Nome</h3></th>
-					<th class="text-center col-md-1"><h3>Borda</h3></th>
-					<th class="text-center col-md-1"><h3>Qtd</h3></th>
-					<th class="text-center col-md-2"><h3>Sabor</h3></th>
-					<th class="text-center col-md-2"><h3>Obs</h3></th>
-					<th class="text-center col-md-1"><h3>Pronto</h3></th>
-				</tr>
-			</thead>
-				
-			<tbody id="todosPedidos"></tbody>
-		</table>
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center col-md-1"><h3>{}</h3></th>
+						<th class="text-center col-md-1"><h3>Nome</h3></th>
+						<th class="text-center col-md-1"><h3>Borda</h3></th>
+						<th class="text-center col-md-1"><h3>Qtd</h3></th>
+						<th class="text-center col-md-2"><h3>Sabor</h3></th>
+						<th class="text-center col-md-2"><h3>Obs</h3></th>
+						<th class="text-center col-md-1"><h3>Pronto</h3></th>
+					</tr>
+				</thead>
+					
+				<tbody id="todosPedidos"></tbody>
+			</table>
 		</div>
 	</div>
 	

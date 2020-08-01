@@ -51,7 +51,6 @@ public class NovoPedidoController {
 		return mv;
 	}
 	
-	
 	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Produto> adicionarProduto(@PathVariable long id) {
@@ -74,7 +73,6 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
 	@ResponseBody
 	public Pedido novoPedido(@RequestBody Pedido pedido) {
-		System.out.println(pedido.toString());
 		pedido.setStatus(TipoStatus.COZINHA);
 		return pedidos.save(pedido);
 	}

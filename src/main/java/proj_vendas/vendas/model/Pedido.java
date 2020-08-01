@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
@@ -28,23 +29,20 @@ public class Pedido implements Serializable{
 	private String nomePedido;
 	private String celular;
 	private String endereco;
-
-	//@Lob
-	//@JoinTable
-	//@OneToMany(cascade = CascadeType.ALL)
+	@Lob
 	private String produtos;
-	
-    //@JsonProperty("pedidos")
-	//@Lob
-	//private Map<String,Object> produto;
-	
-	//@DateTimeFormat(pattern = "dd/MM/yyyy")
-	//private Date data;
-
+	private String motoboy;
+	private String ac;
 	private TipoStatus status;
 	private TipoEnvio envio;
+	private String pagamento;
+
 	private float total;
 	private float troco;
+
+	//@DateTimeFormat(pattern = "dd/MM/yyyy")
+	//private Date data;
+	
 	
 	public Long getId() {
 		return id;
@@ -109,4 +107,23 @@ public class Pedido implements Serializable{
 	public void setProdutos(String produtos) {
 		this.produtos = produtos;
 	}
+	public String getMotoboy() {
+		return motoboy;
+	}
+	public void setMotoboy(String motoboy) {
+		this.motoboy = motoboy;
+	}
+	public String getAc() {
+		return ac;
+	}
+	public void setAc(String ac) {
+		this.ac = ac;
+	}
+	public String getPagamento() {
+		return pagamento;
+	}
+	public void setPagamento(String pagamento) {
+		this.pagamento = pagamento;
+	}
+	
 }

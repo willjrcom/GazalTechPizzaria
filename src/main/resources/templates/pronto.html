@@ -9,12 +9,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	<header th:replace="/layouts/header :: logo"></header>
 	
-	<br>
 	<div class="divbase">
 		<h1 class="h1Logo">Saída de Pedidos</h1>
-		<div>
 		
-		<br>
 		<div>
 			<label for="filtro">Filtrar:</label >
 				<select name="filtro" id="filtro" >
@@ -23,17 +20,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<option value="COZINHA">Em andamento</option>
 				</select>
 		</div>
-		
-		<br>
 		<div class="table-responsive">
 			<table>
 				<thead>
 					<tr>
 						<th class="text-center col-md-1"><h3>{}</h3></th>
 						<th class="text-center col-md-1"><h3>Nome</h3></th>
-						<th class="text-center col-md-2"><h3>Qtd</h3></th>
-						<th class="text-center col-md-2"><h3>Sabor</h3></th>
-						<th class="text-center col-md-2"><h3>Obs</h3></th>
+						<th class="text-center col-md-1"><h3>Borda</h3></th>
+						<th class="text-center col-md-1"><h3>Qtd</h3></th>
+						<th class="text-center col-md-1"><h3>Sabor</h3></th>
+						<th class="text-center col-md-1"><h3>Obs</h3></th>
 						<th class="text-center col-md-1"><h3>Tipo</h3></th>
 						<th class="text-center col-md-1"><h3>Status</h3></th>
 					</tr>
@@ -41,7 +37,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<tbody id="todosPedidos"></tbody>
 			</table>
-			</div>
 		</div>
 	</div>
 	

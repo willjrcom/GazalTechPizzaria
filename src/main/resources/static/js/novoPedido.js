@@ -18,10 +18,15 @@ var Obs;
 var tPizzas = 0;
 var tPedido = 0;
 var linhaHtml = "";
-var linhaCinza = $("#linhaCinza").html();
+var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
 var produtosSelect = $("#novoProduto").html();
 var buttonRemove = '<a class="removerProduto"><button type="button" class="btn btn-danger">Remover</button></a>';
-
+var pedidoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
+$("#mostrar").hide(); //esconder tabelas
+$("#mostrarProdutos").hide();
+$(".mostrarPedidos").hide();
+$("#ConfirmarCliente").hide(); //esconder botao confirmar
+$("#editarCliente").hide(); //esconder botao confirmar
 $("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$0,00 &nbsp;&nbsp;&nbsp;');
 
 
@@ -40,6 +45,9 @@ $("#buscarCliente").click(function() {
 		if(this.length == 0 || !this){
 			window.location.href = "/cadastroCliente";
 		}
+		$("#mostrar").show('slow'); //esconder tabelas
+		$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
+		
 		console.log(e);
 		let clientes = {};
 			clientes.id = e.id;
@@ -49,7 +57,7 @@ $("#buscarCliente").click(function() {
 			clientes.taxa = e.endereco.taxa;
 			
 		$("#idCliente").text(clientes.id);
-		$("#nomeCliente").text(clientes.nome);
+		$("#nomeCliente").text(clientes.nome).css('background-color', '#D3D3D3');
 		$("#celCliente").text(clientes.celular);
 		$("#enderecoCliente").text(clientes.endereco);
 		$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
@@ -59,27 +67,48 @@ $("#buscarCliente").click(function() {
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#ConfirmarCliente").click(function(){
-		
 	cliente.codigoPedido = $("#idCliente").text();
 	cliente.nomePedido = $("#nomeCliente").text();
 	cliente.celular = $("#celCliente").text();
 	cliente.endereco = $("#enderecoCliente").text();
 	cliente.envio = $("#envioCliente").val();
-	console.log(cliente.envio);
-	/*
 	cliente.tempo = $("#tempoCliente").val();
 	cliente.pagamento = $("#pagamentoCliente").val();
-	*/
+	
+	console.log(cliente.tempo);
+	console.log(cliente.pagamento);
 	
 	if($("#idCliente").text() == ""){
 		alert("Nenhum Cliente adicionado!");
 	}else{
 		$("#divBuscar").hide('slow');
-		$("#ConfirmarCliente").hide('slow');
-		
-		//cliente_json = JSON.stringify(cliente);
+		$(".esconder1").hide("slow");
+		$("#mostrar").hide("slow");
+		$("#mostrarProdutos").show('slow');
+		$("#editarCliente").show('slow');
+		$("#dados").html(
+				'<table style="width: 50%">'
+					+ '<thead><tr><th colspan="4"><h5>Cliente</h5></th></tr></thead>'
+					+ '<tr>'
+						+ '<td class="text-left col-md-1 fundoList">' + cliente.codigoPedido + '</td>'
+						+ '<td class="text-left col-md-1">' + cliente.nomePedido.split(' ')[0] + '</td>'
+						+ '<td class="text-left col-md-1 fundoList">' + cliente.celular + '</td>'
+						+ '<td class="text-left col-md-1">' + cliente.envio + '</td>'
+					+ '</tr>'
+				+ '</table>');
+
+		$("#focusProduto").html('<input type="search" name="nomeProduto" class="form-control mb-2" id="nomeProduto"'
+				+ 'style="text-indent: 10px" placeholder="Qual produto está procurando?"/>');
 	}
 })
+
+
+//------------------------------------------------------------------------------------------------------------------------
+$("#editarCliente").click(function(){
+	$("#mostrar").show('slow');
+	$(this).hide('slow');
+	$("#ConfirmarCliente").show('slow');
+});
 
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -102,7 +131,7 @@ $("#buscarProduto").click(function(){
 			});
 		};
 
-		$("#listaProdutos").show();
+		$("#listaProdutos").show('slow');
 		$("#todosProdutos").html(" ");
 		
 		for(var i=0; i<buscaProdutos.length; i++){
@@ -153,6 +182,9 @@ function enviarProduto() {
 			type: 'PUT'
 		})
 		.done(function(e){
+			
+			$(".mostrarPedidos").show('slow');
+			
 			Sabor = e.nomeProduto;
 			Preco = e.preco;
 			Qtd = parseFloat($("#qtd").val());
@@ -204,18 +236,22 @@ $(".removerProduto").click(function(e){
 	
 	$("#novoProduto").html("");
 	
-	for(var i=0; i<produtos.length; i++){
-		linhaHtml = "";
-		linhaHtml += '<tr>';
-		linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
-		linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
-		linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
-		linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
-		linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
-		linhaHtml += '</tr>';
-		$("#novoProduto").append(linhaHtml + '<tr>' + linhaCinza + '</tr>');
+	if(produtos.length == 0) {
+		$("#novoProduto").append(pedidoVazio);
+		$(".mostrarPedidos").hide('slow');	
+	} else {
+		for(var i=0; i<produtos.length; i++){
+			linhaHtml = "";
+			linhaHtml += '<tr>';
+			linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
+			linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
+			linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
+			linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
+			linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
+			linhaHtml += '</tr>';
+			$("#novoProduto").append(linhaHtml + '<tr>' + linhaCinza + '</tr>');
+		}
 	}
-
 	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '&nbsp;&nbsp;&nbsp;');	
 });
 
@@ -229,6 +265,8 @@ $("#enviarPedido").click(function() {
 		alert("Nenhum cliente adicionado!");
 	}else if(Object.keys(produtos).length === 0){
 		alert("Nenhum produto adicionado!");	
+	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
+		alert("Apenas valores inteiros!");	
 	}else{
 		cliente.total = tPedido;
 		cliente.produtos = JSON.stringify(produtos);
