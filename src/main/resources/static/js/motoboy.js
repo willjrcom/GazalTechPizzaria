@@ -75,7 +75,7 @@ $.ajax({
 				Tpizzas += pedidos[i].produtos[k].qtd;
 			}
 			linhaHtml +=    '<td>' + Tpizzas + '</td>';
-			linhaHtml +=    '<td>R$ ' + pedidos[i].troco + '</td>';
+			linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
 							
 			linhaHtml += '<td>' 
 						+ '<a class="enviarPedido">'
@@ -95,29 +95,45 @@ function finalizarPedido() {
 	var urlEnviar = "/motoboy/enviarMotoboy/" + idProduto.toString();
 	console.log(urlEnviar);
 	
-	if($("#filtro").val() == "--"){
-		alert("Escolha um motoboy!");
-	}else{
-		var confirmar = confirm("Deseja entregar?");
-		
-		if(confirmar == true){
-			for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
-				if(pedidos[i].id == idProduto){
-					var idBusca = i;
-				}
-			}
-			
-			pedidos[idBusca].motoboy = $("#filtro").val();
-			pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
-			$.ajax({
-				url: urlEnviar,
-				type: 'PUT',
-				data: pedidos[idBusca], //dados completos do pedido enviado
-			})
-			.done(function(e){
-				console.log(e);
-				document.location.reload(true);
-			});
+	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
+		if(pedidos[i].id == idProduto){
+			var idBusca = i;
 		}
+	}
+	
+	if($("#filtro").val() == "--"){
+		$.alert("Escolha um motoboy!");
+	}else{
+		$.confirm({
+			type: 'green',
+		    typeAnimated: true,
+		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+		    content: 'Deseja entregar?',
+		    buttons: {
+		        confirm: {
+		            text: 'Enviar',
+		            btnClass: 'btn-green',
+		            keys: ['enter'],
+		            action: function(){
+						pedidos[idBusca].motoboy = $("#filtro").val();
+						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
+						$.ajax({
+							url: urlEnviar,
+							type: 'PUT',
+							data: pedidos[idBusca], //dados completos do pedido enviado
+						})
+						.done(function(e){
+							console.log(e);
+							document.location.reload(true);
+						});
+					}
+				},
+		        cancel: {
+		        	text: 'Voltar',
+		            btnClass: 'btn-red',
+		            keys: ['esc'],
+		        },
+			}
+		});
 	}
 };

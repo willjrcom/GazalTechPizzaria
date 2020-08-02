@@ -6,6 +6,7 @@ var cliente_json;
 
 var produtos = [];
 var buscaProdutos = [];
+var op;
 
 //var pedido
 //------------------------------------------------------------------------------------------------------------------------
@@ -22,12 +23,79 @@ var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></
 var produtosSelect = $("#novoProduto").html();
 var buttonRemove = '<a class="removerProduto"><button type="button" class="btn btn-danger">Remover</button></a>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
-$("#mostrar").hide(); //esconder tabelas
-$("#mostrarProdutos").hide();
-$(".mostrarPedidos").hide();
-$("#ConfirmarCliente").hide(); //esconder botao confirmar
-$("#editarCliente").hide(); //esconder botao confirmar
-$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$0,00 &nbsp;&nbsp;&nbsp;');
+
+var url_atual = window.location.href;
+
+url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
+
+if(typeof url_atual == "undefined") {
+	console.log("nao existe");
+	
+	$("#mostrar").hide(); //esconder tabelas
+	$("#mostrarProdutos").hide();
+	$(".mostrarPedidos").hide();
+	$("#ConfirmarCliente").hide(); //esconder botao confirmar
+	$("#editarCliente").hide(); //esconder botao confirmar
+	$("#atualizarPedido").hide();
+	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$0,00 &nbsp;&nbsp;&nbsp;');
+}else {
+	console.log(url_atual);
+	
+	urlNumero = "/novoPedido/editarPedido/" + url_atual.toString();
+	console.log(urlNumero);
+	
+	$.ajax({
+		url: urlNumero,
+		type: 'PUT'
+	}).done(function(e){
+		
+		console.log(e);
+		
+		$("#mostrar").show('slow'); //esconder tabelas
+		$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
+
+		$("#divBuscar").hide();
+		$(".esconder1").hide();
+		
+		$("#enviarPedido").hide();
+		cliente.id = e.id;
+		cliente.nomePedido = e.nomePedido;
+		cliente.celular = e.celular;
+		cliente.endereco = e.endereco;
+		cliente.envio = e.envio;
+		cliente.total = e.total;
+		cliente.troco = e.troco;
+		cliente.pagamento =  e.pagamento;
+		cliente.produtos = JSON.parse(e.produtos);
+			
+		//adicionar cliente
+		$("#idCliente").text(cliente.id);
+		$("#nomeCliente").text(cliente.nomePedido).css('background-color', '#D3D3D3');
+		$("#celCliente").text(cliente.celular);
+		$("#enderecoCliente").text(cliente.endereco);
+		$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa + ',00');
+
+		console.log(cliente.produtos);
+		for(var i = 0; i<cliente.produtos.length; i++) {
+			tPizzas += cliente.produtos[i].qtd;
+			produtos.unshift({
+				'sabor' : cliente.produtos[i].sabor,
+				'qtd' : cliente.produtos[i].qtd,
+				'borda' : cliente.produtos[i].borda,
+				'preco' : cliente.produtos[i].preco,
+				'obs' : cliente.produtos[i].obs
+			});
+		}
+		tPedido = cliente.total;
+		
+		mostrarProdutos();
+		$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + cliente.total.toFixed(2) +' &nbsp;&nbsp;&nbsp;');
+		
+	}).fail(function(){
+		$.alert("falhou!");
+	});	
+}
+
 
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -51,7 +119,7 @@ $("#buscarCliente").click(function() {
 		console.log(e);
 		let clientes = {};
 			clientes.id = e.id;
-			clientes.nome = e.nome;
+			clientes.nomePedido = e.nome;
 			clientes.celular = e.celular;
 			clientes.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
 			clientes.taxa = e.endereco.taxa;
@@ -96,9 +164,6 @@ $("#ConfirmarCliente").click(function(){
 						+ '<td class="text-left col-md-1">' + cliente.envio + '</td>'
 					+ '</tr>'
 				+ '</table>');
-
-		$("#focusProduto").html('<input type="search" name="nomeProduto" class="form-control mb-2" id="nomeProduto"'
-				+ 'style="text-indent: 10px" placeholder="Qual produto está procurando?"/>');
 	}
 })
 
@@ -204,20 +269,8 @@ function enviarProduto() {
 			});
 			
 			$("#novoProduto").html("");
+			mostrarProdutos();
 			
-			for(var i=0; i<produtos.length; i++){
-				linhaHtml = "";
-				linhaHtml += '<tr>';
-				linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
-				linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
-				linhaHtml += '</tr>';
-				$("#novoProduto").append(linhaHtml + '<tr>' + linhaCinza + '</tr>');
-			}
-		
-			$("#Ttotal").html('Total de Pizzas:  ' + tPizzas + '<br><br>' + 'Total do Pedido:  R$' + tPedido + '&nbsp;&nbsp;&nbsp;');
 		});
 	}else{
 		Qtd = $("qtd").val("1");
@@ -225,6 +278,23 @@ function enviarProduto() {
 	}
 };
 
+
+//---------------------------------------------------------------------------------------------------------------------
+function mostrarProdutos() {
+	for(var i=0; i<produtos.length; i++){
+		linhaHtml = "";
+		linhaHtml += '<tr>';
+		linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
+		linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
+		linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
+		linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
+		linhaHtml += 	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>';
+		linhaHtml += '</tr>';
+		$("#novoProduto").append(linhaHtml + '<tr>' + linhaCinza + '</tr>');
+	}
+
+	$("#Ttotal").html('Total de Pizzas:  ' + tPizzas + '<br><br>' + 'Total do Pedido:  R$' + tPedido + '&nbsp;&nbsp;&nbsp;');
+}
 
 //------------------------------------------------------------------------------------------------------------------------
 $(".removerProduto").click(function(e){
@@ -240,17 +310,7 @@ $(".removerProduto").click(function(e){
 		$("#novoProduto").append(pedidoVazio);
 		$(".mostrarPedidos").hide('slow');	
 	} else {
-		for(var i=0; i<produtos.length; i++){
-			linhaHtml = "";
-			linhaHtml += '<tr>';
-			linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
-			linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
-			linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
-			linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
-			linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
-			linhaHtml += '</tr>';
-			$("#novoProduto").append(linhaHtml + '<tr>' + linhaCinza + '</tr>');
-		}
+		mostrarProdutos();
 	}
 	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '&nbsp;&nbsp;&nbsp;');	
 });
@@ -258,6 +318,7 @@ $(".removerProduto").click(function(e){
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#enviarPedido").click(function() {
+	console.log(cliente);
 	
 	if(Object.keys(produtos).length === 0 && $("#idCliente").text() == ""){
 		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
@@ -325,7 +386,7 @@ $("#enviarPedido").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(e){
-							//document.location.reload(true);; 
+							//document.location.reload(true);
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
@@ -342,3 +403,91 @@ $("#enviarPedido").click(function() {
 	}
 });
 
+
+
+//------------------------------------------------------------------------------------------------------------------------
+$("#atualizarPedido").click(function() {
+	console.log(cliente);
+	
+	if(Object.keys(produtos).length === 0 && $("#idCliente").text() == ""){
+		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
+	}else if($("#idCliente").text() == ""){
+		alert("Nenhum cliente adicionado!");
+	}else if(Object.keys(produtos).length === 0){
+		alert("Nenhum produto adicionado!");	
+	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
+		alert("Apenas valores inteiros!");	
+	}else{
+		
+		if(produtos.length != 0) {
+			linhaHtml = "";
+			linhaHtml = '<table><tr>'
+							+ '<td>Borda</td>'
+							+ '<td>Sabor</td>'
+							+ '<td>Obs</td>'
+							+ '<td>Qtd</td>'
+							+ '<td>Preço</td>'
+						'</tr>';
+			
+			for(var i=0; i<produtos.length; i++){
+				linhaHtml += '<table><tr>';
+				linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
+				linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
+				linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
+				linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
+				linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
+				linhaHtml += '</tr>';
+			}
+			linhaHtml += '</table>';
+			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido;	
+			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" required />';
+			linhaHtml += '<br>Deseja enviar o pedido?';
+		}
+		
+		//modal jquery confirmar
+		$.confirm({
+			icon: 'fa fa-spinner fa-spin',
+			type: 'green',
+		    typeAnimated: true,
+		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],
+		    content: 'Produtos escolhidos' + linhaHtml,
+		    buttons: {
+		        confirm: {
+		            text: 'Enviar',
+		            btnClass: 'btn-green',
+		            keys: ['enter'],
+		            action: function(){
+						
+						var troco = this.$content.find('#troco').val();
+						console.log(troco);
+						
+						cliente.troco = parseFloat(troco);
+						cliente.total = tPedido;
+						cliente.produtos = JSON.stringify(produtos);
+						cliente.status = "COZINHA";
+						console.log(cliente);
+						
+						$.ajax({
+							url: "/novoPedido/atualizarPedido/" + url_atual,
+							type: "PUT",
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(cliente)
+							
+						}).done(function(e){
+							//document.location.reload(true);
+							
+						}).fail(function(e){
+							$.alert("Pedido não enviado!");
+						});
+					}
+		        },
+		        cancel: {
+		        	text: 'Voltar',
+		            btnClass: 'btn-red',
+		            keys: ['esc'],
+		        },
+			}
+		});
+	}
+});

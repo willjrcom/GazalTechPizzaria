@@ -15,7 +15,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div>
 			<label for="filtro">Filtrar:</label >
-				<select name="filtro" id="filtro">
+				<select name="filtro" id="">
 					<option value="op">Todos</option>
 					<option value="op">Pago</option>
 					<option value="op">A pagar</option>
@@ -23,87 +23,27 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		
 		<br>
-		<div>
-			<label for="filtro">Classificar:</label >
-				<select name="filtro" id="filtro">
-					<option value="op1">Tempo crescente</option>
-					<option value="op1">Tempo decrescente</option>
-					<option value="op1">Nome</option>
-					<option value="op1">Bairro</option>
-				</select>
-		</div>
 		
-		<div>
+		<div class="table-responsive">
 			<table>
 				<thead>
 					<tr>
-						<th class="text-center col-md-1"><h3>#</h3></th>
-						<th><h3>Nome</h3></th>
-						<th><h3>celular</h3></th>
-						<th><h3>Bairro</h3></th>
+						<th class="text-center col-md-1"><h3>{}</h3></th>
+						<th class="text-center col-md-1"><h3>Nome</h3></th>
+						<th class="text-center col-md-1"><h3>Nº pizzas</h3></th>
+						<th class="text-center col-md-1"><h3>Total</h3></th>
+						<th class="text-center col-md-1"><h3>Tipo</h3></th>
 						<th class="text-center col-md-1"><h3>Ver</h3></th>
 					</tr>
 				</thead>
 				
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td>William Junior</td>
-						<td>(11) 96384-9111</td>
-						<td>Ibiti do paço</td>
-						<td>
-							<div class="row">
-								<div th:replace="/layouts/botoes :: botaoAcessar"></div>
-								<div th:replace="layouts/botoes :: botaoLapis"></div>
-								<div th:replace="layouts/botoes :: botaoFechar"></div>
-							</div>
-						</td>
-					</tr>
-						
-					<tr>
-						<td class="fundoList" colspan="5">&nbsp;</td>
-					</tr>
-						
-					<tr>
-						<td>2</td>
-						<td>Nicolas</td>
-						<td>(15)3013-8778</td>
-						<td>Ibiti Royal</td>
-						<td>
-							<div class="row">
-								<div th:replace="/layouts/botoes :: botaoAcessar"></div>
-								<div th:replace="layouts/botoes :: botaoLapis"></div>
-								<div th:replace="layouts/botoes :: botaoFechar"></div>
-							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td class="fundoList" colspan="5">&nbsp;</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Dani</td>
-						<td>(11)97143-0022</td>
-						<td>Zona industrial</td>
-						<td>
-							<div class="row">
-								<div th:replace="/layouts/botoes :: botaoAcessar"></div>
-								<div th:replace="layouts/botoes :: botaoLapis"></div>
-								<div th:replace="layouts/botoes :: botaoFechar"></div>
-							</div>
-						</td>
-					</tr>
-					
-					<tr>
-						<td class="fundoList" colspan="5">&nbsp;</td>
-					</tr>
-				</tbody>
+				<tbody id="todosPedidos"></tbody>
 			</table>
 		</div>
 	</div>
 	
 	<br><br><br><br><br><br><br><br><br><br>
 	<footer th:replace="/layouts/header :: footer"></footer>
+	<script src="/js/verPedido.js"></script>
 </body>
 </html>

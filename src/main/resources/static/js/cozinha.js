@@ -76,7 +76,7 @@ $.ajax({
 			
 			//mostrar produtos
 			if(pedidos[i].produtos.length > 1){
-				for(var j = 1; j<pedidos[i].produtos.length; j++){	
+				for(var j = 1; j<pedidos[i].produtos.length; j++){
 					linhaHtml += '<tr>';
 					
 					if(j == 1) {
@@ -102,11 +102,11 @@ $.ajax({
 					linhaHtml +=	'<td></td>';
 					linhaHtml += '</tr>';	
 
-					if(divisao - pedidos[i].produtos[0].qtd <= 0) {
+					if(divisao - pedidos[i].produtos[j].qtd <= 0) {
 						linhaHtml += linhaCinza;
 						divisao = 1;
 					}else {
-						divisao -= pedidos[i].produtos[0].qtd;
+						divisao -= pedidos[i].produtos[j].qtd;
 					}
 				}
 			}

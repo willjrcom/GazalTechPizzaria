@@ -78,7 +78,7 @@ $.ajax({
 				}
 				
 				linhaHtml +=	'<td>18:30</td>';
-				linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
+				linhaHtml +=	'<td>R$ ' + pedidos[i].troco.toFixed(2) + '</td>';
 				linhaHtml += '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
@@ -99,29 +99,44 @@ function finalizarPedido() {
 	var urlEnviar = "/receber/finalizar/" + idProduto.toString();
 	console.log(urlEnviar);
 	
-	if($("#filtro").val() == "--"){
-		alert("Escolha um funcionario!");
-	}else{
-		var confirmar = confirm("Deseja finalizar?");
-		
-		if(confirmar == true){
-			for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
-				if(pedidos[i].id == idProduto){
-					var idBusca = i;
-				}
-			}
-			
-			pedidos[idBusca].ac = $("#filtro").val();
-			
-			$.ajax({
-				url: urlEnviar,
-				type: 'PUT',
-				data: pedidos[idBusca], //dados completos do pedido enviado
-			})
-			.done(function(e){
-				console.log(e);
-				document.location.reload(true);
-			});
+	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
+		if(pedidos[i].id == idProduto){
+			var idBusca = i;
 		}
+	}
+			
+	if($("#filtro").val() == "--"){
+		$.alert("Escolha um funcionário!");
+	}else{
+		$.confirm({
+			type: 'green',
+		    typeAnimated: true,
+		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+		    content: 'Deseja finalizar?',
+		    buttons: {
+		        confirm: {
+		            text: 'Enviar',
+		            btnClass: 'btn-green',
+		            keys: ['enter'],
+		            action: function(){
+						pedidos[idBusca].ac = $("#filtro").val();
+						$.ajax({
+							url: urlEnviar,
+							type: 'PUT',
+							data: pedidos[idBusca], //dados completos do pedido enviado
+						})
+						.done(function(e){
+							console.log(e);
+							document.location.reload(true);
+						});
+					}
+				},
+		        cancel: {
+		        	text: 'Voltar',
+		            btnClass: 'btn-red',
+		            keys: ['esc'],
+		        },
+			}
+		});
 	}
 };

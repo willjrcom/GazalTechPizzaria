@@ -76,4 +76,24 @@ public class NovoPedidoController {
 		pedido.setStatus(TipoStatus.COZINHA);
 		return pedidos.save(pedido);
 	}
+	
+	@RequestMapping(value = "/editar/{id}")
+	public ModelAndView editarPedido(@ModelAttribute("id") Pedido pedido) {
+		System.out.println(pedido.toString());
+		ModelAndView mv = new ModelAndView("novoPedido");
+		mv.addObject("TipoBorda", TipoBorda.values());
+		return mv;
+	}
+	
+	@RequestMapping(value = "/editarPedido/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Pedido> buscarPedido(@PathVariable Long id) {
+		return pedidos.findById(id);
+	}
+	
+	@RequestMapping(value = "/atualizarPedido/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Pedido atualizarPedido(@RequestBody Pedido pedido) {
+		return pedidos.save(pedido);
+	}
 }
