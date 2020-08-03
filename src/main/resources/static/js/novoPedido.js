@@ -125,7 +125,7 @@ $("#buscarCliente").click(function() {
 			clientes.taxa = e.endereco.taxa;
 			
 		$("#idCliente").text(clientes.id);
-		$("#nomeCliente").text(clientes.nome).css('background-color', '#D3D3D3');
+		$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
 		$("#celCliente").text(clientes.celular);
 		$("#enderecoCliente").text(clientes.endereco);
 		$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
@@ -446,7 +446,6 @@ $("#atualizarPedido").click(function() {
 		
 		//modal jquery confirmar
 		$.confirm({
-			icon: 'fa fa-spinner fa-spin',
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],
@@ -459,7 +458,11 @@ $("#atualizarPedido").click(function() {
 		            action: function(){
 						
 						var troco = this.$content.find('#troco').val();
-						console.log(troco);
+						if(isNaN(troco) == true) {
+							troco = tPedido;
+						}else if(troco.isString()) {
+							return false;
+						}
 						
 						cliente.troco = parseFloat(troco);
 						cliente.total = tPedido;
@@ -475,11 +478,15 @@ $("#atualizarPedido").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(e){
-							//document.location.reload(true);
+							var salvo = true;
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
+							var salvo = false;
 						});
+						if(salvo == true) {
+							window.location.href = "/novoPedido";
+						}
 					}
 		        },
 		        cancel: {

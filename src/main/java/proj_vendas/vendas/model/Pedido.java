@@ -1,6 +1,7 @@
 package proj_vendas.vendas.model;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,7 +42,7 @@ public class Pedido implements Serializable{
 	private float troco;
 
 	//@DateTimeFormat(pattern = "dd/MM/yyyy")
-	//private Date data;
+	private Date data;
 	
 	
 	public Long getId() {
@@ -124,6 +125,12 @@ public class Pedido implements Serializable{
 	}
 	public void setPagamento(String pagamento) {
 		this.pagamento = pagamento;
+	}
+	public Date getData() {
+		return data;
+	}
+	public void setData(Date data) {
+		this.data = data;
 	}
 	
 }

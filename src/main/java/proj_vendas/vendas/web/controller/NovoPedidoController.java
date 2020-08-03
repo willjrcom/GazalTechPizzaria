@@ -43,14 +43,14 @@ public class NovoPedidoController {
 		mv.addObject("TipoBorda", TipoBorda.values());
 		return mv;
 	}
-
+	/*
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView salvar(Pedido pedido) {
 		pedidos.save(pedido);
 		ModelAndView mv = new ModelAndView("novoPedido");
 		return mv;
 	}
-	
+	*/
 	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Produto> adicionarProduto(@PathVariable long id) {

@@ -72,7 +72,13 @@ $.ajax({
 				linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
 				linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
 				linhaHtml +=	'<td></td>';
-				linhaHtml +=	'<td>' + pedidos[i].produtos.length + '</td>';
+				
+				Tpizzas = 0;
+				for(var k = 0; k<pedidos[i].produtos.length; k++) {
+					Tpizzas += pedidos[i].produtos[k].qtd;
+				}
+				
+				linhaHtml +=	'<td>' + Tpizzas + '</td>';
 				linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
 				linhaHtml +=	'<td>' + pedidos[i].pagamento + '</td>';
 				linhaHtml += '<td>' 
