@@ -31,6 +31,7 @@ public class Cliente {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
+	
 	public Long getId() {
 		return id;
 	}

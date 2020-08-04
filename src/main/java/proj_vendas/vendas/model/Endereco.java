@@ -20,14 +20,11 @@ public class Endereco {
 	private String rua;
 	private String n;
 	private String bairro;
-	private String Cidade;
+	private String cidade;
 	private String referencia;
 	private String taxa;
-	/*
-	@OneToOne
-	@JoinColumn(name = "cliente_fk")
-	private Cliente cliente;
-	*/
+
+	
 	public Long getId() {
 		return id;
 	}
@@ -58,12 +55,7 @@ public class Endereco {
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-	public String getCidade() {
-		return Cidade;
-	}
-	public void setCidade(String cidade) {
-		Cidade = cidade;
-	}
+	
 	public String getReferencia() {
 		return referencia;
 	}
@@ -75,6 +67,12 @@ public class Endereco {
 	}
 	public void setTaxa(String taxa) {
 		this.taxa = taxa;
+	}
+	public String getCidade() {
+		return cidade;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 	
 }

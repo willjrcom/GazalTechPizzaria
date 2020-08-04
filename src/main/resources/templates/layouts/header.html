@@ -51,10 +51,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<nav>
 		<ul class="menu">
 			<li><a class="active" accesskey="R" href="/relatorioDia">RELATÓRIO</a></li>
-			<li><a accesskey="E" href="/pedidosExcluidos">EXCLUÍDOS</a></li>
+			<li><a accesskey="E" href="/pedidosExcluidos">CANCELADOS</a></li>
 			<li><a accesskey="C" href="/cadastros">CADASTROS</a></li>
-			<li><a accesskey="O" href="/sobre">OPÇÕES</a></li>
-			<li><a accesskey="U" href="/">PREFERENCIAS</a></li>
+			<li class="Dropdown"><a accesskey="O" href="/sobre">OPÇÕES</a>
+				<div class="dropdown-content">
+					<a accesskey="T" href="/tutorial">TUTORIAL</a>
+				</div>
+				</li>
+			<li><a accesskey="U" href="/tutorial">PREFERENCIAS</a></li>
 			<li><a accesskey="N" href="/novoPedido">VOLTAR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
@@ -70,8 +74,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a accesskey="C" href="/cadastros">CADASTROS</a></li>
-			<li class="Dropdown"><a accesskey="T" href="/clientesCadastrados">CLIENTE</a>
+			<li><a accesskey="T" href="/cadastros">TODOS</a></li>
+			<li class="Dropdown"><a accesskey="C" href="/clientesCadastrados">CLIENTES</a>
 				<div class="dropdown-content">
 					<a accesskey="B" href="/cadastroCliente">CADASTRAR</a>
 				</div>
