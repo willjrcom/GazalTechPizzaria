@@ -8,7 +8,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <head><title>Cadastrar Cliente - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: adm"></header>
+	<header th:replace="/layouts/header :: cadastros"></header>
 	
 	<br>
 	<div class="divbaseForm alert alert-primary" role="alert" th:if="${!#strings.isEmpty(mensagem)}" style="background-color: #aad450">
@@ -38,53 +38,60 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 				<br>
 				<div class="form-group">
 					<label for="file">Nome Completo:<br/></label>
-					<input type="text" class="form-control" autofocus="autofocus" placeholder="Nome Completo" th:field="*{nome}" required/>
+					<input type="text" class="form-control pula" autofocus="autofocus" placeholder="Nome Completo" th:field="*{nome}" required/>
 				</div>
 				
 				<div class="form-group">
 					<label>CPF:<br/></label>
-					<input type="text" class="form-control" th:field="*{cpf}" placeholder="CPF" required/>
+					<input type="text" class="form-control pula cpf" th:field="*{cpf}" placeholder="CPF"/>
 				</div>
 				
 				<div class="form-group">
 					<label>Celular:<br/></label>
-					<input type="tel" class="form-control" th:field="*{celular}" placeholder="Celular 15-9xxxx-xxxx " required/>
+					<input type="tel" class="form-control pula cel" th:field="*{celular}" placeholder="Celular 15-9xxxx-xxxx " required/>
 				</div>
 				
 				<h3><br/>Endereço:<br/><br/></h3>
 				
-				<div class="form-group">
-					<label>CEP:<br/></label>
-					<input type="text" class="form-control" th:field="*{endereco.cep}" placeholder="CEP" required/> 
-				</div>
-				
-				<div class="form-row">
-					<div class="form-group col-md-10">
-						<label>Rua:<br/></label>
-						<input type="text" class="form-control" th:field="*{endereco.rua}" placeholder="Rua" required/>  
-					</div>
-					
-					<div class="form-group col-md-2">
-						<label>Nº:<br/></label>
-						<input type="text" class="form-control" th:field="*{endereco.n}" placeholder="Nº" size="10" required/>  
-					</div>
-				</div> 
+				<!-- ----------------------------------------------------------------------------- -->
+			
+		  		<div class="col-md-2">
+				   	<div class="form-group">
+				        <label>CEP</label>
+		      			<input type="text" class="form-control pula cep" id="cep" maxlength="12" th:field="*{endereco.cep}" placeholder="Informe o CEP">
+				    </div>
+		  		</div>
+		  		
+			  	<div class="form-row">
+			  		<div class="col-md-8">
+					   <div class="form-group">
+					       <label>Rua</label>
+			      		   <input type="text" class="form-control pula" id="rua" th:field="*{endereco.rua}" placeholder="Informe a Rua" required>
+					    </div>
+			  		</div>
+			  		<div class="col-md-2">
+					   <div class="form-group">
+					       <label>Nº</label>
+			      		   <input type="text" class="form-control pula" id="numero" th:field="*{endereco.n}" placeholder="Informe o Número">
+					    </div>
+			  		</div>
+			  	</div>
 				
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label><br/>Bairro:<br/></label>
-						<input type="text" class="form-control" th:field="*{endereco.bairro}" placeholder="Bairro" required/>  
+						<input type="text" class="form-control pula" th:field="*{endereco.bairro}" id="bairro" placeholder="Informe o bairro" required/>  
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label><br/>Cidade:<br/></label>
-						<input type="text" class="form-control" th:field="*{endereco.cidade}" placeholder="Cidade" value="Sorocaba" required/> 
+						<input type="text" class="form-control pula" th:field="*{endereco.cidade}" id="cidade" placeholder="Informe a cidade" value="Sorocaba" required/> 
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<label><br/>Taxa de entrega:<br/></label>
-					<input type="number" class="form-control" th:field="*{endereco.taxa}" placeholder="Taxa de Entrega" value="5" min="5" max="50" required/>
+					<input type="number" class="form-control pula" th:field="*{endereco.taxa}" placeholder="Taxa de Entrega" value="5" min="5" max="50" required/>
 				</div> 
 				
 				<div class="form-group">
@@ -99,5 +106,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	
 	<br>
 	<footer th:replace="/layouts/header :: footer"></footer>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+	<script src="/js/buscaCep.js"></script>
+	<script src="/jquery/jquery.mask.min.js"></script>
 </body>
 </html>

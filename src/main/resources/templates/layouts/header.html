@@ -51,13 +51,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<nav>
 		<ul class="menu">
 			<li><a class="active" accesskey="R" href="/relatorioDia">RELATÓRIO</a></li>
-			<li class="Dropdown"><a accesskey="T" href="/cadastros">CADASTROS</a>
-				<div class="dropdown-content">
-					<a accesskey="C" href="/cadastroCliente">CLIENTE</a>
-					<a accesskey="P" href="/cadastroProduto">PRODUTO</a>
-					<a accesskey="F" href="/cadastroFuncionario">FUNCIONÁRIOS</a>
-				</div>
-			</li>
+			<li><a accesskey="E" href="/pedidosExcluidos">EXCLUÍDOS</a></li>
+			<li><a accesskey="C" href="/cadastros">CADASTROS</a></li>
 			<li><a accesskey="O" href="/sobre">OPÇÕES</a></li>
 			<li><a accesskey="U" href="/">PREFERENCIAS</a></li>
 			<li><a accesskey="N" href="/novoPedido">VOLTAR</a></li>
@@ -68,6 +63,41 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</nav>
 	</header>
 
+
+<!--------------------------------------------------------------------------------------------------------->
+	<header th:fragment="cadastros">
+		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
+	
+	<nav>
+		<ul class="menu">
+			<li><a accesskey="C" href="/cadastros">CADASTROS</a></li>
+			<li class="Dropdown"><a accesskey="T" href="/clientesCadastrados">CLIENTE</a>
+				<div class="dropdown-content">
+					<a accesskey="B" href="/cadastroCliente">CADASTRAR</a>
+				</div>
+			</li>
+			
+			<li class="Dropdown"><a accesskey="P" href="/produtosCadastrados">PRODUTOS</a>
+				<div class="dropdown-content">
+					<a accesskey="N" href="/cadastroProduto">CADASTRAR</a>
+				</div>
+			</li>
+			
+			<li class="Dropdown"><a accesskey="F" href="/funcionariosCadastrados">FUNCIONÁRIOS</a>
+				<div class="dropdown-content">
+					<a accesskey="M" href="/cadastroFuncionario">CADASTRAR</a>
+				</div>
+			</li>
+			
+			<li><a accesskey="N" href="/relatorioDia">VOLTAR</a></li>
+			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
+			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+		</ul>
+	</nav>
+	</header>
+	
+	
 <!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="login" id="esconderLogin">
 		<div class="elemento1">
@@ -128,9 +158,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</tr>
 			</table>
 		</div>
+		
 		<script src="/js/datas.js"></script>
+		<script src="/js/pulaInput.js"></script>
+		<script src="/js/validacoes.js"></script>
+		<script src="/js/jquery-3.4.1.min.js"></script>
 		<script src="/jquery/jquery-ui.min.js"></script>
+		<script src="/jquery/jquery.mask.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 	</footer>
 
 <!--------------------------------------------------------------------------------------------------------->

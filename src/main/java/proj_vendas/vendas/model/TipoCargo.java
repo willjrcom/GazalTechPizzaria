@@ -1,9 +1,20 @@
 package proj_vendas.vendas.model;
 
 public enum TipoCargo {
+	ATENDIMENTO("Atendimento"),
 	MOTOBOY("Motoboy"),
-	CLT("CLT"),
+	COZINHA("Cozinha"),
+	PIZZAIOLO("Pizzaiolo"),
+	FORNEIRO("Forneiro"),
+	REPOSITOR("Repositor"),
+	GERENTE("Gerente"),
+	MARKETING("Marketing"),
+	ANALISTA("Analista de vendas"),
+	AUXILIARCOZINHA("Auxiliar de cozinha"),
+	AUXILIARPIZZAIOLO("Auxiliar de pizzaiolo"),
 	MENORAPRENDIZ("Menor Aprendiz");
+	
+	
 	
 	private String descricao;
 	

@@ -5,7 +5,8 @@ public enum TipoStatus {
 	COZINHA("Em preparação"),
 	PRONTO("Pronto"),
 	MOTOBOY("Na Rua"),
-	FINALIZADO("Finalizado");
+	FINALIZADO("Finalizado"),
+	EXCLUIDO("Excluido");
 	
 	private String descricao;
 
