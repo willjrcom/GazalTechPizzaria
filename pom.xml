@@ -54,7 +54,11 @@
 			<optional>true</optional>
 		</dependency>
 		
-		
+		<dependency>
+		    <groupId>org.directwebremoting</groupId>
+		    <artifactId>dwr</artifactId>
+		    <version>3.0.2-RELEASE</version>
+		 </dependency>
 		
 		<dependency>
 			<groupId>mysql</groupId>

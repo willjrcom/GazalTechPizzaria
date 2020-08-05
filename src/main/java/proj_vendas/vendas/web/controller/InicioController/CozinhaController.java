@@ -2,7 +2,10 @@ package proj_vendas.vendas.web.controller.InicioController;
 
 import java.util.List;
 
+import org.directwebremoting.annotations.RemoteMethod;
+import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +18,8 @@ import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
+@Component
+@RemoteProxy
 @RequestMapping("/cozinha")
 public class CozinhaController{
 	
@@ -39,5 +44,10 @@ public class CozinhaController{
 	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {//falta enviar as outras variaveis
 		pedido.setStatus(TipoStatus.PRONTO);
 		return pedidos.save(pedido);
+	}
+	
+	@RemoteMethod
+	public synchronized void init() {
+		System.out.println("dwr ativado ----------------");
 	}
 }
