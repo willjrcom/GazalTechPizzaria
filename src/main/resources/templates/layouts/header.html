@@ -51,15 +51,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<nav>
 		<ul class="menu">
 			<li><a class="active" th:href="@{/relatoriodia}">RELATÓRIO</a></li>
-			<li><a accesskey="E" th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
-			<li><a accesskey="C" th:href="@{/cadastros}">CADASTROS</a></li>
-			<li class="Dropdown"><a accesskey="O" th:href="@{/sobre}">OPÇÕES</a>
+			<li><a th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
+			<li><a th:href="@{/cadastros}">CADASTROS</a></li>
+			<li class="Dropdown"><a th:href="@{/sobre}">OPÇÕES</a>
 				<div class="dropdown-content">
-					<a accesskey="T" th:href="@{/tutorial}">TUTORIAL</a>
+					<a th:href="@{/tutorial}">TUTORIAL</a>
 				</div>
 				</li>
-			<li><a accesskey="U" th:href="@{/tutorial}">PREFERENCIAS</a></li>
-			<li><a accesskey="N" th:href="@{/novoPedido}">VOLTAR</a></li>
+			<li><a th:href="@{/tutorial}">PREFERENCIAS</a></li>
+			<li><a th:href="@{/novoPedido}">VOLTAR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
@@ -74,22 +74,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a accesskey="T" th:href="@{cadastros}">TODOS</a></li>
-			<li class="Dropdown"><a accesskey="C" th:href="@{/clientesCadastrados}">CLIENTES</a>
+			<li><a accesskey="T" th:href="@{/cadastros}">TODOS</a></li>
+			<li class="Dropdown"><a th:href="@{/clientesCadastrados}">CLIENTES</a>
 				<div class="dropdown-content">
-					<a accesskey="B" th:href="@{/cadastroCliente}">CADASTRAR</a>
+					<a th:href="@{/cadastroCliente}">CADASTRAR</a>
 				</div>
 			</li>
 			
-			<li class="Dropdown"><a accesskey="P" th:href="@{/produtosCadastrados}">PRODUTOS</a>
+			<li class="Dropdown"><a th:href="@{/produtosCadastrados}">PRODUTOS</a>
 				<div class="dropdown-content">
-					<a accesskey="N" th:href="@{/cadastroProduto}">CADASTRAR</a>
+					<a th:href="@{/cadastroProduto}">CADASTRAR</a>
 				</div>
 			</li>
 			
-			<li class="Dropdown"><a accesskey="F" th:href="@{/funcionariosCadastrados}">FUNCIONÁRIOS</a>
+			<li class="Dropdown"><a th:href="@{/funcionariosCadastrados}">FUNCIONÁRIOS</a>
 				<div class="dropdown-content">
-					<a accesskey="M" th:href="@{/cadastroFuncionario}">CADASTRAR</a>
+					<a th:href="@{/cadastroFuncionario}">CADASTRAR</a>
 				</div>
 			</li>
 			
