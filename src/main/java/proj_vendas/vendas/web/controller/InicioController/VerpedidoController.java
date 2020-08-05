@@ -12,15 +12,15 @@ import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
-@RequestMapping("/verPedido")
-public class VerPedidoController{
+@RequestMapping("/verpedido")
+public class VerpedidoController{
 	
 	@Autowired
 	private Pedidos pedidos;
 	
 	@RequestMapping
 	public ModelAndView verPedido() {
-		ModelAndView mv = new ModelAndView("verPedido");
+		ModelAndView mv = new ModelAndView("verpedido");
 		return mv;
 	}
 	/*
