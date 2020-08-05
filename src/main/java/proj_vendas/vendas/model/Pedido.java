@@ -12,9 +12,6 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
 
-import lombok.Data;
-
-@Data
 @Entity
 @Table(name = "PEDIDOS")
 @Service
