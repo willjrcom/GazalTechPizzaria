@@ -3,13 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="/layouts/header :: head"></head>
-<head>
-<title>Novo Pedido - Ibiti das Pizzas</title>
-</head>
+<head th:replace="~{layouts/header :: head}"></head>
+<head><title>Novo Pedido - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: logo"></header>
+	<header th:replace="~{layouts/header :: logo}"></header>
 
 	<div class="divbase">
 		<h1 class="h1Logo esconder1">Novo Pedido</h1>
@@ -241,8 +239,8 @@
 	</div>
 
 	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-	<footer th:replace="/layouts/header :: footer"></footer>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
 	
-    <script src="/js/novoPedido.js"></script>
+    <script th:src="@{/js/novoPedido.js}"></script>
 </body>
 </html>

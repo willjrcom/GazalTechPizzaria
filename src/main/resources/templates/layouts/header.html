@@ -3,15 +3,15 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:fragment="head" >
+<head th:fragment="~{head}" >
     <meta charset="utf-8" lang="pt-br"/>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
-	<link href="/css/bootstrap.min.css" rel="stylesheet"/>
-	<link href="/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link href="/css/estilo.css" rel="stylesheet"/>
-	<link href="/jquery/jquery-ui.min.css" rel="stylesheet"/>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
-    <script src="/js/jquery-3.4.1.min.js"></script>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
+	<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet">
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 
 <!--------------------------------------------------------------------------------------------------------->
@@ -21,21 +21,21 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a class="active" accesskey="N" href="/novoPedido">NOVO PEDIDO</a>
+			<li><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a>
 				<ul>
-					<li><a accesskey="V" href="/verPedido">VER</a></li>
+					<li><a accesskey="V" th:href="@{/verPedido}">VER</a></li>
 				</ul>
 			</li>
-			<li><a accesskey="C" href="/cozinha">COZINHA</a></li>
-			<li><a accesskey="P" href="/pronto">PRONTOS</a></li>
-			<li><a accesskey="F" href="/finalizar">FINALIZAR</a></li>
-			<li class="Dropdown"><a accesskey="E" href="/motoboy">ENTREGAS</a>
+			<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
+			<li><a accesskey="P" th:href="@{/pronto}">PRONTOS</a></li>
+			<li><a accesskey="F" th:href="@{/finalizar}">FINALIZAR</a></li>
+			<li class="Dropdown"><a accesskey="E" th:href="@{/motoboy}">ENTREGAS</a>
 				<div class="dropdown-content">
-					<a accesskey="R" href="/receber">RECEBER</a>
+					<a accesskey="R" th:href="@{/receber}">RECEBER</a>
 				</div>
 			</li>
-			<li class="Dropdown"><a accesskey="A" href="/relatorioDia">ADM</a></li>
-			<li><a accesskey="S" href="/index">SAIR</a></li>
+			<li class="Dropdown"><a accesskey="A" th:href="@{/relatorioDia}">ADM</a></li>
+			<li><a accesskey="S" th:href="@{/index}">SAIR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Shit + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
@@ -50,16 +50,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a class="active" accesskey="R" href="/relatorioDia">RELATÓRIO</a></li>
-			<li><a accesskey="E" href="/pedidosExcluidos">CANCELADOS</a></li>
-			<li><a accesskey="C" href="/cadastros">CADASTROS</a></li>
-			<li class="Dropdown"><a accesskey="O" href="/sobre">OPÇÕES</a>
+			<li><a class="active" accesskey="R" th:href="@{/relatorioDia}">RELATÓRIO</a></li>
+			<li><a accesskey="E" th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
+			<li><a accesskey="C" th:href="@{/cadastros}">CADASTROS</a></li>
+			<li class="Dropdown"><a accesskey="O" th:href="@{/sobre}">OPÇÕES</a>
 				<div class="dropdown-content">
-					<a accesskey="T" href="/tutorial">TUTORIAL</a>
+					<a accesskey="T" th:href="@{/tutorial}">TUTORIAL</a>
 				</div>
 				</li>
-			<li><a accesskey="U" href="/tutorial">PREFERENCIAS</a></li>
-			<li><a accesskey="N" href="/novoPedido">VOLTAR</a></li>
+			<li><a accesskey="U" th:href="@{/tutorial}">PREFERENCIAS</a></li>
+			<li><a accesskey="N" th:href="@{/novoPedido}">VOLTAR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
@@ -74,26 +74,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a accesskey="T" href="/cadastros">TODOS</a></li>
-			<li class="Dropdown"><a accesskey="C" href="/clientesCadastrados">CLIENTES</a>
+			<li><a accesskey="T" th:href="@{/cadastros}">TODOS</a></li>
+			<li class="Dropdown"><a accesskey="C" th:href="@{/clientesCadastrados}">CLIENTES</a>
 				<div class="dropdown-content">
-					<a accesskey="B" href="/cadastroCliente">CADASTRAR</a>
+					<a accesskey="B" th:href="@{/cadastroCliente}">CADASTRAR</a>
 				</div>
 			</li>
 			
-			<li class="Dropdown"><a accesskey="P" href="/produtosCadastrados">PRODUTOS</a>
+			<li class="Dropdown"><a accesskey="P" th:href="@{/produtosCadastrados}">PRODUTOS</a>
 				<div class="dropdown-content">
-					<a accesskey="N" href="/cadastroProduto">CADASTRAR</a>
+					<a accesskey="N" th:href="@{/cadastroProduto}">CADASTRAR</a>
 				</div>
 			</li>
 			
-			<li class="Dropdown"><a accesskey="F" href="/funcionariosCadastrados">FUNCIONÁRIOS</a>
+			<li class="Dropdown"><a accesskey="F" th:href="@{/funcionariosCadastrados}">FUNCIONÁRIOS</a>
 				<div class="dropdown-content">
-					<a accesskey="M" href="/cadastroFuncionario">CADASTRAR</a>
+					<a accesskey="M" th:href="@{/cadastroFuncionario}">CADASTRAR</a>
 				</div>
 			</li>
 			
-			<li><a accesskey="N" href="/relatorioDia">VOLTAR</a></li>
+			<li><a accesskey="N" th:href="@{/relatorioDia}">VOLTAR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
@@ -132,7 +132,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</div>
 			</div>
 		</div>
-		<script src="/js/index.js"></script>
+		<script th:src="@{/js/index.js}"></script>
 	</div>
 
 <!--------------------------------------------------------------------------------------------------------->
@@ -163,12 +163,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</table>
 		</div>
 		
-		<script src="/js/datas.js"></script>
-		<script src="/js/pulaInput.js"></script>
-		<script src="/js/validacoes.js"></script>
-		<script src="/js/jquery-3.4.1.min.js"></script>
-		<script src="/jquery/jquery-ui.min.js"></script>
-		<script src="/jquery/jquery.mask.min.js"></script>
+		<script th:src="@{/js/datas.js}"></script>
+		<script th:src="@{/js/pulaInput.js}"></script>
+		<script th:src="@{/js/validacoes.js}"></script>
+		<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+		<script th:src="@{/jquery/jquery-ui.min.js}"></script>
+		<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 	</footer>

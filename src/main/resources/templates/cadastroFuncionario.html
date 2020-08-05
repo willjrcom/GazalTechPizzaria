@@ -3,11 +3,11 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="/layouts/header :: head" ></head>
+<head th:replace="~{layouts/header :: head}" ></head>
 <head><title>Cadastrar Funcionário - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: cadastros"></header>
+	<header th:replace="~{layouts/header :: cadastros}"></header>
 
 	<br>
 	<div class="divbaseForm alert alert-primary" role="alert" th:if="${!#strings.isEmpty(mensagem)}" style="background-color: #aad450">
@@ -153,11 +153,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br>
-	<footer th:replace="/layouts/header :: footer"></footer>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-	<script src="/js/buscaCep.js"></script>
-	<script src="/jquery/jquery.mask.min.js"></script>
+	<script th:src="@{/js/buscaCep.js}"></script>
+	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 </body>
 </html>

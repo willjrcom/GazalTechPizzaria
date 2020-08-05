@@ -4,14 +4,14 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 
-<head th:replace="/layouts/header :: head" ></head>
+<head th:replace="~{layouts/header :: head}" ></head>
 
 <head>
-	<link href="/css/login.css" rel="stylesheet"/>
+	<link th:href="@{/css/login.css}" rel="stylesheet"/>
 	<title>Login - Ibiti das Pizzas</title>
 </head>
 
 <body style="background-color: #006add">
-	<div th:replace="/layouts/header :: login"></div>
+	<div th:replace="~{layouts/header :: login}"></div>
 </body>
 </html>

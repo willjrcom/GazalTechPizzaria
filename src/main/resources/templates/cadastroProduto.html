@@ -3,11 +3,11 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="/layouts/header :: head" ></head>
+<head th:replace="~{layouts/header :: head}" ></head>
 <head><title>Cadastrar Produto - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: cadastros"></header>
+	<header th:replace="~{layouts/header :: cadastros}"></header>
 	
 	<br>
 	<div class="divbaseForm alert alert-primary" role="alert" th:if="${!#strings.isEmpty(mensagem)}" style="background-color: #aad450">
@@ -81,6 +81,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br>
-	<footer th:replace="/layouts/header :: footer"></footer>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
 </body>
 </html>

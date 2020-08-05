@@ -3,11 +3,11 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="/layouts/header :: head" ></head>
+<head th:replace="~{layouts/header :: head}" ></head>
 <head><title>Cozinha - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: logo"></header>
+	<header th:replace="~{layouts/header :: logo}"></header>
 	
 	<div class="divbase">
 		
@@ -61,7 +61,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br><br><br><br><br><br><br><br><br><br>
-	<footer th:replace="/layouts/header :: footer"></footer>
-	<script src="/js/cozinha.js"></script>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<script th:src="@{/js/cozinha.js}"></script>
 </body>
 </html>

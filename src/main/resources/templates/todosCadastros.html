@@ -3,11 +3,11 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="/layouts/header :: head" ></head>
+<head th:replace="~{layouts/header :: head}" ></head>
 <head><title>Cadastros - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: cadastros"></header>
+	<header th:replace="~{layouts/header :: cadastros}"></header>
 	
 	<div class="divbase">
 		<h1 class="h1Logo">Buscar cadastros</h1>
@@ -54,7 +54,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<td th:text="${cliente.endereco.rua}"></td>
 						<td>
 							<div class="row">
-								<div th:replace="/layouts/botoes :: botaoAcessar"></div>
+								<div th:replace="~{layouts/botoes :: botaoAcessar}"></div>
 								
 								<a style="background-color: white" th:href="@{/cadastroCliente/{id}(id = ${cliente.id})}"
 									title="editar">
@@ -99,7 +99,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<td th:text="${funcionario.cargo}"></td>
 						<td>
 							<div class="row">
-								<div th:replace="/layouts/botoes :: botaoAcessar"></div>
+								<div th:replace="~{layouts/botoes :: botaoAcessar}"></div>
 								<a style="background-color: white" th:href="@{/cadastroFuncionario/{id}(id = ${funcionario.id})}">
 								<button style="background-color: white; border: none">
 								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-brush" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +142,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<td th:text="${produto.estoque}"></td>
 						<td>
 							<div class="row">
-								<div th:replace="/layouts/botoes :: botaoAcessar"></div>
+								<div th:replace="~{layouts/botoes :: botaoAcessar}"></div>
 								<a style="background-color: white" th:href="@{/cadastroProduto/{id}(id = ${produto.id})}">
 								<button style="background-color: white; border: none">
 								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-brush" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -164,6 +164,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br><br><br><br><br><br><br><br><br><br>
-	<footer th:replace="/layouts/header :: footer"></footer>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
 </body>
 </html>

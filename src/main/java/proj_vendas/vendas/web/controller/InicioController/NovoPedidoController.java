@@ -21,7 +21,6 @@ import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
-import proj_vendas.vendas.repository.TituloFilter;
 
 @Controller
 @RequestMapping("/novoPedido")
@@ -37,7 +36,7 @@ public class NovoPedidoController {
 	private Clientes clientes;
 
 	@RequestMapping
-	public ModelAndView novoPedido(@ModelAttribute("filtro") TituloFilter filtro) {
+	public ModelAndView novoPedido() {
 		//String celular = filtro.getCelular() == null ? "%" : filtro.getCelular();
 		ModelAndView mv = new ModelAndView("novoPedido");
 		mv.addObject("TipoBorda", TipoBorda.values());

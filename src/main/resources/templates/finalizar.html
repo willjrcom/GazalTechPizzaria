@@ -3,11 +3,11 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="/layouts/header :: head" ></head>
+<head th:replace="~{layouts/header :: head}" ></head>
 <head><title>Finalizar - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="/layouts/header :: logo"></header>
+	<header th:replace="~{layouts/header :: logo}"></header>
 	
 	<div class="divbase">
 		<h1 class="h1Logo">Finalizar</h1>
@@ -38,7 +38,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br><br><br><br><br><br><br><br><br><br>
-	<footer th:replace="/layouts/header :: footer"></footer>
-	<script src="/js/finalizar.js"></script>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<script th:src="@{/js/finalizar.js}"></script>
 </body>
 </html>

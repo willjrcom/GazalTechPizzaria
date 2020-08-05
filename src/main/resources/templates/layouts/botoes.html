@@ -6,12 +6,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head th:fragment="head" >
     <meta charset="utf-8" lang="pt-br"/>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
-	<link href="/css/bootstrap.css" rel="stylesheet"/>
-	<link href="/css/bootstrap.min.css" rel="stylesheet"/>	
-	<link href="/css/bootstrap-theme.css" rel="stylesheet"/>
-	<link href="/css/bootstrap-theme.min.css" rel="stylesheet"/>
-    <link href="/css/estilo.css" rel="stylesheet"/>
-    <script src="scripts/seu-script.js"></script>
+	<link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>	
+	<link th:href="@{/css/bootstrap-theme.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     
 </head>
