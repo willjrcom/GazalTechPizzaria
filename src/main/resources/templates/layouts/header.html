@@ -74,7 +74,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a accesskey="T" th:href="@{/cadastros}">TODOS</a></li>
+			<li><a th:href="@{/cadastros}">TODOS</a></li>
 			<li class="Dropdown"><a th:href="@{/clientesCadastrados}">CLIENTES</a>
 				<div class="dropdown-content">
 					<a th:href="@{/cadastroCliente}">CADASTRAR</a>
@@ -93,7 +93,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</div>
 			</li>
 			
-			<li><a accesskey="N" th:href="@{/relatoriodia}">VOLTAR</a></li>
+			<li><a th:href="@{/relatoriodia}">VOLTAR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
