@@ -460,7 +460,7 @@ $("#atualizarPedido").click(function() {
 						var troco = this.$content.find('#troco').val();
 						if(isNaN(troco) == true) {
 							troco = tPedido;
-						}else if(troco.isString()) {
+						}else if(troco === '') {
 							return false;
 						}
 						
@@ -478,15 +478,11 @@ $("#atualizarPedido").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(e){
-							var salvo = true;
+							window.location.href = "/novoPedido";
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
-							var salvo = false;
 						});
-						if(salvo == true) {
-							window.location.href = "/novoPedido";
-						}
 					}
 		        },
 		        cancel: {

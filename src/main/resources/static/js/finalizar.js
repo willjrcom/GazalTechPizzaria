@@ -10,8 +10,6 @@ var Tpizzas = 0;
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
 
-$("#enviarPedido").tooltip();
-
 $.ajax({
 	url: "/pronto/todosPedidos",
 	type: 'PUT'
@@ -132,7 +130,7 @@ function finalizarPedido() {
 	}
 	linhaHtml += '</table>';
 	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
-	linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" required />';
+	linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="0" required />';
 	linhaHtml += '<br>Deseja enviar o pedido?';
 
 
@@ -159,17 +157,20 @@ function finalizarPedido() {
 						var troco = this.$content.find('#troco').val();
 						console.log(troco);
 						
+						if(isNaN(troco)) {
+							pedidos[idBusca].troco = pedidos[idBusca].total; 
+						}else {
 						pedidos[idBusca].troco = parseFloat(troco);
+						}
+						console.log(pedidos[idBusca]);
 						
 						$.ajax({
 							url: urlEnviar,
 							type: "PUT",
-							dataType : 'json',
-							contentType: "application/json",
-							data: pedidos[idBusca]
+							data: pedidos[idBusca],
 							
 						}).done(function(e){
-							document.location.reload(true);; 
+							document.location.reload(true);
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
