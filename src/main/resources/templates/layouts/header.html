@@ -23,7 +23,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<ul class="menu">
 			<li><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a>
 				<ul>
-					<li><a accesskey="V" th:href="@{/verPedido}">VER</a></li>
+					<li><a accesskey="V" th:href="@{/verpedido}">VER</a></li>
 				</ul>
 			</li>
 			<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
@@ -34,7 +34,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<a accesskey="R" th:href="@{/receber}">RECEBER</a>
 				</div>
 			</li>
-			<li class="Dropdown"><a accesskey="A" th:href="@{/relatorioDia}">ADM</a></li>
+			<li class="Dropdown"><a accesskey="A" th:href="@{/relatoriodia}">ADM</a></li>
 			<li><a accesskey="S" th:href="@{/index}">SAIR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Shit + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
@@ -50,7 +50,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<nav>
 		<ul class="menu">
-			<li><a class="active" th:href="@{/relatorioDia}">RELATÓRIO</a></li>
+			<li><a class="active" th:href="@{/relatoriodia}">RELATÓRIO</a></li>
 			<li><a accesskey="E" th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
 			<li><a accesskey="C" th:href="@{/cadastros}">CADASTROS</a></li>
 			<li class="Dropdown"><a accesskey="O" th:href="@{/sobre}">OPÇÕES</a>
@@ -93,7 +93,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</div>
 			</li>
 			
-			<li><a accesskey="N" th:href="@{/relatorioDia}">VOLTAR</a></li>
+			<li><a accesskey="N" th:href="@{/relatoriodia}">VOLTAR</a></li>
 			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
 			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
