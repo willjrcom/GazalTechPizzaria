@@ -101,7 +101,7 @@ if(typeof url_atual == "undefined") {
 //------------------------------------------------------------------------------------------------------------------------
 $("#buscarCliente").click(function() {
 	
-	var numero = $("#numeroCliente").cleanVal();
+	var numero = $("#numeroCliente").val();
 	urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
 	
 	$.ajax({
