@@ -42,28 +42,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<br>
 				<div class="form-group">
 					<label>Código de busca:<br/></label>
-					<input type="text" class="form-control" autofocus="autofocus" th:field="*{codigoBusca}" placeholder="Código de busca" />
+					<input type="text" class="form-control" autofocus="autofocus" th:field="*{codigoBusca}" placeholder="Código de busca" required/>
 				</div>
 				
 				<div class="form-group">
 					<label>Nome do produto:<br/></label>
-					<input type="text" class="form-control" th:field="*{nomeProduto}" placeholder="Nome do produto" />
+					<input type="text" class="form-control" th:field="*{nomeProduto}" placeholder="Nome do produto" required/>
 				</div>
 				
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label>Preço:<br/></label>
-						<input type="text" class="form-control" th:field="*{preco}" placeholder="Preço" />
+						<input type="text" class="form-control" th:field="*{preco}" placeholder="Preço" required/>
 					</div>
 					<div class="form-group col-md-6">
 						<label>Estoque(opcional):<br/></label>
-						<input type="number" class="form-control" th:field="*{estoque}" placeholder="Total em estoque" min="0" max="1000" />
+						<input type="number" class="form-control" th:field="*{estoque}" placeholder="Total em estoque" value="0" min="0" max="1000" />
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<label>Setor:<br/></label>
-					<select class="form-control" th:field="*{setor}">
+					<select class="form-control" th:field="*{setor}" required>
 						<option th:each="produto : ${TipoProduto}" th:value="${produto}" th:text="${produto.descricao}"></option>
 					</select>
 				</div>
