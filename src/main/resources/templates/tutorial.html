@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/header :: head}"></head>
+<head>
+	<title>Tutorial - Ibiti das Pizzas</title>
+	<link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+</head>
+
+<body>
+	<header th:replace="~{layouts/header :: adm}"></header>
+	
+	<br>
+	<!-- 
+		" -->
+	<div class="divbase">
+		<div class="fotorama"
+		data-allowfullscreen="true"
+     	data-nav="thumbs"
+     	data-loop="true"
+     	data-autoplay="true"
+     	data-keyboard="true"
+     	data-width="50%"
+     	data-ratio="800/600"
+     	data-minwidth="400"
+     	data-maxwidth="1000"
+     	data-minheight="300"
+     	data-maxheight="50%">
+			<img src="/img/logo.jpeg" data-caption="WiHaas">
+ 			<img src="/img/mexicana.jpg" data-caption="Pizza Mexicana">
+ 			<a href="https://www.youtube.com/watch?v=tHRw3UeDkG8" data-caption="Curso gratuito de pizza acrobática"></a>
+		</div>
+	</div>
+	
+	<br><br><br><br><br><br><br><br><br><br>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	</body>
+</html>

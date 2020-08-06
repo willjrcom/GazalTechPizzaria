@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/header :: head}" ></head>
+<head><title>Relatório - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="~{layouts/header :: adm}"></header>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Relatório</h1>
+			
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center col-md-1"><h3>{}</h3></th>
+						<th class="text-center col-md-1"><h3>Cliente</h3></th>
+						<th class="text-center col-md-1"><h3>Pediu as</h3>
+						<th class="text-center col-md-1"><h3>Nº pizzas</h3></th>
+						<th class="text-center col-md-1"><h3>Total</h3></th>
+						<th class="text-center col-md-1"><h3>Ver</h3></th>
+					</tr>
+				</thead>
+				
+				<tbody id="todosPedidos"></tbody>
+			</table>
+		</div>
+	</div>
+	
+	<br><br><br><br><br><br><br><br><br><br>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<script th:src="@{/js/relatoriodia.js}"></script>
+</body>
+</html>

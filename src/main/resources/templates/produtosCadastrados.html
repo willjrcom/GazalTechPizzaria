@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/header :: head}" ></head>
+<head><title>Cadastros - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="~{layouts/header :: cadastros}"></header>
+
+	<div class="divbase">
+		<h1 class="h1Logo">Buscar Produtos</h1>
+
+		<div class="form-group col-md-10">
+			<label>Pesquisar:<br/></label>
+			<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control pula" 
+				placeholder="Qual nome você está procurando?" style="text-indent: 10px"/>
+		</div>
+
+		<div class="form-group col-md-2">
+			<label><br/></label>
+			<button type="submit" name="buscarProduto" id="buscar" class="form-control btn btn-primary">Buscar</button>
+		</div>
+
+		<div>&nbsp;</div>
+
+		<div class="table-responsive">
+			<table style="background-color:black">
+				<thead>
+					<tr>
+						<th class="col-md-1"><h3>{ }</h3></th>
+						<th class="col-md-1"><h3>Produto</h3></th>
+						<th class="col-md-1"><h3>Preço</h3></th>
+						<th class="col-md-1"><h3>Estoque</h3></th>
+						<th class="col-md-1"><h3>Ver</h3></th>
+					</tr>
+				</thead>
+				<tbody id="todosProdutos"></tbody>
+			</table>
+		</div>
+	</div>
+
+	<br><br><br><br><br><br><br><br><br><br>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<script th:src="@{/js/produtos/produtosCadastrados.js}"></script>
+</body>
+</html>
