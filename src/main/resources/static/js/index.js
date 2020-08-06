@@ -4,4 +4,4 @@ $("#enviarLogin").click(function(){
 	window.setTimeout(function(){
 	this.location.href = "/novoPedido";
 	},500);
-})
+});
