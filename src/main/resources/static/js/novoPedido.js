@@ -99,38 +99,76 @@ if(typeof url_atual == "undefined") {
 
 
 //------------------------------------------------------------------------------------------------------------------------
-$("#buscarCliente").click(function() {
-	
-	var numero = $("#numeroCliente").val();
-	urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
-	
-	$.ajax({
-		url: urlNumero,
-		type: 'PUT'
-	})
-	
-	.done(function(e){
-		if(this.length == 0 || !this){
-			window.location.href = "/cadastroCliente";
-		}
-		$("#mostrar").show('slow'); //esconder tabelas
-		$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
+$('#numeroCliente').on('blur', function(){
+
+	if($.trim($("#numeroCliente").val()) != ""){
+		var numero = $("#numeroCliente").val();
+		urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
 		
-		console.log(e);
-		let clientes = {};
-			clientes.id = e.id;
-			clientes.nomePedido = e.nome;
-			clientes.celular = e.celular;
-			clientes.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
-			clientes.taxa = e.endereco.taxa;
+		$.ajax({
+			url: urlNumero,
+			type: 'PUT'
+		})
+		
+		.done(function(e){
+			$("#mostrar").show('slow'); //esconder tabelas
+			$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
 			
-		$("#idCliente").text(clientes.id);
-		$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
-		$("#celCliente").text(clientes.celular);
-		$("#enderecoCliente").text(clientes.endereco);
-		$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
-	});	
-})
+			console.log(e);
+			let clientes = {};
+				clientes.id = e.id;
+				clientes.nomePedido = e.nome;
+				clientes.celular = e.celular;
+				clientes.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
+				clientes.taxa = e.endereco.taxa;
+				
+			$("#idCliente").text(clientes.id);
+			$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
+			$("#celCliente").text(clientes.celular);
+			$("#enderecoCliente").text(clientes.endereco);
+			$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
+		}).fail(function(){
+			$.alert("Cliente não encontrado!");
+		});
+	}
+});
+
+$("#buscarCliente").click(function() {
+	$('#numeroCliente').on('blur', function(){
+
+		if($.trim($("#numeroCliente").val()) != ""){
+			var numero = $("#numeroCliente").val();
+			urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
+			
+			$.ajax({
+				url: urlNumero,
+				type: 'PUT'
+			})
+			
+			.done(function(e){
+				if(this.length == 0 || !this){
+					window.location.href = "/cadastroCliente";
+				}
+				$("#mostrar").show('slow'); //esconder tabelas
+				$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
+				
+				console.log(e);
+				let clientes = {};
+					clientes.id = e.id;
+					clientes.nomePedido = e.nome;
+					clientes.celular = e.celular;
+					clientes.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
+					clientes.taxa = e.endereco.taxa;
+					
+				$("#idCliente").text(clientes.id);
+				$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
+				$("#celCliente").text(clientes.celular);
+				$("#enderecoCliente").text(clientes.endereco);
+				$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
+			});	
+		}
+	});
+});
 
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -177,56 +215,60 @@ $("#editarCliente").click(function(){
 
 
 //------------------------------------------------------------------------------------------------------------------------
-$("#buscarProduto").click(function(){
-	var produto = $("#nomeProduto").val();
-	urlProduto = "/novoPedido/nomeProduto/" + produto.toString();
-	
-	$.ajax({
-		url: urlProduto,
-		type: 'PUT'
-	})
-	.done(function(e){
-		buscaProdutos = [];
-		
-		for(var i = 0; i < e.length; i++){
-			buscaProdutos.push({
-				'id': e[i].id,
-				'nomeProduto': e[i].nomeProduto,
-				'preco': e[i].preco
-			});
-		};
+$('#nomeProduto').on('blur', function(){
 
-		$("#listaProdutos").show('slow');
-		$("#todosProdutos").html(" ");
+	if($.trim($("#nomeProduto").val()) != ""){
+
+		var produto = $("#nomeProduto").val();
+		urlProduto = "/novoPedido/nomeProduto/" + produto.toString();
 		
-		for(var i=0; i<buscaProdutos.length; i++){
-			linhaHtml = "";
-			linhaHtml += '<tr>';
-			linhaHtml += 	'<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>';
-			linhaHtml += 	'<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>';
-			linhaHtml += '<td class="col-md-1">'
-							+ '<div>'
-							+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
-							+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
-								+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
-								+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
-								+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
-								+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
-								+ '</svg>'
-							+ '</button>'
-						+ '</div>'
-					+'</td>';
-			linhaHtml += '</tr>';
+		$.ajax({
+			url: urlProduto,
+			type: 'PUT'
+		})
+		.done(function(e){
+			buscaProdutos = [];
 			
-			$("#todosProdutos").append(linhaHtml);
-		}
-		
-		if(buscaProdutos.length == 0){
-			$("#todosProdutos").html('<tr>'
-			+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
-			+ '</tr>');
-		}
-	});
+			for(var i = 0; i < e.length; i++){
+				buscaProdutos.push({
+					'id': e[i].id,
+					'nomeProduto': e[i].nomeProduto,
+					'preco': e[i].preco
+				});
+			};
+	
+			$("#listaProdutos").show('slow');
+			$("#todosProdutos").html(" ");
+			
+			for(var i=0; i<buscaProdutos.length; i++){
+				linhaHtml = "";
+				linhaHtml += '<tr>';
+				linhaHtml += 	'<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>';
+				linhaHtml += 	'<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>';
+				linhaHtml += '<td class="col-md-1">'
+								+ '<div>'
+								+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+								+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+									+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+									+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+									+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+									+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+									+ '</svg>'
+								+ '</button>'
+							+ '</div>'
+						+'</td>';
+				linhaHtml += '</tr>';
+				
+				$("#todosProdutos").append(linhaHtml);
+			}
+			
+			if(buscaProdutos.length == 0){
+				$("#todosProdutos").html('<tr>'
+				+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
+				+ '</tr>');
+			}
+		});
+	}
 });
 
 

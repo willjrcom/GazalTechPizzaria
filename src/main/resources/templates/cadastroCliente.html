@@ -38,12 +38,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 				<br>
 				<div class="form-group">
 					<label for="file">Nome Completo:<br/></label>
-					<input type="text" class="form-control pula" autofocus="autofocus" placeholder="Nome Completo" th:field="*{nome}" required/>
+					<input type="text" class="form-control pula" autofocus="autofocus" id="nome" placeholder="Nome Completo" th:field="*{nome}" required/>
 				</div>
 				
 				<div class="form-group">
 					<label>CPF:<br/></label>
-					<input type="text" class="form-control pula cpf" th:field="*{cpf}" placeholder="CPF"/>
+					<input type="text" class="form-control pula cpf" id="cpf" th:field="*{cpf}" placeholder="CPF"/>
 				</div>
 				
 				<div class="form-group">
@@ -110,6 +110,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/js/buscaCep.js}"></script>
+	<script th:src="@{/js/validCpfFuncionario.js}"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 </body>
 </html>
