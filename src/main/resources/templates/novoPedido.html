@@ -10,8 +10,13 @@
 	<header th:replace="~{layouts/header :: logo}"></header>
 
 	<div class="divbase">
+	
+		<div class=" col-md-2">
+			<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success">Cadastrar Cliente</button></a>
+		</div>
+		<br>
 		<h1 class="h1Logo esconder1">Novo Pedido</h1>
-
+		
 		<div id="divBuscar">
 			<div class="form-group col-md-10">
 				<input type="search" name="celular" id="numeroCliente"
