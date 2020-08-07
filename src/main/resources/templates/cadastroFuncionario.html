@@ -52,12 +52,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div>
 					<label>CPF:<br/></label>
+					<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
 					<input type="text" class="form-control pula cpf" th:field="*{cpf}" placeholder="CPF" required/>
 				</div>
 				
 				<br/>
 				<div class="form-group">
 					<label>celular:<br/></label>
+					<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
 					<input type="tel" class="form-control pula cel" th:field="*{celular}" placeholder="Celular xx-xxxxx-xxxx " required/> 
 				</div>
 				

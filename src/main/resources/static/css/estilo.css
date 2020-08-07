@@ -25,9 +25,10 @@ footer{
 	background-color: #333;
 	border-top: 2px solid black;	
 	position: relative;
-	height:48px;
+	height: 150%;
 	left:0;
 	bottom:0;
+	margin-left: 0;
 }
 
 a{
@@ -80,7 +81,7 @@ table thead tr th{
 }
 
 table tbody tr td{
-	background-color: white;
+	/*background-color: white;*/
 	text-align: center;
 	padding: 1vh;
 }
@@ -142,6 +143,10 @@ img{
 	left: 50%;
 	height: 70vh;
 	transform: translate(-50%, -50%);
+}
+
+.cw{
+	color: white;
 }
 
 /*MENU---------------------------------*/

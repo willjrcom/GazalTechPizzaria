@@ -136,32 +136,35 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 
 <!--------------------------------------------------------------------------------------------------------->
-	<footer th:fragment="footer" class="row" style="background-color: #333; margin-left: 0">
+	<footer th:fragment="footer">
 		<br>
-		<div class="col-md-3" style="margin-left:2vh">
-			<div style="border: none">
-				<p style="color:white; margin-top: 3vh" id="ano-atual"></p>
-				<p style="color:white">TODOS DIREITOS RESERVADOS</p>
+		<div class="row">
+			<div class="col-md-3" align="left" style="margin-left: 2vh">
+				<div>
+					<p class="cw" id="ano-atual"></p>
+					<p class="cw">TODOS DIREITOS RESERVADOS</p>
+				</div>
+			</div>
+			
+			<div class="col-md-3 centralizar">
+				<div>
+					<h3 class="cw">Siga-nos</h3><br>
+					<a href="www.facebook.com/william.alfredgazaljunior">
+					<button type="button" class="btn btn-primary">Facebook</button></a>
+				</div>
+			</div>
+			
+			<div class="col-md-3" style="margin-right: 0px">				
+				<table>
+					<tr><td colspan="2"><h3 >Suporte:</h3></td></tr>
+					<tr>
+						<td class="cw">William Jr</td>
+						<td class="cw">(11) 96384-9111</td>
+					</tr>
+				</table>
 			</div>
 		</div>
-		
-		<div class="col-md-3" align="center">
-			<div style="border: none">
-				<h3 style="color: white">Siga-nos</h3><br>
-				<a href="www.facebook.com/william.alfredgazaljunior">
-				<button type="button" class="btn btn-primary">Facebook</button></a>
-			</div>
-		</div>
-		
-		<div class="col-md-3" align="right">				
-			<table style="background-color: #333">
-				<tr><td colspan="2" style="background-color: #333; color: white"><h3 >Suporte:</h3></td></tr>
-				<tr>
-					<td style="background-color: #333; color:white">William Jr</td>
-					<td style="background-color: #333; color:white">(11) 96384-9111</td>
-				</tr>
-			</table>
-		</div>
+		<br>
 		
 		<script th:src="@{/js/datas.js}"></script>
 		<script th:src="@{/jquery/jquery.mask.min.js}"></script>

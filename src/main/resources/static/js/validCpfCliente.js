@@ -1,7 +1,5 @@
 $("#avisoCpf").hide();
 $("#avisoCel").hide();
-var link = window.location.href.split("/")[3];
-
 
 // Método para consultar o CEP
 $('#cpf').on('blur', function(){
@@ -9,7 +7,7 @@ $('#cpf').on('blur', function(){
 	if($.trim($("#cpf").val()) != ""){
 		
 		var cpf = $(this).val();
-		urlEnviar = "/" + link + "/buscarCpf/" + cpf;
+		urlEnviar = "/cadastroCliente/buscarCpf/" + cpf;
 		console.log(urlEnviar);
 		
 		$.ajax({
@@ -39,7 +37,7 @@ $('#cel').on('blur', function(){
 		var cel = $(this).val();
 		
 		//buscar cpf
-		urlEnviar = "/" + link + "/buscarCelular/" + cel;
+		urlEnviar = "/cadastroCliente/buscarCelular/" + cel;
 		console.log(urlEnviar);
 		
 		$.ajax({

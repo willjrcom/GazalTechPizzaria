@@ -43,12 +43,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 				
 				<div class="form-group">
 					<label>CPF:<br/></label>
+					<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
 					<input type="text" class="form-control pula cpf" id="cpf" th:field="*{cpf}" placeholder="CPF"/>
 				</div>
 				
 				<div class="form-group">
 					<label>Celular:<br/></label>
-					<input type="tel" class="form-control pula cel" th:field="*{celular}" placeholder="Celular 15-9xxxx-xxxx " required/>
+					<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
+					<input type="tel" class="form-control pula cel" id="cel" th:field="*{celular}" placeholder="Celular 15-9xxxx-xxxx " required/>
 				</div>
 				
 				<h3><br/>Endereço:<br/><br/></h3>
@@ -99,7 +101,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 					<textarea class="form-control" th:field="*{endereco.referencia}" rows="5" placeholder="Referência da casa"></textarea>  
 				</div>
 				
-				<button type="submit" class="form-contact-button">Enviar</button>  
+				<button type="submit" id="enviar" class="form-contact-button">Enviar</button>  
 			</form>  
 		</div>  
 	</div>
@@ -110,7 +112,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/js/buscaCep.js}"></script>
-	<script th:src="@{/js/validCpfFuncionario.js}"></script>
+	<script th:src="@{/js/validCpfCliente.js}"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 </body>
 </html>

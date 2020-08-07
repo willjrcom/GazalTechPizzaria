@@ -5,8 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -47,5 +49,16 @@ public class CadastroClienteController {
 		mv.addObject(cliente);
 		return mv;
 	}
+	
+	@RequestMapping(value = "/buscarCpf/{cpf}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Cliente buscarCpf(@PathVariable String cpf) {
+		return clientes.findByCpf(cpf);
+	}
 
+	@RequestMapping(value = "/buscarCelular/{celular}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Cliente buscarCelular(@PathVariable String celular) {
+		return clientes.findByCelular(celular);
+	}
 }
