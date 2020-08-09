@@ -1,5 +1,7 @@
 package proj_vendas.vendas.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,9 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Service;
+
 @Entity
 @Table(name = "CLIENTES")
-public class Cliente {
+@Service
+public class Cliente implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +25,6 @@ public class Cliente {
 
 	private String nome;
 
-	@Column(unique = true)
 	private String cpf;
 
 	@Column(unique = true)
@@ -28,7 +33,6 @@ public class Cliente {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
-	
 	public Long getId() {
 		return id;
 	}

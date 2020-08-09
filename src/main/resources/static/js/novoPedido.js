@@ -399,7 +399,6 @@ $("#enviarPedido").click(function() {
 		
 		//modal jquery confirmar
 		$.confirm({
-			icon: 'fa fa-spinner fa-spin',
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],

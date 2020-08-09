@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 @Entity
 @Table(name = "PEDIDOS")
 @Service
-//@JsonIgnoreProperties(ignoreUnknown=true)
 public class Pedido implements Serializable{
 	private static final long serialVersionUID = 1L;
 

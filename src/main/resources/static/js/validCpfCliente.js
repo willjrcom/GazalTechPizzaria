@@ -15,9 +15,11 @@ $('#cpf').on('blur', function(){
 			type: 'PUT',
 				
 		}).done(function(e){
-			if(e.length != 0) {
-				$("#avisoCpf").show();
-				$("#enviar").hide();
+			if(e.length != 0 && e != '') {
+				$("#avisoCpf").show().css({
+					'color': 'red'
+				});
+				$("#cpf").val('');
 			}else {
 				$("#avisoCpf").hide();
 				$("#enviar").show();
@@ -46,7 +48,9 @@ $('#cel').on('blur', function(){
 				
 		}).done(function(e){
 			if(e.length != 0) {
-				$("#avisoCel").show();
+				$("#avisoCel").show().css({
+					'color': 'red'
+				});
 				$("#enviar").hide();
 			}else {
 				$("#avisoCel").hide();

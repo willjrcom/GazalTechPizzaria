@@ -139,7 +139,6 @@ function finalizarPedido() {
 		$.alert("Escolha um funcionário!");
 	}else {
 		$.confirm({
-			icon: 'fa fa-spinner fa-spin',
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],

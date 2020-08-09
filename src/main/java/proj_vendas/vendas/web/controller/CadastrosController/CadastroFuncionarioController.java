@@ -57,9 +57,13 @@ public class CadastroFuncionarioController{
 	
 	@RequestMapping(value = "/buscarCpf/{cpf}", method = RequestMethod.PUT)
 	@ResponseBody
-	public String buscarCpf(@PathVariable String cpf) {
-		Funcionario funcionario = funcionarios.findByCpf(cpf);
-		System.out.println(funcionario);
-		return "ok";
+	public Funcionario buscarCpf(@PathVariable String cpf) {
+		return funcionarios.findByCpf(cpf);
+	}
+	
+	@RequestMapping(value = "/buscarCelular/{celular}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Funcionario buscarCelular(@PathVariable String celular) {
+		return funcionarios.findByCelular(celular);
 	}
 }

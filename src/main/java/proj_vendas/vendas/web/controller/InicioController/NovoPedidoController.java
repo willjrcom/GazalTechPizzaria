@@ -71,7 +71,6 @@ public class NovoPedidoController {
 	
 	@RequestMapping(value = "/editar/{id}")
 	public ModelAndView editarPedido(@ModelAttribute("id") Pedido pedido) {
-		System.out.println(pedido.toString());
 		ModelAndView mv = new ModelAndView("novoPedido");
 		mv.addObject("TipoBorda", TipoBorda.values());
 		return mv;

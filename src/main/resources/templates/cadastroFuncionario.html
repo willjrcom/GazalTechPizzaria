@@ -32,47 +32,47 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<input type="reset" class="form-control">
 				</div>
 				
-				<input type="hidden" th:field="*{id}"/>
+				<input type="hidden" id="id" th:field="*{id}"/>
 				
 				<br>
 				<div class="form-group">
 					<label>Nome Completo:<br/></label>
-					<input type="text" class="form-control pula" autofocus="autofocus" th:field="*{nome}" placeholder="Nome Completo" required/>  
+					<input type="text" class="form-control pula" id="nome" th:field="*{nome}" placeholder="Nome Completo"  autofocus="autofocus" required/>  
 				</div>
 				
 				<div class="form-group">
 					<label>E-mail:<br/></label>
-					<input type="email" class="form-control pula" th:field="*{email}" placeholder="nome@exemplo.com" required/>
+					<input type="email" class="form-control pula" id="email" th:field="*{email}" placeholder="nome@exemplo.com" required/>
 				</div>
 				
 				<div class="form-group">
 					<label >Data de nascimento:<br/></label>
-					<input type="date" class="form-control pula" id="validationCustom01" th:field="*{nascimento}" placeholder="dd/mm/aaaa" required/>
+					<input type="date" class="form-control pula" id="nascimento" th:field="*{nascimento}" placeholder="dd/mm/aaaa" required/>
 				</div>
 				
 				<div>
 					<label>CPF:<br/></label>
 					<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
-					<input type="text" class="form-control pula cpf" th:field="*{cpf}" placeholder="CPF" required/>
+					<input type="text" class="form-control pula cpf" id="cpf" th:field="*{cpf}" placeholder="CPF" required/>
 				</div>
 				
 				<br/>
 				<div class="form-group">
 					<label>celular:<br/></label>
 					<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
-					<input type="tel" class="form-control pula cel" th:field="*{celular}" placeholder="Celular xx-xxxxx-xxxx " required/> 
+					<input type="tel" class="form-control pula cel" id="cel" th:field="*{celular}" placeholder="Celular xx-xxxxx-xxxx " required/> 
 				</div>
 				
 				<div class="form-group">
 					<label for="cargo">Cargo:<br></label>
-					<select class="form-control pula" th:field="*{cargo}" required>
+					<select class="form-control pula" id="cargo" th:field="*{cargo}" required>
 						<option th:each="cargos : ${TipoCargo}" th:value="${cargos}" th:text="${cargos.descricao}"></option>
 					</select>
 				</div>
 				
 				<div class="form-group">
 					<label>Sexo:<br/></label>
-					<select class="form-control pula" th:field="*{sexo}" required>
+					<select class="form-control pula" id="sexo" th:field="*{sexo}" required>
 						<option th:each="sexos : ${TipoSexo}" th:value="${sexos}" th:text="${sexos.descricao}"></option>
 					</select>
 				</div>
@@ -105,12 +105,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label><br/>Bairro:<br/></label>
-						<input type="text" class="form-control pula" th:field="*{endereco.bairro}" id="bairro" placeholder="Informe o bairro" required/>  
+						<input type="text" class="form-control pula" id="bairro" th:field="*{endereco.bairro}" placeholder="Informe o bairro" required/>  
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label><br/>Cidade:<br/></label>
-						<input type="text" class="form-control pula" th:field="*{endereco.cidade}" id="cidade" placeholder="Informe a cidade" value="Sorocaba" required/> 
+						<input type="text" class="form-control pula" id="cidade" th:field="*{endereco.cidade}" placeholder="Informe a cidade" value="Sorocaba" required/> 
 					</div>
 				</div>
 				
@@ -118,25 +118,25 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div class="form-group">
 					<label>Referência da casa:<br/></label>
-					<textarea class="form-control" th:field="*{endereco.referencia}" placeholder="Referência da casa"></textarea>  
+					<textarea class="form-control pula" id="referencia" th:field="*{endereco.referencia}" placeholder="Referência da casa"></textarea>  
 				</div>
 				
 				<h3>Pagamento:</h3>
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label>Data de admissão:<br/></label>
-						<input type="date" class="form-control pula" th:field="*{admissao}" placeholder="dd/mm/aaaa" required/>
+						<input type="date" class="form-control pula" id="admissao" th:field="*{admissao}" placeholder="dd/mm/aaaa" required/>
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Dia pagamento:<br/></label>
-						<input type="number" class="form-control pula" th:field="*{diaPagamento}" placeholder="Dia pagamento" min="1" max="31" required/>
+						<input type="number" class="form-control pula" id="diaPagamento" th:field="*{diaPagamento}" placeholder="Dia pagamento" min="1" max="31" required/>
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<label>Salário:<br/></label>
-					<input type="number" class="form-control pula" th:field="*{salario}" placeholder="Salário" required/>
+					<input type="number" class="form-control pula" id="salario" th:field="*{salario}" placeholder="Salário" required/>
 				</div>	
 
 				<br>				
@@ -149,7 +149,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</div>
 				
 				<br>
-				<button type="submit" class="form-contact-button" name="enviar">Enviar</button>  
+				<button type="submit" id="enviar" class="form-contact-button" name="enviar">Enviar</button>  
 			</form>
 		</div>  
 	</div>
@@ -161,5 +161,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/js/buscaCep.js}"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+	<script th:src="@{/js/validCpfFuncionario.js}"></script>
 </body>
 </html>
