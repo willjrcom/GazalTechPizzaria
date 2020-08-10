@@ -21,63 +21,61 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div> 
 	 -->
 	<div class="divbaseForm">
-		<div class="container">
 		
-			<br>
-			<h1 class="h1Logo">Cadastrar Produto</h1><br/>
+		<br>
+		<h1 class="h1Logo">Cadastrar Produto</h1><br/>
+		
+		<form th:action="@{/cadastroProduto}" th:object="${produto}" class="form-contact" method="POST" tabindex="1">  	
+			<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
+				<div th:each="detailedError : ${#fields.detailedErrors()}">
+					<span th:text="${detailedError.message}"></span>			
+				</div>
+			</div> 
 			
-			<form th:action="@{/cadastroProduto}" th:object="${produto}" class="form-contact" method="POST" tabindex="1">  	
-				<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
-					<div th:each="detailedError : ${#fields.detailedErrors()}">
-						<span th:text="${detailedError.message}"></span>			
-					</div>
-				</div> 
-				
-				<div class="form-group">
-					<input type="reset" class="form-control">
+			<div class="form-group">
+				<input type="reset" class="form-control">
+			</div>
+			
+			<input type="hidden" th:field="*{id}"/>
+			
+			<br>
+			<div class="form-group">
+				<label>Código de busca:<br/></label>
+				<input type="text" class="form-control" autofocus="autofocus" th:field="*{codigoBusca}" placeholder="Código de busca" required/>
+			</div>
+			
+			<div class="form-group">
+				<label>Nome do produto:<br/></label>
+				<input type="text" class="form-control" th:field="*{nomeProduto}" placeholder="Nome do produto" required/>
+			</div>
+			
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label>Preço:<br/></label>
+					<input type="text" class="form-control" th:field="*{preco}" placeholder="Preço" required/>
 				</div>
-				
-				<input type="hidden" th:field="*{id}"/>
-				
-				<br>
-				<div class="form-group">
-					<label>Código de busca:<br/></label>
-					<input type="text" class="form-control" autofocus="autofocus" th:field="*{codigoBusca}" placeholder="Código de busca" required/>
+				<div class="form-group col-md-6">
+					<label>Estoque(opcional):<br/></label>
+					<input type="number" class="form-control" th:field="*{estoque}" placeholder="Total em estoque" value="0" min="0" max="1000" />
 				</div>
-				
-				<div class="form-group">
-					<label>Nome do produto:<br/></label>
-					<input type="text" class="form-control" th:field="*{nomeProduto}" placeholder="Nome do produto" required/>
-				</div>
-				
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label>Preço:<br/></label>
-						<input type="text" class="form-control" th:field="*{preco}" placeholder="Preço" required/>
-					</div>
-					<div class="form-group col-md-6">
-						<label>Estoque(opcional):<br/></label>
-						<input type="number" class="form-control" th:field="*{estoque}" placeholder="Total em estoque" value="0" min="0" max="1000" />
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label>Setor:<br/></label>
-					<select class="form-control" th:field="*{setor}" required>
-						<option th:each="produto : ${TipoProduto}" th:value="${produto}" th:text="${produto.descricao}"></option>
-					</select>
-				</div>
-				
-				<br>
-				<div class="form-group">
-					<label>Descrição do produto:<br/></label>
-					<textarea class="form-control" th:field="*{descricao}" rows="5" placeholder="Descrição do produto" ></textarea>  
-				</div>
-				
-				<br>
-				<button type="submit" class="form-contact-button" name="enviar">Enviar</button>  
-			</form>  
-		</div>  
+			</div>
+			
+			<div class="form-group">
+				<label>Setor:<br/></label>
+				<select class="form-control" th:field="*{setor}" required>
+					<option th:each="produto : ${TipoProduto}" th:value="${produto}" th:text="${produto.descricao}"></option>
+				</select>
+			</div>
+			
+			<br>
+			<div class="form-group">
+				<label>Descrição do produto:<br/></label>
+				<textarea class="form-control" th:field="*{descricao}" rows="5" placeholder="Descrição do produto" ></textarea>  
+			</div>
+			
+			<br>
+			<button type="submit" class="form-contact-button" name="enviar">Enviar</button>  
+		</form>  
 	</div>
 	
 	<br>

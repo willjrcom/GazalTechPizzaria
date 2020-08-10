@@ -208,6 +208,7 @@ a:link{
 	border: 1px solid black;
 	border-radius: 20px;
 	-webkit-border-radius: 20px;
+	padding: 5vh;
 }
 
 .form-contact-button {

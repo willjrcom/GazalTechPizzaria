@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.CadastrosController;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,6 +49,12 @@ public class CadastroClienteController {
 	@RequestMapping(value = "/editar/{id}")
 	public ModelAndView editarCadastro(@ModelAttribute("id") Long id){
 		return new ModelAndView("cadastroCliente");
+	}
+	
+	@RequestMapping(value = "/editarCliente/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Cliente> buscarCliente(@PathVariable Long id) {
+		return clientes.findById(id);
 	}
 	
 	@RequestMapping(value = "/atualizarCadastro/{id}", method = RequestMethod.PUT)

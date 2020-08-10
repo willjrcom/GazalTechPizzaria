@@ -12,7 +12,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	
 	<br>
 	<div class="divbaseForm">
-		<div class="container">
 			
 			<br>
 			<h1 class="h1Logo">Cadastrar Cliente</h1><br/>
@@ -22,6 +21,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 					<input type="reset" class="form-control">
 				</div>
 
+				<input type="hidden" id="id" />
+				
 				<br>
 				<div class="form-group">
 					<label for="file">Nome Completo:<br/></label>
@@ -88,9 +89,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 					<textarea class="form-control pula" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
 				</div>
 				
+				<button type="button" id="atualizar" class="form-contact-button">Atualizar</button>
 				<button type="button" id="enviar" class="form-contact-button">Enviar</button>  
-			
-		</div>  
 	</div>
 	
 	<br>

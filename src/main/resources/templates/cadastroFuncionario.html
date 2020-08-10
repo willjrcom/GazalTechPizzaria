@@ -15,143 +15,141 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 				
 	<div class="divbaseForm">
-		<div class="container">
+			
+		<br>
+		<h1 class="h1Logo">Cadastrar Funcionário</h1><br/>
+		
+		<form th:action="@{/cadastroFuncionario}" th:object="${funcionario}" class="form-contact" method="POST" tabindex="1">
+		  
+			<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
+				<div th:each="detailedError : ${#fields.detailedErrors()}">
+					<span th:text="${detailedError.message}"></span>			
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<input type="reset" class="form-control">
+			</div>
+			
+			<input type="hidden" id="id" th:field="*{id}"/>
 			
 			<br>
-			<h1 class="h1Logo">Cadastrar Funcionário</h1><br/>
+			<div class="form-group">
+				<label>Nome Completo:<br/></label>
+				<input type="text" class="form-control pula" id="nome" th:field="*{nome}" placeholder="Nome Completo"  autofocus="autofocus" required/>  
+			</div>
 			
-			<form th:action="@{/cadastroFuncionario}" th:object="${funcionario}" class="form-contact" method="POST" tabindex="1">
-			  
-				<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
-					<div th:each="detailedError : ${#fields.detailedErrors()}">
-						<span th:text="${detailedError.message}"></span>			
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<input type="reset" class="form-control">
-				</div>
-				
-				<input type="hidden" id="id" th:field="*{id}"/>
-				
-				<br>
-				<div class="form-group">
-					<label>Nome Completo:<br/></label>
-					<input type="text" class="form-control pula" id="nome" th:field="*{nome}" placeholder="Nome Completo"  autofocus="autofocus" required/>  
-				</div>
-				
-				<div class="form-group">
-					<label>E-mail:<br/></label>
-					<input type="email" class="form-control pula" id="email" th:field="*{email}" placeholder="nome@exemplo.com" required/>
-				</div>
-				
-				<div class="form-group">
-					<label >Data de nascimento:<br/></label>
-					<input type="date" class="form-control pula" id="nascimento" th:field="*{nascimento}" placeholder="dd/mm/aaaa" required/>
-				</div>
-				
-				<div>
-					<label>CPF:<br/></label>
-					<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
-					<input type="text" class="form-control pula cpf" id="cpf" th:field="*{cpf}" placeholder="CPF" required/>
-				</div>
-				
-				<br/>
-				<div class="form-group">
-					<label>celular:<br/></label>
-					<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
-					<input type="tel" class="form-control pula cel" id="cel" th:field="*{celular}" placeholder="Celular xx-xxxxx-xxxx " required/> 
-				</div>
-				
-				<div class="form-group">
-					<label for="cargo">Cargo:<br></label>
-					<select class="form-control pula" id="cargo" th:field="*{cargo}" required>
-						<option th:each="cargos : ${TipoCargo}" th:value="${cargos}" th:text="${cargos.descricao}"></option>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<label>Sexo:<br/></label>
-					<select class="form-control pula" id="sexo" th:field="*{sexo}" required>
-						<option th:each="sexos : ${TipoSexo}" th:value="${sexos}" th:text="${sexos.descricao}"></option>
-					</select>
-				</div>
-				
-				
-				<h3><br/>Endereço:<br/><br/></h3>
-				
-				<div class="col-md-2">
-				   	<div class="form-group">
-				        <label>CEP</label>
-		      			<input type="text" class="form-control pula" id="cep" maxlength="12" th:field="*{endereco.cep}" placeholder="Informe o CEP">
+			<div class="form-group">
+				<label>E-mail:<br/></label>
+				<input type="email" class="form-control pula" id="email" th:field="*{email}" placeholder="nome@exemplo.com" required/>
+			</div>
+			
+			<div class="form-group">
+				<label >Data de nascimento:<br/></label>
+				<input type="date" class="form-control pula" id="nascimento" th:field="*{nascimento}" placeholder="dd/mm/aaaa" required/>
+			</div>
+			
+			<div>
+				<label>CPF:<br/></label>
+				<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
+				<input type="text" class="form-control pula cpf" id="cpf" th:field="*{cpf}" placeholder="CPF" required/>
+			</div>
+			
+			<br/>
+			<div class="form-group">
+				<label>celular:<br/></label>
+				<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
+				<input type="tel" class="form-control pula cel" id="cel" th:field="*{celular}" placeholder="Celular xx-xxxxx-xxxx " required/> 
+			</div>
+			
+			<div class="form-group">
+				<label for="cargo">Cargo:<br></label>
+				<select class="form-control pula" id="cargo" th:field="*{cargo}" required>
+					<option th:each="cargos : ${TipoCargo}" th:value="${cargos}" th:text="${cargos.descricao}"></option>
+				</select>
+			</div>
+			
+			<div class="form-group">
+				<label>Sexo:<br/></label>
+				<select class="form-control pula" id="sexo" th:field="*{sexo}" required>
+					<option th:each="sexos : ${TipoSexo}" th:value="${sexos}" th:text="${sexos.descricao}"></option>
+				</select>
+			</div>
+			
+			
+			<h3><br/>Endereço:<br/><br/></h3>
+			
+			<div class="col-md-2">
+			   	<div class="form-group">
+			        <label>CEP</label>
+	      			<input type="text" class="form-control pula" id="cep" maxlength="12" th:field="*{endereco.cep}" placeholder="Informe o CEP">
+			    </div>
+	  		</div>
+	  		
+		  	<div class="form-row">
+		  		<div class="col-md-8">
+				   <div class="form-group">
+				       <label>Rua<span>*</span> <span id='mensagem'></span></label>
+		      		   <input type="text" class="form-control pula" id="rua" th:field="*{endereco.rua}" placeholder="Informe a Rua" required>
 				    </div>
 		  		</div>
-		  		
-			  	<div class="form-row">
-			  		<div class="col-md-8">
-					   <div class="form-group">
-					       <label>Rua<span>*</span> <span id='mensagem'></span></label>
-			      		   <input type="text" class="form-control pula" id="rua" th:field="*{endereco.rua}" placeholder="Informe a Rua" required>
-					    </div>
-			  		</div>
-			  		<div class="col-md-2">
-					   <div class="form-group">
-					       <label>Nº</label>
-			      		   <input type="text" class="form-control pula" id="numero" th:field="*{endereco.n}" placeholder="Informe o Número">
-					    </div>
-			  		</div>
-			  	</div>
-				
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label><br/>Bairro:<br/></label>
-						<input type="text" class="form-control pula" id="bairro" th:field="*{endereco.bairro}" placeholder="Informe o bairro" required/>  
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label><br/>Cidade:<br/></label>
-						<input type="text" class="form-control pula" id="cidade" th:field="*{endereco.cidade}" placeholder="Informe a cidade" value="Sorocaba" required/> 
-					</div>
+		  		<div class="col-md-2">
+				   <div class="form-group">
+				       <label>Nº</label>
+		      		   <input type="text" class="form-control pula" id="numero" th:field="*{endereco.n}" placeholder="Informe o Número">
+				    </div>
+		  		</div>
+		  	</div>
+			
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label><br/>Bairro:<br/></label>
+					<input type="text" class="form-control pula" id="bairro" th:field="*{endereco.bairro}" placeholder="Informe o bairro" required/>  
 				</div>
 				
-				
-				
-				<div class="form-group">
-					<label>Referência da casa:<br/></label>
-					<textarea class="form-control pula" id="referencia" th:field="*{endereco.referencia}" placeholder="Referência da casa"></textarea>  
+				<div class="form-group col-md-6">
+					<label><br/>Cidade:<br/></label>
+					<input type="text" class="form-control pula" id="cidade" th:field="*{endereco.cidade}" placeholder="Informe a cidade" value="Sorocaba" required/> 
+				</div>
+			</div>
+			
+			
+			
+			<div class="form-group">
+				<label>Referência da casa:<br/></label>
+				<textarea class="form-control pula" id="referencia" th:field="*{endereco.referencia}" placeholder="Referência da casa"></textarea>  
+			</div>
+			
+			<h3>Pagamento:</h3>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label>Data de admissão:<br/></label>
+					<input type="date" class="form-control pula" id="admissao" th:field="*{admissao}" placeholder="dd/mm/aaaa" required/>
 				</div>
 				
-				<h3>Pagamento:</h3>
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label>Data de admissão:<br/></label>
-						<input type="date" class="form-control pula" id="admissao" th:field="*{admissao}" placeholder="dd/mm/aaaa" required/>
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label>Dia pagamento:<br/></label>
-						<input type="number" class="form-control pula" id="diaPagamento" th:field="*{diaPagamento}" placeholder="Dia pagamento" min="1" max="31" required/>
-					</div>
+				<div class="form-group col-md-6">
+					<label>Dia pagamento:<br/></label>
+					<input type="number" class="form-control pula" id="diaPagamento" th:field="*{diaPagamento}" placeholder="Dia pagamento" min="1" max="31" required/>
 				</div>
-				
-				<div class="form-group">
-					<label>Salário:<br/></label>
-					<input type="number" class="form-control pula" id="salario" th:field="*{salario}" placeholder="Salário" required/>
-				</div>	
+			</div>
+			
+			<div class="form-group">
+				<label>Salário:<br/></label>
+				<input type="number" class="form-control pula" id="salario" th:field="*{salario}" placeholder="Salário" required/>
+			</div>	
 
-				<br>				
-				<div class="form-group">
-					<input type="color" name="favcor" value="#0000FF">
-				</div>
-				
-				<div class="custom-file">
-				  	<input type="file" class="">
-				</div>
-				
-				<br>
-				<button type="submit" id="enviar" class="form-contact-button" name="enviar">Enviar</button>  
-			</form>
-		</div>  
+			<br>				
+			<div class="form-group">
+				<input type="color" name="favcor" value="#0000FF">
+			</div>
+			
+			<div class="custom-file">
+			  	<input type="file" class="">
+			</div>
+			
+			<br>
+			<button type="submit" id="enviar" class="form-contact-button" name="enviar">Enviar</button>  
+		</form>
 	</div>
 	
 	<br>
