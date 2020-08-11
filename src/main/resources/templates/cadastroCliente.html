@@ -10,18 +10,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <body>
 	<header th:replace="~{layouts/header :: cadastros}"></header>
 	
-	<br>
 	<div class="divbaseForm">
 			
 			<br>
 			<h1 class="h1Logo">Cadastrar Cliente</h1><br/>
-			
-				
-				<div>
-					<input type="reset" class="form-control">
-				</div>
 
-				<input type="hidden" id="id" />
+				<input type="hidden" id="id" name="id"/>
 				
 				<br>
 				<div class="form-group">
@@ -29,7 +23,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 					<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo" autofocus="autofocus" required/>
 				</div>
 				
-				<div class="form-group">
+				<div class="form-group" id="divCpf">
 					<label>CPF:<br/></label>
 					<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
 					<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
@@ -62,7 +56,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			  		<div class="col-md-2">
 					   <div class="form-group">
 					       <label>Nº</label>
-			      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número">
+			      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número" required>
 					    </div>
 			  		</div>
 			  	</div>
@@ -81,7 +75,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 				
 				<div class="form-group">
 					<label><br/>Taxa de entrega:<br/></label>
-					<input type="number" class="form-control pula" id="taxa" name="taxa" placeholder="Taxa de Entrega" value="1" min="5" max="50" required/>
+					<input type="number" class="form-control pula" id="taxa" name="taxa" placeholder="Taxa de Entrega" value="1" min="1" max="100" required/>
 				</div> 
 				
 				<div class="form-group">

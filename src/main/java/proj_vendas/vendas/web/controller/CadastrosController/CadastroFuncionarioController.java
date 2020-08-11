@@ -1,20 +1,18 @@
 package proj_vendas.vendas.web.controller.CadastrosController;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.TipoCargo;
-import proj_vendas.vendas.model.TipoSexo;
 import proj_vendas.vendas.repository.Funcionarios;
 
 @Controller
@@ -27,34 +25,15 @@ public class CadastroFuncionarioController{
 	@RequestMapping
 	public ModelAndView CadastroFuncionario() {
 		ModelAndView mv = new ModelAndView("cadastroFuncionario");
-		mv.addObject("TipoCargo", TipoCargo.values());
-		mv.addObject("TipoSexo", TipoSexo.values());
-		mv.addObject(new Funcionario());
 		return mv;
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView salvarFuncionario(@Validated Funcionario funcionario, Errors errors, RedirectAttributes atributes) {
-		ModelAndView mv = new ModelAndView("redirect:/cadastroFuncionario");
-		funcionarios.save(funcionario);
-		//*if(errors.hasErrors()) {
-			return mv;
-		}
-		
-		
-		/*
-		ModelAndView mv2 = new ModelAndView("redirect:cadastroFuncionario");
-		atributes.addFlashAttribute("mensagem", "Funcionario cadastrado com sucesso!");
-		return mv2;
-	}*/
-	
-	@RequestMapping("{id}")
-	public ModelAndView alterar(@ModelAttribute("id") Funcionario funcionario) {
-		ModelAndView mv = new ModelAndView("cadastroFuncionario");
-		mv.addObject(funcionario);
-		return mv;
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@ResponseBody
+	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
+		return funcionarios.save(funcionario);
 	}
-	
+		
 	@RequestMapping(value = "/buscarCpf/{cpf}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Funcionario buscarCpf(@PathVariable String cpf) {
@@ -65,5 +44,23 @@ public class CadastroFuncionarioController{
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular) {
 		return funcionarios.findByCelular(celular);
+	}
+	
+
+	@RequestMapping(value = "/editar/{id}")
+	public ModelAndView editarCadastro(@ModelAttribute("id") Long id){
+		return new ModelAndView("cadastroFuncionario");
+	}
+	
+	@RequestMapping(value = "/editarFuncionario/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Funcionario> buscarFuncionario(@PathVariable Long id) {
+		return funcionarios.findById(id);
+	}
+	
+	@RequestMapping(value = "/atualizarCadastro/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Funcionario atualizarFuncionario(@RequestBody Funcionario funcionario){
+		return funcionarios.save(funcionario);
 	}
 }

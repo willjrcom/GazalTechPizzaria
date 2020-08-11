@@ -1,4 +1,4 @@
-var cliente = {};
+var produto = {};
 var url_atual = window.location.href;
 
 url_atual = url_atual.split("/")[5];
@@ -7,10 +7,9 @@ if(typeof url_atual == "undefined") {
 	console.log("nao existe");
 	$("#atualizar").hide();
 }else {
-	$("#divCpf").hide();
 	$("#enviar").hide();
 	console.log(url_atual);
-	urlEnviar = "/cadastroCliente/editarCliente/" + url_atual;
+	urlEnviar = "/cadastroProduto/editarProduto/" + url_atual;
 	
 	$.ajax({
 		url: urlEnviar,
@@ -18,81 +17,56 @@ if(typeof url_atual == "undefined") {
 	}).done(function(e){
 		console.log(e);
 		
-		cliente.id = e.id;
-		cliente.nome = e.nome;
-		cliente.cpf = e.cpf;
-		cliente.celular = e.celular;
-		
-		cliente.endereco = {};
-		cliente.endereco.id = e.endereco.id;
-		id_endereco = e.endereco.id;
-		cliente.endereco.cep = e.endereco.cep;
-		cliente.endereco.rua = e.endereco.rua;
-		cliente.endereco.n = e.endereco.n;
-		cliente.endereco.bairro = e.endereco.bairro;
-		cliente.endereco.cidade = e.endereco.cidade;
-		cliente.endereco.referencia = e.endereco.referencia;
-		cliente.endereco.taxa = e.endereco.taxa;
-		
+		produto.id = e.id;
+		produto.codigoBusca = e.codigoBusca;
+		produto.nomeProduto = e.nomeProduto;
+		produto.preco = e.preco;
+		produto.estoque = e.estoque;
+		produto.setor = e.setor;
+		produto.descricao = e.descricao;
 		
 		//cliente
-		$("#id").val(cliente.id);
-		$("#nome").val(cliente.nome);
-		$("#cel").val(cliente.celular);
-		$("#cpf").val(cliente.cpf);
-		
-		//endereco
-		$("#cep").val(cliente.endereco.cep);
-		$("#rua").val(cliente.endereco.rua);
-		$("#n").val(cliente.endereco.n);
-		$("#bairro").val(cliente.endereco.bairro);
-		$("#cidade").val(cliente.endereco.cidade);
-		$("#referencia").val(cliente.endereco.referencia);
-		$("#taxa").val(cliente.endereco.taxa);
+		$("#id").val(produto.id);
+		$("#codigoBusca").val(produto.codigoBusca);
+		$("#nomeProduto").val(produto.nomeProduto);
+		$("#preco").val(produto.preco);
+		$("#estoque").val(produto.estoque);
+		$("#setor").val(produto.setor);
+		$("#descricao").val(produto.descricao);
 		
 	}).fail(function(){
-		$.alert("Cliente não encontrado!");
+		$.alert("Produto não encontrado!");
 	});
 }
 
 
 //---------------------------------------------------------------
-function setCliente() {
-	cliente.nome = $("#nome").val();
-	cliente.celular = $("#cel").val();
-	cliente.cpf = $("#cpf").val();
-	
-	cliente.endereco = {};
-	cliente.endereco.cep = $("#cep").val();
-	cliente.endereco.rua = $("#rua").val();
-	cliente.endereco.n = $("#n").val();
-	cliente.endereco.bairro = $("#bairro").val();
-	cliente.endereco.cidade = $("#cidade").val();
-	cliente.endereco.referencia = $("#referencia").val();
-	cliente.endereco.taxa = $("#taxa").val();
+function setProduto() {
+	produto.codigoBusca = $("#codigoBusca").val();
+	produto.nomeProduto = 	$("#nomeProduto").val();
+	produto.preco = $("#preco").val();
+	produto.estoque = $("#estoque").val();
+	produto.setor = $("#setor").val();
+	produto.descricao = $("#descricao").val();
 }
 
 
 //---------------------------------------------------------------
 $("#enviar").click(function() {
-	cliente = {};
+	produto = {};
 	
-	if($("#nome").val() != '' 
-	&& $("#cel").val() != ''
-	&& $("#cep").val() != ''
-	&& $("#rua").val() != ''
-	&& $("#n").val() != ''
-	&& $("#bairro").val() != ''
-	&& $("#cidade").val() != '') {
+	if($("#codigoBusca").val() != '' 
+	&& $("#nomeProduto").val() != ''
+	&& $("#preco").val() != '') {
 		
-		setCliente();
+		setProduto();
 		
-		console.log(cliente);
+		console.log(produto);
 		
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Cliente: ' + $("#nome").val().split(' ')[0],
+		    title: 'Produto: ' + produto.nomeProduto,
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
@@ -101,17 +75,17 @@ $("#enviar").click(function() {
 		            content: "Deseja enviar?",
 		            action: function(){
 						$.ajax({
-							url: "/cadastroCliente/cadastrar",
+							url: "/cadastroProduto/cadastrar",
 							type: 'PUT',
 							dataType: "json",
 							contentType:'application/json',
-							data: JSON.stringify(cliente)
+							data: JSON.stringify(produto)
 							
 						}).done(function(e){
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
-								content: "Cliente cadastrado",
+								content: "Produto cadastrado",
 								buttons: {
 							        confirm: {
 							            text: 'Novo pedido',
@@ -137,7 +111,7 @@ $("#enviar").click(function() {
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Cliente não cadastrado!"
+								content: "Produto não cadastrado!"
 							});
 						});
 					}
@@ -156,23 +130,18 @@ $("#enviar").click(function() {
 //---------------------------------------------------------------------------------------
 $("#atualizar").click(function() {
 	
-	if($("#nome").val() != '' 
-	&& $("#cel").val() != ''
-	&& $("#cep").val() != ''
-	&& $("#rua").val() != ''
-	&& $("#n").val() != ''
-	&& $("#bairro").val() != ''
-	&& $("#cidade").val() != '') {
+	if($("#codigoBusca").val() != '' 
+	&& $("#nomeProduto").val() != ''
+	&& $("#preco").val() != '') {
 		
-		setCliente();
-		cliente.endereco.id = id_endereco;
+		setProduto();
 		
-		console.log(cliente);
+		console.log(produto);
 		
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Cliente: ' + cliente.nome.split(' ')[0],
+		    title: 'Produto: ' + produto.nomeProduto,
 			content: "Atualizar?",
 		    buttons: {
 		        confirm: {
@@ -182,17 +151,17 @@ $("#atualizar").click(function() {
 		            content: "Deseja enviar?",
 		            action: function(){
 						$.ajax({
-							url: "/cadastroCliente/atualizarCadastro/" + url_atual,
+							url: "/cadastroProduto/atualizarCadastro/" + url_atual,
 							type: 'PUT',
 							dataType: "json",
 							contentType:'application/json',
-							data: JSON.stringify(cliente)
+							data: JSON.stringify(produto)
 							
 						}).done(function(e){
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
-								content: "Cliente Atualizado",
+								content: "Produto Atualizado",
 								buttons: {
 							        confirm: {
 							            text: 'Novo pedido',
@@ -207,7 +176,7 @@ $("#atualizar").click(function() {
 							            btnClass: 'btn-blue',
 							            keys: ['esc'],
 							            action: function(){
-											window.location.href = "/clientesCadastrados";
+											window.location.href = "/produtosCadastrados";
 										}
 									}
 								}
@@ -218,7 +187,7 @@ $("#atualizar").click(function() {
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Cliente não atualizado!"
+								content: "Produto não atualizado!"
 							});
 						});
 					}

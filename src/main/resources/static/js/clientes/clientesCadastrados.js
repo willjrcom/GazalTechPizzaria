@@ -176,3 +176,103 @@ function editarCliente() {
 		}
 	});
 }
+
+
+//-----------------------------------------------------------------------------------------------------------
+function excluirCliente() {
+	var botaoReceber = $(event.currentTarget);
+	var idCliente = botaoReceber.attr('value');
+	var urlEnviar = "/clientesCadastrados/excluirCliente/" + idCliente.toString();
+	console.log(urlEnviar);
+	
+	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
+		if(clientes[i].id == idCliente){
+			var idBusca = i;
+		}
+	}
+	var inputApagar = '<input type="text" placeholder="Digite SIM para apagar!" class="form-control" id="apagar" required />'
+			
+	$.confirm({
+		type: 'red',
+	    typeAnimated: true,
+	    title: 'Pedido: ' + clientes[idBusca].nome.split(' ')[0],
+	    content: 'Deseja apagar o cliente?',
+	    buttons: {
+	        confirm: {
+	            text: 'Apagar cliente',
+	            btnClass: 'btn-red',
+	            keys: ['enter'],
+	            action: function(){
+		
+					$.confirm({
+						type: 'red',
+					    typeAnimated: true,
+					    title: 'APAGAR CLIENTE!',
+					    content: 'Tem certeza?' + inputApagar,
+					    buttons: {
+					        confirm: {
+					            text: 'Apagar cliente',
+					            btnClass: 'btn-red',
+					            keys: ['enter'],
+					            action: function(){
+									var apagarSim = this.$content.find('#apagar').val();
+									
+									if(apagarSim === 'sim') {
+										
+										$.ajax({
+											url: urlEnviar,
+											type: 'PUT'
+											
+										}).done(function(){		
+											$.alert({
+												type: 'green',
+											    typeAnimated: true,
+											    title: 'Cliente apagado!',
+											    content: 'Espero que dê tudo certo!',
+											    buttons: {
+											        confirm: {
+														text: 'Voltar',
+											    		keys: ['enter'],
+											            btnClass: 'btn-green',
+											            action: function(){
+														}
+													}
+												}
+											});
+										}).fail(function(){
+											$.alert("Cliente apagado!");
+										});
+									}else {
+										$.alert({
+											type: 'red',
+										    typeAnimated: true,
+										    title: 'Texto incorreto!',
+										    content: 'Pense bem antes de apagar um cliente!',
+										    buttons: {
+										        confirm: {
+													text: 'Voltar',
+										    		keys: ['enter'],
+										            btnClass: 'btn-red',
+												}
+											}
+										});
+									}
+								}
+							},
+					        cancel: {
+								text: 'Voltar',
+					            btnClass: 'btn-green',
+					            keys: ['esc'],
+							}
+						}
+					});
+				}
+			},
+		    cancel: {
+				text: 'Voltar',
+		        btnClass: 'btn-green',
+		        keys: ['esc'],
+			}
+		}
+	});
+}

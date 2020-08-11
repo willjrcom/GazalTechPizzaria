@@ -1,14 +1,16 @@
 package proj_vendas.vendas.web.controller.CadastrosController;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.TipoProduto;
@@ -29,24 +31,26 @@ public class CadastroProdutoController {
 		return mv;
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView salvarProduto(@Validated Produto produto, Errors errors, RedirectAttributes atributes) {
-		ModelAndView mv = new ModelAndView("cadastroProduto");
-		
-		if(errors.hasErrors()) {
-			return mv;
-		}
-		
-		produtos.save(produto);
-		ModelAndView mv2 = new ModelAndView("redirect:/cadastroProduto");
-		atributes.addFlashAttribute("mensagem", "Produto cadastrado com sucesso!");
-		return mv2;
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@ResponseBody
+	public Produto cadastrarProduto(@RequestBody Produto produto) {
+		return produtos.save(produto);
 	}
 	
-	@RequestMapping("{id}")
-	public ModelAndView alterar(@ModelAttribute("id") Produto produto) {
-		ModelAndView mv = new ModelAndView("cadastroProduto");
-		mv.addObject(produto);
-		return mv;
+	@RequestMapping(value = "/editar/{id}")
+	public ModelAndView editarCadastro(@ModelAttribute("id") Long id){
+		return new ModelAndView("cadastroProduto");
+	}
+	
+	@RequestMapping(value = "/editarProduto/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Produto> buscarProduto(@PathVariable Long id) {
+		return produtos.findById(id);
+	}
+	
+	@RequestMapping(value = "/atualizarCadastro/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Produto atualizarProduto(@RequestBody Produto produto){
+		return produtos.save(produto);
 	}
 }

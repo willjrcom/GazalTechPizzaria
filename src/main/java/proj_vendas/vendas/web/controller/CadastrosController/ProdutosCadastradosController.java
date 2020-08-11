@@ -31,4 +31,11 @@ public class ProdutosCadastradosController {
 	public List<Produto> buscar(@PathVariable String nome) {
 		return produtos.findByNomeProdutoContainingOrDescricaoContaining(nome, nome);
 	}
+	
+	@RequestMapping(value = "/excluirProdutos/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public String excluirProdutos(@PathVariable long id) {
+		produtos.deleteById(id);
+		return "ok";
+	}
 }

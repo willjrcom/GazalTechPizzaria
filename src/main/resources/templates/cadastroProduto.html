@@ -8,77 +8,57 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
 	<header th:replace="~{layouts/header :: cadastros}"></header>
-	
-	<br>
-	<div class="divbaseForm alert alert-primary" role="alert" th:if="${!#strings.isEmpty(mensagem)}" style="background-color: #aad450">
-		<span th:text="${mensagem}"></span>
-	</div>
-	<!-- 		
-	<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
-		<div th:each="detailedError : ${#fields.detailedErrors()}">
-			<span th:text="${detailedError.message}"></span>			
-		</div>
-	</div> 
-	 -->
+
 	<div class="divbaseForm">
 		
 		<br>
 		<h1 class="h1Logo">Cadastrar Produto</h1><br/>
 		
-		<form th:action="@{/cadastroProduto}" th:object="${produto}" class="form-contact" method="POST" tabindex="1">  	
-			<div class="alert alert-primary" role="alert" th:if="${!#fields.hasAnyErrors()}">
-				<div th:each="detailedError : ${#fields.detailedErrors()}">
-					<span th:text="${detailedError.message}"></span>			
-				</div>
-			</div> 
-			
-			<div class="form-group">
-				<input type="reset" class="form-control">
+		<input type="hidden" id="id" name="id"/>
+		
+		<br>
+		<div class="form-group">
+			<label>Código de busca:<br/></label>
+			<input type="text" class="form-control" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus" required/>
+		</div>
+		
+		<div class="form-group">
+			<label>Nome do produto:<br/></label>
+			<input type="text" class="form-control" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" required/>
+		</div>
+		
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label>Preço:<br/></label>
+				<input type="text" class="form-control" id="preco" name="preco" placeholder="Preço" required/>
 			</div>
-			
-			<input type="hidden" th:field="*{id}"/>
-			
-			<br>
-			<div class="form-group">
-				<label>Código de busca:<br/></label>
-				<input type="text" class="form-control" autofocus="autofocus" th:field="*{codigoBusca}" placeholder="Código de busca" required/>
+			<div class="form-group col-md-6">
+				<label>Estoque(opcional):<br/></label>
+				<input type="number" class="form-control" id="estoque" name="estoque" placeholder="Total em estoque" value="0" min="0" max="1000" />
 			</div>
-			
-			<div class="form-group">
-				<label>Nome do produto:<br/></label>
-				<input type="text" class="form-control" th:field="*{nomeProduto}" placeholder="Nome do produto" required/>
-			</div>
-			
-			<div class="form-row">
-				<div class="form-group col-md-6">
-					<label>Preço:<br/></label>
-					<input type="text" class="form-control" th:field="*{preco}" placeholder="Preço" required/>
-				</div>
-				<div class="form-group col-md-6">
-					<label>Estoque(opcional):<br/></label>
-					<input type="number" class="form-control" th:field="*{estoque}" placeholder="Total em estoque" value="0" min="0" max="1000" />
-				</div>
-			</div>
-			
-			<div class="form-group">
-				<label>Setor:<br/></label>
-				<select class="form-control" th:field="*{setor}" required>
-					<option th:each="produto : ${TipoProduto}" th:value="${produto}" th:text="${produto.descricao}"></option>
-				</select>
-			</div>
-			
-			<br>
-			<div class="form-group">
-				<label>Descrição do produto:<br/></label>
-				<textarea class="form-control" th:field="*{descricao}" rows="5" placeholder="Descrição do produto" ></textarea>  
-			</div>
-			
-			<br>
-			<button type="submit" class="form-contact-button" name="enviar">Enviar</button>  
-		</form>  
+		</div>
+		
+		<div class="form-group">
+			<label>Setor:<br/></label>
+			<select class="form-control" id="setor" name="setor" required>
+				<option th:each="produto : ${TipoProduto}" th:value="${produto}" th:text="${produto.descricao}"></option>
+			</select>
+		</div>
+		
+		<br>
+		<div class="form-group">
+			<label>Descrição do produto:<br/></label>
+			<textarea class="form-control" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto" ></textarea>  
+		</div>
+		
+		<br>
+		<button type="button" class="form-contact-button" id="enviar" name="enviar">Enviar</button>  
+		<button type="button" class="form-contact-button" id="atualizar" name="enviar">Atualizar</button>  
 	</div>
 	
 	<br>
 	<footer th:replace="~{layouts/header :: footer}"></footer>
+	
+	<script th:src="@{/js/produtos/cadastroProduto.js}"></script>
 </body>
 </html>

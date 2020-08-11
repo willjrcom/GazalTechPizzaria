@@ -31,4 +31,11 @@ public class FuncionariosCadastradosController {
 	public List<Funcionario> buscar(@PathVariable String nome) {
 		return funcionarios.findByNomeContainingOrCelularContainingOrCpfContainingOrEmailOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContaining(nome, nome, nome, nome, nome, nome, nome);
 	}
+	
+	@RequestMapping(value = "/excluirFuncionario/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public String excluirFuncionario(@PathVariable long id) {
+		funcionarios.deleteById(id);
+		return "ok";
+	}
 }

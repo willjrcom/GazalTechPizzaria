@@ -35,30 +35,31 @@ $('#cpf').on('blur', function(){
 $('#cel').on('blur', function(){
 
 	if($.trim($("#cel").val()) != ""){
-		
-		var cel = $(this).val();
-		
-		//buscar cpf
-		urlEnviar = "/cadastroCliente/buscarCelular/" + cel;
-		console.log(urlEnviar);
-		
-		$.ajax({
-			url:  urlEnviar,
-			type: 'PUT',
-				
-		}).done(function(e){
-			if(e.length != 0) {
-				$("#avisoCel").show().css({
-					'color': 'red'
-				});
-				$("#enviar").hide();
-			}else {
-				$("#avisoCel").hide();
-				$("#enviar").show();
-			}
-		}).fail(function(){
-			console.log("Falhou!");
-		});
+		if($("#id").val() == '') {
+			var cel = $(this).val();
+			
+			//buscar cpf
+			urlEnviar = "/cadastroCliente/buscarCelular/" + cel;
+			console.log(urlEnviar);
+			
+			$.ajax({
+				url:  urlEnviar,
+				type: 'PUT',
+					
+			}).done(function(e){
+				if(e.length != 0) {
+					$("#avisoCel").show().css({
+						'color': 'red'
+					});
+					$("#enviar").hide();
+				}else {
+					$("#avisoCel").hide();
+					$("#enviar").show();
+				}
+			}).fail(function(){
+				console.log("Falhou!");
+			});
+		}
 	}			
 });
 

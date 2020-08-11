@@ -31,4 +31,12 @@ public class ClientesCadastradosController {
 	public List<Cliente> buscar(@PathVariable String nome) {
 		return clientes.findByNomeContainingOrCelularContainingOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContainingOrEnderecoCidadeContaining(nome,nome,nome,nome,nome,nome);
 	}
+	
+	
+	@RequestMapping(value = "/excluirCliente/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public String excluirCliente(@PathVariable long id) {
+		clientes.deleteById(id);
+		return "ok";
+	}
 }

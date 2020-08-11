@@ -4,7 +4,7 @@ $("#avisoCel").hide();
 // Método para consultar o CEP
 $('#cpf').on('blur', function(){
 
-	if($.trim($("#cpf").val()) != ""){
+	if($("#cpf").val() != ''){
 		
 		var cpf = $(this).val();
 		urlEnviar = "/cadastroFuncionario/buscarCpf/" + cpf;
@@ -34,31 +34,32 @@ $('#cpf').on('blur', function(){
 //-----------------------------------------------------------------------------------------
 $('#cel').on('blur', function(){
 
-	if($.trim($("#cel").val()) != ""){
-		
-		var cel = $(this).val();
-		
-		//buscar cpf
-		urlEnviar = "/cadastroFuncionario/buscarCelular/" + cel;
-		console.log(urlEnviar);
-		
-		$.ajax({
-			url:  urlEnviar,
-			type: 'PUT',
-				
-		}).done(function(e){
-			if(e.length != 0) {
-				$("#avisoCel").show().css({
-					'color': 'red'
-				});
-				$("#enviar").hide();
-			}else {
-				$("#avisoCel").hide();
-				$("#enviar").show();
-			}
-		}).fail(function(){
-			console.log("Falhou!");
-		});
+	if($.trim($("#cel").val()) != ''){
+		if($("#id").val() == '') {
+			var cel = $(this).val();
+			
+			//buscar cpf
+			urlEnviar = "/cadastroFuncionario/buscarCelular/" + cel;
+			console.log(urlEnviar);
+			
+			$.ajax({
+				url:  urlEnviar,
+				type: 'PUT',
+					
+			}).done(function(e){
+				if(e.length != 0) {
+					$("#avisoCel").show().css({
+						'color': 'red'
+					});
+					$("#enviar").hide();
+				}else {
+					$("#avisoCel").hide();
+					$("#enviar").show();
+				}
+			}).fail(function(){
+				console.log("Falhou!");
+			});
+		}
 	}			
 });
 
