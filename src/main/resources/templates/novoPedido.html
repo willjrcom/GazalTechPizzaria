@@ -11,16 +11,18 @@
 
 	<div class="divbase">
 	
-		<div class=" col-md-2">
-			<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success">Cadastrar Cliente</button></a>
-		</div>
-		<br>
-		<h1 class="h1Logo esconder1">Novo Pedido</h1>
 		
 		<div id="divBuscar">
+		
+			<div class=" col-md-2">
+				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success">Cadastrar Cliente</button></a>
+			</div>
+			<br>
+			<h1 class="h1Logo esconder1">Novo Pedido</h1>
+		
 			<div class="form-group col-md-10">
 				<input type="search" name="celular" id="numeroCliente"
-				autofocus="autofocus" class="form-control cel"
+				autofocus="autofocus" class="form-control "
 				placeholder="Qual cliente você está procurando?"
 				style="text-indent: 10px; border: 1px solid black" />
 			</div>
@@ -29,8 +31,9 @@
 				<button type="submit" name="buscarCliente" id="buscarCliente"
 					class="form-control btn btn-primary">Buscar</button>
 			</div>
+			<br>
 		</div>
-		<br>
+		
 		
 		<div class="row" id="mostrar">
 			<div class="col-md-4 table-responsive">
@@ -127,8 +130,14 @@
 		<div class="btn-group" role="group" aria-label="Second group" id="editarCliente">
 			<p id="dados"></p>
 			<a><button type="button"class="btn btn-secondary btn-success">Editar</button></a>
+			<br>
 		</div>
-		<br>
+		
+		
+		<!-- balcão------------------------------------------------------------------------------------------------- -->
+		<div class="btn-group" role="group" aria-label="Second group">
+			<p id="nomeBalcao"></p>
+		</div>
 	</div>
 
 	<!-------------------------------------------------------------------------------------------------------------------------->

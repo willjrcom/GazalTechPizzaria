@@ -7,6 +7,7 @@ var cliente_json;
 var produtos = [];
 var buscaProdutos = [];
 var op;
+var string = '';
 
 //var pedido
 //------------------------------------------------------------------------------------------------------------------------
@@ -101,7 +102,7 @@ if(typeof url_atual == "undefined") {
 //------------------------------------------------------------------------------------------------------------------------
 $('#numeroCliente').on('blur', function(){
 
-	if($.trim($("#numeroCliente").val()) != ""){
+	if($.trim($("#numeroCliente").val()) % 2 == 1 || $.trim($("#numeroCliente").val()) % 2 == 0){
 		var numero = $("#numeroCliente").val();
 		urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
 		
@@ -111,48 +112,13 @@ $('#numeroCliente').on('blur', function(){
 		})
 		
 		.done(function(e){
-			$("#mostrar").show('slow'); //esconder tabelas
-			$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
-			
-			console.log(e);
-			let clientes = {};
-				clientes.id = e.id;
-				clientes.nomePedido = e.nome;
-				clientes.celular = e.celular;
-				clientes.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
-				clientes.taxa = e.endereco.taxa;
-				
-			$("#idCliente").text(clientes.id);
-			$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
-			$("#celCliente").text(clientes.celular);
-			$("#enderecoCliente").text(clientes.endereco);
-			$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
-		}).fail(function(){
-			$.alert("Cliente não encontrado!");
-		});
-	}
-});
 
-$("#buscarCliente").click(function() {
-	$('#numeroCliente').on('blur', function(){
-
-		if($.trim($("#numeroCliente").val()) != ""){
-			var numero = $("#numeroCliente").val();
-			urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
-			
-			$.ajax({
-				url: urlNumero,
-				type: 'PUT'
-			})
-			
-			.done(function(e){
-				if(this.length == 0 || !this){
-					window.location.href = "/cadastroCliente";
-				}
+			if(e.length != 0) {
 				$("#mostrar").show('slow'); //esconder tabelas
 				$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
 				
 				console.log(e);
+			
 				let clientes = {};
 					clientes.id = e.id;
 					clientes.nomePedido = e.nome;
@@ -165,9 +131,22 @@ $("#buscarCliente").click(function() {
 				$("#celCliente").text(clientes.celular);
 				$("#enderecoCliente").text(clientes.endereco);
 				$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
-			});	
-		}
-	});
+			}else {
+				window.location.href = "/cadastroCliente";
+			}
+		}).fail(function(){
+			console.log("Cliente não encontrado!");
+		});
+	}else if(typeof $("#numeroCliente").val() == 'string'){
+		$("#nomeBalcao").html('<h2>Cliente: ' + $("#numeroCliente").val() + '</h2>');
+		cliente.nomePedido = $("#numeroCliente").val();
+		cliente.envio = 1;
+		$("#idCliente").text('0');
+		$("#divBuscar").hide('slow');
+		$(".esconder1").hide("slow");
+		$("#mostrar").hide("slow");
+		$("#mostrarProdutos").show('slow');
+	}
 });
 
 
@@ -180,9 +159,6 @@ $("#ConfirmarCliente").click(function(){
 	cliente.envio = $("#envioCliente").val();
 	cliente.tempo = $("#tempoCliente").val();
 	cliente.pagamento = $("#pagamentoCliente").val();
-	
-	console.log(cliente.tempo);
-	console.log(cliente.pagamento);
 	
 	if($("#idCliente").text() == ""){
 		alert("Nenhum Cliente adicionado!");
@@ -203,7 +179,7 @@ $("#ConfirmarCliente").click(function(){
 					+ '</tr>'
 				+ '</table>');
 	}
-})
+});
 
 
 //------------------------------------------------------------------------------------------------------------------------

@@ -36,7 +36,7 @@ $('#cel').on('blur', function(){
 
 	if($.trim($("#cel").val()) != ""){
 		if($("#id").val() == '') {
-			var cel = $(this).val();
+			var cel = $(this).cleanVal();
 			
 			//buscar cpf
 			urlEnviar = "/cadastroCliente/buscarCelular/" + cel;

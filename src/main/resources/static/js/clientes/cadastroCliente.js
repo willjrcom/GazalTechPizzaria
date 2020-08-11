@@ -59,7 +59,7 @@ if(typeof url_atual == "undefined") {
 //---------------------------------------------------------------
 function setCliente() {
 	cliente.nome = $("#nome").val();
-	cliente.celular = $("#cel").val();
+	cliente.celular = $("#cel").cleanVal();
 	cliente.cpf = $("#cpf").val();
 	
 	cliente.endereco = {};
@@ -93,6 +93,7 @@ $("#enviar").click(function() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Cliente: ' + $("#nome").val().split(' ')[0],
+		    content: 'Deseja continuar?',
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
