@@ -51,31 +51,54 @@ if(typeof url_atual == "undefined") {
 	}).done(function(e){
 		
 		console.log(e);
-		
-		$("#mostrar").show('slow'); //esconder tabelas
-		$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
 
 		$("#divBuscar").hide();
 		$(".esconder1").hide();
-		
 		$("#enviarPedido").hide();
-		cliente.id = e.id;
-		cliente.nomePedido = e.nomePedido;
-		cliente.celular = e.celular;
-		cliente.endereco = e.endereco;
-		cliente.envio = e.envio;
-		cliente.total = e.total;
-		cliente.troco = e.troco;
-		cliente.pagamento =  e.pagamento;
-		cliente.produtos = JSON.parse(e.produtos);
-			
-		//adicionar cliente
-		$("#idCliente").text(cliente.id);
-		$("#nomeCliente").text(cliente.nomePedido).css('background-color', '#D3D3D3');
-		$("#celCliente").text(cliente.celular);
-		$("#enderecoCliente").text(cliente.endereco);
-		$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa + ',00');
+		$("#editarCliente").hide();
+		//mostrar entrega
+		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
+			$("#mostrar").show('slow'); //esconder tabelas
+			$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
 
+			cliente.id = e.id;
+			cliente.nomePedido = e.nomePedido;
+			cliente.celular = e.celular;
+			cliente.endereco = e.endereco;
+			cliente.envio = e.envio;
+			cliente.total = e.total;
+			cliente.troco = e.troco;
+			cliente.pagamento =  e.pagamento;
+			cliente.produtos = JSON.parse(e.produtos);
+			cliente.taxa = e.taxa;
+				
+			//adicionar cliente
+			$("#idCliente").text(cliente.id);
+			$("#nomeCliente").text(cliente.nomePedido).css('background-color', '#D3D3D3');
+			$("#celCliente").text(cliente.celular);
+			$("#enderecoCliente").text(cliente.endereco);
+			$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa + ',00');
+		}
+		
+		//mostrar entrega
+		if(e.envio == 'BALCAO' || e.envio == 'MESA' || e.envio == 'DRIVE') {
+
+			$("#mostrar").hide();
+			$("#editarCliente").hide();
+			
+			cliente.id = e.id;
+			cliente.nomePedido = e.nomePedido;
+			cliente.envio = e.envio;
+			cliente.total = e.total;
+			cliente.troco = e.troco;
+			cliente.pagamento =  e.pagamento;
+			cliente.produtos = JSON.parse(e.produtos);
+				
+			//adicionar cliente
+			$("#idCliente").text(cliente.id);
+			$("#nomeBalcao").html('<h2>Cliente: ' + cliente.nomePedido + '</h2>');
+		}
+		
 		console.log(cliente.produtos);
 		for(var i = 0; i<cliente.produtos.length; i++) {
 			tPizzas += cliente.produtos[i].qtd;
@@ -109,9 +132,7 @@ $('#numeroCliente').on('blur', function(){
 		$.ajax({
 			url: urlNumero,
 			type: 'PUT'
-		})
-		
-		.done(function(e){
+		}).done(function(e){
 
 			if(e.length != 0) {
 				$("#mostrar").show('slow'); //esconder tabelas
@@ -127,10 +148,15 @@ $('#numeroCliente').on('blur', function(){
 					clientes.taxa = e.endereco.taxa;
 					
 				$("#idCliente").text(clientes.id);
+				cliente.codigoPedido = clientes.id;
 				$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
+				cliente.nomePedido = clientes.nomePedido;
 				$("#celCliente").text(clientes.celular);
+				cliente.celular = clientes.celular;
 				$("#enderecoCliente").text(clientes.endereco);
+				cliente.endereco = clientes.endereco;
 				$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
+				cliente.taxa = clientes.taxa;
 			}else {
 				window.location.href = "/cadastroCliente";
 			}
@@ -152,14 +178,10 @@ $('#numeroCliente').on('blur', function(){
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#ConfirmarCliente").click(function(){
-	cliente.codigoPedido = $("#idCliente").text();
-	cliente.nomePedido = $("#nomeCliente").text();
-	cliente.celular = $("#celCliente").text();
-	cliente.endereco = $("#enderecoCliente").text();
 	cliente.envio = $("#envioCliente").val();
 	cliente.tempo = $("#tempoCliente").val();
 	cliente.pagamento = $("#pagamentoCliente").val();
-	
+
 	if($("#idCliente").text() == ""){
 		alert("Nenhum Cliente adicionado!");
 	}else{
@@ -368,8 +390,8 @@ $("#enviarPedido").click(function() {
 				linhaHtml += '</tr>';
 			}
 			linhaHtml += '</table>';
-			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido;	
-			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" required />';
+			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:';	
+			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />';
 			linhaHtml += '<br>Deseja enviar o pedido?';
 		}
 		
@@ -388,6 +410,10 @@ $("#enviarPedido").click(function() {
 						
 						var troco = this.$content.find('#troco').val();
 						console.log(troco);
+						
+						if(troco % 2 != 0 && troco % 2 != 1) {
+							$("#troco").val('0');
+						}
 						
 						cliente.troco = parseFloat(troco);
 						cliente.total = tPedido;
@@ -456,8 +482,8 @@ $("#atualizarPedido").click(function() {
 				linhaHtml += '</tr>';
 			}
 			linhaHtml += '</table>';
-			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido;	
-			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" required />';
+			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:';	
+			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />';
 			linhaHtml += '<br>Deseja enviar o pedido?';
 		}
 		
@@ -473,12 +499,10 @@ $("#atualizarPedido").click(function() {
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
-						
+			
 						var troco = this.$content.find('#troco').val();
-						if(isNaN(troco) == true) {
-							troco = tPedido;
-						}else if(troco === '') {
-							return false;
+						if(troco % 2 != 0 && troco % 2 != 1) {
+							$("#troco").val('0');
 						}
 						
 						cliente.troco = parseFloat(troco);

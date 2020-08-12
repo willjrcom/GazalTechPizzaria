@@ -33,7 +33,7 @@ public class Pedido implements Serializable{
 	private TipoStatus status;
 	private TipoEnvio envio;
 	private String pagamento;
-
+	private String taxa;
 	private float total;
 	private float troco;
 
@@ -127,6 +127,12 @@ public class Pedido implements Serializable{
 	}
 	public void setData(Date data) {
 		this.data = data;
+	}
+	public String getTaxa() {
+		return taxa;
+	}
+	public void setTaxa(String taxa) {
+		this.taxa = taxa;
 	}
 	
 }

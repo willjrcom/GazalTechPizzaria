@@ -22,9 +22,8 @@
 		
 			<div class="form-group col-md-10">
 				<input type="search" name="celular" id="numeroCliente"
-				autofocus="autofocus" class="form-control "
-				placeholder="Qual cliente você está procurando?"
-				style="text-indent: 10px; border: 1px solid black" />
+				autofocus="autofocus" class="form-control textIndent"
+				placeholder="Qual cliente você está procurando? (celular ou nome)"/>
 			</div>
 
 			<div class="form-group col-md-2">
@@ -40,7 +39,7 @@
 				<table>
 					<thead>
 						<tr>
-							<td colspan="2"><h3 style="text-align: center">Dados</h3></td>
+							<td colspan="2"><h3>Dados</h3></td>
 						</tr>
 					</thead>
 
@@ -51,8 +50,8 @@
 						</tr>
 
 						<tr >
-							<td style="background-color: #D3D3D3" class="text-center col-md-1">Nome</td>
-							<td style="background-color: #D3D3D3"class="text-center col-md-1"  id="nomeCliente"></td>
+							<td class="text-center col-md-1 sombra">Nome</td>
+							<td class="text-center col-md-1 sombra"  id="nomeCliente"></td>
 						</tr>
 						<tr>
 							<td class="text-center col-md-1">Celular</td>
@@ -67,7 +66,7 @@
 				<table>
 					<thead>
 						<tr>
-							<td colspan="2"><h3 style="text-align: center">Opções</h3></td>
+							<td colspan="2"><h3>Opções</h3></td>
 						</tr>
 					</thead>
 					
@@ -84,8 +83,8 @@
 						</tr>
 	
 						<tr>
-							<td style="background-color: #D3D3D3" class="text-center col-md-1"><label>Pronto às:</label></td>
-							<td style="background-color: #D3D3D3" class="text-center col-md-1">
+							<td class="text-center col-md-1 sombra"><label>Pronto às:</label></td>
+							<td class="text-center col-md-1 sombra">
 								<input type="time" id="tempoCliente" name="aguardar" placeholder="horario" /></td>
 						</tr>
 	
@@ -104,7 +103,7 @@
 				<table>
 					<thead>
 						<tr>
-							<td colspan="2"><h3 style="text-align: center">Endereço</h3></td>
+							<td colspan="2"><h3>Endereço</h3></td>
 						</tr>
 					</thead>
 					
@@ -113,24 +112,22 @@
 							<td id="enderecoCliente" class="text-center col-md-1">Rua:</td>
 						</tr>
 						<tr>
-							<td id="taxaCliente" style="background-color: #D3D3D3" class="text-center col-md-1">Taxa:</td>
+							<td id="taxaCliente" class="text-center col-md-1 sombra">Taxa:</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		
-		<div class="btn-group" role="group" aria-label="Second group"
-			style="float: right">
-			<a id="ConfirmarCliente" class="esconder1"><button type="button"  class="btn btn-secondary btn-success">
+		<div class="btn-group" role="group" aria-label="Second group">
+			<a id="ConfirmarCliente" class="esconder1"><button type="button" class="btn btn-secondary btn-success">
 			 Confirmar Cliente</button></a>
 		</div>
 		
 		
 		<div class="btn-group" role="group" aria-label="Second group" id="editarCliente">
+			<a class="fRight"><button type="button" class="btn btn-secondary btn-success">Editar</button></a>
 			<p id="dados"></p>
-			<a><button type="button"class="btn btn-secondary btn-success">Editar</button></a>
-			<br>
 		</div>
 		
 		
@@ -144,14 +141,11 @@
 	
 	<br>
 	<div class="divbase" id="mostrarProdutos">
-		<div>
-			<h2 style="text-align: center">Pesquisar Produtos:</h2>
-		</div>
-	
+		<br>
 		<div align="center">
 			<div class="col-md-6" id="focusProduto">
-				<input type="search" name="nomeProduto" class="form-control mb-2 pula" id="nomeProduto"
-				style="text-indent: 10px" placeholder="Qual produto está procurando?"/>
+				<input type="search" name="nomeProduto" class="form-control mb-2 textIndent pula" id="nomeProduto"
+				placeholder="Qual produto está procurando?"/>
 			</div>
 	
 			<div class="col-md-2">
@@ -188,9 +182,9 @@
 					
 					<tfoot id="listaProdutos" style="display:none">
 						<tr>
-							<td colspan="3" style="border:none">
+							<td colspan="3">
 								<div class="table-responsive">
-									<table style="width: 100%">
+									<table class="w100">
 										<thead><tr><th colspan="3"><h4>Lista de Produtos</h4></th></tr></thead>
 										<tbody id="todosProdutos"></tbody>
 									</table>
@@ -207,7 +201,7 @@
 	<div class="divbase mostrarPedidos">
 		<h2 class="h1Logo">Pedido</h2>
 		
-		<div class="btn-group" role="group" aria-label="Second group" style="float: right">
+		<div class="btn-group fRight" role="group" aria-label="Second group">
 			<button type="button"  class="removerProduto btn btn-secondary btn-danger">Remover ultimo produto adicionado</button>
 		</div>
 		
@@ -228,7 +222,7 @@
 			</table>
 			
 			<br>
-			<h3 id="Ttotal" style="float: right">Total</h3><br>
+			<h3 id="Ttotal" class="fRight">Total</h3><br>
 		</div>
 	</div>
 	
@@ -241,12 +235,12 @@
 			Cancelar pedido</button></a>
 		</div>
 
-		<div class="btn-group" role="group" aria-label="Second group" style="float: right">
+		<div class="btn-group fRight" role="group" aria-label="Second group">
 			<a id="enviarPedido"><button type="button" class="btn btn-secondary btn-success">
 			Salvar pedido</button></a>
 		</div>
 		
-		<div class="btn-group" role="group" aria-label="Second group" style="float: right">
+		<div class="btn-group fRight" role="group" aria-label="Second group">
 			<a id="atualizarPedido"><button type="button" class="btn btn-secondary btn-success">
 			Atualizar pedido</button></a>
 		</div>
