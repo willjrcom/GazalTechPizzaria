@@ -91,9 +91,8 @@ $.ajax({
 	});
 });	
 
-function finalizarPedido() {
-				
 //---------------------------------------------------------------------------------
+function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/finalizar/finalizarPedido/" + idProduto.toString();
@@ -129,8 +128,8 @@ function finalizarPedido() {
 		linhaHtml += '</tr>';
 	}
 	linhaHtml += '</table>';
-	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
-	linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="0" required />';
+	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total  + '<br>Troco:';	
+	linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
 	linhaHtml += '<br>Deseja enviar o pedido?';
 
 
@@ -152,21 +151,18 @@ function finalizarPedido() {
 						
 						pedidos[idBusca].ac = $("#filtro").val();
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
-						
+
 						var troco = this.$content.find('#troco').val();
-						console.log(troco);
-						
-						if(isNaN(troco)) {
-							pedidos[idBusca].troco = pedidos[idBusca].total; 
-						}else {
-						pedidos[idBusca].troco = parseFloat(troco);
+						if(troco % 2 != 0 && troco % 2 != 1) {
+							$("#troco").val('0');
 						}
+						
 						console.log(pedidos[idBusca]);
 						
 						$.ajax({
 							url: urlEnviar,
-							type: "PUT",
-							data: pedidos[idBusca],
+							type: 'PUT',
+							data: pedidos[idBusca]
 							
 						}).done(function(e){
 							document.location.reload(true);
