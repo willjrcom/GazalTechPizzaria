@@ -60,6 +60,11 @@ th h3, td h3, th h5, th h4{
 	color: white;
 }
 
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
 .dropdown-content {
     display: none;
     position: absolute;
@@ -88,7 +93,7 @@ table thead tr th{
 table tbody tr td{
 	/*background-color: white;*/
 	text-align: center;
-	padding: 1vh;
+	padding: .5vh;
 }
 
 tr td:last-child{
@@ -197,18 +202,18 @@ a:link{
 }
 
 .divbase {
-	margin-left: 3vh; 
-	margin-right: 3vh; 
+	margin-left: 1vh; 
+	margin-right: 1vh; 
 	background-color: white; 
 	border: 1px solid black;
 	border-radius: 20px;
 	-webkit-border-radius: 20px;
-	padding: 20px;
+	padding: 1vh;
 }
 
 .divbaseForm {
-	margin-left: 10vh; 
-	margin-right: 10vh; 
+	margin-left: 2vh; 
+	margin-right: 2vh; 
 	background-color: #ececec; 
 	border: 1px solid black;
 	border-radius: 20px;
@@ -216,6 +221,33 @@ a:link{
 	padding: 5vh;
 }
 
+.fRight{
+	float: right;
+}
+
+.fLeft{
+	float: left;
+}
+
+.w100{
+	width: 100%;
+}
+
+.textIndent{
+	text-indent: 10px;
+}
+
+#dados{
+    margin-bottom: 0px;
+}
+
+.sombra{
+	background-color: #D3D3D3;
+}
+
+h3{
+	text-align: center;
+}
 .form-contact-button {
   	width: 100%;
   	font-size: 22px;
