@@ -1,19 +1,4 @@
-//abrir menu
-$("#menuButton").click(function(){
 
-	var submenu = document.getElementById("menuPrincipal");
-	
-	if(submenu.style.display == 'block'){
-		$("#menuPrincipal").hide('slow');
-	}else{
-		$("#menuPrincipal").show('slow');
-	}
-});
-
-
-
-
-//------------------------------------------------------------------------------------------------------------------------
 //var cliente
 //------------------------------------------------------------------------------------------------------------------------
 var cliente = {};

@@ -16,15 +16,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!--------------------------------------------------------------------------------------------------------->
 <body>
-	<header id="menuPrincipal" th:fragment="logo">
+	<header  th:fragment="logo">
 		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
 	
-	<nav>
+	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
+	<nav id="menuPrincipal">
 		<ul class="menu">
-			<li><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a>
-				<ul>
-					<li><a accesskey="V" th:href="@{/verpedido}">VER</a></li>
-				</ul>
+			<li class="Dropdown"><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a>
+				<div class="dropdown-content">
+					<a accesskey="V" th:href="@{/verpedido}">VER</a>
+				</div>
 			</li>
 			<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
 			<li><a accesskey="P" th:href="@{/pronto}">PRONTOS</a></li>
@@ -36,7 +37,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</li>
 			<li class="Dropdown"><a accesskey="A" th:href="@{/relatoriodia}">ADM</a></li>
 			<li><a accesskey="S" th:href="@{/index}">SAIR</a></li>
-			<li><label class="centralizar dataMenu" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Shit + Tecla</label></li>
 			<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 		</ul>
@@ -47,8 +47,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--------------------------------------------------------------------------------------------------------->
 	<header th:fragment="adm">
 		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
-	
-	<nav>
+	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
+	<nav id="menuPrincipal">
 		<ul class="menu">
 			<li><a class="active" th:href="@{/relatoriodia}">RELATÓRIO</a></li>
 			<li><a th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
@@ -61,9 +61,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</li>
 			<li><a th:href="@{/tutorial}">PREFERENCIAS</a></li>
 			<li><a th:href="@{/novoPedido}">VOLTAR</a></li>
-			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
-			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
-			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 		</ul>
 	</nav>
 	</header>
@@ -72,10 +71,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!--------------------------------------------------------------------------------------------------------->
 	<header th:fragment="cadastros">
 		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
+		
+	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
 	
-	<nav>
+	<nav id="menuPrincipal">
 		<ul class="menu">
-			<li><a th:href="@{/cadastros}">TODOS</a></li>
+			<li><a class="active" th:href="@{/cadastros}">TODOS</a></li>
 			<li class="Dropdown"><a th:href="@{/clientesCadastrados}">CLIENTES</a>
 				<div class="dropdown-content">
 					<a th:href="@{/cadastroCliente}">CADASTRAR</a>
@@ -95,9 +96,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</li>
 			
 			<li><a th:href="@{/relatoriodia}">VOLTAR</a></li>
-			<li><label class="centralizar" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh">Atalho:&nbsp; Alt + Tecla</label></li>
-			<li><label class="centralizar" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
-			<li><label class="centralizar" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 		</ul>
 	</nav>
 	</header>
@@ -173,6 +173,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 		<script th:src="@{/js/pulaInput.js}"></script>
 		<script th:src="@{/js/validacoes.js}"></script>
+		<script th:src="@{/js/header.js}"></script>
 	</footer>
 
 <!--------------------------------------------------------------------------------------------------------->

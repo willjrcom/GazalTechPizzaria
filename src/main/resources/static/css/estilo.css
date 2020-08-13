@@ -22,7 +22,7 @@ body{
 }
 
 header{
-	background-color: white;
+	/*background-color: white;**/
 }
 
 footer{
@@ -67,6 +67,7 @@ th h3, td h3, th h5, th h4{
     display: none;
     position: absolute;
     min-width: 160px;
+    z-index: 3;
 }
 .Dropdown:hover .dropdown-content {
     display: block;
@@ -192,6 +193,11 @@ img{
 	#menuButton{
 		display: none;
 	}
+}
+
+.posicaoMenu{
+	float: left;
+	position: absolute;
 }
 .menu li a{
 	padding:5px 10px;
