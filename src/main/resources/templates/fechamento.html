@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/header :: head}" ></head>
+<head><title>Fechamento - Ibiti das Pizzas</title></head>
+
+<body>
+	<header th:replace="~{layouts/header :: adm}"></header>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Fechamento</h1>		
+	
+		<div class="row">
+			<div class="col-md-4 table-responsive">
+				<table>
+					<thead>
+						<tr>
+							<td colspan="2"><h3>Total de pedidos hoje</h3></td>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td id="Tpedidos" class="text-center col-md-1 sombra">0</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		
+			<div class="col-md-4 table-responsive">
+				<table>
+					<thead>
+						<tr>
+							<td colspan="2"><h3>Total em vendas</h3></td>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td id="Tvendas" class="text-center col-md-1 sombra">R$ 0,00</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+			<div class="col-md-4 table-responsive">
+				<table>
+					<thead>
+						<tr>
+							<td colspan="2"><h3>Faturamento</h3></td>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td id="Tfaturamento" class="text-center col-md-1 sombra">0</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<br>
+	</div>
+	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<script th:src="@{/js/fechamento.js}"></script>
+</body>
+</html>

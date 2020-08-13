@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller.CadastrosController;
+package proj_vendas.vendas.web.controller;
 
 import java.util.List;
 
@@ -9,16 +9,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Cliente;
-import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.Produto;
+import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Funcionarios;
+import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
 
 @Controller
-@RequestMapping("/cadastros")
-public class CadastrosController {
+@RequestMapping("/fechamento")
+public class FechamentoController {
 
 	@Autowired
 	private Clientes clientes;
@@ -28,17 +27,14 @@ public class CadastrosController {
 	
 	@Autowired
 	private Produtos produtos;
+
+	@Autowired
+	private Pedidos pedidos;
+	
 	
 	@RequestMapping
 	public ModelAndView lerCadastros() {
-		List<Cliente> todosClientes = clientes.findAll();
-		List<Funcionario> todosFuncionarios = funcionarios.findAll();
-		List<Produto> todosProdutos = produtos.findAll();
-		ModelAndView mv = new ModelAndView("todosCadastros");
-		mv.addObject("clientes", todosClientes);
-		mv.addObject("funcionarios", todosFuncionarios);
-		mv.addObject("produtos", todosProdutos);
-		return mv;
+		return new ModelAndView("fechamento");
 	}
 	
 	@RequestMapping(value = "/Tclientes", method = RequestMethod.PUT)
@@ -57,5 +53,17 @@ public class CadastrosController {
 	@ResponseBody
 	public long totalProdutos() {
 		return produtos.count();
+	}
+	
+	@RequestMapping(value = "/Tpedidos", method = RequestMethod.PUT)
+	@ResponseBody
+	public long totalPedidos() {
+		return pedidos.count();
+	}
+	
+	@RequestMapping(value = "/Tvendas", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Pedido> totalVendas() {
+		return pedidos.findAll();
 	}
 }
