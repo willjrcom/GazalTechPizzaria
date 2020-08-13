@@ -21,7 +21,7 @@ if(typeof url_atual == "undefined") {
 		produto.codigoBusca = e.codigoBusca;
 		produto.nomeProduto = e.nomeProduto;
 		produto.preco = e.preco;
-		produto.estoque = e.estoque;
+		produto.custo = e.custo;
 		produto.setor = e.setor;
 		produto.descricao = e.descricao;
 		
@@ -30,7 +30,7 @@ if(typeof url_atual == "undefined") {
 		$("#codigoBusca").val(produto.codigoBusca);
 		$("#nomeProduto").val(produto.nomeProduto);
 		$("#preco").val(produto.preco);
-		$("#estoque").val(produto.estoque);
+		$("#custo").val(produto.custo);
 		$("#setor").val(produto.setor);
 		$("#descricao").val(produto.descricao);
 		
@@ -45,7 +45,7 @@ function setProduto() {
 	produto.codigoBusca = $("#codigoBusca").val();
 	produto.nomeProduto = 	$("#nomeProduto").val();
 	produto.preco = $("#preco").val();
-	produto.estoque = $("#estoque").val();
+	produto.custo = $("#custo").val();
 	produto.setor = $("#setor").val();
 	produto.descricao = $("#descricao").val();
 }

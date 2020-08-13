@@ -16,6 +16,7 @@ var Preco;
 var Qtd ;
 var Borda;
 var Obs;
+var Custo;
 
 var tPizzas = 0;
 var tPedido = 0;
@@ -295,7 +296,7 @@ function enviarProduto() {
 			Qtd = parseFloat($("#qtd").val());
 			Borda = $("#borda").val();
 			Obs = $("#obs").val();
-		
+			Custo = e.custo;
 			Preco *= Qtd;
 			tPizzas += Qtd;
 			tPedido += Preco;
@@ -305,7 +306,8 @@ function enviarProduto() {
 				'qtd': Qtd,
 				'borda': Borda,
 				'obs': Obs,
-				'preco': Preco
+				'preco': Preco,
+				'custo': Custo
 			});
 			
 			$("#novoProduto").html("");

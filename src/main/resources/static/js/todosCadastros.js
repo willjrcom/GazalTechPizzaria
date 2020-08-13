@@ -3,6 +3,8 @@ var Tfuncionarios;
 var Tprodutos;
 var Tpedidos;
 var Tvendas = 0;
+var Tfaturamento = 0;
+
 
 //buscar total de clientes
 $.ajax({
@@ -63,7 +65,13 @@ $.ajax({
 		
 		Tvendas += e[i].total;
 		
+		for(var j = 0; j < e[i].produtos.length; j++) {
+			Tfaturamento += e[i].produtos[j].custo;
+		}
+		
+		
 		$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
+		$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento)).toFixed(2));
 	}
 }).fail(function(){
 	$.alert("Nenhum valor encontrado!");
