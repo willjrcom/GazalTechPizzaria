@@ -48,17 +48,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="form-group">
 				<label for="cargo">Cargo:<br></label>
 				<select class="form-control pula" id="cargo" name="cargo" required>
-					<option th:each="cargos : ${TipoCargo}" th:value="${cargos}" th:text="${cargos.descricao}"></option>
+					<option value="ATENDIMENTO">Atendimento</option>
+					<option value="MOTOBOY">Motoboy</option>
+					<option value="COZINHA">Cozinha</option>
+					<option value="PIZZAIOLO">Pizzaiolo</option>
+					<option value="FORNEIRO">Forneiro</option>
+					<option value="REPOSITOR">Repositor</option>
+					<option value="GERENTE">Gerente</option>
+					<option value="MARKETING">Marketing</option>
+					<option value="ANALISTA">Analista</option>
+					<option value="AUXILIARCOZINHA">Auxiliar de cozinha</option>
+					<option value="AUXILIARPIZZAIOLO">Auxiliar de pizzaiolo</option>
+					<option value="MENORAPRENDIZ">Menor Aprendiz</option>
 				</select>
 			</div>
 			
 			<div class="form-group">
 				<label>Sexo:<br/></label>
 				<select class="form-control pula" id="sexo" name="sexo" required>
-					<option th:each="sexos : ${TipoSexo}" th:value="${sexos}" th:text="${sexos.descricao}"></option>
+					<option value="MASCULINO">Masculino</option>
+					<option value="FEMINIMO">Feminino</option>
 				</select>
 			</div>
-			
 			
 			<h3><br/>Endereço:<br/><br/></h3>
 			
@@ -72,7 +83,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		  	<div class="form-row">
 		  		<div class="col-md-8">
 				   <div class="form-group">
-				       <label>Rua<span>*</span> <span id='mensagem'></span></label>
+				       <label>Rua</label>
 		      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua" required>
 				    </div>
 		  		</div>

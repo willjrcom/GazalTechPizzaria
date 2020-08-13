@@ -41,7 +41,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="form-group">
 			<label>Setor:<br/></label>
 			<select class="form-control" id="setor" name="setor" required>
-				<option th:each="produto : ${TipoProduto}" th:value="${produto}" th:text="${produto.descricao}"></option>
+				<option value="PIZZA">Pizza</option>
+				<option value="REFRIGERANTE">Refrigerante</option>
+				<option value="PASTEL">Pastel</option>
+				<option value="PANQUECA">Panqueca</option>
+				<option value="HAMBURGUER">Hambúrguer</option>
+				<option value="OUTROS">Outros</option>
+				<option value="INGREDIENTE">Ingrediente</option>
 			</select>
 		</div>
 		
