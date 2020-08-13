@@ -40,8 +40,6 @@ a{
 	background-color: #333;
 }
 table{
-	/*background-color: white;
-	border: 1px solid black;*/
 	border-collapse: separate;
 }
 
@@ -164,11 +162,37 @@ img{
 	border-bottom: 1px solid black;
 }
 	
-.menu li{
-	float:left; 
-	/*border-right:1px solid #c0c0c0; */
+
+@media (max-width:768px){
+	.menu li{
+		float: none;
+	}
+	
+	#menuPrincipal{
+		display:none;
+	}
+	
+	#menuButton{
+		display: block;
+	}
+	.dataMenu{
+		display:none;
+	}
 }
 
+@media ( min-width: 769px ){
+	.menu li{
+		float:left;
+	}
+	
+	#menuPrincipal{
+		display: block;
+	}
+	
+	#menuButton{
+		display: none;
+	}
+}
 .menu li a{
 	padding:5px 10px;
 }
