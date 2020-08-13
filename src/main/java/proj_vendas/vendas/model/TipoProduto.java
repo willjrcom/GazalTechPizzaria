@@ -4,7 +4,7 @@ public enum TipoProduto {
 	PIZZA("Pizza"),
 	REFRIGERANTE("Refrigerante"),
 	INGREDIENTE("Ingrediente"),
-	PASTEL("Pstel"),
+	PASTEL("Pastel"),
 	PANQUECA("Panqueca"),
 	OUTROS("Outros");
 	

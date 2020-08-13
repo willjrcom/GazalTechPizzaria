@@ -16,7 +16,7 @@ public class Produto {
 	private String codigoBusca;
 	private String nomeProduto;
 	private float preco;
-	private int estoque;
+	private float custo;
 	private TipoProduto setor;
 	private String descricao;
 	
@@ -45,12 +45,6 @@ public class Produto {
 	public void setPreco(float preco) {
 		this.preco = preco;
 	}
-	public int getEstoque() {
-		return estoque;
-	}
-	public void setEstoque(int estoque) {
-		this.estoque = estoque;
-	}
 	public TipoProduto getSetor() {
 		return setor;
 	}
@@ -62,6 +56,12 @@ public class Produto {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public float getCusto() {
+		return custo;
+	}
+	public void setCusto(float custo) {
+		this.custo = custo;
 	}
 	
 	

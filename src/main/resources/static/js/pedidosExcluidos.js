@@ -2,7 +2,7 @@ var pedidos = [];
 var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="6">Nenhum pedido excluído!</td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum pedido cancelado!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 

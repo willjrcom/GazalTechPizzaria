@@ -135,8 +135,8 @@ $('#numeroCliente').on('blur', function(){
 		}).done(function(e){
 
 			if(e.length != 0) {
-				$("#mostrar").show('slow'); //esconder tabelas
 				$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
+				$("#mostrar").show('slow'); //mostrar tabelas
 				
 				console.log(e);
 			
