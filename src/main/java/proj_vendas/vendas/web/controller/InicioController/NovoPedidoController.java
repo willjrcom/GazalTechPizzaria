@@ -59,7 +59,7 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/nomeProduto/{nome}", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
-		return produtos.findByNomeProdutoContaining(nome);
+		return produtos.findByNomeProdutoContainingOrCodigoBusca(nome,nome);
 	}
 	
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})

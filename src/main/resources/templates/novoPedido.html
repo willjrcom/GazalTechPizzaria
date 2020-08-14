@@ -17,7 +17,6 @@
 			<div class=" col-md-2">
 				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success">Cadastrar Cliente</button></a>
 			</div>
-			<br>
 			<h1 class="h1Logo esconder1">Novo Pedido</h1>
 		
 			<div class="form-group col-md-10">
@@ -35,7 +34,7 @@
 		
 		
 		<div class="row" id="mostrar">
-			<div class="col-md-4 table-responsive">
+			<div class="col-md-6 table-responsive">
 				<table>
 					<thead>
 						<tr>
@@ -61,45 +60,14 @@
 				</table>
 			</div>
 
-
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Opções</h3></td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr>
-							<td class="text-center col-md-1"><label for="envioCliente">Envio:</label></td>
-							<td class="text-center col-md-1"><select name="opcao" id="envioCliente">
-									<option value="ENTREGA">Entrega</option>
-									<option value="BALCAO">Balcão</option>
-									<option value="MESA">Mesa</option>
-									<option value="IFOOD">Ifood</option>
-									<option value="DRIVE">Drive-Thru</option>
-							</select></td>
-						</tr>
-	
-						<tr>
-							<td class="text-center col-md-1 sombra"><label>Pronto às:</label></td>
-							<td class="text-center col-md-1 sombra">
-								<input type="time" id="tempoCliente" name="aguardar" placeholder="horario" /></td>
-						</tr>
-	
-						<tr>
-							<td class="text-center col-md-1"><label for="pagamentoCliente">Pago:</label></td>
-							<td class="text-center col-md-1"><select name="pagamento" id="pagamentoCliente">
-									<option value="Sim">Sim</option>
-									<option value="Não">Não</option>
-							</select></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<div class="col-md-4 table-responsive">
+<!-- 
+		<tr>
+			<td class="text-center col-md-1 sombra"><label>Pronto às:</label></td>
+			<td class="text-center col-md-1 sombra">
+				<input type="time" id="tempoCliente" name="aguardar" placeholder="horario" /></td>
+		</tr>
+-->
+			<div class="col-md-6 table-responsive">
 				<table>
 					<thead>
 						<tr>
@@ -119,17 +87,6 @@
 			</div>
 		</div>
 		
-		<div class="btn-group" role="group" aria-label="Second group">
-			<a id="ConfirmarCliente" class="esconder1"><button type="button" class="btn btn-secondary btn-success">
-			 Confirmar Cliente</button></a>
-		</div>
-		
-		
-		<div class="btn-group" role="group" aria-label="Second group" id="editarCliente">
-			<a class="fRight"><button type="button" class="btn btn-secondary btn-success">Editar</button></a>
-			<p id="dados"></p>
-		</div>
-		
 		
 		<!-- balcão------------------------------------------------------------------------------------------------- -->
 		<div class="btn-group" role="group" aria-label="Second group">
@@ -140,113 +97,94 @@
 	<!-------------------------------------------------------------------------------------------------------------------------->
 	
 	<br>
-	<div class="divbase" id="mostrarProdutos">
-		<br>
-		<div align="center">
-			<div class="col-md-6" id="focusProduto">
-				<input type="search" name="nomeProduto" class="form-control mb-2 textIndent pula" id="nomeProduto"
-				placeholder="Qual produto está procurando?"/>
-			</div>
-	
-			<div class="col-md-2">
-				<button type="submit" name="buscarProduto" id="buscarProduto"
-					class="form-control mb-2 btn btn-primary">Buscar</button>
-			</div>
-		</div>
-	
-<!-- --------------------pizzas---------------------------------------------------------------------------------- -->
-		<br><br>
-		<div align="center">
-			<div class="table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<th class="col-md-1"><h5>Borda Recheada</h5></th>
-							<th class="col-md-1"><h5>Qtd</h5></th>
-							<th class="col-md-1"><h5>Observação</h5></th>
-						</tr>
-					</thead>
-				
-					<tbody>
-						<tr>
-							<td> 
-								<select class="form-control" name="borda" id="borda">
-									<option th:each="borda : ${TipoBorda}" th:value="${borda}"
-										th:text="${borda.descricao}"></option>
-								</select> 
-							</td>
-							<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>
-							<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>
-						</tr>
-					</tbody>
-					
-					<tfoot id="listaProdutos" style="display:none">
-						<tr>
-							<td colspan="3">
-								<div class="table-responsive">
-									<table class="w100">
-										<thead><tr><th colspan="3"><h4>Lista de Produtos</h4></th></tr></thead>
-										<tbody id="todosProdutos"></tbody>
-									</table>
-								</div>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-	</div>
-<!-- ------------------------------------------------------------------------------------------------- -->
-	<br>
-	<div class="divbase mostrarPedidos">
-		<h2 class="h1Logo">Pedido</h2>
-		
-		<div class="btn-group fRight" role="group" aria-label="Second group">
-			<button type="button"  class="removerProduto btn btn-secondary btn-danger">Remover ultimo produto adicionado</button>
-		</div>
-		
-		<br><br>
-		<div class="table-responsive">
-			<table>
-				<thead>
-					<tr>
-						<th class="col-md-1"><h5>Borda Recheada</h5></th>
-						<th class="col-md-1"><h5>Produto</h5></th>
-						<th class="col-md-1"><h5>Observação</h5></th>
-						<th class="col-md-1"><h5>Qtd</h5></th>
-						<th class="col-md-1"><h5>R$</h5></th>
-					</tr>
-				</thead>
-	
-				<tbody id="novoProduto"></tbody>
-			</table>
+	<div>
+		<div class="col-md-6">
+			<div class="divbase" id="mostrarProdutos">
 			
-			<br>
-			<h3 id="Ttotal" class="fRight">Total</h3><br>
-		</div>
-	</div>
+				<div class="row">
+					<div class="col-md-10" id="focusProduto">
+						<input type="search" name="nomeProduto" class="form-control mb-2 textIndent pula" id="nomeProduto"
+						placeholder="Qual produto está procurando?"/>
+					</div>
+			
+					<div class="col-md-2">
+						<button type="submit" name="buscarProduto" id="buscarProduto"
+							class="form-control mb-2 btn btn-primary">Buscar</button>
+					</div>
+				</div>
+			</div>
 	
-	<br>
-	<div class="divbase mostrarPedidos">
-		<h2 class="h1Logo" align="center">Finalizar pedido</h2>
+	<!-- ------------------------------------------------------------------------------------------------- -->
 		
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<a href="/novoPedido"><button type="button" class="btn btn-secondary btn-danger">
-			Cancelar pedido</button></a>
+			<div class="divbase mostrarPedidos">
+				
+				<div class="btn-group fRight" role="group" aria-label="Second group">
+					<button type="button"  class="removerProduto btn btn-danger">Remover ultimo produto adicionado</button>
+				</div>
+				
+				<br><br>
+				<div class="table-responsive">
+					<table>
+						<thead>
+							<tr>
+								<th class="col-md-1"><h5>Borda Recheada</h5></th>
+								<th class="col-md-1"><h5>Produto</h5></th>
+								<th class="col-md-1"><h5>Observação</h5></th>
+								<th class="col-md-1"><h5>Qtd</h5></th>
+								<th class="col-md-1"><h5>R$</h5></th>
+							</tr>
+						</thead>
+			
+						<tbody id="novoProduto"></tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-
-		<div class="btn-group fRight" role="group" aria-label="Second group">
-			<a id="enviarPedido"><button type="button" class="btn btn-secondary btn-success">
-			Salvar pedido</button></a>
-		</div>
+	
+		<div class="col-md-6">
+			<div class="divbase mostrarPedidos">
+				<h2 class="h1Logo" align="center">Finalizar pedido</h2>
+				<table>	
+					<tr id="divEnvio">
+						<td class="text-center col-md-3 sombra"><label for="envioCliente">Envio:</label></td>
+						<td class="text-center col-md-3"><select name="opcao" id="envioCliente">
+								<option value="ENTREGA">Entrega</option>
+								<option value="BALCAO">Balcão</option>
+								<option value="MESA">Mesa</option>
+								<option value="IFOOD">Ifood</option>
+								<option value="DRIVE">Drive-Thru</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="text-center col-md-3"><label for="pagamentoCliente">Pago:</label></td>
+						<td class="text-center col-md-3 sombra"><select name="pagamento" id="pagamentoCliente">
+								<option value="Sim">Sim</option>
+								<option value="Não">Não</option>
+						</select></td>
+					</tr>
+				</table>
+				<br>
+				<h3 id="Ttotal">Total</h3><br>
+				
+				<div class="btn-group" role="group" aria-label="Basic example">
+					<a href="/novoPedido"><button type="button" class="btn btn-secondary btn-danger">
+					Cancelar pedido</button></a>
+				</div>
 		
-		<div class="btn-group fRight" role="group" aria-label="Second group">
-			<a id="atualizarPedido"><button type="button" class="btn btn-secondary btn-success">
-			Atualizar pedido</button></a>
+				<div class="btn-group fRight" role="group" aria-label="Second group">
+					<a id="enviarPedido"><button type="button" class="btn btn-secondary btn-success">
+					Salvar pedido</button></a>
+				</div>
+				
+				<div class="btn-group fRight" role="group" aria-label="Second group">
+					<a id="atualizarPedido"><button type="button" class="btn btn-secondary btn-success">
+					Atualizar pedido</button></a>
+				</div>
+			</div>
 		</div>
 	</div>
-
-	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	<footer th:replace="~{layouts/header :: footer}"></footer>
 	
     <script th:src="@{/js/novoPedido.js}"></script>

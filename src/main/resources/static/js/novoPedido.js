@@ -2,8 +2,6 @@
 //var cliente
 //------------------------------------------------------------------------------------------------------------------------
 var cliente = {};
-var cliente_json;
-
 var produtos = [];
 var buscaProdutos = [];
 var op;
@@ -36,8 +34,6 @@ if(typeof url_atual == "undefined") {
 	$("#mostrar").hide(); //esconder tabelas
 	$("#mostrarProdutos").hide();
 	$(".mostrarPedidos").hide();
-	$("#ConfirmarCliente").hide(); //esconder botao confirmar
-	$("#editarCliente").hide(); //esconder botao confirmar
 	$("#atualizarPedido").hide();
 	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$0,00 &nbsp;&nbsp;&nbsp;');
 }else {
@@ -54,13 +50,11 @@ if(typeof url_atual == "undefined") {
 		console.log(e);
 
 		$("#divBuscar").hide();
-		$(".esconder1").hide();
 		$("#enviarPedido").hide();
-		$("#editarCliente").hide();
+		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
 			$("#mostrar").show('slow'); //esconder tabelas
-			$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
 
 			cliente.id = e.id;
 			cliente.nomePedido = e.nomePedido;
@@ -85,7 +79,6 @@ if(typeof url_atual == "undefined") {
 		if(e.envio == 'BALCAO' || e.envio == 'MESA' || e.envio == 'DRIVE') {
 
 			$("#mostrar").hide();
-			$("#editarCliente").hide();
 			
 			cliente.id = e.id;
 			cliente.nomePedido = e.nomePedido;
@@ -100,7 +93,7 @@ if(typeof url_atual == "undefined") {
 			$("#nomeBalcao").html('<h2>Cliente: ' + cliente.nomePedido + '</h2>');
 		}
 		
-		console.log(cliente.produtos);
+		console.log(cliente);
 		for(var i = 0; i<cliente.produtos.length; i++) {
 			tPizzas += cliente.produtos[i].qtd;
 			produtos.unshift({
@@ -136,80 +129,45 @@ $('#numeroCliente').on('blur', function(){
 		}).done(function(e){
 
 			if(e.length != 0) {
-				$("#ConfirmarCliente").show('slow'); //esconder botao confirmar
 				$("#mostrar").show('slow'); //mostrar tabelas
 				
 				console.log(e);
-			
-				let clientes = {};
-					clientes.id = e.id;
-					clientes.nomePedido = e.nome;
-					clientes.celular = e.celular;
-					clientes.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
-					clientes.taxa = e.endereco.taxa;
 					
-				$("#idCliente").text(clientes.id);
-				cliente.codigoPedido = clientes.id;
-				$("#nomeCliente").text(clientes.nomePedido).css('background-color', '#D3D3D3');
-				cliente.nomePedido = clientes.nomePedido;
-				$("#celCliente").text(clientes.celular);
-				cliente.celular = clientes.celular;
-				$("#enderecoCliente").text(clientes.endereco);
-				cliente.endereco = clientes.endereco;
-				$("#taxaCliente").text('Taxa: R$ ' + clientes.taxa + ',00');
-				cliente.taxa = clientes.taxa;
+				$("#idCliente").text(e.id);
+				cliente.codigoPedido = e.id;
+				
+				$("#nomeCliente").text(e.nome).css('background-color', '#D3D3D3');
+				cliente.nomePedido = e.nome;
+				
+				$("#celCliente").text(e.celular);
+				cliente.celular = e.celular;
+				
+				$("#enderecoCliente").text(e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro);
+				cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
+				
+				$("#taxaCliente").text('Taxa: R$ ' + e.endereco.taxa + ',00');
+				cliente.taxa = e.endereco.taxa;
+
+				$("#divBuscar").hide('slow');
+				$("#mostrarProdutos").show('slow');
 			}else {
 				window.location.href = "/cadastroCliente";
 			}
 		}).fail(function(){
 			console.log("Cliente não encontrado!");
 		});
+		
 	}else if(typeof $("#numeroCliente").val() == 'string'){
 		$("#nomeBalcao").html('<h2>Cliente: ' + $("#numeroCliente").val() + '</h2>');
 		cliente.nomePedido = $("#numeroCliente").val();
 		cliente.envio = 1;
+		
 		$("#idCliente").text('0');
 		$("#divBuscar").hide('slow');
-		$(".esconder1").hide("slow");
 		$("#mostrar").hide("slow");
 		$("#mostrarProdutos").show('slow');
+		$("#divEnvio").hide();
 	}
-});
-
-
-//------------------------------------------------------------------------------------------------------------------------
-$("#ConfirmarCliente").click(function(){
-	cliente.envio = $("#envioCliente").val();
-	cliente.tempo = $("#tempoCliente").val();
-	cliente.pagamento = $("#pagamentoCliente").val();
-
-	if($("#idCliente").text() == ""){
-		alert("Nenhum Cliente adicionado!");
-	}else{
-		$("#divBuscar").hide('slow');
-		$(".esconder1").hide("slow");
-		$("#mostrar").hide("slow");
-		$("#mostrarProdutos").show('slow');
-		$("#editarCliente").show('slow');
-		$("#dados").html(
-				'<table style="width: 50%">'
-					+ '<thead><tr><th colspan="4"><h5>Cliente</h5></th></tr></thead>'
-					+ '<tr>'
-						+ '<td class="text-left col-md-1 fundoList">' + cliente.codigoPedido + '</td>'
-						+ '<td class="text-left col-md-1">' + cliente.nomePedido.split(' ')[0] + '</td>'
-						+ '<td class="text-left col-md-1 fundoList">' + cliente.celular + '</td>'
-						+ '<td class="text-left col-md-1">' + cliente.envio + '</td>'
-					+ '</tr>'
-				+ '</table>');
-	}
-});
-
-
-//------------------------------------------------------------------------------------------------------------------------
-$("#editarCliente").click(function(){
-	$("#mostrar").show('slow');
-	$(this).hide('slow');
-	$("#ConfirmarCliente").show('slow');
 });
 
 
@@ -224,8 +182,8 @@ $('#nomeProduto').on('blur', function(){
 		$.ajax({
 			url: urlProduto,
 			type: 'PUT'
-		})
-		.done(function(e){
+		}).done(function(e){
+			$("#nomeProduto").val('');
 			buscaProdutos = [];
 			
 			for(var i = 0; i < e.length; i++){
@@ -239,32 +197,154 @@ $('#nomeProduto').on('blur', function(){
 			$("#listaProdutos").show('slow');
 			$("#todosProdutos").html(" ");
 			
+			linhaHtml = '<table class="w100">'
+							+'<thead>'
+								+'<tr>'
+								+'<th class="col-md-1"><h5>Borda Recheada</h5></th>'
+								+'<th class="col-md-1"><h5>Qtd</h5></th>'
+								+'<th class="col-md-1"><h5>Observação</h5></th>'
+								+'</tr>'
+							+'</thead>'
+		
+							+'<tbody>'
+								+'<tr>'
+									+'<td>'
+										+'<select class="form-control" name="borda" id="borda">'
+											+'<option th:each="borda : ${TipoBorda}" th:value="${borda}"'
+											+'th:text="${borda.descricao}"></option>'
+										+'</select>'
+									+'</td>'
+									
+									+'<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>'
+									+'<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>'
+								+'</tr>'
+							+'</tbody>'
+							
+						+'<tfoot>';
+							+'<tr><th colspan="3"><h4>Lista de Produtos</h4></th></tr>';
+						
 			for(var i=0; i<buscaProdutos.length; i++){
-				linhaHtml = "";
-				linhaHtml += '<tr>';
-				linhaHtml += 	'<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>';
-				linhaHtml += 	'<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>';
-				linhaHtml += '<td class="col-md-1">'
-								+ '<div>'
-								+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
-								+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
-									+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
-									+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
-									+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
-									+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
-									+ '</svg>'
-								+ '</button>'
-							+ '</div>'
-						+'</td>';
-				linhaHtml += '</tr>';
-				
-				$("#todosProdutos").append(linhaHtml);
+				linhaHtml += '<tr>'
+								+ '<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>'
+								+ '<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>'
+								+ '<td class="col-md-1">'
+									+ '<div>'
+										+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+										+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+											+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+											+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+											+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+											+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+											+ '</svg>'
+										+ '</button>'
+									+ '</div>'
+								+ '</td>';
+							+ '</tr>';
+					
+			}
+			linhaHtml += '</tfoot></table>';
+			
+			if(buscaProdutos.length != 0){
+				$.confirm({
+					title: '<h4>Lista de Produtos</h4>',
+					content: linhaHtml
+				});
+			}else {
+				$.alert("Nenhum produto encontrado!");
 			}
 			
 			if(buscaProdutos.length == 0){
 				$("#todosProdutos").html('<tr>'
-				+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
-				+ '</tr>');
+											+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
+											+ '</tr>');
+			}
+		});
+	}
+});
+
+
+
+//------------------------------------------------------------------------------------------------------------------------
+$('#buscarProduto').click(function(){
+
+	if($.trim($("#nomeProduto").val()) != ""){
+
+		var produto = $("#nomeProduto").val();
+		urlProduto = "/novoPedido/nomeProduto/" + produto.toString();
+		
+		$.ajax({
+			url: urlProduto,
+			type: 'PUT'
+		}).done(function(e){
+			
+			buscaProdutos = [];
+			$("#nomeProduto").val('');
+			for(var i = 0; i < e.length; i++){
+				buscaProdutos.push({
+					'id': e[i].id,
+					'nomeProduto': e[i].nomeProduto,
+					'preco': e[i].preco
+				});
+			};
+	
+			$("#listaProdutos").show('slow');
+			$("#todosProdutos").html(" ");
+			
+			linhaHtml = '<table class="w100">'
+							+'<thead>'
+								+'<tr>'
+								+'<th class="col-md-1"><h5>Borda Recheada</h5></th>'
+								+'<th class="col-md-1"><h5>Qtd</h5></th>'
+								+'<th class="col-md-1"><h5>Observação</h5></th>'
+								+'</tr>'
+							+'</thead>'
+		
+							+'<tbody>'
+								+'<tr>'
+									+'<td>'
+										+'<select class="form-control" name="borda" id="borda">'
+											+'<option th:each="borda : ${TipoBorda}" th:value="${borda}"'
+											+'th:text="${borda.descricao}"></option>'
+										+'</select>'
+									+'</td>'
+									
+									+'<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>'
+									+'<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>'
+								+'</tr>'
+							+'</tbody>'
+							
+						+'<tfoot>';
+							+'<tr><th colspan="3"><h4>Lista de Produtos</h4></th></tr>';
+						
+			for(var i=0; i<buscaProdutos.length; i++){
+				linhaHtml += '<tr>'
+								+ '<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>'
+								+ '<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>'
+								+ '<td class="col-md-1">'
+									+ '<div>'
+										+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+										+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+											+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+											+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+											+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+											+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+											+ '</svg>'
+										+ '</button>'
+									+ '</div>'
+								+ '</td>';
+							+ '</tr>';
+					
+			}
+			linhaHtml += '</tfoot></table>';
+			$.confirm({
+				title: '<h4>Lista de Produtos</h4>',
+				content: linhaHtml
+			});
+			
+			if(buscaProdutos.length == 0){
+				$("#todosProdutos").html('<tr>'
+											+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
+											+ '</tr>');
 			}
 		});
 	}
@@ -274,7 +354,6 @@ $('#nomeProduto').on('blur', function(){
 //------------------------------------------------------------------------------------------------------------------------
 
 function enviarProduto() {
-
 
 	Qtd = parseFloat($("#qtd").val());
 	
@@ -372,6 +451,8 @@ $("#enviarPedido").click(function() {
 		alert("Apenas valores inteiros!");	
 	}else{
 		
+		cliente.envio = $("#envioCliente").val();
+		
 		if(produtos.length != 0) {
 			linhaHtml = "";
 			linhaHtml = '<table><tr>'
@@ -431,7 +512,22 @@ $("#enviarPedido").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(e){
-							//document.location.reload(true);
+							$.alert({
+								type: 'green',
+							    typeAnimated: true,
+								title: 'Sucesso!',
+								content: 'Pedido enviado!',
+								buttons: {
+							        confirm: {
+							            text: 'Ok',
+							            btnClass: 'btn-green',
+							            keys: ['enter'],
+							            action: function(){
+									window.location.href = "/novoPedido";
+										}
+									}
+								}
+							});
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
@@ -521,7 +617,22 @@ $("#atualizarPedido").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(e){
-							window.location.href = "/novoPedido";
+							$.alert({
+								type: 'green',
+							    typeAnimated: true,
+								title: 'Sucesso!',
+								content: 'Pedido atualizado!',
+								buttons: {
+							        confirm: {
+							            text: 'Ok',
+							            btnClass: 'btn-green',
+							            keys: ['enter'],
+							            action: function(){
+									window.location.href = "/novoPedido";
+										}
+									}
+								}
+							});
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
