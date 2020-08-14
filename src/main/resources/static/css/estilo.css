@@ -103,6 +103,10 @@ table tbody tr td{
 	padding: .5vh;
 }
 
+table tr th{
+	color: white;
+}
+
 tr td:last-child{
     width:1%;
     white-space:nowrap;

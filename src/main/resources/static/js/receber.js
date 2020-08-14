@@ -32,6 +32,7 @@ $.ajax({
 				'troco': e[i].troco,
 				'status': e[i].status,
 				'produtos': e[i].produtos,
+				'pizzas': e[i].pizzas,
 				'motoboy': e[i].motoboy
 			});
 		}

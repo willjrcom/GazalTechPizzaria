@@ -1,4 +1,5 @@
 var pedidos = [];
+var pizzas = [];
 var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList"></td></tr>';
@@ -30,7 +31,8 @@ $.ajax({
 				'total': e[i].total,
 				'troco': e[i].troco,
 				'status': e[i].status,
-				'produtos': JSON.parse(e[i].produtos)
+				'produtos': e[i].produtos,
+				'pizzas': JSON.parse(e[i].pizzas)
 			});
 		}
 	}
@@ -71,8 +73,8 @@ $.ajax({
 			linhaHtml +=	'<td>' + pedidos[i].endereco + '</td>';
 			
 			Tpizzas = 0;
-			for(var k = 0; k<pedidos[i].produtos.length; k++) {
-				Tpizzas += pedidos[i].produtos[k].qtd;
+			for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+				Tpizzas += pedidos[i].pizzas[k].qtd;
 			}
 			linhaHtml +=    '<td>' + Tpizzas + '</td>';
 			linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
@@ -116,7 +118,7 @@ function finalizarPedido() {
 		            keys: ['enter'],
 		            action: function(){
 						pedidos[idBusca].motoboy = $("#filtro").val();
-						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
+						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						$.ajax({
 							url: urlEnviar,
 							type: 'PUT',

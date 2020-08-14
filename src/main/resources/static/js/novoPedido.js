@@ -71,6 +71,7 @@ if(typeof url_atual == "undefined") {
 			cliente.troco = e.troco;
 			cliente.pagamento =  e.pagamento;
 			cliente.produtos = JSON.parse(e.produtos);
+			cliente.pizzas = JSON.parse(e.pizzas);
 			cliente.taxa = e.taxa;
 				
 			//adicionar cliente
@@ -93,13 +94,13 @@ if(typeof url_atual == "undefined") {
 			cliente.troco = e.troco;
 			cliente.pagamento =  e.pagamento;
 			cliente.produtos = JSON.parse(e.produtos);
+			cliente.pizzas = JSON.parse(e.pizzas);
 				
 			//adicionar cliente
 			$("#idCliente").text(cliente.id);
 			$("#nomeBalcao").html('<h2>Cliente: ' + cliente.nomePedido + '</h2>');
 		}
 		
-		console.log(cliente);
 		for(var i = 0; i<cliente.pizzas.length; i++) {
 			tPizzas += cliente.pizzas[i].qtd;
 			pizzas.unshift({
@@ -700,15 +701,15 @@ $("#enviarPedido").click(function() {
 	}else{
 		
 		cliente.envio = $("#envioCliente").val();
-		
+
+		linhaHtml = '<table>';
 		if(pizzas.length != 0) {
-			linhaHtml = '<table>'
-						+ '<tr>'
-							+ '<td>Borda</td>'
-							+ '<td>Sabor</td>'
-							+ '<td>Obs</td>'
-							+ '<td>Qtd</td>'
-							+ '<td>Preço</td>'
+			linhaHtml += '<tr>'
+							+ '<th>Borda</th>'
+							+ '<th>Sabor</th>'
+							+ '<th>Obs</th>'
+							+ '<th>Qtd</th>'
+							+ '<th>Preço</th>'
 						+ '</tr>';
 			
 			for(var i=0; i<pizzas.length; i++){
@@ -721,14 +722,13 @@ $("#enviarPedido").click(function() {
 						 +  '</tr>';
 			}
 		}
-		
+
 		if(produtos.length != 0) {
-			linhaHtml = '<table>'
-						+ '<tr>'
-							+ '<td>Sabor</td>'
-							+ '<td>Obs</td>'
-							+ '<td>Qtd</td>'
-							+ '<td>Preço</td>'
+			linhaHtml += '<tr>'
+							+ '<th>Sabor</th>'
+							+ '<th>Obs</th>'
+							+ '<th>Qtd</th>'
+							+ '<th>Preço</th>'
 						+ '</tr>';
 			
 			for(var i=0; i<produtos.length; i++){
@@ -827,15 +827,17 @@ $("#atualizarPedido").click(function() {
 	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		alert("Apenas valores inteiros!");	
 	}else{
+
+		console.log('pizzas: ' + pizzas.length);
 		
+		linhaHtml = '<table>';
 		if(pizzas.length != 0) {
-			linhaHtml = '<table>'
-						+ '<tr>'
-							+ '<td>Borda</td>'
-							+ '<td>Sabor</td>'
-							+ '<td>Obs</td>'
-							+ '<td>Qtd</td>'
-							+ '<td>Preço</td>'
+			linhaHtml += '<tr>'
+							+ '<th>Borda</th>'
+							+ '<th>Sabor</th>'
+							+ '<th>Obs</th>'
+							+ '<th>Qtd</th>'
+							+ '<th>Preço</th>'
 						+ '</tr>';
 			
 			for(var i=0; i<pizzas.length; i++){
@@ -848,14 +850,13 @@ $("#atualizarPedido").click(function() {
 						 +  '</tr>';
 			}
 		}
-		
+		console.log('produtos: ' + produtos.length);
 		if(produtos.length != 0) {
-			linhaHtml = '<table>'
-						+ '<tr>'
-							+ '<td>Sabor</td>'
-							+ '<td>Obs</td>'
-							+ '<td>Qtd</td>'
-							+ '<td>Preço</td>'
+			linhaHtml += '<tr>'
+							+ '<th>Sabor</th>'
+							+ '<th>Obs</th>'
+							+ '<th>Qtd</th>'
+							+ '<th>Preço</th>'
 						+ '</tr>';
 			
 			for(var i=0; i<produtos.length; i++){

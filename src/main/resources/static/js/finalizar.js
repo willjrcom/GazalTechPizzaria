@@ -1,5 +1,6 @@
 var pedidos = [];
 var funcionarios = [];
+var pizzas = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="7" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
@@ -30,7 +31,8 @@ $.ajax({
 				'troco': e[i].troco,
 				'status': e[i].status,
 				'pagamento': e[i].pagamento,
-				'produtos': JSON.parse(e[i].produtos)	
+				'pizzas': JSON.parse(e[i].pizzas),
+				'produtos': JSON.parse(e[i].produtos)
 			});
 		}
 	}
@@ -72,8 +74,8 @@ $.ajax({
 				linhaHtml +=	'<td></td>';
 				
 				Tpizzas = 0;
-				for(var k = 0; k<pedidos[i].produtos.length; k++) {
-					Tpizzas += pedidos[i].produtos[k].qtd;
+				for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+					Tpizzas += pedidos[i].pizzas[k].qtd;
 				}
 				
 				linhaHtml +=	'<td>' + Tpizzas + '</td>';
@@ -105,28 +107,48 @@ function finalizarPedido() {
 	}
 	
 	Tpizzas = 0;
-	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
-		Tpizzas += pedidos[idBusca].produtos[k].qtd;
+	for(var k = 0; k < pedidos[idBusca].pizzas.length; k++) {
+		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 	}
 	
-	linhaHtml = "";
-	linhaHtml = '<table><tr>'
-					+ '<td>Borda</td>'
-					+ '<td>Sabor</td>'
-					+ '<td>Obs</td>'
-					+ '<td>Qtd</td>'
-					+ '<td>Preço</td>'
-				'</tr>';
-	
-	for(var i=0; i<pedidos[idBusca].produtos.length; i++){
-		linhaHtml += '<table><tr>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].borda + '</td>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>';
-		linhaHtml += 	'<td>R$ ' + pedidos[idBusca].produtos[i].preco + '</td>';
-		linhaHtml += '</tr>';
+	linhaHtml = '<table>';
+	if(pedidos[idBusca].pizzas.length != 0) {
+		linhaHtml += '<tr>'
+						+ '<th>Borda</th>'
+						+ '<th>Sabor</th>'
+						+ '<th>Obs</th>'
+						+ '<th>Qtd</th>'
+						+ '<th>Preço</th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pedidos[idBusca].pizzas.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].borda + '</td>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco + '</td>'
+					 +  '</tr>';
+		}
 	}
+	if(pedidos[idBusca].produtos.length != 0) {
+		linhaHtml += '<tr>'
+						+ '<th>Sabor</th>'
+						+ '<th>Obs</th>'
+						+ '<th>Qtd</th>'
+						+ '<th>Preço</th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pedidos[idBusca].produtos.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>'
+						 +	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>'
+						 +	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco + '</td>'
+					 +  '</tr>';
+		}
+	}
+	
 	linhaHtml += '</table>';
 	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total  + '<br>Troco:';	
 	linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
@@ -150,6 +172,7 @@ function finalizarPedido() {
 		            action: function(){
 						
 						pedidos[idBusca].ac = $("#filtro").val();
+						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 
 						var troco = this.$content.find('#troco').val();

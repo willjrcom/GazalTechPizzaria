@@ -23,11 +23,7 @@ public class VerpedidoController{
 		ModelAndView mv = new ModelAndView("verpedido");
 		return mv;
 	}
-	/*
-	@RequestMapping(value = "/excluirPedido/{id}", method = RequestMethod.PUT)
-	public void excluirPedido(@PathVariable long id) {
-		pedidos.deleteById(id);
-	}*/
+	
 	@RequestMapping(value = "/excluirPedido/{id}", method = RequestMethod.PUT)
 	public Pedido novoPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus(TipoStatus.EXCLUIDO);

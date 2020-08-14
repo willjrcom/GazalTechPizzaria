@@ -1,4 +1,6 @@
 var pedidos = [];
+var pizzas = [];
+var produtos = [];
 var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
@@ -30,7 +32,8 @@ $.ajax({
 				'total': e[i].total,
 				'troco': e[i].troco,
 				'status': e[i].status,
-				'produtos': JSON.parse(e[i].produtos)
+				'produtos': JSON.parse(e[i].produtos),
+				'pizzas': JSON.parse(e[i].pizzas)
 			});
 		}
 	}
@@ -107,27 +110,50 @@ function finalizarPedido() {
 	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
 		Tpizzas += pedidos[idBusca].produtos[k].qtd;
 	}
-	
-	linhaHtml = "";
-	linhaHtml = '<table><tr>'
-					+ '<td>Borda</td>'
-					+ '<td>Sabor</td>'
-					+ '<td>Obs</td>'
-					+ '<td>Qtd</td>'
-					+ '<td>Preço</td>'
-				'</tr>';
-	
-	for(var i=0; i<pedidos[idBusca].produtos.length; i++){
-		linhaHtml += '<table><tr>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].borda + '</td>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>';
-		linhaHtml += 	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>';
-		linhaHtml += 	'<td>R$ ' + pedidos[idBusca].produtos[i].preco + '</td>';
-		linhaHtml += '</tr>';
+	for(var k = 0; k < pedidos[idBusca].pizzas.length; k++) {
+		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 	}
+	
+	linhaHtml = '<table>';
+	if(pedidos[idBusca].pizzas.length != 0) {
+		linhaHtml += '<tr>'
+						+ '<th>Borda</th>'
+						+ '<th>Sabor</th>'
+						+ '<th>Obs</th>'
+						+ '<th>Qtd</th>'
+						+ '<th>Preço</th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pedidos[idBusca].pizzas.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].borda + '</td>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
+						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco + '</td>'
+					 +  '</tr>';
+		}
+	}
+	if(pedidos[idBusca].produtos.length != 0) {
+		linhaHtml += '<tr>'
+						+ '<th>Sabor</th>'
+						+ '<th>Obs</th>'
+						+ '<th>Qtd</th>'
+						+ '<th>Preço</th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pedidos[idBusca].produtos.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>'
+						 +	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>'
+						 +	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco + '</td>'
+					 +  '</tr>';
+		}
+	}
+	
 	linhaHtml += '</table>';
-	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
+	linhaHtml += 'Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
 
 	$.alert({
 		type: 'green',
