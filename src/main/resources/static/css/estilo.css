@@ -50,7 +50,11 @@ table{
 thead{
 	background-color: #253b80;	
 }
-	
+
+tr th{
+	background-color: #253b80
+}
+
 ul {
   	list-style-type: none;
   	overflow: hidden;

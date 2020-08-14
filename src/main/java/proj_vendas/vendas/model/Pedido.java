@@ -27,7 +27,15 @@ public class Pedido implements Serializable{
 	private String celular;
 	private String endereco;
 	@Lob
+	private String pizzas;
+	@Lob
 	private String produtos;
+	public String getPizzas() {
+		return pizzas;
+	}
+	public void setPizzas(String pizzas) {
+		this.pizzas = pizzas;
+	}
 	private String motoboy;
 	private String ac;
 	private TipoStatus status;

@@ -1,7 +1,13 @@
 
+//var contador
+//------------------------------------------------------------------------------------------------------------------------
+var contPizza = {};
+var contProduto = [];
+
 //var cliente
 //------------------------------------------------------------------------------------------------------------------------
 var cliente = {};
+var pizzas = [];
 var produtos = [];
 var buscaProdutos = [];
 var op;
@@ -30,7 +36,8 @@ url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
 
 if(typeof url_atual == "undefined") {
 	console.log("nao existe");
-	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$0,00 &nbsp;&nbsp;&nbsp;');
+	
+	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$0,00');
 }else {
 	console.log(url_atual);
 	
@@ -93,6 +100,16 @@ if(typeof url_atual == "undefined") {
 		}
 		
 		console.log(cliente);
+		for(var i = 0; i<cliente.pizzas.length; i++) {
+			tPizzas += cliente.pizzas[i].qtd;
+			pizzas.unshift({
+				'sabor' : cliente.pizzas[i].sabor,
+				'qtd' : cliente.pizzas[i].qtd,
+				'borda' : cliente.pizzas[i].borda,
+				'preco' : cliente.pizzas[i].preco,
+				'obs' : cliente.pizzas[i].obs
+			});
+		}
 		for(var i = 0; i<cliente.produtos.length; i++) {
 			tPizzas += cliente.produtos[i].qtd;
 			produtos.unshift({
@@ -182,6 +199,7 @@ $('#nomeProduto').on('blur', function(){
 			url: urlProduto,
 			type: 'PUT'
 		}).done(function(e){
+			console.log(e);
 			$("#nomeProduto").val('');
 			buscaProdutos = [];
 			
@@ -189,72 +207,158 @@ $('#nomeProduto').on('blur', function(){
 				buscaProdutos.push({
 					'id': e[i].id,
 					'nomeProduto': e[i].nomeProduto,
-					'preco': e[i].preco
+					'preco': e[i].preco,
+					'setor': e[i].setor
 				});
 			};
 	
 			$("#listaProdutos").show('slow');
 			$("#todosProdutos").html(" ");
 			
-			linhaHtml = '<table class="w100">'
-							+'<thead>'
-								+'<tr>'
-								+'<th class="col-md-1"><h5>Borda Recheada</h5></th>'
-								+'<th class="col-md-1"><h5>Qtd</h5></th>'
-								+'<th class="col-md-1"><h5>Observação</h5></th>'
-								+'</tr>'
-							+'</thead>'
-		
-							+'<tbody>'
-								+'<tr>'
-									+'<td>'
-										+'<select class="form-control" name="borda" id="borda">'
-											+'<option th:each="borda : ${TipoBorda}" th:value="${borda}"'
-											+'th:text="${borda.descricao}"></option>'
-										+'</select>'
-									+'</td>'
-									
-									+'<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>'
-									+'<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>'
-								+'</tr>'
-							+'</tbody>'
-							
-						+'<tfoot>';
-							+'<tr><th colspan="3"><h4>Lista de Produtos</h4></th></tr>';
-						
-			for(var i=0; i<buscaProdutos.length; i++){
-				linhaHtml += '<tr>'
-								+ '<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>'
-								+ '<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>'
-								+ '<td class="col-md-1">'
-									+ '<div>'
-										+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
-										+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
-											+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
-											+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
-											+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
-											+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
-											+ '</svg>'
-										+ '</button>'
-									+ '</div>'
-								+ '</td>';
-							+ '</tr>';
-					
-			}
-			linhaHtml += '</tfoot></table>';
+			contPizza = 0;
+			contProduto = 0;
 			
-			if(buscaProdutos.length != 0){
+			for(var i=0; i<buscaProdutos.length; i++){
+				if(buscaProdutos[i].setor == 'PIZZA') {
+					contPizza++;
+				}else {
+					contProduto++;
+				}
+			}
+			linhaHtml = '';
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+			
+			linhaHtml = '<div class="row">';
+			
+			if(contPizza != 0) {
+				if(contProduto == 0) {
+					linhaHtml += '<div class="col-md-12">';
+				}else {
+					linhaHtml += '<div class="col-md-6">';
+				}
+				linhaHtml +='<table class="w100">'
+									+'<thead>'
+										+ '<tr>'
+											+ '<th class="col-md-1"><h5>Borda Recheada</h5></th>'
+											+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+											+ '<th class="col-md-1"><h5>Observação</h5></th>'
+										+'</tr>'
+									+'</thead>'
+									
+									+'<tbody>'
+										+'<tr>'
+											+ '<td>'
+												+'<select class="form-control" name="borda" id="borda">'
+													+'<option th:each="borda : ${TipoBorda}" th:value="${borda}"'
+													+'th:text="${borda.descricao}"></option>'
+												+'</select>'
+											+'</td>'
+										
+											+ '<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>'
+											+'<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>'
+										+'</tr>'
+									+'</tbody>'
+									
+									+'<tfoot>';
+				
+				for(var i=0; i<buscaProdutos.length; i++){
+					if(buscaProdutos[i].setor == 'PIZZA') {
+						linhaHtml += '<tr>'
+										+ '<td>' + buscaProdutos[i].nomeProduto + '</td>'
+										+ '<td>R$ ' + buscaProdutos[i].preco + '</td>'
+										+ '<td>'
+											+ '<div>'
+												+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+												+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+													+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+													+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+													+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+													+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+													+ '</svg>'
+												+ '</button>'
+											+ '</div>'
+										+ '</td>'
+									+ '</tr>';
+					}
+				}	
+				linhaHtml +='</tfoot>'
+						+'</table>'
+					+'</div>';
+			}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+			if(contProduto != 0) {
+				if(contPizza == 0) {
+					linhaHtml += '<div class="col-md-12">';
+				}else {
+					linhaHtml += '<div class="col-md-6">';
+				}
+				linhaHtml += '<table class="w100">'
+								+'<thead>'
+									+ '<tr>'
+										+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+										+ '<th class="col-md-1"><h5>Observação</h5></th>'
+									+'</tr>'
+								+'</thead>'
+								
+								+'<tbody>'
+									+'<tr>'
+										+ '<td><input type="text" class="form-control" name="qtd" id="qtd1" placeholder="qtd" value="1"/></td>'
+										+'<td><input type="text" class="form-control" name="obs" id="obs1" placeholder="Observação" /><br></td>'
+									+'</tr>'
+								+'</tbody>'
+								+'<tfoot>';
+			
+				for(var i=0; i<buscaProdutos.length; i++){
+					if(buscaProdutos[i].setor != 'PIZZA') {
+						linhaHtml += '<tr>'
+										+ '<td>' + buscaProdutos[i].nomeProduto + '</td>'
+										+ '<td>R$ ' + buscaProdutos[i].preco + '</td>'
+										+ '<td>'
+											+ '<div>'
+												+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+												+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+													+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+													+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+													+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+													+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+													+ '</svg>'
+												+ '</button>'
+											+ '</div>'
+										+ '</td>'
+									+ '</tr>';
+				}
+			}
+			linhaHtml +='</tfoot>'
+					+'</table>'
+				+'</div>'
+				+'<div>';
+		}
+			
+			if(contPizza != 0 && contProduto != 0){
 				$.confirm({
-					title: '<h4>Lista de Produtos</h4>',
+				    columnClass: 'col-md-12',
+					title: '<h4 align="center">Lista de Produtos</h4>',
 					content: linhaHtml
 				});
-			}else {
+			}else if(contPizza == 0 && contProduto != 0){
+				$.confirm({
+					title: '<h4 align="center">Lista de Produtos</h4>',
+					content: linhaHtml
+				});
+			}else if(contPizza != 0 && contProduto == 0){
+				$.confirm({
+					title: '<h4 align="center">Lista de Produtos</h4>',
+					content: linhaHtml
+				});
+			}else{
 				$.alert("Nenhum produto encontrado!");
 			}
 			
 			if(buscaProdutos.length == 0){
 				$("#todosProdutos").html('<tr>'
-											+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
+											+ '<td colspan="6">Nenhum produto encontrado!</td>'
 											+ '</tr>');
 			}
 		});
@@ -275,79 +379,166 @@ $('#buscarProduto').click(function(){
 			url: urlProduto,
 			type: 'PUT'
 		}).done(function(e){
-			
-			buscaProdutos = [];
+			console.log(e);
 			$("#nomeProduto").val('');
+			buscaProdutos = [];
+			
 			for(var i = 0; i < e.length; i++){
 				buscaProdutos.push({
 					'id': e[i].id,
 					'nomeProduto': e[i].nomeProduto,
-					'preco': e[i].preco
+					'preco': e[i].preco,
+					'setor': e[i].setor
 				});
 			};
 	
 			$("#listaProdutos").show('slow');
-			$("#todosProdutos").html("");
+			$("#todosProdutos").html(" ");
 			
-			linhaHtml = '<table class="w100">'
-							+'<thead>'
-								+'<tr>'
-								+'<th class="col-md-1"><h5>Borda Recheada</h5></th>'
-								+'<th class="col-md-1"><h5>Qtd</h5></th>'
-								+'<th class="col-md-1"><h5>Observação</h5></th>'
-								+'</tr>'
-							+'</thead>'
-		
-							+'<tbody>'
-								+'<tr>'
-									+'<td>'
-										+'<select class="form-control" name="borda" id="borda">'
-											+'<option th:each="borda : ${TipoBorda}" th:value="${borda}"'
-											+'th:text="${borda.descricao}"></option>'
-										+'</select>'
-									+'</td>'
-									
-									+'<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>'
-									+'<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>'
-								+'</tr>'
-							+'</tbody>'
-							
-						+'<tfoot>';
-							+'<tr><th colspan="3"><h4>Lista de Produtos</h4></th></tr>';
-						
+			contPizza = 0;
+			contProduto = 0;
+			
 			for(var i=0; i<buscaProdutos.length; i++){
-				linhaHtml += '<tr>'
-								+ '<td class="col-md-1">' + buscaProdutos[i].nomeProduto + '</td>'
-								+ '<td class="col-md-1">R$ ' + buscaProdutos[i].preco + '</td>'
-								+ '<td class="col-md-1">'
-									+ '<div>'
-										+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
-										+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
-											+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
-											+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
-											+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
-											+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
-											+ '</svg>'
-										+ '</button>'
-									+ '</div>'
-								+ '</td>';
-							+ '</tr>';
-					
+				if(buscaProdutos[i].setor == 'PIZZA') {
+					contPizza++;
+				}else {
+					contProduto++;
+				}
 			}
-			linhaHtml += '</tfoot></table>';
+			linhaHtml = '';
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
 			
-			if(buscaProdutos.length != 0){
+			linhaHtml = '<div class="row">';
+			
+			if(contPizza != 0) {
+				if(contProduto == 0) {
+					linhaHtml += '<div class="col-md-12">';
+				}else {
+					linhaHtml += '<div class="col-md-6">';
+				}
+				linhaHtml +='<table class="w100">'
+									+'<thead>'
+										+ '<tr>'
+											+ '<th class="col-md-1"><h5>Borda Recheada</h5></th>'
+											+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+											+ '<th class="col-md-1"><h5>Observação</h5></th>'
+										+'</tr>'
+									+'</thead>'
+									
+									+'<tbody>'
+										+'<tr>'
+											+ '<td>'
+												+'<select class="form-control" name="borda" id="borda">'
+													+'<option th:each="borda : ${TipoBorda}" th:value="${borda}"'
+													+'th:text="${borda.descricao}"></option>'
+												+'</select>'
+											+'</td>'
+										
+											+ '<td><input type="text" class="form-control" name="qtd" id="qtd" placeholder="qtd" value="1"/></td>'
+											+'<td><input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" /><br></td>'
+										+'</tr>'
+									+'</tbody>'
+									
+									+'<tfoot>';
+				
+				for(var i=0; i<buscaProdutos.length; i++){
+					if(buscaProdutos[i].setor == 'PIZZA') {
+						linhaHtml += '<tr>'
+										+ '<td>' + buscaProdutos[i].nomeProduto + '</td>'
+										+ '<td>R$ ' + buscaProdutos[i].preco + '</td>'
+										+ '<td>'
+											+ '<div>'
+												+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+												+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+													+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+													+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+													+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+													+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+													+ '</svg>'
+												+ '</button>'
+											+ '</div>'
+										+ '</td>'
+									+ '</tr>';
+					}
+				}	
+				linhaHtml +='</tfoot>'
+						+'</table>'
+					+'</div>';
+			}
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+			if(contProduto != 0) {
+				if(contPizza == 0) {
+					linhaHtml += '<div class="col-md-12">';
+				}else {
+					linhaHtml += '<div class="col-md-6">';
+				}
+				linhaHtml += '<table class="w100">'
+								+'<thead>'
+									+ '<tr>'
+										+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+										+ '<th class="col-md-1"><h5>Observação</h5></th>'
+									+'</tr>'
+								+'</thead>'
+								
+								+'<tbody>'
+									+'<tr>'
+										+ '<td><input type="text" class="form-control" name="qtd" id="qtd1" placeholder="qtd" value="1"/></td>'
+										+'<td><input type="text" class="form-control" name="obs" id="obs1" placeholder="Observação" /><br></td>'
+									+'</tr>'
+								+'</tbody>'
+								+'<tfoot>';
+			
+				for(var i=0; i<buscaProdutos.length; i++){
+					if(buscaProdutos[i].setor != 'PIZZA') {
+						linhaHtml += '<tr>'
+										+ '<td>' + buscaProdutos[i].nomeProduto + '</td>'
+										+ '<td>R$ ' + buscaProdutos[i].preco + '</td>'
+										+ '<td>'
+											+ '<div>'
+												+ '<button type="submit" style="background-color: white; border: none" onclick="enviarProduto()"'
+												+ 'title="Adicionar" class="enviarProduto" value="' + buscaProdutos[i].id + '">'
+													+ '<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">'
+													+ '<path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>'
+													+ '<path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>'
+													+ '<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>'
+													+ '</svg>'
+												+ '</button>'
+											+ '</div>'
+										+ '</td>'
+									+ '</tr>';
+				}
+			}
+			linhaHtml +='</tfoot>'
+					+'</table>'
+				+'</div>'
+				+'<div>';
+		}
+			
+			if(contPizza != 0 && contProduto != 0){
 				$.confirm({
-					title: '<h4>Lista de Produtos</h4>',
+				    columnClass: 'col-md-12',
+					title: '<h4 align="center">Lista de Produtos</h4>',
 					content: linhaHtml
 				});
-			}else {
+			}else if(contPizza == 0 && contProduto != 0){
+				$.confirm({
+					title: '<h4 align="center">Lista de Produtos</h4>',
+					content: linhaHtml
+				});
+			}else if(contPizza != 0 && contProduto == 0){
+				$.confirm({
+					title: '<h4 align="center">Lista de Produtos</h4>',
+					content: linhaHtml
+				});
+			}else{
 				$.alert("Nenhum produto encontrado!");
 			}
 			
 			if(buscaProdutos.length == 0){
 				$("#todosProdutos").html('<tr>'
-											+ '<td colspan="6" th:if="${#lists.isEmpty(produtos)}">Nenhum produto encontrado!</td>'
+											+ '<td colspan="6">Nenhum produto encontrado!</td>'
 											+ '</tr>');
 			}
 		});
@@ -359,9 +550,9 @@ $('#buscarProduto').click(function(){
 
 function enviarProduto() {
 
-	Qtd = parseFloat($("#qtd").val());
+	//Qtd = parseFloat($("#qtd").val());
 	
-	if(isNaN(Qtd) == false){
+	//if(isNaN(Qtd) == false){
 		var botaoReceber = $(event.currentTarget);
 		var idProduto = botaoReceber.attr('value');
 		var urlReceber = "/novoPedido/addProduto/" + idProduto.toString();
@@ -374,52 +565,82 @@ function enviarProduto() {
 			
 			$(".mostrarPedidos").show('slow');
 			
-			Sabor = e.nomeProduto;
+			
+			if(e.setor == 'PIZZA') {
+				Borda = $("#borda").val();
+				Qtd = parseFloat($("#qtd").val());
+				Obs = $("#obs").val();
+			}else {
+				Qtd = parseFloat($("#qtd1").val());
+				Obs = $("#obs1").val();
+			}
+			
 			Preco = e.preco;
-			Qtd = parseFloat($("#qtd").val());
-			Borda = $("#borda").val();
-			Obs = $("#obs").val();
-			Custo = e.custo;
 			Preco *= Qtd;
 			tPizzas += Qtd;
 			tPedido += Preco;
 			
-			produtos.unshift({
-				'sabor' : Sabor,
-				'qtd': Qtd,
-				'borda': Borda,
-				'obs': Obs,
-				'preco': Preco,
-				'custo': Custo
-			});
-			
+			if(e.setor == 'PIZZA') {
+				pizzas.unshift({
+					'sabor' : e.nomeProduto,
+					'qtd': Qtd,
+					'borda': Borda,
+					'obs': Obs,
+					'preco': Preco,
+					'custo': e.custo,
+					'setor': e.setor
+				});
+			}else {
+				produtos.unshift({
+					'sabor' : e.nomeProduto,
+					'qtd': Qtd,
+					'obs': Obs,
+					'preco': Preco,
+					'custo': e.custo,
+					'setor': e.setor
+				});
+			}
+			$("#novoPizza").html("");
 			$("#novoProduto").html("");
 			mostrarProdutos();
 			
 		});
-	}else{
+		/*}else{
 		Qtd = $("qtd").val("1");
 		alert("Valor incorreto na quantidade");
-	}
+	}*/
 };
 
 
 //---------------------------------------------------------------------------------------------------------------------
 function mostrarProdutos() {
-	linhaHtml = "";
-	for(var i=0; i<produtos.length; i++){
-		linhaHtml += '<tr>'
-					 +	'<td>' + produtos[i].borda + '</td>'
-					 +	'<td>' + produtos[i].sabor + '</td>'
-					 +	'<td>' + produtos[i].obs + '</td>'
-					 +	'<td>' + produtos[i].qtd + '</td>'
-					 +	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+
+	$("#novoProduto").html("");
+	$("#novoPizza").html("");
+	
+	for(var i=0; i<pizzas.length; i++){
+		linhaHtml = '<tr>'
+					 +	'<td>' + pizzas[i].borda + '</td>'
+					 +	'<td>' + pizzas[i].sabor + '</td>'
+					 +	'<td>' + pizzas[i].obs + '</td>'
+					 +	'<td>' + pizzas[i].qtd + '</td>'
+					 +	'<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
+		$("#novoPizza").append(linhaHtml);
+	}
+	for(var i=0; i<produtos.length; i++){
+		linhaHtml = '<tr>'
+				 +	'<td>' + produtos[i].sabor + '</td>'
+				 +	'<td>' + produtos[i].obs + '</td>'
+				 +	'<td>' + produtos[i].qtd + '</td>'
+				 +	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+			 + '</tr>'
+			 + linhaCinza;
+		$("#novoProduto").append(linhaHtml);
 	}
 	
-	$("#novoProduto").html(linhaHtml);
-	$("#Ttotal").html('Total de Pizzas:  ' + tPizzas + '<br><br>' + 'Total do Pedido:  R$' + tPedido + '&nbsp;&nbsp;&nbsp;');
+	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));
 }
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -430,15 +651,37 @@ $(".removerProduto").click(function(e){
 	
 	produtos.shift();
 	
-	$("#novoProduto").html("");
-	
 	if(produtos.length == 0) {
 		$("#novoProduto").append(pedidoVazio);
-		$(".mostrarPedidos").hide('slow');	
+	}
+	
+	if(pizzas.length == 0 && produtos.length == 0) {
+		$(".mostrarPedidos").hide('slow');
 	} else {
 		mostrarProdutos();
 	}
-	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '&nbsp;&nbsp;&nbsp;');	
+	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));	
+});
+
+
+//------------------------------------------------------------------------------------------------------------------------
+$(".removerPizza").click(function(e){
+	
+	tPizzas -= pizzas[0].qtd;
+	tPedido -= pizzas[0].preco;
+	
+	pizzas.shift();
+	
+	if(pizzas.length == 0) {
+		$("#novoPizza").append(pedidoVazio);
+	} 
+	
+	if(pizzas.length == 0 && produtos.length == 0) {
+		$(".mostrarPedidos").hide('slow');	
+	}else {
+		mostrarProdutos();
+	}
+	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));	
 });
 
 
@@ -446,11 +689,11 @@ $(".removerProduto").click(function(e){
 $("#enviarPedido").click(function() {
 	console.log(cliente);
 	
-	if(Object.keys(produtos).length === 0 && $("#idCliente").text() == ""){
+	if((Object.keys(produtos).length === 0 && $("#idCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#idCliente").text() == "")){
 		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
 	}else if($("#idCliente").text() == ""){
 		alert("Nenhum cliente adicionado!");
-	}else if(Object.keys(produtos).length === 0){
+	}else if(Object.keys(produtos).length === 0 || Object.keys(pizzas).length === 0){
 		alert("Nenhum produto adicionado!");	
 	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		alert("Apenas valores inteiros!");	
@@ -458,7 +701,7 @@ $("#enviarPedido").click(function() {
 		
 		cliente.envio = $("#envioCliente").val();
 		
-		if(produtos.length != 0) {
+		if(pizzas.length != 0) {
 			linhaHtml = '<table>'
 						+ '<tr>'
 							+ '<td>Borda</td>'
@@ -468,20 +711,39 @@ $("#enviarPedido").click(function() {
 							+ '<td>Preço</td>'
 						+ '</tr>';
 			
+			for(var i=0; i<pizzas.length; i++){
+				linhaHtml += '<tr>'
+							 +	'<td>' + pizzas[i].borda + '</td>'
+							 +	'<td>' + pizzas[i].sabor + '</td>'
+							 +	'<td>' + pizzas[i].obs + '</td>'
+							 +	'<td>' + pizzas[i].qtd + '</td>'
+							 +  '<td>R$ ' + pizzas[i].preco + '</td>'
+						 +  '</tr>';
+			}
+		}
+		
+		if(produtos.length != 0) {
+			linhaHtml = '<table>'
+						+ '<tr>'
+							+ '<td>Sabor</td>'
+							+ '<td>Obs</td>'
+							+ '<td>Qtd</td>'
+							+ '<td>Preço</td>'
+						+ '</tr>';
+			
 			for(var i=0; i<produtos.length; i++){
 				linhaHtml += '<tr>'
-							 +	'<td>' + produtos[i].borda + '</td>'
 							 +	'<td>' + produtos[i].sabor + '</td>'
 							 +	'<td>' + produtos[i].obs + '</td>'
 							 +	'<td>' + produtos[i].qtd + '</td>'
 							 +  '<td>R$ ' + produtos[i].preco + '</td>'
 						 +  '</tr>';
 			}
-			linhaHtml += '</table>'
-						 + 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:'
-						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
-						 + '<br>Deseja enviar o pedido?';
 		}
+		linhaHtml += '</table>'
+				 + 'Total de Produtos: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:'
+				 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
+				 + '<br>Deseja enviar o pedido?';
 		
 		//modal jquery confirmar
 		$.confirm({
@@ -506,6 +768,7 @@ $("#enviarPedido").click(function() {
 						cliente.troco = parseFloat(troco);
 						cliente.total = tPedido;
 						cliente.produtos = JSON.stringify(produtos);
+						cliente.pizzas = JSON.stringify(pizzas);
 						cliente.status = "COZINHA";
 						console.log(cliente);
 						
@@ -555,40 +818,60 @@ $("#enviarPedido").click(function() {
 $("#atualizarPedido").click(function() {
 	console.log(cliente);
 	
-	if(Object.keys(produtos).length === 0 && $("#idCliente").text() == ""){
+	if((Object.keys(produtos).length === 0 && $("#idCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#idCliente").text() == "")){
 		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
 	}else if($("#idCliente").text() == ""){
 		alert("Nenhum cliente adicionado!");
-	}else if(Object.keys(produtos).length === 0){
+	}else if(Object.keys(produtos).length === 0 || Object.keys(pizzas).length === 0){
 		alert("Nenhum produto adicionado!");	
 	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		alert("Apenas valores inteiros!");	
 	}else{
 		
-		if(produtos.length != 0) {
+		if(pizzas.length != 0) {
 			linhaHtml = '<table>'
-					    + '<tr>'
+						+ '<tr>'
 							+ '<td>Borda</td>'
 							+ '<td>Sabor</td>'
 							+ '<td>Obs</td>'
 							+ '<td>Qtd</td>'
 							+ '<td>Preço</td>'
-						'</tr>';
+						+ '</tr>';
+			
+			for(var i=0; i<pizzas.length; i++){
+				linhaHtml += '<tr>'
+							 +	'<td>' + pizzas[i].borda + '</td>'
+							 +	'<td>' + pizzas[i].sabor + '</td>'
+							 +	'<td>' + pizzas[i].obs + '</td>'
+							 +	'<td>' + pizzas[i].qtd + '</td>'
+							 +  '<td>R$ ' + pizzas[i].preco + '</td>'
+						 +  '</tr>';
+			}
+		}
+		
+		if(produtos.length != 0) {
+			linhaHtml = '<table>'
+						+ '<tr>'
+							+ '<td>Sabor</td>'
+							+ '<td>Obs</td>'
+							+ '<td>Qtd</td>'
+							+ '<td>Preço</td>'
+						+ '</tr>';
 			
 			for(var i=0; i<produtos.length; i++){
 				linhaHtml += '<tr>'
-							 +	'<td>' + produtos[i].borda + '</td>'
 							 +	'<td>' + produtos[i].sabor + '</td>'
-							 + 	'<td>' + produtos[i].obs + '</td>'
-							 + 	'<td>' + produtos[i].qtd + '</td>'
-							 + 	'<td>R$ ' + produtos[i].preco + '</td>'
+							 +	'<td>' + produtos[i].obs + '</td>'
+							 +	'<td>' + produtos[i].qtd + '</td>'
+							 +  '<td>R$ ' + produtos[i].preco + '</td>'
 						 +  '</tr>';
 			}
-			linhaHtml += '</table>'
-						 + 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:'
-						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
-						 + '<br>Deseja enviar o pedido?';
 		}
+		linhaHtml += '</table>'
+				 + 'Total de Produtos: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:'
+				 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
+				 + '<br>Deseja enviar o pedido?';
+		
 		
 		//modal jquery confirmar
 		$.confirm({
@@ -611,6 +894,7 @@ $("#atualizarPedido").click(function() {
 						cliente.troco = parseFloat(troco);
 						cliente.total = tPedido;
 						cliente.produtos = JSON.stringify(produtos);
+						cliente.pizzas = JSON.stringify(pizzas);
 						cliente.status = "COZINHA";
 						console.log(cliente);
 						

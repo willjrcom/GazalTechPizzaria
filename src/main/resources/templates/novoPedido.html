@@ -18,7 +18,7 @@
 				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success">Cadastrar Cliente</button></a>
 			</div>
 			
-			<div class="col-md-2" >
+			<div class="col-md-2 fLeft" >
 				<a th:href="@{/verpedido}"><button class="form-control btn btn-success">Ver Pedidos</button></a>
 			</div>
 			
@@ -120,28 +120,53 @@
 			</div>
 	
 	<!-- ------------------------------------------------------------------------------------------------- -->
-		
+			
 			<div class="divbase mostrarPedidos">
+				<div>
+					<h3>Pizzas</h3>
+					<div class="btn-group fRight" role="group" aria-label="Second group">
+						<button type="button"  class="removerPizza btn btn-danger">Remover ultima pizza adicionado</button>
+					</div>
+					
+					<br><br>
+					<div class="table-responsive">
+						<table>
+							<thead>
+								<tr>
+									<th class="col-md-1"><h5>Borda Recheada</h5></th>
+									<th class="col-md-1"><h5>Produto</h5></th>
+									<th class="col-md-1"><h5>Observação</h5></th>
+									<th class="col-md-1"><h5>Qtd</h5></th>
+									<th class="col-md-1"><h5>R$</h5></th>
+								</tr>
+							</thead>
 				
-				<div class="btn-group fRight" role="group" aria-label="Second group">
-					<button type="button"  class="removerProduto btn btn-danger">Remover ultimo produto adicionado</button>
+							<tbody id="novoPizza"></tbody>
+						</table>
+					</div>
 				</div>
 				
-				<br><br>
-				<div class="table-responsive">
-					<table>
-						<thead>
-							<tr>
-								<th class="col-md-1"><h5>Borda Recheada</h5></th>
-								<th class="col-md-1"><h5>Produto</h5></th>
-								<th class="col-md-1"><h5>Observação</h5></th>
-								<th class="col-md-1"><h5>Qtd</h5></th>
-								<th class="col-md-1"><h5>R$</h5></th>
-							</tr>
-						</thead>
-			
-						<tbody id="novoProduto"></tbody>
-					</table>
+				<div>
+					<h3>Produtos</h3>
+					<div class="btn-group fRight" role="group" aria-label="Second group">
+						<button type="button"  class="removerProduto btn btn-danger">Remover ultimo produto adicionado</button>
+					</div>
+					
+					<br><br>
+					<div class="table-responsive">
+						<table>
+							<thead>
+								<tr>
+									<th class="col-md-1"><h5>Produto</h5></th>
+									<th class="col-md-1"><h5>Observação</h5></th>
+									<th class="col-md-1"><h5>Qtd</h5></th>
+									<th class="col-md-1"><h5>R$</h5></th>
+								</tr>
+							</thead>
+				
+							<tbody id="novoProduto"></tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
