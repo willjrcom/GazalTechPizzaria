@@ -49,7 +49,7 @@ if(typeof url_atual == "undefined") {
 		$("#mostrarProdutos").show();
 		$("#atualizarPedido").show();
 		$(".mostrarPedidos").show();
-		$("#mostrar").show();
+		$("#mostrar").show(); 
 		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
