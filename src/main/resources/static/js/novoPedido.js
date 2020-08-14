@@ -30,11 +30,6 @@ url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
 
 if(typeof url_atual == "undefined") {
 	console.log("nao existe");
-	
-	$("#mostrar").hide(); //esconder tabelas
-	$("#mostrarProdutos").hide();
-	$(".mostrarPedidos").hide();
-	$("#atualizarPedido").hide();
 	$("#Ttotal").html('Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$0,00 &nbsp;&nbsp;&nbsp;');
 }else {
 	console.log(url_atual);
@@ -51,6 +46,10 @@ if(typeof url_atual == "undefined") {
 
 		$("#divBuscar").hide();
 		$("#enviarPedido").hide();
+		$("#mostrarProdutos").show();
+		$("#atualizarPedido").show();
+		$(".mostrarPedidos").show();
+		$("#mostrar").show();
 		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
@@ -288,7 +287,7 @@ $('#buscarProduto').click(function(){
 			};
 	
 			$("#listaProdutos").show('slow');
-			$("#todosProdutos").html(" ");
+			$("#todosProdutos").html("");
 			
 			linhaHtml = '<table class="w100">'
 							+'<thead>'
@@ -336,10 +335,15 @@ $('#buscarProduto').click(function(){
 					
 			}
 			linhaHtml += '</tfoot></table>';
-			$.confirm({
-				title: '<h4>Lista de Produtos</h4>',
-				content: linhaHtml
-			});
+			
+			if(buscaProdutos.length != 0){
+				$.confirm({
+					title: '<h4>Lista de Produtos</h4>',
+					content: linhaHtml
+				});
+			}else {
+				$.alert("Nenhum produto encontrado!");
+			}
 			
 			if(buscaProdutos.length == 0){
 				$("#todosProdutos").html('<tr>'
@@ -455,7 +459,6 @@ $("#enviarPedido").click(function() {
 		cliente.envio = $("#envioCliente").val();
 		
 		if(produtos.length != 0) {
-			linhaHtml = "";
 			linhaHtml = '<table>'
 						+ '<tr>'
 							+ '<td>Borda</td>'
