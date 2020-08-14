@@ -402,18 +402,19 @@ function enviarProduto() {
 
 //---------------------------------------------------------------------------------------------------------------------
 function mostrarProdutos() {
+	linhaHtml = "";
 	for(var i=0; i<produtos.length; i++){
-		linhaHtml = "";
-		linhaHtml += '<tr>';
-		linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
-		linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
-		linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
-		linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
-		linhaHtml += 	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>';
-		linhaHtml += '</tr>';
-		$("#novoProduto").append(linhaHtml + '<tr>' + linhaCinza + '</tr>');
+		linhaHtml += '<tr>'
+					 +	'<td>' + produtos[i].borda + '</td>'
+					 +	'<td>' + produtos[i].sabor + '</td>'
+					 +	'<td>' + produtos[i].obs + '</td>'
+					 +	'<td>' + produtos[i].qtd + '</td>'
+					 +	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+				 + '</tr>'
+				 + linhaCinza;
 	}
-
+	
+	$("#novoProduto").html(linhaHtml);
 	$("#Ttotal").html('Total de Pizzas:  ' + tPizzas + '<br><br>' + 'Total do Pedido:  R$' + tPedido + '&nbsp;&nbsp;&nbsp;');
 }
 
@@ -455,27 +456,28 @@ $("#enviarPedido").click(function() {
 		
 		if(produtos.length != 0) {
 			linhaHtml = "";
-			linhaHtml = '<table><tr>'
+			linhaHtml = '<table>'
+						+ '<tr>'
 							+ '<td>Borda</td>'
 							+ '<td>Sabor</td>'
 							+ '<td>Obs</td>'
 							+ '<td>Qtd</td>'
 							+ '<td>Preço</td>'
-						'</tr>';
+						+ '</tr>';
 			
 			for(var i=0; i<produtos.length; i++){
-				linhaHtml += '<table><tr>';
-				linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
-				linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
-				linhaHtml += '</tr>';
+				linhaHtml += '<tr>'
+							 +	'<td>' + produtos[i].borda + '</td>'
+							 +	'<td>' + produtos[i].sabor + '</td>'
+							 +	'<td>' + produtos[i].obs + '</td>'
+							 +	'<td>' + produtos[i].qtd + '</td>'
+							 +  '<td>R$ ' + produtos[i].preco + '</td>'
+						 +  '</tr>';
 			}
-			linhaHtml += '</table>';
-			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:';	
-			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />';
-			linhaHtml += '<br>Deseja enviar o pedido?';
+			linhaHtml += '</table>'
+						 + 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:'
+						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
+						 + '<br>Deseja enviar o pedido?';
 		}
 		
 		//modal jquery confirmar
@@ -561,8 +563,8 @@ $("#atualizarPedido").click(function() {
 	}else{
 		
 		if(produtos.length != 0) {
-			linhaHtml = "";
-			linhaHtml = '<table><tr>'
+			linhaHtml = '<table>'
+					    + '<tr>'
 							+ '<td>Borda</td>'
 							+ '<td>Sabor</td>'
 							+ '<td>Obs</td>'
@@ -571,18 +573,18 @@ $("#atualizarPedido").click(function() {
 						'</tr>';
 			
 			for(var i=0; i<produtos.length; i++){
-				linhaHtml += '<table><tr>';
-				linhaHtml += 	'<td>' + produtos[i].borda + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].sabor + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].obs + '</td>';
-				linhaHtml += 	'<td>' + produtos[i].qtd + '</td>';
-				linhaHtml += 	'<td>R$ ' + produtos[i].preco + '</td>';
-				linhaHtml += '</tr>';
+				linhaHtml += '<tr>'
+							 +	'<td>' + produtos[i].borda + '</td>'
+							 +	'<td>' + produtos[i].sabor + '</td>'
+							 + 	'<td>' + produtos[i].obs + '</td>'
+							 + 	'<td>' + produtos[i].qtd + '</td>'
+							 + 	'<td>R$ ' + produtos[i].preco + '</td>'
+						 +  '</tr>';
 			}
-			linhaHtml += '</table>';
-			linhaHtml += 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:';	
-			linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />';
-			linhaHtml += '<br>Deseja enviar o pedido?';
+			linhaHtml += '</table>'
+						 + 'Total de Pizzas: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido + '<br>Troco:'
+						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
+						 + '<br>Deseja enviar o pedido?';
 		}
 		
 		//modal jquery confirmar
