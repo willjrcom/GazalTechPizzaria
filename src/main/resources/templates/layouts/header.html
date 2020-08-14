@@ -16,27 +16,44 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!--------------------------------------------------------------------------------------------------------->
 <body>
-	<header  th:fragment="logo">
-		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
+
+<!--------------------------------------------------------------------------------------------------------->
+	<header th:fragment="menu">
+		<div id="logoMenu">
+			<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>
+		</div>
+		
+		<nav id="menuPrincipal">
+			<ul class="menu1">
+				<li><a class="active"></a></li>
+				<li><a th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
+				<li><a th:href="@{/relatoriodia}">ADM</a></li>
+				<li><a th:href="@{/cadastros}">CADASTROS</a></li>
+				<li><a th:href="@{/sobre}">OPÇÕES</a>
+				<li><a th:href="@{/index}">SAIR</a></li>
+				<li><a class="active"></a></li>
+			</ul>
+		</nav>
+	</header>
+	
+	
+<!--------------------------------------------------------------------------------------------------------->
+	<header th:fragment="logo">
 	
 	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
 	<nav id="menuPrincipal">
 		<ul class="menu">
-			<li class="Dropdown"><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a>
-				<div class="dropdown-content">
+			<li class="Dropdown"><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
+				<!-- <div class="dropdown-content">
 					<a accesskey="V" th:href="@{/verpedido}">VER</a>
 				</div>
-			</li>
+			</li>-->
 			<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
 			<li><a accesskey="P" th:href="@{/pronto}">PRONTOS</a></li>
 			<li><a accesskey="F" th:href="@{/finalizar}">FINALIZAR</a></li>
-			<li class="Dropdown"><a accesskey="E" th:href="@{/motoboy}">ENTREGAS</a>
-				<div class="dropdown-content">
-					<a accesskey="R" th:href="@{/receber}">RECEBER</a>
-				</div>
-			</li>
-			<li class="Dropdown"><a accesskey="A" th:href="@{/relatoriodia}">ADM</a></li>
-			<li><a accesskey="S" th:href="@{/index}">SAIR</a></li>
+			<li><a accesskey="E" th:href="@{/motoboy}">ENTREGAS</a>
+			<li><a accesskey="R" th:href="@{/receber}">RECEBER</a></li>
+			<li><a accesskey="S" th:href="@{/menu}">VOLTAR</a></li>
 			<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 			<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
 		</ul>
@@ -46,62 +63,68 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 <!--------------------------------------------------------------------------------------------------------->
 	<header th:fragment="adm">
-		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
-	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
-	<nav id="menuPrincipal">
-		<ul class="menu">
-			<li><a class="active" th:href="@{/relatoriodia}">RELATÓRIO</a></li>
-			<li><a th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
-			<li><a th:href="@{/fechamento}">FECHAMENTO</a></li>
-			<li><a th:href="@{/cadastros}">CADASTROS</a></li>
-			<li class="Dropdown"><a th:href="@{/sobre}">OPÇÕES</a>
-				<div class="dropdown-content">
-					<a th:href="@{/tutorial}">TUTORIAL</a>
-				</div>
-				</li>
-			<li><a th:href="@{/tutorial}">PREFERENCIAS</a></li>
-			<li><a th:href="@{/novoPedido}">VOLTAR</a></li>
-			<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
-			<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
-		</ul>
-	</nav>
+	
+		<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
+		<nav id="menuPrincipal">
+			<ul class="menu">
+				<li><a class="active" th:href="@{/relatoriodia}">RELATÓRIO</a></li>
+				<li><a th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
+				<li><a th:href="@{/fechamento}">FECHAMENTO</a></li>
+				<li><a th:href="@{/menu}">VOLTAR</a></li>
+				<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+				<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			</ul>
+		</nav>
 	</header>
 
 
 <!--------------------------------------------------------------------------------------------------------->
 	<header th:fragment="cadastros">
-		<!--<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>-->
 		
-	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
-	
-	<nav id="menuPrincipal">
-		<ul class="menu">
-			<li><a class="active" th:href="@{/cadastros}">TODOS</a></li>
-			<li class="Dropdown"><a th:href="@{/clientesCadastrados}">CLIENTES</a>
-				<div class="dropdown-content">
-					<a th:href="@{/cadastroCliente}">CADASTRAR</a>
-				</div>
-			</li>
-			
-			<li class="Dropdown"><a th:href="@{/produtosCadastrados}">PRODUTOS</a>
-				<div class="dropdown-content">
-					<a th:href="@{/cadastroProduto}">CADASTRAR</a>
-				</div>
-			</li>
-			
-			<li class="Dropdown"><a th:href="@{/funcionariosCadastrados}">FUNCIONÁRIOS</a>
-				<div class="dropdown-content">
-					<a th:href="@{/cadastroFuncionario}">CADASTRAR</a>
-				</div>
-			</li>
-			
-			<li><a th:href="@{/relatoriodia}">VOLTAR</a></li>
-			<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
-			<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
-		</ul>
-	</nav>
+		<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
+		
+		<nav id="menuPrincipal">
+			<ul class="menu">
+				<li><a class="active" th:href="@{/cadastros}">TODOS</a></li>
+				<li class="Dropdown"><a th:href="@{/clientesCadastrados}">CLIENTES</a>
+					<div class="dropdown-content">
+						<a th:href="@{/cadastroCliente}">CADASTRAR</a>
+					</div>
+				</li>
+				
+				<li class="Dropdown"><a th:href="@{/produtosCadastrados}">PRODUTOS</a>
+					<div class="dropdown-content">
+						<a th:href="@{/cadastroProduto}">CADASTRAR</a>
+					</div>
+				</li>
+				
+				<li class="Dropdown"><a th:href="@{/funcionariosCadastrados}">FUNCIONÁRIOS</a>
+					<div class="dropdown-content">
+						<a th:href="@{/cadastroFuncionario}">CADASTRAR</a>
+					</div>
+				</li>
+				
+				<li><a th:href="@{/menu}">VOLTAR</a></li>
+				<li><label class="centralizar dataMenu" id="dia-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+				<li><label class="centralizar dataMenu" id="hora-atual" style="color:white; margin-left: 3vh; margin-top: 1vh; margin-right: 3vh"></label></li>
+			</ul>
+		</nav>
 	</header>
 	
+	
+	<!--------------------------------------------------------------------------------------------------------->
+	<header th:fragment="opcoes">
+		
+		<nav id="menuPrincipal">
+			<ul class="menu">
+				<li><a></a></li>
+				<li><a class="active" th:href="@{/sobre}">OPÇÕES</a></li>
+				<li><a th:href="@{/tutorial}">TUTORIAL</a></li>
+				<li><a th:href="@{/tutorial}">PREFERENCIAS</a></li>
+				<li><a th:href="@{/menu}">SAIR</a></li>
+			</ul>
+		</nav>
+	</header>
 	
 <!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="login" id="esconderLogin">

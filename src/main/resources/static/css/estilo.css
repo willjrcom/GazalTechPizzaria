@@ -167,7 +167,18 @@ img{
 	border-bottom: 1px solid black;
 }
 	
+.menu1 li{
+		float: none;
+	}
+	
+.menu1 li a{
+	padding: 3vh;
+}   
 
+#logoMenu{
+	background-color: white;
+	width: 100%;
+}
 @media (max-width:768px){
 	.menu li{
 		float: none;
@@ -199,6 +210,9 @@ img{
 	}
 }
 
+#fb{
+	background-color: #333;
+}
 .posicaoMenu{
 	float: left;
 	position: absolute;
