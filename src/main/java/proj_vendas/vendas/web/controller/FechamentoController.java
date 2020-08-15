@@ -70,7 +70,7 @@ public class FechamentoController {
 	@RequestMapping(value = "/apagartudo", method = RequestMethod.PUT)
 	@ResponseBody
 	public String ApagarTudo() {
-		pedidos.deleteAll();
+		produtos.deleteAll();
 		return "ok";
 	}
 	
