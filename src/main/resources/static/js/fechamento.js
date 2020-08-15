@@ -50,6 +50,7 @@ $.ajax({
 });
 
 
+//-----------------------------------------------------------------------------------
 $("#delete_all").click(function(){
 	$.confirm({
 		title: 'APAGAR TUDO?',
@@ -60,24 +61,6 @@ $("#delete_all").click(function(){
 	    		keys: ['enter'],
 	            btnClass: 'btn-red',
 	            action: function(){
-		
-					//---------------------------------------------
-					$.ajax({
-				        type: "POST",
-				        url: "dados.php",
-				        data:{data: ids},
-				        success: function(data){
-				          data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-				          var a = document.createElement("a");
-				          document.body.appendChild(a);
-				          a.style = "display: none";
-				          a.href = 'data:' + data ;
-				          a.download = "data.json";
-				          a.click();
-				        }
-				    });
-					
-					//---------------------------------------------
 					$.ajax({
 						url: '/fechamento/apagartudo',
 						type: 'PUT'
@@ -95,4 +78,23 @@ $("#delete_all").click(function(){
 			}
 		}
 	});
-})
+});
+
+
+//--------------------------------------------------------------------------------
+$("#download_all").click(function(){
+	$.ajax({
+		url: '/fechamento/baixartudo',
+		type: 'PUT',
+	}).done(function(data){
+          data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+          var a = document.createElement("a");
+          document.body.appendChild(a);
+          a.style = "display: none";
+          a.href = 'data:' + data ;
+          a.download = "data.json";
+          a.click();
+	}).fail(function(){
+		$.alert("Pedidos não encontrados!");
+	});
+});

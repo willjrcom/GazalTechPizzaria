@@ -73,4 +73,10 @@ public class FechamentoController {
 		pedidos.deleteAll();
 		return "ok";
 	}
+	
+	@RequestMapping(value = "/baixartudo", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Pedido> baixarTudo() {
+		return pedidos.findAll();
+	}
 }
