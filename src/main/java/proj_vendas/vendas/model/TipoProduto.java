@@ -2,10 +2,7 @@ package proj_vendas.vendas.model;
 
 public enum TipoProduto {
 	PIZZA("Pizza"),
-	REFRIGERANTE("Refrigerante"),
-	INGREDIENTE("Ingrediente"),
-	PASTEL("Pastel"),
-	PANQUECA("Panqueca"),
+	BEBIDA("Bebida"),
 	OUTROS("Outros");
 	
 	private String descricao;
