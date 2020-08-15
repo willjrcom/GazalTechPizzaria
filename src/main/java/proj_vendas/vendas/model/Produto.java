@@ -17,7 +17,7 @@ public class Produto {
 	private String nomeProduto;
 	private String preco;
 	private String custo;
-	private TipoProduto setor;
+	private String setor;
 	private String descricao;
 	
 	
@@ -45,10 +45,10 @@ public class Produto {
 	public void setPreco(String preco) {
 		this.preco = preco;
 	}
-	public TipoProduto getSetor() {
+	public String getSetor() {
 		return setor;
 	}
-	public void setSetor(TipoProduto setor) {
+	public void setSetor(String setor) {
 		this.setor = setor;
 	}
 	public String getDescricao() {

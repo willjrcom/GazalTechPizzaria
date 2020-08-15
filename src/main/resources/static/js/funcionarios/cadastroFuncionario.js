@@ -110,9 +110,6 @@ $("#enviar").click(function() {
 	if($("#nome").val() != '' 
 	&& $("#email").val() != ''
 	&& $("#cel").val() != ''
-	&& $("#cargo").val() != ''
-	&& $("#sexo").val() != ''
-	
 	
 	&& $("#cep").val() != ''
 	&& $("#rua").val() != ''
