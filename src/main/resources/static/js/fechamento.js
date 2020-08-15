@@ -16,25 +16,83 @@ $.ajax({
 });
 
 
-//buscar total de pedidos
+//buscar total de vendas
 $.ajax({
 	url: '/fechamento/Tvendas',
 	type: 'PUT'
 }).done(function(e){
 	console.log(e);
+	
+	//para cada pedido
+	console.log('total pedidos: ' + e.length);
 	for(var i = 0; i < e.length; i++) {
 		e[i].produtos = JSON.parse(e[i].produtos);
+		e[i].pizzas = JSON.parse(e[i].pizzas);
 		
-		Tvendas += e[i].total;
 		
+		Tvendas += parseFloat(e[i].total);
+		console.log('Tvendas: ' + Tvendas);
+		//para cada produto
 		for(var j = 0; j < e[i].produtos.length; j++) {
-			Tfaturamento += e[i].produtos[j].custo;
+			Tfaturamento += parseFloat(e[i].produtos[j].custo);
+		}
+		//para cada pizza
+		for(var j = 0; j < e[i].pizzas.length; j++) {
+			Tfaturamento += parseFloat(e[i].pizzas[j].custo);
 		}
 		
-		
-		$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
-		$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento)).toFixed(2));
 	}
+
+	$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
+	$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento).toFixed(2)).toFixed(2) );
 }).fail(function(){
 	$.alert("Nenhum valor encontrado!");
 });
+
+
+$("#delete_all").click(function(){
+	$.confirm({
+		title: 'APAGAR TUDO?',
+		content: 'Tem certeza?',
+		buttons: {
+	        confirm: {
+				text: 'APAGAR',
+	    		keys: ['enter'],
+	            btnClass: 'btn-red',
+	            action: function(){
+		
+					//---------------------------------------------
+					$.ajax({
+				        type: "POST",
+				        url: "dados.php",
+				        data:{data: ids},
+				        success: function(data){
+				          data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+				          var a = document.createElement("a");
+				          document.body.appendChild(a);
+				          a.style = "display: none";
+				          a.href = 'data:' + data ;
+				          a.download = "data.json";
+				          a.click();
+				        }
+				    });
+					
+					//---------------------------------------------
+					$.ajax({
+						url: '/fechamento/apagartudo',
+						type: 'PUT'
+					}).done(function(){
+						$.alert("Todos pedidos foram apagados!");
+					}).fail(function(){
+						$.alert("Falhou!");
+					})
+				}
+			},
+	        cancel: {
+				text: 'Voltar',
+	    		keys: ['esc'],
+	            btnClass: 'btn-green'
+			}
+		}
+	});
+})

@@ -66,4 +66,11 @@ public class FechamentoController {
 	public List<Pedido> totalVendas() {
 		return pedidos.findAll();
 	}
+	
+	@RequestMapping(value = "/apagartudo", method = RequestMethod.PUT)
+	@ResponseBody
+	public String ApagarTudo() {
+		pedidos.deleteAll();
+		return "ok";
+	}
 }
