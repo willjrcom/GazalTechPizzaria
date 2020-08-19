@@ -87,4 +87,16 @@ public class NovoPedidoController {
 	public Pedido atualizarPedido(@RequestBody Pedido pedido) {
 		return pedidos.save(pedido);
 	}
+	
+	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Produto> mostrarBordas() {
+		return produtos.findAllProduto();
+	}
+	
+	@RequestMapping(value = "/buscarBorda/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Produto> buscarBorda(@PathVariable Long id) {
+		return produtos.findById(id);
+	}
 }

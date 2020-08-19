@@ -19,14 +19,10 @@ a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
 label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
     margin-left: 0.3em;
     content: "[" attr(accesskey) "]";
-    }
+}
     
 body{
 	background-color: #0069c1; /*cor de fundo*/
-}
-
-header{
-	/*background-color: white;**/
 }
 
 footer{
