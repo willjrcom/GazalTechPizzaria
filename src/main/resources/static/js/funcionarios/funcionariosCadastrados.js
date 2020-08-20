@@ -122,7 +122,7 @@ function verFuncionario() {
 	$.alert({
 		type: 'green',
 	    typeAnimated: true,
-	    title: 'Cliente:' + funcionarios[idBusca].nome,
+	    title: 'Funcionario: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
 	    containerFluid: true,

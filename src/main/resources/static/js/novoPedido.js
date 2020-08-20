@@ -186,6 +186,8 @@ $('#numeroCliente').on('blur', function(){
 		$("#mostrar").hide("slow");
 		$("#mostrarProdutos").show('slow');
 		$("#divEnvio").hide();
+		cliente.envio = "BALCAO";
+		console.log(cliente);
 	}
 });
 
@@ -588,8 +590,10 @@ $("#enviarPedido").click(function() {
 		alert("Apenas valores inteiros!");	
 	}else{
 		
-		cliente.envio = $("#envioCliente").val();
-
+		if(cliente.envio == '' || cliente.envio == null) {
+			cliente.envio = $("#envioCliente").val();
+		}
+		cliente.pagamento = $("#pagamentoCliente").val();
 		linhaHtml = '<table>';
 		if(pizzas.length != 0) {
 			linhaHtml += '<tr>'

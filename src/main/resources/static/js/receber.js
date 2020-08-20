@@ -12,7 +12,7 @@ var Tpizzas = 0;
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
-	url: "/motoboy/todosPedidos",
+	url: "/receber/todosPedidos",
 	type: 'PUT'
 })
 .done(function(e){

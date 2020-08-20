@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
 
@@ -34,7 +33,7 @@ public class MotoboyController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findAll();
+		return pedidos.findByStatusAndEnvio("PRONTO", "ENTREGA");
 	}
 	
 	@RequestMapping(value = "/funcionarios", method = RequestMethod.PUT)
@@ -46,7 +45,7 @@ public class MotoboyController{
 	@RequestMapping(value = "/enviarMotoboy/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {
-		pedido.setStatus(TipoStatus.MOTOBOY);
+		pedido.setStatus("MOTOBOY");
 		return pedidos.save(pedido);
 	}
 }

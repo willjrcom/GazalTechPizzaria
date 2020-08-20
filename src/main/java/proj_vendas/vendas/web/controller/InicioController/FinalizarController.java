@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -24,11 +25,17 @@ public class FinalizarController {
 		ModelAndView mv = new ModelAndView("finalizar");
 		return mv;
 	}
+
+	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Pedido> todosPedidos() {
+		return pedidos.findPedidospronto();
+	}
 	
 	@RequestMapping(value = "/finalizarPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {
-		pedido.setStatus(TipoStatus.FINALIZADO);
+		pedido.setStatus("FINALIZADO");
 		return pedidos.save(pedido);
 	}
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Pedidos;
 
 //@Component
@@ -37,7 +36,7 @@ public class CozinhaController{
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {//falta enviar as outras variaveis
-		pedido.setStatus(TipoStatus.PRONTO);
+		pedido.setStatus("PRONTO");
 		return pedidos.save(pedido);
 	}
 	/*

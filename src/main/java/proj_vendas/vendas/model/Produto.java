@@ -19,7 +19,7 @@ public class Produto {
 	private String custo;
 	private String setor;
 	private String descricao;
-	
+	private TipoDisponivel produtoDisponivel;
 	
 	public Long getId() {
 		return id;
@@ -62,6 +62,12 @@ public class Produto {
 	}
 	public void setCusto(String custo) {
 		this.custo = custo;
+	}
+	public TipoDisponivel getProdutoDisponivel() {
+		return produtoDisponivel;
+	}
+	public void setProdutoDisponivel(TipoDisponivel produtoDisponivel) {
+		this.produtoDisponivel = produtoDisponivel;
 	}
 	
 	

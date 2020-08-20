@@ -1,7 +1,7 @@
 package proj_vendas.vendas.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 @Entity
@@ -30,24 +33,21 @@ public class Pedido implements Serializable{
 	private String pizzas;
 	@Lob
 	private String produtos;
-	public String getPizzas() {
-		return pizzas;
-	}
-	public void setPizzas(String pizzas) {
-		this.pizzas = pizzas;
-	}
+	
 	private String motoboy;
 	private String ac;
-	private TipoStatus status;
-	private TipoEnvio envio;
+	private String status;
+	private String envio;
 	private String pagamento;
 	private String taxa;
 	private float total;
 	private float troco;
 
-	//@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date data;
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
+	private Date dataPedido;
 	
+	private Date horaPedido;
 	
 	public Long getId() {
 		return id;
@@ -60,6 +60,12 @@ public class Pedido implements Serializable{
 	}
 	public void setCodigoPedido(Long codigoPedido) {
 		this.codigoPedido = codigoPedido;
+	}
+	public String getPizzas() {
+		return pizzas;
+	}
+	public void setPizzas(String pizzas) {
+		this.pizzas = pizzas;
 	}
 	public String getNomePedido() {
 		return nomePedido;
@@ -79,16 +85,16 @@ public class Pedido implements Serializable{
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	public TipoStatus getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(TipoStatus status) {
+	public void setStatus(String status) {
 		this.status = status;
 	}
-	public TipoEnvio getEnvio() {
+	public String getEnvio() {
 		return envio;
 	}
-	public void setEnvio(TipoEnvio envio) {
+	public void setEnvio(String envio) {
 		this.envio = envio;
 	}
 	public float getTotal() {
@@ -130,17 +136,23 @@ public class Pedido implements Serializable{
 	public void setPagamento(String pagamento) {
 		this.pagamento = pagamento;
 	}
-	public Date getData() {
-		return data;
+	public Date getDataPedido() {
+		return dataPedido;
 	}
-	public void setData(Date data) {
-		this.data = data;
+	public void setDataPedido(Date dataPedido) {
+		this.dataPedido = dataPedido;
 	}
 	public String getTaxa() {
 		return taxa;
 	}
 	public void setTaxa(String taxa) {
 		this.taxa = taxa;
+	}
+	public Date getHoraPedido() {
+		return horaPedido;
+	}
+	public void setHoraPedido(Date horaPedido) {
+		this.horaPedido = horaPedido;
 	}
 	
 }

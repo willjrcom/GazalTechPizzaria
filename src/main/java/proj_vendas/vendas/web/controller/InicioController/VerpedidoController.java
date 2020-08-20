@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -28,7 +27,7 @@ public class VerpedidoController{
 	@RequestMapping(value = "/excluirPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Pedido novoPedido(@ModelAttribute("id") Pedido pedido) {
-		pedido.setStatus(TipoStatus.EXCLUIDO);
+		pedido.setStatus("EXCLUIDO");
 		return pedidos.save(pedido);
 	}
 }

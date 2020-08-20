@@ -6,8 +6,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,30 +30,23 @@ public class Funcionario {
 	private String cpf;
 
 	private String email;
-	
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
-	private Date nascimento;
- 
-	//@OneToMany
 	private String celular;
-
-	@Enumerated(EnumType.STRING)
-	private TipoCargo cargo;
-
-	@Enumerated(EnumType.STRING)
-	private TipoSexo sexo;
+	private String cargo;
+	private String sexo;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
+	private Date nascimento;
+	
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Date admissao;
 
 	private int diaPagamento;
 	
-	//@Column( columnDefinition = "DECIMAL(7, 2) DEFAULT 0.00")
 	private BigDecimal salario;
 
 	public Long getId() {
@@ -106,19 +97,19 @@ public class Funcionario {
 		this.celular = celular;
 	}
 
-	public TipoCargo getCargo() {
+	public String getCargo() {
 		return cargo;
 	}
 
-	public void setCargo(TipoCargo cargo) {
+	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
 
-	public TipoSexo getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(TipoSexo sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 

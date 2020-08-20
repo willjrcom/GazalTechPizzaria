@@ -7,10 +7,37 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
 	<title>Login - Ibiti das Pizzas</title>
 </head>
 
-<body style="background-color: #006add">
-	<div th:replace="~{layouts/header :: login}"></div>
+<body>
+	<div id="esconderLogin">
+		<div class="elemento1">
+			<div class="corFundo centralizar" style="padding: 10px">
+				
+				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
+				<hr>
+				
+				<div>
+					<div class="form-group">
+				 		<label>Email</label>
+				    	<input type="email" class="form-control" id="email" placeholder="Digite seu email"/>
+				    	<small class="form-text text-muted">Nunca compartilhe seu email com mais ninguém.</small>
+				  	</div>
+				  	
+				  	<div class="form-group">
+				    	<label>Senha</label>
+				    	<input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
+				  	</div>
+				  	
+				  	<a><button type="submit" id="enviarLogin" class="btn btn-primary" >Acessar</button></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script th:src="@{/js/index.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>
 </html>

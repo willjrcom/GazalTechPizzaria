@@ -11,7 +11,7 @@ var Tpizzas = 0;
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
-	url: "/pronto/todosPedidos",
+	url: "/relatoriodia/todosPedidos",
 	type: 'PUT'
 })
 .done(function(e){
@@ -70,7 +70,6 @@ $.ajax({
 				linhaHtml += '<tr>';
 				linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
 				linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
-				linhaHtml +=	'<td></td>';
 
 				Tpizzas = 0;
 				for(var k = 0; k<pedidos[i].produtos.length; k++) {
