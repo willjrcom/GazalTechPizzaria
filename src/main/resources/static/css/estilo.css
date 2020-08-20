@@ -33,41 +33,7 @@ body{
     min-height: 100%;
 }
 
-footer{
-    margin-top: auto;
-	width: 100%;
-	background-color: #333;
-	border-top: 2px solid black;	
-	position: relative;
-	height: 150%;
-	left:0;
-	bottom:0;
-	margin-left: 0;
-}
-
-a{
-	background-color: #333;
-}
-table{
-	border-collapse: separate;
-	width: 100%;
-}
-
-thead{
-	background-color: #253b80;	
-}
-
-tr th{
-	background-color: #253b80
-}
-
-ul {
-  	list-style-type: none;
-  	overflow: hidden;
-  	background-color: #333;
-  	z-index: 2;
-}
-
+/*titulos*/
 th h3, td h3, th h5, th h4{
 	color: white;
 }
@@ -77,14 +43,12 @@ th h3, td h3, th h5, th h4{
     margin-bottom: 5px;
 }
 
-.dropdown-content {
-    display: none;
-    position: absolute;
-    min-width: 160px;
-    z-index: 3;
-}
-.Dropdown:hover .dropdown-content {
-    display: block;
+/*nav*/
+ul {
+  	list-style-type: none;
+  	overflow: hidden;
+  	background-color: #333;
+  	z-index: 2;
 }
 
 li a {
@@ -99,12 +63,35 @@ li a:hover {
   	color: white;
 }
 
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    z-index: 3;
+}
+.Dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*table*/
+table{
+	border-collapse: separate;
+	width: 100%;
+}
+
+thead{
+	background-color: #253b80;	
+}
+
+tr th{
+	background-color: #253b80
+}
+
 table thead tr th{
 	text-align: center;
 }
 
 table tbody tr td{
-	/*background-color: white;*/
 	text-align: center;
 	padding: .5vh;
 }
@@ -117,6 +104,20 @@ tr td:last-child{
     width:1%;
     white-space:nowrap;
 }
+
+/*footer*/
+footer{
+    margin-top: auto;
+	width: 100%;
+	background-color: #333;
+	border-top: 2px solid black;	
+	position: relative;
+	height: 150%;
+	left:0;
+	bottom:0;
+	margin-left: 0;
+}
+
 /*-------------------------------------*/
 .centralizar{
 	text-align: center;
@@ -155,13 +156,10 @@ img{
 
 .h1Logo{
 	text-align: center; 
-	/*font-size: 45px;
-	border-bottom: 2px solid black;*/
 }
 
 .sobre{
 	text-align: left; 
-	margin-left: 40%;
 }
 
 .elemento{
@@ -177,60 +175,11 @@ img{
 }
 
 /*MENU---------------------------------*/
+/*menu geral*/
 .menu{
 	border-bottom: 1px solid black;
 }
-	
-.menu1 li{
-		float: none;
-	}
-	
-.menu1 li a{
-	padding: 3vh;
-}   
 
-#logoMenu{
-	background-color: white;
-	width: 100%;
-}
-@media (max-width:768px){
-	.menu li{
-		float: none;
-	}
-	
-	#menuPrincipal{
-		display:none;
-	}
-	
-	#menuButton{
-		display: block;
-	}
-	.dataMenu{
-		display:none;
-	}
-}
-
-@media ( min-width: 769px ){
-	.menu li{
-		float:left;
-	}
-	
-	#menuPrincipal{
-		display: block;
-	}
-	
-	#menuButton{
-		display: none;
-	}
-}
-
-#fb{
-	background-color: #333;
-}
-.posicaoMenu{
-	float: left;
-	position: absolute;
-}
 .menu li a{
 	padding:5px 10px;
 }
@@ -253,6 +202,77 @@ img{
 	-moz-box-shadow:0 3px 10px 0 #ccc; 
 	-webkit-box-shadow:0 3px 10px 0 #ccc; 
 	text-shadow:0px 0px 5px #fff; 
+}
+
+/*celular*/
+@media (max-width:768px){
+	.menu li{
+		float: none;
+	}
+	
+	#menuPrincipal{
+		display:none;
+	}
+	
+	#menuButton{
+		display: block;
+	}
+	
+	.dataMenu{
+		display:none;
+	}
+	
+	footer{
+		display: none;
+	}
+}
+
+/*computador*/
+@media ( min-width: 769px ){
+	.menu li{
+		float:left;
+	}
+	
+	#menuPrincipal{
+		display: block;
+	}
+	
+	#menuButton{
+		display: none;
+	}
+}
+
+/*menu inicial*/
+.menu1 li{
+	float: none;
+}
+
+.menu1 a{
+	background-color: white;
+	color: black;
+	
+}
+.menu1 li a:hover{
+	-moz-box-shadow:0 3px 10px 0 #ccc; 
+	-webkit-box-shadow:0 3px 10px 0 #ccc; 
+	text-shadow:0px 0px 5px #fff; 
+}
+	
+.menu1 li a{
+	padding: 3vh;
+}   
+
+#logoMenu{
+	background-color: white;
+	width: 100%;
+}
+
+#fb{
+	background-color: #333;
+}
+.posicaoMenu{
+	float: left;
+	position: absolute;
 }
 
 a:link{
