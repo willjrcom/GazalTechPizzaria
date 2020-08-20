@@ -29,6 +29,7 @@ $.ajax({
 				'envio': e[i].envio,
 				'total': e[i].total,
 				'troco': e[i].troco,
+				'taxa': e[i].taxa,
 				'status': e[i].status,
 				'pagamento': e[i].pagamento,
 				'pizzas': JSON.parse(e[i].pizzas),

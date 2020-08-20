@@ -286,7 +286,7 @@ function excluirPedido() {
 											
 										}).done(function(){		
 											$.alert({
-												type: 'green',
+												type: 'red',
 											    typeAnimated: true,
 											    title: 'Pedido apagado!',
 											    content: 'Espero que dê tudo certo!',
@@ -301,7 +301,7 @@ function excluirPedido() {
 												}
 											});
 										}).fail(function(){
-											$.alert("Pedido apagado!");
+											$.alert("Pedido não apagado!");
 										});
 									}else {
 										$.alert({

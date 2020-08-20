@@ -16,8 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
-import proj_vendas.vendas.model.TipoBorda;
-import proj_vendas.vendas.model.TipoStatus;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
@@ -37,10 +35,7 @@ public class NovoPedidoController {
 
 	@RequestMapping
 	public ModelAndView novoPedido() {
-		//String celular = filtro.getCelular() == null ? "%" : filtro.getCelular();
-		ModelAndView mv = new ModelAndView("novoPedido");
-		mv.addObject("TipoBorda", TipoBorda.values());
-		return mv;
+		return new ModelAndView("novoPedido");
 	}
 	
 	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
@@ -65,15 +60,12 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
 	@ResponseBody
 	public Pedido novoPedido(@RequestBody Pedido pedido) {
-		pedido.setStatus(TipoStatus.COZINHA);
 		return pedidos.save(pedido);
 	}
 	
 	@RequestMapping(value = "/editar/{id}")
 	public ModelAndView editarPedido(@ModelAttribute("id") Pedido pedido) {
-		ModelAndView mv = new ModelAndView("novoPedido");
-		mv.addObject("TipoBorda", TipoBorda.values());
-		return mv;
+		return new ModelAndView("novoPedido");
 	}
 	
 	@RequestMapping(value = "/editarPedido/{id}", method = RequestMethod.PUT)

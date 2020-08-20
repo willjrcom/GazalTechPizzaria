@@ -107,12 +107,18 @@ function finalizarPedido() {
 			var idBusca = i;
 		}
 	}
+	
 	Tpizzas = 0;
-	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
-		Tpizzas += pedidos[idBusca].produtos[k].qtd;
+	if(pedidos[idBusca].produtos.length != 0) {
+		for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
+			Tpizzas += pedidos[idBusca].produtos[k].qtd;
+		}
 	}
-	for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-		Tpizzas += pedidos[i].pizzas[k].qtd;
+	
+	if(pedidos[idBusca].pizzas.length != 0) {
+		for(var k = 0; k<pedidos[idBusca].pizzas.length; k++) {
+			Tpizzas += pedidos[idBusca].pizzas[k].qtd;
+		}
 	}
 	
 	linhaHtml = '<table>';

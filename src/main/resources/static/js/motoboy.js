@@ -2,8 +2,8 @@ var pedidos = [];
 var pizzas = [];
 var funcionarios = [];
 var linhaHtml= "";
-var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList"></td></tr>';
-var pedidoVazio = '<tr><td colspan="6">Nenhum pedido para entregar!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para entregar!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 
@@ -77,6 +77,7 @@ $.ajax({
 				Tpizzas += pedidos[i].pizzas[k].qtd;
 			}
 			linhaHtml +=    '<td>' + Tpizzas + '</td>';
+			linhaHtml +=    '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
 			linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
 							
 			linhaHtml += '<td>' 

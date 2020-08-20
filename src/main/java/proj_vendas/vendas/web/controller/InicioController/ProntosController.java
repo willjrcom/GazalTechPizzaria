@@ -21,8 +21,7 @@ public class ProntosController{
 	
 	@RequestMapping
 	public ModelAndView pronto() {
-		ModelAndView mv = new ModelAndView("pronto");
-		return mv;
+		return new ModelAndView("pronto");
 	}
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)

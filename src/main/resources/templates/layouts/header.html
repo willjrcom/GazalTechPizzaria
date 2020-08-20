@@ -18,24 +18,25 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 
 <!--------------------------------------------------------------------------------------------------------->
-	<header th:fragment="menu">
-		<div id="logoMenu">
-			<img src="/img/logo.jpeg" class="logoTitulo" alt="logo"/>
+	<div th:fragment="menu" id="esconderLogin">
+		<div class="elemento1">
+			<div class="corFundo centralizar" style="padding: 10px">
+				
+				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
+				
+				<nav>
+					<ul class="menu1">
+						<li><a th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
+						<li><a th:href="@{/relatoriodia}">ADM</a></li>
+						<li><a th:href="@{/cadastros}">CADASTROS</a></li>
+						<li><a th:href="@{/sobre}">OPÇÕES</a>
+						<li><a th:href="@{/index}">SAIR</a></li>
+					</ul>
+				</nav>
+			</div>
 		</div>
-		
-		<nav>
-			<ul class="menu1">
-				<li><a class="active"></a></li>
-				<li><a th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
-				<li><a th:href="@{/relatoriodia}">ADM</a></li>
-				<li><a th:href="@{/cadastros}">CADASTROS</a></li>
-				<li><a th:href="@{/sobre}">OPÇÕES</a>
-				<li><a th:href="@{/index}">SAIR</a></li>
-				<li><a class="active"></a></li>
-			</ul>
-		</nav>
-	</header>
-	
+		<script th:src="@{/js/index.js}"></script>
+	</div>
 	
 <!--------------------------------------------------------------------------------------------------------->
 	<header th:fragment="logo">

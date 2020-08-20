@@ -28,15 +28,13 @@ public class MotoboyController{
 	
 	@RequestMapping
 	public ModelAndView motoboy() {
-		ModelAndView mv = new ModelAndView("motoboy");
-		return mv;
+		return new ModelAndView("motoboy");
 	}
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		return pedidos.findAll();
-		
 	}
 	
 	@RequestMapping(value = "/funcionarios", method = RequestMethod.PUT)

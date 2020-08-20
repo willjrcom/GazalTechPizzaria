@@ -77,9 +77,9 @@ $.ajax({
 						linhaHtml +=	'<td>' + funcionarios[j].nome + '</td>';
 					}
 				}
-				
-				linhaHtml +=	'<td>18:30</td>';
-				linhaHtml +=	'<td>R$ ' + pedidos[i].troco.toFixed(2) + '</td>';
+
+				linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
+				linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
 				linhaHtml += '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'

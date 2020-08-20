@@ -75,8 +75,17 @@ $.ajax({
 				linhaHtml +=	'<td></td>';
 
 				Tpizzas = 0;
-				for(var k = 0; k<pedidos[i].produtos.length; k++) {
-					Tpizzas += pedidos[i].produtos[k].qtd;
+				console.log(pedidos[i]);
+				if(pedidos[i].produtos.length != 0) {
+					for(var k = 0; k<pedidos[i].produtos.length; k++) {
+						Tpizzas += pedidos[i].produtos[k].qtd;
+					}
+				}
+				
+				if(pedidos[i].pizzas.length != 0) {
+					for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+						Tpizzas += pedidos[i].pizzas[k].qtd;
+					}
 				}
 				
 				linhaHtml +=	'<td>' + Tpizzas + '</td>';

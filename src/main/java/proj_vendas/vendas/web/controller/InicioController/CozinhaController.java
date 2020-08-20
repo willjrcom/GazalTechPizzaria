@@ -25,15 +25,13 @@ public class CozinhaController{
 	
 	@RequestMapping
 	public ModelAndView Cozinha() {
-		ModelAndView mv = new ModelAndView("cozinha");
-		return mv;
+		return new ModelAndView("cozinha");
 	}
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findAll();
-		
+		return pedidos.findPedidoscozinha();
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)
