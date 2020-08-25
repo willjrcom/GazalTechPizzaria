@@ -19,20 +19,32 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
 				<hr>
 				
-				<div>
-					<div class="form-group">
-				 		<label>Email</label>
-				    	<input type="email" class="form-control" id="email" placeholder="Digite seu email"/>
-				    	<small class="form-text text-muted">Nunca compartilhe seu email com mais ninguém.</small>
-				  	</div>
-				  	
-				  	<div class="form-group">
-				    	<label>Senha</label>
-				    	<input type="password" class="form-control" id="senha" placeholder="Digite sua senha">
-				  	</div>
-				  	
-				  	<a><button type="submit" id="enviarLogin" class="btn btn-primary" >Acessar</button></a>
-				</div>
+				<form class="form-signin was-validated" method="post" th:action="@{/index}">
+					<div class="form-label-group">
+						<label for="inputEmail">Email</label>
+						<input type="email" id="inputEmail" class="form-control"
+							placeholder="Digite seu Email" name="username" required autofocus>
+					</div>
+					
+					<br>
+					<div class="form-label-group">
+						<label for="inputPassword">Senha</label>
+						<input type="password" id="inputPassword" class="form-control"
+							placeholder="Digite sua senha" name="password" required> 
+					</div>
+			
+					<div class="checkbox mb-3">
+						<label> <input type="checkbox" value="remember-me">Ficar conectado</label>
+					</div>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+					<hr>
+					<nav class="nav nav-pills flex-column flex-sm-row">
+						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/novo/cadastro}"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Novo cadastro</a>
+						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/p/redefinir/senha}"><i class="fas fa-key"></i>&nbsp;Recuperar senha</a>
+						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/}"><i class="fas fa-home"></i>&nbsp;Home</a>
+					</nav>
+					<p class="mt-5 mb-3 text-muted text-center">Wihaas &copy; 2019</p>
+				</form>
 			</div>
 		</div>
 	</div>

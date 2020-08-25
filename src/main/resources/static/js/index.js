@@ -1,3 +1,5 @@
+var dia = {};
+
 $("#enviarLogin").click(function(){
 	
 	if($("#email").val() == "" && $("#senha").val() == "") {
@@ -6,14 +8,25 @@ $("#enviarLogin").click(function(){
 		$.alert({
 			type: 'green',
 			title: 'Data de acesso',
-			content: 'Dia: dd/mm/aaaa<br><input type="data" name="data" id="data" placeholder="Digite a data de acesso" />',
+			content: 'Dia: dd/mm/aaaa<br><input type="date" name="data" id="data" placeholder="Digite a data de acesso" required/>',
 			buttons: {
 		        confirm: {
 		            text: 'Acessar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
-						window.location.href = "/menu";
+						
+						dia.data = this.$content.find('#data').val();
+						
+						$.ajax({
+							url: '/index/data',
+							data: dia
+						}).done(function(){	
+							window.location.href = "/menu";
+						}).fail(function(){
+							$.alert("Falha no acesso!");
+							console.log(dia);
+						});
 					}
 				}
 			}
@@ -23,6 +36,6 @@ $("#enviarLogin").click(function(){
 			type: 'red',
 			title: 'Senha incorreta',
 			content: 'Tente novamente!',
-		})
+		});
 	}
 });
