@@ -153,8 +153,11 @@ function finalizarPedido() {
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total  + '<br>Troco:';	
-	linhaHtml += '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
+	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
+	
+	if(pedidos[idBusca].pagamento == "Não") {
+		linhaHtml += '<br>Troco:<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
+	}
 	linhaHtml += '<br>Deseja enviar o pedido?';
 
 

@@ -55,6 +55,7 @@ li a {
   	display: block;
   	color: white;
   	text-align: center;
+	background-color: #333;
   	text-decoration: none;
 }
 
@@ -202,7 +203,6 @@ img{
 	-webkit-box-shadow:0 3px 10px 0 #ccc; 
 	text-shadow:0px 0px 5px #fff; 
 }
-
 /*celular*/
 @media (max-width:768px){
 	.menu li{
@@ -301,8 +301,8 @@ a:link{
 	margin-right: 1vh; 
 	background-color: white; 
 	border: 1px solid black;
-	border-radius: 20px;
-	-webkit-border-radius: 20px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
 	padding: 1vh;
 }
 
@@ -311,8 +311,8 @@ a:link{
 	margin-right: 2vh; 
 	background-color: #ececec; 
 	border: 1px solid black;
-	border-radius: 20px;
-	-webkit-border-radius: 20px;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
 	padding: 5vh;
 }
 

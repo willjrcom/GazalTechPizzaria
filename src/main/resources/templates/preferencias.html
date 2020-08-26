@@ -4,10 +4,10 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{layouts/header :: head}" ></head>
-<head><title>Cadastrar Funcionário - Ibiti das Pizzas</title></head>
+<head><title>Cadastrar Empresa - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="~{layouts/header :: cadastros}"></header>
+	<header th:replace="~{layouts/header :: opcoes}"></header>
 				
 	<div class="divbaseForm">
 			
@@ -113,6 +113,5 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/js/buscaCep.js}"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
-	<script th:src="@{/js/validCpfFuncionario.js}"></script>
 </body>
 </html>
