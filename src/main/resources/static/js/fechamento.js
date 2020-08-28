@@ -26,7 +26,7 @@ $.ajax({
 	//para cada pedido
 	console.log('total pedidos: ' + e.length);
 	for(var i = 0; i < e.length; i++) {
-		if(e[i].status != "EXCLUIDO") {
+		if(e[i].status == "FINALIZADO" ) {
 			e[i].produtos = JSON.parse(e[i].produtos);
 			e[i].pizzas = JSON.parse(e[i].pizzas);
 			

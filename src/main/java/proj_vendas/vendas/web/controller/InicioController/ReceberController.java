@@ -34,7 +34,7 @@ public class ReceberController {
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findPedidosmotoboy();
+		return pedidos.findByStatusAndEnvio("MOTOBOY", "ENTREGA");
 	}
 
 	@RequestMapping(value = "/funcionarios", method = RequestMethod.PUT)

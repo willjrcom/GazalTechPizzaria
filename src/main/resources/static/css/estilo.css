@@ -321,6 +321,11 @@ a:link{
 	background-color: white;	
 }
 
+.botao{
+	background-color: white; 
+	border: none;
+}
+
 .fRight{
 	float: right;
 }

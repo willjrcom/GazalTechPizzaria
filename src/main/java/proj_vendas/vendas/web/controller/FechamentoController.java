@@ -58,7 +58,7 @@ public class FechamentoController {
 	@RequestMapping(value = "/Tpedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public long totalPedidos() {
-		return pedidos.count();
+		return pedidos.findByStatus("FINALIZADO").size();
 	}
 	
 	@RequestMapping(value = "/Tvendas", method = RequestMethod.PUT)

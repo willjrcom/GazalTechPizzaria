@@ -30,7 +30,7 @@ public class CozinhaController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findPedidoscozinha();
+		return pedidos.findByStatus("COZINHA");
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)

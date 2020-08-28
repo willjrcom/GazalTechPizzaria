@@ -28,6 +28,6 @@ public class PedidosExcluidosController {
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findPedidosexcluido();
+		return pedidos.findByStatus("EXCLUIDO");
 	}
 }

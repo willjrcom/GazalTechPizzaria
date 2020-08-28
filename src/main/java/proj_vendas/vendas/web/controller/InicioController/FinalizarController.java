@@ -29,7 +29,7 @@ public class FinalizarController {
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findPedidospronto();
+		return pedidos.findByStatus("PRONTO");
 	}
 	
 	@RequestMapping(value = "/finalizarPedido/{id}", method = RequestMethod.PUT)
