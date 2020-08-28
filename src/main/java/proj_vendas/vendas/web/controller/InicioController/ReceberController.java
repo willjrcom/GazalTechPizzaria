@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -19,6 +21,9 @@ public class ReceberController {
 	
 	@Autowired
 	private Pedidos pedidos;
+	
+	@Autowired
+	private Funcionarios funcionarios;
 	
 	@RequestMapping
 	public ModelAndView receberEntregas() {
@@ -30,6 +35,12 @@ public class ReceberController {
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		return pedidos.findPedidosmotoboy();
+	}
+
+	@RequestMapping(value = "/funcionarios", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Funcionario> funcionarios() {
+		return funcionarios.findAll();
 	}
 	
 	@RequestMapping(value = "/finalizar/{id}", method = RequestMethod.PUT)

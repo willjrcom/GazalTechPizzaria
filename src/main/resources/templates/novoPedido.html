@@ -96,9 +96,10 @@
 		
 		
 		<!-- balcão------------------------------------------------------------------------------------------------- -->
-		<div class="btn-group" role="group" aria-label="Second group">
+		<div align="center">
 			<p id="nomeBalcao"></p>
 		</div>
+		<hr>
 	</div>
 
 	<!-------------------------------------------------------------------------------------------------------------------------->
@@ -126,6 +127,8 @@
 			<div class="divbase mostrarPedidos">
 				<div>
 					<h3>Pizzas</h3>
+					<hr>
+					
 					<div class="btn-group fRight" role="group" aria-label="Second group">
 						<button type="button"  class="removerPizza btn btn-danger">Remover ultima pizza adicionado</button>
 					</div>
@@ -149,7 +152,10 @@
 				</div>
 				
 				<div>
+					<hr>
 					<h3>Produtos</h3>
+					<hr>
+					
 					<div class="btn-group fRight" role="group" aria-label="Second group">
 						<button type="button"  class="removerProduto btn btn-danger">Remover ultimo produto adicionado</button>
 					</div>
@@ -175,7 +181,8 @@
 	
 		<div class="col-md-6">
 			<div class="divbase mostrarPedidos">
-				<h2 class="h1Logo" align="center">Finalizar pedido</h2>
+				<h2 class="h1Logo" align="center">Finalizar Pedido</h2>
+				<hr>
 				<table>	
 					<tr id="divEnvio">
 						<td class="text-center col-md-3 sombra"><label for="envioCliente">Envio:</label></td>
@@ -200,7 +207,7 @@
 				<h3 id="Ttotal">Total</h3><br>
 				
 				<div class="btn-group" role="group" aria-label="Basic example">
-					<a href="/novoPedido"><button type="button" class="btn btn-secondary btn-danger">
+					<a href="/novoPedido"><button type="button" id="cancelar" class="btn btn-secondary btn-danger">
 					Cancelar pedido</button></a>
 				</div>
 		

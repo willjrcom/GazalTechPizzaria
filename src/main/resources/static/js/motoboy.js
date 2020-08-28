@@ -56,7 +56,7 @@ $.ajax({
 	var linhaFuncionarios = '<option value="--">-------</option>';
 	
 	for(var i = 0; i<funcionarios.length; i++){
-		linhaFuncionarios += '<option value="' + funcionarios[i].id + '">' + funcionarios[i].nome +'</option>';
+		linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
 	}
 	$("#filtro").html(linhaFuncionarios);
 

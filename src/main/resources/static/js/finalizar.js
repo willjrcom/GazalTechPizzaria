@@ -55,7 +55,7 @@ $.ajax({
 		var linhaFuncionarios = '<option value="--">-------</option>';
 		
 		for(var i = 0; i<funcionarios.length; i++){
-			linhaFuncionarios += '<option value="' + funcionarios[i].id + '">' + funcionarios[i].nome +'</option>';
+			linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
 		}
 		
 		$("#filtro").html(linhaFuncionarios);
@@ -107,8 +107,8 @@ function finalizarPedido() {
 	}
 	
 	Tpizzas = 0;
-	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
-		Tpizzas += pedidos[idBusca].produtos[k].qtd;
+	for(var k = 0; k < pedidos[idBusca].pizzas.length; k++) {
+		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 	}
 	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
 		Tpizzas += pedidos[idBusca].produtos[k].qtd;
@@ -153,7 +153,7 @@ function finalizarPedido() {
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
+	linhaHtml += 'Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
 	
 	if(pedidos[idBusca].pagamento == "Não") {
 		linhaHtml += '<br>Troco:<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';

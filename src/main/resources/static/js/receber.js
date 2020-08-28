@@ -39,24 +39,22 @@ $.ajax({
 	}
 	
 	$.ajax({
-	url: "/motoboy/funcionarios",
+	url: "/receber/funcionarios",
 	type: 'PUT'
 	})
 	.done(function(e){
 		console.log(e);
 		
 		for(var i = 0; i<e.length; i++){
-			if(e[i].cargo == "MOTOBOY"){
 				funcionarios.unshift({
 					'id': e[i].id,
 					'nome': e[i].nome
 				})
-			}
 		}
 		var linhaFuncionarios = '<option value="--">-------</option>';
 		
 		for(var i = 0; i<funcionarios.length; i++){
-			linhaFuncionarios += '<option value="' + funcionarios[i].id + '">' + funcionarios[i].nome +'</option>';
+			linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
 		}
 		$("#filtro").html(linhaFuncionarios);
 	
@@ -71,13 +69,7 @@ $.ajax({
 				linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
 				linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
 				linhaHtml +=	'<td>' + pedidos[i].endereco + '</td>';
-				
-				for(var j = 0; j<funcionarios.length; j++){
-					if(funcionarios[j].id == pedidos[i].motoboy){
-						linhaHtml +=	'<td>' + funcionarios[j].nome + '</td>';
-					}
-				}
-
+				linhaHtml +=	'<td>' + pedidos[i].motoboy + '</td>';
 				linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
 				linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
 				linhaHtml += '<td>' 

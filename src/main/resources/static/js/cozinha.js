@@ -62,7 +62,7 @@ $("#todosPedidos").html(linhaCinza);
 					linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
 					linhaHtml +=	'<td>' + pedidos[i].pizzas[0].borda + '</td>';
 					linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + '</td>';
-					linhaHtml +=	'<td>' + pedidos[i].pizzas[0].sabor + '</td>';
+					linhaHtml +=	'<td>' + pedidos[i].pizzas[0].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[0].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
 					linhaHtml +=	'<td>' + pedidos[i].pizzas[0].obs + '</td>';
 					if(i == 0) {//adicionar autofocus
 						linhaHtml +=	'<td>' 
@@ -108,7 +108,7 @@ $("#todosPedidos").html(linhaCinza);
 							}
 							linhaHtml +=	'<td>' + pedidos[i].pizzas[j].borda + '</td>';
 							linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + '</td>';
-							linhaHtml +=	'<td>' + pedidos[i].pizzas[j].sabor + '</td>';
+							linhaHtml +=	'<td>' + pedidos[i].pizzas[j].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[j].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
 							linhaHtml +=	'<td>' + pedidos[i].pizzas[j].obs + '</td>';
 							linhaHtml +=	'<td></td>';
 							linhaHtml += '</tr>';	
@@ -143,7 +143,27 @@ $("#todosPedidos").html(linhaCinza);
 		}
 	});	
 };
+
+//----------------------------------------------------------------------------------------------------------
+function descricao() {
+	var botaoReceber = $(event.currentTarget);
+	var descricao = botaoReceber.attr('value');
 	
+	$.alert({
+		type: 'blue',
+		title: 'Ingredientes:',
+		content: descricao,
+		buttons:{
+			confirm:{
+				keys: ['enter','esc'],
+	            btnClass: 'btn-green',
+				text: 'Voltar'
+		}
+	}
+	});
+}
+
+
 //----------------------------------------------------------------------------------------------------------
 function enviarPedido() {
 	
@@ -201,7 +221,8 @@ function init() {
 
 //recarregar a cada 5 segundos
 buscarPedido();
-
+/*
 setInterval(function (){
 	buscarPedido();
 },5000);
+*/

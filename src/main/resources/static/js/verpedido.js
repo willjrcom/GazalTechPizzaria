@@ -2,7 +2,7 @@ var pedidos = [];
 var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="6">Nenhum pedido feito!</td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum pedido em aberto!</td></tr>';
 var Tpedidos = 0;
 var tPizzas = 0;
 
@@ -142,10 +142,14 @@ function verPedido() {
 						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
 						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
 						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 	}
+
+	linhaHtml += '</table>';
+	linhaHtml += '<table>';
+	
 	if(pedidos[idBusca].produtos.length != 0) {
 		linhaHtml += '<tr>'
 						+ '<th>Sabor</th>'
@@ -159,19 +163,19 @@ function verPedido() {
 						 +	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>'
 						 +	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>'
 						 +	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += 'Total de Pizzas: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
+	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
 
 	$.alert({
 		type: 'green',
 	    typeAnimated: true,
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
-	    content: 'Produtos escolhidos' + linhaHtml,
+	    content: 'Produtos escolhidos:' + linhaHtml,
 	    buttons: {
 	        confirm: {
 				text: 'Voltar',
@@ -296,6 +300,7 @@ function excluirPedido() {
 											    		keys: ['enter'],
 											            btnClass: 'btn-green',
 											            action: function(){
+															window.location.href = "/verpedido";
 														}
 													}
 												}
