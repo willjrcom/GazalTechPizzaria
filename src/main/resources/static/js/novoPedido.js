@@ -71,7 +71,6 @@ if(typeof url_atual == "undefined") {
 		cliente.status = e.status;
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
-		cliente.descricao = e.descricao;
 		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
@@ -106,8 +105,11 @@ if(typeof url_atual == "undefined") {
 				'sabor' : cliente.pizzas[i].sabor,
 				'qtd' : cliente.pizzas[i].qtd,
 				'borda' : cliente.pizzas[i].borda,
+				'obs' : cliente.pizzas[i].obs,
 				'preco' : cliente.pizzas[i].preco,
-				'obs' : cliente.pizzas[i].obs
+				'custo' : cliente.pizzas[i].custo,
+				'setor' : cliente.pizzas[i].setor,
+				'descricao' : cliente.pizzas[i].descricao
 			});
 		}
 		for(var i = 0; i<cliente.produtos.length; i++) {

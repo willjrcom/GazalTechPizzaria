@@ -140,7 +140,9 @@ function finalizarPedido() {
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br><br>'
+			+ '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
+			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
 
 	$.alert({
 		type: 'green',

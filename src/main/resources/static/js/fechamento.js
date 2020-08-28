@@ -26,21 +26,22 @@ $.ajax({
 	//para cada pedido
 	console.log('total pedidos: ' + e.length);
 	for(var i = 0; i < e.length; i++) {
-		e[i].produtos = JSON.parse(e[i].produtos);
-		e[i].pizzas = JSON.parse(e[i].pizzas);
-		
-		
-		Tvendas += parseFloat(e[i].total);
-		console.log('Tvendas: ' + Tvendas);
-		//para cada produto
-		for(var j = 0; j < e[i].produtos.length; j++) {
-			Tfaturamento += parseFloat(e[i].produtos[j].custo);
+		if(e[i].status != "EXCLUIDO") {
+			e[i].produtos = JSON.parse(e[i].produtos);
+			e[i].pizzas = JSON.parse(e[i].pizzas);
+			
+			
+			Tvendas += parseFloat(e[i].total);
+			console.log('Tvendas: ' + Tvendas);
+			//para cada produto
+			for(var j = 0; j < e[i].produtos.length; j++) {
+				Tfaturamento += parseFloat(e[i].produtos[j].custo);
+			}
+			//para cada pizza
+			for(var j = 0; j < e[i].pizzas.length; j++) {
+				Tfaturamento += parseFloat(e[i].pizzas[j].custo);
+			}
 		}
-		//para cada pizza
-		for(var j = 0; j < e[i].pizzas.length; j++) {
-			Tfaturamento += parseFloat(e[i].pizzas[j].custo);
-		}
-		
 	}
 
 	$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));

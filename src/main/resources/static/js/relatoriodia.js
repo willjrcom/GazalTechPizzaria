@@ -30,6 +30,8 @@ $.ajax({
 				'total': e[i].total,
 				'troco': e[i].troco,
 				'status': e[i].status,
+				'ac': e[i].ac,
+				'motoboy': e[i].motoboy,
 				'produtos': JSON.parse(e[i].produtos),
 				'pizzas': JSON.parse(e[i].pizzas)
 			});
@@ -138,8 +140,13 @@ function finalizarPedido() {
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
-
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br><br>' + '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
+			+ '<br><b>A/C:</b> ' + pedidos[idBusca].ac
+			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
+	
+	if(pedidos[idBusca].motoboy != null) {
+		linhaHtml+= '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy;
+	}
 	$.alert({
 		type: 'green',
 	    typeAnimated: true,
