@@ -130,10 +130,13 @@ function finalizarPedido() {
 						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
 						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
 						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 	}
+	linhaHtml += '</table>';
+	linhaHtml += '<table>';
+	
 	if(pedidos[idBusca].produtos.length != 0) {
 		linhaHtml += '<tr>'
 						+ '<th>Sabor</th>'
@@ -147,13 +150,13 @@ function finalizarPedido() {
 						 +	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>'
 						 +	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>'
 						 +	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += 'Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total;	
+	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
 	
 	if(pedidos[idBusca].pagamento == "Não") {
 		linhaHtml += '<br>Troco:<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
@@ -169,7 +172,7 @@ function finalizarPedido() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
-		    content: 'Produtos escolhidos' + linhaHtml,
+		    content: 'Produtos escolhidos:' + linhaHtml,
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
@@ -181,11 +184,12 @@ function finalizarPedido() {
 						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 
-						var troco = this.$content.find('#troco').val();
-						if(troco % 2 != 0 && troco % 2 != 1) {
-							$("#troco").val('0');
+						if(pedidos[idBusca].pagamento != "Não") {
+							var troco = this.$content.find('#troco').val();
+							if(troco % 2 != 0 && troco % 2 != 1) {
+								$("#troco").val('0');
+							}
 						}
-						
 						console.log(pedidos[idBusca]);
 						
 						$.ajax({

@@ -67,8 +67,8 @@ $.ajax({
 			linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
 			linhaHtml += '<td>' 
 						+ '<a class="enviarPedido">'
-						+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-						+ 'value="'+ pedidos[i].id + '">Ver</button></a></td>';			
+						+ '<button type="button" title="finalizar" class="botao" onclick="finalizarPedido()"'
+						+ 'value="'+ pedidos[i].id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>';			
 			linhaHtml += '<tr>';
 			linhaHtml += linhaCinza;
 		}
@@ -145,7 +145,7 @@ function finalizarPedido() {
 			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
 
 	$.alert({
-		type: 'green',
+		type: 'red',
 	    typeAnimated: true,
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: 'Produtos escolhidos:' + linhaHtml,

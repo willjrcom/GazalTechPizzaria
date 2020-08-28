@@ -61,8 +61,8 @@ $.ajax({
 			linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
 			linhaHtml += '<td>' 
 						+ '<a class="enviarPedido">'
-						+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-						+ 'value="'+ pedidos[i].id + '">Ver</button></a></td>';			
+						+ '<button type="button" title="finalizar" onclick="finalizarPedido()" class="botao"'
+						+ 'value="'+ pedidos[i].id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>';			
 			linhaHtml += '</tr>';
 			linhaHtml += linhaCinza;
 		}
