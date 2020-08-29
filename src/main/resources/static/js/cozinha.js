@@ -182,7 +182,7 @@ function enviarPedido() {
 		icon: 'fa fa-spinner fa-spin',
 		type: 'green',
 	    typeAnimated: true,
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: 'Enviar pedido?',
 	    buttons: {
 	        confirm: {

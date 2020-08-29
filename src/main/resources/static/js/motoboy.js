@@ -2,8 +2,8 @@ var pedidos = [];
 var pizzas = [];
 var funcionarios = [];
 var linhaHtml= "";
-var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList"></td></tr>';
-var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para entregar!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="8" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="8">Nenhum pedido para entregar!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 
@@ -82,6 +82,7 @@ $.ajax({
 			
 			linhaHtml +=    '<td>' + Tpizzas + '</td>';
 			linhaHtml +=    '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
+			linhaHtml +=    '<td>R$ ' + pedidos[i].troco.toFixed(2) + '</td>';
 			linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
 							
 			linhaHtml += '<td>' 
@@ -114,7 +115,7 @@ function finalizarPedido() {
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 		    content: 'Deseja entregar?',
 		    buttons: {
 		        confirm: {

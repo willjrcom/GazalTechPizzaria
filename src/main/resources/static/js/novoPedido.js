@@ -661,8 +661,8 @@ $("#enviarPedido").click(function() {
 						
 						var troco = this.$content.find('#troco').val();
 						
-						if(troco % 2 != 0 && troco % 2 != 1) {
-							$("#troco").val('0');
+						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
+							$("#troco").val(tPedido);
 						}
 						console.log(pizzas);
 						if(pizzas.length != 0) {
@@ -806,8 +806,8 @@ $("#atualizarPedido").click(function() {
 		            action: function(){
 			
 						var troco = this.$content.find('#troco').val();
-						if(troco % 2 != 0 && troco % 2 != 1) {
-							$("#troco").val('0');
+						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
+							$("#troco").val(tPedido);
 						}
 						
 						var cozinha = this.$content.find('#cozinha').val();
