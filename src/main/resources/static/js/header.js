@@ -15,3 +15,18 @@ $("#menuButton").click(function(){
 		$(".dropdown-content").show();*/
 	}
 });
+
+
+//-----------------------------------------------------
+$("#data").click(function(){
+	//alterar data
+	$.alert("data");
+});
+
+
+
+//-----------------------------------------------------
+$("#troco").click(function(){
+	$.alert("troco");
+	console.log("foi");
+});

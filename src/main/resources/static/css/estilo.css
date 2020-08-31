@@ -260,6 +260,9 @@ img{
 	float: none;
 }
 
+.menu1 .row{
+	background-color: white;
+}
 .menu1 a{
 	background-color: white;
 	color: black;

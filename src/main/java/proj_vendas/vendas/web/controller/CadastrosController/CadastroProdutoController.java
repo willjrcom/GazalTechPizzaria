@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Produto;
-import proj_vendas.vendas.model.TipoProduto;
 import proj_vendas.vendas.repository.Produtos;
 
 @Controller
@@ -25,10 +24,7 @@ public class CadastroProdutoController {
 	
 	@RequestMapping
 	public ModelAndView cadastroProduto() {
-		ModelAndView mv = new ModelAndView("cadastroProduto");
-		mv.addObject("TipoProduto", TipoProduto.values());
-		mv.addObject(new Produto());
-		return mv;
+		return new ModelAndView("cadastroProduto");
 	}
 	
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})

@@ -19,33 +19,35 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="form-group">
 			<label>Código de busca:<br/></label>
-			<input type="text" class="form-control" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus" required/>
+			<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus" required/>
 		</div>
 		
 		<div class="form-group">
 			<label>Nome do produto:<br/></label>
-			<input type="text" class="form-control" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" required/>
+			<input type="text" class="form-control pula" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" required/>
 		</div>
 		
 		<div class="form-row">
 			<div class="form-group col-md-6">
 				<label>Preço:<br/></label>
-				<input type="text" class="form-control preco" id="preco" name="preco" placeholder="Preço" required/>
+				<input type="text" class="form-control preco pula" id="preco" name="preco" placeholder="Preço" required/>
 			</div>
 			<div class="form-group col-md-6">
 				<label>Custo(opcional):<br/></label>
-				<input type="text" class="form-control preco" id="custo" name="custo" placeholder="Total em custo"/>
+				<input type="text" class="form-control preco pula" id="custo" name="custo" placeholder="Total em custo"/>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label>Setor:<br/></label>
-			<select class="form-control" id="setor" name="setor" required>
+			<label>Setor:</label>
+			<p><b>OBS: </b>Apenas o setor (Pizza) aparece na tela de cozinha!<br></p>
+			<select class="form-control pula" id="setor" name="setor" required>
 				<option value="PIZZA">Pizza</option>
 				<option value="BORDA">Borda</option>
 				<option value="BEBIDA">Bebida</option>
 				<option value="OUTROS">Outros</option>
 			</select>
+			
 		</div>
 		
 		<div>
@@ -57,11 +59,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="form-group">
 			<label>Descrição do produto:<br/></label>
-			<textarea class="form-control" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto (Ela pode ser vista na tela de cozinha ao clicar na interrogação [ ? ] )" ></textarea>  
+			<textarea class="form-control pula" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto (Ela pode ser vista na tela de cozinha ao clicar na interrogação [ ? ] )" ></textarea>  
 		</div>
 		
 		<br>
-		<button type="button" class="form-contact-button" id="enviar" name="enviar">Enviar</button>  
+		<button type="button" class="form-contact-button pula" id="enviar" name="enviar">Enviar</button>  
 		<button type="button" class="form-contact-button" id="atualizar" name="enviar">Atualizar</button>  
 	</div>
 	
