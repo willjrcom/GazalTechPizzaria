@@ -7,6 +7,8 @@ var filtro;
 var Tpedidos = 0;
 var Tpizzas = 0;
 var divisao;
+
+
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
@@ -24,7 +26,7 @@ function buscarPedidos() {
 		console.log(e);
 		
 		for(var i = 0; i< e.length; i++){
-			if(e[i].status == "PRONTO" || e[i].status == "COZINHA"){
+			if(e[i].status == "PRONTO" || e[i].status == "COZINHA" || e[i].status == "MOTOBOY"){
 				Tpedidos++;
 				
 				pedidos.unshift({
@@ -78,12 +80,17 @@ function buscarPedidos() {
 								+ '<a class="enviarPedido">'
 								+ '<button type="button" class="btn btn-success"'
 								+ 'value="'+ pedidos[i].id + '">Pronto</button></a></td>';
-						} else if(pedidos[i].status == "COZINHA"){
+						}else if(pedidos[i].status == "COZINHA"){
 							linhaHtml += '<td>' 
 								+ '<a class="enviarPedido">'
 								+ '<button type="button" class="btn btn-danger"'
 								+ 'value="'+ pedidos[i].id + '">Andamento</button></a></td>';
-						}				
+						}else if(pedidos[i].status == "MOTOBOY"){
+							linhaHtml += '<td>' 
+									+ '<a class="enviarPedido">'
+									+ '<button type="button" class="btn btn-primary"'
+									+ 'value="'+ pedidos[i].id + '">Na Rua</button></a></td>';
+							}				
 						
 						linhaHtml += '<tr>';
 						

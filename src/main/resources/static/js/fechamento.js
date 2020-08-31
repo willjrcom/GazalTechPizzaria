@@ -1,23 +1,31 @@
 
 var Tpedidos;
-var Tvendas = 0;
-var Tfaturamento = 0;
+var Tvendas = 0, Tfaturamento = 0;
+
+//formas de envio
+var envioHtml;
+var entrega = 0, balcao = 0, mesa = 0, ifood = 0, drive = 0;
+var tEntrega = 0, tBalcao = 0, tMesa = 0, tIfood = 0, tDrive = 0;
+//formas de pagamento
+var pagHtml;
+var dinheiro = 0, cartao = 0;
 
 
-//buscar total de pedidos
+//-------------------------------------------------------------------------------
 $.ajax({
+	//buscar total de pedidos
 	url: '/fechamento/Tpedidos',
 	type: 'PUT'
 }).done(function(e){
-	console.log(e);
-	$("#Tpedidos").text(e);
+	Tpedidos = e;
 }).fail(function(){
 	$.alert("Nenhum pedido encontrado!");
 });
 
 
-//buscar total de vendas
+//-------------------------------------------------------------------------------
 $.ajax({
+	//buscar total de vendas
 	url: '/fechamento/Tvendas',
 	type: 'PUT'
 }).done(function(e){
@@ -25,6 +33,7 @@ $.ajax({
 	
 	//para cada pedido
 	console.log('total pedidos: ' + e.length);
+	
 	for(var i = 0; i < e.length; i++) {
 		if(e[i].status == "FINALIZADO" ) {
 			e[i].produtos = JSON.parse(e[i].produtos);
@@ -41,9 +50,80 @@ $.ajax({
 			for(var j = 0; j < e[i].pizzas.length; j++) {
 				Tfaturamento += parseFloat(e[i].pizzas[j].custo);
 			}
+			
+			
+			//separar tipos de envio
+			if(e[i].envio == "ENTREGA") {
+				entrega ++;
+				tEntrega += e[i].total;
+			}else if(e[i].envio == "BALCAO") {
+				balcao ++;
+				tBalcao += e[i].total;
+			}else if(e[i].envio == "MESA") {
+				mesa ++;
+				tMesa += e[i].total;
+			}else if(e[i].envio == "IFOOD") {
+				ifood ++;
+				tIfood += e[i].total;
+			}else if(e[i].envio == "DRIVE") {
+				drive ++;
+				tDrive += e[i].total;
+			}
+			
+			
+			//separar tipos de pagamento
+			
+		}
+	}
+	
+	
+	//criar html de acordo com os tipos existentes
+	if(Tpedidos != 0) {
+		if(Tpedidos == 1) {
+			envioHtml = '<tr><td>' + Tpedidos + ' Pedido total sendo:</td></tr>';
+		}else {
+			envioHtml = '<tr><td><label>' + Tpedidos + ' Pedidos totais sendo:</label></td></tr>';
+		}
+	}else {
+		envioHtml = '<tr><td><label>' + 0 + ' Pedidos finalizados</label></td></tr>';
+	}
+	if(entrega != 0) {
+		if(entrega == 1) {
+			envioHtml += '<tr><td>' + entrega + ' entrega - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
+		}else {
+			envioHtml += '<tr><td>' + entrega + ' entregas - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
+		}
+	}
+	if(balcao != 0) {
+		if(balcao == 1) {
+			envioHtml += '<tr><td>' + balcao + ' balcão - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
+		}else {
+			envioHtml += '<tr><td>' + balcao + ' balcões - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
+		}
+	}
+	if(mesa != 0) {
+		if(mesa == 1) {
+			envioHtml += '<tr><td>' + mesa + ' mesa - R$: ' + tMesa.toFixed(2) + '</td></tr>';
+		}else {
+			envioHtml += '<tr><td>' + mesa + ' mesas - R$: ' + tMesa.toFixed(2) + '</td></tr>';
+		}
+	}
+	if(ifood != 0) {
+		if(ifood == 1) {
+			envioHtml += '<tr><td>' + ifood + ' ifood - R$: ' + tIfood.toFixed(2) + '</td></tr>';
+		}else {
+			envioHtml += '<tr><td>' + ifood + ' ifoods - R$: ' + tIfood.toFixed(2) + '</td></tr>';
+		}
+	}
+	if(drive != 0) {
+		if(drive == 1) {
+			envioHtml += '<tr><td>' + drive + ' drive - R$: ' + drive.toFixed(2) + '</td></tr>';
+		}else {
+			envioHtml += '<tr><td>' + drive + ' drives - R$: ' + drive.toFixed(2) + '</td></tr>';
 		}
 	}
 
+	$("#fEnvio").html(envioHtml);
 	$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
 	$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento).toFixed(2)).toFixed(2) );
 }).fail(function(){

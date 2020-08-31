@@ -9,10 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 @Entity
@@ -43,11 +40,7 @@ public class Pedido implements Serializable{
 	private float total;
 	private float troco;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
 	private Date dataPedido;
-	
-	private Date horaPedido;
 	
 	public Long getId() {
 		return id;
@@ -148,11 +141,4 @@ public class Pedido implements Serializable{
 	public void setTaxa(String taxa) {
 		this.taxa = taxa;
 	}
-	public Date getHoraPedido() {
-		return horaPedido;
-	}
-	public void setHoraPedido(Date horaPedido) {
-		this.horaPedido = horaPedido;
-	}
-	
 }

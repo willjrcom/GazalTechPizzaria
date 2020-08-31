@@ -27,13 +27,13 @@
 			<div class="row">
 				<div class="form-group col-md-10">
 					<input type="search" name="celular" id="numeroCliente"
-					autofocus="autofocus" class="form-control textIndent"
+					autofocus="autofocus" class="form-control textIndent pula"
 					placeholder="Qual cliente você está procurando? (celular ou nome)"/>
 				</div>
 	
 				<div class="form-group col-md-2">
-					<input type="button" name="buscarCliente" id="buscarCliente" value="Buscar"
-						class="form-control btn btn-primary"/>
+					<input type="button" name="buscarCliente" id="buscarCliente" value="Criar"
+						class="form-control btn btn-primary pula"/>
 				</div>
 			</div>
 			<br>
@@ -109,8 +109,8 @@
 					</div>
 			
 					<div class="form-group col-md-4">
-						<input type="button" name="buscarProduto" id="buscarProduto" value="Buscar"
-							class="form-control btn btn-primary pula"/>
+						<input type="button" name="buscarProduto" id="buscarProduto" value="Buscar" 
+						class="form-control btn btn-primary pula"/>
 					</div>
 				</div>
 			</div>
@@ -191,8 +191,8 @@
 					<tr>
 						<td class="text-center col-md-3"><label for="pagamentoCliente">Pago:</label></td>
 						<td class="text-center col-md-3 sombra"><select name="pagamento" id="pagamentoCliente">
-								<option value="Sim">Sim</option>
 								<option value="Não">Não</option>
+								<option value="Sim">Sim</option>
 						</select></td>
 					</tr>
 				</table>
@@ -205,13 +205,11 @@
 				</div>
 		
 				<div class="btn-group fRight" role="group" aria-label="Second group">
-					<a id="enviarPedido"><button type="button" class="btn btn-secondary btn-success">
-					Salvar pedido</button></a>
+					<input type="button" class="btn btn-secondary btn-success" id="enviarPedido" value="Salvar pedido"/>
 				</div>
 				
 				<div class="btn-group fRight" role="group" aria-label="Second group">
-					<a id="atualizarPedido"><button type="button" class="btn btn-secondary btn-success">
-					Atualizar pedido</button></a> 
+					<input type="button" class="btn btn-secondary btn-success" id="atualizarPedido" value="Atualizar pedido"/>
 				</div>
 			</div>
 		</div>

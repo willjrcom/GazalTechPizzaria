@@ -24,7 +24,7 @@ var BordaPreco;
 var BordaCusto;
 var Obs;
 var Custo;
-
+var data = new Date();
 var tPizzas = 0;
 var tPedido = 0;
 var linhaHtml = "";
@@ -39,7 +39,7 @@ url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
 
 if(typeof url_atual == "undefined") {
 	console.log("nao existe");
-	
+	$("#enviarPedido").addClass("pula");
 	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$0,00');
 }else {
 	console.log(url_atual);
@@ -54,6 +54,7 @@ if(typeof url_atual == "undefined") {
 		
 		console.log(e);
 
+		$("#atualizarPedido").addClass("pula");
 		$("#divBuscar").hide();
 		$("#enviarPedido").hide();
 		$("#mostrarProdutos").show();
@@ -71,6 +72,7 @@ if(typeof url_atual == "undefined") {
 		cliente.status = e.status;
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
+		cliente.dataPedido = e.dataPedido;
 		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
@@ -676,6 +678,8 @@ $("#enviarPedido").click(function() {
 						cliente.produtos = JSON.stringify(produtos);
 						cliente.pizzas = JSON.stringify(pizzas);
 						
+						
+						cliente.dataPedido = data;
 						console.log(cliente);
 						
 						$.ajax({
@@ -686,6 +690,11 @@ $("#enviarPedido").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(e){
+							tela_impressao = window.open('about:blank');
+							   tela_impressao.document.write(linhaHtml);
+							   tela_impressao.window.print();
+							   tela_impressao.window.close();
+							   
 							$.alert({
 								type: 'green',
 							    typeAnimated: true,

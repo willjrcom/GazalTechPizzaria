@@ -27,6 +27,6 @@ public class ProntosController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findAll();
+		return pedidos.findByStatusOrStatusOrStatus("COZINHA", "PRONTO", "MOTOBOY");
 	}
 }

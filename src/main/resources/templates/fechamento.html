@@ -13,53 +13,40 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Fechamento</h1>		
 	
 		<div class="row">
+			
 			<div class="col-md-4 table-responsive">
 				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Total de pedidos hoje</h3></td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr>
-							<td id="Tpedidos" class="text-center col-md-1 sombra">0</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Total em vendas</h3></td>
-						</tr>
-					</thead>
+					<thead><tr><td colspan="2"><h3>Total em vendas</h3></td></tr></thead>
 
-					<tbody>
-						<tr>
-							<td id="Tvendas" class="text-center col-md-1 sombra">R$ 0,00</td>
-						</tr>
-					</tbody>
+					<tbody><tr><td id="Tvendas" class="text-center col-md-1 sombra">R$ 0,00</td></tr></tbody>
 				</table>
+				<br>
 			</div>
 
 
 			<div class="col-md-4 table-responsive">
 				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Faturamento</h3></td>
-						</tr>
-					</thead>
+					<thead><tr><td colspan="2"><h3>Faturamento</h3></td></tr></thead>
 					
-					<tbody>
-						<tr>
-							<td id="Tfaturamento" class="text-center col-md-1 sombra">0</td>
-						</tr>
-					</tbody>
+					<tbody><tr><td id="Tfaturamento" class="text-center col-md-1 sombra">0</td></tr></tbody>
 				</table>
+				<br>
+			</div>
+			
+			<div class="col-md-4 table-responsive">
+				<table>
+					<thead><tr><td colspan="2"><h3>Total de Pedidos</h3></td></tr></thead>
+					<tbody id="fEnvio" class="sombra"></tbody>
+				</table>
+				<br>
+			</div>
+			
+			<div class="col-md-4 table-responsive">
+				<table>
+					<thead><tr><td colspan="2"><h3>Total de Pagamentos</h3></td></tr></thead>
+					<tbody><tr id="fPagamento"></tr></tbody>
+				</table>
+				<br>
 			</div>
 		</div>
 		

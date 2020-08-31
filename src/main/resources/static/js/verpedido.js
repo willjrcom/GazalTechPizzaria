@@ -24,14 +24,18 @@ $.ajax({
 			pedidos.unshift({
 				'id' : e[i].id,
 				'nomePedido' : e[i].nomePedido,
+				'codigoPedido': e[i].codigoPedido,
 				'celular' : e[i].celular,
 				'endereco': e[i].endereco,
+				'taxa': e[i].taxa,
 				'envio': e[i].envio,
 				'total': e[i].total,
 				'troco': e[i].troco,
 				'status': e[i].status,
 				'produtos': JSON.parse(e[i].produtos),
-				'pizzas': JSON.parse(e[i].pizzas)
+				'pizzas': JSON.parse(e[i].pizzas),
+				'horaPedido': e[i].horaPedido,
+				'pagamento': e[i].pagamento
 			});
 		}
 	}
@@ -159,8 +163,11 @@ function verPedido() {
 	}
 	
 	linhaHtml += '</table>';
-	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
-
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br>' 
+				+ '<br><b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
+				+ '<br><b>Status:</b> ' + pedidos[idBusca].status
+				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
+	
 	$.alert({
 		type: 'green',
 	    typeAnimated: true,

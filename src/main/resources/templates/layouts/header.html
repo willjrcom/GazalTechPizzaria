@@ -46,11 +46,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
 	<nav id="menuPrincipal">
 		<ul class="menu">
-			<li class="Dropdown"><a class="active" accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
-				<!-- <div class="dropdown-content">
-					<a accesskey="V" th:href="@{/verpedido}">VER</a>
-				</div>
-			</li>-->
+			<li><a accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
 			<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
 			<li><a accesskey="S" th:href="@{/pronto}">STATUS</a></li>
 			<li><a accesskey="F" th:href="@{/finalizar}">FINALIZAR</a></li>
@@ -70,7 +66,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<a><button id="menuButton" name="menu" class="btn btn-warning">Menu</button></a>
 		<nav id="menuPrincipal">
 			<ul class="menu">
-				<li><a class="active" th:href="@{/relatoriodia}">RELATÓRIO</a></li>
+				<li><a th:href="@{/relatoriodia}">RELATÓRIO</a></li>
 				<li><a th:href="@{/pedidosExcluidos}">CANCELADOS</a></li>
 				<li><a th:href="@{/fechamento}">FECHAMENTO</a></li>
 				<li><a th:href="@{/menu}">VOLTAR</a></li>
@@ -88,7 +84,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<nav id="menuPrincipal">
 			<ul class="menu">
-				<li><a class="active" th:href="@{/cadastros}">TODOS</a></li>
+				<li><a th:href="@{/cadastros}">TODOS</a></li>
 				<li class="Dropdown"><a th:href="@{/clientesCadastrados}">CLIENTES</a>
 					<div class="dropdown-content">
 						<a th:href="@{/cadastroCliente}">CADASTRAR</a>
@@ -120,8 +116,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<nav id="menuPrincipal">
 			<ul class="menu">
-				<li><a></a></li>
-				<li><a class="active" th:href="@{/sobre}">OPÇÕES</a></li>
+				<li><a th:href="@{/sobre}">OPÇÕES</a></li>
 				<li><a th:href="@{/tutorial}">TUTORIAL</a></li>
 				<li><a th:href="@{/preferencias}">PREFERENCIAS</a></li>
 				<li><a th:href="@{/menu}">SAIR</a></li>
