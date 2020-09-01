@@ -33,7 +33,10 @@ $.ajax({
 				'status': e[i].status,
 				'produtos': e[i].produtos,
 				'pizzas': e[i].pizzas,
-				'motoboy': e[i].motoboy
+				'motoboy': e[i].motoboy,
+				'horaPedido': e[i].horaPedido,
+				'pagamento': e[i].pagamento,
+				'data': e[i].data
 			});
 		}
 	}

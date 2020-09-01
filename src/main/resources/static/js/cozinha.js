@@ -42,9 +42,9 @@ function buscarPedido() {
 				'pagamento': e[i].pagamento,
 				'produtos' : e[i].produtos,
 				'pizzas' : JSON.parse(e[i].pizzas),
+				'horaPedido': e[i].horaPedido,
 				'data': e[i].data
 			});
-			console.log(pedidos[i].data);
 		}
 		
 		$("#todosPedidos").html("");

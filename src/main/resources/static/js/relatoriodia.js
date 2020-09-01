@@ -32,7 +32,10 @@ $.ajax({
 			'ac': e[i].ac,
 			'motoboy': e[i].motoboy,
 			'produtos': JSON.parse(e[i].produtos),
-			'pizzas': JSON.parse(e[i].pizzas)
+			'pizzas': JSON.parse(e[i].pizzas),
+			'horaPedido': e[i].horaPedido,
+			'pagamento': e[i].pagamento,
+			'data': e[i].data
 		});
 	}
 

@@ -33,7 +33,9 @@ $.ajax({
 				'status': e[i].status,
 				'pagamento': e[i].pagamento,
 				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': JSON.parse(e[i].produtos)
+				'produtos': JSON.parse(e[i].produtos),
+				'horaPedido': e[i].horaPedido,
+				'data': e[i].data
 			});
 		}
 	}

@@ -40,7 +40,10 @@ function buscarPedidos() {
 					'status': e[i].status,
 					'pagamento': e[i].pagamento,
 					'produtos' : e[i].produtos,
-					'pizzas' : JSON.parse(e[i].pizzas)
+					'pizzas' : JSON.parse(e[i].pizzas),
+					'horaPedido': e[i].horaPedido,
+					'pagamento': e[i].pagamento,
+					'data': e[i].data
 				});
 			}
 		}

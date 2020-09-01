@@ -32,7 +32,10 @@ $.ajax({
 				'troco': e[i].troco,
 				'status': e[i].status,
 				'produtos': JSON.parse(e[i].produtos),
-				'pizzas': JSON.parse(e[i].pizzas)
+				'pizzas': JSON.parse(e[i].pizzas),
+				'horaPedido': e[i].horaPedido,
+				'pagamento': e[i].pagamento,
+				'data': e[i].data
 			});
 		}
 	}
