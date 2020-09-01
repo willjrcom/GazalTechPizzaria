@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Pedidos;
 
 //@Component
@@ -22,6 +23,9 @@ public class CozinhaController{
 	@Autowired
 	private Pedidos pedidos;
 	
+	@Autowired
+	private Dias dias;
+	
 	@RequestMapping
 	public ModelAndView Cozinha() {
 		return new ModelAndView("cozinha");
@@ -30,7 +34,8 @@ public class CozinhaController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findByStatus("COZINHA");
+		String dia = dias.buscarId1().getDia();
+		return pedidos.findByStatusAndData("COZINHA", dia);
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)

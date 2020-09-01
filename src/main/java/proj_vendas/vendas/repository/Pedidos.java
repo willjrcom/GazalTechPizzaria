@@ -10,10 +10,9 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 
 	public Pedido findByCelular(String id);
 	
-	public List<Pedido> findByStatusOrStatusOrStatus(String Status, String Status1, String Status2);
-	
-	public List<Pedido> findByStatusAndEnvio(String Status, String Envio);
-	
-	
-	public List<Pedido> findByStatus(String Status);
+	public List<Pedido> findByStatusAndEnvioAndData(String Status, String Envio, String data);
+
+	public List<Pedido> findByStatusAndData(String string, String dia);
+
+	public List<Pedido> findByDataAndStatusOrDataAndStatusOrDataAndStatus(String dia, String string, String dia1,String string2, String dia2,String string3);
 }

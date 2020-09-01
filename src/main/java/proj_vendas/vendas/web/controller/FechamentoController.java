@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.repository.Clientes;
+import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
@@ -30,7 +31,9 @@ public class FechamentoController {
 
 	@Autowired
 	private Pedidos pedidos;
-	
+
+	@Autowired
+	private Dias dias;
 	
 	@RequestMapping
 	public ModelAndView lerCadastros() {
@@ -58,7 +61,8 @@ public class FechamentoController {
 	@RequestMapping(value = "/Tpedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public long totalPedidos() {
-		return pedidos.findByStatus("FINALIZADO").size();
+		String dia = dias.buscarId1().getDia();
+		return pedidos.findByStatusAndData("FINALIZADO", dia).size();
 	}
 	
 	@RequestMapping(value = "/Tvendas", method = RequestMethod.PUT)

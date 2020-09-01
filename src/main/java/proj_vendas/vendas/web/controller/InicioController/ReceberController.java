@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
 
@@ -24,6 +25,9 @@ public class ReceberController {
 	
 	@Autowired
 	private Funcionarios funcionarios;
+
+	@Autowired
+	private Dias dias;
 	
 	@RequestMapping
 	public ModelAndView receberEntregas() {
@@ -34,7 +38,8 @@ public class ReceberController {
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findByStatusAndEnvio("MOTOBOY", "ENTREGA");
+		String dia = dias.buscarId1().getDia();
+		return pedidos.findByStatusAndEnvioAndData("MOTOBOY", "ENTREGA", dia);
 	}
 
 	@RequestMapping(value = "/funcionarios", method = RequestMethod.PUT)

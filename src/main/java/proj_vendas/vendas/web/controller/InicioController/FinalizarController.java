@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -19,6 +20,9 @@ public class FinalizarController {
 	
 	@Autowired
 	private Pedidos pedidos;
+	
+	@Autowired
+	private Dias dias;
 	
 	@RequestMapping
 	public ModelAndView finalizar() {
@@ -29,7 +33,8 @@ public class FinalizarController {
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		return pedidos.findByStatus("PRONTO");
+		String dia = dias.buscarId1().getDia();
+		return pedidos.findByStatusAndData("PRONTO", dia);
 	}
 	
 	@RequestMapping(value = "/finalizarPedido/{id}", method = RequestMethod.PUT)
