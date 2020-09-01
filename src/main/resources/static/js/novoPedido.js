@@ -845,7 +845,7 @@ $("#atualizarPedido").click(function() {
 								content: 'Pedido atualizado!',
 								buttons: {
 							        confirm: {
-							            text: 'Ok',
+							            text: 'Continuar',
 							            btnClass: 'btn-green',
 							            keys: ['enter'],
 							            action: function(){

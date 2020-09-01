@@ -1,39 +1,34 @@
 package proj_vendas.vendas.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 @Entity
-@Table(name = "DIAATUAL")
+@Table(name = "DADOS")
 @Service
-public class DiaAtual implements Serializable {
+public class Dado implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	//@DateTimeFormat(pattern = "dd/MM/yyyy")
+	//@Temporal(TemporalType.DATE)
+	private String data;
 	
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
-	private Date dataHoje;
-	
-	private double totalVendas;
-	private double totalLucro;
-	private double entregas;
-	private double balcao;
-	private Long totalPedidos;
+	private double totalVendas = 0;
+	private double totalLucro = 0;
+	private double entregas = 0;
+	private double balcao = 0;
+	private Long totalPedidos = (long) 0;
 	
 	public Long getId() {
 		return id;
@@ -43,12 +38,12 @@ public class DiaAtual implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDataHoje() {
-		return dataHoje;
+	public String getData() {
+		return data;
 	}
 
-	public void setDataHoje(Date dataHoje) {
-		this.dataHoje = dataHoje;
+	public void setData(String data) {
+		this.data = data;
 	}
 
 	public double getTotalVendas() {
