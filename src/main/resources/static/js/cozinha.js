@@ -29,22 +29,22 @@ function buscarPedido() {
 		console.log(e);
 		
 		for(var i = 0; i< e.length; i++){
-			if(e[i].status == "COZINHA"){
-				Tpedidos++;
-				
-				pedidos.push({
-					'id' : e[i].id,
-					'nomePedido' : e[i].nomePedido,
-					'celular' : e[i].celular,
-					'endereco': e[i].endereco,
-					'envio': e[i].envio,
-					'total': e[i].total,
-					'troco': e[i].troco,
-					'pagamento': e[i].pagamento,
-					'produtos' : e[i].produtos,
-					'pizzas' : JSON.parse(e[i].pizzas)
-				});
-			}
+			Tpedidos++;
+			
+			pedidos.push({
+				'id' : e[i].id,
+				'nomePedido' : e[i].nomePedido,
+				'celular' : e[i].celular,
+				'endereco': e[i].endereco,
+				'envio': e[i].envio,
+				'total': e[i].total,
+				'troco': e[i].troco,
+				'pagamento': e[i].pagamento,
+				'produtos' : e[i].produtos,
+				'pizzas' : JSON.parse(e[i].pizzas),
+				'data': e[i].data
+			});
+			console.log(pedidos[i].data);
 		}
 		
 		$("#todosPedidos").html("");

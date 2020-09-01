@@ -24,7 +24,6 @@ var BordaPreco;
 var BordaCusto;
 var Obs;
 var Custo;
-var data = new Date();
 var tPizzas = 0;
 var tPedido = 0;
 var linhaHtml = "";
@@ -666,54 +665,61 @@ $("#enviarPedido").click(function() {
 						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
 							$("#troco").val(tPedido);
 						}
-						console.log(pizzas);
+
 						if(pizzas.length != 0) {
 							cliente.status = "COZINHA";
 						}else {
 							cliente.status = "PRONTO";
 						}
 						
-						cliente.troco = parseFloat(troco);
-						cliente.total = tPedido;
-						cliente.produtos = JSON.stringify(produtos);
-						cliente.pizzas = JSON.stringify(pizzas);
-						
-						
-						cliente.dataPedido = data;
-						console.log(cliente);
-						
+						//buscar data do sistema
 						$.ajax({
-							url: "/novoPedido/salvarPedido",
-							type: "PUT",
-							dataType : 'json',
-							contentType: "application/json",
-							data: JSON.stringify(cliente)
-							
+							url: '/novoPedido/data',
+							type: 'PUT'
 						}).done(function(e){
-							tela_impressao = window.open('about:blank');
-							   tela_impressao.document.write(linhaHtml);
-							   tela_impressao.window.print();
-							   tela_impressao.window.close();
-							   
-							$.alert({
-								type: 'green',
-							    typeAnimated: true,
-								title: 'Sucesso!',
-								content: 'Pedido enviado!',
-								buttons: {
-							        confirm: {
-							            text: 'Ok',
-							            btnClass: 'btn-green',
-							            keys: ['enter'],
-							            action: function(){
-									window.location.href = "/novoPedido";
+							cliente.data = e.dia;
+						
+						
+							cliente.troco = parseFloat(troco);
+							cliente.total = tPedido;
+							cliente.produtos = JSON.stringify(produtos);
+							cliente.pizzas = JSON.stringify(pizzas);
+							cliente.horaPedido = new Date;
+							
+							//salvar pedido
+							$.ajax({
+								url: "/novoPedido/salvarPedido",
+								type: "PUT",
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(cliente)
+								
+							}).done(function(e){
+								tela_impressao = window.open('about:blank');
+								   tela_impressao.document.write(linhaHtml);
+								   tela_impressao.window.print();
+								   tela_impressao.window.close();
+								   
+								$.alert({
+									type: 'green',
+								    typeAnimated: true,
+									title: 'Sucesso!',
+									content: 'Pedido enviado!',
+									buttons: {
+								        confirm: {
+								            text: 'Ok',
+								            btnClass: 'btn-green',
+								            keys: ['enter'],
+								            action: function(){
+										window.location.href = "/novoPedido";
+											}
 										}
 									}
-								}
+								});
+								
+							}).fail(function(e){
+								$.alert("Pedido não enviado!");
 							});
-							
-						}).fail(function(e){
-							$.alert("Pedido não enviado!");
 						});
 					}
 		        },

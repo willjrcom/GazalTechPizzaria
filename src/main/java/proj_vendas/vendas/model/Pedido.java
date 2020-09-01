@@ -1,7 +1,6 @@
 package proj_vendas.vendas.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,10 +36,11 @@ public class Pedido implements Serializable{
 	private String envio;
 	private String pagamento;
 	private String taxa;
-	private float total;
-	private float troco;
+	private double total;
+	private double troco;
 
-	private Date dataPedido;
+	private String horaPedido;
+	private String data;
 	
 	public Long getId() {
 		return id;
@@ -90,18 +90,6 @@ public class Pedido implements Serializable{
 	public void setEnvio(String envio) {
 		this.envio = envio;
 	}
-	public float getTotal() {
-		return total;
-	}
-	public void setTotal(float total) {
-		this.total = total;
-	}
-	public float getTroco() {
-		return troco;
-	}
-	public void setTroco(float troco) {
-		this.troco = troco;
-	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
@@ -129,16 +117,34 @@ public class Pedido implements Serializable{
 	public void setPagamento(String pagamento) {
 		this.pagamento = pagamento;
 	}
-	public Date getDataPedido() {
-		return dataPedido;
-	}
-	public void setDataPedido(Date dataPedido) {
-		this.dataPedido = dataPedido;
-	}
 	public String getTaxa() {
 		return taxa;
 	}
 	public void setTaxa(String taxa) {
 		this.taxa = taxa;
+	}
+	public double getTotal() {
+		return total;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	public double getTroco() {
+		return troco;
+	}
+	public void setTroco(double troco) {
+		this.troco = troco;
+	}
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+	public String getHoraPedido() {
+		return horaPedido;
+	}
+	public void setHoraPedido(String horaPedido) {
+		this.horaPedido = horaPedido;
 	}
 }

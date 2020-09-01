@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cliente;
+import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.repository.Clientes;
+import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
 
@@ -33,6 +35,9 @@ public class NovoPedidoController {
 	@Autowired
 	private Clientes clientes;
 
+	@Autowired
+	private Dias dias;
+	
 	@RequestMapping
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
@@ -90,5 +95,11 @@ public class NovoPedidoController {
 	@ResponseBody
 	public Optional<Produto> buscarBorda(@PathVariable Long id) {
 		return produtos.findById(id);
+	}
+	
+	@RequestMapping(value = "/data", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Dia> data() {
+		return dias.findById((long) 1);
 	}
 }
