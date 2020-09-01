@@ -75,7 +75,7 @@ $.ajax({
 				linhaHtml += '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-							+ 'value="'+ pedidos[i].id + '">Finalizar</button></a></td>';			
+							+ 'value="'+ pedidos[i].id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>';			
 				linhaHtml += '<tr>';
 				linhaHtml += linhaCinza;
 			}

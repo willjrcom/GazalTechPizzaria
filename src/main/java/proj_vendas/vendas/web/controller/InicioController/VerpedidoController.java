@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,5 +31,11 @@ public class VerpedidoController{
 	public Pedido novoPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("EXCLUIDO");
 		return pedidos.save(pedido);
+	}
+	
+	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Pedido> todosPedidos() {
+		return pedidos.findByStatusOrStatusOrStatus("COZINHA", "PRONTO", "MOTOBOY");
 	}
 }

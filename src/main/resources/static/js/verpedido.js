@@ -10,15 +10,16 @@ var tPizzas = 0;
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
 
-$.ajax({
-	url: "/pronto/todosPedidos",
-	type: 'PUT'
-})
-.done(function(e){
-	console.log(e);
-	
-	for(var i = 0; i< e.length; i++){
-		if(e[i].status != "FINALIZADO" && e[i].status != "EXCLUIDO"){
+function buscarPedido() {
+	$.ajax({
+		url: "/verpedido/todosPedidos",
+		type: 'PUT'
+	})
+	.done(function(e){
+		console.log(e);
+
+		pedidos = [];
+		for(var i = 0; i< e.length; i++){
 			Tpedidos++;
 			
 			pedidos.unshift({
@@ -38,68 +39,70 @@ $.ajax({
 				'pagamento': e[i].pagamento
 			});
 		}
-	}
-	
-
-	$("#todosPedidos").html("");
-	linhaHtml = "";
-	
-	if(pedidos.length == 0){
-		$("#todosPedidos").html(pedidoVazio);
-	}else{
-		for(var i = 0; i<pedidos.length; i++){
-				tPizzas = 0;
-			
-			linhaHtml += '<tr>';
-			linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
-			linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
-			for(var k = 0; k<pedidos[i].produtos.length; k++) {
-				tPizzas += pedidos[i].produtos[k].qtd;
-			}
-			for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-				tPizzas += pedidos[i].pizzas[k].qtd;
-			}
-			
-			linhaHtml +=	'<td>' + tPizzas + '</td>';
-			linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
-			linhaHtml +=	'<td>' + pedidos[i].envio + '</td>';
-			
-			linhaHtml += '<td><div class="row">';
-			
-			linhaHtml +='<div class="col-md-1">'
-							+'<a style="background-color: white" title="Ver">'
-								+'<button style="background-color: white; border: none" onclick="verPedido()" value="'+ pedidos[i].id + '">'
-									+'<span class="oi oi-magnifying-glass"></span>'
-								+'</button>'
-							+'</a>'
-						+'</div>';
+		
+		$("#todosPedidos").html("");
+		filtro = $("#filtro").val();
+		linhaHtml = "";
+		console.log(filtro);
+		
+		if(pedidos.length == 0){
+			$("#todosPedidos").html(pedidoVazio);
+		}else{
+			for(var i = 0; i<pedidos.length; i++){
+				if(filtro == pedidos[i].pagamento || filtro == "TODOS"){
+					tPizzas = 0;
 					
-			linhaHtml += '<div class="col-md-1">'
-							+'<a style="background-color: white" title="Editar">'
-								+'<button style="background-color: white; border: none" onclick="editarPedido()" value="'+ pedidos[i].id + '">'
-									+'<span class="oi oi-pencil"></span>'
-								+'</button>'
-							+'</a>'
-						+'</div>';
-			
-			linhaHtml += '<div class="col-md-1">'
-							+'<a style="background-color: white" title="Excluir">'
-								+'<button style="background-color: white; border: none" onclick="excluirPedido()" value="'+ pedidos[i].id + '">'
-									+'<span class="oi oi-trash"></span>'
-								+'</button>'
-							+'</a>'
-						+'</div>';
-			
-			linhaHtml += '</td></tr>';
-			
-			linhaHtml += '<tr>';
-			linhaHtml += linhaCinza;
+					linhaHtml += '<tr>';
+					linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
+					linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
+					for(var k = 0; k<pedidos[i].produtos.length; k++) {
+						tPizzas += pedidos[i].produtos[k].qtd;
+					}
+					for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+						tPizzas += pedidos[i].pizzas[k].qtd;
+					}
+					
+					linhaHtml +=	'<td>' + tPizzas + '</td>';
+					linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
+					linhaHtml +=	'<td>' + pedidos[i].envio + '</td>';
+					
+					linhaHtml += '<td><div class="row">';
+					
+					linhaHtml +='<div class="col-md-1">'
+									+'<a style="background-color: white" title="Ver">'
+										+'<button style="background-color: white; border: none" onclick="verPedido()" value="'+ pedidos[i].id + '">'
+											+'<span class="oi oi-magnifying-glass"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>';
+							
+					linhaHtml += '<div class="col-md-1">'
+									+'<a style="background-color: white" title="Editar">'
+										+'<button style="background-color: white; border: none" onclick="editarPedido()" value="'+ pedidos[i].id + '">'
+											+'<span class="oi oi-pencil"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>';
+					
+					linhaHtml += '<div class="col-md-1">'
+									+'<a style="background-color: white" title="Excluir">'
+										+'<button style="background-color: white; border: none" onclick="excluirPedido()" value="'+ pedidos[i].id + '">'
+											+'<span class="oi oi-trash"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>';
+					
+					linhaHtml += '</td></tr>';
+					
+					linhaHtml += '<tr>';
+					linhaHtml += linhaCinza;
+				}
+			}
+			$("#todosPedidos").html(linhaHtml);
+			$("#Tpedidos").html(Tpedidos);
 		}
-		$("#todosPedidos").html(linhaHtml);
-		$("#Tpedidos").html(Tpedidos);
-	}
-});	
-
+	});	
+}
 
 //-----------------------------------------------------------------------------------------------------------
 function verPedido() {
@@ -339,3 +342,10 @@ function excluirPedido() {
 		}
 	});
 }
+
+buscarPedido();
+
+setInterval(function (){
+	buscarPedido();
+},5000);
+

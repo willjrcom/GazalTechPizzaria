@@ -24,9 +24,16 @@ public class DiaAtual implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
 	private Date dataHoje;
+	
+	private double totalVendas;
+	private double totalLucro;
+	private double entregas;
+	private double balcao;
+	private Long totalPedidos;
 	
 	public Long getId() {
 		return id;
@@ -42,6 +49,46 @@ public class DiaAtual implements Serializable {
 
 	public void setDataHoje(Date dataHoje) {
 		this.dataHoje = dataHoje;
+	}
+
+	public double getTotalVendas() {
+		return totalVendas;
+	}
+
+	public void setTotalVendas(double totalVendas) {
+		this.totalVendas = totalVendas;
+	}
+
+	public double getTotalLucro() {
+		return totalLucro;
+	}
+
+	public void setTotalLucro(double totalLucro) {
+		this.totalLucro = totalLucro;
+	}
+
+	public double getEntregas() {
+		return entregas;
+	}
+
+	public void setEntregas(double entregas) {
+		this.entregas = entregas;
+	}
+
+	public double getBalcao() {
+		return balcao;
+	}
+
+	public void setBalcao(double balcao) {
+		this.balcao = balcao;
+	}
+
+	public Long getTotalPedidos() {
+		return totalPedidos;
+	}
+
+	public void setTotalPedidos(Long totalPedidos) {
+		this.totalPedidos = totalPedidos;
 	}
 
 	

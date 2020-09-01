@@ -28,16 +28,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<nav>
 					<ul class="menu1">
-						<li><a th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
-						<li><a th:href="@{/relatoriodia}">ADM</a></li>
-						<li><a th:href="@{/cadastros}">CADASTROS</a></li>
-						<li><a th:href="@{/sobre}">OPÇÕES</a>
-						<li><a th:href="@{/index}">SAIR</a></li>
+						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
+						<li><a th:href="@{/relatoriodia}"><span class="oi oi-bar-chart"></span> ADM</a></li>
+						<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> CADASTROS</a></li>
+						<li><a th:href="@{/sobre}"><span class="oi oi-wrench"></span> OPÇÕES</a>
+						<li><a th:href="@{/index}"><span class="oi oi-account-logout"></span> SAIR</a></li>
 					</ul>
 				</nav>
 				<div class="row">
-					<div class="col-md-6"><input type="button" class="btn btn-info" value="Data de acesso" id="data"/></div>
-					<div class="col-md-6"><input type="button" class="btn btn-info" value="Alterar troco" id="troco"/></div>
+					<div class="col-md-6"><button class="btn btn-info" id="data"><span class="oi oi-calendar"></span> Data de acesso</button></div>
+					<div class="col-md-6"><button class="btn btn-info" id="troco"><span class="oi oi-dollar"></span> Alterar troco</button></div>
 				</div>
 			</div>
 		</div>

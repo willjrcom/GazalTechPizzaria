@@ -61,7 +61,7 @@ if(typeof url_atual == "undefined") {
 		$("#atualizarPedido").show();
 		$(".mostrarPedidos").show();
 		$("#mostrar").show(); 
-		$("#cancelar").text('Cencelar alteração');
+		$("#cancelar").html('<span class="oi oi-ban"></span> Cancelar alteração');
 
 		cliente.id = e.id;
 		cliente.nomePedido = e.nomePedido;
@@ -806,7 +806,7 @@ $("#atualizarPedido").click(function() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],
-		    content: 'Produtos escolhidos' + linhaHtml,
+		    content: 'Produtos escolhidos: ' + linhaHtml,
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',

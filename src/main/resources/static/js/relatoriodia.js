@@ -18,24 +18,22 @@ $.ajax({
 	console.log(e);
 	
 	for(var i = 0; i< e.length; i++){
-		if(e[i].status == "FINALIZADO"){
-			Tpedidos++;
-			
-			pedidos.unshift({
-				'id' : e[i].id,
-				'nomePedido' : e[i].nomePedido,
-				'celular' : e[i].celular,
-				'endereco': e[i].endereco,
-				'envio': e[i].envio,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'status': e[i].status,
-				'ac': e[i].ac,
-				'motoboy': e[i].motoboy,
-				'produtos': JSON.parse(e[i].produtos),
-				'pizzas': JSON.parse(e[i].pizzas)
-			});
-		}
+		Tpedidos++;
+		
+		pedidos.unshift({
+			'id' : e[i].id,
+			'nomePedido' : e[i].nomePedido,
+			'celular' : e[i].celular,
+			'endereco': e[i].endereco,
+			'envio': e[i].envio,
+			'total': e[i].total,
+			'troco': e[i].troco,
+			'status': e[i].status,
+			'ac': e[i].ac,
+			'motoboy': e[i].motoboy,
+			'produtos': JSON.parse(e[i].produtos),
+			'pizzas': JSON.parse(e[i].pizzas)
+		});
 	}
 
 	$("#todosPedidos").html("");

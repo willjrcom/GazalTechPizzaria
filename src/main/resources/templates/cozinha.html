@@ -12,6 +12,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<div class="divbase">
 		
 		<h1 class="h1Logo">Cozinha</h1>
+		<hr>
 		
 		<div class="table-responsive">
 			<table>
@@ -34,10 +35,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div>
 			<label for="filtro">Filtrar:</label>
-			<select name="filtro" id="filtro" >
-				<option value="op">Todos</option>
-				<option value="op">Entrega</option>
-				<option value="op">Balcão</option>
+			<select name="filtro" id="filtro">
+				<option value="TODOS">Todos</option>
+				<option value="ENTREGA">Entrega</option>
+				<option value="BALCAO">Balcão</option>
+				<option value="MESA">Mesa</option>
+				<option value="IFOOD">Ifood</option>
+				<option value="DRIVE">Drive-thru</option>
 			</select>
 		</div>
 		

@@ -12,79 +12,79 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	
 	<div class="divbaseForm">
 			
-			<br>
-			<h1 class="h1Logo">Cadastrar Cliente</h1><br/>
-
-				<input type="hidden" id="id" name="id"/>
-				
-				<br>
-				<div class="form-group">
-					<label for="file">Nome Completo:<br/></label>
-					<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo" autofocus="autofocus" required/>
-				</div>
-				
-				<div class="form-group" id="divCpf">
-					<label>CPF:<br/></label>
-					<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
-					<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
-				</div>
-				
-				<div class="form-group">
-					<label>Celular:<br/></label>
-					<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
-					<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular" required/>
-				</div>
-				
-				<h3><br/>Endereço:<br/><br/></h3>
-				
-				<!-- ----------------------------------------------------------------------------- -->
+		<h1 class="h1Logo">Cadastrar Cliente</h1><br/>
+		<hr>
+		
+		<input type="hidden" id="id" name="id"/>
+		
+		<br>
+		<div class="form-group">
+			<label for="file">Nome Completo:<br/></label>
+			<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo" autofocus="autofocus" required/>
+		</div>
+		
+		<div class="form-group" id="divCpf">
+			<label>CPF:<br/></label>
+			<p id="avisoCpf">Cpf já cadastrado, tente novamente!</p>
+			<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
+		</div>
+		
+		<div class="form-group">
+			<label>Celular:<br/></label>
+			<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
+			<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular" required/>
+		</div>
+		
+		<h3><br/>Endereço:<br/><br/></h3>
+		
+		<!-- ----------------------------------------------------------------------------- -->
+	
+  		<div class="col-md-2">
+		   	<div class="form-group">
+		        <label>CEP</label>
+      			<input type="text" class="form-control pula cep" id="cep" name="cep" maxlength="12" placeholder="Informe o CEP">
+		    </div>
+  		</div>
+  		
+	  	<div class="form-row">
+	  		<div class="col-md-8">
+			   <div class="form-group">
+			       <label>Rua</label>
+	      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua" required>
+			    </div>
+	  		</div>
+	  		<div class="col-md-2">
+			   <div class="form-group">
+			       <label>Nº</label>
+	      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número" required>
+			    </div>
+	  		</div>
+	  	</div>
+		
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label><br/>Bairro:<br/></label>
+				<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro" required/>  
+			</div>
 			
-		  		<div class="col-md-2">
-				   	<div class="form-group">
-				        <label>CEP</label>
-		      			<input type="text" class="form-control pula cep" id="cep" name="cep" maxlength="12" placeholder="Informe o CEP">
-				    </div>
-		  		</div>
-		  		
-			  	<div class="form-row">
-			  		<div class="col-md-8">
-					   <div class="form-group">
-					       <label>Rua</label>
-			      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua" required>
-					    </div>
-			  		</div>
-			  		<div class="col-md-2">
-					   <div class="form-group">
-					       <label>Nº</label>
-			      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número" required>
-					    </div>
-			  		</div>
-			  	</div>
-				
-				<div class="form-row">
-					<div class="form-group col-md-6">
-						<label><br/>Bairro:<br/></label>
-						<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro" required/>  
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label><br/>Cidade:<br/></label>
-						<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade" value="Sorocaba" required/> 
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label><br/>Taxa de entrega:<br/></label>
-					<input type="number" class="form-control pula" id="taxa" name="taxa" placeholder="Taxa de Entrega" value="1" min="1" max="100" required/>
-				</div> 
-				
-				<div class="form-group">
-					<label>Referência da casa:<br/></label>
-					<textarea class="form-control pula" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
-				</div>
-				
-				<button type="button" id="atualizar" class="form-contact-button">Atualizar</button>
-				<button type="button" id="enviar" class="form-contact-button">Enviar</button>  
+			<div class="form-group col-md-6">
+				<label><br/>Cidade:<br/></label>
+				<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade" value="Sorocaba" required/> 
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label><br/>Taxa de entrega:<br/></label>
+			<input type="number" class="form-control pula" id="taxa" name="taxa" placeholder="Taxa de Entrega" value="1" min="1" max="100" required/>
+		</div> 
+		
+		<div class="form-group">
+			<label>Referência da casa:<br/></label>
+			<textarea class="form-control pula" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
+		</div>
+		
+		<button type="button" id="atualizar" class="form-contact-button">Atualizar</button>
+		<button type="button" id="enviar" class="form-contact-button">Enviar</button>  
 	</div>
 	
 	<br>
