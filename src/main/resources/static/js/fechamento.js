@@ -1,4 +1,5 @@
 
+var dados = {};
 var Tpedidos;
 var Tvendas = 0, Tfaturamento = 0;
 
@@ -177,5 +178,66 @@ $("#download_all").click(function(){
           a.click();
 	}).fail(function(){
 		$.alert("Pedidos não encontrados!");
+	});
+});
+
+
+//---------------------------------------------------------------------------------------
+$("#finalizar_caixa").click(function(){
+	$.confirm({
+		type: 'red',
+		title: 'Finalizar caixa',
+		content: 'Faça isso apenas uma vez ao fim do dia',
+		buttons:{
+			confirm:{
+				text:'Sim',
+				btnClass: 'btn-danger',
+				action: function(){
+		
+					//buscar data do sistema
+					$.ajax({
+						url: '/fechamento/data',
+						type: 'PUT'
+					}).done(function(e){
+						dados.data = e.dia;
+							
+						//buscar id da data do sistema
+						$.ajax({
+							url: '/fechamento/buscarIdData/' + dados.data,
+							type: 'PUT'
+						}).done(function(e){
+
+							console.log(e);
+							dados.id = e.id;
+							dados.balcao = balcao + mesa + drive;
+							dados.entregas = entrega + ifood;
+							dados.totalLucro = Tvendas - parseFloat(Tfaturamento);
+							dados.totalPedidos = Tpedidos;
+							dados.totalVendas = Tvendas;
+							console.log(dados);
+							
+							$.ajax({
+								url: '/fechamento/finalizar/' + dados.id,
+								type: 'PUT',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(dados)
+							}).done(function(e){
+								console.log(e);
+							}).fail(function(){
+								$.alert("Erro");
+							});
+						
+						});
+					}).fail(function(){
+						$.alert("Entre em contato conosco!");
+					});
+				}
+			},
+			cancel:{
+				text:'Não',
+				btnClass: 'btn-success',
+			}
+		}
 	});
 });
