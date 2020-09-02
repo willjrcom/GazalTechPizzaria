@@ -26,9 +26,13 @@ public class Dado implements Serializable {
 	
 	private double totalVendas = 0;
 	private double totalLucro = 0;
+	private int totalPizza = 0;
+	private int totalProduto = 0;
 	private double entregas = 0;
 	private double balcao = 0;
-	private Long totalPedidos = (long) 0;
+	private double trocoInicio = 0;
+	private double trocoFinal = 0;
+	private int totalPedidos = 0;
 	
 	public Long getId() {
 		return id;
@@ -78,15 +82,45 @@ public class Dado implements Serializable {
 		this.balcao = balcao;
 	}
 
-	public Long getTotalPedidos() {
+	public int getTotalPedidos() {
 		return totalPedidos;
 	}
 
-	public void setTotalPedidos(Long totalPedidos) {
+	public void setTotalPedidos(int totalPedidos) {
 		this.totalPedidos = totalPedidos;
 	}
 
-	
+	public int getTotalPizza() {
+		return totalPizza;
+	}
+
+	public void setTotalPizza(int totalPizza) {
+		this.totalPizza = totalPizza;
+	}
+
+	public int getTotalProduto() {
+		return totalProduto;
+	}
+
+	public void setTotalProduto(int totalProduto) {
+		this.totalProduto = totalProduto;
+	}
+
+	public double getTrocoInicio() {
+		return trocoInicio;
+	}
+
+	public void setTrocoInicio(double trocoInicio) {
+		this.trocoInicio = trocoInicio;
+	}
+
+	public double getTrocoFinal() {
+		return trocoFinal;
+	}
+
+	public void setTrocoFinal(double trocoFinal) {
+		this.trocoFinal = trocoFinal;
+	}
 }
 
 

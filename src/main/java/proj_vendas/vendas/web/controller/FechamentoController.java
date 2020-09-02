@@ -15,25 +15,13 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
-import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
-import proj_vendas.vendas.repository.Produtos;
 
 @Controller
 @RequestMapping("/fechamento")
 public class FechamentoController {
-
-	@Autowired
-	private Clientes clientes;
-	
-	@Autowired
-	private Funcionarios funcionarios;
-	
-	@Autowired
-	private Produtos produtos;
 
 	@Autowired
 	private Pedidos pedidos;
@@ -49,24 +37,6 @@ public class FechamentoController {
 		return new ModelAndView("fechamento");
 	}
 	
-	@RequestMapping(value = "/Tclientes", method = RequestMethod.PUT)
-	@ResponseBody
-	public long totalClientes() {
-		return clientes.count();
-	}
-	
-	@RequestMapping(value = "/Tfuncionarios", method = RequestMethod.PUT)
-	@ResponseBody
-	public long totalFuncionarios() {
-		return funcionarios.count();
-	}
-	
-	@RequestMapping(value = "/Tprodutos", method = RequestMethod.PUT)
-	@ResponseBody
-	public long totalProdutos() {
-		return produtos.count();
-	}
-	
 	@RequestMapping(value = "/Tpedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public long totalPedidos() {
@@ -77,7 +47,8 @@ public class FechamentoController {
 	@RequestMapping(value = "/Tvendas", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> totalVendas() {
-		return pedidos.findAll();
+		String dia = dias.buscarId1().getDia();
+		return pedidos.findByStatusAndData("FINALIZADO", dia);
 	}
 	
 	@RequestMapping(value = "/apagartudo", method = RequestMethod.PUT)
