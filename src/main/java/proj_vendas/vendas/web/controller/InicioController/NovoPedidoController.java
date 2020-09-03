@@ -59,6 +59,9 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/nomeProduto/{nome}", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
+		if(nome.equals("todos")) {
+			return produtos.findAll();
+		}
 		return produtos.findByNomeProdutoContainingOrCodigoBusca(nome,nome);
 	}
 	
