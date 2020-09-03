@@ -189,7 +189,18 @@ function finalizarPedido() {
 						if(pedidos[idBusca].pagamento != "Não") {
 							var troco = this.$content.find('#troco').val();
 							if(troco % 2 != 0 && troco % 2 != 1) {
-								$("#troco").val('0');
+								$.alert({
+									type:'red',
+									title:'Tente novamente!',
+									content: 'Digite um valor válido.',
+									buttons:{
+										confirm:{
+											text:'Voltar',
+											btnClass: 'btn-danger',
+											keys:['enter','esc'],
+										}
+									}
+								});
 							}
 						}
 						console.log(pedidos[idBusca]);

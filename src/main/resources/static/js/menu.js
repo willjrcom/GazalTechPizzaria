@@ -27,14 +27,22 @@ $("#data").click(function(){
 								url: '/menu/acessarData/' + dados.data,
 								type: 'PUT'
 							}).done(function(e){
+								
 								$.alert({
 									type: 'green',
 									title: 'Sucesso!',
 									content: 'Data: ' + dados.data + ' acessado',
 									buttons:{
 										confirm:{
+											text:'Alterar troco',
+											btnClass: 'btn-green',
+											action: function(){
+												troco();
+											}
+										},
+										cancel:{
 											text:'Continuar',
-											btnClass: 'btn-green'
+											btnClass: 'btn-danger'
 										}
 									}
 								});
@@ -97,7 +105,76 @@ $("#data").click(function(){
 
 
 //-----------------------------------------------------
-$("#troco").click(function(){
-	$.alert("troco");
-	console.log("foi");
-});
+function troco() {
+	$.alert({
+		type: 'blue',
+		title: '<span class="oi oi-dollar"></span>Alterar troco',
+		content: '<input type="text" id="troco" value="0"/>',
+		buttons:{
+			confirm:{
+				text:'Alterar troco',
+				btnClass: 'btn-green',
+				action: function(){	
+	
+					var troco = this.$content.find('#troco').val();
+					console.log('troco: ' +troco);
+					if(troco % 2 != 0 && troco % 2 != 1) {
+						$.alert({
+							type:'red',
+							title:'Tente novamente!',
+							content: 'Digite um valor válido.',
+							buttons:{
+								confirm:{
+									text:'Voltar',
+									btnClass: 'btn-danger',
+									keys:['enter','esc'],
+								}
+							}
+						});
+						troco();
+					}
+					
+					dados.trocoInicio = troco;
+					
+					//buscar id da data do sistema
+					$.ajax({
+						url: '/menu/buscarIdData/' + dados.data,
+						type: 'PUT'
+					}).done(function(e){
+		
+						dados.id = e.id;
+						dados.balcao = e.balcao;
+						dados.entregas = e.entregas;
+						dados.totalLucro = e.totalLucro;
+						dados.totalPedidos = e.totalPedidos;
+						dados.totalVendas = e.totalVendas;
+						dados.totalPizza = e.totalPizza;
+						dados.totalProduto = e.totalProduto;
+						dados.trocoFinal = e.trocoFinal;
+						
+						//alterar troco inicial
+						$.ajax({
+							url: '/menu/troco/' + dados.id,
+							type: 'PUT',
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(dados)
+						}).done(function(e){
+							$.alert({
+								type:'green',
+								title: 'Troco alterado',
+								content:'Boas vendas!',
+								buttons:{
+									confirm:{
+										text:'Obrigado',
+										btnClass: 'btn-success'
+									}
+								}
+							});
+						});
+					});
+				}
+			}
+		}
+	});
+}

@@ -4,11 +4,10 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 >
 
-<head th:replace="~{layouts/header :: head}" ></head>
+<head th:replace="~{layouts/frag :: head}" ></head>
 <head><title>Cadastrar Cliente - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="~{layouts/header :: cadastros}"></header>
 	
 	<div class="divbaseForm">
 			
@@ -88,7 +87,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	</div>
 	
 	<br>
-	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	
 	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
@@ -97,4 +96,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/clientes/cadastroCliente.js}"></script>
 </body>
+
+	<div th:replace="~{layouts/frag :: cadastros}"></div>
 </html>

@@ -31,6 +31,7 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    margin-top: 65px;
 }
 
 /*titulos*/
@@ -43,23 +44,20 @@ th h3, td h3, th h5, th h4{
     margin-bottom: 5px;
 }
 
-/*nav*/
 ul {
-  	list-style-type: none;
   	overflow: hidden;
-  	background-color: #333;
-  	z-index: 2;
 }
 
-li a {
-  	display: block;
-  	color: white;
+li a{
   	text-align: center;
-	background-color: #333;
+}
+.menu1 li a {
+  	display: block;
   	text-decoration: none;
 }
 
-li a:hover {
+
+.menu1 li a:hover {
   	background-color: #107b11; /*cor verde do menu*/
   	color: white;
 }
@@ -68,7 +66,6 @@ li a:hover {
     display: none;
     position: absolute;
     min-width: 160px;
-    z-index: 3;
 }
 .Dropdown:hover .dropdown-content {
     display: block;
@@ -174,58 +171,14 @@ img{
 	color: white;
 }
 
-/*MENU---------------------------------*/
-/*menu geral*/
-.menu{
-	border-bottom: 1px solid black;
-}
-
-.menu li a{
-	padding:5px 10px;
-}
-
-.menu li ul{
-	position:absolute; 
-	display:none;
-}   
-
-.menu li ul li{
-	display:block; 
-	width:150px;
-}
-
-.menu li:hover ul, .menu li.over ul {
-	display:block;
-}
-
-.menu li a:hover{
-	-moz-box-shadow:0 3px 10px 0 #ccc; 
-	-webkit-box-shadow:0 3px 10px 0 #ccc; 
-	text-shadow:0px 0px 5px #fff; 
-}
 /*celular*/
 @media (max-width:768px){
-	.menu li{
-		float: none;
-	}
-	
-	#menuPrincipal{
-		display:none;
-	}
-	
-	#menuButton{
-		display: block;
-	}
 		
 	.mercadoPago{
 	    max-width:100%;
 	    max-height:20%;
 	    width: auto;
 	    height: auto;
-	}
-
-	.dataMenu{
-		display:none;
 	}
 	
 	footer{
@@ -235,18 +188,6 @@ img{
 
 /*computador*/
 @media ( min-width: 769px ){
-	.menu li{
-		float:left;
-	}
-	
-	#menuPrincipal{
-		display: block;
-	}
-	
-	#menuButton{
-		display: none;
-	}
-	
 	.mercadoPago{
 	    max-width:40%;
 	    max-height:20%;

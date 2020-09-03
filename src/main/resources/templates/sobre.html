@@ -3,11 +3,10 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/header :: head}"></head>
+<head th:replace="~{layouts/frag :: head}"></head>
 <head><title>Sobre - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="~{layouts/header :: opcoes}"></header>
 	
 	<br>
 	<div class="divbase">
@@ -51,7 +50,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br>
-	<footer th:replace="~{layouts/header :: footer}"></footer>
-	
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	</body>
+	
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
 </html>

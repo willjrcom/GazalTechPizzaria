@@ -14,8 +14,8 @@ import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
-@RequestMapping("/pronto")
-public class ProntosController{
+@RequestMapping("/status")
+public class StatusController{
 	
 	@Autowired
 	private Pedidos pedidos;
@@ -25,7 +25,7 @@ public class ProntosController{
 	
 	@RequestMapping
 	public ModelAndView pronto() {
-		return new ModelAndView("pronto");
+		return new ModelAndView("status");
 	}
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)

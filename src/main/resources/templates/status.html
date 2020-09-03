@@ -3,11 +3,10 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/header :: head}" ></head>
+<head th:replace="~{layouts/frag :: head}" ></head>
 <head><title>Prontos - Ibiti das Pizzas</title></head>
 
 <body>
-	<header th:replace="~{layouts/header :: logo}"></header>
 	
 	<div class="divbase">
 		<h1 class="h1Logo">Saída de Pedidos</h1>
@@ -42,7 +41,9 @@
 	</div>
 	
 	<br>
-	<footer th:replace="~{layouts/header :: footer}"></footer>
-	<script th:src="@{/js/prontos.js}"></script>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/status.js}"></script>
 </body>
+
+	<div th:replace="~{layouts/frag :: inicio}"></div>
 </html>

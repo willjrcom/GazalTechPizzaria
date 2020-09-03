@@ -19,7 +19,7 @@ function buscarPedidos() {
 	Tpizzas = 0;
 	
 	$.ajax({
-		url: "/pronto/todosPedidos",
+		url: "/status/todosPedidos",
 		type: 'PUT'
 	})
 	.done(function(e){

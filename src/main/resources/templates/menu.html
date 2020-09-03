@@ -4,7 +4,7 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 >
 
-<head th:replace="~{layouts/header :: head}" ></head>
+<head th:replace="~{layouts/frag :: head}" ></head>
 
 <head>
 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
@@ -12,7 +12,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 </head>
 
 <body>
-	<header th:replace="~{layouts/header :: menu}"></header>
+	<header th:replace="~{layouts/frag :: menu}"></header>
 </body>
 
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>

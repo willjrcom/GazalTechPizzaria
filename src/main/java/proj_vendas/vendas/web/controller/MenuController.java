@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,6 +55,18 @@ public class MenuController {
 		Dia data = dias.buscarId1();
 		data.setDia(dia);
 		dias.save(data);
+		return dados.save(dado);
+	}
+	
+	@RequestMapping(value = "/buscarIdData/{data}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Dado buscarId(@PathVariable String data) {
+		return dados.findByData(data);
+	}
+	
+	@RequestMapping(value = "/troco/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Dado alterarTroco(@RequestBody Dado dado) {
 		return dados.save(dado);
 	}
 }

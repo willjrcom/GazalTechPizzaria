@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:fragment="~{head}" >
+	<link th:href="@{/css/menu/normalize.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/menu/demo.css}" rel="stylesheet" type="text/css" />
+	<link th:href="@{/css/menu/component.css}" rel="stylesheet" type="text/css" />
+	<script th:src="@{/js/menu/modernizr.custom.js}"></script>
+	
+    <meta charset="utf-8" lang="pt-br"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
+	<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
+	<link th:href="@{/img/open-iconic-master/font/css/open-iconic-bootstrap.css}" rel="stylesheet"/>
+	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	
+</head>
+
+<body>
+
+<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="menu" id="esconderLogin">
+		<div class="elemento1">
+			<div class="corFundo centralizar" style="padding: 10px">
+				
+				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
+				<hr>
+				
+				<nav>
+					<ul class="menu1">
+						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
+						<li><a th:href="@{/relatoriodia}"><span class="oi oi-bar-chart"></span> ADM</a></li>
+						<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> CADASTROS</a></li>
+						<li><a th:href="@{/sobre}"><span class="oi oi-wrench"></span> OPÇÕES</a>
+						<li><a th:href="@{/index}"><span class="oi oi-account-logout"></span> SAIR</a></li>
+					</ul>
+				</nav>
+				<button class="btn btn-info" id="data"><span class="oi oi-calendar"></span> Data de acesso</button>
+			</div>
+		</div>
+		<script th:src="@{/js/index.js}"></script>
+	</div>
+	
+	
+<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="inicio" class="container">
+		<ul id="gn-menu" class="gn-menu-main">
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li><a class="gn-icon" th:href="@{/novoPedido}">Novo Pedido</a></li>
+							<li><a class="gn-icon" th:href="@{/cozinha}">Cozinha</a></li>
+							<li><a class="gn-icon" th:href="@{/status}">Status</a></li>
+							<li><a class="gn-icon" th:href="@{/finalizar}">Finalizar</a></li>
+							<li><a class="gn-icon" th:href="@{/motoboy}">Entregar</a></li>
+							<li><a class="gn-icon" th:href="@{/receber}">Receber</a></li>
+							<li><a class="gn-icon" th:href="@{/menu}">Voltar</a></li>
+							
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a th:href="@{/novoPedido}">Calculadora</a></li>
+			<li><a th:href="@{/novoPedido}">Calendário</a></li>
+			<li><a th:href="@{/novoPedido}">Wihaas</a></li>
+		</ul>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</div><!-- /container -->
+		
+		<!-- 
+	<div id="lateral">
+		<nav id="menu">
+			<ul class="box">
+				<li><a accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
+				<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
+				<li><a accesskey="S" th:href="@{/pronto}">STATUS</a></li>
+				<li><a accesskey="F" th:href="@{/finalizar}">FINALIZAR</a></li>
+				<li><a accesskey="E" th:href="@{/motoboy}">ENTREGAS</a>
+				<li><a accesskey="R" th:href="@{/receber}">RECEBER</a></li>
+				<li><a accesskey="V" th:href="@{/menu}">VOLTAR</a></li>
+			</ul>
+		</nav>
+	</div>
+	-->
+	
+	
+<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="adm" class="container">
+		<ul id="gn-menu" class="gn-menu-main">
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li class="gn-search-item">
+								<input placeholder="Buscar" type="search" class="gn-search">
+								<a class="gn-icon"><span>Buscar</span></a>
+							</li>
+							<li><a class="gn-icon" th:href="@{/relatoriodia}">Relatório do Dia</a></li>
+							<li><a class="gn-icon" th:href="@{/pedidosExcluidos}">Pedidos Excluídos</a></li>
+							<li><a class="gn-icon" th:href="@{/fechamento}">Fechamento</a></li>
+							<li><a class="gn-icon" th:href="@{/menu}">Voltar</a></li>
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a th:href="@{/novoPedido}">Calculadora</a></li>
+			<li><a th:href="@{/novoPedido}">Calendário</a></li>
+			<li><a th:href="@{/novoPedido}">Wihaas</a></li>
+		</ul>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</div><!-- /container -->
+
+
+<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="cadastros" class="container">
+		<ul id="gn-menu" class="gn-menu-main">
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li><a class="gn-icon" th:href="@{/cadastros}">Todos</a></li>
+							<li>
+								<a class="gn-icon" th:href="@{/clientesCadastrados}">Clientes Cadastrados</a>
+								<ul class="gn-submenu">
+									<li><a class="gn-icon" th:href="@{/cadastroCliente}">Cadastrar Cliente</a></li>
+								</ul>
+							</li>
+							<li>
+								<a class="gn-icon" th:href="@{/produtosCadastrados}">Produtos Cadastrados</a>
+								<ul class="gn-submenu">
+									<li><a class="gn-icon" th:href="@{/cadastroProduto}">Cadastrar Produto</a></li>
+								</ul>
+							</li>
+							<li>
+								<a class="gn-icon" th:href="@{/funcionariosCadastrados}">Funcionários Cadastrados</a>
+								<ul class="gn-submenu">
+									<li><a class="gn-icon" th:href="@{/cadastroFuncionario}">Cadastrar Funcionários</a></li>
+								</ul>
+							</li>
+							<li><a class="gn-icon" th:href="@{/menu}">Voltar</a></li>
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a th:href="@{/novoPedido}">Calculadora</a></li>
+			<li><a th:href="@{/novoPedido}">Calendário</a></li>
+			<li><a th:href="@{/novoPedido}">Wihaas</a></li>
+		</ul>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</div><!-- /container -->
+	
+	
+	<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="opcoes" class="container">
+		<ul id="gn-menu" class="gn-menu-main">
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li><a class="gn-icon" th:href="@{/sobre}">Opções</a></li>
+							<li><a class="gn-icon" th:href="@{/tutorial}">Tutorial</a></li>
+							<li><a class="gn-icon" th:href="@{/preferencias}">Preferências</a></li>
+							<li><a class="gn-icon" th:href="@{/menu}">Voltar</a></li>
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a th:href="@{/novoPedido}">Calculadora</a></li>
+			<li><a th:href="@{/novoPedido}">Calendário</a></li>
+			<li><a th:href="@{/novoPedido}">Wihaas</a></li>
+		</ul>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</div><!-- /container -->
+	
+	
+<!--------------------------------------------------------------------------------------------------------->
+	<footer th:fragment="footer">
+		<br>
+		<div class="row">
+			<div class="col-md-3">
+					<p class="cw" id="ano-atual"></p>
+					<p class="cw">TODOS DIREITOS RESERVADOS</p>
+			</div>
+			
+			<div class="col-md-3 centralizar">
+					<h3 class="cw">Siga-nos</h3><br>
+					<a href="www.facebook.com/william.alfredgazaljunior">
+					<button type="button" class="btn btn-primary">Facebook</button></a>
+			</div>
+			
+			<div class="col-md-3 centralizar">				
+				<table>
+					<tr><td colspan="2"><h3 >Suporte:</h3></td></tr>
+					<tr>
+						<td class="cw">William Jr</td>
+						<td class="cw">(11) 96384-9111</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<br>
+		
+		<script th:src="@{/js/datas.js}"></script>
+		<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+		<script th:src="@{/js/pulaInput.js}"></script>
+		<script th:src="@{/js/validacoes.js}"></script>
+		<script th:src="@{/js/header.js}"></script>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</footer>
+
+<!--------------------------------------------------------------------------------------------------------->
+</body>
+</html>

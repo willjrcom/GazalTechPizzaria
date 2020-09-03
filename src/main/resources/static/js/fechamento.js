@@ -195,99 +195,7 @@ $("#finalizar_caixa").click(function(){
 				btnClass: 'btn-success',
 				keys:['enter'],
 				action: function(){
-					
-					$.confirm({
-						type: 'blue',
-						title: 'Troco do caixa',
-						content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control" id="troco" value="0"/>',
-						buttons:{
-							confirm:{
-								text:'Salvar',
-								btnClass: 'btn-success',
-								keys:['enter'],
-								action: function(){
-						
-									var troco = this.$content.find('#troco').val();
-						
-									if(troco % 2 != 0 && troco % 2 != 1) {
-										$.alert({
-											type:'red',
-											title:'Tente novamente!',
-											content: 'Digite um valor válido.',
-											buttons:{
-												confirm:{
-													text:'Voltar',
-													btnClass: 'btn-danger',
-													keys:['enter','esc'],
-												}
-											}
-										});
-										return;
-									}
-									
-									//buscar data do sistema
-									$.ajax({
-										url: '/fechamento/data',
-										type: 'PUT'
-									}).done(function(e){
-										dados.data = e.dia;
-											
-										//buscar id da data do sistema
-										$.ajax({
-											url: '/fechamento/buscarIdData/' + dados.data,
-											type: 'PUT'
-										}).done(function(e){
-			
-											console.log(e);
-											dados.id = e.id;
-											dados.balcao = balcao + mesa + drive;
-											dados.entregas = entrega + ifood;
-											dados.totalLucro = Tvendas - parseFloat(Tfaturamento);
-											dados.totalPedidos = Tpedidos;
-											dados.totalVendas = Tvendas;
-											dados.totalPizza = Tpizza;
-											dados.totalProduto = Tproduto;
-											dados.trocoFinal = troco;
-											console.log(dados);
-											
-											$.ajax({
-												url: '/fechamento/finalizar/' + dados.id,
-												type: 'PUT',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(dados)
-											}).done(function(e){
-												console.log(e);
-												$.alert({
-													type:'green',
-													title: 'Sucesso!',
-													content: 'Caixa finalizado com sucesso!',
-													buttons:{
-														confirm:{
-															text:'Continuar',
-															btnClass: 'btn-success',
-															keys:['enter', 'esc'],
-														}
-													}
-												});
-												
-											}).fail(function(){
-												$.alert("Erro");
-											});
-										
-										});
-									}).fail(function(){
-										$.alert("Entre em contato conosco!");
-									});
-								}
-							},
-							cancel:{
-								text:'Voltar',
-								btnClass: 'btn-danger',
-								keys:['esc'],
-							}
-						}
-					});
+					troco();
 				}
 			},
 			cancel:{
@@ -298,3 +206,99 @@ $("#finalizar_caixa").click(function(){
 		}
 	});
 });
+
+function troco(){
+	$.confirm({
+		type: 'blue',
+		title: 'Troco do caixa',
+		content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control" id="troco" value="0"/>',
+		buttons:{
+			confirm:{
+				text:'Salvar',
+				btnClass: 'btn-success',
+				keys:['enter'],
+				action: function(){
+		
+					var troco = this.$content.find('#troco').val();
+		
+					if(troco % 2 != 0 && troco % 2 != 1) {
+						$.alert({
+							type:'red',
+							title:'Tente novamente!',
+							content: 'Digite um valor válido.',
+							buttons:{
+								confirm:{
+									text:'Voltar',
+									btnClass: 'btn-danger',
+									keys:['enter','esc'],
+								}
+							}
+						});
+						troco();
+					}
+					
+					//buscar data do sistema
+					$.ajax({
+						url: '/fechamento/data',
+						type: 'PUT'
+					}).done(function(e){
+						dados.data = e.dia;
+							
+						//buscar id da data do sistema
+						$.ajax({
+							url: '/fechamento/buscarIdData/' + dados.data,
+							type: 'PUT'
+						}).done(function(e){
+
+							console.log(e);
+							dados.id = e.id;
+							dados.balcao = balcao + mesa + drive;
+							dados.entregas = entrega + ifood;
+							dados.totalLucro = Tvendas - parseFloat(Tfaturamento);
+							dados.totalPedidos = Tpedidos;
+							dados.totalVendas = Tvendas;
+							dados.totalPizza = Tpizza;
+							dados.totalProduto = Tproduto;
+							dados.trocoFinal = troco;
+							dados.trocoInicio = e.trocoInicio;
+							console.log(dados);
+							
+							$.ajax({
+								url: '/fechamento/finalizar/' + dados.id,
+								type: 'PUT',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(dados)
+							}).done(function(e){
+								console.log(e);
+								$.alert({
+									type:'green',
+									title: 'Sucesso!',
+									content: 'Caixa finalizado com sucesso!',
+									buttons:{
+										confirm:{
+											text:'Continuar',
+											btnClass: 'btn-success',
+											keys:['enter', 'esc'],
+										}
+									}
+								});
+								
+							}).fail(function(){
+								$.alert("Erro");
+							});
+						
+						});
+					}).fail(function(){
+						$.alert("Entre em contato conosco!");
+					});
+				}
+			},
+			cancel:{
+				text:'Voltar',
+				btnClass: 'btn-danger',
+				keys:['esc'],
+			}
+		}
+	});
+}

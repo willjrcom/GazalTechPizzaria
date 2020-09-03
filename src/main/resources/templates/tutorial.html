@@ -3,14 +3,13 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/header :: head}"></head>
+<head th:replace="~{layouts/frag :: head}"></head>
 <head>
 	<title>Tutorial - Ibiti das Pizzas</title>
 	<link  href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
 </head>
 
 <body>
-	<header th:replace="~{layouts/header :: opcoes}"></header>
 	
 	<br>
 	<!-- 
@@ -35,8 +34,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<br>
-	<footer th:replace="~{layouts/header :: footer}"></footer>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	</body>
+	
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
 </html>
