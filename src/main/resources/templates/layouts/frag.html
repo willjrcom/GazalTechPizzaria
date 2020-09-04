@@ -55,13 +55,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li><a class="gn-icon" th:href="@{/verpedido}">Ver Pedido</a></li>
-							<li><a class="gn-icon" th:href="@{/novoPedido}">Novo Pedido</a></li>
-							<li><a class="gn-icon" th:href="@{/cozinha}">Cozinha</a></li>
-							<li><a class="gn-icon" th:href="@{/status}">Status</a></li>
-							<li><a class="gn-icon" th:href="@{/finalizar}">Finalizar</a></li>
-							<li><a class="gn-icon" th:href="@{/motoboy}">Entregar</a></li>
-							<li><a class="gn-icon" th:href="@{/receber}">Receber</a></li>
+							<li><a class="gn-icon" th:href="@{/verpedido}" accesskey="V">Ver Pedido</a></li>
+							<li><a class="gn-icon" th:href="@{/novoPedido}" accesskey="N">Novo Pedido</a></li>
+							<li><a class="gn-icon" th:href="@{/cozinha}" accesskey="C">Cozinha</a></li>
+							<li><a class="gn-icon" th:href="@{/status}" accesskey="S">Status</a></li>
+							<li><a class="gn-icon" th:href="@{/finalizar}" accesskey="F">Finalizar</a></li>
+							<li><a class="gn-icon" th:href="@{/motoboy}" accesskey="E">Entregar</a></li>
+							<li><a class="gn-icon" th:href="@{/receber}" accesskey="R">Receber</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
@@ -76,22 +76,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			new gnMenu( document.getElementById( 'gn-menu' ) );
 		</script>
 	</div><!-- /container -->
-		
-		<!-- 
-	<div id="lateral">
-		<nav id="menu">
-			<ul class="box">
-				<li><a accesskey="N" th:href="@{/novoPedido}">NOVO PEDIDO</a></li>
-				<li><a accesskey="C" th:href="@{/cozinha}">COZINHA</a></li>
-				<li><a accesskey="S" th:href="@{/pronto}">STATUS</a></li>
-				<li><a accesskey="F" th:href="@{/finalizar}">FINALIZAR</a></li>
-				<li><a accesskey="E" th:href="@{/motoboy}">ENTREGAS</a>
-				<li><a accesskey="R" th:href="@{/receber}">RECEBER</a></li>
-				<li><a accesskey="V" th:href="@{/menu}">VOLTAR</a></li>
-			</ul>
-		</nav>
-	</div>
-	-->
 	
 	
 <!--------------------------------------------------------------------------------------------------------->
@@ -109,6 +93,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li><a class="gn-icon" th:href="@{/relatoriodia}">Relatório do Dia</a></li>
 							<li><a class="gn-icon" th:href="@{/pedidosExcluidos}">Pedidos Excluídos</a></li>
 							<li><a class="gn-icon" th:href="@{/fechamento}">Fechamento</a></li>
+							<li><a class="gn-icon" th:href="@{/estatistica}">Estatistica</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>

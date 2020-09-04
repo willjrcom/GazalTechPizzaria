@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head>
+	<title>Fechamento - Ibiti das Pizzas</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Estatística</h1>		
+		<hr>
+		
+ 		 <h2 align="center">Vendas/Faturamento</h2>
+ 		 <div id="totalVendas"></div>
+ 		 <hr>
+ 		 <h2 align="center">Entregas/Balcão</h2>
+ 		 <div id="entregaBalcao"></div>
+ 		 <hr>
+ 		 <h2 align="center">Pizzas/Produtos</h2>
+ 		 <div id="pizzaProduto"></div>
+  
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/totalVendas.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: adm}"></div>
+</html>
