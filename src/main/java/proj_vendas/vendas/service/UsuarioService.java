@@ -35,7 +35,6 @@ public class UsuarioService implements UserDetailsService{
 				);
 	}
 	
-	@Transactional(readOnly = false)
 	public void salvarUsuarioDev() {
 		Usuario usuario = new Usuario();
 		usuario.setAtivo(true);
