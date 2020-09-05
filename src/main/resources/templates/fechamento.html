@@ -4,7 +4,10 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Fechamento - Ibiti das Pizzas</title></head>
+<head>
+	<title>Fechamento - Ibiti das Pizzas</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
 
 <body>
 	
@@ -13,54 +16,32 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<hr>
 		
 		<div class="row">
-			
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead><tr><td colspan="2"><h3>Total em vendas</h3></td></tr></thead>
-
-					<tbody><tr><td id="Tvendas" class="text-center col-md-1 sombra">R$ 0,00</td></tr></tbody>
-				</table>
-				<br>
-			</div>
-
-
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead><tr><td colspan="2"><h3>Faturamento</h3></td></tr></thead>
-					
-					<tbody><tr><td id="Tfaturamento" class="text-center col-md-1 sombra">0</td></tr></tbody>
-				</table>
+			<div class="col-md-6 table-responsive">
+				<h3>Total em Vendas</h3>
+				<div id="totalVendas"></div>
 				<br>
 			</div>
 			
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead><tr><td colspan="2"><h3>Total de Pedidos</h3></td></tr></thead>
-					<tbody id="fEnvio" class="sombra"></tbody>
-				</table>
+			<div class="col-md-6 table-responsive">
+				<h3>Total de Pedidos</h3>
+				<div id="totalPedidos"></div>
 				<br>
 			</div>
 			
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead><tr><td colspan="2"><h3>Total de Pagamentos</h3></td></tr></thead>
-					<tbody><tr id="fPagamento"></tr></tbody>
-				</table>
-				<br>
-			</div>
 		</div>
 		
-		<br>
-		<label>CUIDADO!</label><br>
-		<a><button name="delete_all" id="delete_all" class="btn btn-danger">APAGAR TODOS PEDIDOS DO DIA</button></a>
-		
 		<br><br>
-		<label>DOWNLOAD</label><br>
-		<a><button name="delete_all" id="download_all" class="btn btn-success">download</button></a>
+		<div class="fLeft">
+			<a><button name="delete_all" id="delete_all" class="btn btn-danger">APAGAR TODOS PEDIDOS DO DIA</button></a>
+		</div>
+
+		<div class="fLeft">
+			<a><button name="delete_all" id="download_all" class="btn btn-success">Baixar Pedidos</button></a>
+		</div>
 		
-		<br><br>
-		<label>FINALIZAR CAIXA</label><br>
-		<a><button name="delete_all" id="finalizar_caixa" class="btn btn-success">Finalizar</button></a>
+		<div class="fRight">
+			<a><button name="delete_all" id="finalizar_caixa" class="btn btn-success">Finalizar Caixa</button></a>
+		</div>
 	</div>
 	
 	<br>

@@ -2,8 +2,8 @@ var pedidos = [];
 var produtos = [];
 var pizzas = [];
 var linhaHtml =  "";
-var linhaCinza = '<tr><td colspan="7" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para fazer!</td></tr>';
+var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum pedido para fazer!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 var AllPizzas = 0;
@@ -64,8 +64,7 @@ function buscarPedido() {
 						linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
 						linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
 						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].borda + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[0].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
+						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[0].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
 						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].obs + '</td>';
 						if(i == 0) {//adicionar autofocus
 							linhaHtml +=	'<td>' 
@@ -110,8 +109,7 @@ function buscarPedido() {
 									linhaHtml +=	'<td colspan="2"></td>';
 								}
 								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].borda + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[j].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
+								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[j].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
 								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].obs + '</td>';
 								linhaHtml +=	'<td></td>';
 								linhaHtml += '</tr>';	

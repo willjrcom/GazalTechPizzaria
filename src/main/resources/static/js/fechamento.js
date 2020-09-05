@@ -302,3 +302,58 @@ function troco(){
 		}
 	});
 }
+
+
+//----------------------------------------------------------------------------
+google.charts.load("current", {packages:['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+    ["Element", "Density", { role: "style" } ],
+    ["Entrega", entrega, "green"],
+    ["Balcão", balcao, "blue"],
+    ["Mesa", mesa, "Brown"],
+    ["Ifood", ifood, "color: red"],
+    ["Drive-Thru", drive, "color: yellow"]
+  ]);
+
+  var view = new google.visualization.DataView(data);
+  view.setColumns([0, 1,
+                   { calc: "stringify",
+                     sourceColumn: 1,
+                     type: "string",
+                     role: "annotation" },
+                   2]);
+
+  var options = {
+    bar: {groupWidth: "80%"},
+    legend: { position: "none" },
+  };
+  var chart = new google.visualization.ColumnChart(document.getElementById("totalPedidos"));
+  chart.draw(view, options);
+  
+  
+  
+  //------------------------------------------------------------------------------------------------
+  var data = google.visualization.arrayToDataTable([
+	["Element", "Density", { role: "style" } ],
+	["Lucro Bruto", Tvendas, "green"],
+	["Lucro Liquido", Tfaturamento, "blue"],
+	  ]);
+	
+	  var view = new google.visualization.DataView(data);
+	  view.setColumns([0, 1,
+	                   { calc: "stringify",
+	                 sourceColumn: 1,
+	                 type: "string",
+	                 role: "annotation" },
+	                   2]);
+	
+	  var options = {
+	    bar: {groupWidth: "60%"},
+	legend: { position: "none" },
+	  };
+	  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
+	  chart.draw(view, options);
+}

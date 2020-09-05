@@ -1,8 +1,8 @@
 var pedidos = [];
 var linhaHtml= "";
-var linhaCinza = '<tr id="linhaCinza"><td colspan="8" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="8">Nenhum pedido disponível!</td></tr>';
-var pedidoSemPizza = '<tr><td colspan="8">Nenhum pedido com pizza disponível!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
+var pedidoVazio = '<tr><td colspan="7">Nenhum pedido disponível!</td></tr>';
+var pedidoSemPizza = '<tr><td colspan="7">Nenhum pedido com pizza disponível!</td></tr>';
 var filtro;
 var Tpedidos = 0;
 var Tpizzas = 0;
@@ -72,8 +72,7 @@ function buscarPedidos() {
 						linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
 						linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
 						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].borda + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].sabor + '</td>';
+						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor + '</td>';
 						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].obs + '</td>';
 						linhaHtml +=	'<td>' + pedidos[i].envio + '</td>';
 									
@@ -118,17 +117,16 @@ function buscarPedidos() {
 										Tpizzas += pedidos[i].pizzas[k].qtd;
 									}
 									if(Tpizzas == 1) {
-										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
+										linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizza</td>';
 									}else {
-										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
+										linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
 									}
 								}else {
 									linhaHtml +=	'<td colspan="2"></td>';
 								}
 								
 								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].borda + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].sabor + '</td>';
+								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor + '</td>';
 								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].obs + '</td>';
 								linhaHtml +=	'<td></td>';
 								linhaHtml += '</tr>';	
