@@ -14,9 +14,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	<div id="esconderLogin">
 		<div class="elemento1">
-			<div class="corFundo centralizar">
+			<div class="corFundo centralizar" id="login">
 				
-				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
+				<button class="btn btn-primary"><h1>Gazal Tech</h1></button>
+				<br><br>
+				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
 				<hr>
 				
 				<form class="form-signin was-validated" method="post" th:action="@{/index}">
@@ -43,7 +45,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/u/p/redefinir/senha}"><i class="fas fa-key"></i>&nbsp;Recuperar senha</a>
 						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/}"><i class="fas fa-home"></i>&nbsp;Home</a>
 					</nav>
-					<p class="mt-5 mb-3 text-muted text-center">Wihaas &copy; 2020</p>
+					<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2020</p>
 				</form>
 			</div>
 		</div>

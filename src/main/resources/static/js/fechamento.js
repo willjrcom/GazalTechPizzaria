@@ -357,3 +357,6 @@ function drawChart() {
 	  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
 	  chart.draw(view, options);
 }
+
+
+//----------------------------------------------------------------------------------------
