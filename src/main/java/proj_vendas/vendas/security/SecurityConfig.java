@@ -33,14 +33,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 				.logout()
 				.logoutSuccessUrl("/index")
-			.and().csrf().disable();
+			.and()
+				.exceptionHandling()
+				.accessDeniedPage("/acessoNegado")
+			.and()
+				.csrf().disable();
+			
+				
 	}
 
-	 /* To allow Pre-flight [OPTIONS] request from browser */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-    }
     
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
