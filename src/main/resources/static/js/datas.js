@@ -2,7 +2,7 @@
 var ano_atual = new Date();
 ano_atual = ano_atual.getFullYear();
 
-$("#ano-atual").html('<P>	&copy; ' + ano_atual + ' - WIHAAS' + '</P>');
+$("#ano-atual").html('<p>' + 'Gazal Tech' + '&copy; - ' + ano_atual +'</p>');
 
 window.setInterval(function(){
 	var hora_atual = new Date();

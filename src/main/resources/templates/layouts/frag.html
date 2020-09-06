@@ -160,7 +160,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<ul class="gn-menu">
 							<li><a class="gn-icon" th:href="@{/sobre}">Opções</a></li>
 							<li><a class="gn-icon" th:href="@{/tutorial}">Tutorial</a></li>
-							<li><a class="gn-icon" th:href="@{/preferencias}">Preferências</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
@@ -179,27 +178,27 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 <!--------------------------------------------------------------------------------------------------------->
 	<footer th:fragment="footer">
-		<br>
 		<div class="row">
-			<div class="col-md-3">
-					<p class="cw" id="ano-atual"></p>
-					<p class="cw">TODOS DIREITOS RESERVADOS</p>
-			</div>
-			
-			<div class="col-md-3 centralizar">
-					<h3 class="cw">Siga-nos</h3><br>
-					<a href="www.facebook.com/william.alfredgazaljunior">
-					<button type="button" class="btn btn-primary">Facebook</button></a>
-			</div>
-			
-			<div class="col-md-3 centralizar">				
+			<div class="col-md-4" align="left">				
 				<table>
-					<tr><td colspan="2"><h3 >Suporte:</h3></td></tr>
+					<tr><td colspan="2"><h3>Suporte:</h3></td></tr>
 					<tr>
 						<td class="cw">William Jr</td>
 						<td class="cw">(11) 96384-9111</td>
 					</tr>
 				</table>
+			</div>
+			
+			<div class="col-md-4" align="center">
+				<h3 class="cw">Siga-nos</h3><br>
+				<a href="www.facebook.com/william.alfredgazaljunior">
+				<button type="button" class="btn btn-primary">Facebook</button></a>
+			</div>
+			
+			<div class="col-md-4" align="right">
+				<br>
+				<p class="cw" id="ano-atual"></p>
+				<p class="cw">Todos direitos reservados</p>
 			</div>
 		</div>
 		<br>
