@@ -1,7 +1,5 @@
 package proj_vendas.vendas.web.controller;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,15 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Usuario;
-import proj_vendas.vendas.service.UsuarioService;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/dev")
 public class DevController {
 	
 	@Autowired
-	private UsuarioService service;
-	
+	private Usuarios usuarios;
 	
 	@RequestMapping
 	public ModelAndView menu() {
@@ -41,11 +38,8 @@ public class DevController {
 	
 	@RequestMapping(value = "/criar", method = RequestMethod.PUT)
 	@ResponseBody
-	public String criarUsuario(@RequestBody Usuario usuario) {
+	public Usuario criarUsuario(@RequestBody Usuario usuario) {
 		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
-		usuario.setDataPagamento(new Date());
-		usuario.setAtivo(true);
-		service.salvarUsuarioDev(usuario);
-		return "ok";
+		return usuarios.save(usuario);
 	}
 }

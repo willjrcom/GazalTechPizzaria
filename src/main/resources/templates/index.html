@@ -16,7 +16,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1">
 			<div class="corFundo centralizar" id="login">
 				
-				<button class="btn btn-primary"><h1>Gazal Tech</h1></button>
+				<a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
 				<br><br>
 				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
 				<hr>
@@ -42,7 +42,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<hr>
 					<nav class="nav nav-pills flex-column flex-sm-row">
 						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/dev}"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Novo cadastro</a>
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/}"><i class="fas fa-key"></i>&nbsp;Recuperar senha</a>
+						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/gazaltech}"><i class="fas fa-key"></i>&nbsp;Home</a>
 						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/}"><i class="fas fa-home"></i>&nbsp;Desenvolvedor</a>
 					</nav>
 					<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2020</p>

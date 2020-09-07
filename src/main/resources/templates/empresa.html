@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Cadastrar Empresa - Ibiti das Pizzas</title></head>
+
+<body>
+				
+	<div class="divbaseForm">
+			
+		<hr>
+		<h1 class="h1Logo">Cadastrar Login</h1><br/>
+			
+			<input type="hidden" id="id" name="id"/>
+			
+			<div class="form-group">
+				<label>Nome da Empresa:<br/></label>
+				<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome da Empresa"  autofocus="autofocus" required/>  
+			</div>
+			
+			<div class="form-group">
+				<label>E-mail:<br/></label>
+				<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" required/>
+			</div>
+			
+			<div class="form-group">
+				<label >Data de Compra:<br/></label>
+				<input type="date" class="form-control pula" id="Compra" name="Compra" placeholder="dd/mm/aaaa" required/>
+			</div>
+			
+			<div class="form-group" id="divCpf">
+				<label>CNPJ:<br/></label>
+				<p id="avisoCpf">CNPJ já cadastrado, tente novamente!</p>
+				<input type="text" class="form-control pula cnpj" id="cnpj" name="cnpj" placeholder="CNPJ" required/>
+			</div>
+			
+			<div class="form-group">
+				<label>Celular:<br/></label>
+				<p id="avisoCel">Celular já cadastrado, tente novamente!</p>
+				<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular xx-xxxxx-xxxx " required/> 
+			</div>
+			
+			<h3><br/>Endereço:<br></h3>
+			
+			<div class="col-md-2">
+			   	<div class="form-group">
+			        <label>CEP</label>
+	      			<input type="text" class="form-control pula" id="cep" maxlength="12" name="endereco.cep" placeholder="Informe o CEP">
+			    </div>
+	  		</div>
+	  		
+		  	<div class="form-row">
+		  		<div class="col-md-8">
+				   <div class="form-group">
+				       <label>Rua</label>
+		      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua" required>
+				    </div>
+		  		</div>
+		  		<div class="col-md-2">
+				   <div class="form-group">
+				       <label>Nº</label>
+		      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número" required>
+				    </div>
+		  		</div>
+		  	</div>
+			
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label><br/>Bairro:<br/></label>
+					<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro" required/>  
+				</div>
+				
+				<div class="form-group col-md-6">
+					<label><br/>Cidade:<br/></label>
+					<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade" value="Sorocaba" required/> 
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label>Referência da Empresa:<br/></label>
+				<textarea class="form-control pula" id="referencia" name="referencia" placeholder="Referência da Empresa"></textarea>  
+			</div>
+
+			<div class="form-group">
+				<label>Login:<br/></label>
+				<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome da Empresa"  autofocus="autofocus" required/>  
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Senha:<br/></label>
+					<input type="password" class="form-control pula" id="senha" name="senha" placeholder="Senha" required/>  
+				</div>
+	
+				<div class="form-group col-md-6">
+					<label>Confirmar Senha:<br/></label>
+					<input type="password" class="form-control pula" id="confsenha" name="confsenha" placeholder="Confimar senha" required/>  
+				</div>
+			</div>
+			
+			<br>
+			<button type="button" id="enviar" class="form-contact-button" name="enviar">Enviar</button>  
+			<button type="button" id="atualizar" class="form-contact-button" name="enviar">Atualizar</button>  
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+	<script th:src="@{/js/buscaCep.js}"></script>
+	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
+</html>
