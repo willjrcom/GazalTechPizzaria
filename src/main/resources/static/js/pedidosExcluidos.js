@@ -100,11 +100,11 @@ function finalizarPedido() {
 	linhaHtml = '<table>';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml += '<tr>'
-						+ '<th>Borda</th>'
-						+ '<th>Sabor</th>'
-						+ '<th>Obs</th>'
-						+ '<th>Qtd</th>'
-						+ '<th>Preço</th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(var i=0; i<pedidos[idBusca].pizzas.length; i++){
@@ -123,10 +123,10 @@ function finalizarPedido() {
 	
 	if(pedidos[idBusca].produtos.length != 0) {
 		linhaHtml += '<tr>'
-						+ '<th>Sabor</th>'
-						+ '<th>Obs</th>'
-						+ '<th>Qtd</th>'
-						+ '<th>Preço</th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(var i=0; i<pedidos[idBusca].produtos.length; i++){
@@ -148,7 +148,7 @@ function finalizarPedido() {
 		type: 'red',
 	    typeAnimated: true,
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
-	    content: 'Produtos escolhidos:' + linhaHtml,
+	    content: linhaHtml,
 	    buttons: {
 	        confirm: {
 				text: 'Voltar',

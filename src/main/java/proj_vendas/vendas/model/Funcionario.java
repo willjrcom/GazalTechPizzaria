@@ -15,9 +15,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Service;
 
 @Entity
 @Table(name = "FUNCIONARIOS")
+@Service
 public class Funcionario {
 	
 	@Id

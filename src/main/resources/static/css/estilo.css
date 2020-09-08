@@ -40,6 +40,7 @@ body{
 
 /*titulos*/
 th h3, td h3, th h5, th h4{
+  	text-align: center;
 	color: white;
 }
 

@@ -6,8 +6,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Service;
+
 @Entity
 @Table(name = "PRODUTOS")
+@Service
 public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
