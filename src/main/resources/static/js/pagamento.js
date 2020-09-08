@@ -52,7 +52,7 @@ function verFuncionario() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/finalizar/finalizarPedido/" + idProduto.toString();
+	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
 	console.log(urlEnviar);
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
@@ -60,6 +60,7 @@ function verFuncionario() {
 			var idBusca = i;
 		}
 	}
+	
 	linhaHtml = '<table>'
 				+ '<tr>'
 					+ '<th class="col-md-1"><h5>Salário</h5></th>'
