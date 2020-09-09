@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class Dado implements Serializable {
 	private double trocoInicio = 0;
 	private double trocoFinal = 0;
 	private int totalPedidos = 0;
+	
+	@Lob
+	private String compras;
 	
 	public Long getId() {
 		return id;
@@ -121,6 +125,15 @@ public class Dado implements Serializable {
 	public void setTrocoFinal(double trocoFinal) {
 		this.trocoFinal = trocoFinal;
 	}
+
+	public String getCompras() {
+		return compras;
+	}
+
+	public void setCompras(String compras) {
+		this.compras = compras;
+	}
+	
 }
 
 
