@@ -20,7 +20,9 @@ function drawBackgroundColor() {
     	  objeto = e;
 
     	  objeto.sort(function (a, b) {
-  			return (a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[1] + b.data.split('-')[2]) ? 1 : ((b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
+  			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
+  					? 1 
+  					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
   		  });
     	  
     	  for(var i = 0; i<objeto.length; i++) {
@@ -66,7 +68,9 @@ function drawBackgroundColor() {
     	  var objeto1 = e;
 
     	  objeto1.sort(function (a, b) {
-    			return (a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[1] + b.data.split('-')[2]) ? 1 : ((b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
+    			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
+    					? 1 
+    					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
     	  });
     	  
     	  for(var i = 0; i<objeto1.length; i++) {
@@ -110,7 +114,9 @@ function drawBackgroundColor() {
     	  
     	  var objeto2 = e;
     	  objeto2.sort(function (a, b) {
-    			return (a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[1] + b.data.split('-')[2]) ? 1 : ((b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
+    			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
+    					? 1 
+    					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
     		  });
     	  
     	  for(var i = 0; i<objeto2.length; i++) {
