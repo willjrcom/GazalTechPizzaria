@@ -77,7 +77,7 @@ function verFuncionario() {
 				+ '</tr>'
 			+'</table>';
 	
-	linhaHtml += '<hr><label>Total a pago:</label><br>'
+	linhaHtml += '<hr><label>Total pago: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
 				+'<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>';
 	
 	$.alert({
@@ -99,3 +99,24 @@ function verFuncionario() {
 		}
 	});
 };
+
+
+//-------------------------------------------------------------------
+function aviso() {
+	$.alert({
+		type:'blue',
+		title:'Pagamento',
+		content:'Este campo é utilizado para descontar o valor que foi pago ao funcionário.'
+			+'<br><b>Pode ser usado para:</b>'
+			+'<br>&nbsp- Pagamentos diarios.'
+			+'<br>&nbsp- Pagamentos semanais.'
+			+'<br>&nbsp- Pagamentos mensais.',
+		buttons:{
+			confirm:{
+				text:'Voltar',
+				btnClass:'btn-success',
+				keys:['enter','esc']
+			}
+		}
+	});
+}

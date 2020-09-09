@@ -17,10 +17,6 @@ body{
     background-size: cover;
 }
 
-#login{
-	padding: 5vh;	
-}
-
 .elemento1{
 	position: absolute;
 	top: 50%;

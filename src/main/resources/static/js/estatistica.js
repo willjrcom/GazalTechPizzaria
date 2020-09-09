@@ -9,8 +9,8 @@ function drawBackgroundColor() {
 	  var objeto = {};
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'X');
-      data.addColumn('number', 'Vendas');
-      data.addColumn('number', 'Lucro');
+      data.addColumn('number', 'Bruto');
+      data.addColumn('number', 'Líquido');
 
       
       $.ajax({
@@ -26,7 +26,7 @@ function drawBackgroundColor() {
     	  for(var i = 0; i<objeto.length; i++) {
     		  if(objeto[i].totalVendas != 0) {
     			  dados.push([
-    			              (objeto[i].data.split('-')[1] + '/' + objeto[i].data.split('-')[2]),
+    			              (objeto[i].data.split('-')[2] + '/' + objeto[i].data.split('-')[1]),
     			              objeto[i].totalVendas,
     			              objeto[i].totalLucro
     			  ]);
@@ -72,7 +72,7 @@ function drawBackgroundColor() {
     	  for(var i = 0; i<objeto1.length; i++) {
     		  if(objeto1[i].totalVendas != 0) {
     			  dados1.push([
-    			              objeto1[i].data.split('-')[1] + '/' + objeto1[i].data.split('-')[2], 
+    			              objeto1[i].data.split('-')[2] + '/' + objeto1[i].data.split('-')[1], 
     			              objeto1[i].balcao, 
     			              objeto1[i].entregas
     			  ]);
@@ -116,7 +116,7 @@ function drawBackgroundColor() {
     	  for(var i = 0; i<objeto2.length; i++) {
     		  if(objeto2[i].totalVendas != 0) {
     			  dados2.push([
-    			              objeto2[i].data.split('-')[2] + '/' + objeto2[i].data.split('-')[2], 
+    			              objeto2[i].data.split('-')[2] + '/' + objeto2[i].data.split('-')[1], 
     			              objeto2[i].totalPizza, 
     			              objeto2[i].totalProduto
     			  ]);

@@ -25,10 +25,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="menu" id="esconderLogin">
-		<div class="elemento1">
-			<div class="corFundo centralizar" style="padding: 10px">
+		<div class="elemento1" >
+			<div class="corFundo centralizar" id="login">
 				
-				<img src="/img/logo.jpeg" class="logo" alt="logo"/>
+				<a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
+				<br><br>
+				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
 				<hr>
 				
 				<nav>
@@ -36,6 +38,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
 						<li><a th:href="@{/relatoriodia}"><span class="oi oi-bar-chart"></span> ADM</a></li>
 						<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> CADASTROS</a></li>
+						<li><a th:href="@{/pagamento}"><span class="oi oi-clipboard"></span> EMPRESA</a></li>
 						<li><a th:href="@{/sobre}"><span class="oi oi-wrench"></span> OPÇÕES</a>
 						<li><a th:href="@{/index}"><span class="oi oi-account-logout"></span> SAIR</a></li>
 					</ul>
@@ -86,11 +89,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li><a th:href="@{/relatoriodia}"><span class="oi oi-list"></span> Relatório do Dia</a></li>
+							<li><a th:href="@{/relatoriodia}"><span class="oi oi-list"></span> Relatório dos Pedidos</a></li>
+							<li><a th:href="@{/fechamento}"><span class="oi oi-bar-chart"></span> Fechamento do Dia</a></li>
 							<li><a th:href="@{/pedidosExcluidos}"><span class="oi oi-ban"></span> Pedidos Excluídos</a></li>
-							<li><a th:href="@{/fechamento}"><span class="oi oi-bar-chart"></span> Fechamento</a></li>
-							<li><a th:href="@{/estatistica}"><span class="oi oi-graph"></span> Estatistica</a></li>
-							<li><a th:href="@{/pagamento}"><span class="oi oi-credit-card"></span> Pagamento</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
@@ -122,6 +123,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li><a th:href="@{/cadastroProduto}"><span class="oi oi-plus"></span> Produto</a></li>
 							<li><a th:href="@{/funcionariosCadastrados}"><span class="oi oi-clipboard"></span> Funcionários</a>
 							<li><a th:href="@{/cadastroFuncionario}"><span class="oi oi-plus"></span> Funcionário</a></li>
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a onclick="calculadora()"><span class="oi oi-calculator"></span> Calculadora</a></li>
+			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
+		</ul>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</div><!-- /container -->
+	
+	
+	<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="empresa" class="container">
+		<ul id="gn-menu" class="gn-menu-main">
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li><a th:href="@{/pagamento}"><span class="oi oi-credit-card"></span> Pagamentos</a></li>
+							<li><a th:href="@{/compras}"><span class="oi oi-cart"></span> Compras</a></li>
+							<li><a th:href="@{/ficha}"><span class="oi oi-pie-chart"></span> Ficha Técnica</a></li>
+							<li><a th:href="@{/estatistica}"><span class="oi oi-graph"></span> Estatística</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>

@@ -15,15 +15,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Estatística</h1>		
 		<hr>
 		
- 		 <h2 align="center">Vendas/Faturamento</h2>
+ 		 <h2 align="center">Lucro Bruto/Líquido</h2>
  		 <div id="totalVendas"></div>
  		 <hr>
- 		 <h2 align="center">Entregas/Balcão</h2>
+ 		 <h2 align="center">Entrega/Balcão</h2>
  		 <div id="entregaBalcao"></div>
  		 <hr>
- 		 <h2 align="center">Pizzas/Produtos</h2>
+ 		 <h2 align="center">Pizza/Produto</h2>
  		 <div id="pizzaProduto"></div>
-  
 	</div>
 	
 	<br>
@@ -31,5 +30,5 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script th:src="@{/js/estatistica.js}"></script>
 </body>
 
-	<div th:replace="~{layouts/frag :: adm}"></div>
+	<div th:replace="~{layouts/frag :: empresa}"></div>
 </html>

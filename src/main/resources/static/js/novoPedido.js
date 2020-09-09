@@ -586,7 +586,6 @@ $(".removerPizza").click(function(e){
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#enviarPedido").click(function() {
-	console.log(cliente);
 	
 	if((Object.keys(produtos).length === 0 && $("#idCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#idCliente").text() == "")){
 		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
@@ -605,11 +604,11 @@ $("#enviarPedido").click(function() {
 		linhaHtml = '<table>';
 		if(pizzas.length != 0) {
 			linhaHtml += '<tr>'
-							+ '<th>Borda</th>'
-							+ '<th>Sabor</th>'
-							+ '<th>Obs</th>'
-							+ '<th>Qtd</th>'
-							+ '<th>Preço</th>'
+							+ '<th class="col-md-1"><h5>Borda</h5></th>'
+							+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+							+ '<th class="col-md-1"><h5>Obs</h5></th>'
+							+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+							+ '<th class="col-md-1"><h5>Preço</h5></th>'
 						+ '</tr>';
 			
 			for(var i=0; i<pizzas.length; i++){
@@ -627,10 +626,10 @@ $("#enviarPedido").click(function() {
 		linhaHtml += '<table>';
 		if(produtos.length != 0) {
 			linhaHtml += '<tr>'
-							+ '<th>Sabor</th>'
-							+ '<th>Obs</th>'
-							+ '<th>Qtd</th>'
-							+ '<th>Preço</th>'
+							+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+							+ '<th class="col-md-1"><h5>Obs</h5></th>'
+							+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+							+ '<th class="col-md-1"><h5>Preço</h5></th>'
 						+ '</tr>';
 			
 			for(var i=0; i<produtos.length; i++){
@@ -642,17 +641,34 @@ $("#enviarPedido").click(function() {
 						 +  '</tr>';
 			}
 		}
-		linhaHtml += '</table>'
-				 + '<hr>Total de Produtos: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido.toFixed(2) + '<br>Troco:'
-				 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
-				 + '<br>Deseja enviar o pedido?';
+		linhaHtml += '</table>';
+		
+		cliente.taxa = parseFloat(cliente.taxa);
+		
+		if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
+						+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
+						+ '<br><b>Taxa:</b> R$ ' + cliente.taxa.toFixed(2)
+						+ '<br><b>Total:</b> R$ ' + (tPedido + cliente.taxa).toFixed(2)
+						+'<br><br><b>Troco:</b>'
+						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + (tPedido + cliente.taxa) + '"/>'
+						 + '<br><b>Deseja enviar o pedido?</b>';
+		}else {
+			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
+					+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
+					+'<br><br><b>Troco:</b>'
+					+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '"/>'
+					+ '<br><b>Deseja enviar o pedido?</b>';
+		}
+		
+		linhaHtml +=
 		
 		//modal jquery confirmar
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],
-		    content: 'Produtos escolhidos' + linhaHtml,
+		    title: 'Pedido: ' + cliente.nomePedido,
+		    content: linhaHtml,
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
@@ -685,6 +701,10 @@ $("#enviarPedido").click(function() {
 							cliente.produtos = JSON.stringify(produtos);
 							cliente.pizzas = JSON.stringify(pizzas);
 							cliente.horaPedido = new Date;
+
+							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+								cliente.total += cliente.taxa;
+							}
 							
 							//salvar pedido
 							$.ajax({
@@ -719,6 +739,9 @@ $("#enviarPedido").click(function() {
 								
 							}).fail(function(e){
 								$.alert("Pedido não enviado!");
+								if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+									cliente.troco -= cliente.taxa;
+								}
 							});
 						});
 					}
