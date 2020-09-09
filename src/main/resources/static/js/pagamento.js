@@ -31,24 +31,147 @@ $.ajax({
 		$("#todosFuncionarios").html(pedidoVazio);
 	}else{
 		for(var i = 0; i<funcionarios.length; i++){
-			linhaHtml += '<tr>';
-			linhaHtml +=	'<td>' + funcionarios[i].id + '</td>';
-			linhaHtml +=	'<td>' + funcionarios[i].nome + '</td>';
-			linhaHtml +=	'<td>R$ ' + funcionarios[i].salario.toFixed(2) + '</td>';
-			linhaHtml +=	'<td>' + funcionarios[i].cargo + '</td>';
-			linhaHtml += '<td>' 
-						+ '<a class="enviarPedido">'
-						+ '<button type="button" title="finalizar" onclick="verFuncionario()" class="botao"'
-						+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>';			
-			linhaHtml += '</tr>';
-			linhaHtml += linhaCinza;
+			linhaHtml += '<tr>'
+							+ '<td>' + funcionarios[i].id + '</td>'
+							+ '<td>' + funcionarios[i].nome + '</td>'
+							+ '<td>R$ ' + funcionarios[i].salario.toFixed(2) + '</td>'
+							+ '<td>' + funcionarios[i].cargo + '</td>'
+							+ '<td>'
+								+'<div class="row">'
+									+'<div class="col-md-1">'
+										+'<a>'
+										+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
+										+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-clock"></span></button>'
+										+'</a>'
+									+'</div>'
+									
+									+'<div class="col-md-1">'
+										+'<a>'
+										+ '<button type="button" title="Adicionar Gastos" onclick="addGastos()" class="botao"'
+										+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-credit-card"></span></button>'
+										+'</a>'
+									+'</div>'
+									
+									+'<div class="col-md-1">'
+										+'<a>'
+										+ '<button type="button" title="Pagar" onclick="pagarSalario()" class="botao"'
+										+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-task"></span></button>'
+										+'</a>'
+									+'</div>'
+								+'</div>'
+							+'</td>'
+						+ '</tr>'
+							+ linhaCinza;
 		}
 		
 		$("#todosFuncionarios").html(linhaHtml);
 	}
 });	
 
-function verFuncionario() {
+
+//-------------------------------------------------------------------------
+function addHoras() {
+	
+	var botaoReceber = $(event.currentTarget);
+	var idProduto = botaoReceber.attr('value');
+	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
+	console.log(urlEnviar);
+	
+	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
+		if(funcionarios[i].id == idProduto){
+			var idBusca = i;
+		}
+	}
+	
+	linhaHtml = '<table>'
+				+ '<tr>'
+					+ '<th class="col-md-1"><h5>Horas Extra</h5></th>'
+					+ '<th class="col-md-1"><h5>Total</h5></th>'
+				+ '</tr>'
+		
+				+ '<tr>'
+					+ '<td> 5 </td>'
+					+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
+				+ '</tr>'
+			+'</table>';
+	
+	linhaHtml += '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
+				+'<input class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
+	
+	$.alert({
+		type: 'green',
+	    typeAnimated: true,
+	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+	    content: linhaHtml,
+	    buttons: {
+	        confirm: {
+				text: 'Adicionar Horas',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green'
+			},
+	        cancel:{
+				text: 'Voltar',
+	    		keys: ['esc'],
+	            btnClass: 'btn-danger'
+			}
+		}
+	});
+};
+
+
+
+//-------------------------------------------------------------------------
+function addGastos() {
+	
+	var botaoReceber = $(event.currentTarget);
+	var idProduto = botaoReceber.attr('value');
+	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
+	console.log(urlEnviar);
+	
+	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
+		if(funcionarios[i].id == idProduto){
+			var idBusca = i;
+		}
+	}
+	
+	linhaHtml = '<table>'
+				+ '<tr>'
+					+ '<th class="col-md-1"><h5>Gastos totais</h5></th>'
+					+ '<th class="col-md-1"><h5>Total</h5></th>'
+				+ '</tr>'
+		
+				+ '<tr>'
+					+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2)/2 + '</td>'
+					+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
+				+ '</tr>'
+			+'</table>';
+	
+	linhaHtml += '<hr><label>Total de gastos: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
+				+'<input class="form-control" id="gasto" name="gasto" placeholder="Digite o total a ser gasto"/>';
+	
+	$.alert({
+		type: 'green',
+	    typeAnimated: true,
+	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+	    content: linhaHtml,
+	    buttons: {
+	        confirm: {
+				text: 'Adicionar Gastos',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green'
+			},
+	        cancel:{
+				text: 'Voltar',
+	    		keys: ['esc'],
+	            btnClass: 'btn-danger'
+			}
+		}
+	});
+};
+
+
+//-------------------------------------------------------------------------
+function pagarSalario() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
@@ -83,11 +206,11 @@ function verFuncionario() {
 	$.alert({
 		type: 'green',
 	    typeAnimated: true,
-	    title: 'Pedido: ' + funcionarios[idBusca].nome,
+	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    buttons: {
 	        confirm: {
-				text: 'Pagar',
+				text: 'Pagar funcionário',
 	    		keys: ['enter'],
 	            btnClass: 'btn-green'
 			},
