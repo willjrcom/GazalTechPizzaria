@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/dev/**/**", "/dev/criar/**", "/gazaltech/**").permitAll()
+			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/dev/**/**", "/dev/criar/**", "/gazaltech/**", "/new-user").permitAll()
 			.anyRequest().authenticated()
 			
 			.and()
@@ -38,8 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.accessDeniedPage("/acessoNegado")
 			.and()
 				.csrf().disable();
-			
-				
 	}
 
 	 /* To allow Pre-flight [OPTIONS] request from browser */
