@@ -83,7 +83,7 @@ if(typeof url_atual == "undefined") {
 				
 			//adicionar cliente
 			$("#idCliente").text(cliente.id);
-			$("#nomeCliente").text(cliente.nomePedido).css('background-color', '#D3D3D3');
+			$("#nomeCliente").text(cliente.nomePedido);
 			$("#celCliente").text(cliente.celular);
 			$("#enderecoCliente").text(cliente.endereco);
 			$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa + ',00');

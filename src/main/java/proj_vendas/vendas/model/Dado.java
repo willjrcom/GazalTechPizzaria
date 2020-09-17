@@ -34,6 +34,7 @@ public class Dado implements Serializable {
 	private double trocoInicio = 0;
 	private double trocoFinal = 0;
 	private int totalPedidos = 0;
+	private int comanda = 0;
 	
 	@Lob
 	private String compras;
@@ -132,6 +133,14 @@ public class Dado implements Serializable {
 
 	public void setCompras(String compras) {
 		this.compras = compras;
+	}
+
+	public int getComanda() {
+		return comanda;
+	}
+
+	public void setComanda(int comanda) {
+		this.comanda = comanda;
 	}
 	
 }
