@@ -20,7 +20,7 @@ public class HomeController {
 		if(usuario == null) {
 			service.salvarUsuarioDev();
 		}*/
-		return new ModelAndView("menu");
+		return new ModelAndView("index");
 	}
 	/*
 	public UsuarioService getService() {

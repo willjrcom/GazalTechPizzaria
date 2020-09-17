@@ -17,29 +17,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<br>
 		<div class="form-group">
-			<label>Código de busca:<br/></label>
+			<label>Código de busca: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
 			<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus" required/>
 		</div>
 		
 		<div class="form-group">
-			<label>Nome do produto:<br/></label>
+			<label>Nome do produto:<br></label>
 			<input type="text" class="form-control pula" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" required/>
 		</div>
 		
 		<div class="form-row">
 			<div class="form-group col-md-6">
-				<label>Preço:<br/></label>
+				<label>Preço:<br></label>
 				<input type="text" class="form-control preco pula" id="preco" name="preco" placeholder="Preço" required/>
 			</div>
 			<div class="form-group col-md-6">
-				<label>Custo(opcional):<br/></label>
+				<label>Custo:<br></label>
 				<input type="text" class="form-control preco pula" id="custo" name="custo" placeholder="Total em custo"/>
 			</div>
 		</div>
 		
 		<div class="form-group">
-			<label>Setor:</label>
-			<p><b>OBS: </b>Apenas o setor (Pizza) aparece na tela de cozinha!<br></p>
+			<label>Setor: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label>
 			<select class="form-control pula" id="setor" name="setor" required>
 				<option value="PIZZA">Pizza</option>
 				<option value="BORDA">Borda</option>
@@ -51,19 +50,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div>
 			<input type="checkbox" class="form-group" checked/>
-			<label>Disponivel hoje no cardapio? (Altere sempre que necessário).</label>
-			<p>Este campo foi criado para esconder o produto do cardapio.
-			Assim quando não estiver disponivel, o cliente não pode ve-lo.</p>
+			<label>Disponivel hoje no cardapio? (Altere sempre que necessário).
+			 <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label>
 		</div>
 		<br>
 		<div class="form-group">
-			<label>Descrição do produto:<br/></label>
-			<textarea class="form-control pula" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto (Ela pode ser vista na tela de cozinha ao clicar na interrogação [ ? ] )" ></textarea>  
+			<label>Descrição do produto: <button class="btn btn-link" onclick="aviso3()"><span class="oi oi-question-mark"></span></button></label>
+			<textarea class="form-control pula" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto"></textarea>  
 		</div>
 		
 		<br>
-		<button type="button" class="form-contact-button pula" id="enviar" name="enviar">Enviar</button>  
-		<button type="button" class="form-contact-button" id="atualizar" name="enviar">Atualizar</button>  
+		<button type="button" class="form-contact-button pula" id="enviar" name="enviar">Cadastrar</button>  
+		<button type="button" class="form-contact-button" id="atualizar" name="atualizar">Atualizar</button>  
 	</div>
 	
 	<br>

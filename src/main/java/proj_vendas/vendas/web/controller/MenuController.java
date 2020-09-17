@@ -53,7 +53,13 @@ public class MenuController {
 		
 		//alterar a tabela dia
 		Dia data = dias.buscarId1();
+		
+		if(data == null) {
+			data = new Dia();
+		}
 		data.setDia(dia);
+		
+		//salvar dados
 		dias.save(data);
 		return dados.save(dado);
 	}
@@ -68,5 +74,12 @@ public class MenuController {
 	@ResponseBody
 	public Dado alterarTroco(@RequestBody Dado dado) {
 		return dados.save(dado);
+	}
+	
+
+	@RequestMapping(value = "/mostrarDia", method = RequestMethod.PUT)
+	@ResponseBody
+	public Dia MostrarDia() {
+		return dias.buscarId1();
 	}
 }

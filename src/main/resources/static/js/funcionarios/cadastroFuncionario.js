@@ -128,13 +128,13 @@ $("#enviar").click(function() {
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Funcionario: ' + $("#nome").val().split(' ')[0],
+		    title: 'Funcionário: ' + $("#nome").val(),
+            content: "Cadastrar funcionário?",
 		    buttons: {
 		        confirm: {
-		            text: 'Enviar',
+		            text: 'Cadastrar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
-		            content: "Deseja enviar?",
 		            action: function(){
 						$.ajax({
 							url: "/cadastroFuncionario/cadastrar",
@@ -147,20 +147,12 @@ $("#enviar").click(function() {
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
-								content: "Funcionario cadastrado",
+								content: "Funcionário cadastrado",
 								buttons: {
-							        confirm: {
-							            text: 'Novo pedido',
-							            btnClass: 'btn-green',
-							            keys: ['enter'],
-							            action: function(){
-											window.location.href = "/novoPedido";
-										}
-									},
-									cancel: {
-										text: 'Continuar cadastros',
+									confirmar: {
+										text: 'Recarregar',
 							            btnClass: 'btn-blue',
-							            keys: ['esc'],
+							            keys: ['esc', 'enter'],
 							            action: function(){
 											document.location.reload(true);
 										}
@@ -173,7 +165,7 @@ $("#enviar").click(function() {
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Funcionario não cadastrado!"
+								content: "Funcionário não cadastrado!"
 							});
 						});
 					}
@@ -217,14 +209,13 @@ $("#atualizar").click(function() {
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Funcionario: ' + funcionario.nome.split(' ')[0],
-			content: "Atualizar?",
+		    title: 'Funcionário: ' + funcionario.nome,
+			content: "Atualizar cadastro?",
 		    buttons: {
 		        confirm: {
 		            text: 'Atualizar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
-		            content: "Deseja enviar?",
 		            action: function(){
 						$.ajax({
 							url: "/cadastroFuncionario/atualizarCadastro/" + url_atual,
@@ -237,20 +228,12 @@ $("#atualizar").click(function() {
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
-								content: "Funcionario Atualizado",
+								content: "Funcionário Atualizado",
 								buttons: {
-							        confirm: {
-							            text: 'Novo pedido',
-							            btnClass: 'btn-green',
-							            keys: ['enter'],
-							            action: function(){
-											window.location.href = "/novoPedido";
-										}
-									},
 									cancel: {
 										text: 'voltar a busca',
 							            btnClass: 'btn-blue',
-							            keys: ['esc'],
+							            keys: ['esc', 'enter'],
 							            action: function(){
 											window.location.href = "/funcionariosCadastrados";
 										}
@@ -263,7 +246,7 @@ $("#atualizar").click(function() {
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Funcionario não atualizado!"
+								content: "Funcionário não atualizado!"
 							});
 						});
 					}

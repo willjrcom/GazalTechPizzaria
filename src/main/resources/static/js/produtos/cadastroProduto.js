@@ -57,7 +57,8 @@ $("#enviar").click(function() {
 	
 	if($("#codigoBusca").val() != '' 
 	&& $("#nomeProduto").val() != ''
-	&& $("#preco").val() != '') {
+	&& $("#preco").val() != ''
+	&& $("#custo").val() != '') {
 		
 		setProduto();
 		
@@ -67,12 +68,12 @@ $("#enviar").click(function() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Produto: ' + produto.nomeProduto,
+		    content: 'Cadastrar produto?',
 		    buttons: {
 		        confirm: {
-		            text: 'Enviar',
+		            text: 'Cadastrar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
-		            content: "Deseja enviar?",
 		            action: function(){
 						$.ajax({
 							url: "/cadastroProduto/cadastrar",
@@ -87,18 +88,10 @@ $("#enviar").click(function() {
 								title: 'Sucesso!',
 								content: "Produto cadastrado",
 								buttons: {
-							        confirm: {
-							            text: 'Novo pedido',
-							            btnClass: 'btn-green',
-							            keys: ['enter'],
-							            action: function(){
-											window.location.href = "/novoPedido";
-										}
-									},
-									cancel: {
+									confirm: {
 										text: 'Continuar cadastros',
 							            btnClass: 'btn-blue',
-							            keys: ['esc'],
+							            keys: ['esc','enter'],
 							            action: function(){
 											document.location.reload(true);
 										}
@@ -132,7 +125,8 @@ $("#atualizar").click(function() {
 	
 	if($("#codigoBusca").val() != '' 
 	&& $("#nomeProduto").val() != ''
-	&& $("#preco").val() != '') {
+	&& $("#preco").val() != ''
+	&& $("#custo").val() != '') {
 		
 		setProduto();
 		
@@ -142,7 +136,7 @@ $("#atualizar").click(function() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Produto: ' + produto.nomeProduto,
-			content: "Atualizar?",
+			content: "Atualizar cadastro?",
 		    buttons: {
 		        confirm: {
 		            text: 'Atualizar',
@@ -163,18 +157,10 @@ $("#atualizar").click(function() {
 								title: 'Sucesso!',
 								content: "Produto Atualizado",
 								buttons: {
-							        confirm: {
-							            text: 'Novo pedido',
-							            btnClass: 'btn-green',
-							            keys: ['enter'],
-							            action: function(){
-											window.location.href = "/novoPedido";
-										}
-									},
-									cancel: {
+									confirm: {
 										text: 'voltar a busca',
 							            btnClass: 'btn-blue',
-							            keys: ['esc'],
+							            keys: ['esc', 'enter'],
 							            action: function(){
 											window.location.href = "/produtosCadastrados";
 										}
@@ -201,3 +187,74 @@ $("#atualizar").click(function() {
 		});
 	}
 });
+
+
+//----------------------------------------------------------------------------
+function aviso() {
+	$.alert({
+		type: 'blue',
+		title: 'Aviso!',
+		content: 'O código de busca é utilizado para facilitar a busca do produto da tela de novo pedido.',
+		buttons:{
+			confirm:{
+				text: 'Obrigado!',
+				btnClass: 'btn-primary',
+				keys: ['esc', 'enter']
+			}
+		}
+	});
+}
+
+
+//----------------------------------------------------------------------------
+function aviso1() {
+	$.alert({
+		type: 'blue',
+		title: 'Aviso!',
+		content: 'Apenas o setor (Pizza) aparece na tela de cozinha!',
+		buttons:{
+			confirm:{
+				text: 'Obrigado!',
+				btnClass: 'btn-primary',
+				keys: ['esc', 'enter']
+			}
+		}
+	});
+}
+
+
+//-----------------------------------------------------------------------------
+function aviso2() {
+	$.alert({
+		type: 'blue',
+		title: 'Aviso!',
+		content: '- Este campo foi criado para esconder o produto do cardapio.'
+			+ '<br><br>- Assim quando não estiver disponivel para venda, o cliente não pode ve-lo no tablet.'
+			+ '<br><br>- Nem o funcionário na tela de novo pedido.',
+		buttons:{
+			confirm:{
+				text: 'Obrigado!',
+				btnClass: 'btn-primary',
+				keys: ['esc', 'enter']
+			}
+		}
+	});
+}
+
+
+//-----------------------------------------------------------------------------
+function aviso3() {
+	$.alert({
+		type: 'blue',
+		title: 'Aviso!',
+		content: 'A descrição do produto pode ser vista na tela de cozinha ao clicar na [?].'
+			+'<br><br>Assim o pizzaiolo terá agilidade para ver qual os ingredientes da pizza.',
+		buttons:{
+			confirm:{
+				text: 'Obrigado!',
+				btnClass: 'btn-primary',
+				keys: ['esc', 'enter']
+			}
+		}
+	});
+}

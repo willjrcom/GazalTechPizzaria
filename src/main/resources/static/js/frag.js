@@ -19,11 +19,11 @@ function calendario() {
 function calculadora() {
 	$.alert({
 		type:'blue',
-		title: 'Calendário',
-		content:'1+1=2',
+		title: 'Calculadora',
+		content:'Em desenvolvimento',
 		buttons:{
 			confirm:{
-				text:'Obrigado!',
+				text:'aguarde!',
 				btnClass:'btn-success',
 				keys:['esc','enter']
 			}

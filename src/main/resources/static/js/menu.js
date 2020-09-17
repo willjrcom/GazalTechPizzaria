@@ -1,12 +1,32 @@
 var dados = {};
 
 //-----------------------------------------------------
+function verData() {
+	$.ajax({
+		url: '/menu/mostrarDia',
+		type: 'PUT'
+	}).done(function(e){
+		var hoje = new Date();
+		
+		if(	(hoje.getDate() == e.dia.split('-')[2])
+		&&	((hoje.getMonth() + 1) == e.dia.split('-')[1])
+		&&	(hoje.getFullYear() == e.dia.split('-')[0])) {
+			$("#data").text('Hoje');
+		}else {
+			$("#data").text(e.dia.split('-')[2] + '/' + e.dia.split('-')[1] + '/' + e.dia.split('-')[0]);
+		}
+	});
+}
+verData();
+
+
+//-----------------------------------------------------
 $("#data").click(function(){
 	//alterar data
 	$.confirm({
 		type: 'blue',
 		title: 'Data de acesso:',
-		content: 'Dia: dd/mm/aaaa<br><input type="date" name="dia" id="dia" placeholder="Digite a data de acesso" required/>',
+		content: 'Dia:<br><input type="date" name="dia" id="dia" class="form-control" placeholder="Digite a data de acesso"/>',
 		buttons: {
 	        confirm: {
 	            text: 'Acessar',
@@ -20,18 +40,20 @@ $("#data").click(function(){
 						url: '/menu/verificarData/' + dados.data,
 						type: 'PUT'
 					}).done(function(e){
-						console.log(e.length);
 						
 						if(e.length != 0) {
 							$.ajax({
 								url: '/menu/acessarData/' + dados.data,
 								type: 'PUT'
 							}).done(function(e){
+								verData();
 								
 								$.alert({
 									type: 'green',
 									title: 'Sucesso!',
-									content: 'Data: ' + dados.data + ' acessado',
+									content: 'Data: ' + dados.data.split('-')[2] + '/'
+											          + dados.data.split('-')[1] + '/'
+											          + dados.data.split('-')[0] + ' acessado',
 									buttons:{
 										confirm:{
 											text:'Alterar troco',
@@ -64,15 +86,26 @@ $("#data").click(function(){
 								url: '/menu/criarData/' + dados.data,
 								type: 'PUT'
 							}).done(function(e){
+								verData();
+								
 								$.alert({
 									type: 'green',
 									title: 'Sucesso!',
-									content: 'Data: ' + dados.data + ' criado',
+									content: 'Data: ' + dados.data.split('-')[2] + '/'
+													  + dados.data.split('-')[1] + '/'
+													  + dados.data.split('-')[0] + ' criada',
 									buttons:{
-										confirm:{
-											text:'Continuar',
-											btnClass: 'btn-green'
-										}
+									confirm:{
+									text:'Alterar troco',
+									btnClass: 'btn-green',
+									action: function(){
+										troco();
+									}
+								},
+								cancel:{
+									text:'Continuar',
+									btnClass: 'btn-danger'
+								}
 									}
 								});
 							}).fail(function(){
@@ -89,6 +122,7 @@ $("#data").click(function(){
 								});
 							});
 						}
+						
 					}).fail(function(){
 						$.alert("Falha no acesso!");
 					});
@@ -109,7 +143,7 @@ function troco() {
 	$.alert({
 		type: 'blue',
 		title: '<span class="oi oi-dollar"></span>Alterar troco',
-		content: '<input type="text" id="troco" value="0"/>',
+		content: '<input type="text" class="form-control" id="troco"/>',
 		buttons:{
 			confirm:{
 				text:'Alterar troco',

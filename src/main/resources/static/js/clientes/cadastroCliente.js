@@ -93,10 +93,10 @@ $("#enviar").click(function() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Cliente: ' + $("#nome").val().split(' ')[0],
-		    content: 'Deseja continuar?',
+		    content: 'Cadastrar cliente?',
 		    buttons: {
 		        confirm: {
-		            text: 'Enviar',
+		            text: 'Cadastrar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            content: "Deseja enviar?",
@@ -123,7 +123,7 @@ $("#enviar").click(function() {
 										}
 									},
 									cancel: {
-										text: 'Continuar cadastros',
+										text: 'Recarregar',
 							            btnClass: 'btn-blue',
 							            keys: ['esc'],
 							            action: function(){
@@ -174,7 +174,7 @@ $("#atualizar").click(function() {
 			type: 'green',
 		    typeAnimated: true,
 		    title: 'Cliente: ' + cliente.nome.split(' ')[0],
-			content: "Atualizar?",
+			content: "Atualizar cliente?",
 		    buttons: {
 		        confirm: {
 		            text: 'Atualizar',

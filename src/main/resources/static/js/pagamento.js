@@ -2,7 +2,7 @@
 var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="6">Nenhum Funcinário encontrado!</td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum Funcionário encontrado!</td></tr>';
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
