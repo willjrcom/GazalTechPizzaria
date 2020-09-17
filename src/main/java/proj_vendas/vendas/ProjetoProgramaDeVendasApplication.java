@@ -2,14 +2,13 @@ package proj_vendas.vendas;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 //@ImportResource(locations = "classpath:dwr-spring.xml")
 @SpringBootApplication
 public class ProjetoProgramaDeVendasApplication {
 
 	public static void main(String[] args) {
-		System.out.println(new BCryptPasswordEncoder().encode("root"));
+
 		SpringApplication.run(ProjetoProgramaDeVendasApplication.class, args);
 	}
 	/*

@@ -1,33 +1,26 @@
 package proj_vendas.vendas.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Usuario;
-import proj_vendas.vendas.repository.Usuarios;
-
 @Controller
 public class HomeController {
-	
+	/*
 	@Autowired
 	private Usuarios usuarios;
-/*
+
 	@Autowired
 	private UsuarioService service;
-	
-	@Autowired
-	private Usuarios usuarios;
 	*/
+	
 	@GetMapping({"/index"})
 	public ModelAndView home() {
 		/*Usuario usuario = usuarios.findByEmail("williamjunior67@gmail.com");
 		if(usuario == null) {
 			service.salvarUsuarioDev();
 		}*/
-		return new ModelAndView("index");
+		return new ModelAndView("menu");
 	}
 	/*
 	public UsuarioService getService() {
@@ -38,7 +31,7 @@ public class HomeController {
 		this.service = service;
 	}*/
 	
-
+	/*
 	@GetMapping({"/new-user"})
     public ModelAndView newUser() {
 		String nome = "willjrcom";
@@ -56,4 +49,5 @@ public class HomeController {
         }
     	return new ModelAndView("index");
     }
+    */
 }
