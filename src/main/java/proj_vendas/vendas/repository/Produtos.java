@@ -19,4 +19,6 @@ public interface Produtos extends JpaRepository<Produto, Long>{
 	
 	@Query("select p from Produto p where p.setor = 'BORDA'")
 	List<Produto> findAllProduto();
+
+	List<Produto> findByNomeProdutoContainingAndDisponivelOrCodigoBuscaAndDisponivel(String nome, boolean i, String nome2, boolean j);
 }

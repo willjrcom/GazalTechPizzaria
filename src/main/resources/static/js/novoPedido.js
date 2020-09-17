@@ -587,9 +587,9 @@ $(".removerPizza").click(function(e){
 //------------------------------------------------------------------------------------------------------------------------
 $("#enviarPedido").click(function() {
 	
-	if((Object.keys(produtos).length === 0 && $("#idCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#idCliente").text() == "")){
+	if((Object.keys(produtos).length === 0 && $("#nomeCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#nomeCliente").text() == "")){
 		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
-	}else if($("#idCliente").text() == ""){
+	}else if($("#nomeCliente").text() == ""){
 		alert("Nenhum cliente adicionado!");
 	}else if(Object.keys(produtos).length === 0 && Object.keys(pizzas).length === 0){
 		alert("Nenhum produto adicionado!");	
@@ -643,20 +643,18 @@ $("#enviarPedido").click(function() {
 		}
 		linhaHtml += '</table>';
 		
-		cliente.taxa = parseFloat(cliente.taxa);
-		
 		if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
 			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
 						+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
-						+ '<br><b>Taxa:</b> R$ ' + cliente.taxa.toFixed(2)
-						+ '<br><b>Total:</b> R$ ' + (tPedido + cliente.taxa).toFixed(2)
-						+'<br><br><b>Troco:</b>'
-						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + (tPedido + cliente.taxa) + '"/>'
+						+ '<br><b>Taxa:</b> R$ ' + parseFloat(cliente.taxa).toFixed(2)
+						+ '<br><b>Total:</b> R$ ' + (parseFloat(tPedido) + parseFloat(cliente.taxa)).toFixed(2)
+						+'<br><br><b>Receber:</b>'
+						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + (parseFloat(tPedido) + parseFloat(cliente.taxa)).toFixed(2) + '"/>'
 						 + '<br><b>Deseja enviar o pedido?</b>';
 		}else {
 			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
 					+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
-					+'<br><br><b>Troco:</b>'
+					+'<br><br><b>Receber:</b>'
 					+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '"/>'
 					+ '<br><b>Deseja enviar o pedido?</b>';
 		}
@@ -762,9 +760,9 @@ $("#enviarPedido").click(function() {
 $("#atualizarPedido").click(function() {
 	console.log(cliente);
 	
-	if((Object.keys(produtos).length === 0 && $("#idCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#idCliente").text() == "")){
+	if((Object.keys(produtos).length === 0 && $("#nomeCliente").text() == "") || (Object.keys(pizzas).length === 0 && $("#nomeCliente").text() == "")){
 		alert("Nenhum produto adicionado!\nNenhum cliente adicionado!");
-	}else if($("#idCliente").text() == ""){
+	}else if($("#nomeCliente").text() == ""){
 		alert("Nenhum cliente adicionado!");
 	}else if(Object.keys(produtos).length === 0 && Object.keys(pizzas).length === 0){
 		alert("Nenhum produto adicionado!");	
@@ -819,22 +817,29 @@ $("#atualizarPedido").click(function() {
 						 +  '</tr>';
 			}
 		}
-		linhaHtml += '</table>'
-				 + '<hr>Total de Produtos: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + tPedido.toFixed(2) + '<br>Troco:'
-				 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '" required />'
-				 + '<br><label>Enviar para cozinha? &nbsp;</label>'
-				 + '<select name="filtro" id="cozinha">'
-				 	+ '<option value="sim">Sim</option>'
-					+ '<option value="nao">Não</option>'
-				+'</select>'
-				 + '<br>Deseja enviar o pedido?';
-		
+		linhaHtml += '</table>';
+
+		if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
+						+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
+						+ '<br><b>Taxa:</b> R$ ' + parseFloat(cliente.taxa).toFixed(2)
+						+ '<br><b>Total:</b> R$ ' + (parseFloat(tPedido) + parseFloat(cliente.taxa)).toFixed(2)
+						+'<br><br><b>Receber:</b>'
+						 + '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + (parseFloat(tPedido) + parseFloat(cliente.taxa)).toFixed(2) + '"/>'
+						 + '<br><b>Deseja enviar o pedido?</b>';
+		}else {
+			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
+					+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
+					+'<br><br><b>Receber:</b>'
+					+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '"/>'
+					+ '<br><b>Deseja enviar o pedido?</b>';
+		}
 		
 		//modal jquery confirmar
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
-		    title: 'Pedido: ' + cliente.nomePedido.split(' ')[0],
+		    title: 'Pedido: ' + cliente.nomePedido,
 		    content: 'Produtos escolhidos: ' + linhaHtml,
 		    buttons: {
 		        confirm: {
@@ -886,6 +891,9 @@ $("#atualizarPedido").click(function() {
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
+							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+								cliente.troco -= cliente.taxa;
+							}
 						});
 					}
 		        },

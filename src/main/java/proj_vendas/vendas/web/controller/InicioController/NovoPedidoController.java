@@ -62,7 +62,7 @@ public class NovoPedidoController {
 		if(nome.equals("todos")) {
 			return produtos.findAll();
 		}
-		return produtos.findByNomeProdutoContainingOrCodigoBusca(nome,nome);
+		return produtos.findByNomeProdutoContainingAndDisponivelOrCodigoBuscaAndDisponivel(nome, true, nome, true);
 	}
 	
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})

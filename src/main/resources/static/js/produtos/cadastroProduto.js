@@ -24,6 +24,7 @@ if(typeof url_atual == "undefined") {
 		produto.custo = e.custo;
 		produto.setor = e.setor;
 		produto.descricao = e.descricao;
+		produto.disponivel = e.disponivel;
 		
 		//cliente
 		$("#id").val(produto.id);
@@ -33,6 +34,7 @@ if(typeof url_atual == "undefined") {
 		$("#custo").val(produto.custo);
 		$("#setor").val(produto.setor);
 		$("#descricao").val(produto.descricao);
+
 		
 	}).fail(function(){
 		$.alert("Produto não encontrado!");
@@ -48,6 +50,12 @@ function setProduto() {
 	produto.custo = $("#custo").val();
 	produto.setor = $("#setor").val();
 	produto.descricao = $("#descricao").val();
+	
+	if($("#disponivel:checked").val() == 'on') {
+		produto.disponivel = true;
+	}else {
+		produto.disponivel = false;
+	}
 }
 
 
