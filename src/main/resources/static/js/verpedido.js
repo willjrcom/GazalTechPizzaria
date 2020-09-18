@@ -5,6 +5,7 @@ var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido em aberto!</td></tr>';
 var Tpedidos = 0;
 var tPizzas = 0;
+var imprimirTxt;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
@@ -170,16 +171,24 @@ function verPedido() {
 				+ '<br><b>Status:</b> ' + pedidos[idBusca].status
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
 	
-	$.alert({
+	$.confirm({
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: linhaHtml,
 	    buttons: {
-	        confirm: {
+			confirm: {
+				text: 'Imprimir',
+		        btnClass: 'btn-warning',
+		        action: function(){
+					imprimir(pedidos[idBusca]);
+				}
+			},
+	        cancel: {
 				text: 'Voltar',
-	    		keys: ['enter'],
+	    		keys: ['enter','esc'],
 	            btnClass: 'btn-green',
 			}
+	        
 		}
 	});
 };
@@ -340,3 +349,21 @@ setInterval(function (){
 	buscarPedido();
 },5000);
 
+
+function imprimir(cliente) {
+	imprimirTxt = '<h1 align="center">Gazal Tech</h1>'
+				+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
+				+ '<h3>Cliente: ' + cliente.nomePedido + '</h3>';
+	if(cliente.envio == 'ENTREGA') {
+		imprimirTxt += '<p>Celular: ' + cliente.celular
+					+ '<br>Endereço: ' + cliente.endereco
+					+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
+	}
+	imprimirTxt += 'Data do pedido: ' + cliente.horaPedido
+				+ '<hr>' + linhaHtml;
+	
+	tela_impressao = window.open('about:blank');
+	   tela_impressao.document.write(imprimirTxt);
+	   tela_impressao.window.print();
+	   tela_impressao.window.close();
+}
