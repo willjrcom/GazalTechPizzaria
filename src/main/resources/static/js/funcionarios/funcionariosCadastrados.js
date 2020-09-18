@@ -8,7 +8,6 @@ $("#todosFuncionarios").html(pedidoVazio);
 
 $("#buscar").click(function(){
 	var nome = $("#nomeBusca").val();
-	console.log(nome);
 	
 	$.ajax({
 		url: '/funcionariosCadastrados/buscar/' + nome,
@@ -111,7 +110,6 @@ function verFuncionario() {
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Funcionario: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
@@ -132,7 +130,6 @@ function editarFuncionario() {
 	var botaoReceber = $(event.currentTarget);
 	var idFuncionario = botaoReceber.attr('value');
 	var urlEnviar = "/cadastroFuncionario/editar/" + idFuncionario.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idFuncionario){
@@ -142,7 +139,6 @@ function editarFuncionario() {
 	
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
 	    title: 'Funcionario: ' + funcionarios[idBusca].nome,
 	    content: 'Tenha certeza do que você está fazendo!<br>',
 	    buttons: {
@@ -177,7 +173,6 @@ function excluirFuncionario() {
 	var botaoReceber = $(event.currentTarget);
 	var idFuncionario = botaoReceber.attr('value');
 	var urlEnviar = "/funcionariosCadastrados/excluirFuncionario/" + idFuncionario.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idFuncionario){
@@ -188,7 +183,6 @@ function excluirFuncionario() {
 			
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
 	    title: 'Funcionario: ' + funcionarios[idBusca].nome.split(' ')[0],
 	    content: 'Deseja apagar o funcionario?',
 	    buttons: {
@@ -200,7 +194,6 @@ function excluirFuncionario() {
 		
 					$.confirm({
 						type: 'red',
-					    typeAnimated: true,
 					    title: 'APAGAR FUNCIONARIO!',
 					    content: 'Tem certeza?' + inputApagar,
 					    buttons: {
@@ -220,7 +213,6 @@ function excluirFuncionario() {
 										}).done(function(){		
 											$.alert({
 												type: 'green',
-											    typeAnimated: true,
 											    title: 'Funcionario apagado!',
 											    content: 'Espero que dê tudo certo!',
 											    buttons: {
@@ -239,7 +231,6 @@ function excluirFuncionario() {
 									}else {
 										$.alert({
 											type: 'red',
-										    typeAnimated: true,
 										    title: 'Texto incorreto!',
 										    content: 'Pense bem antes de apagar um funcionario!',
 										    buttons: {

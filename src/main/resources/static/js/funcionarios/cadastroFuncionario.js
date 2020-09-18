@@ -4,19 +4,16 @@ var url_atual = window.location.href;
 url_atual = url_atual.split("/")[5];
 
 if(typeof url_atual == "undefined") {
-	console.log("nao existe");
 	$("#atualizar").hide();
 }else {
 	$("#enviar").hide();
 	$("#divCpf").hide();
-	console.log(url_atual);
 	urlEnviar = "/cadastroFuncionario/editarFuncionario/" + url_atual;
 	
 	$.ajax({
 		url: urlEnviar,
 		type: 'PUT',
 	}).done(function(e){
-		console.log(e);
 		
 		//receber valores do servidor
 		funcionario.id = e.id;
@@ -123,8 +120,6 @@ $("#enviar").click(function() {
 		
 		setFuncionario();
 		
-		console.log(funcionario);
-		
 		$.confirm({
 			type: 'green',
 		    typeAnimated: true,
@@ -204,11 +199,8 @@ $("#atualizar").click(function() {
 		setFuncionario();
 		funcionario.endereco.id = id_endereco;
 		
-		console.log(funcionario);
-		
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Funcionário: ' + funcionario.nome,
 			content: "Atualizar cadastro?",
 		    buttons: {

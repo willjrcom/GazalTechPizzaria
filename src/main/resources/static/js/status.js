@@ -23,7 +23,6 @@ function buscarPedidos() {
 		type: 'PUT'
 	})
 	.done(function(e){
-		console.log(e);
 		
 		for(var i = 0; i< e.length; i++){
 			if(e[i].status == "PRONTO" || e[i].status == "COZINHA" || e[i].status == "MOTOBOY"){
@@ -51,7 +50,6 @@ function buscarPedidos() {
 		$("#todosPedidos").html("");
 		filtro = $("#filtro").val();
 		linhaHtml = "";
-		console.log(filtro);
 		
 		if(pedidos.length == 0 ){
 			$("#todosPedidos").html(pedidoVazio);

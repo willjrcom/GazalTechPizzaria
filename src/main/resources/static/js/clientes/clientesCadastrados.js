@@ -8,13 +8,11 @@ $("#todosClientes").html(pedidoVazio);
 
 $("#buscar").click(function(){
 	var nome = $("#nomeBusca").val();
-	console.log(nome);
 	
 	$.ajax({
 		url: '/clientesCadastrados/buscar/' + nome,
 		type: 'PUT'
 	}).done(function(e){
-		console.log(e);
 		clientes = [];
 		for(var i = 0; i<e.length; i++) {
 			clientes.unshift({
@@ -128,7 +126,6 @@ function editarCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
 	var urlEnviar = "/cadastroCliente/editar/" + idCliente.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
 		if(clientes[i].id == idCliente){
@@ -138,7 +135,6 @@ function editarCliente() {
 	
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
 	    title: 'Cliente: ' + clientes[idBusca].nome,
 	    content: 'Tenha certeza do que você está fazendo!<br>',
 	    buttons: {
@@ -173,7 +169,6 @@ function excluirCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
 	var urlEnviar = "/clientesCadastrados/excluirCliente/" + idCliente.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
 		if(clientes[i].id == idCliente){
@@ -184,8 +179,7 @@ function excluirCliente() {
 			
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
-	    title: 'Cliente: ' + clientes[idBusca].nome.split(' ')[0],
+	    title: 'Cliente: ' + clientes[idBusca].nome,
 	    content: 'Deseja apagar o cliente?',
 	    buttons: {
 	        confirm: {
@@ -196,7 +190,6 @@ function excluirCliente() {
 		
 					$.confirm({
 						type: 'red',
-					    typeAnimated: true,
 					    title: 'APAGAR CLIENTE!',
 					    content: 'Tem certeza?' + inputApagar,
 					    buttons: {
@@ -216,7 +209,6 @@ function excluirCliente() {
 										}).done(function(){		
 											$.alert({
 												type: 'green',
-											    typeAnimated: true,
 											    title: 'Cliente apagado!',
 											    content: 'Espero que dê tudo certo!',
 											    buttons: {
@@ -235,7 +227,6 @@ function excluirCliente() {
 									}else {
 										$.alert({
 											type: 'red',
-										    typeAnimated: true,
 										    title: 'Texto incorreto!',
 										    content: 'Pense bem antes de apagar um cliente!',
 										    buttons: {

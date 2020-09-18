@@ -35,7 +35,7 @@ $("#data").click(function(){
 	            action: function(){
 					
 					dados.data = this.$content.find('#dia').val();
-					console.log('dia: ' + dados.data);
+
 					$.ajax({
 						url: '/menu/verificarData/' + dados.data,
 						type: 'PUT'
@@ -151,7 +151,7 @@ function troco() {
 				action: function(){	
 	
 					var troco = this.$content.find('#troco').val();
-					console.log('troco: ' +troco);
+
 					if(troco % 2 != 0 && troco % 2 != 1) {
 						$.alert({
 							type:'red',

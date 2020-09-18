@@ -149,26 +149,16 @@
 			<div class="divbase mostrarPedidos">
 				<h2 class="h1Logo" align="center">Finalizar Pedido</h2>
 				<hr>
-				<table>	
-					<tr id="divEnvio">
-						<td class="text-center col-md-3 sombra"><label for="envioCliente">Envio:</label></td>
-						<td class="text-center col-md-3"><select name="opcao" id="envioCliente">
-								<option value="ENTREGA">Entrega</option>
-								<option value="BALCAO">Balcão</option>
-								<option value="MESA">Mesa</option>
-								<option value="IFOOD">Ifood</option>
-								<option value="DRIVE">Drive-Thru</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td class="text-center col-md-3"><label for="pagamentoCliente">Pago:</label></td>
-						<td class="text-center col-md-3 sombra"><select name="pagamento" id="pagamentoCliente">
-								<option value="Não">Não</option>
-								<option value="Sim">Sim</option>
-						</select></td>
-					</tr>
-				</table>
+				<div id="divEnvio">
+					<label>Envio:</label>
+					<select name="opcao" class="form-control" id="envioCliente">
+						<option value="ENTREGA">Entrega</option>
+						<option value="BALCAO">Balcão</option>
+						<option value="MESA">Mesa</option>
+						<option value="IFOOD">Ifood</option>
+						<option value="DRIVE">Drive-Thru</option>
+					</select>
+				</div>
 				<br>
 				<h3 id="Ttotal">Total</h3><br>
 				

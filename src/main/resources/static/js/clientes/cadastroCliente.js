@@ -4,19 +4,16 @@ var url_atual = window.location.href;
 url_atual = url_atual.split("/")[5];
 
 if(typeof url_atual == "undefined") {
-	console.log("nao existe");
 	$("#atualizar").hide();
 }else {
 	$("#divCpf").hide();
 	$("#enviar").hide();
-	console.log(url_atual);
 	urlEnviar = "/cadastroCliente/editarCliente/" + url_atual;
 	
 	$.ajax({
 		url: urlEnviar,
 		type: 'PUT',
 	}).done(function(e){
-		console.log(e);
 		
 		cliente.id = e.id;
 		cliente.nome = e.nome;
@@ -87,11 +84,8 @@ $("#enviar").click(function() {
 		
 		setCliente();
 		
-		console.log(cliente);
-		
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Cliente: ' + $("#nome").val().split(' ')[0],
 		    content: 'Cadastrar cliente?',
 		    buttons: {
@@ -168,12 +162,9 @@ $("#atualizar").click(function() {
 		setCliente();
 		cliente.endereco.id = id_endereco;
 		
-		console.log(cliente);
-		
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
-		    title: 'Cliente: ' + cliente.nome.split(' ')[0],
+		    title: 'Cliente: ' + cliente.nome,
 			content: "Atualizar cliente?",
 		    buttons: {
 		        confirm: {

@@ -10,13 +10,11 @@ $("#todosProdutos").html(pedidoVazio);
 $("#buscar").click(function(){
 	
 	var nome = $("#nomeBusca").val();
-	console.log(nome);
 	
 	$.ajax({
 		url: '/produtosCadastrados/buscar/' + nome,
 		type: 'PUT'
 	}).done(function(e){
-		console.log(e);
 		
 		produtos = [];
 		
@@ -115,7 +113,6 @@ function verProduto() {
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Produto:' + produtos[idBusca].nomeProduto,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
@@ -136,7 +133,6 @@ function editarProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/cadastroProduto/editar/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
 		if(produtos[i].id == idProduto){
@@ -146,7 +142,6 @@ function editarProduto() {
 	
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
 	    title: 'Produto: ' + produtos[idBusca].nomeProduto,
 	    content: 'Tenha certeza do que você está fazendo!<br>',
 	    buttons: {
@@ -181,7 +176,6 @@ function excluirProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/produtosCadastrados/excluirProduto/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
 		if(produtos[i].id == idProduto){
@@ -192,7 +186,6 @@ function excluirProduto() {
 			
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
 	    title: 'Produto: ' + produtos[idBusca].nomeProduto,
 	    content: 'Deseja apagar o produto?',
 	    buttons: {
@@ -204,7 +197,6 @@ function excluirProduto() {
 		
 					$.confirm({
 						type: 'red',
-					    typeAnimated: true,
 					    title: 'APAGAR PRODUTO!',
 					    content: 'Tem certeza?' + inputApagar,
 					    buttons: {
@@ -224,7 +216,6 @@ function excluirProduto() {
 										}).done(function(){		
 											$.alert({
 												type: 'green',
-											    typeAnimated: true,
 											    title: 'Produto apagado!',
 											    content: 'Espero que dê tudo certo!',
 											    buttons: {
@@ -243,7 +234,6 @@ function excluirProduto() {
 									}else {
 										$.alert({
 											type: 'red',
-										    typeAnimated: true,
 										    title: 'Texto incorreto!',
 										    content: 'Pense bem antes de apagar um produto!',
 										    buttons: {

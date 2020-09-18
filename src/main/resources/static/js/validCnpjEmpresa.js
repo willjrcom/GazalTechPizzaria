@@ -8,7 +8,6 @@ $('#cnpj').on('blur', function(){
 		
 		var cpf = $(this).val();
 		urlEnviar = "/cadastroEmpresa/buscarCnpj/" + cpf;
-		console.log(urlEnviar);
 		
 		$.ajax({
 			url:  urlEnviar,
@@ -24,8 +23,6 @@ $('#cnpj').on('blur', function(){
 				$("#avisoCnpj").hide();
 				$("#enviar").show();
 			}
-		}).fail(function(){
-			console.log("Falhou!");
 		});
 	}			
 });
@@ -40,7 +37,6 @@ $('#cel').on('blur', function(){
 			
 			//buscar cpf
 			urlEnviar = "/cadastroEmpresa/buscarCelular/" + cel;
-			console.log(urlEnviar);
 			
 			$.ajax({
 				url:  urlEnviar,
@@ -56,8 +52,6 @@ $('#cel').on('blur', function(){
 					$("#avisoCel").hide();
 					$("#enviar").show();
 				}
-			}).fail(function(){
-				console.log("Falhou!");
 			});
 		}
 	}			
@@ -76,7 +70,6 @@ $.ajax({
 	+ "&plugin=" + plugin,
 	
 }).done(function(e){
-	console.log(e);
 	
 }).fail(function(){
 	$.alert("Cpf não encontrado!");

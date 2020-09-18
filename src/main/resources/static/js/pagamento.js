@@ -13,7 +13,6 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
 
 	for(var i = 0; i< e.length; i++){
 		funcionarios.unshift({
@@ -75,7 +74,6 @@ function addHoras() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idProduto){
@@ -100,7 +98,6 @@ function addHoras() {
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    buttons: {
@@ -126,7 +123,6 @@ function addGastos() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idProduto){
@@ -151,7 +147,6 @@ function addGastos() {
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    buttons: {
@@ -176,7 +171,6 @@ function pagarSalario() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idProduto){
@@ -205,7 +199,6 @@ function pagarSalario() {
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    buttons: {

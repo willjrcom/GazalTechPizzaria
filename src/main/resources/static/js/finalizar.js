@@ -16,7 +16,6 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
 	
 	for(var i = 0; i< e.length; i++){
 		if((e[i].status == "PRONTO" && e[i].envio == "BALCAO") || (e[i].status == "PRONTO" &&  e[i].envio == "MESA") || (e[i].status == "PRONTO" && e[i].envio == "DRIVE")){
@@ -45,7 +44,6 @@ $.ajax({
 		type: 'PUT'
 	})
 	.done(function(e){
-		console.log(e);
 		
 		for(var i = 0; i<e.length; i++){
 			funcionarios.unshift({
@@ -100,7 +98,6 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/finalizar/finalizarPedido/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -172,7 +169,6 @@ function finalizarPedido() {
 	}else {
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
 		    content: 'Produtos escolhidos:' + linhaHtml,
 		    buttons: {
@@ -203,7 +199,6 @@ function finalizarPedido() {
 								});
 							}
 						}
-						console.log(pedidos[idBusca]);
 						
 						$.ajax({
 							url: urlEnviar,

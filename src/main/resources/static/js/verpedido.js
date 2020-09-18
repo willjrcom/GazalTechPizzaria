@@ -16,7 +16,6 @@ function buscarPedido() {
 		type: 'PUT'
 	})
 	.done(function(e){
-		console.log(e);
 
 		pedidos = [];
 		for(var i = 0; i< e.length; i++){
@@ -44,7 +43,6 @@ function buscarPedido() {
 		$("#todosPedidos").html("");
 		filtro = $("#filtro").val();
 		linhaHtml = "";
-		console.log(filtro);
 		
 		if(pedidos.length == 0){
 			$("#todosPedidos").html(pedidoVazio);
@@ -174,7 +172,6 @@ function verPedido() {
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: linhaHtml,
 	    buttons: {
@@ -193,7 +190,6 @@ function editarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/novoPedido/editar/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -210,8 +206,7 @@ function editarPedido() {
 	
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: 'Tenha certeza do que você está fazendo!<br>' + aviso,
 	    buttons: {
 	        confirm: {
@@ -245,7 +240,6 @@ function excluirPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/verpedido/excluirPedido/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -256,8 +250,7 @@ function excluirPedido() {
 			
 	$.confirm({
 		type: 'red',
-	    typeAnimated: true,
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: 'Deseja apagar o pedido?',
 	    buttons: {
 	        confirm: {
@@ -268,7 +261,6 @@ function excluirPedido() {
 		
 					$.confirm({
 						type: 'red',
-					    typeAnimated: true,
 					    title: 'APAGAR PEDIDO!',
 					    content: 'Tem certeza?' + inputApagar,
 					    buttons: {
@@ -292,7 +284,6 @@ function excluirPedido() {
 										}).done(function(){		
 											$.alert({
 												type: 'red',
-											    typeAnimated: true,
 											    title: 'Pedido apagado!',
 											    content: 'Espero que dê tudo certo!',
 											    buttons: {
@@ -312,7 +303,6 @@ function excluirPedido() {
 									}else {
 										$.alert({
 											type: 'red',
-										    typeAnimated: true,
 										    title: 'Texto incorreto!',
 										    content: 'Pense bem antes de apagar um pedido!',
 										    buttons: {

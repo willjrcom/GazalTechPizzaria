@@ -16,7 +16,6 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
 	
 	for(var i = 0; i< e.length; i++){
 		if(e[i].status == "MOTOBOY"){
@@ -46,7 +45,6 @@ $.ajax({
 	type: 'PUT'
 	})
 	.done(function(e){
-		console.log(e);
 		
 		for(var i = 0; i<e.length; i++){
 				funcionarios.unshift({
@@ -93,7 +91,6 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/receber/finalizar/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){

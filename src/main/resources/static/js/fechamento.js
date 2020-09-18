@@ -31,18 +31,14 @@ $.ajax({
 	url: '/fechamento/Tvendas',
 	type: 'PUT'
 }).done(function(e){
-	console.log(e);
 	
 	//para cada pedido
-	console.log('total pedidos: ' + e.length);
-	
 	for(var i = 0; i < e.length; i++) {
 			e[i].produtos = JSON.parse(e[i].produtos);
 			e[i].pizzas = JSON.parse(e[i].pizzas);
-			
-			
+						
 			Tvendas += parseFloat(e[i].total);
-			console.log('Tvendas: ' + Tvendas);
+
 			//para cada produto
 			for(var j = 0; j < e[i].produtos.length; j++) {
 				Tfaturamento += parseFloat(e[i].produtos[j].custo);
@@ -72,10 +68,6 @@ $.ajax({
 				drive ++;
 				tDrive += e[i].total;
 			}
-			
-			
-			//separar tipos de pagamento
-			
 	}
 	
 	
@@ -249,8 +241,7 @@ function troco(){
 							url: '/fechamento/buscarIdData/' + dados.data,
 							type: 'PUT'
 						}).done(function(e){
-
-							console.log(e);
+							
 							dados.id = e.id;
 							dados.balcao = balcao + mesa + drive;
 							dados.entregas = entrega + ifood;
@@ -261,7 +252,6 @@ function troco(){
 							dados.totalProduto = Tproduto;
 							dados.trocoFinal = troco;
 							dados.trocoInicio = e.trocoInicio;
-							console.log(dados);
 							
 							$.ajax({
 								url: '/fechamento/finalizar/' + dados.id,
@@ -270,7 +260,7 @@ function troco(){
 								contentType: "application/json",
 								data: JSON.stringify(dados)
 							}).done(function(e){
-								console.log(e);
+
 								$.alert({
 									type:'green',
 									title: 'Sucesso!',

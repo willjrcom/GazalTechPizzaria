@@ -4,18 +4,15 @@ var url_atual = window.location.href;
 url_atual = url_atual.split("/")[5];
 
 if(typeof url_atual == "undefined") {
-	console.log("nao existe");
 	$("#atualizar").hide();
 }else {
 	$("#enviar").hide();
-	console.log(url_atual);
 	urlEnviar = "/cadastroProduto/editarProduto/" + url_atual;
 	
 	$.ajax({
 		url: urlEnviar,
 		type: 'PUT',
 	}).done(function(e){
-		console.log(e);
 		
 		produto.id = e.id;
 		produto.codigoBusca = e.codigoBusca;
@@ -70,11 +67,8 @@ $("#enviar").click(function() {
 		
 		setProduto();
 		
-		console.log(produto);
-		
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Produto: ' + produto.nomeProduto,
 		    content: 'Cadastrar produto?',
 		    buttons: {
@@ -138,11 +132,8 @@ $("#atualizar").click(function() {
 		
 		setProduto();
 		
-		console.log(produto);
-		
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Produto: ' + produto.nomeProduto,
 			content: "Atualizar cadastro?",
 		    buttons: {

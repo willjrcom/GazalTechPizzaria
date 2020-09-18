@@ -26,7 +26,6 @@ function buscarPedido() {
 		type: 'PUT'
 	})
 	.done(function(e){
-		console.log(e);
 		
 		for(var i = 0; i< e.length; i++){
 			Tpedidos++;
@@ -50,7 +49,6 @@ function buscarPedido() {
 		$("#todosPedidos").html("");
 		filtro = $("#filtro").val();
 		linhaHtml = "";
-		console.log(filtro);
 		
 		if(pedidos.length == 0){
 			$("#todosPedidos").html(pedidoVazio);
@@ -172,7 +170,6 @@ function enviarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/cozinha/enviarPedido/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -201,7 +198,6 @@ function enviarPedido() {
 						data: pedidos[idBusca], //dados completos do pedido enviado
 					})
 					.done(function(e){
-						console.log(e);
 						document.location.reload(true);
 					});
 			    },
@@ -214,12 +210,13 @@ function enviarPedido() {
 		}
 	});
 };
+/*
 //ajax reverso
 function init() {
 	console.log("dwr init....");
 	dwr.engine.setActiveReverseAjax(true);
 };
-
+*/
 
 //recarregar a cada 5 segundos
 buscarPedido();

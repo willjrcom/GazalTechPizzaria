@@ -17,7 +17,6 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
 	
 	for(var i = 0; i< e.length; i++){
 		if(e[i].status == "EXCLUIDO"){
@@ -50,7 +49,7 @@ $.ajax({
 			linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
 
 			Tpizzas = 0;
-			console.log(pedidos[i]);
+
 			if(pedidos[i].produtos.length != 0) {
 				for(var k = 0; k<pedidos[i].produtos.length; k++) {
 					Tpizzas += pedidos[i].produtos[k].qtd;
@@ -82,7 +81,6 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/finalizar/finalizarPedido/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){

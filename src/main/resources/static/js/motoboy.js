@@ -16,7 +16,6 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
 	
 	for(var i = 0; i< e.length; i++){
 		if((e[i].status == "PRONTO" && e[i].envio == "ENTREGA") || (e[i].status == "PRONTO" && e[i].envio == "IFOOD")){
@@ -46,7 +45,6 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
 	
 	for(var i = 0; i<e.length; i++){
 		if(e[i].cargo == "MOTOBOY"){
@@ -104,7 +102,6 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	var urlEnviar = "/motoboy/enviarMotoboy/" + idProduto.toString();
-	console.log(urlEnviar);
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -117,7 +114,6 @@ function finalizarPedido() {
 	}else{
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 		    content: 'Deseja entregar?',
 		    buttons: {
@@ -135,7 +131,6 @@ function finalizarPedido() {
 							data: pedidos[idBusca], //dados completos do pedido enviado
 						})
 						.done(function(e){
-							console.log(e);
 							document.location.reload(true);
 						});
 					}
