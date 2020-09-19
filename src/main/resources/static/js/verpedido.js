@@ -343,13 +343,18 @@ function excluirPedido() {
 	});
 }
 
+
+//-------------------------------------------------
 buscarPedido();
 
+
+//-------------------------------------------------
 setInterval(function (){
 	buscarPedido();
 },5000);
 
 
+//-------------------------------------------------
 function imprimir(cliente) {
 	imprimirTxt = '<h1 align="center">Gazal Tech</h1>'
 				+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
