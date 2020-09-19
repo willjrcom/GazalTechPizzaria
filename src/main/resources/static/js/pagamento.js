@@ -16,8 +16,6 @@ function dataAtualFormatada(){
     return mesF+"-"+anoF;
 }
 
-console.log(dataAtualFormatada());
-
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosFuncionarios").html(linhaCinza);
@@ -94,61 +92,95 @@ function addHoras() {
 			var idBusca = i;
 		}
 	}
-	
-	linhaHtml = '<table>'
-				+ '<tr>'
-					+ '<th class="col-md-1"><h5>Horas Extra</h5></th>'
-					+ '<th class="col-md-1"><h5>Total</h5></th>'
-				+ '</tr>'
-		
-				+ '<tr>'
-					+ '<td> 5 </td>'
-					+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
-				+ '</tr>'
-			+'</table>';
-	
-	linhaHtml += '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
-				+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
-	
+	mesAtual = new Date();
+			
 	$.alert({
-		type: 'green',
-	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-	    content: linhaHtml,
-	    buttons: {
-	        confirm: {
-				text: 'Adicionar Horas',
-	    		keys: ['enter'],
-	            btnClass: 'btn-green',
-	            action: function(){
-					
-					var horas = this.$content.find('#horas').val();
-					
-					var funcionario = {};
-					funcionario.idFuncionario = funcionarios[idBusca].id;
-					funcionario.horas = horas;
-					funcionario.data = dataAtualFormatada();
-					
+		type: 'blue',
+		title: 'Mês',
+		content: '<input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />',
+		buttons: {
+			confirm: {
+				text: 'Acessar',
+				btnClass: 'btn-primary',
+				keys: ['enter'],
+				action: function(){
+					var mes = this.$content.find('#mes').val();
+					mes = (mes.length == 1) ? '0'+mes : mes;
+							
+					var salario = {};
+					salario.id = funcionarios[idBusca].id;
+					salario.mes = mes + '-' + dataAtualFormatada().split('-')[1];
+
+					//buscar o mes de gastos do funcionario
 					$.ajax({
-						url: '/pagamento/salvar',
-						type: 'PUT',
-						dataType : 'json',
-						contentType: "application/json",
-						data: JSON.stringify(funcionario)
+						url: '/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+						type: 'PUT'
 					}).done(function(e){
-						console.log(e);
+						console.log(e)
+						
+						var horas = 0;
+						
+						for(j = 0; j<e.length; j++) {
+							horas += e[j]. horas;
+						}
+						
+							linhaHtml = '<table>'
+										+ '<tr>'
+											+ '<th class="col-md-1"><h5>Horas Extra</h5></th>'
+											+ '<th class="col-md-1"><h5>Total</h5></th>'
+										+ '</tr>'
+								
+										+ '<tr>'
+											+ '<td>' + horas + '</td>'
+											+ '<td>R$ ' + (horas * horaExtra).toFixed(2) +'</td>'
+										+ '</tr>'
+									+'</table>';
+							
+							linhaHtml += '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label><br>'
+										+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
+							
+							$.alert({
+								type: 'green',
+							    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+							    content: linhaHtml,
+							    buttons: {
+							        confirm: {
+										text: 'Adicionar Horas',
+							    		keys: ['enter'],
+							            btnClass: 'btn-green',
+							            action: function(){
+											
+											var horas = this.$content.find('#horas').val();
+											
+											var funcionario = {};
+											funcionario.idFuncionario = funcionarios[idBusca].id;
+											funcionario.horas = horas;
+											funcionario.data = dataAtualFormatada();
+											
+											$.ajax({
+												url: '/pagamento/salvar',
+												type: 'PUT',
+												dataType : 'json',
+												contentType: "application/json",
+												data: JSON.stringify(funcionario)
+											}).done(function(e){
+												console.log(e);
+											});
+										}
+									},
+							        cancel:{
+										text: 'Voltar',
+							    		keys: ['esc'],
+							            btnClass: 'btn-danger'
+									}
+								}
+						});
 					});
 				}
-			},
-	        cancel:{
-				text: 'Voltar',
-	    		keys: ['esc'],
-	            btnClass: 'btn-danger'
 			}
 		}
 	});
 };
-
-
 
 //-------------------------------------------------------------------------
 function addGastos() {
@@ -163,59 +195,95 @@ function addGastos() {
 		}
 	}
 	
-	linhaHtml = '<table>'
-				+ '<tr>'
-					+ '<th class="col-md-1"><h5>Gastos totais</h5></th>'
-					+ '<th class="col-md-1"><h5>Total</h5></th>'
-				+ '</tr>'
-		
-				+ '<tr>'
-					+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2)/2 + '</td>'
-					+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
-				+ '</tr>'
-			+'</table>';
-	
-	linhaHtml += '<hr><label>Total de gastos: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
-				+'<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>';
-	
-	$.alert({
-		type: 'green',
-	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-	    content: linhaHtml,
-	    buttons: {
-	        confirm: {
-				text: 'Adicionar Gastos',
-	    		keys: ['enter'],
-	            btnClass: 'btn-green',
-	            action: function(){
+	mesAtual = new Date()
 			
-					var gastos = this.$content.find('#gastos').val();
-					
-					
-					var funcionario = {};
-					funcionario.idFuncionario = funcionarios[idBusca].id;
-					funcionario.gastos = gastos;
-					funcionario.data = dataAtualFormatada();
-					
+	$.alert({
+		type: 'blue',
+		title: 'Mês',
+		content: '<input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />',
+		buttons: {
+			confirm: {
+				text: 'Acessar',
+				btnClass: 'btn-primary',
+				keys: ['enter'],
+				action: function(){
+					var mes = this.$content.find('#mes').val();
+					mes = (mes.length == 1) ? '0'+mes : mes;
+							
+					var salario = {};
+					salario.id = funcionarios[idBusca].id;
+					salario.mes = mes + '-' + dataAtualFormatada().split('-')[1];
+
+					//buscar o mes de gastos do funcionario
 					$.ajax({
-						url: '/pagamento/salvar',
-						type: 'PUT',
-						dataType : 'json',
-						contentType: "application/json",
-						data: JSON.stringify(funcionario)
+						url: '/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+						type: 'PUT'
 					}).done(function(e){
-						console.log(e);
+						console.log(e)
+						
+						var gastos = 0;
+						
+						for(j = 0; j<e.length; j++) {
+							gastos += e[j].gastos;
+						}
+						
+						linhaHtml = '<table>'
+									+ '<tr>'
+										+ '<th class="col-md-1"><h5>Gastos totais</h5></th>'
+									+ '</tr>'
+							
+									+ '<tr>'
+										+ '<td>R$ ' + gastos.toFixed(2) + '</td>'
+									+ '</tr>'
+								+'</table>';
+						
+						linhaHtml += '<hr><label>Total de gastos: <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label><br>'
+									+'<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>';
+						
+						$.alert({
+							type: 'green',
+						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+						    content: linhaHtml,
+						    buttons: {
+						        confirm: {
+									text: 'Adicionar Gastos',
+						    		keys: ['enter'],
+						            btnClass: 'btn-green',
+						            action: function(){
+								
+										var gastos = this.$content.find('#gastos').val();
+										
+										
+										var funcionario = {};
+										funcionario.idFuncionario = funcionarios[idBusca].id;
+										funcionario.gastos = gastos;
+										funcionario.data = dataAtualFormatada();
+										
+										$.ajax({
+											url: '/pagamento/salvar',
+											type: 'PUT',
+											dataType : 'json',
+											contentType: "application/json",
+											data: JSON.stringify(funcionario)
+										}).done(function(e){
+											console.log(e);
+										});
+									}
+								},
+						        cancel:{
+									text: 'Voltar',
+						    		keys: ['esc'],
+						            btnClass: 'btn-danger'
+								}
+							}
+						});
 					});
 				}
-			},
-	        cancel:{
-				text: 'Voltar',
-	    		keys: ['esc'],
-	            btnClass: 'btn-danger'
 			}
 		}
 	});
 };
+			
 
 
 //-------------------------------------------------------------------------
@@ -269,6 +337,7 @@ function pagarSalario() {
 						}
 						
 						var totalExtra = horas * horaExtra;
+						
 						linhaHtml = '<table>'
 								+ '<tr>'
 									+ '<th class="col-md-1"><h5>Salário</h5></th>'
@@ -349,6 +418,39 @@ function aviso() {
 			+'<br>&nbsp- Pagamentos diarios.'
 			+'<br>&nbsp- Pagamentos semanais.'
 			+'<br>&nbsp- Pagamentos mensais.',
+		buttons:{
+			confirm:{
+				text:'Voltar',
+				btnClass:'btn-success',
+				keys:['enter','esc']
+			}
+		}
+	});
+}
+
+//-------------------------------------------------------------------
+function aviso1() {
+	$.alert({
+		type:'blue',
+		title:'Pagamento',
+		content:'Este campo é utilizado para adicionar as horas extras ao funcionário'
+			+ '<br>Será multiplicada automaticamente e feito o calculo do valor total.',
+		buttons:{
+			confirm:{
+				text:'Voltar',
+				btnClass:'btn-success',
+				keys:['enter','esc']
+			}
+		}
+	});
+}
+
+//-------------------------------------------------------------------
+function aviso2() {
+	$.alert({
+		type:'blue',
+		title:'Pagamento',
+		content:'Este campo é utilizado para selecionar o quanto foi gasto pelo funcionário no dia a dia e descontar do valor final',
 		buttons:{
 			confirm:{
 				text:'Voltar',
