@@ -175,12 +175,20 @@ function verPedido() {
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: linhaHtml,
+	    columnClass: 'col-md-8',
 	    buttons: {
 			confirm: {
-				text: 'Imprimir',
+				text: 'Imprimir tudo',
 		        btnClass: 'btn-warning',
 		        action: function(){
-					imprimir(pedidos[idBusca]);
+					imprimirTudo(pedidos[idBusca]);
+				}
+			},
+			print: {
+				text: 'Imprimir Pizzas',
+		        btnClass: 'btn-orange',
+		        action: function(){
+					imprimirPizzas(pedidos[idBusca]);
 				}
 			},
 	        cancel: {
@@ -355,7 +363,8 @@ setInterval(function (){
 
 
 //-------------------------------------------------
-function imprimir(cliente) {
+function imprimirTudo(cliente) {
+	console.log(linhaHtml);
 	imprimirTxt = '<h1 align="center">Gazal Tech</h1>'
 				+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
 				+ '<h3>Cliente: ' + cliente.nomePedido + '</h3>';
@@ -364,11 +373,86 @@ function imprimir(cliente) {
 					+ '<br>Endereço: ' + cliente.endereco
 					+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
 	}
-	imprimirTxt += 'Data do pedido: ' + cliente.horaPedido
-				+ '<hr>' + linhaHtml;
+	
+	cliente.horaPedido = cliente.horaPedido.split('T')[0]
+	imprimirTxt += 'Data do pedido: ' + cliente.horaPedido.split('-')[2] + '/'
+									  + cliente.horaPedido.split('-')[1] + '/'
+									  + cliente.horaPedido.split('-')[0] + '<hr>';
+	
+	mostrar(cliente);
+	
+	imprimirTxt += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br>' 
+			+ '<br><b>Total do Pedido:</b> R$' + cliente.total.toFixed(2);
 	
 	tela_impressao = window.open('about:blank');
 	   tela_impressao.document.write(imprimirTxt);
 	   tela_impressao.window.print();
 	   tela_impressao.window.close();
+}
+
+
+//------------------------------------------------------------------------------------
+function imprimirPizzas(cliente) {
+
+	imprimirTxt = '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
+				+ '<h3>Cliente: ' + cliente.nomePedido + '</h3><hr>'
+	
+	mostrar(cliente);
+	
+	imprimirTxt += '<hr><b>Total de Produtos:</b> ' + Tpizzas;
+	
+		
+	
+	tela_impressao = window.open('about:blank');
+	   tela_impressao.document.write(imprimirTxt);
+	   tela_impressao.window.print();
+	   tela_impressao.window.close();
+}
+
+
+//-------------------------------------------------------------
+function mostrar(cliente) {
+	imprimirTxt += '<table style="width: 100%">';
+	if(cliente.pizzas.length != 0) {
+		imprimirTxt += '<tr>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<cliente.pizzas.length; i++){
+			imprimirTxt += '<tr>'
+						 +	'<td>' + cliente.pizzas[i].borda + '</td>'
+						 +	'<td>' + cliente.pizzas[i].sabor + '</td>'
+						 +	'<td>' + cliente.pizzas[i].obs + '</td>'
+						 +	'<td>' + cliente.pizzas[i].qtd + '</td>'
+						 +  '<td>R$ ' + cliente.pizzas[i].preco.toFixed(2) + '</td>'
+					 +  '</tr>';
+		}
+	}
+
+	imprimirTxt += '</table>';
+	imprimirTxt += '<table>';
+	
+	if(cliente.produtos.length != 0) {
+		imprimirTxt += '<tr>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<cliente.produtos.length; i++){
+			imprimirTxt += '<tr>'
+						 +	'<td>' + cliente.produtos[i].sabor + '</td>'
+						 +	'<td>' + cliente.produtos[i].obs + '</td>'
+						 +	'<td>' + cliente.produtos[i].qtd + '</td>'
+						 +  '<td>R$ ' + cliente.produtos[i].preco.toFixed(2) + '</td>'
+					 +  '</tr>';
+		}
+	}
+	
+	imprimirTxt += '</table>';
 }
