@@ -18,6 +18,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="form-group">
 			<label>Código de busca: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
+			<p id="avisoCod">Código já cadastrado, tente outro!</p>
 			<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus" required/>
 		</div>
 		
@@ -68,6 +69,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	
 	<script th:src="@{/js/produtos/cadastroProduto.js}"></script>
+	<script th:src="@{/js/validCodProduto.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: cadastros}"></div>

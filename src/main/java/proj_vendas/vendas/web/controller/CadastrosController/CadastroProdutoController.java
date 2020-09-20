@@ -49,4 +49,10 @@ public class CadastroProdutoController {
 	public Produto atualizarProduto(@RequestBody Produto produto){
 		return produtos.save(produto);
 	}
+
+	@RequestMapping(value = "/buscarCodigo/{codigo}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Produto buscarCodigo(@PathVariable String codigo) {
+		return produtos.findByCodigoBusca(codigo);
+	}
 }
