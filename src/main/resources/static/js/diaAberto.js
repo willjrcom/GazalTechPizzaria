@@ -35,12 +35,6 @@ $.ajax({
 							+ '<td>' + dia[i].data.split('-')[2] + '/' + dia[i].data.split('-')[1] + '/' + dia[i].data.split('-')[0] + '</td>'
 							+ '<td>R$ ' + dia[i].trocoInicio.toFixed(2) + '</td>'
 							+ '<td>' + dia[i].trocoFinal.toFixed(2) + '</td>'
-							+ '<td>'
-								+'<a>'
-								+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
-								+ 'value="'+ dia[i].id + '"><span class="oi oi-pencil"></span></button>'
-								+'</a>'
-							+'</td>'
 						+ '</tr>'
 							+ linhaCinza;
 		}
@@ -51,28 +45,17 @@ $.ajax({
 
 
 //-------------------------------------------------------------------------
-function addHoras() {
-	
-	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
-	
-	for(var i = 0; i<dia.length; i++){//buscar dados completos do pedido enviado
-		if(dia[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
-	
+function aviso() {
 	
 	$.alert({
-		type: 'green',
-	    typeAnimated: true,
-	    title: 'Funcionário: ' + dia[idBusca].data.split('-')[2] + '/' + dia[idBusca].data.split('-')[1] + '/' + dia[idBusca].data.split('-')[0],
-	    content: "Acesse o dia que não foi finalizado corretamente através do menu e faça o processo de fechamento de dia ou troco inicial para corrigir seus dados!",
+		type: 'red',
+	    title: 'Alerta!',
+	    content: "Acesse o dia que não foi finalizado corretamente através do menu e faça o processo de:<br>- fechamento de dia ou<br>- Adicione troco inicial para corrigir seus dados.",
 	    buttons: {
 	        confirm: {
 				text: 'Ok',
 	    		keys: ['enter','esc'],
-	            btnClass: 'btn-green'
+	            btnClass: 'btn-danger'
 			},
 		}
 	});
