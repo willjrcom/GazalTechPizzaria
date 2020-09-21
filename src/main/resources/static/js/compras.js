@@ -39,5 +39,5 @@ function aviso() {
 
 //----------------------------------------------------------------
 function adicionar() {
-	$("#compras").html($("#compras").html() + linhaInput);
+	$("#compras").append(linhaInput);
 }
