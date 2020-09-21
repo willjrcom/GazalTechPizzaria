@@ -25,7 +25,7 @@ public class MenuController {
 	private Dias dias;
 	
 	@RequestMapping
-	public ModelAndView menu() {
+	public ModelAndView tela() {
 		return new ModelAndView("menu");
 	}
 	

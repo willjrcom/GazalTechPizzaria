@@ -15,9 +15,8 @@ public class DevController {
 	private Usuarios usuarios;
 	*/
 	@RequestMapping
-	public ModelAndView menu() {
-		ModelAndView mv = new ModelAndView("dev");
-		return mv;
+	public ModelAndView tela() {
+		return new ModelAndView("dev");
 	}
 	
 	@RequestMapping(value = "/liberar/{codigo}", method = RequestMethod.PUT)

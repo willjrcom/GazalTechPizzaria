@@ -20,7 +20,7 @@ public class EstatisticaController {
 	private Dados dados;
 	
 	@RequestMapping
-	public ModelAndView home() {
+	public ModelAndView tela() {
 		return new ModelAndView("estatistica");
 	}
 	

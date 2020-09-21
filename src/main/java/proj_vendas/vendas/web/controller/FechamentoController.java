@@ -33,7 +33,7 @@ public class FechamentoController {
 	private Dados dados;
 	
 	@RequestMapping
-	public ModelAndView lerCadastros() {
+	public ModelAndView tela() {
 		return new ModelAndView("fechamento");
 	}
 	

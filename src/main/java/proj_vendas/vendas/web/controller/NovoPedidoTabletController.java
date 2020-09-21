@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/compras")
-public class ComprasController {
-
+@RequestMapping("/novoPedidoTablet")
+public class NovoPedidoTabletController{
+	
 	@RequestMapping
 	public ModelAndView tela() {
-		return new ModelAndView("compras");
+		return new ModelAndView("novoPedidoTablet");
 	}
 }

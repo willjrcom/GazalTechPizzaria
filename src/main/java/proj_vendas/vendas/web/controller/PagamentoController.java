@@ -25,10 +25,10 @@ public class PagamentoController {
 	
 	@Autowired
 	private Salarios salarios;
+	
 	@RequestMapping
-	public ModelAndView menu() {
-		ModelAndView mv = new ModelAndView("pagamento");
-		return mv;
+	public ModelAndView tela() {
+		return new ModelAndView("pagamento");
 	}
 	
 	@RequestMapping(value = "/todosFuncionarios", method = RequestMethod.PUT)

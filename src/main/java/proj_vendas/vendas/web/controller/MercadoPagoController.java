@@ -12,7 +12,7 @@ import com.mercadopago.resources.datastructures.merchantorder.Item;
 public class MercadoPagoController {
 	
 	@RequestMapping
-	public ModelAndView lerCadastros() {
+	public ModelAndView tela() {
 		return new ModelAndView("mercadoPago");
 	}
 	

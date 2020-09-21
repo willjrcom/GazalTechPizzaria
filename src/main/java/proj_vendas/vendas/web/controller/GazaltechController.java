@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class GazaltechController {
 
 	@RequestMapping
-	public ModelAndView menu() {
+	public ModelAndView tela() {
 		return new ModelAndView("gazaltech");
 	}
 }

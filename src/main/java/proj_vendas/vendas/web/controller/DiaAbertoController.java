@@ -20,7 +20,7 @@ public class DiaAbertoController {
 	private Dados dados;
 	
 	@RequestMapping
-	public ModelAndView menu() {
+	public ModelAndView tela() {
 		return new ModelAndView("diaAberto");
 	}
 	

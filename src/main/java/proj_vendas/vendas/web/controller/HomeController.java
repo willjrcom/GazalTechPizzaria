@@ -15,7 +15,7 @@ public class HomeController {
 	*/
 	
 	@GetMapping({"/index"})
-	public ModelAndView home() {
+	public ModelAndView tela() {
 		/*Usuario usuario = usuarios.findByEmail("williamjunior67@gmail.com");
 		if(usuario == null) {
 			service.salvarUsuarioDev();
