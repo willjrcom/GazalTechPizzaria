@@ -44,13 +44,12 @@ a:hover{
 
 .menu{
   background-color: #333;
-  height: 81vh;
+  height: 80vh;
   padding: 3vh;
 }
  
 .menuLateral{
   background-color: white;
-  height: 100%;
   border-radius: 15px;
   border: 1px solid black;
 }
