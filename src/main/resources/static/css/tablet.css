@@ -11,15 +11,13 @@ body{
 li{
 	border-bottom: 1px solid #B0C4DE;
 	padding: 10px;
-  	list-style-type: none;
 }
 
 li:hover{
 	background-color: #333;
-	color: white;
 }
 
-a{
+li a{
 	color: black;
 	font-size: 20px;
   	display: block;
@@ -36,14 +34,13 @@ a:hover{
 
 .bw{
 	border-top: 3px dotted white;
-	background-color: black;
+	background-color: #333;
 }
 .titulo{
 	color: white;	
 }
 
 .menu{
-  background-color: #333;
   height: 80vh;
   padding: 3vh;
 }
@@ -54,8 +51,23 @@ a:hover{
   border: 1px solid black;
 }
 
-.mesa{float: left;}
-.carrinho{float: right;}
+.cardapio{
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid black;
+  height: 100%;
+}
+
+.mesa{
+	float: left;
+	position: absolute;
+	left: 0;
+}
+.carrinho{
+	float: right; 
+	position: absolute;
+	right: 0;
+}
 
 .carrinho, .mesa{
 	background-color: transparent;
