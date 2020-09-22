@@ -54,15 +54,10 @@ a:hover{
   border: 1px solid black;
 }
 
-.mesa{
-	float: left;
-	background-color: transparent;
-	color: white;
-	border: none;
-	padding: 5px;
-}
-.carrinho{
-	float: right;
+.mesa{float: left;}
+.carrinho{float: right;}
+
+.carrinho, .mesa{
 	background-color: transparent;
 	color: white;
 	border: none;
