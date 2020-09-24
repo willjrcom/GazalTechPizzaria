@@ -24,5 +24,7 @@ public interface Produtos extends JpaRepository<Produto, Long>{
 
 	public List<Produto> findByDisponivel(boolean i);
 	
+	public List<Produto> findBySetorAndDisponivel(String setor, boolean i);
+	
 	public Produto findByCodigoBusca(String codigo);
 }

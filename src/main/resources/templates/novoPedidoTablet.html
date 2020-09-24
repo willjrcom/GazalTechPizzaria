@@ -30,31 +30,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<br>
 				<nav>
 					<ol>
-						<li><a>Todos</a></li>
-						<li><a>Pizzas</a></li>
-						<li><a>Bebidas</a></li>
+						<li><a onclick="mostrarOpcao('TODOS')">Todos</a></li>
+						<li><a onclick="mostrarOpcao('PIZZA')">Pizzas</a></li>
+						<li><a onclick="mostrarOpcao('BEBIDA')">Bebidas</a></li>
 					</ol>
 				</nav>
 				<hr>
 			</div>
 		</div>
 		<div class="menu text-center col-xs-8 col-xl-6">
-			<div id="cardapio">
-				<h2>Pizzas</h2>
-				<hr>
-				
-				<h2>Lanches</h2>
-				<hr>
-				
-				<h2>Beirutes</h2>
-				<hr>
-				
-				<h2>Bebidas</h2>
-				<hr>
-				
-				<h2>Outros</h2>
-				<hr>
-			</div>
+			<div id="cardapio"></div>
 		</div>
 	</div>
 	
