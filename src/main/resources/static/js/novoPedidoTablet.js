@@ -17,10 +17,13 @@ function mostrarOpcao(opcao) {
 			linhaHtml += '<div class="blog-card">'
 						+ '<div class="meta"><div class="photo" style="background-image: url(/img/mexicana.jpg)"></div></div>'
 				  		+ '<div class="description">'
-						+ '<h1>' + produto.nomeProduto +'</h1>'
-							+ '<p>' + produto.descricao + '</p>'
-							+ '<p>R$ ' + parseFloat(produto.preco).toFixed(2) + '</p>'
-							+ '<p class="read-more">'
+						+ '<h1>' + produto.nomeProduto +'</h1>';
+						
+						if(produto.descricao != '') {
+							linhaHtml += '<p>' + produto.descricao + '</p>';
+						}
+						linhaHtml += '<p>R$ ' + parseFloat(produto.preco).toFixed(2) + '</p>'
+									+ '<p class="read-more">'
 								+ '<button class="btn" value="' + produto.id + '" onclick="adicionar()">+</button>'
 							+ '</p>'
 						+ '</div>'
