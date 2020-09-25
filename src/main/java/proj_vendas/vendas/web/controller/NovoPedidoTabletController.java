@@ -1,6 +1,7 @@
 package proj_vendas.vendas.web.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,5 +40,16 @@ public class NovoPedidoTabletController{
 		}
 		return produtos.findBySetorAndDisponivel(setor, true);
 	}
-	
+
+	@RequestMapping(value = "/produto/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Produto> buscarProduto(@PathVariable Long id){
+		return produtos.findById(id);
+	}
+
+	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Produto> buscarBordas(){
+		return produtos.findBySetorAndDisponivel("BORDA", true);
+	}
 }

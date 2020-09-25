@@ -3,7 +3,8 @@ $("#avisoCel").hide();
 
 // Método para consultar o CEP
 $('#cpf').on('blur', function(){
-
+	console.table($("#foto").val());
+	
 	if($("#cpf").val() != ''){
 		
 		var cpf = $(this).val();

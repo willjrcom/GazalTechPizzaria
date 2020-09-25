@@ -91,7 +91,7 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Produto> mostrarBordas() {
-		return produtos.findAllProduto();
+		return produtos.findBySetorAndDisponivel("BORDA", true);
 	}
 	
 	@RequestMapping(value = "/buscarBorda/{id}", method = RequestMethod.PUT)

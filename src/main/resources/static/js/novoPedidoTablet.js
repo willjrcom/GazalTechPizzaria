@@ -50,5 +50,63 @@ mostrarOpcao('TODOS');
 
 //-----------------------------------------------------------------
 function adicionar() {
-	$.alert("Adicionou");
+
+	var botaoReceber = $(event.currentTarget);
+	var idProduto = botaoReceber.attr('value');
+	
+	var produto = {};
+	
+	$.ajax({
+		url: '/novoPedidoTablet/bordas',
+		type: 'PUT'
+	}).done(function(e){
+		console.log(e);
+	});
+	
+	
+	//quantidade
+	var qtdHtml = '<label>Quantidade: <span id="qtd">1</span></label><br>'
+				+ '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">'
+					+ '<div class="btn-group mr-2" role="group" aria-label="First group">'
+					    + '<button type="button" onclick="qtdProduto(0.5)" class="btn btn-link">0.5</button>'
+					    + '<button type="button" onclick="qtdProduto(1)" class="btn btn-link">1</button>'
+					    + '<button type="button" onclick="qtdProduto(2)" class="btn btn-link">2</button>'
+					    + '<button type="button" onclick="qtdProduto(3)" class="btn btn-link">3</button>'
+					    + '<button type="button" onclick="qtdProduto(4)" class="btn btn-link">4</button>'
+					    + '<button type="button" onclick="qtdProduto(5)" class="btn btn-link">5</button>'
+				  + '</div>'
+				+ '</div>';
+	
+	$.ajax({
+		url: '/novoPedidoTablet/produto/' + idProduto,
+		type: 'PUT'
+	}).done(function(e){
+		produto = e;
+		console.log(produto);
+		
+		$.confirm({
+			type: 'blue',
+			title: produto.nomeProduto,
+			content: qtdHtml,
+			buttons: { 
+				confirm: {
+					text: 'Confirmar',
+					btnClass: 'btn-success',
+					keys: ['enter']
+				},
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc']
+				}
+			}
+		});
+		
+	});	
+}
+
+
+//---------------------------------------------------------------
+function qtdProduto(qtd) {
+	$("#qtd").text(qtd);
 }

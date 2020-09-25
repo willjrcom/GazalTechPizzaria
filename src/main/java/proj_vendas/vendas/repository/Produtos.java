@@ -18,7 +18,7 @@ public interface Produtos extends JpaRepository<Produto, Long>{
 	public List<Produto> findByNomeProdutoContainingOrCodigoBusca(String nome, String nome2);
 	
 	@Query("select p from Produto p where p.setor = 'BORDA'")
-	public List<Produto> findAllProduto();
+	public List<Produto> findAllBordas();
 
 	public List<Produto> findByNomeProdutoContainingAndDisponivelOrCodigoBuscaAndDisponivel(String nome, boolean i, String nome2, boolean j);
 
