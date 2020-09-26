@@ -543,11 +543,44 @@ $("#enviarPedido").click(function() {
 	
 
 	if($("#nomeCliente").text() == "" && $("#nomeBalcao").text() == ""){
-		alert("Nenhum cliente adicionado!");
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Nenhum cliente adicionado!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else if(Object.keys(produtos).length === 0 && Object.keys(pizzas).length === 0){
-		alert("Nenhum produto adicionado!");	
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Nenhum produto adicionado!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
-		alert("Apenas valores inteiros!");	
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Apenas valores inteiros!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});	
 	}else{
 		
 		if(cliente.envio == '' || cliente.envio == null) {
@@ -711,11 +744,44 @@ $("#enviarPedido").click(function() {
 $("#atualizarPedido").click(function() {
 	
 	if($("#nomeCliente").text() == "" && $("#nomeBalcao").text() == ""){
-		alert("Nenhum cliente adicionado!");
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Nenhum cliente adicionado!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else if(Object.keys(produtos).length === 0 && Object.keys(pizzas).length === 0){
-		alert("Nenhum produto adicionado!");	
-	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
-		alert("Apenas valores inteiros!");	
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Nenhum produto adicionado!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
+	}else if(tPizzas % 2 != 0 && tPizzas % 2 != 1){	
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Apenas valores inteiros!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else{
 		
 		if($('#envioCliente').is(':visible'))
