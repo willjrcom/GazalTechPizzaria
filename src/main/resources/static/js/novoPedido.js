@@ -180,6 +180,15 @@ $('#numeroCliente').on('blur', function(){
 
 				$("#divBuscar").hide('slow');
 				$("#mostrarProdutos").show('slow');
+
+				$("#divEnvio").html('<label>Envio:</label>'
+							+'<select name="opcao" class="form-control" id="envioCliente">'
+								+'<option value="ENTREGA">Entrega</option>'
+								+'<option value="BALCAO">Balcão</option>'
+								+'<option value="MESA">Mesa</option>'
+								+'<option value="IFOOD">Ifood</option>'
+								+'<option value="DRIVE">Drive-Thru</option>'
+							+'</select>');
 			}else {
 				window.location.href = "/cadastroCliente";
 			}
@@ -196,7 +205,12 @@ $('#numeroCliente').on('blur', function(){
 		$("#divBuscar").hide('slow');
 		$("#mostrar").hide("slow");
 		$("#mostrarProdutos").show('slow');
-		$("#divEnvio").hide();
+		$("#divEnvio").html('<label>Envio:</label>'
+					+'<select name="opcao" class="form-control" id="envioCliente">'
+						+'<option value="BALCAO">Balcão</option>'
+						+'<option value="MESA">Mesa</option>'
+						+'<option value="DRIVE">Drive-Thru</option>'
+					+'</select>');
 		cliente.envio = "BALCAO";
 	}
 });
@@ -581,7 +595,9 @@ $("#enviarPedido").click(function() {
 				}
 			}
 		});	
+		
 	}else{
+		cliente.envio = $("#envioCliente").val();
 		
 		if(cliente.envio == '' || cliente.envio == null) {
 			cliente.envio = $("#envioCliente").val();
@@ -627,8 +643,8 @@ $("#enviarPedido").click(function() {
 			}
 		}
 		linhaHtml += '</table>';
-		
-		if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+
+		if(cliente.envio == 'ENTREGA' || cliente.envio == 'IFOOD') {
 			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
 						+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><b>Taxa:</b> R$ ' + parseFloat(cliente.taxa).toFixed(2)
