@@ -1,25 +1,8 @@
 
-var produtos = [];
-var linhaHtml= "";
+var compra = {};
+var compras = [];
 
-linhaInput = '<div class="row">'
-			+'<div class="col-md-4">'
-				+'<input class="form-control" placeholder="Digite o nome do produto"/>'
-			+'</div>'
-			
-			+'<div class="col-md-4">'
-				+'<input class="form-control preco" placeholder="Digite o preco do produto"/>'
-			+'</div>'
-			
-			+'<div class="col-md-4" align="left">'
-				+'<button class="form-control btn btn-link" onclick="adicionar()"><span class="oi oi-plus"></span></button>'
-			+'</div>'
-		+'</div><hr>';
-//Ao carregar a tela
-//-------------------------------------------------------------------------------------------------------------------
 
-$("#compras").html(linhaInput);
-$("#salvar").html('<button class="btn btn-success fRight">Salvar compras</button>');
 //-------------------------------------------------------------------
 function aviso() {
 	$.alert({
@@ -38,6 +21,76 @@ function aviso() {
 
 
 //----------------------------------------------------------------
-function adicionar() {
-	$("#compras").append(linhaInput);
+function salvar() {
+	
+	if($("#produto").val() != '' && $("#preco").val() != '') {
+		compra.produto = $("#produto").val();
+		compra.preco = $("#preco").val();
+		
+		//buscar data
+		$.ajax({
+			url: '/menu/mostrarDia',
+			type: 'PUT'
+		}).done(function(e){
+			
+			//buscar id da data
+			$.ajax({
+				url: '/menu/verificarData/' + e.dia,
+				type: 'PUT'
+			}).done(function(e){
+				
+				if(JSON.parse(e.compras) != null) {
+					compras = JSON.parse(e.compras);
+				}
+				
+				compras.unshift(compra);
+				console.table(compras);
+				
+				var id = JSON.parse(e.id);
+				console.log(id);
+				e.compras = JSON.stringify(compras);
+
+				console.log(e);
+				
+				$.ajax({
+					url: '/fechamento/finalizar/' + id,
+					type: 'PUT',
+					dataType : 'json',
+					contentType: "application/json",
+					data: JSON.stringify(e),
+				}).done(function(){
+					$.alert({
+						type: 'green',
+						title: 'Sucesso',
+						content: "Salvo com sucesso!",
+						buttons: {
+							confirm: {
+								text: 'continuar',
+								btnClass: 'btn-success',
+								keys: ['esc', 'enter'],
+								action: function(){
+									document.location.reload(true);
+								}
+							}
+						}
+					});
+				});
+			});
+		});
+	
+	}else {
+		$.alert({
+			type: 'red',
+			title: 'Atenção',
+			content: "Campo Vazio, preencha corretamente",
+			buttons: {
+				confirm: {
+					text: 'ok',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
+	}
+	
 }

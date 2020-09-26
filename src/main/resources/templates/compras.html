@@ -12,8 +12,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Compras <button onclick="aviso()" class="btn btn-link"><span class="oi oi-question-mark"></span></button></h1>
 		
 		<hr>
-		<div id="compras"></div>
-		<div id="salvar"></div>
+		<div class="row">
+			<div class="col-md-6">
+				<input class="form-control" id="produto" placeholder="Digite o nome do produto"/>
+			</div>
+			
+			<div class="col-md-6">
+				<input class="form-control preco" id="preco" placeholder="Digite o preco do produto"/>
+			</div>
+		</div><hr>
+		<br>
+		
+		<button class="btn btn-success fRight" onclick="salvar()">Salvar compras</button>
 	</div>
 	
 	<br>

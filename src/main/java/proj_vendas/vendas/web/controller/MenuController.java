@@ -76,7 +76,6 @@ public class MenuController {
 		return dados.save(dado);
 	}
 	
-
 	@RequestMapping(value = "/mostrarDia", method = RequestMethod.PUT)
 	@ResponseBody
 	public Dia MostrarDia() {
