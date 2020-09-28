@@ -599,47 +599,7 @@ $("#enviarPedido").click(function() {
 		if(cliente.envio == '' || cliente.envio == null) {
 			cliente.envio = $("#envioCliente").val();
 		}
-		linhaHtml = '<table>';
-		if(pizzas.length != 0) {
-			linhaHtml += '<tr>'
-							+ '<th class="col-md-1"><h5>Borda</h5></th>'
-							+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-							+ '<th class="col-md-1"><h5>Obs</h5></th>'
-							+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-							+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '</tr>';
-			
-			for(var i=0; i<pizzas.length; i++){
-				linhaHtml += '<tr>'
-							 +	'<td>' + pizzas[i].borda + '</td>'
-							 +	'<td>' + pizzas[i].sabor + '</td>'
-							 +	'<td>' + pizzas[i].obs + '</td>'
-							 +	'<td>' + pizzas[i].qtd + '</td>'
-							 +  '<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
-						 +  '</tr>';
-			}
-		}
-
-		linhaHtml += '</table>';
-		linhaHtml += '<table>';
-		if(produtos.length != 0) {
-			linhaHtml += '<tr>'
-							+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-							+ '<th class="col-md-1"><h5>Obs</h5></th>'
-							+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-							+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '</tr>';
-			
-			for(var i=0; i<produtos.length; i++){
-				linhaHtml += '<tr>'
-							 +	'<td>' + produtos[i].sabor + '</td>'
-							 +	'<td>' + produtos[i].obs + '</td>'
-							 +	'<td>' + produtos[i].qtd + '</td>'
-							 +  '<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
-						 +  '</tr>';
-			}
-		}
-		linhaHtml += '</table>';
+		mostrarTabela(pizzas, produtos);
 
 		if(cliente.envio == 'ENTREGA' || cliente.envio == 'IFOOD') {
 			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
@@ -804,47 +764,7 @@ $("#atualizarPedido").click(function() {
 		{
 			cliente.envio = $("#envioCliente").val();
 		}
-		
-		linhaHtml = '<table>';
-		if(pizzas.length != 0) {
-			linhaHtml += '<tr>'
-							+ '<th class="col-md-1"><h5>Borda</h5></th>'
-							+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-							+ '<th class="col-md-1"><h5>Obs</h5></th>'
-							+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-							+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '</tr>';
-			
-			for(var i=0; i<pizzas.length; i++){
-				linhaHtml += '<tr>'
-							 +	'<td>' + pizzas[i].borda + '</td>'
-							 +	'<td>' + pizzas[i].sabor + '</td>'
-							 +	'<td>' + pizzas[i].obs + '</td>'
-							 +	'<td>' + pizzas[i].qtd + '</td>'
-							 +  '<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
-						 +  '</tr>';
-			}
-		}
-		linhaHtml += '</table>';
-		linhaHtml += '<table>';
-		if(produtos.length != 0) {
-			linhaHtml += '<tr>'
-							+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-							+ '<th class="col-md-1"><h5>Obs</h5></th>'
-							+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-							+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '</tr>';
-			
-			for(var i=0; i<produtos.length; i++){
-				linhaHtml += '<tr>'
-							 +	'<td>' + produtos[i].sabor + '</td>'
-							 +	'<td>' + produtos[i].obs + '</td>'
-							 +	'<td>' + produtos[i].qtd + '</td>'
-							 +  '<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
-						 +  '</tr>';
-			}
-		}
-		linhaHtml += '</table>';
+		mostrarTabela(pizzas, produtos);
 
 		linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
 				+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
@@ -938,6 +858,52 @@ $("#atualizarPedido").click(function() {
 	}
 });
 
+
+//----------------------------------------------------------------------------
+function mostrarTabela(pizzas, produtos) {
+	linhaHtml = '<table>';
+	if(pizzas.length != 0) {
+		linhaHtml += '<tr>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pizzas.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td>' + pizzas[i].borda + '</td>'
+						 +	'<td>' + pizzas[i].sabor + '</td>'
+						 +	'<td>' + pizzas[i].obs + '</td>'
+						 +	'<td>' + pizzas[i].qtd + '</td>'
+						 +  '<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
+					 +  '</tr>';
+		}
+	}
+
+	linhaHtml += '</table>';
+	linhaHtml += '<table>';
+	if(produtos.length != 0) {
+		linhaHtml += '<tr>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<produtos.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td>' + produtos[i].sabor + '</td>'
+						 +	'<td>' + produtos[i].obs + '</td>'
+						 +	'<td>' + produtos[i].qtd + '</td>'
+						 +  '<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+					 +  '</tr>';
+		}
+	}
+	linhaHtml += '</table>';
+}
+//----------------------------------------------------------------------------
 function imprimir() {
 	
 	imprimirTxt = '<h1 align="center">Gazal Tech</h1>'
@@ -948,6 +914,7 @@ function imprimir() {
 					+ '<br>Endereço: ' + cliente.endereco
 					+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
 	}
+	mostrarTabela(pizzas, produtos);//construir html
 	imprimirTxt += 'Data do pedido: ' + cliente.horaPedido
 				+ '<hr>' + linhaHtml;
 	
