@@ -23,18 +23,20 @@ $.ajax({
 			
 			pedidos.push({
 				'id' : e[i].id,
+				'comanda': e[i].comanda,
 				'nomePedido' : e[i].nomePedido,
 				'celular' : e[i].celular,
 				'endereco': e[i].endereco,
+				'pizzas': JSON.parse(e[i].pizzas),
+				'produtos': JSON.parse(e[i].produtos),
+				'motoboy': e[i].motoboy,
+				'status': e[i].status,
 				'envio': e[i].envio,
+				'pagamento': e[i].pagamento,
+				'taxa': e[i].taxa,
 				'total': e[i].total,
 				'troco': e[i].troco,
-				'status': e[i].status,
-				'produtos': e[i].produtos,
-				'pizzas': e[i].pizzas,
-				'motoboy': e[i].motoboy,
 				'horaPedido': e[i].horaPedido,
-				'pagamento': e[i].pagamento,
 				'data': e[i].data
 			});
 		}

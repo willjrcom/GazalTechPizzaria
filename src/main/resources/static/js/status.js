@@ -30,18 +30,19 @@ function buscarPedidos() {
 				
 				pedidos.unshift({
 					'id' : e[i].id,
+					'comanda': e[i].comanda,
 					'nomePedido' : e[i].nomePedido,
 					'celular' : e[i].celular,
 					'endereco': e[i].endereco,
+					'pizzas': JSON.parse(e[i].pizzas),
+					'produtos': JSON.parse(e[i].produtos),
+					'status': e[i].status,
+					'envio': e[i].envio,
+					'pagamento': e[i].pagamento,
+					'taxa': e[i].taxa,
 					'total': e[i].total,
 					'troco': e[i].troco,
-					'envio': e[i].envio,
-					'status': e[i].status,
-					'pagamento': e[i].pagamento,
-					'produtos' : e[i].produtos,
-					'pizzas' : JSON.parse(e[i].pizzas),
 					'horaPedido': e[i].horaPedido,
-					'pagamento': e[i].pagamento,
 					'data': e[i].data
 				});
 			}

@@ -124,7 +124,18 @@ $("#data").click(function(){
 						}
 						
 					}).fail(function(){
-						$.alert("Falha no acesso!");
+						$.alert({
+							type: 'red',
+							title: 'Alerta',
+							content: "Escolha uma data!",
+							buttons: {
+								confirm: {
+									text: 'Tentar novamente',
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
 					});
 				}
 			},
@@ -152,21 +163,7 @@ function troco() {
 	
 					var troco = this.$content.find('#troco').val();
 
-					if(troco % 2 != 0 && troco % 2 != 1) {
-						$.alert({
-							type:'red',
-							title:'Tente novamente!',
-							content: 'Digite um valor válido.',
-							buttons:{
-								confirm:{
-									text:'Voltar',
-									btnClass: 'btn-danger',
-									keys:['enter','esc'],
-								}
-							}
-						});
-						troco();
-					}
+					troco = troco.toString().replace(",",".");
 					
 					dados.trocoInicio = troco;
 					
@@ -177,6 +174,7 @@ function troco() {
 					}).done(function(e){
 		
 						dados.id = e.id;
+						dados.comanda = e.comanda;
 						dados.balcao = e.balcao;
 						dados.entregas = e.entregas;
 						dados.totalLucro = e.totalLucro;
@@ -205,7 +203,20 @@ function troco() {
 									}
 								}
 							});
-						});
+						}).fail(function(){
+							$.alert({
+								type: 'red',
+								title: 'Alerta',
+								content: "Digite um valor válido!",
+								buttons: {
+									confirm: {
+										text: 'Tentar novamente',
+										btnClass: 'btn-danger',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
+						})
 					});
 				}
 			}

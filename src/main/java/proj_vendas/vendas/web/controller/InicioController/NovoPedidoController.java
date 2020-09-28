@@ -75,7 +75,7 @@ public class NovoPedidoController {
 	public Pedido novoPedido(@RequestBody Pedido pedido) {
 		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
 		Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
-		pedido.setCodigoPedido((long)(dado.getComanda() + 1)); //salvar o numero do pedido
+		pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
 		dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
 		dados.save(dado); //autalizar n da comanda
 		return pedidos.save(pedido); //salvar pedido

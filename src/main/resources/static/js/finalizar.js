@@ -6,6 +6,7 @@ var linhaCinza = '<tr><td colspan="7" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
 var Tpedido = 0;
 var Tpizzas = 0;
+var verificarTroco = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
@@ -22,17 +23,18 @@ $.ajax({
 			
 			pedidos.push({
 				'id' : e[i].id,
+				'comanda': e[i].comanda,
 				'nomePedido' : e[i].nomePedido,
 				'celular' : e[i].celular,
 				'endereco': e[i].endereco,
-				'envio': e[i].envio,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'taxa': e[i].taxa,
-				'status': e[i].status,
-				'pagamento': e[i].pagamento,
 				'pizzas': JSON.parse(e[i].pizzas),
 				'produtos': JSON.parse(e[i].produtos),
+				'status': e[i].status,
+				'envio': e[i].envio,
+				'pagamento': e[i].pagamento,
+				'taxa': e[i].taxa,
+				'total': e[i].total,
+				'troco': e[i].troco,
 				'horaPedido': e[i].horaPedido,
 				'data': e[i].data
 			});
@@ -184,20 +186,10 @@ function finalizarPedido() {
 
 						if(pedidos[idBusca].pagamento != "Não") {
 							var troco = this.$content.find('#troco').val();
-							if(troco % 2 != 0 && troco % 2 != 1) {
-								$.alert({
-									type:'red',
-									title:'Tente novamente!',
-									content: 'Digite um valor válido.',
-									buttons:{
-										confirm:{
-											text:'Voltar',
-											btnClass: 'btn-danger',
-											keys:['enter','esc'],
-										}
-									}
-								});
-							}
+
+							troco = troco.toString().replace(",",".");
+							
+							verificarTroco = 1;
 						}
 						
 						$.ajax({
@@ -209,7 +201,11 @@ function finalizarPedido() {
 							document.location.reload(true);
 							
 						}).fail(function(e){
-							$.alert("Pedido não enviado!");
+							if(verificarTroco == 0) {
+								$.alert("Pedido não enviado!");
+							}else {
+								$.alert("Pedido não enviado!<br>Digite um valor válido.");
+							}
 						});
 					}
 		        },

@@ -21,7 +21,7 @@ public class Pedido implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Long codigoPedido;
+	private Long comanda;
 	private String nomePedido;
 	private String celular;
 	private String endereco;
@@ -47,12 +47,6 @@ public class Pedido implements Serializable{
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public Long getCodigoPedido() {
-		return codigoPedido;
-	}
-	public void setCodigoPedido(Long codigoPedido) {
-		this.codigoPedido = codigoPedido;
 	}
 	public String getPizzas() {
 		return pizzas;
@@ -146,5 +140,11 @@ public class Pedido implements Serializable{
 	}
 	public void setHoraPedido(String horaPedido) {
 		this.horaPedido = horaPedido;
+	}
+	public Long getComanda() {
+		return comanda;
+	}
+	public void setComanda(Long comanda) {
+		this.comanda = comanda;
 	}
 }

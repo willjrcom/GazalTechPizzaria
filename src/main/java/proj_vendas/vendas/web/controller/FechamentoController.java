@@ -51,13 +51,6 @@ public class FechamentoController {
 		return pedidos.findByStatusAndData("FINALIZADO", dia);
 	}
 	
-	@RequestMapping(value = "/apagartudo", method = RequestMethod.PUT)
-	@ResponseBody
-	public String ApagarTudo() {
-		pedidos.deleteAll();
-		return "ok";
-	}
-	
 	@RequestMapping(value = "/baixartudo", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> baixarTudo() {

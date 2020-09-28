@@ -30,12 +30,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		
 		<br><br>
-		<div class="fLeft">
-			<a><button name="delete_all" id="delete_all" class="btn btn-danger">APAGAR TODOS PEDIDOS DO DIA</button></a>
-		</div>
 
 		<div class="fLeft">
-			<a><button name="delete_all" id="download_all" class="btn btn-success">Baixar Pedidos</button></a>
+			<a><button name="delete_all" id="download_all" class="btn btn-primary">Baixar Relatório</button></a>
 		</div>
 		
 		<div class="fRight">
@@ -46,6 +43,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<br>
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/fechamento.js}"></script>
+	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: adm}"></div>

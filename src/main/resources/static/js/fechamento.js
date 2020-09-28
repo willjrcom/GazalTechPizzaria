@@ -125,37 +125,6 @@ $.ajax({
 });
 
 
-//-----------------------------------------------------------------------------------
-$("#delete_all").click(function(){
-	$.confirm({
-		title: 'APAGAR TUDO?',
-		content: 'Tem certeza?',
-		buttons: {
-	        confirm: {
-				text: 'APAGAR',
-	    		keys: ['enter'],
-	            btnClass: 'btn-red',
-	            action: function(){
-					$.ajax({
-						url: '/fechamento/apagartudo',
-						type: 'PUT'
-					}).done(function(){
-						$.alert("Todos pedidos foram apagados!");
-					}).fail(function(){
-						$.alert("Falhou!");
-					})
-				}
-			},
-	        cancel: {
-				text: 'Voltar',
-	    		keys: ['esc'],
-	            btnClass: 'btn-green'
-			}
-		}
-	});
-});
-
-
 //--------------------------------------------------------------------------------
 $("#download_all").click(function(){
 	$.ajax({
@@ -203,7 +172,7 @@ function troco(){
 	$.confirm({
 		type: 'blue',
 		title: 'Troco do caixa',
-		content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control" id="troco" value="0"/>',
+		content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control preco" id="troco" value="0"/>',
 		buttons:{
 			confirm:{
 				text:'Salvar',
@@ -212,22 +181,8 @@ function troco(){
 				action: function(){
 		
 					var troco = this.$content.find('#troco').val();
-		
-					if(troco % 2 != 0 && troco % 2 != 1) {
-						$.alert({
-							type:'red',
-							title:'Tente novamente!',
-							content: 'Digite um valor válido.',
-							buttons:{
-								confirm:{
-									text:'Voltar',
-									btnClass: 'btn-danger',
-									keys:['enter','esc'],
-								}
-							}
-						});
-						troco();
-					}
+					
+					troco = troco.toString().replace(",",".");
 					
 					//buscar data do sistema
 					$.ajax({
@@ -275,7 +230,8 @@ function troco(){
 								});
 								
 							}).fail(function(){
-								$.alert("Erro");
+								$.alert("Erro, digite um valor válido");
+								troco();
 							});
 						
 						});

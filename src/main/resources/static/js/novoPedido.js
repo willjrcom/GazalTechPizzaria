@@ -74,17 +74,17 @@ if(typeof url_atual == "undefined") {
 		$("#cancelar").html('<span class="oi oi-ban"></span> Cancelar alteração');
 
 		cliente.id = e.id;
+		cliente.comanda = e.comanda;
 		cliente.nomePedido = e.nomePedido;
-		cliente.envio = e.envio;
-		cliente.total = e.total;
-		cliente.troco = e.troco;
-		cliente.pagamento =  e.pagamento;
-		cliente.status = e.status;
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
-		cliente.data = e.data;
+		cliente.status = e.status;
+		cliente.envio = e.envio;
+		cliente.pagamento =  e.pagamento;
+		cliente.total = e.total;
+		cliente.troco = e.troco;
 		cliente.horaPedido = e.horaPedido;
-		cliente.codigoPedido = e.codigoPedido;
+		cliente.data = e.data;
 		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
@@ -162,9 +162,6 @@ $('#numeroCliente').on('blur', function(){
 
 			if(e.length != 0) {
 				$("#mostrar").show('slow'); //mostrar tabelas
-					
-				$("#idCliente").text(e.id);
-				cliente.codigoPedido = e.id;
 				
 				$("#nomeCliente").text(e.nome).css('background-color', '#D3D3D3');
 				cliente.nomePedido = e.nome;
@@ -679,10 +676,9 @@ $("#enviarPedido").click(function() {
 		            action: function(){
 						
 						var troco = this.$content.find('#troco').val();
-						
-						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
-							$("#troco").val(tPedido);
-						}
+
+						troco = troco.toString().replace(",",".");
+						troco = parseFloat(troco);
 
 						if(pizzas.length != 0) {
 							cliente.status = "COZINHA";
@@ -696,8 +692,6 @@ $("#enviarPedido").click(function() {
 							type: 'PUT'
 						}).done(function(e){
 							cliente.data = e.dia;
-						
-							cliente.troco = parseFloat(troco);
 							cliente.total = tPedido;
 							cliente.produtos = JSON.stringify(produtos);
 							cliente.pizzas = JSON.stringify(pizzas);
@@ -707,6 +701,12 @@ $("#enviarPedido").click(function() {
 							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
 								cliente.total += parseFloat(cliente.taxa);
 							}
+							
+							if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
+								troco = cliente.total;
+							}
+
+							cliente.troco = parseFloat(troco);
 							
 							//salvar pedido
 							$.ajax({
@@ -871,6 +871,9 @@ $("#atualizarPedido").click(function() {
 		            action: function(){
 			
 						var troco = this.$content.find('#troco').val();
+
+						troco = troco.toString().replace(",",".");
+						
 						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
 							$("#troco").val(tPedido);
 						}
@@ -880,11 +883,16 @@ $("#atualizarPedido").click(function() {
 							cliente.status = 'COZINHA';
 						}
 						
-						cliente.troco = parseFloat(troco);
 						cliente.total = parseFloat(tPedido);
 						cliente.produtos = JSON.stringify(produtos);
 						cliente.pizzas = JSON.stringify(pizzas);
 						cliente.pagamento = $("#pagamentoCliente").val();
+
+						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
+							troco = cliente.total;
+						}
+
+						cliente.troco = parseFloat(troco);
 						
 						$.ajax({
 							url: "/novoPedido/atualizarPedido/" + url_atual,
