@@ -14,45 +14,49 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<!-- 
 		" -->
 	<div class="divbaseForm">
-		<div align="center" class="gazaltech">
-			<button class="btn btn-primary"><h1 align="center">Gazal Tech</h1></button>
-			<h3 align="center">Soluções para seu negócio</h3>
-		</div>
-		
-		<hr>
-		
+		<a th:href="@{/index}"><button class="btn btn-primary">Voltar ao login</button></a>
 		<h2 align="center">Formulário</h2>
-		<form>		
+		
+		<form>
+		
+			<div class="form-group">
+				<label>Nome:</label><br>
+				<input type="text" class="form-control" name="nome" id="nome"/>
+			</div>
+			
+			<div class="form-group">
+				<label>Email:</label><br>
+				<input type="text" class="form-control" name="email" id="email"/>
+			</div>
+			
 			<div class="form-group">
 				<label>Selecione a opção:</label><br>
-				<select class="form-control">
+				<select class="form-control" name="opcao" id="opcao">
 					<option>Dúvida</option>
 					<option>Reportar erro</option>
 					<option>Recomendar alteração</option>
 					<option>Avaliar</option>
 				</select>
 			</div>
-			<br>
 			
 			<div class="form-group">
 				<label>Selecione a página:</label><br>
-				<select class="form-control">
+				<select class="form-control" name="pagina">
 					<option>Novo Pedido</option>
 					<option>Adm</option>
 					<option>Cadastros</option>
-					<option>Opcões</option>
+					<option>Empresa</option>
 					<option>Login</option>
 				</select>
 			</div>
-			<br>
 			
 			<div class="form-group">
 				<label>Dúvidas:</label><br>
-				<textarea class="form-control" placeholder="Digite sua dúvida"></textarea>
+				<textarea class="form-control" name="duvida" id="duvida" placeholder="Digite sua dúvida"></textarea>
 			</div>
 			
 			<br>
-			<button class="form-control btn btn-success">Enviar</button>
+			<button class="form-control btn btn-success" onclick="enviarEmail()">Enviar</button>
 		</form>
 	
 	<hr>
@@ -120,22 +124,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<br>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script th:src="@{/js/gazaltech.js}"></script>
 	</body>
 </html>
-
-
-<!-- 
-
- 			<a href="https://www.youtube.com/watch?v=tHRw3UeDkG8" data-caption="Curso gratuito de pizza acrobática"></a>
-			<div class="fotorama "
-			data-allowfullscreen="true"
-	     	data-nav="thumbs"
-	     	data-loop="true"
-	     	data-autoplay="true"
-	     	data-keyboard="true"
-	     	data-width="100%"
-	     	data-ratio="800/600"
-	     	data-minwidth="400"
-	     	data-maxwidth="100%"
-	     	data-minheight="300"
-	     	data-maxheight="50%"> -->
