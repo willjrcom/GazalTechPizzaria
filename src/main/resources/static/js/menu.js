@@ -183,6 +183,7 @@ function troco() {
 						dados.totalPizza = e.totalPizza;
 						dados.totalProduto = e.totalProduto;
 						dados.trocoFinal = e.trocoFinal;
+						dados.compras = e.compras;
 						
 						//alterar troco inicial
 						$.ajax({

@@ -1,14 +1,14 @@
 
 var compra = {};
 var compras = [];
-
+var Tcompras = '';
 
 //-------------------------------------------------------------------
 function aviso() {
 	$.alert({
 		type:'blue',
 		title:'Compras',
-		content:'Para acessar e ver as compras feitas, é necessário adicionar o dia que a compra foi feita através do menu.',
+		content:'Para acessar e ver as compras feitas, é necessário escolher o dia que a compra foi feita através do menu.',
 		buttons:{
 			confirm:{
 				text:'Voltar',
@@ -92,5 +92,40 @@ function salvar() {
 			}
 		});
 	}
-	
 }
+
+
+//---------------------------------------------------------------------------
+$(document).ready(function(){
+
+	//buscar data
+	$.ajax({
+		url: '/menu/mostrarDia',
+		type: 'PUT'
+	}).done(function(e){
+
+		//buscar id da data
+		$.ajax({
+			url: '/menu/verificarData/' + e.dia,
+			type: 'PUT'
+		}).done(function(e){
+			
+			Tcompras = '';
+			var produtos = JSON.parse(e.compras);
+
+			//se existir algum produto
+			if(produtos != null) {
+				for(produto of produtos) {
+					Tcompras += '<tr>'
+								+ '<td>' + produto.produto + '</td>'
+								+ '<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+							+ '</tr>';
+				}
+			}else {
+				Tcompras = '<tr><td colspan="2">Nenhuma compra feita nessa data</td></tr>';
+			}
+			
+			$("#compras").html(Tcompras);
+		});
+	});
+});
