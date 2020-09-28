@@ -71,24 +71,24 @@ function buscarPedido() {
 					linhaHtml += '<td><div class="row">';
 					
 					linhaHtml +='<div class="col-md-1">'
-									+'<a style="background-color: white" title="Ver">'
-										+'<button style="background-color: white; border: none" onclick="verPedido()" value="'+ pedidos[i].id + '">'
+									+'<a title="Ver">'
+										+'<button class="botao" onclick="verPedido()" value="'+ pedidos[i].id + '">'
 											+'<span class="oi oi-magnifying-glass"></span>'
 										+'</button>'
 									+'</a>'
 								+'</div>';
 							
 					linhaHtml += '<div class="col-md-1">'
-									+'<a style="background-color: white" title="Editar">'
-										+'<button style="background-color: white; border: none" onclick="editarPedido()" value="'+ pedidos[i].id + '">'
+									+'<a title="Editar">'
+										+'<button class="botao" onclick="editarPedido()" value="'+ pedidos[i].id + '">'
 											+'<span class="oi oi-pencil"></span>'
 										+'</button>'
 									+'</a>'
 								+'</div>';
 					
 					linhaHtml += '<div class="col-md-1">'
-									+'<a style="background-color: white" title="Excluir">'
-										+'<button style="background-color: white; border: none" onclick="excluirPedido()" value="'+ pedidos[i].id + '">'
+									+'<a title="Excluir">'
+										+'<button class="botao" onclick="excluirPedido()" value="'+ pedidos[i].id + '">'
 											+'<span class="oi oi-trash"></span>'
 										+'</button>'
 									+'</a>'
