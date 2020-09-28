@@ -115,4 +115,9 @@ public class NovoPedidoController {
 	public Optional<Dia> data() {
 		return dias.findById((long) 1);
 	}
+	
+	@RequestMapping(value = "/{numero}")
+	public ModelAndView editarCadastro(@ModelAttribute("celular") String celular){
+		return new ModelAndView("novoPedido");
+	}
 }

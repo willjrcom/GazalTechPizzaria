@@ -1,8 +1,13 @@
 var cliente = {};
 var url_atual = window.location.href;
 
+var celular = url_atual.split("/")[4];
+celular = parseInt(celular);
 url_atual = url_atual.split("/")[5];
 
+if(celular % 2 == 1 || celular % 2 == 0) {
+	$("#cel").val(celular);
+}
 if(typeof url_atual == "undefined") {
 	$("#atualizar").hide();
 }else {
@@ -111,19 +116,11 @@ $("#enviar").click(function() {
 							        confirm: {
 							            text: 'Novo pedido',
 							            btnClass: 'btn-green',
-							            keys: ['enter'],
+							            keys: ['esc','enter'],
 							            action: function(){
-											window.location.href = "/novoPedido";
+											window.location.href = "/novoPedido/" + $("#cel").cleanVal();
 										}
 									},
-									cancel: {
-										text: 'Recarregar',
-							            btnClass: 'btn-blue',
-							            keys: ['esc'],
-							            action: function(){
-											document.location.reload(true);
-										}
-									}
 								}
 							});
 							
@@ -191,7 +188,7 @@ $("#atualizar").click(function() {
 							            btnClass: 'btn-green',
 							            keys: ['enter'],
 							            action: function(){
-											window.location.href = "/novoPedido";
+											window.location.href = "/novoPedido/" + $("#cel").cleanVal();
 										}
 									},
 									cancel: {

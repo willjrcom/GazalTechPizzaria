@@ -51,6 +51,11 @@ public class CadastroClienteController {
 		return new ModelAndView("cadastroCliente");
 	}
 	
+	@RequestMapping(value = "/{numero}")
+	public ModelAndView editarCadastro(@ModelAttribute("celular") String celular){
+		return new ModelAndView("cadastroCliente");
+	}
+	
 	@RequestMapping(value = "/editarCliente/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Cliente> buscarCliente(@PathVariable Long id) {

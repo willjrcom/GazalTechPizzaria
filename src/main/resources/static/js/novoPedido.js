@@ -50,8 +50,13 @@ var qtdHtml = '<label>Quantidade: <span id="qtdInput">1</span></label><br>'
 			+ '<label>Observação:</label>'
 			+ '<input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" />';
 
+var celular = url_atual.split("/")[4];//pega o id de novo cadastro
+celular = parseInt(celular);
 url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
 
+if(celular % 2 == 1 || celular % 2 == 0) {
+	$("#numeroCliente").val(celular);
+}
 if(typeof url_atual == "undefined") {
 	$("#enviarPedido").addClass("pula");
 	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$0,00');
@@ -99,7 +104,7 @@ if(typeof url_atual == "undefined") {
 			$("#nomeCliente").text(cliente.nomePedido);
 			$("#celCliente").text(cliente.celular);
 			$("#enderecoCliente").text(cliente.endereco);
-			$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa + ',00');
+			$("#taxaCliente").text('Taxa: R$ ' + parseFloat(cliente.taxa).toFixed(2));
 		}
 		
 		//mostrar entrega
@@ -172,7 +177,7 @@ $('#numeroCliente').on('blur', function(){
 				$("#enderecoCliente").text(e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro);
 				cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
 				
-				$("#taxaCliente").text('Taxa: R$ ' + e.endereco.taxa + ',00');
+				$("#taxaCliente").text('Taxa: R$ ' + parseFloat(e.endereco.taxa).toFixed(2));
 				cliente.taxa = e.endereco.taxa;
 
 				$("#divBuscar").hide('slow');
@@ -187,7 +192,7 @@ $('#numeroCliente').on('blur', function(){
 								+'<option value="DRIVE">Drive-Thru</option>'
 							+'</select>');
 			}else {
-				window.location.href = "/cadastroCliente";
+				window.location.href = "/cadastroCliente/" + numero;
 			}
 		}).fail(function(){
 			console.log("Cliente não encontrado!");
