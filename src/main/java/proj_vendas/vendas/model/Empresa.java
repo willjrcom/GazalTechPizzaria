@@ -1,19 +1,12 @@
 package proj_vendas.vendas.model;
 
-import java.util.Date;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "EMPRESA")
@@ -23,25 +16,15 @@ public class Empresa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String nome;
-
-	@Column(unique = true)
+	private String nomeEstabelecimento;
+	private String nomeEmpresa;
 	private String cnpj;
-
 	private String email;
 	private String celular;
+	private double horaExtra;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
-
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
-	private Date dataCompra;
-
-	private String pagamentoMensal;
-	
-	private String login;
-	private String senha;
 	
 	public Long getId() {
 		return id;
@@ -50,14 +33,7 @@ public class Empresa {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -82,22 +58,6 @@ public class Empresa {
 		this.endereco = endereco;
 	}
 
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
 	public String getCnpj() {
 		return cnpj;
 	}
@@ -106,20 +66,29 @@ public class Empresa {
 		this.cnpj = cnpj;
 	}
 
-	public Date getDataCompra() {
-		return dataCompra;
+	public String getNomeEstabelecimento() {
+		return nomeEstabelecimento;
 	}
 
-	public void setDataCompra(Date dataCompra) {
-		this.dataCompra = dataCompra;
+	public void setNomeEstabelecimento(String nomeEstabelecimento) {
+		this.nomeEstabelecimento = nomeEstabelecimento;
 	}
 
-	public String getPagamentoMensal() {
-		return pagamentoMensal;
+	public String getNomeEmpresa() {
+		return nomeEmpresa;
 	}
 
-	public void setPagamentoMensal(String pagamentoMensal) {
-		this.pagamentoMensal = pagamentoMensal;
+	public void setNomeEmpresa(String nomeEmpresa) {
+		this.nomeEmpresa = nomeEmpresa;
 	}
+
+	public double getHoraExtra() {
+		return horaExtra;
+	}
+
+	public void setHoraExtra(double horaExtra) {
+		this.horaExtra = horaExtra;
+	}
+	
 	
 }

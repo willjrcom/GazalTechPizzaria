@@ -5,7 +5,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 >
 
 <head th:replace="~{layouts/frag :: head}" ></head>
-
+	<script>
+	$(document).ready(function(){
+		$.ajax({
+			url: '/empresa/editar',
+			type: 'PUT'
+		}).done(function(e){
+			if(e.length != 0) {
+				$("title").text($("title").text() + " - " + e.nomeEmpresa);
+			}
+		});
+	});
+	</script>
 <head>
 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
 	<title>Menu</title>

@@ -26,4 +26,4 @@ window.setInterval(function(){
 	}
 	$("#dia-atual").html(format_time(dia) + '/' + format_time(mes) + '/' + format_time(ano));
 	$("#hora-atual").html(format_time(horas) + ':' + format_time(minutos) + ':' + format_time(segundos));
-},1000)
+},1000);

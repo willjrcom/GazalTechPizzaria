@@ -33,3 +33,13 @@ function calculadora() {
 
 
 //---------------------------------------------------------------
+$(document).ready(function(){
+	$.ajax({
+		url: '/empresa/editar',
+		type: 'PUT'
+	}).done(function(e){
+		if(e.length != 0) {
+			$("title").text($("title").text() + " - " + e.nomeEmpresa);
+		}
+	});
+});
