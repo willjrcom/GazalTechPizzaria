@@ -64,7 +64,7 @@ $("#data").click(function(){
 										},
 										cancel:{
 											text:'Continuar',
-											btnClass: 'btn-danger'
+											btnClass: 'btn-primary'
 										}
 									}
 								});
