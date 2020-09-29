@@ -86,7 +86,7 @@ function verCliente() {
 					+ '<td><h4>Celular</h4></td>'
 					+ '<td><h4>Cpf</h4></td>'
 					+ '<td><h4>Endereco</h4></td>'
-					+ '<td><h4>Referencia</h4></td>'
+					+ '<td><h4>Referência</h4></td>'
 					+ '<td><h4>Taxa</h4></td>'
 				+ '</tr>'
 	
@@ -100,7 +100,7 @@ function verCliente() {
 			+ '</table>';
 	
 	$.alert({
-		type: 'green',
+		type: 'blue',
 	    title: 'Cliente: ' + clientes[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',

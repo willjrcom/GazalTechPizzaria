@@ -104,7 +104,7 @@ function verFuncionario() {
 			+ '</table>';
 	
 	$.alert({
-		type: 'green',
+		type: 'blue',
 	    title: 'Funcionario: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',

@@ -12,88 +12,91 @@ var verificarTroco = 0;
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
 
-$.ajax({
-	url: "/finalizar/todosPedidos",
-	type: 'PUT'
-})
-.done(function(e){
-	
-	for(var i = 0; i< e.length; i++){
-		if((e[i].status == "PRONTO" && e[i].envio == "BALCAO") || (e[i].status == "PRONTO" &&  e[i].envio == "MESA") || (e[i].status == "PRONTO" && e[i].envio == "DRIVE")){
-			
-			pedidos.push({
-				'id' : e[i].id,
-				'comanda': e[i].comanda,
-				'nomePedido' : e[i].nomePedido,
-				'celular' : e[i].celular,
-				'endereco': e[i].endereco,
-				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': JSON.parse(e[i].produtos),
-				'status': e[i].status,
-				'envio': e[i].envio,
-				'pagamento': e[i].pagamento,
-				'taxa': e[i].taxa,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'horaPedido': e[i].horaPedido,
-				'data': e[i].data
-			});
-		}
-	}
-	
+$(document).ready(function(){
 	$.ajax({
-		url: "/motoboy/funcionarios",
+		url: "/finalizar/todosPedidos",
 		type: 'PUT'
 	})
 	.done(function(e){
 		
-		for(var i = 0; i<e.length; i++){
-			funcionarios.unshift({
-				'id': e[i].id,
-				'nome': e[i].nome
-			});
-		}
-		
-		var linhaFuncionarios = '<option value="--">-------</option>';
-		
-		for(var i = 0; i<funcionarios.length; i++){
-			linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
-		}
-		
-		$("#filtro").html(linhaFuncionarios);
-
-		$("#todosPedidos").html("");
-		linhaHtml = "";
-		
-		if(pedidos.length == 0){
-			$("#todosPedidos").html(pedidoVazio);
-		}else{
-			for(var i = 0; i<pedidos.length; i++){
-				linhaHtml += '<tr>'
-							+ '<td>' + pedidos[i].id + '</td>'
-							+ '<td>' + pedidos[i].nomePedido + '</td>';
+		for(var i = 0; i< e.length; i++){
+			if((e[i].status == "PRONTO" && e[i].envio == "BALCAO") || (e[i].status == "PRONTO" &&  e[i].envio == "MESA") || (e[i].status == "PRONTO" && e[i].envio == "DRIVE")){
 				
-				Tpizzas = 0;
-				for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-					Tpizzas += pedidos[i].pizzas[k].qtd;
-				}
-				for(var k = 0; k < pedidos[i].produtos.length; k++) {
-					Tpizzas += pedidos[i].produtos[k].qtd;
-				}
-				linhaHtml += '<td>' + Tpizzas + '</td>'
-							+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
-							+ '<td>' + pedidos[i].pagamento + '</td>'
-							+ '<td>' 
-								+ '<a class="enviarPedido">'
-								+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-								+ 'value="'+ pedidos[i].id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>'			
-						+ '<tr>'
-					+ linhaCinza;
+				pedidos.push({
+					'id' : e[i].id,
+					'comanda': e[i].comanda,
+					'nomePedido' : e[i].nomePedido,
+					'celular' : e[i].celular,
+					'endereco': e[i].endereco,
+					'pizzas': JSON.parse(e[i].pizzas),
+					'produtos': JSON.parse(e[i].produtos),
+					'status': e[i].status,
+					'envio': e[i].envio,
+					'pagamento': e[i].pagamento,
+					'taxa': e[i].taxa,
+					'total': e[i].total,
+					'troco': e[i].troco,
+					'horaPedido': e[i].horaPedido,
+					'data': e[i].data
+				});
 			}
-			$("#todosPedidos").html(linhaHtml);
 		}
-	});
-});	
+		
+		$.ajax({
+			url: "/motoboy/funcionarios",
+			type: 'PUT'
+		})
+		.done(function(e){
+			
+			for(var i = 0; i<e.length; i++){
+				funcionarios.unshift({
+					'id': e[i].id,
+					'nome': e[i].nome
+				});
+			}
+			
+			var linhaFuncionarios = '<option value="--">-------</option>';
+			
+			for(var i = 0; i<funcionarios.length; i++){
+				linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
+			}
+			
+			$("#filtro").html(linhaFuncionarios);
+
+			$("#todosPedidos").html("");
+			linhaHtml = "";
+			
+			if(pedidos.length == 0){
+				$("#todosPedidos").html(pedidoVazio);
+			}else{
+				for(var i = 0; i<pedidos.length; i++){
+					linhaHtml += '<tr>'
+								+ '<td>' + pedidos[i].id + '</td>'
+								+ '<td>' + pedidos[i].nomePedido + '</td>';
+					
+					Tpizzas = 0;
+					for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+						Tpizzas += pedidos[i].pizzas[k].qtd;
+					}
+					for(var k = 0; k < pedidos[i].produtos.length; k++) {
+						Tpizzas += pedidos[i].produtos[k].qtd;
+					}
+					linhaHtml += '<td>' + Tpizzas + '</td>'
+								+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
+								+ '<td>' + pedidos[i].pagamento + '</td>'
+								+ '<td>' 
+									+ '<a class="enviarPedido">'
+									+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
+									+ 'value="'+ pedidos[i].id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>'			
+							+ '<tr>'
+						+ linhaCinza;
+				}
+				$("#todosPedidos").html(linhaHtml);
+			}
+		});
+	});	
+});
+
 
 
 //---------------------------------------------------------------------------------
@@ -114,7 +117,7 @@ function finalizarPedido() {
 	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
 		Tpizzas += pedidos[idBusca].produtos[k].qtd;
 	}
-	
+	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width:100%">'
 					+ '<tr>'
@@ -166,7 +169,18 @@ function finalizarPedido() {
 
 //modal jquery confirmar
 	if($("#filtro").val() == "--"){
-		$.alert("Escolha um funcionário!");
+		$.alert({
+			type: 'red',
+			title: 'Ops..',
+			content: "Escolha um funcionário!",
+			buttons: {
+				confirm: {
+					text: 'Escolher',
+					btnClass: 'btn-success',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else {
 		$.confirm({
 			type: 'green',

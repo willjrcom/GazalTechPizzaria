@@ -92,7 +92,7 @@ if(typeof url_atual == "undefined") {
 		cliente.data = e.data;
 		
 		//mostrar entrega
-		if(e.envio == 'ENTREGA' || e.envio == 'IFOOD') {
+		if(e.envio == 'ENTREGA') {
 			$("#mostrar").show('slow'); //esconder tabelas
 
 			cliente.celular = e.celular;
@@ -186,7 +186,6 @@ $('#buscarCliente').on('click', function(){
 								+'<option value="ENTREGA">Entrega</option>'
 								+'<option value="BALCAO">Balcão</option>'
 								+'<option value="MESA">Mesa</option>'
-								+'<option value="IFOOD">Ifood</option>'
 								+'<option value="DRIVE">Drive-Thru</option>'
 							+'</select>');
 			}else {
@@ -601,7 +600,7 @@ $("#enviarPedido").click(function() {
 		}
 		mostrarTabela(pizzas, produtos);
 
-		if(cliente.envio == 'ENTREGA' || cliente.envio == 'IFOOD') {
+		if(cliente.envio == 'ENTREGA') {
 			linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
 						+ '<br><b>Pedido:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><b>Taxa:</b> R$ ' + parseFloat(cliente.taxa).toFixed(2)
@@ -861,8 +860,10 @@ $("#atualizarPedido").click(function() {
 
 //----------------------------------------------------------------------------
 function mostrarTabela(pizzas, produtos) {
+	
+	linhaHtml = '';
 	if(pizzas.length != 0) {
-		linhaHtml = '<table style="width: 100%">'
+		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'

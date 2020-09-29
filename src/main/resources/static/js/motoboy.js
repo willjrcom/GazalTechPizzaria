@@ -18,7 +18,7 @@ $.ajax({
 .done(function(e){
 	
 	for(var i = 0; i< e.length; i++){
-		if((e[i].status == "PRONTO" && e[i].envio == "ENTREGA") || (e[i].status == "PRONTO" && e[i].envio == "IFOOD")){
+		if(e[i].status == "PRONTO" && e[i].envio == "ENTREGA"){
 			Tpedidos++;
 			
 			pedidos.push({
@@ -112,7 +112,18 @@ function finalizarPedido() {
 	}
 	
 	if($("#filtro").val() == "--"){
-		$.alert("Escolha um motoboy!");
+		$.alert({
+			type: 'red',
+			title: 'Ops..',
+			content: "Escolha um motoboy!",
+			buttons: {
+				confirm: {
+					text: 'Escolher',
+					btnClass: 'btn-success',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else{
 		$.confirm({
 			type: 'green',

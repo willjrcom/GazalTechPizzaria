@@ -6,8 +6,8 @@ var Tpizza = 0, Tproduto = 0;
 
 //formas de envio
 var envioHtml;
-var entrega = 0, balcao = 0, mesa = 0, ifood = 0, drive = 0;
-var tEntrega = 0, tBalcao = 0, tMesa = 0, tIfood = 0, tDrive = 0;
+var entrega = 0, balcao = 0, mesa = 0, drive = 0;
+var tEntrega = 0, tBalcao = 0, tMesa = 0, tDrive = 0;
 
 //formas de pagamento
 var pagHtml;
@@ -62,9 +62,6 @@ $.ajax({
 			}else if(e[i].envio == "MESA") {
 				mesa ++;
 				tMesa += e[i].total;
-			}else if(e[i].envio == "IFOOD") {
-				ifood ++;
-				tIfood += e[i].total;
 			}else if(e[i].envio == "DRIVE") {
 				drive ++;
 				tDrive += e[i].total;
@@ -101,13 +98,6 @@ $.ajax({
 			envioHtml += '<tr><td>' + mesa + ' mesa - R$: ' + tMesa.toFixed(2) + '</td></tr>';
 		}else {
 			envioHtml += '<tr><td>' + mesa + ' mesas - R$: ' + tMesa.toFixed(2) + '</td></tr>';
-		}
-	}
-	if(ifood != 0) {
-		if(ifood == 1) {
-			envioHtml += '<tr><td>' + ifood + ' ifood - R$: ' + tIfood.toFixed(2) + '</td></tr>';
-		}else {
-			envioHtml += '<tr><td>' + ifood + ' ifoods - R$: ' + tIfood.toFixed(2) + '</td></tr>';
 		}
 	}
 	if(drive != 0) {
@@ -200,7 +190,7 @@ function troco(){
 							
 							dados.id = e.id;
 							dados.balcao = balcao + mesa + drive;
-							dados.entregas = entrega + ifood;
+							dados.entregas = entrega;
 							dados.totalLucro = Tvendas - parseFloat(Tfaturamento);
 							dados.totalPedidos = Tpedidos;
 							dados.totalVendas = Tvendas;
@@ -261,7 +251,6 @@ function drawChart() {
     ["Entrega", entrega, "green"],
     ["Balcão", balcao, "blue"],
     ["Mesa", mesa, "Brown"],
-    ["Ifood", ifood, "color: red"],
     ["Drive-Thru", drive, "color: yellow"]
   ]);
 

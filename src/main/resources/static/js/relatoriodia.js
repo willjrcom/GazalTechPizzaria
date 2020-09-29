@@ -99,7 +99,7 @@ function finalizarPedido() {
 			Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 		}
 	}
-	
+	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table>'
 					+ '<tr>'

@@ -108,7 +108,7 @@ function verProduto() {
 			+ '</table>';
 	
 	$.alert({
-		type: 'green',
+		type: 'blue',
 	    title: 'Produto:' + produtos[idBusca].nomeProduto,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',

@@ -101,7 +101,18 @@ function finalizarPedido() {
 	}
 			
 	if($("#filtro").val() == "--"){
-		$.alert("Escolha um funcionário!");
+		$.alert({
+			type: 'red',
+			title: 'Ops..',
+			content: "Escolha um funcionário!",
+			buttons: {
+				confirm: {
+					text: 'Escolher',
+					btnClass: 'btn-success',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	}else{
 		$.confirm({
 			type: 'green',
