@@ -27,8 +27,8 @@ $.ajax({
 				'nomePedido' : e[i].nomePedido,
 				'celular' : e[i].celular,
 				'endereco': e[i].endereco,
-				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': JSON.parse(e[i].produtos),
+				'pizzas': e[i].pizzas,
+				'produtos': e[i].produtos,
 				'motoboy': e[i].motoboy,
 				'status': e[i].status,
 				'envio': e[i].envio,
@@ -68,19 +68,19 @@ $.ajax({
 			$("#todosPedidos").html(pedidoVazio);
 		}else{
 			for(var i = 0; i<pedidos.length; i++){
-				linhaHtml += '<tr>';
-				linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
-				linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
-				linhaHtml +=	'<td>' + pedidos[i].endereco + '</td>';
-				linhaHtml +=	'<td>' + pedidos[i].motoboy + '</td>';
-				linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
-				linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
-				linhaHtml += '<td>' 
-							+ '<a class="enviarPedido">'
-							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-							+ 'value="'+ pedidos[i].id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>';			
-				linhaHtml += '<tr>';
-				linhaHtml += linhaCinza;
+				linhaHtml += '<tr>'
+							+ '<td>' + pedidos[i].id + '</td>'
+							+ '<td>' + pedidos[i].nomePedido + '</td>'
+							+ '<td>' + pedidos[i].endereco + '</td>'
+							+ '<td>' + pedidos[i].motoboy + '</td>'
+							+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
+							+ '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>'
+							+ '<td>' 
+								+ '<a class="enviarPedido">'
+								+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
+								+ 'value="'+ pedidos[i].id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>';		
+						+ '<tr>'
+					+ linhaCinza;
 			}
 			$("#todosPedidos").html(linhaHtml);
 			$("#Tpedidos").html(Tpedidos);
@@ -89,10 +89,10 @@ $.ajax({
 });	
 	
 
+//--------------------------------------------------------
 function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/receber/finalizar/" + idProduto.toString();
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -105,8 +105,7 @@ function finalizarPedido() {
 	}else{
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
-		    title: 'Pedido: ' + pedidos[idBusca].nomePedido.split(' ')[0],
+		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 		    content: 'Deseja finalizar?',
 		    buttons: {
 		        confirm: {
@@ -115,13 +114,14 @@ function finalizarPedido() {
 		            keys: ['enter'],
 		            action: function(){
 						pedidos[idBusca].ac = $("#filtro").val();
+						
+						//receber pedido
 						$.ajax({
-							url: urlEnviar,
+							url: "/receber/finalizar/" + idProduto,
 							type: 'PUT',
 							data: pedidos[idBusca], //dados completos do pedido enviado
 						})
 						.done(function(e){
-							console.log(e);
 							document.location.reload(true);
 						});
 					}

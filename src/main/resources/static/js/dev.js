@@ -68,5 +68,3 @@ $("#buscar").click(function(){
 		});
 	});
 });
-
-

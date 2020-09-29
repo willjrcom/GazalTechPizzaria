@@ -44,9 +44,9 @@ $.ajax({
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
 		for(var i = 0; i<pedidos.length; i++){
-			linhaHtml += '<tr>';
-			linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
-			linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
+			linhaHtml += '<tr>'
+						+ '<td>' + pedidos[i].id + '</td>'
+						+ '<td>' + pedidos[i].nomePedido + '</td>';
 
 			Tpizzas = 0;
 
@@ -62,14 +62,14 @@ $.ajax({
 				}
 			}
 			
-			linhaHtml +=	'<td>' + Tpizzas + '</td>';
-			linhaHtml +=	'<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
-			linhaHtml += '<td>' 
-						+ '<a class="enviarPedido">'
-						+ '<button type="button" title="finalizar" class="botao" onclick="finalizarPedido()"'
-						+ 'value="'+ pedidos[i].id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>';			
-			linhaHtml += '<tr>';
-			linhaHtml += linhaCinza;
+			linhaHtml += '<td>' + Tpizzas + '</td>'
+						+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
+						+ '<td>' 
+							+ '<a class="enviarPedido">'
+							+ '<button type="button" title="finalizar" class="botao" onclick="finalizarPedido()"'
+							+ 'value="'+ pedidos[i].id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>'			
+					+ '<tr>'
+				+ linhaCinza;
 		}
 		$("#todosPedidos").html(linhaHtml);
 		$("#Tpedidos").html(Tpedidos);
@@ -80,7 +80,6 @@ function finalizarPedido() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/finalizar/finalizarPedido/" + idProduto.toString();
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -95,9 +94,9 @@ function finalizarPedido() {
 		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 	}
 	
-	linhaHtml = '<table>';
 	if(pedidos[idBusca].pizzas.length != 0) {
-		linhaHtml += '<tr>'
+		linhaHtml = '<table>'
+					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
@@ -114,13 +113,13 @@ function finalizarPedido() {
 						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
+		linhaHtml += '</table>';
 	}
 
-	linhaHtml += '</table>';
-	linhaHtml += '<table>';
 	
 	if(pedidos[idBusca].produtos.length != 0) {
-		linhaHtml += '<tr>'
+		linhaHtml += '<table>'
+					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
@@ -135,16 +134,15 @@ function finalizarPedido() {
 						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
+		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '</table>';
 	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br><br>'
 			+ '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
 			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
 
 	$.alert({
 		type: 'red',
-	    typeAnimated: true,
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: linhaHtml,
 	    buttons: {

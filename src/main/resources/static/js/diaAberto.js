@@ -36,7 +36,7 @@ $.ajax({
 							+ '<td>R$ ' + dia[i].trocoInicio.toFixed(2) + '</td>'
 							+ '<td>' + dia[i].trocoFinal.toFixed(2) + '</td>'
 						+ '</tr>'
-							+ linhaCinza;
+					+ linhaCinza;
 		}
 		
 		$("#todosFuncionarios").html(linhaHtml);

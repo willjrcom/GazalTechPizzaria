@@ -122,7 +122,6 @@ $("#enviar").click(function() {
 		
 		$.confirm({
 			type: 'green',
-		    typeAnimated: true,
 		    title: 'Funcionário: ' + $("#nome").val(),
             content: "Cadastrar funcionário?",
 		    buttons: {
@@ -160,7 +159,7 @@ $("#enviar").click(function() {
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Funcionário não cadastrado!"
+								content: "Erro, Funcionário não cadastrado!"
 							});
 						});
 					}
@@ -184,7 +183,6 @@ $("#atualizar").click(function() {
 	&& $("#cel").val() != ''
 	&& $("#cargo").val() != ''
 	&& $("#sexo").val() != ''
-	
 	
 	&& $("#cep").val() != ''
 	&& $("#rua").val() != ''
@@ -232,8 +230,6 @@ $("#atualizar").click(function() {
 									}
 								}
 							});
-							
-							
 						}).fail(function(e){
 							$.alert({
 								type: 'red',

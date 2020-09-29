@@ -28,49 +28,46 @@ $("#buscar").click(function(){
 
 		linhaHtml = "";
 		for(var i=0; i<clientes.length; i++){
-			linhaHtml += '<tr>';
-			linhaHtml += 	'<td>' + clientes[i].id + '</td>';
-			linhaHtml += 	'<td>' + clientes[i].nome + '</td>';
-			linhaHtml += 	'<td>' + clientes[i].celular + '</td>';
-			linhaHtml += 	'<td>' + clientes[i].endereco + '</td>';
-			
-			linhaHtml += '<td><div class="row">';
-			
-			linhaHtml +='<div class="col-md-1">'
-							+'<a style="background-color: white" title="Ver">'
-								+'<button style="background-color: white; border: none" onclick="verCliente()" value="'+ clientes[i].id + '">'
-									+'<span class="oi oi-magnifying-glass"></span>'
-								+'</button>'
-							+'</a>'
-						+'</div>';
+			linhaHtml += '<tr>'
+						+ '<td>' + clientes[i].id + '</td>'
+						+ '<td>' + clientes[i].nome + '</td>'
+						+ '<td>' + clientes[i].celular + '</td>'
+						+ '<td>' + clientes[i].endereco + '</td>'
+						
+						+ '<td><div class="row">'
+							+ '<div class="col-md-1">'
+								+'<a title="Ver">'
+									+'<button class="botao" onclick="verCliente()" value="'+ clientes[i].id + '">'
+										+'<span class="oi oi-magnifying-glass"></span>'
+									+'</button>'
+								+'</a>'
+							+'</div>'
 					
-			linhaHtml += '<div class="col-md-1">'
-							+'<a style="background-color: white" title="Editar">'
-								+'<button style="background-color: white; border: none" onclick="editarCliente()" value="'+ clientes[i].id + '">'
-									+'<span class="oi oi-pencil"></span>'
-								+'</button>'
-							+'</a>'
-						+'</div>';
-			
-			linhaHtml += '<div class="col-md-1">'
-							+'<a style="background-color: white" title="Excluir">'
-								+'<button style="background-color: white; border: none" onclick="excluirCliente()" value="'+ clientes[i].id + '">'
-									+'<span class="oi oi-trash"></span>'
-								+'</button>'
-							+'</a>'
-						+'</div>';
-			
-			linhaHtml += '</td></tr>';
-			linhaHtml += '</tr>';
-			linhaHtml += linhaCinza;
+							+ '<div class="col-md-1">'
+								+'<a title="Editar">'
+									+'<button class="botao" onclick="editarCliente()" value="'+ clientes[i].id + '">'
+										+'<span class="oi oi-pencil"></span>'
+									+'</button>'
+								+'</a>'
+							+'</div>'
+				
+							+ '<div class="col-md-1">'
+								+'<a title="Excluir">'
+									+'<button class="botao" onclick="excluirCliente()" value="'+ clientes[i].id + '">'
+										+'<span class="oi oi-trash"></span>'
+									+'</button>'
+								+'</a>'
+							+'</div>'
+						+'</div>'
+					+ '</td></tr>'
+					+ linhaCinza;
 		}
 		$("#todosClientes").html(linhaHtml);
 		
 	}).fail(function(){
-		$.alert("Nenhum cliente encontrado!");
+		$.alert("Erro, Nenhum cliente encontrado!");
 	});
 });
-
 
 
 //-----------------------------------------------------------------------------------------------------------
@@ -84,28 +81,26 @@ function verCliente() {
 			var idBusca = i;
 		}
 	}
-	
-	linhaHtml = "";
+
 	linhaHtml = '<table><tr>'
 					+ '<td><h4>Celular</h4></td>'
 					+ '<td><h4>Cpf</h4></td>'
 					+ '<td><h4>Endereco</h4></td>'
 					+ '<td><h4>Referencia</h4></td>'
 					+ '<td><h4>Taxa</h4></td>'
-				'</tr>';
+				+ '</tr>'
 	
-	linhaHtml += '<tr>';
-	linhaHtml += 	'<td>' + clientes[idBusca].celular + '</td>';
-	linhaHtml += 	'<td>' + clientes[idBusca].cpf + '</td>';
-	linhaHtml += 	'<td>' + clientes[idBusca].endereco + '</td>';
-	linhaHtml += 	'<td>' + clientes[idBusca].referencia + '</td>';
-	linhaHtml += 	'<td> R$ ' + parseFloat(clientes[idBusca].taxa).toFixed(2) + '</td>';
-	linhaHtml += '</tr>';
-	linhaHtml += '</table>';
+				+ '<tr>'
+					+ '<td>' + clientes[idBusca].celular + '</td>'
+					+ '<td>' + clientes[idBusca].cpf + '</td>'
+					+ '<td>' + clientes[idBusca].endereco + '</td>'
+					+ '<td>' + clientes[idBusca].referencia + '</td>'
+					+ '<td> R$ ' + parseFloat(clientes[idBusca].taxa).toFixed(2) + '</td>'
+				+ '</tr>'
+			+ '</table>';
 	
 	$.alert({
 		type: 'green',
-	    typeAnimated: true,
 	    title: 'Cliente: ' + clientes[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
@@ -125,7 +120,6 @@ function verCliente() {
 function editarCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
-	var urlEnviar = "/cadastroCliente/editar/" + idCliente.toString();
 	
 	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
 		if(clientes[i].id == idCliente){
@@ -145,10 +139,10 @@ function editarCliente() {
 	            action: function(){
 					
 					$.ajax({
-						url: urlEnviar,
+						url: "/cadastroCliente/editar/" + idCliente.toString(),
 						type: 'POST',
 					}).done(function(){
-						window.location.href = urlEnviar;
+						window.location.href = "/cadastroCliente/editar/" + idCliente.toString();
 					}).fail(function(){
 						$.alert("Tente novamente!");
 					});
@@ -168,7 +162,6 @@ function editarCliente() {
 function excluirCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
-	var urlEnviar = "/clientesCadastrados/excluirCliente/" + idCliente.toString();
 	
 	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
 		if(clientes[i].id == idCliente){
@@ -203,7 +196,7 @@ function excluirCliente() {
 									if(apagarSim === 'sim') {
 										
 										$.ajax({
-											url: urlEnviar,
+											url: "/clientesCadastrados/excluirCliente/" + idCliente.toString(),
 											type: 'PUT'
 											
 										}).done(function(){		
@@ -215,14 +208,12 @@ function excluirCliente() {
 											        confirm: {
 														text: 'Voltar',
 											    		keys: ['enter'],
-											            btnClass: 'btn-green',
-											            action: function(){
-														}
+											            btnClass: 'btn-green'
 													}
 												}
 											});
 										}).fail(function(){
-											$.alert("Cliente apagado!");
+											$.alert("Erro, Cliente nâo apagado!");
 										});
 									}else {
 										$.alert({

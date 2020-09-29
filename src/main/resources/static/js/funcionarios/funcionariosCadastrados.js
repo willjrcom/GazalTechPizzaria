@@ -33,48 +33,44 @@ $("#buscar").click(function(){
 			linhaHtml += pedidoVazio;
 		}else {
 			for(var i = 0; i<funcionarios.length; i++) {
-				linhaHtml += '<tr>';
-				linhaHtml += 	'<td>' + funcionarios[i].id + '</td>';
-				linhaHtml += 	'<td>' + funcionarios[i].nome + '</td>';
-				linhaHtml += 	'<td>' + funcionarios[i].celular + '</td>';
-				linhaHtml += 	'<td>' + funcionarios[i].cargo + '</td>';
+				linhaHtml += '<tr>'
+							+ '<td>' + funcionarios[i].id + '</td>'
+							+ '<td>' + funcionarios[i].nome + '</td>'
+							+ '<td>' + funcionarios[i].celular + '</td>'
+							+ '<td>' + funcionarios[i].cargo + '</td>'
 
-				linhaHtml += '<td><div class="row">';
-				
-				linhaHtml +='<div class="col-md-1">'
-								+'<a style="background-color: white" title="Ver">'
-									+'<button style="background-color: white; border: none" onclick="verFuncionario()" value="'+ funcionarios[i].id + '">'
-										+'<span class="oi oi-magnifying-glass"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>';
+							+ '<td><div class="row">'
+								+'<div class="col-md-1">'
+									+'<a title="Ver">'
+										+'<button class="botao" onclick="verFuncionario()" value="'+ funcionarios[i].id + '">'
+											+'<span class="oi oi-magnifying-glass"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
 						
-				linhaHtml += '<div class="col-md-1">'
-								+'<a style="background-color: white" title="Editar">'
-									+'<button style="background-color: white; border: none" onclick="editarFuncionario()" value="'+ funcionarios[i].id + '">'
-										+'<span class="oi oi-pencil"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>';
+								+ '<div class="col-md-1">'
+									+'<a title="Editar">'
+										+'<button class="botao" onclick="editarFuncionario()" value="'+ funcionarios[i].id + '">'
+											+'<span class="oi oi-pencil"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
 				
-				linhaHtml += '<div class="col-md-1">'
-								+'<a style="background-color: white" title="Excluir">'
-									+'<button style="background-color: white; border: none" onclick="excluirFuncionario()" value="'+ funcionarios[i].id + '">'
-										+'<span class="oi oi-trash"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>';
-				
-				linhaHtml += '</td></tr>';
-				linhaHtml += '</tr>';
-				linhaHtml += linhaCinza;
+								+ '<div class="col-md-1">'
+									+'<a title="Excluir">'
+										+'<button class="botao" onclick="excluirFuncionario()" value="'+ funcionarios[i].id + '">'
+											+'<span class="oi oi-trash"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
+							+ '</div>'
+						+ '</td></tr>'
+					+ linhaCinza;
 			}
 		}
-		
 		$("#todosFuncionarios").html(linhaHtml);
-		
 	}).fail(function(){
-		$.alert("Nenhum funcionario encontrado!");
+		$.alert("Erro, Nenhum funcionario encontrado!");
 	});
 });
 
@@ -92,21 +88,20 @@ function verFuncionario() {
 		}
 	}
 	
-	linhaHtml = "";
-	linhaHtml = '<table><tr>'
+	linhaHtml = '<table style="width:100%"><tr>'
 					+ '<td><h4>Celular</h4></td>'
 					+ '<td><h4>Cpf</h4></td>'
 					+ '<td><h4>Endereco</h4></td>'
 					+ '<td><h4>Referencia</h4></td>'
-				'</tr>';
+				+'</tr>'
 	
-	linhaHtml += '<tr>';
-	linhaHtml += 	'<td>' + funcionarios[idBusca].celular + '</td>';
-	linhaHtml += 	'<td>' + funcionarios[idBusca].cpf + '</td>';
-	linhaHtml += 	'<td>' + funcionarios[idBusca].endereco + '</td>';
-	linhaHtml += 	'<td>' + funcionarios[idBusca].referencia + '</td>';
-	linhaHtml += '</tr>';
-	linhaHtml += '</table>';
+				+ '<tr>'
+					+ '<td>' + funcionarios[idBusca].celular + '</td>'
+					+ '<td>' + funcionarios[idBusca].cpf + '</td>'
+					+ '<td>' + funcionarios[idBusca].endereco + '</td>'
+					+ '<td>' + funcionarios[idBusca].referencia + '</td>'
+				+ '</tr>'
+			+ '</table>';
 	
 	$.alert({
 		type: 'green',
@@ -129,7 +124,6 @@ function verFuncionario() {
 function editarFuncionario() {
 	var botaoReceber = $(event.currentTarget);
 	var idFuncionario = botaoReceber.attr('value');
-	var urlEnviar = "/cadastroFuncionario/editar/" + idFuncionario.toString();
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idFuncionario){
@@ -149,10 +143,10 @@ function editarFuncionario() {
 	            action: function(){
 					
 					$.ajax({
-						url: urlEnviar,
+						url: "/cadastroFuncionario/editar/" + idFuncionario.toString(),
 						type: 'PUT',
 					}).done(function(){
-						window.location.href = urlEnviar;
+						window.location.href = "/cadastroFuncionario/editar/" + idFuncionario.toString();
 					}).fail(function(){
 						$.alert("Tente novamente!");
 					});
@@ -172,7 +166,6 @@ function editarFuncionario() {
 function excluirFuncionario() {
 	var botaoReceber = $(event.currentTarget);
 	var idFuncionario = botaoReceber.attr('value');
-	var urlEnviar = "/funcionariosCadastrados/excluirFuncionario/" + idFuncionario.toString();
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idFuncionario){
@@ -183,7 +176,7 @@ function excluirFuncionario() {
 			
 	$.confirm({
 		type: 'red',
-	    title: 'Funcionario: ' + funcionarios[idBusca].nome.split(' ')[0],
+	    title: 'Funcionario: ' + funcionarios[idBusca].nome,
 	    content: 'Deseja apagar o funcionario?',
 	    buttons: {
 	        confirm: {
@@ -207,7 +200,7 @@ function excluirFuncionario() {
 									if(apagarSim === 'sim') {
 										
 										$.ajax({
-											url: urlEnviar,
+											url: "/funcionariosCadastrados/excluirFuncionario/" + idFuncionario.toString(),
 											type: 'PUT'
 											
 										}).done(function(){		
@@ -219,14 +212,12 @@ function excluirFuncionario() {
 											        confirm: {
 														text: 'Voltar',
 											    		keys: ['enter'],
-											            btnClass: 'btn-green',
-											            action: function(){
-														}
+											            btnClass: 'btn-green'
 													}
 												}
 											});
 										}).fail(function(){
-											$.alert("uncionario apagado!");
+											$.alert("Erro, funcionario não apagado!");
 										});
 									}else {
 										$.alert({

@@ -7,10 +7,9 @@ if(typeof url_atual == "undefined") {
 	$("#atualizar").hide();
 }else {
 	$("#enviar").hide();
-	urlEnviar = "/cadastroProduto/editarProduto/" + url_atual;
 	
 	$.ajax({
-		url: urlEnviar,
+		url: "/cadastroProduto/editarProduto/" + url_atual,
 		type: 'PUT',
 	}).done(function(e){
 		
@@ -34,7 +33,7 @@ if(typeof url_atual == "undefined") {
 
 		
 	}).fail(function(){
-		$.alert("Produto não encontrado!");
+		$.alert("Erro, Produto não encontrado!");
 	});
 }
 
@@ -100,8 +99,6 @@ $("#enviar").click(function() {
 									}
 								}
 							});
-							
-							
 						}).fail(function(e){
 							$.alert({
 								type: 'red',
@@ -166,8 +163,6 @@ $("#atualizar").click(function() {
 									}
 								}
 							});
-							
-							
 						}).fail(function(e){
 							$.alert({
 								type: 'red',

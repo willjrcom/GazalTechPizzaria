@@ -13,10 +13,9 @@ if(typeof url_atual == "undefined") {
 }else {
 	$("#divCpf").hide();
 	$("#enviar").hide();
-	urlEnviar = "/cadastroCliente/editarCliente/" + url_atual;
 	
 	$.ajax({
-		url: urlEnviar,
+		url: "/cadastroCliente/editarCliente/" + url_atual,
 		type: 'PUT',
 	}).done(function(e){
 		
@@ -53,7 +52,7 @@ if(typeof url_atual == "undefined") {
 		$("#taxa").val(cliente.endereco.taxa);
 		
 	}).fail(function(){
-		$.alert("Cliente não encontrado!");
+		$.alert("Erro, Cliente não encontrado!");
 	});
 }
 
@@ -91,7 +90,7 @@ $("#enviar").click(function() {
 		
 		$.confirm({
 			type: 'green',
-		    title: 'Cliente: ' + $("#nome").val().split(' ')[0],
+		    title: 'Cliente: ' + $("#nome").val(),
 		    content: 'Cadastrar cliente?',
 		    buttons: {
 		        confirm: {
@@ -123,8 +122,6 @@ $("#enviar").click(function() {
 									},
 								}
 							});
-							
-							
 						}).fail(function(e){
 							$.alert({
 								type: 'red',
@@ -201,8 +198,6 @@ $("#atualizar").click(function() {
 									}
 								}
 							});
-							
-							
 						}).fail(function(e){
 							$.alert({
 								type: 'red',

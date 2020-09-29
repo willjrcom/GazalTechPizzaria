@@ -8,6 +8,7 @@ var Tpizza = 0, Tproduto = 0;
 var envioHtml;
 var entrega = 0, balcao = 0, mesa = 0, ifood = 0, drive = 0;
 var tEntrega = 0, tBalcao = 0, tMesa = 0, tIfood = 0, tDrive = 0;
+
 //formas de pagamento
 var pagHtml;
 var dinheiro = 0, cartao = 0;
@@ -21,7 +22,7 @@ $.ajax({
 }).done(function(e){
 	Tpedidos = e;
 }).fail(function(){
-	$.alert("Nenhum pedido encontrado!");
+	$.alert("Erro, Nenhum pedido encontrado!");
 });
 
 

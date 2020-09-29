@@ -42,41 +42,38 @@ $("#buscar").click(function(){
 							+'<td>R$ ' + parseFloat(produtos[i].preco).toFixed(2) + '</td>'
 							+'<td>R$ ' + parseFloat(produtos[i].custo).toFixed(2) + '</td>';
 				
-linhaHtml += '<td><div class="row">';
+							+ '<td><div class="row">';
+								+ '<div class="col-md-1">'
+									+'<a title="Ver">'
+										+'<button class="botao" onclick="verProduto()" value="'+ produtos[i].id + '">'
+											+'<span class="oi oi-magnifying-glass"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
+			
+								+ '<div class="col-md-1">'
+									+'<a title="Editar">'
+										+'<button class="botao" onclick="editarProduto()" value="'+ produtos[i].id + '">'
+											+'<span class="oi oi-pencil"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
 				
-				linhaHtml +='<div class="col-md-1">'
-								+'<a style="background-color: white" title="Ver">'
-									+'<button style="background-color: white; border: none" onclick="verProduto()" value="'+ produtos[i].id + '">'
-										+'<span class="oi oi-magnifying-glass"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>';
-						
-				linhaHtml += '<div class="col-md-1">'
-								+'<a style="background-color: white" title="Editar">'
-									+'<button style="background-color: white; border: none" onclick="editarProduto()" value="'+ produtos[i].id + '">'
-										+'<span class="oi oi-pencil"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>';
-				
-				linhaHtml += '<div class="col-md-1">'
-								+'<a style="background-color: white" title="Excluir">'
-									+'<button style="background-color: white; border: none" onclick="excluirProduto()" value="'+ produtos[i].id + '">'
-										+'<span class="oi oi-trash"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>';
-				
-				linhaHtml += '</td></tr>';
-							
-				linhaHtml += '</tr>'
-							+ linhaCinza;
+								+ '<div class="col-md-1">'
+									+'<a title="Excluir">'
+										+'<button class="botao" onclick="excluirProduto()" value="'+ produtos[i].id + '">'
+											+'<span class="oi oi-trash"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
+							+ '</div>'
+						+ '</td></tr>'
+					+ linhaCinza;
 			}
 			$("#todosProdutos").html(linhaHtml);
 		}
 	}).fail(function(){
-		$.alert("Produto não encontrado!");
+		$.alert("Erro, Produto não encontrado!");
 	});
 });
 
@@ -93,23 +90,22 @@ function verProduto() {
 		}
 	}
 	
-	linhaHtml = "";
 	linhaHtml = '<table><tr>'
 					+ '<td><h4>Codigo</h4></td>'
 					+ '<td><h4>Nome</h4></td>'
 					+ '<td><h4>Preço</h4></td>'
 					+ '<td><h4>Setor</h4></td>'
 					+ '<td><h4>Descrição</h4></td>'
-				'</tr>';
+				+ '</tr>'
 	
-	linhaHtml += '<tr>';
-	linhaHtml += 	'<td>' + produtos[idBusca].codigoBusca + '</td>';
-	linhaHtml += 	'<td>' + produtos[idBusca].nomeProduto + '</td>';
-	linhaHtml += 	'<td>' + produtos[idBusca].preco + '</td>';
-	linhaHtml += 	'<td>' + produtos[idBusca].setor + '</td>';
-	linhaHtml += 	'<td>' + produtos[idBusca].descricao + '</td>';
-	linhaHtml += '</tr>';
-	linhaHtml += '</table>';
+				+ '<tr>'
+					+ '<td>' + produtos[idBusca].codigoBusca + '</td>'
+					+ '<td>' + produtos[idBusca].nomeProduto + '</td>'
+					+ '<td>' + produtos[idBusca].preco + '</td>'
+					+ '<td>' + produtos[idBusca].setor + '</td>'
+					+ '<td>' + produtos[idBusca].descricao + '</td>'
+				+ '</tr>'
+			+ '</table>';
 	
 	$.alert({
 		type: 'green',
@@ -132,7 +128,6 @@ function verProduto() {
 function editarProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/cadastroProduto/editar/" + idProduto.toString();
 	
 	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
 		if(produtos[i].id == idProduto){
@@ -152,10 +147,10 @@ function editarProduto() {
 	            action: function(){
 					
 					$.ajax({
-						url: urlEnviar,
+						url: "/cadastroProduto/editar/" + idProduto.toString(),
 						type: 'PUT',
 					}).done(function(){
-						window.location.href = urlEnviar;
+						window.location.href = "/cadastroProduto/editar/" + idProduto.toString();
 					}).fail(function(){
 						$.alert("Tente novamente!");
 					});
@@ -175,7 +170,6 @@ function editarProduto() {
 function excluirProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/produtosCadastrados/excluirProduto/" + idProduto.toString();
 	
 	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
 		if(produtos[i].id == idProduto){
@@ -210,7 +204,7 @@ function excluirProduto() {
 									if(apagarSim === 'sim') {
 										
 										$.ajax({
-											url: urlEnviar,
+											url: "/produtosCadastrados/excluirProduto/" + idProduto.toString(),
 											type: 'PUT'
 											
 										}).done(function(){		
@@ -223,13 +217,11 @@ function excluirProduto() {
 														text: 'Voltar',
 											    		keys: ['enter'],
 											            btnClass: 'btn-green',
-											            action: function(){
-														}
 													}
 												}
 											});
 										}).fail(function(){
-											$.alert("Produto apagado!");
+											$.alert("Erro, Produto não apagado!");
 										});
 									}else {
 										$.alert({

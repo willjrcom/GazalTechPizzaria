@@ -37,7 +37,7 @@ function buscarPedido() {
 				'celular' : e[i].celular,
 				'endereco': e[i].endereco,
 				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': JSON.parse(e[i].produtos),
+				'produtos': e[i].produtos,
 				'status': e[i].status,
 				'envio': e[i].envio,
 				'pagamento': e[i].pagamento,
@@ -61,24 +61,28 @@ function buscarPedido() {
 					if(pedidos[i].pizzas.length != 0) {
 						divisao = 1;
 						
-						linhaHtml += '<tr>';
-						linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].borda + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[0].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].obs + '</td>';
-						if(i == 0) {//adicionar autofocus
-							linhaHtml +=	'<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
-									+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-						}else {
-							linhaHtml +=	'<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
-									+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-						}
+						linhaHtml += '<tr>'
+									+ '<td>' + pedidos[i].id + '</td>'
+									+ '<td>' + pedidos[i].nomePedido + '</td>'
+									+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
+									+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor 
+										+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+										+ pedidos[i].pizzas[0].descricao 
+										+ '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao 
+										+ '"><span class="oi oi-question-mark"></span></button></td>'
+									+ '<td>' + pedidos[i].pizzas[0].obs + '</td>';
 						
+						if(i == 0) {//adicionar autofocus
+							linhaHtml += '<td>' 
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
+										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+						}else {
+							linhaHtml += '<td>' 
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
+										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+						}
 						linhaHtml += '</tr>';
 						
 						if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
@@ -109,11 +113,15 @@ function buscarPedido() {
 								}else {
 									linhaHtml +=	'<td colspan="2"></td>';
 								}
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].borda + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor + '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' + pedidos[i].pizzas[j].descricao + '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao + '"><span class="oi oi-question-mark"></span></button></td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].obs + '</td>';
-								linhaHtml +=	'<td></td>';
-								linhaHtml += '</tr>';	
+								linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
+											+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor 
+												+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+												+ pedidos[i].pizzas[j].descricao 
+												+ '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao 
+												+ '"><span class="oi oi-question-mark"></span></button></td>'
+											+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
+											+ '<td></td>'
+											+ '</tr>';	
 			
 								if(divisao - pedidos[i].pizzas[j].qtd <= 0) {
 									linhaHtml += linhaCinza;
@@ -123,15 +131,11 @@ function buscarPedido() {
 								}
 							}
 						}
-			
-						linhaHtml += linhaCinza;
-						linhaHtml += linhaCinza;
-						linhaHtml += linhaCinza;
+						linhaHtml += linhaCinza + linhaCinza + linhaCinza;
 					}
 				}
 			}
 			$("#todosPedidos").html(linhaHtml);
-			
 		}
 		if(Tpedidos == 0) {
 			$("#Tpedidos").text('0');
@@ -161,8 +165,8 @@ function descricao() {
 				keys: ['enter','esc'],
 	            btnClass: 'btn-green',
 				text: 'Voltar'
+			}
 		}
-	}
 	});
 }
 
@@ -172,7 +176,6 @@ function enviarPedido() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/cozinha/enviarPedido/" + idProduto.toString();
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -196,7 +199,7 @@ function enviarPedido() {
 					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 					
 					$.ajax({
-						url: urlEnviar,
+						url: "/cozinha/enviarPedido/" + idProduto.toString(),
 						type: 'PUT',
 						data: pedidos[idBusca], //dados completos do pedido enviado
 					})

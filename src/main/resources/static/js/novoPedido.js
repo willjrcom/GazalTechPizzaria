@@ -152,16 +152,14 @@ if(typeof url_atual == "undefined") {
 }
 
 
-
 //------------------------------------------------------------------------------------------------------------------------
-$('#numeroCliente').on('blur', function(){
+$('#buscarCliente').on('click', function(){
 
 	if($.trim($("#numeroCliente").val()) % 2 == 1 || $.trim($("#numeroCliente").val()) % 2 == 0){
 		var numero = $("#numeroCliente").val();
-		urlNumero = "/novoPedido/numeroCliente/" + numero.toString();
 		
 		$.ajax({
-			url: urlNumero,
+			url: "/novoPedido/numeroCliente/" + numero.toString(),
 			type: 'PUT'
 		}).done(function(e){
 
@@ -232,10 +230,9 @@ function buscarProdutos() {
 	if($.trim($("#nomeProduto").val()) != ""){
 
 		var produto = $("#nomeProduto").val();
-		urlProduto = "/novoPedido/nomeProduto/" + produto.toString();
 		
 		$.ajax({
-			url: urlProduto,
+			url: "/novoPedido/nomeProduto/" + produto.toString(),
 			type: 'PUT'
 		}).done(function(e){
 			
@@ -267,9 +264,9 @@ function buscarProdutos() {
 			//abrir modal de produtos encontrados
 			for(produto of buscaProdutos){
 				linhaHtml += '<tr>'
-							+ '<td>' + produto.nomeProduto + '</td>'
-							+ '<td>R$ ' + produto.preco + '</td>'
-							+ '<td>'
+							+ '<td align="center">' + produto.nomeProduto + '</td>'
+							+ '<td align="center">R$ ' + produto.preco + '</td>'
+							+ '<td align="center">'
 								+ '<div>'
 									+ '<button onclick="enviarProduto()"'
 									+ 'title="Adicionar" onclick="enviarProduto()" class="botao" value="' + produto.id + '">'
@@ -283,7 +280,6 @@ function buscarProdutos() {
 			linhaHtml += '</tbody>'
 						+ '<table>';
 					
-			
 			$.confirm({
 				type: 'blue',
 				title: '<h4 align="center">Lista de Produtos</h4>',
@@ -429,7 +425,6 @@ function enviarProduto() {
 						}
 					}
 				});
-				
 			}).fail(function(){
 				$.alert("Nenhuma borda cadastrada ou encontrada!")
 			});
@@ -621,11 +616,11 @@ $("#enviarPedido").click(function() {
 		}
 		
 		linhaHtml += '<br><label>O pedido foi pago:</label>'
-				+'<select name="pagamento" class="form-control" id="pagamentoCliente">'
-					+'<option value="Não">Não</option>'
-					+'<option value="Sim">Sim</option>'
-				+'</select>'
-				+ '<br><b>Deseja enviar o pedido?</b>';
+					+'<select name="pagamento" class="form-control" id="pagamentoCliente">'
+						+'<option value="Não">Não</option>'
+						+'<option value="Sim">Sim</option>'
+					+ '</select>'
+					+ '<br><b>Deseja enviar o pedido?</b>';
 	
 		
 		//modal jquery confirmar
@@ -866,9 +861,9 @@ $("#atualizarPedido").click(function() {
 
 //----------------------------------------------------------------------------
 function mostrarTabela(pizzas, produtos) {
-	linhaHtml = '<table>';
 	if(pizzas.length != 0) {
-		linhaHtml += '<tr>'
+		linhaHtml = '<table style="width: 100%">'
+					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
@@ -878,19 +873,19 @@ function mostrarTabela(pizzas, produtos) {
 		
 		for(var i=0; i<pizzas.length; i++){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizzas[i].borda + '</td>'
-						 +	'<td>' + pizzas[i].sabor + '</td>'
-						 +	'<td>' + pizzas[i].obs + '</td>'
-						 +	'<td>' + pizzas[i].qtd + '</td>'
-						 +  '<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
+						 +	'<td align="center">' + pizzas[i].borda + '</td>'
+						 +	'<td align="center">' + pizzas[i].sabor + '</td>'
+						 +	'<td align="center">' + pizzas[i].obs + '</td>'
+						 +	'<td align="center">' + pizzas[i].qtd + '</td>'
+						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
+		linhaHtml += '</table>';
 	}
 
-	linhaHtml += '</table>';
-	linhaHtml += '<table>';
 	if(produtos.length != 0) {
-		linhaHtml += '<tr>'
+		linhaHtml += '<hr><table style="width: 100%">'
+					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
@@ -899,32 +894,57 @@ function mostrarTabela(pizzas, produtos) {
 		
 		for(var i=0; i<produtos.length; i++){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produtos[i].sabor + '</td>'
-						 +	'<td>' + produtos[i].obs + '</td>'
-						 +	'<td>' + produtos[i].qtd + '</td>'
-						 +  '<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+						 +	'<td align="center">' + produtos[i].sabor + '</td>'
+						 +	'<td align="center">' + produtos[i].obs + '</td>'
+						 +	'<td align="center">' + produtos[i].qtd + '</td>'
+						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
+		linhaHtml += '</table>';
 	}
-	linhaHtml += '</table>';
 }
 //----------------------------------------------------------------------------
 function imprimir() {
-	
-	imprimirTxt = '<h1 align="center">Gazal Tech</h1>'
-				+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
-				+ '<h3>Cliente: ' + cliente.nomePedido + '</h3>';
-	if(cliente.envio == 'ENTREGA') {
-		imprimirTxt += '<p>Celular: ' + cliente.celular
-					+ '<br>Endereço: ' + cliente.endereco
-					+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
-	}
-	mostrarTabela(pizzas, produtos);//construir html
-	imprimirTxt += 'Data do pedido: ' + cliente.horaPedido
-				+ '<hr>' + linhaHtml;
-	
-	tela_impressao = window.open('about:blank');
-	   tela_impressao.document.write(imprimirTxt);
-	   tela_impressao.window.print();
-	   tela_impressao.window.close();
+	$.ajax({
+		url: '/empresa/editar',
+		type: 'PUT'
+	}).done(function(e){
+		if(e.length != 0) {
+			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
+						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
+						+ '<h3>Cliente: ' + cliente.nomePedido + '</h3>';
+			if(cliente.envio == 'ENTREGA') {
+				imprimirTxt += '<p>Celular: ' + cliente.celular
+							+ '<br>Endereço: ' + cliente.endereco
+							+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
+			}
+			
+			var data = cliente.horaPedido;
+			hora = data.getHours();
+			hora = (hora.length == 1) ? '0'+hora : hora;
+			minuto = data.getMinutes();
+			minuto = (minuto.length == 0) ? '00' : minuto;
+			minuto = (minuto.length == 1) ? '0'+minuto : minuto;
+			segundo = data.getSeconds();
+			segundo = (segundo.length == 0) ? '00' : segundo;
+			segundo = (segundo.length == 1) ? '0'+segundo : segundo;
+	        dia  = data.getDate().toString();
+	        dia = (dia.length == 1) ? '0'+dia : dia;
+	        mes  = (data.getMonth()+1).toString();
+	        mes = (mes.length == 1) ? '0'+mes : mes;
+	        ano = data.getFullYear();
+			
+			mostrarTabela(pizzas, produtos);//construir html
+			imprimirTxt += 'Hora: ' + hora + ':' + minuto + ':' + segundo
+						+ '<br>Data: ' + dia + '/' + mes + '/' + ano
+						+ '<hr>' + linhaHtml + '<hr>'
+						+ '<label>Total: R$ ' + cliente.total.toFixed(2) + '</label>'
+						+ '<label><br>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label>'; 
+				
+			tela_impressao = window.open('about:blank');
+			tela_impressao.document.write(imprimirTxt);
+			tela_impressao.window.print();
+			tela_impressao.window.close();
+		}
+	});
 }

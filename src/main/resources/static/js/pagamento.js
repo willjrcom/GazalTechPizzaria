@@ -72,7 +72,7 @@ $.ajax({
 								+'</div>'
 							+'</td>'
 						+ '</tr>'
-							+ linhaCinza;
+					+ linhaCinza;
 		}
 		
 		$("#todosFuncionarios").html(linhaHtml);
@@ -85,7 +85,6 @@ function addHoras() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idProduto){
@@ -124,56 +123,56 @@ function addHoras() {
 							horas += e[j]. horas;
 						}
 						
-							linhaHtml = '<table>'
-										+ '<tr>'
-											+ '<th class="col-md-1"><h5>Horas Extra</h5></th>'
-											+ '<th class="col-md-1"><h5>Total</h5></th>'
-										+ '</tr>'
-								
-										+ '<tr>'
-											+ '<td>' + horas + '</td>'
-											+ '<td>R$ ' + (horas * horaExtra).toFixed(2) +'</td>'
-										+ '</tr>'
-									+'</table>';
+						linhaHtml = '<table>'
+									+ '<tr>'
+										+ '<th class="col-md-1"><h5>Horas Extra</h5></th>'
+										+ '<th class="col-md-1"><h5>Total</h5></th>'
+									+ '</tr>'
 							
-							linhaHtml += '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label><br>'
-										+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
-							
-							$.alert({
-								type: 'green',
-							    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-							    content: linhaHtml,
-							    buttons: {
-							        confirm: {
-										text: 'Adicionar Horas',
-							    		keys: ['enter'],
-							            btnClass: 'btn-green',
-							            action: function(){
-											
-											var horas = this.$content.find('#horas').val();
-											
-											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
-											funcionario.horas = horas;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/pagamento/salvar',
-												type: 'PUT',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).done(function(e){
-												console.log(e);
-											});
-										}
-									},
-							        cancel:{
-										text: 'Voltar',
-							    		keys: ['esc'],
-							            btnClass: 'btn-danger'
+									+ '<tr>'
+										+ '<td>' + horas + '</td>'
+										+ '<td>R$ ' + (horas * horaExtra).toFixed(2) +'</td>'
+									+ '</tr>'
+								+'</table>'
+			
+						+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label><br>'
+						+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
+						
+						$.alert({
+							type: 'green',
+						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+						    content: linhaHtml,
+						    buttons: {
+						        confirm: {
+									text: 'Adicionar Horas',
+						    		keys: ['enter'],
+						            btnClass: 'btn-green',
+						            action: function(){
+										
+										var horas = this.$content.find('#horas').val();
+										
+										var funcionario = {};
+										funcionario.idFuncionario = funcionarios[idBusca].id;
+										funcionario.horas = horas;
+										funcionario.data = dataAtualFormatada();
+										
+										$.ajax({
+											url: '/pagamento/salvar',
+											type: 'PUT',
+											dataType : 'json',
+											contentType: "application/json",
+											data: JSON.stringify(funcionario)
+										}).done(function(e){
+											console.log(e);
+										});
 									}
+								},
+						        cancel:{
+									text: 'Voltar',
+						    		keys: ['esc'],
+						            btnClass: 'btn-danger'
 								}
+							}
 						});
 					});
 				}
@@ -182,19 +181,18 @@ function addHoras() {
 	});
 };
 
+
 //-------------------------------------------------------------------------
 function addGastos() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idProduto){
 			var idBusca = i;
 		}
 	}
-	
 	mesAtual = new Date()
 			
 	$.alert({
@@ -228,17 +226,12 @@ function addGastos() {
 						}
 						
 						linhaHtml = '<table>'
-									+ '<tr>'
-										+ '<th class="col-md-1"><h5>Gastos totais</h5></th>'
-									+ '</tr>'
-							
-									+ '<tr>'
-										+ '<td>R$ ' + gastos.toFixed(2) + '</td>'
-									+ '</tr>'
-								+'</table>';
+									+ '<tr><th class="col-md-1"><h5>Gastos totais</h5></th></tr>'
+									+ '<tr><td>R$ ' + gastos.toFixed(2) + '</td></tr>'
+								+'</table>'
 						
-						linhaHtml += '<hr><label>Total de gastos: <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label><br>'
-									+'<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>';
+						+ '<hr><label>Total de gastos: <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label><br>'
+						+'<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>';
 						
 						$.alert({
 							type: 'green',
@@ -291,7 +284,6 @@ function pagarSalario() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/pagamento/pagar/" + idProduto.toString();
 	
 	for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
 		if(funcionarios[i].id == idProduto){
@@ -339,25 +331,25 @@ function pagarSalario() {
 						var totalExtra = horas * horaExtra;
 						
 						linhaHtml = '<table>'
-								+ '<tr>'
-									+ '<th class="col-md-1"><h5>Salário</h5></th>'
-									+ '<th class="col-md-1"><h5>Extra</h5></th>'
-									+ '<th class="col-md-1"><h5>Gastos</h5></th>'
-									+ '<th class="col-md-1"><h5>Pago</h5></th>'
-									+ '<th class="col-md-1"><h5>Total</h5></th>'
-								+ '</tr>'
+									+ '<tr>'
+										+ '<th class="col-md-1"><h5>Salário</h5></th>'
+										+ '<th class="col-md-1"><h5>Extra</h5></th>'
+										+ '<th class="col-md-1"><h5>Gastos</h5></th>'
+										+ '<th class="col-md-1"><h5>Pago</h5></th>'
+										+ '<th class="col-md-1"><h5>Total</h5></th>'
+									+ '</tr>'
 						
-								+ '<tr>'
-									+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
-									+ '<td>R$ ' + totalExtra.toFixed(2) + '</td>'
-									+ '<td>R$ ' + gastos.toFixed(2) + '</td>'
-									+ '<td>R$ ' + pago.toFixed(2) + '</td>'
-									+ '<td>R$ ' + (funcionarios[idBusca].salario + totalExtra - gastos - pago).toFixed(2) + '</td>'
-								+ '</tr>'
-							+'</table>';
+									+ '<tr>'
+										+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
+										+ '<td>R$ ' + totalExtra.toFixed(2) + '</td>'
+										+ '<td>R$ ' + gastos.toFixed(2) + '</td>'
+										+ '<td>R$ ' + pago.toFixed(2) + '</td>'
+										+ '<td>R$ ' + (funcionarios[idBusca].salario + totalExtra - gastos - pago).toFixed(2) + '</td>'
+									+ '</tr>'
+								+'</table>'
 					
-						linhaHtml += '<hr><label>Total pago: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
-									+'<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>';
+						+ '<hr><label>Total pago: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
+						+'<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>';
 						
 						$.alert({
 							type: 'green',

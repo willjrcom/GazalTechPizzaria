@@ -67,33 +67,33 @@ function buscarPedidos() {
 					if(pedidos[i].pizzas.length != 0) {
 						divisao = 1;
 						
-						linhaHtml += '<tr>';
-						linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].borda + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].pizzas[0].obs + '</td>';
-						linhaHtml +=	'<td>' + pedidos[i].envio + '</td>';
+						linhaHtml += '<tr>'
+									+ '<td>' + pedidos[i].id + '</td>'
+									+ '<td>' + pedidos[i].nomePedido + '</td>'
+									+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
+									+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor + '</td>'
+									+ '<td>' + pedidos[i].pizzas[0].obs + '</td>'
+									+ '<td>' + pedidos[i].envio + '</td>';
 									
 						//verificar a situacao do pedido
 						if(pedidos[i].status == "PRONTO"){
 							linhaHtml += '<td>' 
-								+ '<a class="enviarPedido">'
-								+ '<button type="button" class="btn btn-success"'
-								+ 'value="'+ pedidos[i].id + '">Pronto</button></a></td>';
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-success"'
+										+ 'value="'+ pedidos[i].id + '">Pronto</button></a></td>';
 						}else if(pedidos[i].status == "COZINHA"){
 							linhaHtml += '<td>' 
-								+ '<a class="enviarPedido">'
-								+ '<button type="button" class="btn btn-danger"'
-								+ 'value="'+ pedidos[i].id + '">Andamento</button></a></td>';
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-danger"'
+										+ 'value="'+ pedidos[i].id + '">Andamento</button></a></td>';
 						}else if(pedidos[i].status == "MOTOBOY"){
 							linhaHtml += '<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-primary"'
-									+ 'value="'+ pedidos[i].id + '">Na Rua</button></a></td>';
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-primary"'
+										+ 'value="'+ pedidos[i].id + '">Na Rua</button></a></td>';
 							}				
 						
-						linhaHtml += '<tr>';
+						linhaHtml += '</tr>';
 						
 						//verificar adicao de linha cinza
 						if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
@@ -121,14 +121,14 @@ function buscarPedidos() {
 										linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
 									}
 								}else {
-									linhaHtml +=	'<td colspan="2"></td>';
+									linhaHtml += '<td colspan="2"></td>';
 								}
 								
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].borda + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor + '</td>';
-								linhaHtml +=	'<td>' + pedidos[i].pizzas[j].obs + '</td>';
-								linhaHtml +=	'<td></td>';
-								linhaHtml += '</tr>';	
+								linhaHtml + '<td>' + pedidos[i].pizzas[j].borda + '</td>'
+											+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor + '</td>'
+											+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
+											+ '<td></td>'
+										+ '</tr>';	
 		
 								//verificar adicao de linha cinza
 								if(divisao - pedidos[i].pizzas[j].qtd <= 0) {

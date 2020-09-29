@@ -70,10 +70,10 @@ $.ajax({
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
 		for(var i = 0; i<pedidos.length; i++){
-			linhaHtml += '<tr>';
-			linhaHtml +=	'<td>' + pedidos[i].id + '</td>';
-			linhaHtml +=	'<td>' + pedidos[i].nomePedido + '</td>';
-			linhaHtml +=	'<td>' + pedidos[i].endereco + '</td>';
+			linhaHtml += '<tr>'
+						+ '<td>' + pedidos[i].id + '</td>'
+						+ '<td>' + pedidos[i].nomePedido + '</td>'
+						+ '<td>' + pedidos[i].endereco + '</td>';
 			
 			Tpizzas = 0;
 			for(var k = 0; k<pedidos[i].pizzas.length; k++) {
@@ -83,27 +83,27 @@ $.ajax({
 				Tpizzas += pedidos[i].produtos[k].qtd;
 			}
 			
-			linhaHtml +=    '<td>' + Tpizzas + '</td>';
-			linhaHtml +=    '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>';
-			linhaHtml +=    '<td>R$ ' + pedidos[i].troco.toFixed(2) + '</td>';
-			linhaHtml +=    '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>';
-							
-			linhaHtml += '<td>' 
-						+ '<a class="enviarPedido">'
-						+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-						+ 'value="'+ pedidos[i].id + '"><span class="oi oi-location"></span> Entregar</button></a></td>';			
-			linhaHtml += '<tr>';
-			linhaHtml += linhaCinza;
+			linhaHtml += '<td>' + Tpizzas + '</td>'
+						+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
+						+ '<td>R$ ' + pedidos[i].troco.toFixed(2) + '</td>'
+						+ '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>'	
+						+ '<td>' 
+							+ '<a class="enviarPedido">'
+							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
+							+ 'value="'+ pedidos[i].id + '"><span class="oi oi-location"></span> Entregar</button></a></td>'		
+					+ '<tr>'
+				+ linhaCinza;
 		}
 		$("#todosPedidos").html(linhaHtml);
 		$("#Tpedidos").html(Tpedidos);
 	}
 });
 
+
+//------------------------------------------------------------------
 function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
-	var urlEnviar = "/motoboy/enviarMotoboy/" + idProduto.toString();
 	
 	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
@@ -124,11 +124,14 @@ function finalizarPedido() {
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
+			
 						pedidos[idBusca].motoboy = $("#filtro").val();
 						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
+						
+						//ENVIAR PEDIDO
 						$.ajax({
-							url: urlEnviar,
+							url: "/motoboy/enviarMotoboy/" + idProduto.toString(),
 							type: 'PUT',
 							data: pedidos[idBusca], //dados completos do pedido enviado
 						})
