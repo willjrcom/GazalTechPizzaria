@@ -8,6 +8,15 @@ body{
   background-color: black;
 }
 
+tr th{
+	background-color: #253b80;
+}
+
+th h3, td h3, th h5, th h4{
+  	text-align: center;
+	color: white;
+}
+
 li{
 	border-bottom: 1px solid #B0C4DE;
 	padding: 10px;
@@ -293,4 +302,10 @@ a:hover{
   .blog-card.alt .details {
     padding-left: 25px;
   }
+}
+
+.botao{
+	background-color: transparent; 
+	border: none;
+	width: 100%;
 }

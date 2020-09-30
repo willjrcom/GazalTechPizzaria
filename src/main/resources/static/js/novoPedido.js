@@ -315,8 +315,7 @@ function enviarProduto() {
 	$.ajax({
 		url: '/novoPedido/addProduto/' + idProduto,
 		type: 'PUT'
-	})
-	.done(function(e){
+	}).done(function(e){
 		
 		Sabor = e.nomeProduto;
 		Preco = e.preco;
@@ -345,7 +344,6 @@ function enviarProduto() {
 									+ bordas
 								+ '</select><br>';
 			
-						
 				$.confirm({
 					type: 'blue',
 					title: Setor + ': ' + Sabor,
