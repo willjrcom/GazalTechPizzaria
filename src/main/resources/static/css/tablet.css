@@ -317,6 +317,10 @@ a:hover{
   content:'\f005';
   color: #FC0;
 }
+
+.estrelas label i.fa{
+  font-size: 4em;
+}
 .estrelas input[type=radio]:checked ~ label i.fa:before {
   color: #CCC;
 }
