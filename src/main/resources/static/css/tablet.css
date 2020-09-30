@@ -19,7 +19,6 @@ th h3, td h3, th h5, th h4{
 
 li{
 	border-bottom: 1px solid #B0C4DE;
-	padding: 10px;
 }
 
 li:hover{
@@ -308,4 +307,16 @@ a:hover{
 	background-color: transparent; 
 	border: none;
 	width: 100%;
+	padding: 10px;
+}
+
+.estrelas input[type=radio] {
+  display: none;
+}
+.estrelas label i.fa:before {
+  content:'\f005';
+  color: #FC0;
+}
+.estrelas input[type=radio]:checked ~ label i.fa:before {
+  color: #CCC;
 }

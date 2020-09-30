@@ -31,7 +31,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav>
 					<ol>
 						<li><a th:href="@{/novoPedidoTablet}"><button class="botao">Cardápio</button></a></li>
-						<li><a><button class="botao">Avalie</button></a></li>
+						<li><a><button class="botao" onclick="avalie()">Avalie</button></a></li>
 						<li><a><button class="botao">Shows</button></a></li>
 					</ol>
 				</nav>
@@ -53,6 +53,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div>
 	
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+	<script th:src="@{/js/menuTablet.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 </body>
 </html>
