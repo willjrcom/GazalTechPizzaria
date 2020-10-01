@@ -674,23 +674,39 @@ $("#enviarPedido").click(function() {
 								data: JSON.stringify(cliente)
 								
 							}).done(function(e){
-								imprimir();
-								   
-								$.alert({
-									type: 'green',
-									title: 'Sucesso!',
-									content: 'Pedido enviado!',
-									buttons: {
-								        confirm: {
-								            text: 'Obrigado!',
-								            btnClass: 'btn-green',
-								            keys: ['enter','esc'],
-								            action: function(){
-												window.location.href = "/novoPedido";
+								
+								if(parseFloat(e) == 200) {
+									imprimir();
+									   
+									$.alert({
+										type: 'green',
+										title: 'Sucesso!',
+										content: 'Pedido enviado!',
+										buttons: {
+									        confirm: {
+									            text: 'Obrigado!',
+									            btnClass: 'btn-green',
+									            keys: ['enter','esc'],
+									            action: function(){
+													window.location.href = "/novoPedido";
+												}
 											}
 										}
-									}
-								});
+									});
+								}else if(parseFloat(e) == 404) {
+									$.alert({
+										type: 'red',
+										title: 'Atenção!',
+										content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
+										buttons: {
+									        confirm: {
+									            text: 'Obrigado!',
+									            btnClass: 'btn-danger'
+											}
+										}
+									});
+								}
+								
 								
 							}).fail(function(e){
 								$.alert("Pedido não enviado!");

@@ -1,5 +1,8 @@
 var Qtd, Tempo, Estrela;
+var mesas = 0;
 
+
+//---------------------------------------------------------------
 function avalie() {
 	Qtd = 5, Tempo = 'Excelente', Estrela = 5;
 	
@@ -104,6 +107,47 @@ function estrelas(estrela) {
 }
 
 
+//--------------------------------------------------------------
+$("#mesa").click(function(){
+	
+	$.ajax({
+		url: '/empresa/editar',
+		type: 'PUT'
+	}).done(function(e){
+		if(e.length != 0) {
+			mesas = e.mesa;
+			
+			var filtro = '<label>Mesas disponíveis:</label><br>'
+						+'<select name="filtro" id="filtro" class="form-control">';
+			
+			for(var i = 1; i <= mesas; i++) {
+				filtro += '<option value="' + i + '">' + i +'</option>';
+			}
+			
+			filtro += '</select>';
+			
+			$.confirm({
+				type: 'blue',
+				title: 'Mesas',
+				content: filtro,
+				buttons: {
+					confirm: {
+						text: 'Escolher',
+						btnClass: 'btn-success',
+						action: function(){
+							var Nmesa = this.$content.find('#filtro').val();
+							$("#Nmesa").text(Nmesa);
+						}
+					},
+					cancel: {
+						text: 'Voltar',
+						btnClass: 'btn-danger'
+					}
+				}
+			});
+		}
+	});
+});
 
 /*
  multiselect

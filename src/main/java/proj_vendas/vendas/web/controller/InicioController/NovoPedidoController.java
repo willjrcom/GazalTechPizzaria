@@ -16,11 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
 
@@ -42,6 +44,9 @@ public class NovoPedidoController {
 	
 	@Autowired
 	private Dados dados;
+	
+	@Autowired
+	private Empresas empresas;
 	
 	@RequestMapping
 	public ModelAndView novoPedido() {
@@ -72,13 +77,23 @@ public class NovoPedidoController {
 	
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
 	@ResponseBody
-	public Pedido novoPedido(@RequestBody Pedido pedido) {
-		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-		Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
-		pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
-		dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
-		dados.save(dado); //autalizar n da comanda
-		return pedidos.save(pedido); //salvar pedido
+	public String novoPedido(@RequestBody Pedido pedido) {
+		
+		Empresa empresa = empresas.buscarId1();
+		if(empresa.getAuthentication() == null) {
+			empresa.setAuthentication("nulo");
+		}
+		String authentication = "gazaltech";
+		if(empresa.getAuthentication().equals(authentication) == true) {
+			Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+			Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
+			pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
+			dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
+			dados.save(dado); //autalizar n da comanda
+			pedidos.save(pedido); //salvar pedido
+			return "200";
+		}
+		return "404";
 	}
 	
 	@RequestMapping(value = "/editar/{id}")

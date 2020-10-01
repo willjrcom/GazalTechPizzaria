@@ -14,8 +14,10 @@ $.ajax({
 		empresa.email = e.email;
 		empresa.horaExtra = e.horaExtra;
 		empresa.cnpj = e.cnpj;
+		empresa.authentication = e.authentication;
 		empresa.celular = e.celular;
-
+		empresa.mesa = e.mesa;
+		
 		empresa.endereco = {};
 		empresa.endereco.id = e.endereco.id;
 		empresa.endereco.cep = e.endereco.cep;
@@ -32,7 +34,9 @@ $.ajax({
 		$("#email").val(empresa.email);
 		$("#horaExtra").val(empresa.horaExtra);
 		$("#cel").val(empresa.celular);
+		$("#authentication").val(empresa.authentication);
 		$("#cnpj").val(empresa.cnpj);
+		$("#mesa").val(empresa.mesa);
 		
 		//endereco
 		$("#cep").val(empresa.endereco.cep);
@@ -53,7 +57,9 @@ function setEmpresa() {
 	empresa.email = $("#email").val();
 	empresa.horaExtra = $("#horaExtra").val();
 	empresa.celular = $("#cel").cleanVal();
+	empresa.authentication = $("#authentication").val();
 	empresa.cnpj = $("#cnpj").val();
+	empresa.mesa = $("#mesa").val();
 	
 	empresa.endereco = {};
 	empresa.endereco.cep = $("#cep").val();
@@ -71,6 +77,8 @@ $("#atualizar").click(function() {
 	&& $("#empresa").val() != ''
 	&& $("#email").val() != ''
 	&& $("#cnpj").val() != ''
+	&& $("#authentication").val() != ''
+	&& $("#mesa").val() != ''
 	&& $("#cel").val() != ''
 	&& $("#horaExtra").val() != ''
 	&& $("#cep").val() != ''

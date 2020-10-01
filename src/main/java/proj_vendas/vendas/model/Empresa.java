@@ -21,7 +21,9 @@ public class Empresa {
 	private String cnpj;
 	private String email;
 	private String celular;
+	private String authentication;
 	private double horaExtra;
+	private int mesa;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
@@ -88,6 +90,22 @@ public class Empresa {
 
 	public void setHoraExtra(double horaExtra) {
 		this.horaExtra = horaExtra;
+	}
+
+	public String getAuthentication() {
+		return authentication;
+	}
+
+	public void setAuthentication(String authentication) {
+		this.authentication = authentication;
+	}
+
+	public int getMesa() {
+		return mesa;
+	}
+
+	public void setMesa(int mesa) {
+		this.mesa = mesa;
 	}
 	
 	
