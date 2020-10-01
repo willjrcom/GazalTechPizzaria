@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Cadastrar Produto</title></head>
+
+<body>
+
+	<div class="divbaseForm">
+		
+		<h1 class="h1Logo">Cadastrar Produto</h1><br/>
+		<hr>
+		
+		<input type="hidden" id="id" name="id"/>
+		
+		<br>
+		<div class="form-group">
+			<label>Código de busca: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
+			<p id="avisoCod">Código já cadastrado, tente outro!</p>
+			<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus" required/>
+		</div>
+		
+		<div class="form-group">
+			<label>Nome do produto:<br></label>
+			<input type="text" class="form-control pula" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" required/>
+		</div>
+		
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label>Preço:<br></label>
+				<input type="text" class="form-control preco pula" id="preco" name="preco" placeholder="Preço" required/>
+			</div>
+			<div class="form-group col-md-6">
+				<label>Custo:<br></label>
+				<input type="text" class="form-control preco pula" id="custo" name="custo" placeholder="Total em custo"/>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Setor: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label>
+			<select class="form-control pula" id="setor" name="setor" required>
+				<option value="PIZZA">Pizza</option>
+				<option value="BORDA">Borda</option>
+				<option value="BEBIDA">Bebida</option>
+				<option value="OUTROS">Outros</option>
+			</select>
+			
+		</div>
+		
+		<div>
+			<input type="checkbox" class="form-group" id="disponivel" checked/>
+			<label>Disponivel hoje no cardapio? (Altere sempre que necessário).
+			 <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label>
+		</div>
+		<br>
+		<div class="form-group">
+			<label>Descrição do produto: <button class="btn btn-link" onclick="aviso3()"><span class="oi oi-question-mark"></span></button></label>
+			<textarea class="form-control pula" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto"></textarea>  
+		</div>
+		
+		<br>
+		<button type="button" class="form-contact-button pula" id="enviar" name="enviar">Cadastrar</button>  
+		<button type="button" class="form-contact-button" id="atualizar" name="atualizar">Atualizar</button>  
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	
+	<script th:src="@{/js/produtos/cadastroProduto.js}"></script>
+	<script th:src="@{/js/validCodProduto.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: cadastros}"></div>
+</html>

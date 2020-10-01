@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Cadastrar Funcionário</title></head>
+
+<body>
+				
+	<div class="divbaseForm">
+			
+		<h1 class="h1Logo">Cadastrar Funcionário</h1><br/>
+		<hr>
+		<input type="hidden" id="id" name="id"/>
+		
+		<br>
+		<div class="form-group">
+			<label>Nome Completo:<br></label>
+			<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo"  autofocus="autofocus"/>  
+		</div>
+		
+		<div class="form-group">
+			<label>E-mail:<br></label>
+			<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
+		</div>
+		
+		<div class="form-group">
+			<label >Data de nascimento:<br></label>
+			<input type="date" class="form-control pula" id="nascimento" name="nascimento" placeholder="dd/mm/aaaa"/>
+		</div>
+		
+		<div class="form-group" id="divCpf">
+			<label>CPF:<br></label>
+			<p id="avisoCpf">Cpf já cadastrado, tente outro!</p>
+			<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
+		</div>
+		
+		<br>
+		<div class="form-group">
+			<label>Celular:<br></label>
+			<p id="avisoCel">Celular já cadastrado, tente outro!</p>
+			<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular xx-xxxxx-xxxx "/> 
+		</div>
+		
+		<div class="form-group">
+			<label for="cargo">Cargo:<br></label>
+			<select class="form-control pula" id="cargo" name="cargo">
+				<option value="ATENDIMENTO">Atendimento</option>
+				<option value="MOTOBOY">Motoboy</option>
+				<option value="COZINHA">Cozinha</option>
+				<option value="PIZZAIOLO">Pizzaiolo</option>
+				<option value="FORNEIRO">Forneiro</option>
+				<option value="REPOSITOR">Repositor</option>
+				<option value="GERENTE">Gerente</option>
+				<option value="MARKETING">Marketing</option>
+				<option value="ANALISTA">Analista</option>
+				<option value="AUXILIARCOZINHA">Auxiliar de cozinha</option>
+				<option value="AUXILIARPIZZAIOLO">Auxiliar de pizzaiolo</option>
+				<option value="MENORAPRENDIZ">Menor Aprendiz</option>
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label>Sexo:<br></label>
+			<select class="form-control pula" id="sexo" name="sexo">
+				<option value="MASCULINO">Masculino</option>
+				<option value="FEMINIMO">Feminino</option>
+			</select>
+		</div>
+		
+		<h3><br/>Endereço:<br/><br/></h3>
+		
+		<div class="col-md-2">
+		   	<div class="form-group">
+		        <label>CEP</label>
+      			<input type="text" class="form-control pula" id="cep" maxlength="12" name="endereco.cep" placeholder="Informe o CEP">
+		    </div>
+  		</div>
+  		
+	  	<div class="form-row">
+	  		<div class="col-md-8">
+			   <div class="form-group">
+			       <label>Rua</label>
+	      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua">
+			    </div>
+	  		</div>
+	  		<div class="col-md-2">
+			   <div class="form-group">
+			       <label>Nº</label>
+	      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número">
+			    </div>
+	  		</div>
+	  	</div>
+		
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label><br>Bairro:<br></label>
+				<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro"/>  
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label><br>Cidade:<br></label>
+				<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade" value="Sorocaba"/> 
+			</div>
+		</div>
+		
+		
+		
+		<div class="form-group">
+			<label>Referência da casa:<br></label>
+			<textarea class="form-control pula" id="referencia" name="referencia" placeholder="Referência da casa"></textarea>  
+		</div>
+		
+		<h3>Pagamento:</h3>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label>Data de admissão:<br></label>
+				<input type="date" class="form-control pula" id="admissao" name="admissao" placeholder="dd/mm/aaaa"/>
+			</div>
+			
+			<div class="form-group col-md-6">
+				<label>Dia pagamento:<br></label>
+				<input type="number" class="form-control pula" id="diaPagamento" name="diaPagamento" placeholder="Dia pagamento" min="1" max="31"/>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label>Salário:<br></label>
+			<input type="text" class="form-control pula preco" id="salario" name="salario" placeholder="Salário"/>
+		</div>	
+
+		<br>				
+		
+		<div class="custom-file">
+			<label>Foto:<br></label>
+		  	<input type="file" id="foto">
+		</div>
+		
+		<br>
+		<button type="button" id="enviar" class="form-contact-button" name="enviar">Cadastrar</button>  
+		<button type="button" id="atualizar" class="form-contact-button" name="atualizar">Atualizar</button>  
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+	<script th:src="@{/js/buscaCep.js}"></script>
+	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+	<script th:src="@{/js/validCpfFuncionario.js}"></script>
+	<script th:src="@{/js/funcionarios/cadastroFuncionario.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: cadastros}"></div>
+</html>

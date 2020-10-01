@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head>
+	<title>Estatísticas</title>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Estatística</h1>		
+		<hr>
+		
+ 		 <h2 align="center">Lucro Bruto/Líquido</h2>
+ 		 <div id="totalVendas"></div>
+ 		 <hr>
+ 		 <h2 align="center">Entrega/Balcão</h2>
+ 		 <div id="entregaBalcao"></div>
+ 		 <hr>
+ 		 <h2 align="center">Pizza/Produto</h2>
+ 		 <div id="pizzaProduto"></div>
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/estatistica.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: empresa}"></div>
+</html>

@@ -1,0 +1,340 @@
+	/*overlay: hidden;
+	 cor do logo #00ffbb*/
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Times New Roman";
+}
+
+.row{
+	margin-right: 0px;
+	margin-left: 0px;
+}
+
+#mostrar, #mostrarProdutos, #atualizarPedido, .mostrarPedidos{
+	display: none;
+}
+/*	
+a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
+label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
+    margin-left: 0.3em;
+    content: "[" attr(accesskey) "]";
+}
+*/
+
+html {
+    height: 100%;
+    min-height: 100%;
+    background-image: url("/img/azul.jpg"); 
+	background-repeat: repeat-y;
+	background-size: cover;
+}
+
+body{
+	/*background-color: #0069c1; /*cor de fundo*/
+	background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    min-height: 91.1%;
+    margin-top: 65px;
+}
+
+/*titulos*/
+th h3, td h3, th h5, th h4{
+  	text-align: center;
+	color: white;
+}
+
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+ul {
+  	overflow: hidden;
+}
+
+li a{
+  	text-align: center;
+}
+.menu1 li a {
+  	display: block;
+  	text-decoration: none;
+}
+
+
+.menu1 li a:hover {
+  	background-color: #107b11; /*cor verde do menu*/
+  	color: white;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+}
+.Dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/*table*/
+table{
+	border-collapse: separate;
+	width: 100%;
+}
+
+thead{
+	background-color: #253b80;	
+}
+
+tr th{
+	background-color: #253b80;
+}
+
+table thead tr th{
+	text-align: center;
+}
+
+table tbody tr td{
+	text-align: center;
+	padding: .5vh;
+}
+
+table tr th{
+	color: white;
+}
+
+tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+}
+
+/*footer*/
+footer{
+    margin-top: auto;
+	width: 100%;
+	background-color: #333;
+	border-top: 2px solid black;	
+	position: relative;
+	height: 150%;
+	left:0;
+	bottom:0;
+	margin-left: 0;
+}
+
+/*-------------------------------------*/
+.centralizar{
+	text-align: center;
+}
+
+.fundoList{
+	background-color: #D3D3D3;
+}
+
+/*WIDTH---------------------------------*/
+.img {
+    max-width:50px;
+    max-height:30px;
+    width: auto;
+    height: auto;
+    padding: 2px;
+}
+.logo {
+    max-width:60%;
+    max-height:40%;
+    width: auto;
+    height: auto;
+}
+
+.logoTitulo {
+    max-width:10%;
+    width: auto;
+    margin-left: 10vh
+}
+img{
+	width: 35px;
+}
+
+/*TITULO---------------------------------*/
+
+.h1Logo{
+	text-align: center; 
+}
+
+.sobre{
+	text-align: left; 
+}
+
+.elemento{
+	position: absolute;
+	top: 70%;
+	left: 50%;
+	height: 70vh;
+	transform: translate(-50%, -50%);
+}
+
+.cw{
+	color: white;
+}
+
+/*celular*/
+@media (max-width:768px){
+		
+	.mercadoPago{
+	    max-width:100%;
+	    max-height:20%;
+	    width: auto;
+	    height: auto;
+	}
+	
+	footer{
+		display: none;
+	}
+}
+
+/*computador*/
+@media ( min-width: 769px ){
+	.mercadoPago{
+	    max-width:40%;
+	    max-height:20%;
+	    width: auto;
+	    height: auto;
+	}
+}
+
+/*menu inicial*/
+.menu1 li{
+	float: none;
+}
+
+.menu1 .row{
+	background-color: white;
+}
+.menu1 a{
+	background-color: white;
+	color: black;
+	
+}
+.menu1 li a:hover{
+	-moz-box-shadow:0 3px 10px 0 #ccc; 
+	-webkit-box-shadow:0 3px 10px 0 #ccc; 
+	text-shadow:0px 0px 5px #fff; 
+}
+	
+.menu1 li a{
+	padding: 3vh;
+}   
+
+#logoMenu{
+	background-color: white;
+	width: 100%;
+}
+
+#fb{
+	background-color: #333;
+}
+.posicaoMenu{
+	float: left;
+	position: absolute;
+}
+
+a:link{
+	text-decoration: none;
+}
+
+.active {
+  	background-color: #107b11;
+}
+
+.divbase {
+	margin-left: 1vh; 
+	margin-right: 1vh; 
+	background-color: white; 
+	border: 1px solid black;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	padding: 1vh;
+}
+
+.divbaseForm {
+	margin-left: 2vh; 
+	margin-right: 2vh; 
+	background-color: #ececec; 
+	border: 1px solid black;
+	border-radius: 10px;
+	-webkit-border-radius: 10px;
+	padding: 5vh;
+}
+
+.descricao{
+	border: none;
+	background-color: white;	
+}
+
+.botao{
+	background-color: white; 
+	border: none;
+}
+
+.fRight{
+	float: right;
+}
+
+.fLeft{
+	float: left;
+}
+
+.w100{
+	width: 100%;
+}
+
+.textIndent{
+	text-indent: 10px;
+}
+
+#dados{
+    margin-bottom: 0px;
+}
+
+.sombra{
+	background-color: #D3D3D3;
+}
+
+h3{
+	text-align: center;
+}
+.form-contact-button {
+  	width: 100%;
+  	font-size: 22px;
+  	border-radius: 4px;
+  	color: #fff;
+  	height: 40px;
+  	opacity: .8;
+  	margin-bottom: 20px;
+  	cursor: pointer;
+  	background: green;
+  	display: block;
+  	border: none;
+  	border-bottom: 1px solid #500707;
+  	border-right: 1px solid #500707;
+  	transition: 1s;
+}
+
+.form-contact-button:hover {
+  	opacity: 1;
+}
+
+.gazaltech{
+	background-color: white;
+	border-radius: 10px;
+	padding: 5px;
+	width: 100%;
+}
+
+#login{
+	padding: 2vh 10vh 2vh 10vh;	
+}
+
+#Tmenu{
+	width: 50vh;
+}

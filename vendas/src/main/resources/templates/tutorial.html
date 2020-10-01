@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+	<title>Tutorial</title>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
+</head>
+
+<body>
+	<br>
+	<div class="divbase" align="center">
+	
+		<h1 class="h1Logo">Tutorial</h1>
+		<hr>
+		
+		<div class="fotorama"
+		data-allowfullscreen="true"
+     	data-nav="thumbs"
+     	data-loop="true"
+     	data-autoplay="true"
+     	data-keyboard="true"
+     	data-width="50%"
+     	data-ratio="800/600"
+     	data-minwidth="400"
+     	data-maxwidth="1000"
+     	data-minheight="300"
+     	data-maxheight="50%">
+			<img src="/img/tutorial.png" data-caption="Tutorial">
+		</div>
+		
+		<br>
+		<hr>
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Novo Pedido</h2>
+				<p>A tela foi desenvolvida para tirar novos pedidos.
+				<br>Se for uma entrega é só digitar o celular cadastrado do cliente para fazer a busca.
+				<br>Caso seja um balcão, Mesa ou Drive-thru é necessário o nome do cliente ou da mesa.
+				<br>Após o pedido ser confirmado, pode ser feita a impressão e automáticamente ele é enviado para a tela de cozinha se existir pizzas.</p>
+				<br>
+				<hr>
+			</div>
+			
+			<div class="col-md-4">
+				<h2>Cozinha</h2>
+				<p>Essa tela foi desenvolvida para mostrar todos os pedidos com pizzas que ainda estão em andamento.
+				<br>Se o pedido ficar pronto, deve clicar no botão enviar para alterar o Status e liberar a opção finalizar.</p>
+				<br>
+				<hr>
+			</div>
+			
+			<div class="col-md-4">
+				<h2>Status</h2>
+				<p>Para ter agilidade, a tela de Status mostra o status de cada pedido que ainda não foi finalizado.
+				<br>Assim pode ser utilizada tanto para os funcionarios quanto aos clientes.</p>
+				<br>
+				<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-4">
+				<h2>Finalizar</h2>
+				<p>Todos pedidos que são criados como balção, Mesa ou Drive-thru são dados baixa/finalizados nessa tela.
+				<br>Podendo ser pago nessa tela ou na tela de Novo Pedido</p>
+				<br>
+				<hr>
+			</div>
+			
+			<div class="col-md-4">
+				<h2>Entregar</h2>
+				<p>Aqui é  onde o atendente vai selecionar qual motoboy está saindo para entregar o pedido
+				<br>E principalmente selecionar qual pedido está sendo enviado</p>
+				<br>
+				<hr>
+			</div>
+			
+			<div class="col-md-4">
+				<h2>Receber</h2>
+				<p>A tela de Receber é utilizada no momento que o motoboy volta para o estabelecimento e assim, é possivel dar baixa/finalizar a entrega.
+				<br>Sendo enviada então para a tela de Relatório do Dia</p>
+				<br>
+				<hr>
+			</div>
+		</div>
+		<hr>
+	</div>
+	<br>
+	
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	</body>
+	
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
+</html>

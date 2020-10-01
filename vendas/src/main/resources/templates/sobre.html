@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}"></head>
+<head><title>Sobre</title></head>
+
+<body>
+	
+	<br>
+	<div class="divbase">
+		<div class="centralizar">
+			<h1 class="h1Logo">Sobre</h1>
+			<p>Este projeto foi desenvolvido utilizando o modelo Spring boot MVC</p>
+			<hr>
+			
+			<div class="table-responsive">
+				<table>
+					<tr><th class="text-center"><h3>Desenvolvedores</h3></th></tr>
+					<tr><td class="sobre">Full-Stack Developer:<br>- William Alfred Gazal Júnior<br><br>Instrutor inicial:<br>- Italo Haas Pascoli</td></tr>
+				</table>
+			</div>
+			
+			<br>
+			<div class="table-responsive">
+				<table>
+					<tr><th class="text-center"><h3>Linguagens utilizadas</h3></th></tr>
+					<tr><td class="sobre">- Html<br>- Css<br>- Java<br>- MySql<br>- Thymeleaf<br>- Jpa<br>- Hibernate<br>- Maven<br>Sistema: Spring Tools Suite 4</td></tr>
+				</table>
+			</div>
+			
+			<br><br>
+			<label>Acesse meu Linkedin:</label>
+		
+			<a class="btn btn-info" href="https://www.linkedin.com/in/william-alfred-gazal-j%C3%BAnior-369a76185/"><span class="oi oi-external-link"></span> Acessar</a>
+		</div>
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	</body>
+	
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
+</html>

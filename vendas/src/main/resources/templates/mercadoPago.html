@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/header :: head}" ></head>
+<head><title>Mercado Pago</title></head>
+
+<body>
+	<header th:replace="~{layouts/header :: cadastros}"></header>
+
+	<div class="divbaseForm">
+		
+		<br>
+		<h1 class="h1Logo">Adquira sua assinatura e transforme seu negócio</h1><br/>
+		<hr>
+		
+		 <div class="row">
+		 	<div class="col-md-4">
+				<img src="/img/mercadoPago.jpg" alt="Mercado Pago" class="mercadoPago">
+		 	</div>
+		 	
+		 	<div class="col-md-6">
+		 		<h2>Acesse o link para fazer o pagamento</h2>
+				<div>
+					<a href="https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=453638447-7cacb587-6f55-4c42-a29d-365f4c65e0f1">
+					<button name="botao" class="btn btn-info">&nbsp;Acessar Mercado Pago&nbsp;</button></a>
+				</div>
+		 	</div>
+		 </div>
+	</div>
+	<br>
+	<footer th:replace="~{layouts/header :: footer}"></footer>
+	
+</body>
+</html>

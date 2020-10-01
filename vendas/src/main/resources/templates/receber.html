@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Receber</title></head>
+
+<body>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Receber entregas</h1>
+		<hr>
+		
+		<div class="distMargin">
+			<label>A/C</label>
+			<select autofocus="autofocus" name="filtro" id="filtro">
+			<option value="--">-----------</option>
+		</select></div>
+		
+		<div class="table-responsive">
+		<table>
+			<thead>
+				<tr>
+					<th class="text-center col-md-1"><h3>{}</h3></th>
+					<th class="text-center col-md-1"><h3>Nome</h3></th>
+					<th class="text-center col-md-1"><h3>Endereço</h3></th>
+					<th class="text-center col-md-1"><h3>Motoboy</h3></th>
+					<th class="text-center col-md-1"><h3>Total</h3></th>
+					<th class="text-center col-md-1"><h3>Troco</h3></th>
+					<th class="text-center col-md-1"><h3>Finalizar</h3></th>
+				</tr>
+			</thead>
+			
+			<tbody id="todosPedidos"></tbody>
+		</table>
+		</div>
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/receber.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: inicio}"></div>
+</html>

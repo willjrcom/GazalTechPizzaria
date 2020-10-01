@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Compras</title></head>
+
+<body>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Compras <button onclick="aviso()" class="btn btn-link"><span class="oi oi-question-mark"></span></button></h1>
+		
+		<hr>
+		<div class="row">
+			<div class="col-md-6">
+				<input class="form-control pula" id="produto" placeholder="Digite o nome do produto" autofocus/>
+			</div>
+			
+			<div class="col-md-6">
+				<input class="form-control preco pula" id="preco" placeholder="Digite o preco do produto"/>
+			</div>
+		</div><hr>
+		<br>
+		
+		<button class="btn btn-success fRight pula" onclick="salvar()">Salvar compras</button>
+	</div>
+	
+	<br>
+	<div class="divbase">
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center col-md-1"><h4>Produto</h4></th>
+						<th class="text-center col-md-1"><h4>Preço</h4></th>
+					</tr>
+				</thead>
+				
+				<tbody id="compras"></tbody>
+			</table>
+		</div>
+	</div>
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/compras.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: empresa}"></div>
+</html>
