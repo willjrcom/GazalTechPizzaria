@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +21,9 @@ public class CadastroClienteController {
 	@Autowired
 	private Clientes clientes;
 
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView CadastroCliente() {
-		ModelAndView mv = new ModelAndView("cadastroCliente");
-		return mv;
+		return new ModelAndView("cadastroCliente");
 	}
 	
 	@RequestMapping(value = "/buscarCpf/{cpf}", method = RequestMethod.PUT)
@@ -44,16 +42,6 @@ public class CadastroClienteController {
 	@ResponseBody
 	public Cliente cadastrarCliente(@RequestBody Cliente cliente) {
 		return clientes.save(cliente);
-	}
-	
-	@RequestMapping(value = "/editar/{id}")
-	public ModelAndView editarCadastro(@ModelAttribute("id") Long id){
-		return new ModelAndView("cadastroCliente");
-	}
-	
-	@RequestMapping(value = "/{numero}")
-	public ModelAndView editarCadastro(@ModelAttribute("celular") String celular){
-		return new ModelAndView("cadastroCliente");
 	}
 	
 	@RequestMapping(value = "/editarCliente/{id}", method = RequestMethod.PUT)

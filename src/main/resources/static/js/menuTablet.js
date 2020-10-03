@@ -1,5 +1,5 @@
 var Qtd, Tempo, Estrela;
-var mesas = 0;
+var mesas = 0, Nmesa = 0;
 
 
 //---------------------------------------------------------------
@@ -120,9 +120,21 @@ $("#mesa").click(function(){
 			var filtro = '<label>Mesas disponíveis:</label><br>'
 						+'<select name="filtro" id="filtro" class="form-control">';
 			
-			for(var i = 1; i <= mesas; i++) {
-				filtro += '<option value="' + i + '">' + i +'</option>';
+			if($("#Nmesa").text() != '') {
+				Nmesa = $("#Nmesa").text();
+				filtro += '<option value="' + Nmesa + '">' + Nmesa +'</option>';
+				
+				for(var i = 1; i <= mesas; i++) {
+					if(i != Nmesa) {
+						filtro += '<option value="' + i + '">' + i +'</option>';	
+					}
+				}
+			}else {
+				for(var i = 1; i <= mesas; i++) {
+					filtro += '<option value="' + i + '">' + i +'</option>';
+				}
 			}
+			
 			
 			filtro += '</select>';
 			
@@ -135,7 +147,7 @@ $("#mesa").click(function(){
 						text: 'Escolher',
 						btnClass: 'btn-success',
 						action: function(){
-							var Nmesa = this.$content.find('#filtro').val();
+							Nmesa = this.$content.find('#filtro').val();
 							$("#Nmesa").text(Nmesa);
 						}
 					},
@@ -149,6 +161,25 @@ $("#mesa").click(function(){
 	});
 });
 
+
+//-----------------------------------------------------------------------
+function cardapio() {
+	if($("#Nmesa").text() == '') {
+		$.alert({
+			type: 'red',
+			title: 'OPS..',
+			content: 'Escolha uma mesa para fazer o pedido',
+			buttons: {
+				confirm: {
+					text: 'Ok',
+					btnClass: 'btn-success'
+				}
+			}
+		});
+	}else {
+		window.location.href = "/novoPedidoTablet/mesa/" + $("#Nmesa").text();
+	}
+}
 /*
  multiselect
  

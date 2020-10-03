@@ -22,8 +22,7 @@ public class ClientesCadastradosController {
 	
 	@RequestMapping
 	public ModelAndView lerCadastros() {
-		ModelAndView mv = new ModelAndView("clientesCadastrados");
-		return mv;
+		return new ModelAndView("clientesCadastrados");
 	}
 	
 	@RequestMapping(value = "/buscar/{nome}", method = RequestMethod.PUT)

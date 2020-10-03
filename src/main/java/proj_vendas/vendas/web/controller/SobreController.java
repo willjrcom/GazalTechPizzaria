@@ -10,7 +10,6 @@ public class SobreController{
 	
 	@RequestMapping
 	public ModelAndView sobre() {
-		ModelAndView mv = new ModelAndView("sobre");
-		return mv;
+		return new ModelAndView("sobre");
 	}
 }

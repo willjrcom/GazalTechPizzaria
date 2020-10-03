@@ -31,8 +31,7 @@ public class ReceberController {
 	
 	@RequestMapping
 	public ModelAndView receberEntregas() {
-		ModelAndView mv = new ModelAndView("receber");
-		return mv;
+		return new ModelAndView("receber");
 	}
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)

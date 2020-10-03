@@ -25,8 +25,7 @@ public class RelatoriodiaController {
 	
 	@RequestMapping
 	public ModelAndView relatorioDia() {
-		ModelAndView mv = new ModelAndView("relatoriodia");
-		return mv;
+		return new ModelAndView("relatoriodia");
 	}
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)

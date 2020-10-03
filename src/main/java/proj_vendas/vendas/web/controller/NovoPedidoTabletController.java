@@ -21,7 +21,7 @@ public class NovoPedidoTabletController{
 	@Autowired
 	private Produtos produtos;
 	
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView tela() {
 		return new ModelAndView("novoPedidoTablet");
 	}
@@ -52,4 +52,5 @@ public class NovoPedidoTabletController{
 	public List<Produto> buscarBordas(){
 		return produtos.findBySetorAndDisponivel("BORDA", true);
 	}
+	
 }

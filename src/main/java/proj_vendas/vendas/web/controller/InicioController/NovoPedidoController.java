@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +47,7 @@ public class NovoPedidoController {
 	@Autowired
 	private Empresas empresas;
 	
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
 	}
@@ -96,11 +95,6 @@ public class NovoPedidoController {
 		return "404";
 	}
 	
-	@RequestMapping(value = "/editar/{id}")
-	public ModelAndView editarPedido(@ModelAttribute("id") Pedido pedido) {
-		return new ModelAndView("novoPedido");
-	}
-	
 	@RequestMapping(value = "/editarPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Pedido> buscarPedido(@PathVariable Long id) {
@@ -129,10 +123,5 @@ public class NovoPedidoController {
 	@ResponseBody
 	public Optional<Dia> data() {
 		return dias.findById((long) 1);
-	}
-	
-	@RequestMapping(value = "/{numero}")
-	public ModelAndView editarCadastro(@ModelAttribute("celular") String celular){
-		return new ModelAndView("novoPedido");
 	}
 }

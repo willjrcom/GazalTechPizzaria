@@ -26,8 +26,7 @@ public class VerpedidoController{
 	
 	@RequestMapping
 	public ModelAndView verPedido() {
-		ModelAndView mv = new ModelAndView("verpedido");
-		return mv;
+		return new ModelAndView("verpedido");
 	}
 	
 	@RequestMapping(value = "/excluirPedido/{id}", method = RequestMethod.PUT)

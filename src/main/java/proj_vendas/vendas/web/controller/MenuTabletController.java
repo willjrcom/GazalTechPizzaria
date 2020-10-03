@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/menuTablet")
 public class MenuTabletController{
 	
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView tela() {
 		return new ModelAndView("menuTablet");
 	}

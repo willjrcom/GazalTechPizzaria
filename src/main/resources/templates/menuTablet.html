@@ -19,7 +19,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
 	<button class="mesa" id="mesa"><b>MESA</b> <span id="Nmesa"></span></button>
-	<button class="carrinho"><b>CARRINHO VAZIO</b></button>
+	<button class="carrinho" onclick="cardapio()"><b>CARRINHO VAZIO</b></button>
 	<h1 align="center" class="titulo">Faça seu pedido</h1>
 
 	<div class="row bw">
@@ -30,7 +30,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<br>
 				<nav>
 					<ol>
-						<li><a th:href="@{/novoPedidoTablet}"><button class="botao">Cardápio</button></a></li>
+						<li><a><button class="botao" onclick="cardapio()">Cardápio</button></a></li>
 						<li><a><button class="botao" onclick="avalie()">Avalie</button></a></li>
 						<li><a><button class="botao">Shows</button></a></li>
 					</ol>

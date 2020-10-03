@@ -10,7 +10,6 @@ public class TutorialController{
 	
 	@RequestMapping
 	public ModelAndView tutorial() {
-		ModelAndView mv = new ModelAndView("tutorial");
-		return mv;
+		return new ModelAndView("tutorial");
 	}
 }

@@ -25,8 +25,7 @@ public class PedidosExcluidosController {
 	
 	@RequestMapping
 	public ModelAndView lerCadastros() {
-		ModelAndView mv = new ModelAndView("pedidosExcluidos");
-		return mv;
+		return new ModelAndView("pedidosExcluidos");
 	}
 
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)

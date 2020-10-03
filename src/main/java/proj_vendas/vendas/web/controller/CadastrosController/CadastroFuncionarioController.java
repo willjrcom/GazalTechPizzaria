@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +21,9 @@ public class CadastroFuncionarioController{
 	@Autowired
 	private Funcionarios funcionarios;
 	
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView CadastroFuncionario() {
-		ModelAndView mv = new ModelAndView("cadastroFuncionario");
-		return mv;
+		return new ModelAndView("cadastroFuncionario");
 	}
 
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
@@ -44,12 +42,6 @@ public class CadastroFuncionarioController{
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular) {
 		return funcionarios.findByCelular(celular);
-	}
-	
-
-	@RequestMapping(value = "/editar/{id}")
-	public ModelAndView editarCadastro(@ModelAttribute("id") Long id){
-		return new ModelAndView("cadastroFuncionario");
 	}
 	
 	@RequestMapping(value = "/editarFuncionario/{id}", method = RequestMethod.PUT)
