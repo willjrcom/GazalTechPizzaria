@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.repository.Dias;
-import proj_vendas.vendas.repository.Pedidos;
+import proj_vendas.vendas.repository.PedidoTemps;
 
 //@Component
 //@RemoteProxy
@@ -21,7 +21,7 @@ import proj_vendas.vendas.repository.Pedidos;
 public class CozinhaController{
 	
 	@Autowired
-	private Pedidos pedidos;
+	private PedidoTemps pedidos;
 	
 	@Autowired
 	private Dias dias;
@@ -33,14 +33,14 @@ public class CozinhaController{
 	
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
-	public List<Pedido> todosPedidos() {
+	public List<PedidoTemp> todosPedidos() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndData("COZINHA", dia);
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {//falta enviar as outras variaveis
+	public PedidoTemp enviarPedido(@ModelAttribute("id") PedidoTemp pedido) {//falta enviar as outras variaveis
 		pedido.setStatus("PRONTO");
 		return pedidos.save(pedido);
 	}

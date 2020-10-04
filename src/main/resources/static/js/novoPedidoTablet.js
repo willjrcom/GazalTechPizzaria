@@ -3,7 +3,7 @@ var linhaHtml = '';
 var  preco, qtd, obs, custo;
 var total = 0, tPizzas = 0, tPedido = 0;
 var borda, bordaPreco, bordaCusto; 
-
+var Nmesa = 0;
 //quantidade pizzas
 var qtdPizzas = '<label>Quantidade: <span id="qtdInput">1</span></label><br>'
 			+ '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">'
@@ -35,6 +35,8 @@ var qtdProdutos = '<label>Quantidade: <span id="qtdInput">1</span></label><br>'
 			
 			+ '<label>Observação:</label>'
 			+ '<input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" />';
+
+
 //----------------------------------------------------------------
 function mostrarOpcao(opcao) {
 	
@@ -175,6 +177,7 @@ function adicionar() {
 											'custo': parseFloat(Custo),
 											'setor': Setor,
 											'descricao': Descricao,
+											'status' : "COZINHA",
 										});
 										
 										$("#meuCarrinho").text(tPizzas);
@@ -195,6 +198,7 @@ function adicionar() {
 										'custo': parseFloat(Custo),
 										'setor': Setor,
 										'descricao': Descricao,
+										'status' : "COZINHA",
 									});
 
 									$("#meuCarrinho").text(tPizzas);
@@ -234,7 +238,9 @@ function adicionar() {
 								'obs': Obs,
 								'preco': Preco,
 								'custo': parseFloat(Custo),
-								'setor': Setor
+								'setor': Setor,
+								'descricao': Descricao,
+								'status' : "COZINHA",
 							});
 
 							$("#meuCarrinho").text(tPizzas);
@@ -258,7 +264,6 @@ function qtdProduto(qtd) {
 //---------------------------------------------------------------------------------------------------------------------
 function mostrarProdutos() {
 
-	console.table(produtos);
 	var carrinho = '';
 	if(pizzas.length != 0) {
 		carrinho += '<table style="width: 100%">'
@@ -347,53 +352,116 @@ function mostrarProdutos() {
 							mesa.data = event.dia;
 							mesa.envio = 'MESA';
 							mesa.horaPedido = new Date();
-							mesa.nomePedido = 'Mesa';
+							mesa.nomePedido = 'Mesa ' + $("#Nmesa").text();
 							mesa.pagamento = 'Não';
 							mesa.pizzas = JSON.stringify(pizzas);
 							mesa.produtos = JSON.stringify(produtos);
 							mesa.status = 'COZINHA';
 							mesa.total = tPedido;
 							
+							//----------------------------------------------------------------------
+							var temp = {};
+							temp.nome = mesa.nomePedido;
+							temp.pizzas = mesa.pizzas;
+							temp.produtos = mesa.produtos;
+							temp.status = "COZINHA";
+							temp.data = mesa.data;
+							
 							//salvar pedido
 							$.ajax({
-								url: "/novoPedido/salvarPedido",
+								url: "/novoPedidoTablet/atualizar",
 								type: "PUT",
 								dataType : 'json',
 								contentType: "application/json",
 								data: JSON.stringify(mesa)
 							}).done(function(e){
-								if(parseFloat(e) == 200) {
-									$.alert({
-										type: 'green',
-										title: 'Sucesso!',
-										content: 'Pedido enviado!',
-										buttons: {
-									        confirm: {
-									            text: 'Obrigado!',
-									            btnClass: 'btn-green',
-									            keys: ['enter','esc'],
-									            action: function(){
-													window.location.href = "/novoPedido";
+
+								if(e.id != null) {
+									mesa.id = e.id;
+									mesa.total += e.total;
+									mesa.comanda = e.comanda;
+									mesa.horaPedido = e.horaPedido;
+									mesa.data = e.data;
+									
+									//converter pedido atual para objeto
+									mesa.pizzas = JSON.parse(mesa.pizzas);
+									mesa.produtos = JSON.parse(mesa.produtos);
+									
+									//converter pedido antigo para objeto
+									e.pizzas = JSON.parse(e.pizzas);
+									e.produtos = JSON.parse(e.produtos);
+									
+									for(pizza of e.pizzas) {
+										//concatenar pizzas
+										mesa.pizzas.unshift(pizza);
+									}
+									
+									for(produto of e.produtos) {
+										//concatenar produtos
+										mesa.produtos.unshift(produto);
+									}
+									
+									//converter pedido atual em JSON
+									mesa.pizzas = JSON.stringify(mesa.pizzas);
+									mesa.produtos = JSON.stringify(mesa.produtos);
+								}
+								
+								console.log(e);
+								console.log(JSON.stringify(mesa));
+								console.log(mesa);
+								
+								//salvar pedido
+								$.ajax({
+									url: "/novoPedidoTablet/salvarPedido",
+									type: "PUT",
+									dataType : 'json',
+									contentType: "application/json",
+									data: JSON.stringify(mesa)
+								}).done(function(e){
+									if(parseFloat(e) == 200) {
+										//salvar pedido no temp
+										$.ajax({
+											url: '/novoPedido/salvarTemp',
+											type: 'PUT',
+											dataType : 'json',
+											contentType: "application/json",
+											data: JSON.stringify(temp)
+										});
+										
+										$.alert({
+											type: 'green',
+											title: 'Sucesso!',
+											content: 'Pedido enviado!',
+											buttons: {
+										        confirm: {
+										            text: 'Obrigado!',
+										            btnClass: 'btn-green',
+										            keys: ['enter','esc'],
+										            action: function(){
+														window.location.href = "/menuTablet/mesa/" + $("#Nmesa").text();
+													}
 												}
 											}
-										}
-									});
-								}else if(parseFloat(e) == 404) {
-									$.alert({
-										type: 'red',
-										title: 'Atenção!',
-										content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
-										buttons: {
-									        confirm: {
-									            text: 'Obrigado!',
-									            btnClass: 'btn-danger'
+										});
+									}else if(parseFloat(e) == 404) {
+										$.alert({
+											type: 'red',
+											title: 'Atenção!',
+											content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
+											buttons: {
+										        confirm: {
+										            text: 'Obrigado!',
+										            btnClass: 'btn-danger'
+												}
 											}
-										}
-									});
-								}
-							}).fail(function(e){
-								$.alert("Erro, Pedido não enviado!");
+										});
+									}
+								}).fail(function(e){
+									$.alert("Erro, Pedido não enviado!");
+								});
 							});
+							/*
+							*/
 						});
 					}
 				}
@@ -402,6 +470,37 @@ function mostrarProdutos() {
 	}
 }
 
+
+//-----------------------------------------------------------------------------------------------
+function voltar() {
+	window.location = "/menuTablet/mesa/" + $("#Nmesa").text();
+}
+
+
+//----------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+
+	var url_atual = window.location.href;
+
+	$("#Nmesa").text(url_atual.split("/")[5]);
+	
+	if($("#Nmesa").text() == '') {
+		$.alert({
+			type: 'red',
+			title: 'OPS..',
+			content: 'Escolha uma mesa para fazer o pedido',
+			buttons: {
+				confirm: {
+					text: 'Menu',
+					btnClass: 'btn-success',
+					action: function(){
+						window.location.href = "/menuTablet";
+					}
+				}
+			}
+		});
+	}
+});
 
 //------------------------------------------------------------------------------------------------------------------------
 $(".removerProduto").click(function(e){

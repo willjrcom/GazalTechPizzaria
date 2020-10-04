@@ -122,7 +122,7 @@ function verPedido() {
 	for(var k = 0; k < pedidos[idBusca].pizzas.length; k++) {
 		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 	}
-	
+	console.log(pedidos[idBusca]);
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width: 100%">'
 					+ '<tr>'
@@ -139,7 +139,7 @@ function verPedido() {
 						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
 						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
 						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco.toFixed(2) + '</td>'
+						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -233,7 +233,7 @@ function editarPedido() {
 						url: "/novoPedido/editar/" + idProduto.toString(),
 						type: 'POST',
 					}).done(function(){
-						window.location.href = urlEnviar;
+						window.location.href = "/novoPedido/editar/" + idProduto.toString();
 					}).fail(function(){
 						$.alert("Tente novamente!");
 					});

@@ -1,8 +1,8 @@
 var pedidos = [];
 var linhaHtml= "";
-var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="7">Nenhum pedido disponível!</td></tr>';
-var pedidoSemPizza = '<tr><td colspan="7">Nenhum pedido com pizza disponível!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList" ></td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum pedido disponível!</td></tr>';
+var pedidoSemPizza = '<tr><td colspan="6">Nenhum pedido com pizza disponível!</td></tr>';
 var filtro;
 var Tpedidos = 0;
 var Tpizzas = 0;
@@ -25,27 +25,17 @@ function buscarPedidos() {
 	.done(function(e){
 		
 		for(var i = 0; i< e.length; i++){
-			if(e[i].status == "PRONTO" || e[i].status == "COZINHA" || e[i].status == "MOTOBOY"){
-				Tpedidos++;
-				
-				pedidos.unshift({
-					'id' : e[i].id,
-					'comanda': e[i].comanda,
-					'nomePedido' : e[i].nomePedido,
-					'celular' : e[i].celular,
-					'endereco': e[i].endereco,
-					'pizzas': JSON.parse(e[i].pizzas),
-					'produtos': JSON.parse(e[i].produtos),
-					'status': e[i].status,
-					'envio': e[i].envio,
-					'pagamento': e[i].pagamento,
-					'taxa': e[i].taxa,
-					'total': e[i].total,
-					'troco': e[i].troco,
-					'horaPedido': e[i].horaPedido,
-					'data': e[i].data
-				});
-			}
+			Tpedidos++;
+			
+			pedidos.unshift({
+				'id' : e[i].id,
+				'comanda': e[i].comanda,
+				'nome' : e[i].nome,
+				'pizzas': JSON.parse(e[i].pizzas),
+				'produtos': JSON.parse(e[i].produtos),
+				'status': e[i].status,
+				'data': e[i].data
+			});
 		}
 		
 		$("#todosPedidos").html("");
@@ -68,12 +58,11 @@ function buscarPedidos() {
 						divisao = 1;
 						
 						linhaHtml += '<tr>'
-									+ '<td>' + pedidos[i].id + '</td>'
-									+ '<td>' + pedidos[i].nomePedido + '</td>'
+									+ '<td>' + pedidos[i].comanda + '</td>'
+									+ '<td>' + pedidos[i].nome + '</td>'
 									+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
 									+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor + '</td>'
-									+ '<td>' + pedidos[i].pizzas[0].obs + '</td>'
-									+ '<td>' + pedidos[i].envio + '</td>';
+									+ '<td>' + pedidos[i].pizzas[0].obs + '</td>';
 									
 						//verificar a situacao do pedido
 						if(pedidos[i].status == "PRONTO"){
@@ -123,8 +112,8 @@ function buscarPedidos() {
 								}else {
 									linhaHtml += '<td colspan="2"></td>';
 								}
-								
-								linhaHtml + '<td>' + pedidos[i].pizzas[j].borda + '</td>'
+
+								linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
 											+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor + '</td>'
 											+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
 											+ '<td></td>'

@@ -12,8 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Funcionarios;
+import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -28,6 +30,9 @@ public class ReceberController {
 
 	@Autowired
 	private Dias dias;
+	
+	@Autowired
+	private PedidoTemps temps;
 	
 	@RequestMapping
 	public ModelAndView receberEntregas() {
@@ -51,6 +56,8 @@ public class ReceberController {
 	@ResponseBody
 	public Pedido finalizar(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("FINALIZADO");
+		PedidoTemp temp = temps.findByComanda(pedido.getComanda());
+		temps.deleteById(temp.getId());
 		return pedidos.save(pedido);
 	}
 }

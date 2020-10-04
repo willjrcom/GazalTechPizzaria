@@ -180,6 +180,14 @@ function cardapio() {
 		window.location.href = "/novoPedidoTablet/mesa/" + $("#Nmesa").text();
 	}
 }
+
+//----------------------------------------------------------------------------------------------------------------
+$(document).ready(function(){
+
+	var url_atual = window.location.href;
+
+	$("#Nmesa").text(url_atual.split("/")[5]);
+});
 /*
  multiselect
  

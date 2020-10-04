@@ -15,4 +15,6 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 	public List<Pedido> findByStatusAndData(String string, String dia);
 
 	public List<Pedido> findByDataAndStatusOrDataAndStatusOrDataAndStatus(String dia, String string, String dia1,String string2, String dia2,String string3);
+
+	public Pedido findByNomePedido(String nome);
 }

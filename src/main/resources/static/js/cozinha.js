@@ -33,19 +33,11 @@ function buscarPedido() {
 			pedidos.push({
 				'id' : e[i].id,
 				'comanda': e[i].comanda,
-				'nomePedido' : e[i].nomePedido,
-				'celular' : e[i].celular,
-				'endereco': e[i].endereco,
+				'nome' : e[i].nome,
 				'pizzas': JSON.parse(e[i].pizzas),
 				'produtos': e[i].produtos,
 				'status': e[i].status,
-				'envio': e[i].envio,
-				'pagamento': e[i].pagamento,
-				'taxa': e[i].taxa,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'horaPedido': e[i].horaPedido,
-				'data': e[i].data
+				'data': e[i].data,
 			});
 		}
 		
@@ -61,9 +53,10 @@ function buscarPedido() {
 					if(pedidos[i].pizzas.length != 0) {
 						divisao = 1;
 						
-						linhaHtml += '<tr>'
-									+ '<td>' + pedidos[i].id + '</td>'
-									+ '<td>' + pedidos[i].nomePedido + '</td>'
+						if(pedidos[i].pizzas[0].status == "COZINHA") {
+							linhaHtml += '<tr>'
+									+ '<td>' + pedidos[i].comanda + '</td>'
+									+ '<td>' + pedidos[i].nome + '</td>'
 									+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
 									+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor 
 										+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
@@ -72,62 +65,67 @@ function buscarPedido() {
 										+ '"><span class="oi oi-question-mark"></span></button></td>'
 									+ '<td>' + pedidos[i].pizzas[0].obs + '</td>';
 						
-						if(i == 0) {//adicionar autofocus
-							linhaHtml += '<td>' 
-										+ '<a class="enviarPedido">'
-										+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
-										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-						}else {
-							linhaHtml += '<td>' 
-										+ '<a class="enviarPedido">'
-										+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
-										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+							if(i == 0) {//adicionar autofocus
+								linhaHtml += '<td>' 
+											+ '<a class="enviarPedido">'
+											+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
+											+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+							}else {
+								linhaHtml += '<td>' 
+											+ '<a class="enviarPedido">'
+											+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
+											+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+							}
+							linhaHtml += '</tr>';
+							
+							if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
+								linhaHtml += linhaCinza;
+								divisao = 1;
+							}else {
+								divisao -= pedidos[i].pizzas[0].qtd;
+							}
 						}
-						linhaHtml += '</tr>';
 						
-						if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
-							linhaHtml += linhaCinza;
-							divisao = 1;
-						}else {
-							divisao -= pedidos[i].pizzas[0].qtd;
-						}
 						
 						//mostrar produtos
 						if(pedidos[i].pizzas.length > 1){
 							for(var j = 1; j<pedidos[i].pizzas.length; j++){
-								linhaHtml += '<tr>';
-								
-								if(j == 1) {
-									Tpizzas = 0;
-									for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-										Tpizzas += pedidos[i].pizzas[k].qtd;
-									}
-									AllPizzas += Tpizzas;
+
+								if(pedidos[i].pizzas[j].status == "COZINHA") {
+									linhaHtml += '<tr>';
 									
-									if(Tpizzas == 1) {
-										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
+									if(j == 1) {
+										Tpizzas = 0;
+										for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+											Tpizzas += pedidos[i].pizzas[k].qtd;
+										}
+										AllPizzas += Tpizzas;
+										
+										if(Tpizzas == 1) {
+											linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
+										}else {
+											linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
+										}
+										
 									}else {
-										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
+										linhaHtml +=	'<td colspan="2"></td>';
 									}
-									
-								}else {
-									linhaHtml +=	'<td colspan="2"></td>';
-								}
-								linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
-											+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor 
-												+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
-												+ pedidos[i].pizzas[j].descricao 
-												+ '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao 
-												+ '"><span class="oi oi-question-mark"></span></button></td>'
-											+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
-											+ '<td></td>'
-											+ '</tr>';	
-			
-								if(divisao - pedidos[i].pizzas[j].qtd <= 0) {
-									linhaHtml += linhaCinza;
-									divisao = 1;
-								}else {
-									divisao -= pedidos[i].pizzas[j].qtd;
+									linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
+												+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor 
+													+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+													+ pedidos[i].pizzas[j].descricao 
+													+ '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao 
+													+ '"><span class="oi oi-question-mark"></span></button></td>'
+												+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
+												+ '<td></td>'
+												+ '</tr>';	
+				
+									if(divisao - pedidos[i].pizzas[j].qtd <= 0) {
+										linhaHtml += linhaCinza;
+										divisao = 1;
+									}else {
+										divisao -= pedidos[i].pizzas[j].qtd;
+									}
 								}
 							}
 						}
@@ -150,6 +148,7 @@ function buscarPedido() {
 		}
 	});	
 };
+
 
 //----------------------------------------------------------------------------------------------------------
 function descricao() {
@@ -186,8 +185,7 @@ function enviarPedido() {
 	$.confirm({
 		icon: 'fa fa-spinner fa-spin',
 		type: 'green',
-	    typeAnimated: true,
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: 'Enviar pedido?',
 	    buttons: {
 	        confirm: {
@@ -195,9 +193,14 @@ function enviarPedido() {
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
-		
-					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 					
+					for(var i = 0; i<pedidos[idBusca].pizzas; i++) {
+						pedidos[idBusca].pizzas[i].status = "PRONTO";
+					}
+					
+					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
+
+					console.log(pedidos[idBusca]);
 					$.ajax({
 						url: "/cozinha/enviarPedido/" + idProduto.toString(),
 						type: 'PUT',

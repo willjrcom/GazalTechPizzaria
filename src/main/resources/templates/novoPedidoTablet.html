@@ -18,9 +18,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 
 <body>
-	<a th:href="@{/menuTablet}"><button class="mesa"><b>VOLTAR</b></button></a>
+	<a><button class="mesa" onclick="voltar()"><b>VOLTAR</b></button></a>
 	<button class="carrinho" onclick="mostrarProdutos()"><span id="meuCarrinho"></span><b><span id="item">CARRINHO VAZIO</span></b></button>
-	<h1 align="center" class="titulo">Cardápio</h1>
+	<h1 align="center" class="titulo">Mesa <span id="Nmesa"></span></h1>
 	
 	<div class="row bw">
 		<div class="menu text-center col-xs-4 col-xl-2">

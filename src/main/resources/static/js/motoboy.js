@@ -70,8 +70,9 @@ $.ajax({
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
 		for(var i = 0; i<pedidos.length; i++){
+			console.log(pedidos[i]);
 			linhaHtml += '<tr>'
-						+ '<td>' + pedidos[i].id + '</td>'
+						+ '<td>' + pedidos[i].comanda + '</td>'
 						+ '<td>' + pedidos[i].nomePedido + '</td>'
 						+ '<td>' + pedidos[i].endereco + '</td>';
 			

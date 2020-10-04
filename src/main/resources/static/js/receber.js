@@ -69,7 +69,7 @@ $.ajax({
 		}else{
 			for(var i = 0; i<pedidos.length; i++){
 				linhaHtml += '<tr>'
-							+ '<td>' + pedidos[i].id + '</td>'
+							+ '<td>' + pedidos[i].comanda + '</td>'
 							+ '<td>' + pedidos[i].nomePedido + '</td>'
 							+ '<td>' + pedidos[i].endereco + '</td>'
 							+ '<td>' + pedidos[i].motoboy + '</td>'
@@ -87,7 +87,7 @@ $.ajax({
 		}
 	});
 });	
-	
+
 
 //--------------------------------------------------------
 function finalizarPedido() {

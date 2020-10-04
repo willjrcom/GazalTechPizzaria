@@ -124,11 +124,12 @@ if(typeof url_atual == "undefined") {
 				'sabor' : cliente.pizzas[i].sabor,
 				'qtd' : cliente.pizzas[i].qtd,
 				'borda' : cliente.pizzas[i].borda,
-				'obs' : cliente.pizzas[i].obs,
 				'preco' : cliente.pizzas[i].preco,
+				'obs' : cliente.pizzas[i].obs,
 				'custo' : cliente.pizzas[i].custo,
 				'setor' : cliente.pizzas[i].setor,
-				'descricao' : cliente.pizzas[i].descricao
+				'descricao' : cliente.pizzas[i].descricao,
+				'status' : cliente.pizzas[i].status,
 			});
 		}
 		for(var i = 0; i<cliente.produtos.length; i++) {
@@ -136,9 +137,12 @@ if(typeof url_atual == "undefined") {
 			produtos.unshift({
 				'sabor' : cliente.produtos[i].sabor,
 				'qtd' : cliente.produtos[i].qtd,
-				'borda' : cliente.produtos[i].borda,
 				'preco' : cliente.produtos[i].preco,
-				'obs' : cliente.produtos[i].obs
+				'obs' : cliente.produtos[i].obs,
+				'custo' : cliente.produtos[i].custo,
+				'setor' : cliente.produtos[i].setor,
+				'descricao' : cliente.produtos[i].descricao,
+				'status' : cliente.produtos[i].status,
 			});
 		}
 		tPedido = cliente.total;
@@ -392,6 +396,7 @@ function enviarProduto() {
 											'custo': parseFloat(Custo),
 											'setor': Setor,
 											'descricao': Descricao,
+											'status' : "COZINHA",
 										});
 
 										mostrarProdutos();
@@ -412,6 +417,7 @@ function enviarProduto() {
 										'custo': parseFloat(Custo),
 										'setor': Setor,
 										'descricao': Descricao,
+										'status' : "COZINHA",
 									});
 
 									mostrarProdutos();
@@ -451,7 +457,9 @@ function enviarProduto() {
 								'obs': Obs,
 								'preco': Preco,
 								'custo': parseFloat(Custo),
-								'setor': Setor
+								'setor': Setor,
+								'descricao': Descricao,
+								'status' : "COZINHA",
 							});
 
 							mostrarProdutos();
@@ -484,7 +492,7 @@ function mostrarProdutos() {
 					 +	'<td>' + pizzas[i].sabor + '</td>'
 					 +	'<td>' + pizzas[i].obs + '</td>'
 					 +	'<td>' + pizzas[i].qtd + '</td>'
-					 +	'<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
+					 +	'<td>R$ ' + pizzas[i].preco + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
 		$("#novoPizza").append(linhaHtml);
@@ -494,7 +502,7 @@ function mostrarProdutos() {
 				 +	'<td>' + produtos[i].sabor + '</td>'
 				 +	'<td>' + produtos[i].obs + '</td>'
 				 +	'<td>' + produtos[i].qtd + '</td>'
-				 +	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+				 +	'<td>R$ ' + produtos[i].preco + '</td>'
 			 + '</tr>'
 			 + linhaCinza;
 		$("#novoProduto").append(linhaHtml);
@@ -637,11 +645,7 @@ $("#enviarPedido").click(function() {
 						troco = troco.toString().replace(",",".");
 						troco = parseFloat(troco);
 
-						if(pizzas.length != 0) {
-							cliente.status = "COZINHA";
-						}else {
-							cliente.status = "PRONTO";
-						}
+						cliente.status = "PRONTO";
 						
 						//buscar data do sistema
 						$.ajax({
@@ -665,6 +669,14 @@ $("#enviarPedido").click(function() {
 
 							cliente.troco = parseFloat(troco);
 							
+							//----------------------------------------------------------------------
+							var temp = {};
+							temp.nome = cliente.nomePedido;
+							temp.pizzas = cliente.pizzas;
+							temp.produtos = cliente.produtos;
+							temp.status = "COZINHA";
+							temp.data = cliente.data;
+							
 							//salvar pedido
 							$.ajax({
 								url: "/novoPedido/salvarPedido",
@@ -676,6 +688,16 @@ $("#enviarPedido").click(function() {
 							}).done(function(e){
 								
 								if(parseFloat(e) == 200) {
+									
+									//salvar pedido no temp
+									$.ajax({
+										url: '/novoPedido/salvarTemp',
+										type: 'PUT',
+										dataType : 'json',
+										contentType: "application/json",
+										data: JSON.stringify(temp)
+									});
+									
 									imprimir();
 									   
 									$.alert({
