@@ -24,18 +24,10 @@ function buscarPedidos() {
 	})
 	.done(function(e){
 		
+		pedidos = e;
 		for(var i = 0; i< e.length; i++){
 			Tpedidos++;
-			
-			pedidos.unshift({
-				'id' : e[i].id,
-				'comanda': e[i].comanda,
-				'nome' : e[i].nome,
-				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': JSON.parse(e[i].produtos),
-				'status': e[i].status,
-				'data': e[i].data
-			});
+			pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
 		}
 		
 		$("#todosPedidos").html("");

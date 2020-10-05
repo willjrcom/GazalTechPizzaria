@@ -13,16 +13,7 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	console.log(e);
-
-	for(var i = 0; i< e.length; i++){
-		dia.unshift({
-			'id' : e[i].id,
-			'data' : e[i].data,
-			'trocoInicio' : e[i].trocoInicio,
-			'trocoFinal': e[i].trocoFinal
-		});
-	}
+	dia = e;
 	$("#todosFuncionarios").html("");
 	linhaHtml = "";
 	

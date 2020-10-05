@@ -14,45 +14,23 @@ $("#todosPedidos").html(linhaCinza);
 $.ajax({
 	url: "/receber/todosPedidos",
 	type: 'PUT'
-})
-.done(function(e){
+}).done(function(e){
+	pedidos = e;
 	
 	for(var i = 0; i< e.length; i++){
-		if(e[i].status == "MOTOBOY"){
-			Tpedidos++;
-			
-			pedidos.push({
-				'id' : e[i].id,
-				'comanda': e[i].comanda,
-				'nomePedido' : e[i].nomePedido,
-				'celular' : e[i].celular,
-				'endereco': e[i].endereco,
-				'pizzas': e[i].pizzas,
-				'produtos': e[i].produtos,
-				'motoboy': e[i].motoboy,
-				'status': e[i].status,
-				'envio': e[i].envio,
-				'pagamento': e[i].pagamento,
-				'taxa': e[i].taxa,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'horaPedido': e[i].horaPedido,
-				'data': e[i].data
-			});
-		}
+		Tpedidos++;	
 	}
 	
 	$.ajax({
-	url: "/receber/funcionarios",
-	type: 'PUT'
-	})
-	.done(function(e){
+		url: "/receber/funcionarios",
+		type: 'PUT'
+	}).done(function(e){
 		
 		for(var i = 0; i<e.length; i++){
-				funcionarios.unshift({
-					'id': e[i].id,
-					'nome': e[i].nome
-				})
+			funcionarios.unshift({
+				'id': e[i].id,
+				'nome': e[i].nome
+			});
 		}
 		var linhaFuncionarios = '<option value="--">-------</option>';
 		

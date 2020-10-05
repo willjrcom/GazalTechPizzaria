@@ -9,24 +9,7 @@ $.ajax({
 	console.log(e);
 	if(e.length != 0) {
 
-		empresa.nomeEstabelecimento = e.nomeEstabelecimento;
-		empresa.nomeEmpresa = e.nomeEmpresa;
-		empresa.email = e.email;
-		empresa.horaExtra = e.horaExtra;
-		empresa.cnpj = e.cnpj;
-		empresa.authentication = e.authentication;
-		empresa.celular = e.celular;
-		empresa.mesa = e.mesa;
-		
-		empresa.endereco = {};
-		empresa.endereco.id = e.endereco.id;
-		empresa.endereco.cep = e.endereco.cep;
-		empresa.endereco.rua = e.endereco.rua;
-		empresa.endereco.n = e.endereco.n;
-		empresa.endereco.bairro = e.endereco.bairro;
-		empresa.endereco.cidade = e.endereco.cidade;
-		empresa.endereco.referencia = e.endereco.referencia;
-		empresa.endereco.taxa = e.endereco.taxa;
+		empresa = e;
 		
 		//empresa
 		$("#estabelecimento").val(empresa.nomeEstabelecimento);

@@ -407,10 +407,6 @@ function mostrarProdutos() {
 									mesa.produtos = JSON.stringify(mesa.produtos);
 								}
 								
-								console.log(e);
-								console.log(JSON.stringify(mesa));
-								console.log(mesa);
-								
 								//salvar pedido
 								$.ajax({
 									url: "/novoPedidoTablet/salvarPedido",
@@ -461,8 +457,6 @@ function mostrarProdutos() {
 									$.alert("Erro, Pedido não enviado!");
 								});
 							});
-							/*
-							*/
 						});
 					}
 				}

@@ -17,24 +17,12 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
+	pedidos = e;
 	
 	for(var i = 0; i< e.length; i++){
-		if(e[i].status == "EXCLUIDO"){
-			Tpedidos++;
-			
-			pedidos.unshift({
-				'id' : e[i].id,
-				'nomePedido' : e[i].nomePedido,
-				'celular' : e[i].celular,
-				'endereco': e[i].endereco,
-				'envio': e[i].envio,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'status': e[i].status,
-				'produtos': JSON.parse(e[i].produtos),
-				'pizzas': JSON.parse(e[i].pizzas)
-			});
-		}
+		Tpedidos++;
+		pedidos[i].pizzas = JSON.parse(e[i].pizzas);
+		pedidos[i].produtos = JSON.parse(e[i].produtos);
 	}
 	
 	$("#todosPedidos").html("");

@@ -78,26 +78,13 @@ if(typeof url_atual == "undefined") {
 		$("#mostrar").show(); 
 		$("#cancelar").html('<span class="oi oi-ban"></span> Cancelar alteração');
 
-		cliente.id = e.id;
-		cliente.comanda = e.comanda;
-		cliente.nomePedido = e.nomePedido;
+		cliente = e
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
-		cliente.status = e.status;
-		cliente.envio = e.envio;
-		cliente.pagamento =  e.pagamento;
-		cliente.total = e.total;
-		cliente.troco = e.troco;
-		cliente.horaPedido = e.horaPedido;
-		cliente.data = e.data;
 		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA') {
 			$("#mostrar").show('slow'); //esconder tabelas
-
-			cliente.celular = e.celular;
-			cliente.endereco = e.endereco;
-			cliente.taxa = e.taxa;
 				
 			//adicionar cliente
 			$("#idCliente").text(cliente.id);
@@ -679,62 +666,102 @@ $("#enviarPedido").click(function() {
 							
 							//salvar pedido
 							$.ajax({
-								url: "/novoPedido/salvarPedido",
+								url: "/novoPedidoTablet/atualizar",
 								type: "PUT",
 								dataType : 'json',
 								contentType: "application/json",
 								data: JSON.stringify(cliente)
-								
 							}).done(function(e){
+
+								if(e.id != null) {
+									cliente.id = e.id;
+									cliente.total += e.total;
+									cliente.comanda = e.comanda;
+									cliente.horaPedido = e.horaPedido;
+									cliente.data = e.data;
+									
+									//converter pedido atual para objeto
+									cliente.pizzas = JSON.parse(cliente.pizzas);
+									cliente.produtos = JSON.parse(cliente.produtos);
+									
+									//converter pedido antigo para objeto
+									e.pizzas = JSON.parse(e.pizzas);
+									e.produtos = JSON.parse(e.produtos);
+									
+									for(pizza of e.pizzas) {
+										//concatenar pizzas
+										cliente.pizzas.unshift(pizza);
+									}
+									
+									for(produto of e.produtos) {
+										//concatenar produtos
+										cliente.produtos.unshift(produto);
+									}
+									
+									//converter pedido atual em JSON
+									cliente.pizzas = JSON.stringify(cliente.pizzas);
+									cliente.produtos = JSON.stringify(cliente.produtos);
+								}
 								
-								if(parseFloat(e) == 200) {
+								//salvar pedido
+								$.ajax({
+									url: "/novoPedido/salvarPedido",
+									type: "PUT",
+									dataType : 'json',
+									contentType: "application/json",
+									data: JSON.stringify(cliente)
 									
-									//salvar pedido no temp
-									$.ajax({
-										url: '/novoPedido/salvarTemp',
-										type: 'PUT',
-										dataType : 'json',
-										contentType: "application/json",
-										data: JSON.stringify(temp)
-									});
+								}).done(function(e){
 									
-									imprimir();
-									   
-									$.alert({
-										type: 'green',
-										title: 'Sucesso!',
-										content: 'Pedido enviado!',
-										buttons: {
-									        confirm: {
-									            text: 'Obrigado!',
-									            btnClass: 'btn-green',
-									            keys: ['enter','esc'],
-									            action: function(){
-													window.location.href = "/novoPedido";
+									if(parseFloat(e) == 200) {
+										
+										//salvar pedido no temp
+										$.ajax({
+											url: '/novoPedido/salvarTemp',
+											type: 'PUT',
+											dataType : 'json',
+											contentType: "application/json",
+											data: JSON.stringify(temp)
+										});
+										
+										imprimir();
+										   
+										$.alert({
+											type: 'green',
+											title: 'Sucesso!',
+											content: 'Pedido enviado!',
+											buttons: {
+										        confirm: {
+										            text: 'Obrigado!',
+										            btnClass: 'btn-green',
+										            keys: ['enter','esc'],
+										            action: function(){
+														window.location.href = "/novoPedido";
+													}
 												}
 											}
-										}
-									});
-								}else if(parseFloat(e) == 404) {
-									$.alert({
-										type: 'red',
-										title: 'Atenção!',
-										content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
-										buttons: {
-									        confirm: {
-									            text: 'Obrigado!',
-									            btnClass: 'btn-danger'
+										});
+									}else if(parseFloat(e) == 404) {
+										$.alert({
+											type: 'red',
+											title: 'Atenção!',
+											content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
+											buttons: {
+										        confirm: {
+										            text: 'Obrigado!',
+										            btnClass: 'btn-danger'
+												}
 											}
-										}
-									});
-								}
-								
-								
-							}).fail(function(e){
-								$.alert("Pedido não enviado!");
-								if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
-									cliente.troco -= parseFloat(cliente.taxa);
-								}
+										});
+									}
+									
+									
+								}).fail(function(e){
+									$.alert("Pedido não enviado!");
+									if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
+										cliente.troco -= parseFloat(cliente.taxa);
+									}
+								});
 							});
 						});
 					}

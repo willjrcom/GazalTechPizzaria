@@ -36,18 +36,8 @@ $.ajax({
 	$.ajax({
 		url: "/pagamento/todosFuncionarios",
 		type: 'PUT'
-	})
-	.done(function(e){
-	
-		for(var i = 0; i< e.length; i++){
-			funcionarios.unshift({
-				'id' : e[i].id,
-				'nome' : e[i].nome,
-				'celular' : e[i].celular,
-				'salario': e[i].salario,
-				'cargo': e[i].cargo,
-			});
-		}
+	}).done(function(e){
+		funcionarios = e;
 		$("#todosFuncionarios").html("");
 		linhaHtml = "";
 		

@@ -26,19 +26,11 @@ function buscarPedido() {
 		type: 'PUT'
 	})
 	.done(function(e){
-		
+
+		pedidos = e;
 		for(var i = 0; i< e.length; i++){
 			Tpedidos++;
-			
-			pedidos.push({
-				'id' : e[i].id,
-				'comanda': e[i].comanda,
-				'nome' : e[i].nome,
-				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': e[i].produtos,
-				'status': e[i].status,
-				'data': e[i].data,
-			});
+			pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
 		}
 		
 		$("#todosPedidos").html("");
@@ -53,79 +45,73 @@ function buscarPedido() {
 					if(pedidos[i].pizzas.length != 0) {
 						divisao = 1;
 						
-						if(pedidos[i].pizzas[0].status == "COZINHA") {
-							linhaHtml += '<tr>'
-									+ '<td>' + pedidos[i].comanda + '</td>'
-									+ '<td>' + pedidos[i].nome + '</td>'
-									+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
-									+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor 
-										+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
-										+ pedidos[i].pizzas[0].descricao 
-										+ '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao 
-										+ '"><span class="oi oi-question-mark"></span></button></td>'
-									+ '<td>' + pedidos[i].pizzas[0].obs + '</td>';
-						
-							if(i == 0) {//adicionar autofocus
-								linhaHtml += '<td>' 
-											+ '<a class="enviarPedido">'
-											+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
-											+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-							}else {
-								linhaHtml += '<td>' 
-											+ '<a class="enviarPedido">'
-											+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
-											+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-							}
-							linhaHtml += '</tr>';
-							
-							if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
-								linhaHtml += linhaCinza;
-								divisao = 1;
-							}else {
-								divisao -= pedidos[i].pizzas[0].qtd;
-							}
+						linhaHtml += '<tr>'
+								+ '<td>' + pedidos[i].comanda + '</td>'
+								+ '<td>' + pedidos[i].nome + '</td>'
+								+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
+								+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor 
+									+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+									+ pedidos[i].pizzas[0].descricao 
+									+ '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao 
+									+ '"><span class="oi oi-question-mark"></span></button></td>'
+								+ '<td>' + pedidos[i].pizzas[0].obs + '</td>';
+					
+						if(i == 0) {//adicionar autofocus
+							linhaHtml += '<td>' 
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
+										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+						}else {
+							linhaHtml += '<td>' 
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
+										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
 						}
+						linhaHtml += '</tr>';
 						
+						if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
+							linhaHtml += linhaCinza;
+							divisao = 1;
+						}else {
+							divisao -= pedidos[i].pizzas[0].qtd;
+						}
 						
 						//mostrar produtos
 						if(pedidos[i].pizzas.length > 1){
 							for(var j = 1; j<pedidos[i].pizzas.length; j++){
-
-								if(pedidos[i].pizzas[j].status == "COZINHA") {
-									linhaHtml += '<tr>';
+								linhaHtml += '<tr>';
+								
+								if(j == 1) {
+									Tpizzas = 0;
+									for(var k = 0; k<pedidos[i].pizzas.length; k++) {
+										Tpizzas += pedidos[i].pizzas[k].qtd;
+									}
+									AllPizzas += Tpizzas;
 									
-									if(j == 1) {
-										Tpizzas = 0;
-										for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-											Tpizzas += pedidos[i].pizzas[k].qtd;
-										}
-										AllPizzas += Tpizzas;
-										
-										if(Tpizzas == 1) {
-											linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
-										}else {
-											linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
-										}
-										
+									if(Tpizzas == 1) {
+										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
 									}else {
-										linhaHtml +=	'<td colspan="2"></td>';
+										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
 									}
-									linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
-												+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor 
-													+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
-													+ pedidos[i].pizzas[j].descricao 
-													+ '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao 
-													+ '"><span class="oi oi-question-mark"></span></button></td>'
-												+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
-												+ '<td></td>'
-												+ '</tr>';	
-				
-									if(divisao - pedidos[i].pizzas[j].qtd <= 0) {
-										linhaHtml += linhaCinza;
-										divisao = 1;
-									}else {
-										divisao -= pedidos[i].pizzas[j].qtd;
-									}
+									
+								}else {
+									linhaHtml +=	'<td colspan="2"></td>';
+								}
+								linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
+											+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor 
+												+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+												+ pedidos[i].pizzas[j].descricao 
+												+ '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao 
+												+ '"><span class="oi oi-question-mark"></span></button></td>'
+											+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
+											+ '<td></td>'
+											+ '</tr>';	
+			
+								if(divisao - pedidos[i].pizzas[j].qtd <= 0) {
+									linhaHtml += linhaCinza;
+									divisao = 1;
+								}else {
+									divisao -= pedidos[i].pizzas[j].qtd;
 								}
 							}
 						}

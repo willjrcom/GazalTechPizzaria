@@ -17,28 +17,11 @@ $.ajax({
 })
 .done(function(e){
 	
+	pedidos = e;
 	for(var i = 0; i< e.length; i++){
-		if(e[i].status == "PRONTO" && e[i].envio == "ENTREGA"){
-			Tpedidos++;
-			
-			pedidos.push({
-				'id' : e[i].id,
-				'comanda': e[i].comanda,
-				'nomePedido' : e[i].nomePedido,
-				'celular' : e[i].celular,
-				'endereco': e[i].endereco,
-				'pizzas': JSON.parse(e[i].pizzas),
-				'produtos': JSON.parse(e[i].produtos),
-				'status': e[i].status,
-				'envio': e[i].envio,
-				'pagamento': e[i].pagamento,
-				'taxa': e[i].taxa,
-				'total': e[i].total,
-				'troco': e[i].troco,
-				'horaPedido': e[i].horaPedido,
-				'data': e[i].data
-			});
-		}
+		Tpedidos++;
+		pedidos[i].pizzas = JSON.parse(e[i].pizzas);
+		pedidos[i].produtos = JSON.parse(e[i].produtos);
 	}
 });
 

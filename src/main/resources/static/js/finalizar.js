@@ -16,37 +16,19 @@ $(document).ready(function(){
 	$.ajax({
 		url: "/finalizar/todosPedidos",
 		type: 'PUT'
-	})
-	.done(function(e){
+	}).done(function(e){
+		pedidos = e;
 		
 		for(var i = 0; i< e.length; i++){
-			if((e[i].status == "PRONTO" && e[i].envio == "BALCAO") || (e[i].status == "PRONTO" &&  e[i].envio == "MESA") || (e[i].status == "PRONTO" && e[i].envio == "DRIVE")){
-				
-				pedidos.push({
-					'id' : e[i].id,
-					'comanda': e[i].comanda,
-					'nomePedido' : e[i].nomePedido,
-					'celular' : e[i].celular,
-					'endereco': e[i].endereco,
-					'pizzas': JSON.parse(e[i].pizzas),
-					'produtos': JSON.parse(e[i].produtos),
-					'status': e[i].status,
-					'envio': e[i].envio,
-					'pagamento': e[i].pagamento,
-					'taxa': e[i].taxa,
-					'total': e[i].total,
-					'troco': e[i].troco,
-					'horaPedido': e[i].horaPedido,
-					'data': e[i].data
-				});
+			pedidos[i].pizzas = JSON.parse(e[i].pizzas);
+			pedidos[i].produtos = JSON.parse(e[i].produtos);
 			}
 		}
 		
 		$.ajax({
 			url: "/motoboy/funcionarios",
 			type: 'PUT'
-		})
-		.done(function(e){
+		}).done(function(e){
 			
 			for(var i = 0; i<e.length; i++){
 				funcionarios.unshift({
