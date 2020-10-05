@@ -90,12 +90,14 @@ public class NovoPedidoController {
 		}
 		String authentication = "gazaltech";
 		if(empresa.getAuthentication().equals(authentication) == true) {
-			Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-			Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
-			
-			pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
-			dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
-			dados.save(dado); //autalizar n da comanda
+			if(pedido.getId() == null) {//se o pedido ja existir
+				Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+				Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
+				
+				pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
+				dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
+				dados.save(dado); //autalizar n da comanda
+			}
 			pedidos.save(pedido); //salvar pedido
 			return "200";
 		}
@@ -139,5 +141,14 @@ public class NovoPedidoController {
 	@ResponseBody
 	public Optional<Dia> data() {
 		return dias.findById((long) 1);
+	}
+	
+	@RequestMapping(value = "/apagarTemp/{comanda}", method = RequestMethod.PUT)
+	@ResponseBody
+	public String apagarTemp(@PathVariable Long comanda) {
+		Pedido pedido = pedidos.findByComanda(comanda);
+		List<PedidoTemp> temp = temps.findByNome(pedido.getNomePedido());
+		temps.deleteInBatch(temp);
+		return "ok";
 	}
 }

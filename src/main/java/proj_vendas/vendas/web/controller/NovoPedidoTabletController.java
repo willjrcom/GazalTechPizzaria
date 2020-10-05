@@ -94,11 +94,14 @@ public class NovoPedidoTabletController{
 		}
 		String authentication = "gazaltech";
 		if(empresa.getAuthentication().equals(authentication) == true) {
-			Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-			Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
-			pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
-			dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
-			dados.save(dado); //autalizar n da comanda
+			if(pedido.getId() == null) {//se o pedido ja existir
+				Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+				Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
+				
+				pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
+				dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
+				dados.save(dado); //autalizar n da comanda
+			}
 			pedidos.save(pedido); //salvar pedido
 			return "200";
 		}

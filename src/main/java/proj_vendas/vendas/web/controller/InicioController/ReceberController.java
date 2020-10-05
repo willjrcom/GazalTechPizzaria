@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
@@ -56,7 +57,8 @@ public class ReceberController {
 	@ResponseBody
 	public Pedido finalizar(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("FINALIZADO");
-		PedidoTemp temp = temps.findByComanda(pedido.getComanda());
+		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+		PedidoTemp temp = temps.findByComandaAndData(pedido.getComanda(), data.getDia());
 		temps.deleteById(temp.getId());
 		return pedidos.save(pedido);
 	}

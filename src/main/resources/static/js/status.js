@@ -21,8 +21,7 @@ function buscarPedidos() {
 	$.ajax({
 		url: "/status/todosPedidos",
 		type: 'PUT'
-	})
-	.done(function(e){
+	}).done(function(e){
 		
 		pedidos = e;
 		for(var i = 0; i< e.length; i++){
@@ -34,16 +33,10 @@ function buscarPedidos() {
 		filtro = $("#filtro").val();
 		linhaHtml = "";
 		
-		if(pedidos.length == 0 ){
+		if(pedidos.length == 0){
 			$("#todosPedidos").html(pedidoVazio);
-			
-			for(var i = 0; i<pedidos.length; i++){
-				if(pedidos[i].pizzas.length == 0 && (i+1 >= pedidos.length)) {
-					$("#todosPedidos").html(pedidoSemPizza);
-				}
-			}
 		}else{
-			for(var i = 0; i<pedidos.length; i++){
+			for(var i = pedidos.length-1; i>=0; i--){
 				//filtrar para todos pedidos
 				if(filtro == pedidos[i].status || filtro == "TODOS"){
 					if(pedidos[i].pizzas.length != 0) {

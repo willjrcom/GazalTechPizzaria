@@ -24,15 +24,14 @@ function buscarPedido() {
 	$.ajax({
 		url: "/cozinha/todosPedidos",
 		type: 'PUT'
-	})
-	.done(function(e){
+	}).done(function(e){
 
 		pedidos = e;
 		for(var i = 0; i< e.length; i++){
 			Tpedidos++;
 			pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
 		}
-		
+
 		$("#todosPedidos").html("");
 		filtro = $("#filtro").val();
 		linhaHtml = "";

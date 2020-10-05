@@ -107,29 +107,12 @@ if(typeof url_atual == "undefined") {
 		
 		for(var i = 0; i<cliente.pizzas.length; i++) {
 			tPizzas += cliente.pizzas[i].qtd;
-			pizzas.unshift({
-				'sabor' : cliente.pizzas[i].sabor,
-				'qtd' : cliente.pizzas[i].qtd,
-				'borda' : cliente.pizzas[i].borda,
-				'preco' : cliente.pizzas[i].preco,
-				'obs' : cliente.pizzas[i].obs,
-				'custo' : cliente.pizzas[i].custo,
-				'setor' : cliente.pizzas[i].setor,
-				'descricao' : cliente.pizzas[i].descricao,
-			});
 		}
 		for(var i = 0; i<cliente.produtos.length; i++) {
 			tPizzas += cliente.produtos[i].qtd;
-			produtos.unshift({
-				'sabor' : cliente.produtos[i].sabor,
-				'qtd' : cliente.produtos[i].qtd,
-				'preco' : cliente.produtos[i].preco,
-				'obs' : cliente.produtos[i].obs,
-				'custo' : cliente.produtos[i].custo,
-				'setor' : cliente.produtos[i].setor,
-				'descricao' : cliente.produtos[i].descricao,
-			});
 		}
+		pizzas = cliente.pizzas;
+		produtos = cliente.produtos;
 		tPedido = cliente.total;
 		
 		mostrarProdutos();
@@ -180,14 +163,11 @@ $('#buscarCliente').on('click', function(){
 			}else {
 				window.location.href = "/cadastroCliente/" + numero;
 			}
-		}).fail(function(){
-			console.log("Cliente não encontrado!");
 		});
 		
 	}else if(typeof $("#numeroCliente").val() == 'string'){
 		$("#nomeBalcao").html('<h2>Cliente: ' + $("#numeroCliente").val() + '</h2>');
 		cliente.nomePedido = $("#numeroCliente").val();
-		cliente.envio = 1;
 		
 		$("#idCliente").text('0');
 		$("#divBuscar").hide('slow');
@@ -205,13 +185,10 @@ $('#buscarCliente').on('click', function(){
 
 
 //------------------------------------------------------------------------------------------------------------------------
-/*$('#nomeProduto').on('blur', function(){
-	buscarProdutos();
-});*/
-
 $('#buscarProduto').click(function(){
 	buscarProdutos();
 });
+
 
 //-----------------------------------------------------------------------------------------------------------------
 function buscarProdutos() {
@@ -588,7 +565,9 @@ $("#enviarPedido").click(function() {
 	}else{
 		cliente.envio = $("#envioCliente").val();
 		
-		if(cliente.envio == '' || cliente.envio == null) {
+		if(cliente.nomePedido.indexOf("Mesa") > -1) {//se existir a palavra mesa
+			cliente.envio = "MESA";
+		}else if(cliente.envio == '' || cliente.envio == null) {//se for nulo o campo
 			cliente.envio = $("#envioCliente").val();
 		}
 		mostrarTabela(pizzas, produtos);
@@ -860,11 +839,6 @@ $("#atualizarPedido").click(function() {
 							$("#troco").val(tPedido);
 						}
 						
-						var cozinha = this.$content.find('#cozinha').val();
-						if(cozinha == 'sim') {
-							cliente.status = 'COZINHA';
-						}
-						
 						cliente.total = parseFloat(tPedido);
 						cliente.produtos = JSON.stringify(produtos);
 						cliente.pizzas = JSON.stringify(pizzas);
@@ -875,6 +849,12 @@ $("#atualizarPedido").click(function() {
 						}
 
 						cliente.troco = parseFloat(troco);
+						console.log("id: " + cliente.id);
+						//apagar pedido temporario relacionado
+						$.ajax({
+							url: "/novoPedido/apagarTemp/" + cliente.comanda,
+							type: 'PUT'
+						});
 						
 						$.ajax({
 							url: "/novoPedido/atualizarPedido/" + url_atual,
@@ -885,6 +865,22 @@ $("#atualizarPedido").click(function() {
 							
 						}).done(function(e){
 							imprimir();
+							
+							var temp = {};
+							temp.nome = cliente.nomePedido;
+							temp.pizzas = cliente.pizzas;
+							temp.produtos = cliente.produtos;
+							temp.status = "COZINHA";
+							temp.data = cliente.data;
+							
+							//salvar pedido no temp
+							$.ajax({
+								url: '/novoPedido/salvarTemp',
+								type: 'PUT',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(temp)
+							});
 							
 							$.alert({
 								type: 'green',
@@ -967,6 +963,8 @@ function mostrarTabela(pizzas, produtos) {
 		linhaHtml += '</table>';
 	}
 }
+
+
 //----------------------------------------------------------------------------
 function imprimir() {
 	$.ajax({
