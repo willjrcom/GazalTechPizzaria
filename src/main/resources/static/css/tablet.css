@@ -273,7 +273,7 @@ a:hover{
     height: auto;
   }
   .blog-card .description {
-    flex-basis: 60%;
+    flex-basis: 100%;
   }
   .blog-card .description:before {
     -webkit-transform: skewX(-3deg);

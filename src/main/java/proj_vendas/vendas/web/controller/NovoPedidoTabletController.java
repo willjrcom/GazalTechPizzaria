@@ -50,14 +50,14 @@ public class NovoPedidoTabletController{
 	@RequestMapping(value = "/todosProdutos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Produto> mostrarTodos(){
-		return produtos.findByDisponivel(true);
+		return produtos.findByDisponivelAndSetorNot(true, "BORDA");
 	}
 
 	@RequestMapping(value = "/escolher/{setor}", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Produto> mostraropcao(@PathVariable String setor){
 		if(setor.equals("TODOS") == true) {
-			return produtos.findByDisponivel(true);
+			return produtos.findByDisponivelAndSetorNot(true, "BORDA");
 		}
 		return produtos.findBySetorAndDisponivel(setor, true);
 	}

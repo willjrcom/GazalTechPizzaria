@@ -46,22 +46,26 @@ function mostrarOpcao(opcao) {
 	}).done(function(e){
 		linhaHtml = '<h4>'+ opcao +'</h4><hr>';
 		
-		for(produto of e) {
-			linhaHtml += '<div class="blog-card">'
-						+ '<div class="meta"><div class="photo" style="background-image: url(/img/mexicana.jpg)"></div></div>'
-				  		+ '<div class="description">'
-						+ '<h1>' + produto.nomeProduto +'</h1>';
-						
-						if(produto.descricao != '') {
-							linhaHtml += '<p>' + produto.descricao + '</p>';
-						}
-						linhaHtml += '<p>R$ ' + parseFloat(produto.preco).toFixed(2) + '</p>'
-									+ '<p class="read-more">'
-								+ '<button class="btn" value="' + produto.id + '" onclick="adicionar()">+</button>'
-							+ '</p>'
-						+ '</div>'
-					+ '</div>';
+		if(e.length != 0) {
+			for(produto of e) {
+				linhaHtml += '<div class="blog-card">'
+					  		+ '<div class="description">'
+							+ '<h1>' + produto.nomeProduto +'</h1>';
+							
+							if(produto.descricao != '') {
+								linhaHtml += '<p>' + produto.descricao + '</p>';
+							}
+							linhaHtml += '<p>R$ ' + parseFloat(produto.preco).toFixed(2) + '</p>'
+										+ '<p class="read-more">'
+									+ '<button class="btn" value="' + produto.id + '" onclick="adicionar()">+</button>'
+								+ '</p>'
+							+ '</div>'
+						+ '</div>';
+			}
+		}else {
+			linhaHtml += '<label>Nenhum produto encontrado!</label>';
 		}
+		
 		
 		$("#cardapio").html(linhaHtml);
 	}).fail(function(){
@@ -79,7 +83,7 @@ function mostrarOpcao(opcao) {
 	});
 }
 
-mostrarOpcao('TODOS');
+mostrarOpcao('TODOS');//ao abrir a tela
 
 
 //------------------------------------------------------------------------------------------------------------------------
@@ -177,7 +181,6 @@ function adicionar() {
 											'custo': parseFloat(Custo),
 											'setor': Setor,
 											'descricao': Descricao,
-											'status' : "COZINHA",
 										});
 										
 										$("#meuCarrinho").text(tPizzas);
@@ -198,7 +201,6 @@ function adicionar() {
 										'custo': parseFloat(Custo),
 										'setor': Setor,
 										'descricao': Descricao,
-										'status' : "COZINHA",
 									});
 
 									$("#meuCarrinho").text(tPizzas);
@@ -240,7 +242,6 @@ function adicionar() {
 								'custo': parseFloat(Custo),
 								'setor': Setor,
 								'descricao': Descricao,
-								'status' : "COZINHA",
 							});
 
 							$("#meuCarrinho").text(tPizzas);

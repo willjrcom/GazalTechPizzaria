@@ -9,24 +9,18 @@ import proj_vendas.vendas.model.Produto;
 
 public interface Produtos extends JpaRepository<Produto, Long>{
 	
-	public List<Produto> findByNomeProdutoContaining(String nomeProduto);
-	
-	public String findByNomeProduto(String nomeProduto);
-	
-	public List<Produto> findByNomeProdutoContainingOrDescricaoContaining(String nome, String descricao);
-
-	public List<Produto> findByNomeProdutoContainingOrCodigoBusca(String nome, String nome2);
+	public List<Produto> findByNomeProdutoContainingOrDescricaoContaining(String nome, String descricao);//Produtos cadastrados
 	
 	@Query("select p from Produto p where p.setor = 'BORDA' AND p.disponivel = true")
-	public List<Produto> findAllBordas();
+	public List<Produto> findAllBordas();//novo pedido
 
-	@Query("select p from Produto p where NOT p.setor = 'BORDA'")
-	public List<Produto> findByNomeProdutoContainingAndDisponivelOrCodigoBuscaAndDisponivel(String nome, boolean i, String nome2, boolean j);
+	public List<Produto> findByDisponivelAndSetorNot(boolean i, String setor);//novo pedido tablet // mostrar todos
 
-	@Query("select p from Produto p where NOT p.setor = 'BORDA'")
-	public List<Produto> findByDisponivel(boolean i);
+	public List<Produto> findBySetorAndDisponivel(String setor, boolean i);//buscar para paginas
 
-	public List<Produto> findBySetorAndDisponivel(String setor, boolean i);
+	public List<Produto> findByCodigoBuscaAndDisponivelAndSetorNot(String codigo, boolean i, String setor);//buscar produto por codigo
 	
-	public Produto findByCodigoBusca(String codigo);
+	public Produto findByCodigoBusca(String codigo);//buscar no cadastro
+
+	public List<Produto> findByNomeProdutoContainingAndDisponivelAndSetorNot(String nome, boolean b, String setor);//buscar produto por nome
 }
