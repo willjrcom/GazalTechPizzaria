@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,15 +33,33 @@ public class CadastroFuncionarioController{
 		return funcionarios.save(funcionario);
 	}
 		
-	@RequestMapping(value = "/buscarCpf/{cpf}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCpf/{cpf}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Funcionario buscarCpf(@PathVariable String cpf) {
+	public Funcionario buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Funcionario funcionario) {
+		Funcionario busca = funcionarios.findByCpf(cpf);
+		
+		if(busca != null) {
+			if(busca.getId() == funcionario.getId()) {
+				Funcionario vazio = new Funcionario();
+				vazio.setId((long) -1);
+				return vazio;
+			}
+		}
 		return funcionarios.findByCpf(cpf);
 	}
 	
-	@RequestMapping(value = "/buscarCelular/{celular}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCelular/{celular}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Funcionario buscarCelular(@PathVariable String celular) {
+	public Funcionario buscarCelular(@PathVariable String celular, @ModelAttribute("id")Funcionario funcionario) {
+		Funcionario busca = funcionarios.findByCelular(celular);
+		
+		if(busca != null) {
+			if(busca.getId() == funcionario.getId()) {
+				Funcionario vazio = new Funcionario();
+				vazio.setId((long) -1);
+				return vazio;
+			}
+		}
 		return funcionarios.findByCelular(celular);
 	}
 	
@@ -48,11 +67,5 @@ public class CadastroFuncionarioController{
 	@ResponseBody
 	public Optional<Funcionario> buscarFuncionario(@PathVariable Long id) {
 		return funcionarios.findById(id);
-	}
-	
-	@RequestMapping(value = "/atualizarCadastro/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public Funcionario atualizarFuncionario(@RequestBody Funcionario funcionario){
-		return funcionarios.save(funcionario);
 	}
 }

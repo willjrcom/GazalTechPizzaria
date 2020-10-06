@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -24,6 +26,9 @@ public class VerpedidoController{
 	@Autowired
 	private Dias dias;
 	
+	@Autowired
+	private PedidoTemps temps;
+	
 	@RequestMapping
 	public ModelAndView verPedido() {
 		return new ModelAndView("verpedido");
@@ -33,6 +38,8 @@ public class VerpedidoController{
 	@ResponseBody
 	public Pedido novoPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("EXCLUIDO");
+		List<PedidoTemp> temp = temps.findByNome(pedido.getNomePedido());
+		temps.deleteInBatch(temp);
 		return pedidos.save(pedido);
 	}
 	

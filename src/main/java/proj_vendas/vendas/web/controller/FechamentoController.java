@@ -17,6 +17,7 @@ import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -31,6 +32,9 @@ public class FechamentoController {
 	
 	@Autowired
 	private Dados dados;
+	
+	@Autowired
+	private PedidoTemps temps;
 	
 	@RequestMapping
 	public ModelAndView tela() {
@@ -66,6 +70,7 @@ public class FechamentoController {
 	@RequestMapping(value = "/finalizar/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Dado finalizarCaixa(@RequestBody Dado dado) {
+		temps.deleteAll();
 		return dados.save(dado);
 	}
 	

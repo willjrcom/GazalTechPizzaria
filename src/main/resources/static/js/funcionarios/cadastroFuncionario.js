@@ -3,44 +3,17 @@ var url_atual = window.location.href;
 
 url_atual = url_atual.split("/")[5];
 
-if(typeof url_atual == "undefined") {
-	$("#atualizar").hide();
-}else {
-	$("#enviar").hide();
-	$("#divCpf").hide();
-	urlEnviar = "/cadastroFuncionario/editarFuncionario/" + url_atual;
+if(typeof url_atual != "undefined") {
 	
 	$.ajax({
-		url: urlEnviar,
+		url: "/cadastroFuncionario/editarFuncionario/" + url_atual,
 		type: 'PUT',
 	}).done(function(e){
 		
 		//receber valores do servidor
-		funcionario.id = e.id;
-		funcionario.nome = e.nome;
-		funcionario.email = e.email;
-		funcionario.nascimento = e.nascimento;
-		funcionario.cpf = e.cpf;
-		funcionario.celular = e.celular;
-		funcionario.cargo = e.cargo;
-		funcionario.sexo = e.sexo;
-		
-		//endereco
-		funcionario.endereco = {};
+		funcionario = e;
 		id_endereco = e.endereco.id;
-		funcionario.endereco.id = e.endereco.id;
-		funcionario.endereco.cep = e.endereco.cep;
-		funcionario.endereco.rua = e.endereco.rua;
-		funcionario.endereco.n = e.endereco.n;
-		funcionario.endereco.bairro = e.endereco.bairro;
-		funcionario.endereco.cidade = e.endereco.cidade;
-		funcionario.endereco.referencia = e.endereco.referencia;
-		funcionario.endereco.taxa = e.endereco.taxa;
-		
-		//pagamento
-		funcionario.admissao = e.admissao;
-		funcionario.diaPagamento = e.diaPagamento;
-		funcionario.salario = e.salario;
+		funcionario.endereco.id = e.endereco.id;//evitar de criar outros endereços
 		
 		//madar os valores para o front
 		$("#id").val(funcionario.id);
@@ -67,7 +40,7 @@ if(typeof url_atual == "undefined") {
 		$("#salario").val(funcionario.salario);
 		
 	}).fail(function(){
-		$.alert("Funcionario não encontrado!");
+		$.alert("Erro, Funcionario não encontrado!");
 	});
 }
 
@@ -75,6 +48,7 @@ if(typeof url_atual == "undefined") {
 //---------------------------------------------------------------
 function setFuncionario() {
 	//funcionario
+	funcionario.id = $("#id").val();
 	funcionario.nome = $("#nome").val();
 	funcionario.email = $("#email").val();
 	funcionario.nascimento = $("#nascimento").val();

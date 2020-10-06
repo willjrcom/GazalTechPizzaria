@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +27,33 @@ public class CadastroClienteController {
 		return new ModelAndView("cadastroCliente");
 	}
 	
-	@RequestMapping(value = "/buscarCpf/{cpf}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCpf/{cpf}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Cliente buscarCpf(@PathVariable String cpf) {
+	public Cliente buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Cliente cliente) {
+		Cliente busca = clientes.findByCpf(cpf);
+		
+		if(busca != null) {
+			if(busca.getId() == cliente.getId()) {
+				Cliente vazio = new Cliente();
+				vazio.setId((long) -1);
+				return vazio;
+			}
+		}
 		return clientes.findByCpf(cpf);
 	}
 
-	@RequestMapping(value = "/buscarCelular/{celular}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCelular/{celular}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Cliente buscarCelular(@PathVariable String celular) {
+	public Cliente buscarCelular(@PathVariable String celular, @ModelAttribute("id")Cliente cliente) {
+		Cliente busca = clientes.findByCelular(celular);
+		
+		if(busca != null) {
+			if(busca.getId() == cliente.getId()) {
+				Cliente vazio = new Cliente();
+				vazio.setId((long) -1);
+				return vazio;
+			}
+		}
 		return clientes.findByCelular(celular);
 	}
 	
@@ -48,11 +67,5 @@ public class CadastroClienteController {
 	@ResponseBody
 	public Optional<Cliente> buscarCliente(@PathVariable Long id) {
 		return clientes.findById(id);
-	}
-	
-	@RequestMapping(value = "/atualizarCadastro/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public Cliente atualizarCliente(@RequestBody Cliente cliente){
-		return clientes.save(cliente);
 	}
 }

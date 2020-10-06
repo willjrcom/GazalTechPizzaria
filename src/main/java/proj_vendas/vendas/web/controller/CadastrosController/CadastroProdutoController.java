@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,16 +38,19 @@ public class CadastroProdutoController {
 	public Optional<Produto> buscarProduto(@PathVariable Long id) {
 		return produtos.findById(id);
 	}
-	
-	@RequestMapping(value = "/atualizarCadastro/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public Produto atualizarProduto(@RequestBody Produto produto){
-		return produtos.save(produto);
-	}
 
-	@RequestMapping(value = "/buscarCodigo/{codigo}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCodigo/{codigo}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Produto buscarCodigo(@PathVariable String codigo) {
+	public Produto buscarCodigo(@PathVariable String codigo, @ModelAttribute("id")Produto produto) {
+		Produto busca = produtos.findByCodigoBusca(codigo);
+		
+		if(busca != null) {
+			if(busca.getId() == produto.getId()) {
+				Produto vazio = new Produto();
+				vazio.setId((long) -1);
+				return vazio;
+			}
+		}
 		return produtos.findByCodigoBusca(codigo);
 	}
 }

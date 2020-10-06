@@ -849,7 +849,7 @@ $("#atualizarPedido").click(function() {
 						}
 
 						cliente.troco = parseFloat(troco);
-						console.log("id: " + cliente.id);
+						
 						//apagar pedido temporario relacionado
 						$.ajax({
 							url: "/novoPedido/apagarTemp/" + cliente.comanda,

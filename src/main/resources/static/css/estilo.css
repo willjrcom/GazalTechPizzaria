@@ -35,8 +35,8 @@ body{
 	background-color: transparent;
     display: flex;
     flex-direction: column;
-    min-height: 91.1%;
-    margin-top: 65px;
+    min-height: 90%;
+    margin-top: 61px;
 }
 
 /*titulos*/
@@ -109,7 +109,7 @@ tr td:last-child{
     white-space:nowrap;
 }
 
-/*footer*/
+/*footer
 footer{
     margin-top: auto;
 	width: 100%;
@@ -120,7 +120,7 @@ footer{
 	left:0;
 	bottom:0;
 	margin-left: 0;
-}
+}*/
 
 /*-------------------------------------*/
 .centralizar{
