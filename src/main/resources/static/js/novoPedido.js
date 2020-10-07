@@ -184,12 +184,6 @@ $('#buscarCliente').on('click', function(){
 });
 
 
-//------------------------------------------------------------------------------------------------------------------------
-$('#buscarProduto').click(function(){
-	buscarProdutos();
-});
-
-
 //-----------------------------------------------------------------------------------------------------------------
 function buscarProdutos() {
 	if($.trim($("#nomeProduto").val()) != ""){
@@ -203,74 +197,79 @@ function buscarProdutos() {
 			
 			$("#nomeProduto").val('');
 			buscaProdutos = [];
-			for(var i = 0; i < e.length; i++){
-				buscaProdutos.push({
-					'id': e[i].id,
-					'nomeProduto': e[i].nomeProduto,
-					'preco': e[i].preco,
-					'setor': e[i].setor
-				});
-			};
+			
+			if(e.length == 1) {
+				enviarProduto(e[0].id);
+			}else{
+				for(var i = 0; i < e.length; i++){
+					buscaProdutos.push({
+						'id': e[i].id,
+						'nomeProduto': e[i].nomeProduto,
+						'preco': e[i].preco,
+						'setor': e[i].setor
+					});
+				};
+		
+				$("#listaProdutos").show('slow');
+				$("#todosProdutos").html(" ");
+				
+				
+				linhaHtml = '<table class="h-100">'
+							+ '<thead>'
+								+ '<tr>'
+									+ '<th class="col-md-1"><h5>Produto</h5></th>'
+									+ '<th class="col-md-1"><h5>Preço</h5></th>'
+									+ '<th class="col-md-1"><h5>Adicionar</h5></th>'
+								+ '</tr>'
+							+ '</thead>'
+							+ '<tbody>';
+				
 	
-			$("#listaProdutos").show('slow');
-			$("#todosProdutos").html(" ");
-			
-			
-			linhaHtml = '<table class="h-100">'
-						+ '<thead>'
-							+ '<tr>'
-								+ '<th class="col-md-1"><h5>Produto</h5></th>'
-								+ '<th class="col-md-1"><h5>Preço</h5></th>'
-								+ '<th class="col-md-1"><h5>Adicionar</h5></th>'
-							+ '</tr>'
-						+ '</thead>'
-						+ '<tbody>';
-			
-
-			if(buscaProdutos.length != 0) {
-				//abrir modal de produtos encontrados
-				for(produto of buscaProdutos){
-					linhaHtml += '<tr>'
-								+ '<td align="center">' + produto.nomeProduto + '</td>'
-								+ '<td align="center">R$ ' + produto.preco + '</td>'
-								+ '<td align="center">'
-									+ '<div>'
-										+ '<button onclick="enviarProduto()"'
-										+ 'title="Adicionar" onclick="enviarProduto()" class="botao" value="' + produto.id + '">'
-											+ '<span class="oi oi-plus"></span>'
-										+ '</button>'
-									+ '</div>'
-								+ '</td>'
-							+ '</tr>';
-				}
-					
-			}else {
-				linhaHtml += '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>';
-			}
-			linhaHtml += '</tbody>'
-						+ '<table>';
-			
-			$.confirm({
-				type: 'blue',
-				title: '<h4 align="center">Lista de Produtos</h4>',
-				content: linhaHtml,
-			    closeIcon: true,
-				buttons: {
-			        confirm: {
-						isHidden: true,
-			            text: 'Voltar',
-			            btnClass: 'btn-green',
-			            keys: ['enter','esc'],
+				if(buscaProdutos.length != 0) {
+					//abrir modal de produtos encontrados
+					for(produto of buscaProdutos){
+						linhaHtml += '<tr>'
+									+ '<td align="center">' + produto.nomeProduto + '</td>'
+									+ '<td align="center">R$ ' + produto.preco + '</td>'
+									+ '<td align="center">'
+										+ '<div>'
+											+ '<button onclick="enviarProduto()"'
+											+ 'title="Adicionar" onclick="enviarProduto()" class="botao" value="' + produto.id + '">'
+												+ '<span class="oi oi-plus"></span>'
+											+ '</button>'
+										+ '</div>'
+									+ '</td>'
+								+ '</tr>';
 					}
+						
+				}else {
+					linhaHtml += '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>';
 				}
-			});
+				linhaHtml += '</tbody>'
+							+ '<table>';
+				
+				$.confirm({
+					type: 'blue',
+					title: '<h4 align="center">Lista de Produtos</h4>',
+					content: linhaHtml,
+				    closeIcon: true,
+					buttons: {
+				        confirm: {
+							isHidden: true,
+				            text: 'Voltar',
+				            btnClass: 'btn-green',
+				            keys: ['enter','esc'],
+						}
+					}
+				});
+			}
 		});
 	}
 }
 
 
 //------------------------------------------------------------------------------------------------------------------------
-function enviarProduto() {
+function enviarProduto(idUnico) {
 	
 	//zerar valores de borda
 	BordaPreco = 0;
@@ -280,9 +279,12 @@ function enviarProduto() {
 	//resetar valor anterior
 	Qtd = 1;
 	
-	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
-	
+	if(idUnico == null) {
+		var botaoReceber = $(event.currentTarget);
+		var idProduto = botaoReceber.attr('value');
+	}else {
+		var idProduto = idUnico;
+	}
 	$.ajax({
 		url: '/novoPedido/addProduto/' + idProduto,
 		type: 'PUT'
