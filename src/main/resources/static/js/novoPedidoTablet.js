@@ -105,7 +105,7 @@ function adicionar() {
 		type: 'PUT'
 	})
 	.done(function(e){
-		
+		var Id = e.id;
 		Sabor = e.nomeProduto;
 		Preco = e.preco;
 		Custo = parseFloat(e.custo);
@@ -145,7 +145,6 @@ function adicionar() {
 							keys: ['enter'],
 							action: function(){
 					
-								console.log(Qtd);
 								Obs = $("#obs").val();
 								
 								//multiplica o preco da pizza
@@ -173,6 +172,7 @@ function adicionar() {
 										tPedido += Preco;
 										
 										pizzas.unshift({
+											'id': Id,
 											'sabor' : Sabor,
 											'qtd': Qtd,
 											'borda': Borda,
@@ -181,6 +181,7 @@ function adicionar() {
 											'custo': parseFloat(Custo),
 											'setor': Setor,
 											'descricao': Descricao,
+											'remover': '<button class="btn btn-danger" value="' + Id + '" >Remover</button>'
 										});
 										
 										$("#meuCarrinho").text(tPizzas);
@@ -193,6 +194,7 @@ function adicionar() {
 									tPedido += Preco;
 									
 									pizzas.unshift({
+										'id': Id,
 										'sabor' : Sabor,
 										'qtd': Qtd,
 										'borda': Borda,
@@ -201,6 +203,7 @@ function adicionar() {
 										'custo': parseFloat(Custo),
 										'setor': Setor,
 										'descricao': Descricao,
+										'remover': '<button class="btn btn-danger" value="' + Id + '" >Remover</button>'
 									});
 
 									$("#meuCarrinho").text(tPizzas);
@@ -235,6 +238,7 @@ function adicionar() {
 							tPedido += Preco;
 
 							produtos.unshift({
+								'id': Id,
 								'sabor' : Sabor,
 								'qtd': Qtd,
 								'obs': Obs,
@@ -242,6 +246,7 @@ function adicionar() {
 								'custo': parseFloat(Custo),
 								'setor': Setor,
 								'descricao': Descricao,
+								'remover': '<button class="btn btn-danger" onclick="remover" value="' + Id + '" >Remover</button>'
 							});
 
 							$("#meuCarrinho").text(tPizzas);
@@ -274,6 +279,7 @@ function mostrarProdutos() {
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>-</h5></th>'
 					+ '</tr>';
 		
 		for(var i=0; i<pizzas.length; i++){
@@ -283,6 +289,7 @@ function mostrarProdutos() {
 						 +	'<td align="center">' + pizzas[i].obs + '</td>'
 						 +	'<td align="center">' + pizzas[i].qtd + '</td>'
 						 +  '<td align="center">R$ ' + parseFloat(pizzas[i].preco).toFixed(2) + '</td>'
+						 +	'<td align="center">' + pizzas[i].remover + '</td>'
 					 +  '</tr>';
 		}
 		carrinho += '</table>';
@@ -295,6 +302,7 @@ function mostrarProdutos() {
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>-</h5></th>'
 					+ '</tr>';
 		
 		for(var i=0; i<produtos.length; i++){
@@ -303,6 +311,7 @@ function mostrarProdutos() {
 						 +	'<td align="center">' + produtos[i].obs + '</td>'
 						 +	'<td align="center">' + produtos[i].qtd + '</td>'
 						 +  '<td align="center">R$ ' + parseFloat(produtos[i].preco).toFixed(2) + '</td>'
+						 +	'<td align="center">' + pizzas[i].remover + '</td>'
 					 +  '</tr>';
 		}
 		carrinho += '</table>';
