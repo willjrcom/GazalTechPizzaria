@@ -18,5 +18,5 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 
 	public Pedido findByComanda(Long comanda); //buscar para excluir temp
 
-	public Pedido findByNomePedidoAndData(String nomePedido, String data);//buscar para atualizar ou criar pedido
+	public Pedido findByNomePedidoAndDataAndStatusNot(String nomePedido, String data, String statusNot);//buscar para atualizar ou criar pedido
 }

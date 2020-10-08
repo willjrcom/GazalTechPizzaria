@@ -13,7 +13,6 @@ $('#cpf').on('blur', function(){
 			type: 'PUT',
 				
 		}).done(function(e){
-			console.log(e);
 			if(e.length != 0 && e != '' && e.id != -1) {
 				$("#avisoCpf").show().css({
 					'color': 'red'
