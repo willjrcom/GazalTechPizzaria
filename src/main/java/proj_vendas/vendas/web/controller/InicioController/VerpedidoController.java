@@ -47,6 +47,6 @@ public class VerpedidoController{
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		String dia = dias.buscarId1().getDia();
-		return pedidos.findByDataAndStatusOrDataAndStatusOrDataAndStatus(dia, "COZINHA", dia,"PRONTO", dia,"MOTOBOY");
+		return pedidos.findByDataAndStatusNot(dia, "FINALIZADO");
 	}
 }

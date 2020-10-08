@@ -14,7 +14,7 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 
 	public List<Pedido> findByStatusAndData(String string, String dia);//mostrar nas telas especificas
 
-	public List<Pedido> findByDataAndStatusOrDataAndStatusOrDataAndStatus(String dia, String string, String dia1,String string2, String dia2,String string3);
+	public List<Pedido> findByDataAndStatusNot(String dia, String statusNot);
 
 	public Pedido findByComanda(Long comanda); //buscar para excluir temp
 
