@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.PedidoTemp;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.PedidoTemps;
 
 @Controller
@@ -18,11 +17,11 @@ import proj_vendas.vendas.repository.PedidoTemps;
 public class StatusController{
 	
 	@Autowired
-	private PedidoTemps pedidos;
-
+	private PedidoTemps temps;
+	/*
 	@Autowired
 	private Dias dias;
-	
+	*/
 	@RequestMapping
 	public ModelAndView pronto() {
 		return new ModelAndView("status");
@@ -31,7 +30,11 @@ public class StatusController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
+		return temps.findAll(); //mostrar todos
+		
+		/*//mostrar todos do dia
 		String dia = dias.buscarId1().getDia();
-		return pedidos.findByDataAndStatusOrDataAndStatus(dia, "COZINHA", dia,"PRONTO");
+		return temps.findByDataAndStatusOrDataAndStatus(dia, "COZINHA", dia,"PRONTO");
+		*/
 	}
 }

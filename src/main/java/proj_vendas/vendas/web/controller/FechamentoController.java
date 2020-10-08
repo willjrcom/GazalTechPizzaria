@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.PedidoTemps;
@@ -70,7 +71,9 @@ public class FechamentoController {
 	@RequestMapping(value = "/finalizar/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Dado finalizarCaixa(@RequestBody Dado dado) {
-		temps.deleteAll();
+		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+		List<PedidoTemp> temp = temps.findByStatusAndData("PRONTO", data.getDia());
+		temps.deleteInBatch(temp);
 		return dados.save(dado);
 	}
 	

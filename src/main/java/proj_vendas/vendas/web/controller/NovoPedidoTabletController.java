@@ -77,7 +77,9 @@ public class NovoPedidoTabletController{
 	@RequestMapping(value = "/atualizar", method = RequestMethod.PUT)
 	@ResponseBody
 	public Pedido atualizar(@RequestBody Pedido pedido) {
-		Pedido antigo = pedidos.findByNomePedido(pedido.getNomePedido());
+		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+		
+		Pedido antigo = pedidos.findByNomePedidoAndData(pedido.getNomePedido(), data.getDia());
 		if(antigo == null) {
 			return new Pedido();
 		}

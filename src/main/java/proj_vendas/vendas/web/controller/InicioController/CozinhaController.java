@@ -11,21 +11,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.PedidoTemp;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.PedidoTemps;
 
-//@Component
-//@RemoteProxy
 @Controller
 @RequestMapping("/cozinha")
 public class CozinhaController{
 	
 	@Autowired
-	private PedidoTemps pedidos;
-	
+	private PedidoTemps temps;
+	/*
 	@Autowired
 	private Dias dias;
-	
+	*/
 	@RequestMapping
 	public ModelAndView Cozinha() {
 		return new ModelAndView("cozinha");
@@ -34,15 +31,18 @@ public class CozinhaController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
+		return temps.findAll(); //mostrar todos temporarios
+		/*// mostrar todos do dia
 		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndData("COZINHA", dia);
+		return temps.findByStatusAndData("COZINHA", dia);
+		*/
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public PedidoTemp enviarPedido(@ModelAttribute("id") PedidoTemp pedido) {//falta enviar as outras variaveis
 		pedido.setStatus("PRONTO");
-		return pedidos.save(pedido);
+		return temps.save(pedido);
 	}
 	/*
 	@RemoteMethod

@@ -8,15 +8,15 @@ import proj_vendas.vendas.model.Pedido;
 
 public interface Pedidos extends JpaRepository<Pedido, Long>{
 
-	public Pedido findByCelular(String id);
+	public Pedido findByCelular(String id);//buscar para fazer novo pedido
 	
-	public List<Pedido> findByStatusAndEnvioAndData(String Status, String Envio, String data);
+	public List<Pedido> findByStatusAndEnvioAndData(String Status, String Envio, String data);//mostrar nas telas especificas
 
-	public List<Pedido> findByStatusAndData(String string, String dia);
+	public List<Pedido> findByStatusAndData(String string, String dia);//mostrar nas telas especificas
 
 	public List<Pedido> findByDataAndStatusOrDataAndStatusOrDataAndStatus(String dia, String string, String dia1,String string2, String dia2,String string3);
 
-	public Pedido findByNomePedido(String nome);
+	public Pedido findByComanda(Long comanda); //buscar para excluir temp
 
-	public Pedido findByComanda(Long comanda);
+	public Pedido findByNomePedidoAndData(String nomePedido, String data);//buscar para atualizar ou criar pedido
 }
