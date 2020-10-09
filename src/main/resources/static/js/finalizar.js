@@ -22,7 +22,6 @@ $(document).ready(function(){
 		for(var i = 0; i< e.length; i++){
 			pedidos[i].pizzas = JSON.parse(e[i].pizzas);
 			pedidos[i].produtos = JSON.parse(e[i].produtos);
-			}
 		}
 		
 		$.ajax({

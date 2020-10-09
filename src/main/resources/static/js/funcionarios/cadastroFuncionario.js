@@ -9,9 +9,9 @@ if(typeof url_atual != "undefined") {
 		url: "/cadastroFuncionario/editarFuncionario/" + url_atual,
 		type: 'PUT',
 	}).done(function(e){
-		
 		//receber valores do servidor
 		funcionario = e;
+		console.log(funcionario);
 		id_endereco = e.endereco.id;
 		funcionario.endereco.id = e.endereco.id;//evitar de criar outros endereços
 		

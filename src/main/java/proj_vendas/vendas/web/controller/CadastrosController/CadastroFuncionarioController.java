@@ -52,7 +52,7 @@ public class CadastroFuncionarioController{
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular, @ModelAttribute("id")Funcionario funcionario) {
 		Funcionario busca = funcionarios.findByCelular(celular);
-		
+	
 		if(busca != null) {
 			if(busca.getId() == funcionario.getId()) {
 				Funcionario vazio = new Funcionario();
