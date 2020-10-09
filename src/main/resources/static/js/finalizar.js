@@ -52,7 +52,7 @@ $(document).ready(function(){
 			}else{
 				for(var i = 0; i<pedidos.length; i++){
 					linhaHtml += '<tr>'
-								+ '<td>' + pedidos[i].id + '</td>'
+								+ '<td>' + pedidos[i].comanda + '</td>'
 								+ '<td>' + pedidos[i].nomePedido + '</td>';
 					
 					Tpizzas = 0;
@@ -65,6 +65,7 @@ $(document).ready(function(){
 					linhaHtml += '<td>' + Tpizzas + '</td>'
 								+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
 								+ '<td>' + pedidos[i].pagamento + '</td>'
+								+ '<td>' + pedidos[i].envio + '</td>'
 								+ '<td>' 
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
@@ -167,6 +168,8 @@ function finalizarPedido() {
 			type: 'green',
 		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 		    content: 'Produtos escolhidos:' + linhaHtml,
+		    closeIcon: true,
+		    columnClass: 'col-md-8',
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',

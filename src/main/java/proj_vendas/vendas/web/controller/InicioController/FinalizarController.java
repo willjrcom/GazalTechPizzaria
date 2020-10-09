@@ -40,7 +40,7 @@ public class FinalizarController {
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndData("PRONTO", dia);
+		return pedidos.findByStatusAndDataAndEnvioNotOrStatusAndDataAndEnvio("PRONTO", dia, "ENTREGA", "MOTOBOY", dia, "ENTREGA");
 	}
 
 	@RequestMapping(value = "/finalizarPedido/{id}", method = RequestMethod.PUT)

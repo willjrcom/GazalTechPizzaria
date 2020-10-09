@@ -12,11 +12,14 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 	
 	public List<Pedido> findByStatusAndEnvioAndData(String Status, String Envio, String data);//mostrar nas telas especificas
 
-	public List<Pedido> findByStatusAndData(String string, String dia);//mostrar nas telas especificas
-
+	public List<Pedido> findByStatusAndData(String string, String dia);//mostrar nas telas fechamento
+	
 	public List<Pedido> findByDataAndStatusNot(String dia, String statusNot);
 
 	public Pedido findByComanda(Long comanda); //buscar para excluir temp
 
 	public Pedido findByNomePedidoAndDataAndStatusNot(String nomePedido, String data, String statusNot);//buscar para atualizar ou criar pedido
+	
+	public List<Pedido> findByStatusAndDataAndEnvioNotOrStatusAndDataAndEnvio(String string, String dia, String string2,
+			String string3, String dia2, String string4);//buscar entrega ou tipos balcao
 }
