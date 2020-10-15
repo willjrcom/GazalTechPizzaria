@@ -1,6 +1,18 @@
 package proj_vendas.vendas.service;
 
-/*
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Usuarios;
+
 @Service
 public class UsuarioService implements UserDetailsService{
 	
@@ -33,4 +45,3 @@ public class UsuarioService implements UserDetailsService{
 	
 	
 }
-*/
