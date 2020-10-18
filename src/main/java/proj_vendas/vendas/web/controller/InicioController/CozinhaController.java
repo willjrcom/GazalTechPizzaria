@@ -31,7 +31,7 @@ public class CozinhaController{
 	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
-		return temps.findAll(); //mostrar todos temporarios
+		return temps.findByStatus("COZINHA"); //mostrar todos temporarios
 		/*// mostrar todos do dia
 		String dia = dias.buscarId1().getDia();
 		return temps.findByStatusAndData("COZINHA", dia);
