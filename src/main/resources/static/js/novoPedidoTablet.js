@@ -4,6 +4,7 @@ var  preco, qtd, obs, custo;
 var total = 0, tPizzas = 0, tPedido = 0;
 var borda, bordaPreco, bordaCusto; 
 var Nmesa = 0;
+var carrinhoConfirm;
 //quantidade pizzas
 var qtdPizzas = '<label>Quantidade: <span id="qtdInput">1</span></label><br>'
 			+ '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">'
@@ -180,8 +181,7 @@ function adicionar() {
 											'preco': Preco,
 											'custo': parseFloat(Custo),
 											'setor': Setor,
-											'descricao': Descricao,
-											'remover': '<button class="btn btn-danger" value="' + Id + '" >Remover</button>'
+											'descricao': Descricao
 										});
 										
 										$("#meuCarrinho").text(tPizzas);
@@ -202,8 +202,7 @@ function adicionar() {
 										'preco': Preco,
 										'custo': parseFloat(Custo),
 										'setor': Setor,
-										'descricao': Descricao,
-										'remover': '<button class="btn btn-danger" value="' + Id + '" >Remover</button>'
+										'descricao': Descricao
 									});
 
 									$("#meuCarrinho").text(tPizzas);
@@ -245,8 +244,7 @@ function adicionar() {
 								'preco': Preco,
 								'custo': parseFloat(Custo),
 								'setor': Setor,
-								'descricao': Descricao,
-								'remover': '<button class="btn btn-danger" onclick="remover" value="' + Id + '" >Remover</button>'
+								'descricao': Descricao
 							});
 
 							$("#meuCarrinho").text(tPizzas);
@@ -272,14 +270,16 @@ function mostrarProdutos() {
 
 	var carrinho = '';
 	if(pizzas.length != 0) {
-		carrinho += '<table style="width: 100%">'
+		carrinho += '<div class="btn-group" role="group" aria-label="Second group">'
+					+'<button onclick="removerPizza()" class="btn btn-danger"><span class="oi oi-ban"></span> Remover ultima pizza adicionado</button>'
+				+'</div>'
+				+'<table style="width: 100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '<th class="col-md-1"><h5>-</h5></th>'
 					+ '</tr>';
 		
 		for(var i=0; i<pizzas.length; i++){
@@ -289,20 +289,21 @@ function mostrarProdutos() {
 						 +	'<td align="center">' + pizzas[i].obs + '</td>'
 						 +	'<td align="center">' + pizzas[i].qtd + '</td>'
 						 +  '<td align="center">R$ ' + parseFloat(pizzas[i].preco).toFixed(2) + '</td>'
-						 +	'<td align="center">' + pizzas[i].remover + '</td>'
 					 +  '</tr>';
 		}
 		carrinho += '</table>';
 	}
 
 	if(produtos.length != 0) {
-		carrinho += '<hr><table style="width: 100%">'
+		carrinho += '<hr><div class="btn-group" role="group" aria-label="Second group">'
+					+'<button type="button" onclick="removerProduto()" class="btn btn-danger"><span class="oi oi-ban"></span> Remover ultimo produto adicionado</button>'
+				+'</div>'
+				+'<table style="width: 100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '<th class="col-md-1"><h5>-</h5></th>'
 					+ '</tr>';
 		
 		for(var i=0; i<produtos.length; i++){
@@ -311,7 +312,6 @@ function mostrarProdutos() {
 						 +	'<td align="center">' + produtos[i].obs + '</td>'
 						 +	'<td align="center">' + produtos[i].qtd + '</td>'
 						 +  '<td align="center">R$ ' + parseFloat(produtos[i].preco).toFixed(2) + '</td>'
-						 +	'<td align="center">' + pizzas[i].remover + '</td>'
 					 +  '</tr>';
 		}
 		carrinho += '</table>';
@@ -344,7 +344,7 @@ function mostrarProdutos() {
 			}
 		});
 	}else {
-		$.confirm({
+		carrinhoConfirm = $.confirm({
 			type: 'blue',
 			title: 'Meu Carrinho',
 			content: carrinho,
@@ -507,41 +507,25 @@ $(document).ready(function(){
 });
 
 //------------------------------------------------------------------------------------------------------------------------
-$(".removerProduto").click(function(e){
-	
+function removerProduto() {
+
 	tPizzas -= produtos[0].qtd;
 	tPedido -= produtos[0].preco;
-	
+
 	produtos.shift();
-	
-	if(produtos.length == 0) {
-		$("#novoProduto").append(pedidoVazio);
-	}
-	
-	if(pizzas.length == 0 && produtos.length == 0) {
-		$(".mostrarPedidos").hide('slow');
-	} else {
-		//mostrarProdutos();
-	}
-	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));	
-});
+	carrinhoConfirm.close();
+	$("#meuCarrinho").text(tPizzas);
+	$("#item").text((tPizzas == 1) ? ' Item' : ' Itens');
+}
 
 
 //------------------------------------------------------------------------------------------------------------------------
-$(".removerPizza").click(function(e){
-	
+function removerPizza() {	
 	tPizzas -= pizzas[0].qtd;
 	tPedido -= pizzas[0].preco;
-	
+
 	pizzas.shift();
-	
-	if(pizzas.length == 0) {
-		$("#novoPizza").append(pedidoVazio);
-	} 
-	
-	if(pizzas.length == 0 && produtos.length == 0) {
-		$(".mostrarPedidos").hide('slow');	
-	}else {
-		//mostrarProdutos();
-	}	
-});
+	carrinhoConfirm.close();
+	$("#meuCarrinho").text(tPizzas);
+	$("#item").text((tPizzas == 1) ? ' Item' : ' Itens');
+}

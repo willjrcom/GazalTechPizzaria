@@ -2,7 +2,7 @@
 var dia = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="5" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="5">Nenhum Funcinário encontrado!</td></tr>';
+var pedidoVazio = '<tr><td colspan="5">Nenhum dia em aberto!</td></tr>';
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
