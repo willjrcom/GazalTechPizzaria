@@ -46,7 +46,7 @@ public class CadastroClienteController {
 	@ResponseBody
 	public Cliente buscarCelular(@PathVariable String celular, @ModelAttribute("id")Cliente cliente) {
 		Cliente busca = clientes.findByCelular(celular);
-		
+
 		if(busca != null) {
 			if(busca.getId() == cliente.getId()) {
 				Cliente vazio = new Cliente();

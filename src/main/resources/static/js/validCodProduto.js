@@ -6,11 +6,11 @@ $('#codigoBusca').on('blur', function(){
 	if($.trim($("#codigoBusca").val()) != ""){
 
 		var cod = $(this).val();
+		var id = $("#id").val();
 		
 		$.ajax({
-			url:  "/cadastroProduto/buscarCodigo/" + cod + '/' + $("#id").val(),
+			url:  (id != '') ? "/cadastroProduto/buscarCodigo/" + cod + '/' + id : "/cadastroProduto/buscarCodigo/" + cod + '/-2',
 			type: 'PUT',
-				
 		}).done(function(e){
 			console.log(e);
 			if(e.length != 0 && e != '' && e.id != -1) {

@@ -1,7 +1,4 @@
 
-	
-
-
 $("#avisoCpf").hide();
 $("#avisoCel").hide();
 
@@ -11,17 +8,11 @@ $('#cpf').on('blur', function(){
 	if($("#cpf").val() != ''){
 		
 		var cpf = $("#cpf").val();
-		
-		if($("#id").val() == '') {
-			var id = -2;
-		}else {
-			var id = $("#id").val();
-		}
+		var id = $("#id").val();	
 		
 		$.ajax({
-			url:  "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/' + id,
+			url:  (id != '') ? "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/' + id : "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/-2',
 			type: 'PUT'
-				
 		}).done(function(event){
 			console.log(event);
 			if(event.length != 0 && event != '' && event.id != -1) {

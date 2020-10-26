@@ -149,7 +149,6 @@ function verPedido() {
 	
 	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br>' 
 				+ '<br><b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
-				+ '<br><b>Status:</b> ' + pedidos[idBusca].status
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
 	
 	$.confirm({

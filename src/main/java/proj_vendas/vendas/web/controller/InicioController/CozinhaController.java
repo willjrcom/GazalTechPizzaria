@@ -19,10 +19,7 @@ public class CozinhaController{
 	
 	@Autowired
 	private PedidoTemps temps;
-	/*
-	@Autowired
-	private Dias dias;
-	*/
+	
 	@RequestMapping
 	public ModelAndView Cozinha() {
 		return new ModelAndView("cozinha");
@@ -32,10 +29,6 @@ public class CozinhaController{
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
 		return temps.findByStatus("COZINHA"); //mostrar todos temporarios
-		/*// mostrar todos do dia
-		String dia = dias.buscarId1().getDia();
-		return temps.findByStatusAndData("COZINHA", dia);
-		*/
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)

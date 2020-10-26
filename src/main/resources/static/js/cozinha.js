@@ -3,7 +3,7 @@ var produtos = [];
 var pizzas = [];
 var linhaHtml =  "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="6">Nenhum pedido para fazer!</td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 var AllPizzas = 0;

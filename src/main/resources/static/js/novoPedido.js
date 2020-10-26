@@ -230,7 +230,7 @@ function buscarProdutos() {
 					for(produto of buscaProdutos){
 						linhaHtml += '<tr>'
 									+ '<td align="center">' + produto.nomeProduto + '</td>'
-									+ '<td align="center">R$ ' + produto.preco + '</td>'
+									+ '<td align="center">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 									+ '<td align="center">'
 										+ '<div>'
 											+ '<button onclick="enviarProduto()"'
@@ -458,7 +458,7 @@ function mostrarProdutos() {
 					 +	'<td>' + pizzas[i].sabor + '</td>'
 					 +	'<td>' + pizzas[i].obs + '</td>'
 					 +	'<td>' + pizzas[i].qtd + '</td>'
-					 +	'<td>R$ ' + pizzas[i].preco + '</td>'
+					 +	'<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
 		$("#novoPizza").append(linhaHtml);
@@ -468,7 +468,7 @@ function mostrarProdutos() {
 				 +	'<td>' + produtos[i].sabor + '</td>'
 				 +	'<td>' + produtos[i].obs + '</td>'
 				 +	'<td>' + produtos[i].qtd + '</td>'
-				 +	'<td>R$ ' + produtos[i].preco + '</td>'
+				 +	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
 			 + '</tr>'
 			 + linhaCinza;
 		$("#novoProduto").append(linhaHtml);
@@ -620,6 +620,7 @@ $("#enviarPedido").click(function() {
 							url: '/novoPedido/data',
 							type: 'PUT'
 						}).done(function(e){
+
 							cliente.data = e.dia;
 							cliente.total = tPedido;
 							cliente.produtos = JSON.stringify(produtos);
@@ -743,6 +744,22 @@ $("#enviarPedido").click(function() {
 										cliente.troco -= parseFloat(cliente.taxa);
 									}
 								});
+							});
+						}).fail(function(){
+							$.alert({
+								type: 'red',
+								title: 'Erro...',
+								content: 'É necessário escolher o dia de acesso no menu inicial!',
+								buttons:{
+									confirm:{
+										text: 'Menu',
+										btnClass: 'btn-success',
+										keys: ['enter', 'esc'],
+										action: function(){
+											window.location.href= "/menu";
+										}
+									}
+								}
 							});
 						});
 					}
@@ -983,7 +1000,8 @@ function imprimir() {
 							+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
 			}
 			
-			var data = cliente.horaPedido;
+			var data = new Date();
+			console.log(data);
 			hora = data.getHours();
 			hora = (hora.length == 1) ? '0'+hora : hora;
 			minuto = data.getMinutes();

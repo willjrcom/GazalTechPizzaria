@@ -99,8 +99,9 @@ $.ajax({
 				
 		$.alert({
 			type: 'blue',
-			title: 'Mês',
-			content: '<input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />',
+			title: 'Data',
+			content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
+			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
 			buttons: {
 				confirm: {
 					text: 'Acessar',
@@ -109,10 +110,13 @@ $.ajax({
 					action: function(){
 						var mes = this.$content.find('#mes').val();
 						mes = (mes.length == 1) ? '0'+mes : mes;
-								
+
+						var ano = this.$content.find('#ano').val();
+						ano = (ano.length == 1) ? '0'+ano : ano;
+						
 						var salario = {};
 						salario.id = funcionarios[idBusca].id;
-						salario.mes = mes + '-' + dataAtualFormatada().split('-')[1];
+						salario.mes = mes + '-' + ano;
 	
 						//buscar o mes de gastos do funcionario
 						$.ajax({
@@ -129,13 +133,11 @@ $.ajax({
 							
 							linhaHtml = '<table>'
 										+ '<tr>'
-											+ '<th class="col-md-1"><h5>Horas Extra</h5></th>'
-											+ '<th class="col-md-1"><h5>Total</h5></th>'
+											+ '<th class="col-md-1"><h5>Total já adicionado</h5></th>'
 										+ '</tr>'
 								
 										+ '<tr>'
-											+ '<td>' + horas + '</td>'
-											+ '<td>R$ ' + (horas * horaExtra).toFixed(2) +'</td>'
+											+ '<td>R$ ' + horas.toFixed(2) +'</td>'
 										+ '</tr>'
 									+'</table>'
 				
@@ -157,7 +159,7 @@ $.ajax({
 											
 											var funcionario = {};
 											funcionario.idFuncionario = funcionarios[idBusca].id;
-											funcionario.horas = horas;
+											funcionario.horas = horas * horaExtra;
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
@@ -201,8 +203,9 @@ $.ajax({
 				
 		$.alert({
 			type: 'blue',
-			title: 'Mês',
-			content: '<input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />',
+			title: 'Data',
+			content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
+			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
 			buttons: {
 				confirm: {
 					text: 'Acessar',
@@ -211,10 +214,13 @@ $.ajax({
 					action: function(){
 						var mes = this.$content.find('#mes').val();
 						mes = (mes.length == 1) ? '0'+mes : mes;
-								
+						
+						var ano = this.$content.find('#ano').val();
+						ano = (ano.length == 1) ? '0'+ano : ano;
+						
 						var salario = {};
 						salario.id = funcionarios[idBusca].id;
-						salario.mes = mes + '-' + dataAtualFormatada().split('-')[1];
+						salario.mes = mes + '-' + ano;
 	
 						//buscar o mes de gastos do funcionario
 						$.ajax({
@@ -311,8 +317,9 @@ $.ajax({
 				
 		$.alert({
 			type: 'blue',
-			title: 'Mês',
-			content: '<input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />',
+			title: 'Data',
+			content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
+			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
 			buttons: {
 				confirm: {
 					text: 'Acessar',
@@ -322,9 +329,12 @@ $.ajax({
 						var mes = this.$content.find('#mes').val();
 						mes = (mes.length == 1) ? '0'+mes : mes;
 								
+						var ano = this.$content.find('#ano').val();
+						ano = (ano.length == 1) ? '0'+ano : ano;
+						
 						var salario = {};
 						salario.id = funcionarios[idBusca].id;
-						salario.mes = mes + '-' + dataAtualFormatada().split('-')[1];
+						salario.mes = mes + '-' + ano;
 	
 						//buscar o mes de gastos do funcionario
 						$.ajax({
@@ -344,7 +354,7 @@ $.ajax({
 								pago += e[j]. pago;
 							}
 							
-							var totalExtra = horas * horaExtra;
+							var totalExtra = horas;
 							
 							linhaHtml = '<table>'
 										+ '<tr>'

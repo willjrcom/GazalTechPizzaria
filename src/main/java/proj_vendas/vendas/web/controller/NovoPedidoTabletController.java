@@ -79,7 +79,7 @@ public class NovoPedidoTabletController{
 	public Pedido atualizar(@RequestBody Pedido pedido) {
 		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
 		
-		Pedido antigo = pedidos.findByNomePedidoAndDataAndStatusNot(pedido.getNomePedido(), data.getDia(), "FINALIZADO");
+		Pedido antigo = pedidos.findByNomePedidoAndDataAndStatusNotAndStatusNot(pedido.getNomePedido(), data.getDia(), "FINALIZADO", "EXCLUIDO");
 		if(antigo == null) {
 			return new Pedido();
 		}

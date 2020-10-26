@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.repository.Dias;
-import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
@@ -26,9 +23,6 @@ public class FinalizarController {
 	
 	@Autowired
 	private Dias dias;
-	
-	@Autowired
-	private PedidoTemps temps;
 	
 	@RequestMapping
 	public ModelAndView finalizar() {
@@ -47,9 +41,6 @@ public class FinalizarController {
 	@ResponseBody
 	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("FINALIZADO");
-		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-		PedidoTemp temp = temps.findByComandaAndData(pedido.getComanda(), data.getDia());
-		temps.deleteById(temp.getId());
 		return pedidos.save(pedido);
 	}
 }

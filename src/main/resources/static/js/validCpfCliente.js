@@ -10,9 +10,10 @@ $('#cpf').on('blur', function(){
 	if($.trim($("#cpf").val()) != ""){
 		
 		var cpf = $(this).val();
+		var id = $("#id").val();
 		
 		$.ajax({
-			url:  "/cadastroCliente/buscarCpf/" + cpf + '/' + $("#id").val(),
+			url:  (id != '') ? '/cadastroCliente/buscarCpf/' + cpf + '/' + id : '/cadastroCliente/buscarCpf/' + cpf + '/-2',
 			type: 'PUT',
 				
 		}).done(function(e){
@@ -42,11 +43,10 @@ $('#cel').on('blur', function(){
 
 	if($.trim($("#cel").val()) != ""){
 		var cel = $(this).cleanVal();
-		
+		var id = $("#id").val();
 		$.ajax({
-			url:  "/cadastroCliente/buscarCelular/" + cel + '/' + $("#id").val(),
+			url:  (id != '') ? '/cadastroCliente/buscarCelular/' + cel + '/' + id.toString() : '/cadastroCliente/buscarCelular/' + cel + '/0',
 			type: 'PUT',
-				
 		}).done(function(e){
 			console.log(e);
 			if(e.length != 0 && e.id != -1) {

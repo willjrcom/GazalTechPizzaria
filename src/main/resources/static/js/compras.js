@@ -39,7 +39,7 @@ function salvar() {
 				type: 'PUT'
 			}).done(function(e){
 				
-				if(JSON.parse(e.compras) != null) {
+				if(e.compras != null) {
 					compras = JSON.parse(e.compras);
 				}
 				
@@ -114,17 +114,20 @@ $(document).ready(function(){
 
 			//se existir algum produto
 			if(produtos != null) {
+				var total = 0;
 				for(produto of produtos) {
 					Tcompras += '<tr>'
 								+ '<td>' + produto.produto + '</td>'
 								+ '<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 							+ '</tr>';
+					total += parseFloat(produto.preco);
 				}
 			}else {
 				Tcompras = '<tr><td colspan="2">Nenhuma compra feita nessa data</td></tr>';
 			}
 			
 			$("#compras").html(Tcompras);
+			$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
 		});
 	});
 });
