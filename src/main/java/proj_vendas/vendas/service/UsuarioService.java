@@ -61,12 +61,12 @@ public class UsuarioService implements UserDetailsService{
 		dados.save(dado);
 		
 		return new User(
-				usuario.getEmail(),
-				usuario.getSenha(),
-				AuthorityUtils.NO_AUTHORITIES
-				);
+			usuario.getEmail(),
+			usuario.getSenha(),
+			AuthorityUtils.createAuthorityList(usuario.getPerfil())
+			);
 	}
-
+	
 	public Usuarios getUsuarios() {
 		return usuarios;
 	}

@@ -18,25 +18,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/dev/**", "/gazaltech/**", "/new-user").permitAll()
+		
+			//liberar acesso basico de scripts
+			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/dev/**", "/gazaltech/**").permitAll()
+			
+			//acesso adm
+			.antMatchers("/a/**").hasAuthority("ADM")
+			
+			//acesso usuario
+			.antMatchers("/u/**").hasAuthority("USUARIO")
+			
+			//autenticar
 			.anyRequest().authenticated()
 			
+			//login
 			.and()
 				.formLogin()
 				.loginPage("/index")
 				.defaultSuccessUrl("/menu", true)
 				.failureUrl("/index")
 				.permitAll()
+				
+			//logout
 			.and()
 				.logout()
 				.logoutSuccessUrl("/index")
+				
+			//tratamento de erro
 			.and()
 				.exceptionHandling()
 				.accessDeniedPage("/acessoNegado")
+				
+			//desabilitar verificacao
 			.and()
 				.csrf().disable();
 	}
     
+	//criptografar senha
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(service).passwordEncoder(new BCryptPasswordEncoder());

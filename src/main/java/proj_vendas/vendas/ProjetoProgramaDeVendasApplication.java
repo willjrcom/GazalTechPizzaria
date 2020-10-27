@@ -1,5 +1,7 @@
 package proj_vendas.vendas;
 
+import java.sql.DriverManager;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -17,6 +19,15 @@ public class ProjetoProgramaDeVendasApplication extends SpringBootServletInitial
 	public static void main(String[] args) {
 
 		SpringApplication.run(ProjetoProgramaDeVendasApplication.class, args);
+		
+		//conectar ao banco de dados
+		try {
+			String url = "jdbc:mysql://localhost/vendas?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=America/Sao_Paulo&SameSite=None";
+			DriverManager.getConnection(url, "root", "toor");
+		}catch(Exception e) {
+			System.err.println("Falha ao conectar ao banco de dados");
+			System.out.println(e.getMessage());
+		}
 	}
 	/*
 	@Bean
