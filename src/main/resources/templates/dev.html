@@ -10,12 +10,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 	<div class="divbaseForm">
 			
-		<a th:href="@{/index}"><button class="btn btn-danger">Voltar</button></a>
-		<hr>
 		<h1 class="h1Logo">Cadastrar Usuário</h1><br/>
 		
+		<input type="hidden" id="id" name="id"/>
 		
-		<div class="row">
+		<div class="row" id="divLiberacao">
 			<div class="form-group col-md-8">
 				<input type="password" class="form-control pula" id="codigo" name="codigo" placeholder="Código de liberação"  autofocus="autofocus"/>  
 			</div>
@@ -35,5 +34,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/dev.js}"></script>
+	<script th:src="@{/js/validUsuario.js}"></script>
 </body>
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
 </html>
