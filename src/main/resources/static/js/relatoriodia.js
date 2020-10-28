@@ -135,7 +135,7 @@ function finalizarPedido() {
 	$.alert({
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
-	    content: 'Produtos escolhidos' + linhaHtml,
+	    content: linhaHtml,
 	    buttons: {
 	        confirm: {
 				text: 'Voltar',

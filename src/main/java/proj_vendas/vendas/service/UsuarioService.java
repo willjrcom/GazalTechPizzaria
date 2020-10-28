@@ -45,20 +45,24 @@ public class UsuarioService implements UserDetailsService{
 		String dia = diaAtual.toString();
 	    
 		//alterar a tabela dados
-		Dado dado = new Dado();
-		dado.setData(dia);
+		Dado dado = dados.findByData(dia);//busca no banco de dados
+		
+		if(dado == null) {//verifica se ja existe
+			dado = new Dado();
+		}
+		dado.setData(dia);//seta a data atual
 		
 		//alterar a tabela dia
 		Dia data = dias.buscarId1();
 		
-		if(data == null) {
+		if(data == null) {//verifica se dia existe
 			data = new Dia();
 		}
-		data.setDia(dia);
+		data.setDia(dia);//seta dia
 		
 		//salvar dados
-		dias.save(data);
-		dados.save(dado);
+		dias.save(data);//salva o dia
+		dados.save(dado);//salva a data
 		
 		return new User(
 			usuario.getEmail(),

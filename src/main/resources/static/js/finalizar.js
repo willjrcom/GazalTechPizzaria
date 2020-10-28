@@ -167,7 +167,7 @@ function finalizarPedido() {
 		$.confirm({
 			type: 'green',
 		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
-		    content: 'Produtos escolhidos:' + linhaHtml,
+		    content: linhaHtml,
 		    closeIcon: true,
 		    columnClass: 'col-md-8',
 		    buttons: {
