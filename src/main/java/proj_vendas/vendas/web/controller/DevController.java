@@ -39,7 +39,11 @@ public class DevController {
 	@RequestMapping(value = "/criar", method = RequestMethod.PUT)
 	@ResponseBody
 	public Usuario criarUsuario(@RequestBody Usuario usuario) {
-		usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		if(usuario.getSenha().equals("-1") == true) {
+			usuario.setSenha(usuarios.findByEmail(usuario.getEmail()).getSenha());
+		}else {
+			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
+		}
 		return usuarios.save(usuario);
 	}
 	
@@ -54,8 +58,20 @@ public class DevController {
 				vazio.setId((long) -1);
 				return vazio;
 			}
-		}
-		
+		}	
 		return usuarios.findByEmail(email);
+	}
+	
+	@RequestMapping(value = "/todos", method = RequestMethod.PUT)
+	@ResponseBody
+	public java.util.List<Usuario> todos(){
+		return usuarios.findAll();
+	}
+
+	@RequestMapping(value = "/excluirUsuario/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public String excluirUsuario(@ModelAttribute("id") Usuario usuario) {
+		usuarios.deleteById(usuario.getId());
+		return "200";
 	}
 }

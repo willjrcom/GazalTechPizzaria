@@ -20,7 +20,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			
 			<div class="form-group col-md-4">
-				<button class="btn btn-primary pula" id="buscar">Liberar Acesso</button>
+				<button class="btn btn-primary pula" id="buscar"><span class="oi oi-lock-unlocked"></span> Liberar Acesso</button>
 			</div>
 		</div>
 			
@@ -34,7 +34,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/dev.js}"></script>
-	<script th:src="@{/js/validUsuario.js}"></script>
 </body>
 	<div th:replace="~{layouts/frag :: opcoes}"></div>
 </html>

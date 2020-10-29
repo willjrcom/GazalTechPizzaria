@@ -1,13 +1,17 @@
 
 var codigo;
-var dados = {}, email, senha, confirmar;
+var dados = {}, usuarios = {};
+var email, senha, confirmar;
+var opSenha = 0; //-1 nao alterar, 0 alterar
 var linhaHtml = '<div class="form-group">'
 				+'<label>E-mail:<br></label>'
 				+'<p id="avisoUsuario">Usuário já cadastrado, tente outro!</p>'
 				+'<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" />'
 			+'</div>'
-				
-			+'<div class="row">'
+			
+			+'<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button><br>'
+			
+			+'<div class="row" id="senhas">'
 				+'<div class="form-group col-md-6">'
 					+'<label>Senha:<br></label>'
 					+'<p id="avisoSenha">As senhas não conferem!</p>'
@@ -20,17 +24,28 @@ var linhaHtml = '<div class="form-group">'
 				+'</div>'
 			+'</div>'
 			
-			+'<div class="form-group">'
-				+'<label>Permissão:<br></label>'
-				+'<select class="form-control" id="perfil">'
-					+'<option value="USUARIO">USUARIO</option>'
-					+'<option value="ADM">ADM</option>'
-				+'</select>'
+			+'<div class="row">'
+				+'<div class="form-group col-md-6">'
+					+'<label>Permissão:<br></label>'
+					+'<select class="form-control" id="perfil">'
+						+'<option value="USUARIO">USUARIO</option>'
+						+'<option value="ADM">ADM</option>'
+					+'</select>'
+				+'</div>'
+				
+				+'<div class="form-group col-md-6">'
+					+'<label>Ativo:<br></label>'
+					+'<select class="form-control" id="ativo">'
+						+'<option value="true">Sim</option>'
+						+'<option value="false">Não</option>'
+					+'</select>'
+				+'</div>'
 			+'</div>'
-			
 			+'<br>'
 			+'<button type="button" id="criar" class="form-contact-button" name="enviar">Criar Usuário</button>';
 
+
+linhaHtml += '<br><hr><table id="todosUsuarios"></table>';
 
 //----------------------------------------------------
 $("#buscar").click(function(){
@@ -43,6 +58,45 @@ $("#buscar").click(function(){
 		if(e == true) {
 			$("#liberar").html(linhaHtml);
 			$("#divLiberacao").hide();
+			
+			$.ajax({
+				url: '/dev/todos',
+				type: 'PUT'
+			}).done(function(e){
+				console.table(e);
+				
+				usuarios = e;
+				
+				var usuarioHtml = '<tr>'
+									+'<th class="col-md-1"><h5>Id</h5></th>'
+									+'<th class="col-md-1"><h5>Email</h5></th>'
+									+'<th class="col-md-1"><h5>Perfil</h5></th>'
+									+'<th class="col-md-1"><h5>Ativo</h5></th>'
+									+'<th class="col-md-1"><h5>Editar</h5></th>'
+								+'</tr>';
+				
+				for(usuario of usuarios) {
+					usuarioHtml += '<tr>'
+									+'<td align="center">' + usuario.id + '</td>'
+									+'<td align="center">' + usuario.email + '</td>'
+									+'<td align="center">' + usuario.perfil + '</td>';
+					
+					if(usuario.ativo == 1) {
+						usuarioHtml += '<td align="center">Sim</td>';
+					}else {
+						usuarioHtml += '<td align="center">Não</td>';
+					}
+					usuarioHtml += '<td align="center"><div class="row">'
+									+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-pencil"></span></button></div>'
+									+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-trash"></span></button></div>'
+								+'</div></td>'
+							+'</tr>';
+									
+				}
+				
+				$("#todosUsuarios").html(usuarioHtml);
+				
+			});
 		}
 		//---------------------------------------------------------
 		$("#avisoUsuario").hide();
@@ -55,7 +109,7 @@ $("#buscar").click(function(){
 				var id = $("#id").val();	
 				
 				$.ajax({
-					url:  (id != '') ? "/dev/validar/" + email.toString() + '/' + id : "/dev/validar/" + email.toString() + '/-2',
+					url:  (id != '') ? "/dev/validar/" + email + '/' + id : "/dev/validar/" + email + '/-2',
 					type: 'PUT'
 				}).done(function(event){
 
@@ -131,10 +185,21 @@ $("#buscar").click(function(){
 		//-----------------------------------------------------------
 		$("#criar").click(function(){
 
+			dados.id = $("#id").val();
 			dados.email = $("#email").val();
-			dados.senha = $("#senha").val();
 			dados.perfil = $("#perfil").val();
-			confirmar = $("#confirmar").val();
+			dados.ativo = $("#ativo").val();
+			var textoEnviado;
+			
+			if(opSenha == 0) {
+				dados.senha = $("#senha").val();
+				confirmar = $("#confirmar").val();
+				textoEnviado = 'Usuário cadastrado!';
+			}else {
+				dados.senha = "-1";
+				confirmar = "-1";
+				textoEnviado = 'Usuário atualizado!';
+			}
 			
 			if(dados.senha === confirmar && dados.senha != '' && dados.email != '') {
 				$.ajax({
@@ -147,14 +212,14 @@ $("#buscar").click(function(){
 					$.alert({
 						type: 'blue',
 						title: 'Sucesso',
-						content: 'Usuário cadastrado!',
+						content: textoEnviado,
 						buttons: {
 							confirm:{
 								text:'menu',
 								btnClass: 'btn-success',
 								keys: ['enter', 'esc'],
 								action: function(){
-									window.location.href = "/menu";
+									window.location.href = "/dev";
 								}
 							}
 						}
@@ -162,6 +227,19 @@ $("#buscar").click(function(){
 				}).fail(function(){
 					$.alert("Falhou");
 				})
+			}else {
+				$.alert({
+					type:'red',
+					title:'Ops...',
+					content:'Digite os dados corretamente!',
+					buttons:{
+						confirm:{
+							text:'Voltar',
+							btnClass:'btn-danger',
+							keys:['esc','enter']
+						}
+					}
+				});
 			}
 		})
 	}).fail(function(){
@@ -179,3 +257,148 @@ $("#buscar").click(function(){
 		});
 	});
 });
+
+
+//-----------------------------------------------------------------------------------------------------
+function editarUsuario() {
+	var botaoReceber = $(event.currentTarget);
+	var idUsuario = botaoReceber.attr('value');
+	
+	$.confirm({
+		type: 'red',
+		title: 'Alerta',
+		content: 'Deseja alterar esse usuario?',
+		buttons:{
+			confirm:{
+				text: 'Sim',
+				btnClass: 'btn-danger',
+				keys: ['enter'],
+				action: function(){
+					for(usuario of usuarios) {
+						if(usuario.id == idUsuario) {
+							
+							$("#id").val(usuario.id);
+							$("#email").val(usuario.email);
+							$("#perfil").val(usuario.perfil);
+							if(usuario.ativo == 1) {
+								$("#ativo").val("true");
+							}else {
+								$("#ativo").val("false");
+							}
+							
+							$("#criar").text("Atualizar usuário");
+							opSenha = -1;
+							//edit senha
+							$("#senhas").hide();
+							$("#alterar").show();
+							break;
+						}
+					}
+				}
+			},
+			cancel:{
+				text: 'Não',
+				btnClass: 'btn-success',
+				keys: ['esc'],
+			}
+		}
+	})
+}
+
+
+//---------------------------------------------------------------------------------
+function alterarSenha() {
+	$("#senhas").show('slow');
+	$("#alterar").hide('slow');
+	opSenha = 0;
+}
+
+
+//-----------------------------------------------------------------------------------------------------
+function apagarUsuario() {
+	var botaoReceber = $(event.currentTarget);
+	var idUsuario = botaoReceber.attr('value');
+	
+	var inputApagar = '<input type="text" placeholder="Digite SIM para apagar!" class="form-control" id="apagar" required />'
+			
+	$.confirm({
+		type: 'red',
+	    title: 'Alerta',
+	    content: 'Deseja APAGAR o usuário?',
+	    buttons: {
+	        confirm: {
+	            text: 'Apagar',
+	            btnClass: 'btn-red',
+	            keys: ['enter'],
+	            action: function(){
+		
+					$.confirm({
+						type: 'red',
+					    title: 'APAGAR usuário!',
+					    content: 'Tem certeza?' + inputApagar,
+					    buttons: {
+					        confirm: {
+					            text: 'Apagar usuário',
+					            btnClass: 'btn-red',
+					            keys: ['enter'],
+					            action: function(){
+									var apagarSim = this.$content.find('#apagar').val();
+									
+									if(apagarSim === 'sim') {
+										$.ajax({
+											url: "/dev/excluirUsuario/" + idUsuario,
+											type: 'PUT'
+										}).done(function(e){
+											if(e == "200") {
+												$.alert({
+													type: 'red',
+												    title: 'Usuário apagado!',
+												    content: 'Espero que dê tudo certo!',
+												    buttons: {
+												        confirm: {
+															text: 'Voltar',
+												    		keys: ['enter'],
+												            btnClass: 'btn-green',
+												            action: function(){
+																window.location.href = "/dev";
+															}
+														}
+													}
+												});
+											}
+										}).fail(function(){
+											$.alert("Erro, Usuário não apagado!");
+										});
+									}else {
+										$.alert({
+											type: 'red',
+										    title: 'Texto incorreto!',
+										    content: 'Pense bem antes de apagar um usuário!',
+										    buttons: {
+										        confirm: {
+													text: 'Voltar',
+										    		keys: ['enter'],
+										            btnClass: 'btn-red',
+												}
+											}
+										});
+									}
+								}
+							},
+					        cancel: {
+								text: 'Voltar',
+					            btnClass: 'btn-green',
+					            keys: ['esc'],
+							}
+						}
+					});
+				}
+			},
+		    cancel: {
+				text: 'Voltar',
+		        btnClass: 'btn-green',
+		        keys: ['esc'],
+			}
+		}
+	});
+}
