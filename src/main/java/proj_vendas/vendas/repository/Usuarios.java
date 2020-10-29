@@ -13,4 +13,6 @@ public interface Usuarios extends JpaRepository<Usuario, Long>{
 	
 	@Query("select u from Usuario u where u.email = 'willjrcom'")
 	public Usuario findMeuEmail();
+
+	public java.util.List<Usuario> findByAtivo(boolean b);
 }

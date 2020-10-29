@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		
 			//liberar acesso basico de scripts
-			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/dev/**", "/gazaltech/**").permitAll()
+			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/gazaltech/**").permitAll()
 			
 			//acesso adm
 			.antMatchers("/a/**").hasAuthority("ADM")

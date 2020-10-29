@@ -36,11 +36,14 @@ public class UsuarioService implements UserDetailsService{
 		
 		return usuarios.findByEmail(email);
 	}
-
+	
 	@Override @Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Usuario usuario = buscarPorEmail(username);
 		
+		if(usuario.isAtivo() == false) {
+			throw new UsernameNotFoundException("Usuário bloqueado.");
+		}
 		LocalDate diaAtual = LocalDate.now(); // Create a date object
 		String dia = diaAtual.toString();
 	    
@@ -70,14 +73,4 @@ public class UsuarioService implements UserDetailsService{
 			AuthorityUtils.createAuthorityList(usuario.getPerfil())
 			);
 	}
-	
-	public Usuarios getUsuarios() {
-		return usuarios;
-	}
-
-	public void setUsuarios(Usuarios usuarios) {
-		this.usuarios = usuarios;
-	}
-	
-	
 }
