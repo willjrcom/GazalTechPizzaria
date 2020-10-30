@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,7 @@ import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Salarios;
 
 @Controller
-@RequestMapping("/pagamento")
+@RequestMapping("adm")
 public class PagamentoController {
 	
 	@Autowired
@@ -26,24 +27,24 @@ public class PagamentoController {
 	@Autowired
 	private Salarios salarios;
 	
-	@RequestMapping
+	@GetMapping("/pagamento")
 	public ModelAndView tela() {
 		return new ModelAndView("pagamento");
 	}
 	
-	@RequestMapping(value = "/todosFuncionarios", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pagamento/todosFuncionarios", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Funcionario> todos() {
 		return funcionarios.findAll();
 	}
 	
-	@RequestMapping(value = "/salvar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pagamento/salvar", method = RequestMethod.PUT)
 	@ResponseBody
 	public Salario salvar(@RequestBody Salario salario) {
 		return salarios.save(salario);
 	}
 	
-	@RequestMapping(value = "/buscar/{id}/{data}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pagamento/buscar/{id}/{data}", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Salario> buscar(@PathVariable Long id, @PathVariable String data){
 		return salarios.findByIdFuncionarioAndData(id, data);

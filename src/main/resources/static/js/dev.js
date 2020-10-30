@@ -52,7 +52,7 @@ $("#buscar").click(function(){
 	codigo = $("#codigo").val();
 
 	$.ajax({
-		url:'/dev/liberar/' + codigo,
+		url:'/adm/dev/liberar/' + codigo,
 		type: 'PUT'
 	}).done(function(e){
 		if(e == true) {
@@ -60,7 +60,7 @@ $("#buscar").click(function(){
 			$("#divLiberacao").hide();
 			
 			$.ajax({
-				url: '/dev/todos',
+				url: '/adm/dev/todos',
 				type: 'PUT'
 			}).done(function(e){
 				console.table(e);
@@ -109,7 +109,7 @@ $("#buscar").click(function(){
 				var id = $("#id").val();	
 				
 				$.ajax({
-					url:  (id != '') ? "/dev/validar/" + email + '/' + id : "/dev/validar/" + email + '/-2',
+					url:  (id != '') ? "/adm/dev/validar/" + email + '/' + id : "/adm/dev/validar/" + email + '/-2',
 					type: 'PUT'
 				}).done(function(event){
 
@@ -203,7 +203,7 @@ $("#buscar").click(function(){
 			
 			if(dados.senha === confirmar && dados.senha != '' && dados.email != '') {
 				$.ajax({
-					url:'/dev/criar',
+					url:'/adm/dev/criar',
 					type:'PUT',
 					dataType : 'json',
 					contentType: "application/json",
@@ -219,7 +219,7 @@ $("#buscar").click(function(){
 								btnClass: 'btn-success',
 								keys: ['enter', 'esc'],
 								action: function(){
-									window.location.href = "/dev";
+									window.location.href = "/adm/dev";
 								}
 							}
 						}
@@ -346,7 +346,7 @@ function apagarUsuario() {
 									
 									if(apagarSim === 'sim') {
 										$.ajax({
-											url: "/dev/excluirUsuario/" + idUsuario,
+											url: "/adm/dev/excluirUsuario/" + idUsuario,
 											type: 'PUT'
 										}).done(function(e){
 											if(e == "200") {
@@ -360,7 +360,7 @@ function apagarUsuario() {
 												    		keys: ['enter'],
 												            btnClass: 'btn-green',
 												            action: function(){
-																window.location.href = "/dev";
+																window.location.href = "/adm/dev";
 															}
 														}
 													}

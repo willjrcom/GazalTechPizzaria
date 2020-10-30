@@ -8,7 +8,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	<script>
 	$(document).ready(function(){
 		$.ajax({
-			url: '/empresa/editar',
+			url: '/novoPedido/empresa',
 			type: 'PUT'
 		}).done(function(e){
 			if(e.length != 0) {

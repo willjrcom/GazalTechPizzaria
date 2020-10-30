@@ -53,7 +53,7 @@ function salvar() {
 				console.log(e);
 				
 				$.ajax({
-					url: '/fechamento/finalizar/' + id,
+					url: '/adm/fechamento/finalizar/' + id,
 					type: 'PUT',
 					dataType : 'json',
 					contentType: "application/json",

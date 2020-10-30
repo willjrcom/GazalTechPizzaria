@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,24 +17,24 @@ import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.repository.Funcionarios;
 
 @Controller
-@RequestMapping("/cadastroFuncionario")
+@RequestMapping("adm")
 public class CadastroFuncionarioController{
 	
 	@Autowired
 	private Funcionarios funcionarios;
 	
-	@RequestMapping("/**")
+	@GetMapping("/cadastroFuncionario/**")
 	public ModelAndView CadastroFuncionario() {
 		return new ModelAndView("cadastroFuncionario");
 	}
 
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@RequestMapping(value = "/cadastroFuncionario/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
 	@ResponseBody
 	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
 		return funcionarios.save(funcionario);
 	}
 		
-	@RequestMapping(value = "/buscarCpf/{cpf}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cadastroFuncionario/buscarCpf/{cpf}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Funcionario buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Funcionario funcionario) {
 		Funcionario busca = funcionarios.findByCpf(cpf);
@@ -48,7 +49,7 @@ public class CadastroFuncionarioController{
 		return funcionarios.findByCpf(cpf);
 	}
 	
-	@RequestMapping(value = "/buscarCelular/{celular}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cadastroFuncionario/buscarCelular/{celular}/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular, @ModelAttribute("id")Funcionario funcionario) {
 		Funcionario busca = funcionarios.findByCelular(celular);
@@ -63,7 +64,7 @@ public class CadastroFuncionarioController{
 		return funcionarios.findByCelular(celular);
 	}
 	
-	@RequestMapping(value = "/editarFuncionario/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cadastroFuncionario/editarFuncionario/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Funcionario> buscarFuncionario(@PathVariable Long id) {
 		return funcionarios.findById(id);

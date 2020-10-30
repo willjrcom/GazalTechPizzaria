@@ -136,16 +136,8 @@ function editarCliente() {
 	            text: 'Editar Cliente',
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
-	            action: function(){
-					
-					$.ajax({
-						url: "/cadastroCliente/editar/" + idCliente.toString(),
-						type: 'POST',
-					}).done(function(){
-						window.location.href = "/cadastroCliente/editar/" + idCliente.toString();
-					}).fail(function(){
-						$.alert("Tente novamente!");
-					});
+	            action: function(){	
+					window.location.href = "/cadastroCliente/editar/" + idCliente;
 				}
 			},
 	        cancel:{
@@ -196,7 +188,7 @@ function excluirCliente() {
 									if(apagarSim === 'sim') {
 										
 										$.ajax({
-											url: "/clientesCadastrados/excluirCliente/" + idCliente.toString(),
+											url: "/clientesCadastrados/excluirCliente/" + idCliente,
 											type: 'PUT'
 											
 										}).done(function(){		

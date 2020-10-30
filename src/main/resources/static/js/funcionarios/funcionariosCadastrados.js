@@ -10,7 +10,7 @@ $("#buscar").click(function(){
 	var nome = $("#nomeBusca").val();
 	
 	$.ajax({
-		url: '/funcionariosCadastrados/buscar/' + nome,
+		url: '/adm/funcionariosCadastrados/buscar/' + nome,
 		type: 'PUT'
 	}).done(function(e){
 		
@@ -141,15 +141,7 @@ function editarFuncionario() {
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){
-					
-					$.ajax({
-						url: "/cadastroFuncionario/editar/" + idFuncionario.toString(),
-						type: 'PUT',
-					}).done(function(){
-						window.location.href = "/cadastroFuncionario/editar/" + idFuncionario.toString();
-					}).fail(function(){
-						$.alert("Tente novamente!");
-					});
+					window.location.href = "/adm/cadastroFuncionario/editarFuncionario/" + idFuncionario;
 				}
 			},
 	        cancel:{
@@ -200,7 +192,7 @@ function excluirFuncionario() {
 									if(apagarSim === 'sim') {
 										
 										$.ajax({
-											url: "/funcionariosCadastrados/excluirFuncionario/" + idFuncionario.toString(),
+											url: "/adm/funcionariosCadastrados/excluirFuncionario/" + idFuncionario,
 											type: 'PUT'
 											
 										}).done(function(){		

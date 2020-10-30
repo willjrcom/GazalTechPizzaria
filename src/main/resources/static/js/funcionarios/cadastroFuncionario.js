@@ -1,17 +1,17 @@
 var funcionario = {};
 var url_atual = window.location.href;
 
-url_atual = url_atual.split("/")[5];
+url_atual = url_atual.split("/")[6];
 
 if(typeof url_atual != "undefined") {
 	
 	$.ajax({
-		url: "/cadastroFuncionario/editarFuncionario/" + url_atual,
+		url: "/adm/cadastroFuncionario/editarFuncionario/" + url_atual,
 		type: 'PUT',
 	}).done(function(e){
 		//receber valores do servidor
 		funcionario = e;
-		console.log(funcionario);
+
 		id_endereco = e.endereco.id;
 		funcionario.endereco.id = e.endereco.id;//evitar de criar outros endereços
 		
@@ -105,7 +105,7 @@ $("#enviar").click(function() {
 		            keys: ['enter'],
 		            action: function(){
 						$.ajax({
-							url: "/cadastroFuncionario/cadastrar",
+							url: "/adm/cadastroFuncionario/cadastrar",
 							type: 'PUT',
 							dataType: "json",
 							contentType:'application/json',
@@ -182,7 +182,7 @@ $("#atualizar").click(function() {
 		            keys: ['enter'],
 		            action: function(){
 						$.ajax({
-							url: "/cadastroFuncionario/atualizarCadastro/" + url_atual,
+							url: "/adm/cadastroFuncionario/atualizarCadastro/" + url_atual,
 							type: 'PUT',
 							dataType: "json",
 							contentType:'application/json',
@@ -199,7 +199,7 @@ $("#atualizar").click(function() {
 							            btnClass: 'btn-blue',
 							            keys: ['esc', 'enter'],
 							            action: function(){
-											window.location.href = "/funcionariosCadastrados";
+											window.location.href = "/adm/funcionariosCadastrados";
 										}
 									}
 								}

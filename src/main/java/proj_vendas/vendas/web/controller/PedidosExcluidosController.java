@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,7 +15,7 @@ import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
-@RequestMapping("/pedidosExcluidos")
+@RequestMapping("adm")
 public class PedidosExcluidosController {
 	
 	@Autowired
@@ -23,12 +24,12 @@ public class PedidosExcluidosController {
 	@Autowired
 	private Dias dias;
 	
-	@RequestMapping
+	@GetMapping("/pedidosExcluidos")
 	public ModelAndView lerCadastros() {
 		return new ModelAndView("pedidosExcluidos");
 	}
 
-	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pedidosExcluidos/todosPedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		String dia = dias.buscarId1().getDia();

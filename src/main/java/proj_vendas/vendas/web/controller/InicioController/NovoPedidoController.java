@@ -52,7 +52,7 @@ public class NovoPedidoController {
 	@Autowired
 	private PedidoTemps temps;
 	
-	@RequestMapping("/**")
+	@RequestMapping
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
 	}
@@ -149,5 +149,11 @@ public class NovoPedidoController {
 		List<PedidoTemp> temp = temps.findByNome(pedido.getNomePedido());
 		temps.deleteInBatch(temp);
 		return "ok";
+	}
+	
+	@RequestMapping(value = "/empresa", method = RequestMethod.PUT)
+	@ResponseBody
+	public Empresa editar() {
+		return empresas.buscarId1();
 	}
 }

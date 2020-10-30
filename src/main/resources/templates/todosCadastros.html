@@ -121,7 +121,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<td th:text="${funcionario.celular}"></td>
 						<td th:text="${funcionario.cargo}"></td>
 						<td>
-							<a th:href="@{/cadastroFuncionario/editar/{id}(id = ${funcionario.id})}" title="Editar">
+							<a th:href="@{/adm/cadastroFuncionario/editar/{id}(id = ${funcionario.id})}" title="Editar">
 							<button class="botao"><span class="oi oi-pencil"></span></button></a>
 						</td>
 					</tr>

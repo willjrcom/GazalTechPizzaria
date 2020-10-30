@@ -2,7 +2,7 @@ var empresa = {};
 
 //---------------------------------------------------
 $.ajax({
-	url: "/empresa/editar",
+	url: "/adm/empresa/editar",
 	type: 'PUT',
 }).done(function(e){
 	
@@ -84,7 +84,7 @@ $("#atualizar").click(function() {
 		            content: "Deseja atualizar?",
 		            action: function(){
 						$.ajax({
-							url: "/empresa/atualizar",
+							url: "/adm/empresa/atualizar",
 							type: 'PUT',
 							dataType: "json",
 							contentType:'application/json',

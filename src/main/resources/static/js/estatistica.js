@@ -14,7 +14,7 @@ function drawBackgroundColor() {
 
       
       $.ajax({
-    	  url: '/estatistica/todos',
+    	  url: '/adm/estatistica/todos',
     	  type: 'PUT'
       }).done(function(e){
     	  objeto = e;
@@ -61,7 +61,7 @@ function drawBackgroundColor() {
 
       
       $.ajax({
-    	  url: '/estatistica/todos',
+    	  url: '/adm/estatistica/todos',
     	  type: 'PUT'
       }).done(function(e){
     	  
@@ -108,7 +108,7 @@ function drawBackgroundColor() {
 
       
       $.ajax({
-    	  url: '/estatistica/todos',
+    	  url: '/adm/estatistica/todos',
     	  type: 'PUT'
       }).done(function(e){
     	  

@@ -13,7 +13,7 @@ var Tpizzas = 0;
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
-	url: "/pedidosExcluidos/todosPedidos",
+	url: "/adm/pedidosExcluidos/todosPedidos",
 	type: 'PUT'
 })
 .done(function(e){

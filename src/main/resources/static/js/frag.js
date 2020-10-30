@@ -35,7 +35,7 @@ function calculadora() {
 //---------------------------------------------------------------
 $(document).ready(function(){
 	$.ajax({
-		url: '/empresa/editar',
+		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {

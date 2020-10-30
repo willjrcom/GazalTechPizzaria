@@ -2,6 +2,7 @@ package proj_vendas.vendas.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,18 +13,18 @@ import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.repository.Empresas;
 
 @Controller
-@RequestMapping("/empresa")
+@RequestMapping("adm")
 public class EmpresaController {
 	
 	@Autowired
 	private Empresas empresas;
 	
-	@RequestMapping
+	@GetMapping("/empresa")
 	public ModelAndView tela() {
 		return new ModelAndView ("empresa");
 	}
 	
-	@RequestMapping(value = "/atualizar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/empresa/atualizar", method = RequestMethod.PUT)
 	@ResponseBody
 	public Empresa salvar(@RequestBody Empresa empresa) {
 		
@@ -37,7 +38,7 @@ public class EmpresaController {
 		}
 	}
 	
-	@RequestMapping(value = "/editar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/empresa/editar", method = RequestMethod.PUT)
 	@ResponseBody
 	public Empresa editar() {
 		return empresas.buscarId1();

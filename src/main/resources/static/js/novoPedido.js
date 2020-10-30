@@ -987,7 +987,7 @@ function mostrarTabela(pizzas, produtos) {
 //----------------------------------------------------------------------------
 function imprimir() {
 	$.ajax({
-		url: '/empresa/editar',
+		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {

@@ -17,7 +17,7 @@ var dinheiro = 0, cartao = 0;
 //-------------------------------------------------------------------------------
 $.ajax({
 	//buscar total de pedidos
-	url: '/fechamento/Tpedidos',
+	url: '/adm/fechamento/Tpedidos',
 	type: 'PUT'
 }).done(function(e){
 	Tpedidos = e;
@@ -29,7 +29,7 @@ $.ajax({
 //-------------------------------------------------------------------------------
 $.ajax({
 	//buscar total de vendas
-	url: '/fechamento/Tvendas',
+	url: '/adm/fechamento/Tvendas',
 	type: 'PUT'
 }).done(function(e){
 	
@@ -119,7 +119,7 @@ $.ajax({
 //--------------------------------------------------------------------------------
 $("#download_all").click(function(){
 	$.ajax({
-		url: '/fechamento/baixartudo',
+		url: '/adm/fechamento/baixartudo',
 		type: 'PUT',
 	}).done(function(data){
           data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
@@ -177,14 +177,14 @@ function troco(){
 					
 					//buscar data do sistema
 					$.ajax({
-						url: '/fechamento/data',
+						url: '/adm/fechamento/data',
 						type: 'PUT'
 					}).done(function(e){
 						dados.data = e.dia;
 							
 						//buscar id da data do sistema
 						$.ajax({
-							url: '/fechamento/buscarIdData/' + dados.data,
+							url: '/adm/fechamento/buscarIdData/' + dados.data,
 							type: 'PUT'
 						}).done(function(e){
 							
@@ -200,7 +200,7 @@ function troco(){
 							dados.trocoInicio = e.trocoInicio;
 							
 							$.ajax({
-								url: '/fechamento/finalizar/' + dados.id,
+								url: '/adm/fechamento/finalizar/' + dados.id,
 								type: 'PUT',
 								dataType : 'json',
 								contentType: "application/json",

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 
 @Controller
-@RequestMapping("/fechamento")
+@RequestMapping("adm")
 public class FechamentoController {
 
 	@Autowired
@@ -37,38 +38,38 @@ public class FechamentoController {
 	@Autowired
 	private PedidoTemps temps;
 	
-	@RequestMapping
+	@GetMapping("/fechamento")
 	public ModelAndView tela() {
 		return new ModelAndView("fechamento");
 	}
 	
-	@RequestMapping(value = "/Tpedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/Tpedidos", method = RequestMethod.PUT)
 	@ResponseBody
 	public long totalPedidos() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndData("FINALIZADO", dia).size();
 	}
 	
-	@RequestMapping(value = "/Tvendas", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/Tvendas", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> totalVendas() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndData("FINALIZADO", dia);
 	}
 	
-	@RequestMapping(value = "/baixartudo", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/baixartudo", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> baixarTudo() {
 		return pedidos.findAll();
 	}
 	
-	@RequestMapping(value = "/buscarIdData/{data}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/buscarIdData/{data}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Dado buscarId(@PathVariable String data) {
 		return dados.findByData(data);
 	}
 	
-	@RequestMapping(value = "/finalizar/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/finalizar/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Dado finalizarCaixa(@RequestBody Dado dado) {
 		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
@@ -77,7 +78,7 @@ public class FechamentoController {
 		return dados.save(dado);
 	}
 	
-	@RequestMapping(value = "/data", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/data", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Dia> data() {
 		return dias.findById((long) 1);

@@ -32,7 +32,7 @@ public class ClientesCadastradosController {
 	}
 	
 	
-	@RequestMapping(value = "/excluirCliente/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/clientesCadastrados/excluirCliente/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public String excluirCliente(@PathVariable long id) {
 		clientes.deleteById(id);

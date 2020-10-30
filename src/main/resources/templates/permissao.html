@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+
+<head>
+	<link th:href="@{/css/login.css}" rel="stylesheet"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
+	<title>Erro</title>
+</head>
+
+<body>
+	<div id="esconderLogin">
+		<div class="elemento1">
+			<div class="corFundo centralizar" id="login">
+				
+				<a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
+				<br><br>
+				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
+				<hr>
+				
+				<label>Voce não tem permissão para acessar essa pagina</label>
+				 
+				<hr>
+				<nav class="nav nav-pills flex-column flex-sm-row">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}"><i class="fas fa-key"></i>&nbsp;Voltar ao menu</a>
+				</nav>
+				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2020</p>
+			</div>
+		</div>
+	</div>
+	
+	<script th:src="@{/js/index.js}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script th:src="@{/js/erro.js}"></script>
+</body>
+</html>

@@ -20,7 +20,7 @@ function dataAtualFormatada(){
 	
 //------------------------------------------------------------
 $.ajax({
-	url: '/empresa/editar',
+	url: '/novoPedido/empresa',
 	type: 'PUT'
 }).done(function(e){
 	if(e.length != 0) {
@@ -34,7 +34,7 @@ $.ajax({
 	$("#todosFuncionarios").html(linhaCinza);
 	
 	$.ajax({
-		url: "/pagamento/todosFuncionarios",
+		url: "/adm/pagamento/todosFuncionarios",
 		type: 'PUT'
 	}).done(function(e){
 		funcionarios = e;
@@ -120,7 +120,7 @@ $.ajax({
 	
 						//buscar o mes de gastos do funcionario
 						$.ajax({
-							url: '/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
 							type: 'PUT'
 						}).done(function(e){
 							console.log(e)
@@ -163,7 +163,7 @@ $.ajax({
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/pagamento/salvar',
+												url: '/adm/pagamento/salvar',
 												type: 'PUT',
 												dataType : 'json',
 												contentType: "application/json",
@@ -224,7 +224,7 @@ $.ajax({
 	
 						//buscar o mes de gastos do funcionario
 						$.ajax({
-							url: '/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
 							type: 'PUT'
 						}).done(function(e){
 							console.log(e)
@@ -264,7 +264,7 @@ $.ajax({
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/pagamento/salvar',
+												url: '/adm/pagamento/salvar',
 												type: 'PUT',
 												dataType : 'json',
 												contentType: "application/json",
@@ -338,7 +338,7 @@ $.ajax({
 	
 						//buscar o mes de gastos do funcionario
 						$.ajax({
-							url: '/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
 							type: 'PUT'
 						}).done(function(e){
 							console.log(e)
@@ -398,7 +398,7 @@ $.ajax({
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/pagamento/salvar',
+												url: '/adm/pagamento/salvar',
 												type: 'PUT',
 												dataType : 'json',
 												contentType: "application/json",

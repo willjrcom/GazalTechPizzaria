@@ -9,7 +9,7 @@ var pedidoVazio = '<tr><td colspan="5">Nenhum dia em aberto!</td></tr>';
 $("#todosFuncionarios").html(linhaCinza);
 
 $.ajax({
-	url: "/diaAberto/todosDias",
+	url: "/adm/diaAberto/todosDias",
 	type: 'PUT'
 })
 .done(function(e){

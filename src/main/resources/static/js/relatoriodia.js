@@ -11,7 +11,7 @@ var Tpizzas = 0;
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
-	url: "/relatoriodia/todosPedidos",
+	url: "/adm/relatoriodia/todosPedidos",
 	type: 'PUT'
 })
 .done(function(e){

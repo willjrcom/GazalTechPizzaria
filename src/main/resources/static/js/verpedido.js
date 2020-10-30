@@ -342,7 +342,7 @@ setInterval(function (){
 //-------------------------------------------------
 function imprimirTudo(cliente) {
 	$.ajax({
-		url: '/empresa/editar',
+		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
@@ -377,7 +377,7 @@ function imprimirTudo(cliente) {
 //------------------------------------------------------------------------------------
 function imprimirPizzas(cliente) {
 	$.ajax({
-		url: '/empresa/editar',
+		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
