@@ -21,6 +21,11 @@ $.ajax({
 		$("#cnpj").val(empresa.cnpj);
 		$("#mesa").val(empresa.mesa);
 		
+		//impressao
+		$("#texto1").val(empresa.texto1);
+		$("#texto2").val(empresa.texto2);
+		$("#promocao").val(empresa.promocao);
+		
 		//endereco
 		$("#cep").val(empresa.endereco.cep);
 		$("#rua").val(empresa.endereco.rua);
@@ -44,6 +49,17 @@ function setEmpresa() {
 	empresa.cnpj = $("#cnpj").val();
 	empresa.mesa = $("#mesa").val();
 	
+	//impressao
+	empresa.texto1 = $("#texto1").val();
+	empresa.texto2 = $("#texto2").val();
+	empresa.promocao = $("#promocao").val();
+	if($("#imprimir:checked").val() == 'on') {
+		empresa.imprimir = true;
+	}else {
+		empresa.imprimir = false;
+	}
+	
+	//endereco
 	empresa.endereco = {};
 	empresa.endereco.cep = $("#cep").val();
 	empresa.endereco.rua = $("#rua").val();

@@ -24,6 +24,13 @@ public class Empresa {
 	private String authentication;
 	private double horaExtra;
 	private int mesa;
+	private String funcionamento;
+	
+	//impressao
+	private String promocao;
+	private String texto1;
+	private String texto2;
+	private boolean imprimir;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
@@ -106,6 +113,46 @@ public class Empresa {
 
 	public void setMesa(int mesa) {
 		this.mesa = mesa;
+	}
+
+	public String getPromocao() {
+		return promocao;
+	}
+
+	public void setPromocao(String promocao) {
+		this.promocao = promocao;
+	}
+
+	public String getTexto1() {
+		return texto1;
+	}
+
+	public void setTexto1(String texto1) {
+		this.texto1 = texto1;
+	}
+
+	public String getTexto2() {
+		return texto2;
+	}
+
+	public void setTexto2(String texto2) {
+		this.texto2 = texto2;
+	}
+
+	public boolean isImprimir() {
+		return imprimir;
+	}
+
+	public void setImprimir(boolean imprimir) {
+		this.imprimir = imprimir;
+	}
+
+	public String getFuncionamento() {
+		return funcionamento;
+	}
+
+	public void setFuncionamento(String funcionamento) {
+		this.funcionamento = funcionamento;
 	}
 	
 	

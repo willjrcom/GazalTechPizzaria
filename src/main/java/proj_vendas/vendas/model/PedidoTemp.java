@@ -30,6 +30,7 @@ public class PedidoTemp implements Serializable{
 	private String produtos;
 	
 	private String status;
+	private String envio;
 	private String data;
 	
 	public Long getId() {
@@ -76,5 +77,11 @@ public class PedidoTemp implements Serializable{
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	public String getEnvio() {
+		return envio;
+	}
+	public void setEnvio(String envio) {
+		this.envio = envio;
 	}
 }

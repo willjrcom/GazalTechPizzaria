@@ -11,7 +11,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<div class="divbaseForm">
 			
 		<hr>
-		<h1 class="h1Logo">Cadastrar Empresa</h1><br/>
+		<h1 class="h1Logo">Dados da Empresa</h1><br/>
 			
 			<input type="hidden" id="id" name="id"/>
 			
@@ -55,6 +55,38 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<input type="number" class="form-control pula" id="mesa" name="mesa" placeholder="Total de mesas"/>
 			</div>
 			
+			<label>Dia e hora de funcionamento:</label><br>
+			<div class="row">
+				<div class="text-center"><label>Aberto de:</label></div>
+				<div class="col-md-2 text-center">
+					<select id="dia1" class="form-control">
+						<option value="Segunda">Segunda</option>
+						<option value="Terca">Terça</option>
+						<option value="Quarta">Quarta</option>
+						<option value="Quinta">Quinta</option>
+						<option value="Sexta">Sexta</option>
+						<option value="Sabado">Sabado</option>
+						<option value="Domingo">Domingo</option>
+					</select>
+				</div>
+				<div class="col-md-1 text-center"><label>à</label></div>
+				<div class="col-md-2 text-center">
+					<select id="dia2" class="form-control">
+						<option value="Segunda">Segunda</option>
+						<option value="Terca">Terça</option>
+						<option value="Quarta">Quarta</option>
+						<option value="Quinta">Quinta</option>
+						<option value="Sexta">Sexta</option>
+						<option value="Sabado">Sabado</option>
+						<option value="Domingo">Domingo</option>
+					</select>
+				</div>
+				<div class="col-md-1 text-center"><label>Das:</label></div>
+				<div class="col-md-2 text-center"><input type="time" class="form-control pula" id="hora1" name="hora1" placeholder="hora inicio"/></div>
+				<div class="col-md-1 text-center"><label>à</label></div>
+				<div class="col-md-2 text-center"><input type="time" class="form-control pula" id="hora2" name="hora2" placeholder="hora final"/></div>
+			</div>
+			
 			<h3><br>Endereço:</h3>
 			
 			<div class="col-md-2">
@@ -94,6 +126,28 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="form-group">
 				<label>Referência da Empresa:</label>
 				<textarea class="form-control pula" id="referencia" name="referencia" placeholder="Referência da Empresa"></textarea>  
+			</div>
+			
+			<h3><br>Impressão do Pedido:</h3>
+			
+			<div class="form-group">
+				<input type="checkbox" class="form-group" id="imprimir" checked/>
+				<label>Deseja imprimir os pedidos? (Se sim, digite os texto a serem aplicados na impressão).</label>
+			</div>
+		
+			<div class="form-group">
+				<label>Texto 1:</label>
+				<textarea class="form-control pula" id="texto1" name="texto1" placeholder="Texto 1"></textarea>  
+			</div>
+			
+			<div class="form-group">
+				<label>Texto 2:</label>
+				<textarea class="form-control pula" id="texto2" name="texto2" placeholder="Texto 2"></textarea>  
+			</div>
+			
+			<div class="form-group">
+				<label>Texto da Promoção:</label>
+				<textarea class="form-control pula" id="promocao" name="promocao" placeholder="Promoção"></textarea>  
 			</div>
 			
 			<br>

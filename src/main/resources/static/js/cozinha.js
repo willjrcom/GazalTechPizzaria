@@ -166,6 +166,7 @@ function enviarPedido() {
 			var idBusca = i;
 		}
 	}
+	imprimir(pedidos[idBusca]);
 	
 	$.confirm({
 		icon: 'fa fa-spinner fa-spin',
@@ -218,3 +219,73 @@ buscarPedido();
 setInterval(function (){
 	buscarPedido();
 },5000);
+
+
+//----------------------------------------------------------------------------
+function imprimir(cliente) {
+	$.ajax({
+		url: '/novoPedido/empresa',
+		type: 'PUT'
+	}).done(function(e){
+		if(e.length != 0) {
+			console.log(cliente);
+			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
+						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
+						+ '<h3>Comanda: ' + cliente.comanda + ' ----- Cliente: ' + cliente.nome + '</h3>';
+			
+			var data = new Date();
+			console.log(data);
+			hora = data.getHours();
+			hora = (hora.length == 1) ? '0'+hora : hora;
+			minuto = data.getMinutes();
+			minuto = (minuto.length == 0) ? '00' : minuto;
+			minuto = (minuto.length == 1) ? '0'+minuto : minuto;
+			segundo = data.getSeconds();
+			segundo = (segundo.length == 0) ? '00' : segundo;
+			segundo = (segundo.length == 1) ? '0'+segundo : segundo;
+	        dia  = data.getDate().toString();
+	        dia = (dia.length == 1) ? '0'+dia : dia;
+	        mes  = (data.getMonth()+1).toString();
+	        mes = (mes.length == 1) ? '0'+mes : mes;
+	        ano = data.getFullYear();
+			
+			mostrarTabela(cliente.pizzas);//construir html
+			imprimirTxt += '<hr>' + linhaHtml + '<hr>'
+					+ 'Hora: ' + hora + ':' + minuto + ':' + segundo
+					+ '<br>Data: ' + dia + '/' + mes + '/' + ano
+				
+			tela_impressao = window.open('about:blank');
+			tela_impressao.document.write(imprimirTxt);
+			tela_impressao.window.print();
+			tela_impressao.window.close();
+		}
+	});
+}
+
+
+//-----------------------------------------------------------------------
+function mostrarTabela(pizzas) {
+	
+	linhaHtml = '';
+	if(pizzas.length != 0) {
+		linhaHtml += '<table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>V. Uni ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>V. Total ---- </h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pizzas.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td align="center">' + pizzas[i].borda + '</td>'
+						 +	'<td align="center">' + pizzas[i].sabor + '</td>'
+						 +	'<td align="center">' + parseFloat(pizzas[i].qtd).toFixed(2) + '</td>'
+						 +  '<td align="center">R$ ' + parseFloat(pizzas[i].preco).toFixed(2) + '</td>'
+						 +  '<td align="center">R$ ' + (parseFloat(pizzas[i].preco) * pizzas[i].qtd).toFixed(2) + '</td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
+	}
+}

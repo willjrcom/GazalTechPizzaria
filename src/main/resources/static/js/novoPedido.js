@@ -77,7 +77,6 @@ if(typeof url_atual == "undefined") {
 		$(".mostrarPedidos").show();
 		$("#mostrar").show(); 
 		$("#cancelar").html('<span class="oi oi-ban"></span> Cancelar alteração');
-
 		cliente = e
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
@@ -127,11 +126,11 @@ if(typeof url_atual == "undefined") {
 //------------------------------------------------------------------------------------------------------------------------
 $('#buscarCliente').on('click', function(){
 
-	if($.trim($("#numeroCliente").val()) % 2 == 1 || $.trim($("#numeroCliente").val()) % 2 == 0){
+	if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
 		var numero = $("#numeroCliente").val();
-		
+
 		$.ajax({
-			url: "/novoPedido/numeroCliente/" + numero.toString(),
+			url: "/novoPedido/numeroCliente/" + numero,
 			type: 'PUT'
 		}).done(function(e){
 
@@ -890,6 +889,7 @@ $("#atualizarPedido").click(function() {
 							temp.pizzas = cliente.pizzas;
 							temp.produtos = cliente.produtos;
 							temp.status = "COZINHA";
+							temp.envio = cliente.envio;
 							temp.data = cliente.data;
 							
 							//salvar pedido no temp

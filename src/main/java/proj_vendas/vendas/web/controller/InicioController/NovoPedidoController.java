@@ -52,7 +52,7 @@ public class NovoPedidoController {
 	@Autowired
 	private PedidoTemps temps;
 	
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
 	}
