@@ -6,7 +6,6 @@ $.ajax({
 	type: 'PUT',
 }).done(function(e){
 	
-	console.log(e);
 	if(e.length != 0) {
 
 		empresa = e;
@@ -22,6 +21,11 @@ $.ajax({
 		$("#mesa").val(empresa.mesa);
 		
 		//impressao
+		if(empresa.imprimir == 1) {
+			$("#imprimir").prop("checked", true);
+		}else {
+			$("#imprimir").prop("checked", false);
+		}
 		$("#texto1").val(empresa.texto1);
 		$("#texto2").val(empresa.texto2);
 		$("#promocao").val(empresa.promocao);

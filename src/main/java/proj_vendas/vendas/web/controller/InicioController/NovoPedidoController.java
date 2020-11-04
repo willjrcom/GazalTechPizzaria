@@ -72,11 +72,17 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/nomeProduto/{nome}", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
-		List<Produto> produto = produtos.findByCodigoBuscaAndDisponivelAndSetorNot(nome, true, "BORDA");
+		List<Produto> produto = produtos.findByCodigoBuscaAndDisponivelAndSetorNot(nome, true, "BORDA");//busca apenas 1 item
 		if(produto.size() >= 1) {
 			return produto;
+		}else {//buscar se esta indisponivel
+			List<Produto> produtoIndisponivel = produtos.findByCodigoBuscaAndDisponivelAndSetorNot(nome, false, "BORDA");//busca apenas 1 item
+			if(produtoIndisponivel.size() != 0) {
+				produtoIndisponivel.get(0).setId((long) -1);//codigo -1: nao disponivel
+				return produtoIndisponivel;
+			}
 		}
-		return produtos.findByNomeProdutoContainingAndDisponivelAndSetorNot(nome, true, "BORDA");
+		return produtos.findByNomeProdutoContainingAndDisponivelAndSetorNot(nome, true, "BORDA");//busca qualquer item relacionado
 	}
 	
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT)

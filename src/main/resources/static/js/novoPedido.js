@@ -215,11 +215,26 @@ function buscarProdutos() {
 			url: "/novoPedido/nomeProduto/" + produto,
 			type: 'PUT'
 		}).done(function(e){
-			
+			console.log(e);
 			$("#nomeProduto").val('');
 			buscaProdutos = [];
 			
-			if(e.length == 1) {
+			if(e[0].id == -1) {
+				$.confirm({
+					type: 'blue',
+					title: '<h4 align="center">Produto: ' + e[0].nomeProduto + '</h4>',
+					content: '<tr><td colspan="3"><label>Não disponível em estoque!</label></td></tr>',
+				    closeIcon: true,
+					buttons: {
+				        confirm: {
+							isHidden: true,
+				            text: 'Voltar',
+				            btnClass: 'btn-green',
+				            keys: ['enter','esc'],
+						}
+					}
+				});
+			}else if(e.length == 1) {
 				enviarProduto(e[0].id);
 			}else{
 				for(var i = 0; i < e.length; i++){
@@ -1081,7 +1096,7 @@ function imprimir() {
 		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
-		if(e.length != 0) {
+		if(e.length != 0 && e.imprimir == 1) {
 			
 			imprimirTxt = '<html><h2 align="center">' + e.nomeEmpresa + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio

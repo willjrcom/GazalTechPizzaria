@@ -245,9 +245,8 @@ function imprimir(cliente) {
 		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
-		if(e.length != 0) {
+		if(e.length != 0 && e.imprimir == 1) {
 			//dados da empresa
-			console.log(cliente);
 			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
 						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
 						
@@ -261,7 +260,7 @@ function imprimir(cliente) {
 			imprimirTxt += '<hr>' + linhaHtml + '<hr>'
 					+ 'Pronto às: ' + hora + ':' + minuto + ':' + segundo
 					+ '<br>Data: ' + dia + '/' + mes + '/' + ano;
-				
+			
 			tela_impressao = window.open('about:blank');
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
