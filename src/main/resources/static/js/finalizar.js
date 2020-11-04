@@ -181,7 +181,7 @@ function finalizarPedido() {
 						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 
-						if(pedidos[idBusca].pagamento != "Não") {
+						if(pedidos[idBusca].pagamento == "Não") {
 							var troco = this.$content.find('#troco').val();
 
 							troco = troco.toString().replace(",",".");
