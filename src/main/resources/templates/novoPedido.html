@@ -83,7 +83,7 @@
 			
 					<div class="form-group col-md-4">
 						<input type="button" name="buscarProduto" id="buscarProduto" onclick="buscarProdutos()" value="Buscar" 
-						class="form-control btn btn-primary"/>
+						class="form-control btn btn-primary pula"/>
 					</div>
 				</div>
 			</div>
@@ -154,8 +154,8 @@
 				<h3 id="Ttotal">Total</h3><br>
 				
 				<div class="btn-group" role="group" aria-label="Basic example">
-					<a th:href="@{/novoPedido}"><button type="button" id="cancelar" class="btn btn-secondary btn-danger">
-					<span class="oi oi-ban"></span> Cancelar pedido</button></a>
+					<button type="button" id="cancelar" onclick="recarregar()" class="btn btn-secondary btn-danger">
+					<span class="oi oi-ban"></span> Cancelar pedido</button>
 				</div>
 		
 				<div class="btn-group fRight" role="group" aria-label="Second group">

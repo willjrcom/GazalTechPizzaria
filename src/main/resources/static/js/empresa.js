@@ -48,6 +48,7 @@ function setEmpresa() {
 	empresa.authentication = $("#authentication").val();
 	empresa.cnpj = $("#cnpj").val();
 	empresa.mesa = $("#mesa").val();
+	empresa.funcionamento = $("#dia1").val() + $("#dia2").val()
 	
 	//impressao
 	empresa.texto1 = $("#texto1").val();

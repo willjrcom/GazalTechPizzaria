@@ -126,7 +126,25 @@ if(typeof url_atual == "undefined") {
 //------------------------------------------------------------------------------------------------------------------------
 $('#buscarCliente').on('click', function(){
 
-	if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
+	if($("#numeroCliente").val() == ''){
+		//voltar campo para digitar numero
+		indice = $(".pula").index(this);
+		campo[indice - 1].focus();
+		
+		$.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: 'O campo está vazio, digite um telefone ou um nome!',
+			buttons:{
+				confirm:{
+					text: 'Ok',
+					btnClass: "btn-success",
+					keys: ['esc', 'enter']
+				}
+			}
+		});
+		
+	}else if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
 		var numero = $("#numeroCliente").val();
 
 		$.ajax({
@@ -159,11 +177,12 @@ $('#buscarCliente').on('click', function(){
 								+'<option value="MESA">Mesa</option>'
 								+'<option value="DRIVE">Drive-Thru</option>'
 							+'</select>');
+				campo[2].focus();//focar no campo de buscar pedido
 			}else {
 				window.location.href = "/cadastroCliente/" + numero;
 			}
 		});
-		
+	
 	}else if(typeof $("#numeroCliente").val() == 'string'){
 		$("#nomeBalcao").html('<h2>Cliente: ' + $("#numeroCliente").val() + '</h2>');
 		cliente.nomePedido = $("#numeroCliente").val();
@@ -179,6 +198,7 @@ $('#buscarCliente').on('click', function(){
 						+'<option value="DRIVE">Drive-Thru</option>'
 					+'</select>');
 		cliente.envio = "BALCAO";
+		campo[2].focus();//focar no campo de buscar pedido
 	}
 });
 
@@ -283,6 +303,7 @@ function enviarProduto(idUnico) {
 		var idProduto = botaoReceber.attr('value');
 	}else {
 		var idProduto = idUnico;
+		
 	}
 	$.ajax({
 		url: '/novoPedido/addProduto/' + idProduto,
@@ -324,11 +345,10 @@ function enviarProduto(idUnico) {
 					buttons: {
 						confirm: {
 							text: 'adicionar',
-							btnClass: 'btn-success',
+							btnClass: 'btn-success pula',
 							keys: ['enter'],
 							action: function(){
 					
-								console.log(Qtd);
 								Obs = $("#obs").val();
 								
 								//multiplica o preco da pizza
@@ -1029,4 +1049,10 @@ function imprimir() {
 			tela_impressao.window.close();
 		}
 	});
+}
+
+
+//-------------------------------------------------------
+function recarregar() {
+	window.location.href= "/novoPedido";
 }

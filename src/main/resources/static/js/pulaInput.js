@@ -6,11 +6,15 @@
         if(tecla == 13){
             campo = $('.pula');
             indice = campo.index(this);
- 
+            
             if(campo[indice+1] != null){
-                proximo = campo[indice + 1];
+            	if(indice == 3) {
+            		proximo = campo[indice - 1];
+            	}else {
+                    proximo = campo[indice + 1];
+            	}
                 proximo.focus();
-                e.preventDefault(e);
+                console.log("indice: " + indice);
             }
         }
     });
