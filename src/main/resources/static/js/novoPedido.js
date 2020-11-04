@@ -645,7 +645,7 @@ $("#enviarPedido").click(function() {
 							cliente.produtos = JSON.stringify(produtos);
 							cliente.pizzas = JSON.stringify(pizzas);
 							cliente.horaPedido = new Date;
-							cliente.pagamento = $("#pagamentoCliente").val();
+							cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
 								cliente.total += parseFloat(cliente.taxa);
