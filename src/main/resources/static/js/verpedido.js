@@ -341,31 +341,73 @@ setInterval(function (){
 
 //-------------------------------------------------
 function imprimirTudo(cliente) {
+	//salvar hora atual
+	var data = new Date();
+	console.log(data);
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+    dia  = data.getDate().toString();
+    dia = (dia.length == 1) ? '0'+dia : dia;
+    mes  = (data.getMonth()+1).toString();
+    mes = (mes.length == 1) ? '0'+mes : mes;
+    ano = data.getFullYear();
+    
+    
+    //buscar dados da empresa
 	$.ajax({
 		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
-			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
-					+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
-					+ '<h3>Cliente: ' + cliente.nomePedido + '</h3>';
+			
+			imprimirTxt = '<html><h2 align="center">' + e.nomeEmpresa + '</h2>'//nome da empresa
+						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
+						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
+						
+						//numero da comanda e nome
+						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
+						+ '<label>Cliente: ' + cliente.nomePedido + '</label><br>';
+			
+			//mostrar endereco do cliente
 			if(cliente.envio == 'ENTREGA') {
-				imprimirTxt += '<p>Celular: ' + cliente.celular
-							+ '<br>Endereço: ' + cliente.endereco
-							+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
+				imprimirTxt += '<p>Celular: ' + cliente.celular + '<br>'
+							+ 'Endereço: ' + cliente.endereco + '</p><br>';
 			}
 			
+	        //gerar tabela de produtos e pizzas
+			mostrarImpressao(cliente.pizzas, cliente.produtos);
+
+			//salvar hora
+			imprimirTxt += '<hr>' + linhaHtml + '<hr><br>';
+			
+			//pagamento em entrega
+			if(cliente.envio == 'ENTREGA') {//total com taxa
+				imprimirTxt += '<label>Taxa de entrega: ' + parseFloat(cliente.taxa).toFixed(2) + '</label><br>'
+				 			+ '<label>Total com taxa: R$ ' + parseFloat(cliente.total).toFixed(2) + '</label><br>';
+				
+			}else {//total sem taxa
+				imprimirTxt += '<label>Total: R$ ' + parseFloat(cliente.total).toFixed(2) + '</label><br>'
+			}
+						
+			//texto2 e promocao
+			imprimirTxt += '<p>' + e.texto2 + '</p><hr><br>' 
+						+ '<label>Promoção</label><br>' + '<p>' + e.promocao + '</p>';
+						
+				
+			//salvar hora
 			cliente.horaPedido = cliente.horaPedido.split('T')[0]
 			imprimirTxt += 'Data do pedido: ' + cliente.horaPedido.split('-')[2] + '/'
 											  + cliente.horaPedido.split('-')[1] + '/'
-											  + cliente.horaPedido.split('-')[0] + '<hr>';
+											  + cliente.horaPedido.split('-')[0];
 			
-			mostrar(cliente);
-			
-			imprimirTxt += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br>' 
-					+ '<br><b>Total do Pedido:</b> R$' + cliente.total.toFixed(2);
-			
-			tela_impressao = window.open('about:blank');
+			tela_impressao = window.open('about:pedido');
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();
@@ -383,7 +425,10 @@ function imprimirPizzas(cliente) {
 		if(e.length != 0) {
 			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
 						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
-						+ '<h3>Cliente: ' + cliente.nomePedido + '</h3><hr>'
+						
+						//numero da comanda e nome
+						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
+						+ '<label>Cliente: ' + cliente.nomePedido + '</label><br>';
 			
 			mostrar(cliente);
 			
@@ -440,5 +485,52 @@ function mostrar(cliente) {
 					 +  '</tr>';
 		}
 		imprimirTxt += '</table>';
+	}
+}
+
+//-------------------------------------------------------------------------
+function mostrarImpressao(pizzas, produtos) {
+	
+	linhaHtml = '';
+	if(pizzas.length != 0) {
+		linhaHtml += '<table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pizzas.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td align="center">' + pizzas[i].borda + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].sabor + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].obs + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + ' ---- </td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
+	}
+
+	if(produtos.length != 0) {
+		linhaHtml += '<hr><table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<produtos.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td align="center">' + produtos[i].sabor + ' ---- </td>'
+						 +	'<td align="center">' + produtos[i].obs + ' ---- </td>'
+						 +	'<td align="center">' + produtos[i].qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + ' ---- </td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
 	}
 }

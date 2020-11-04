@@ -14,7 +14,7 @@
                     proximo = campo[indice + 1];
             	}
                 proximo.focus();
-                console.log("indice: " + indice);
+                //console.log("indice: " + indice);
             }
         }
     });

@@ -12,7 +12,7 @@ var produtos = [];
 var buscaProdutos = [];
 var op;
 var string = '';
-
+var totalUnico; // valor fixo mesmo depois do sistema atualizar o pedido antigo com o novo
 //var pedido
 //------------------------------------------------------------------------------------------------------------------------
 var Sabor;
@@ -128,6 +128,7 @@ $('#buscarCliente').on('click', function(){
 
 	if($("#numeroCliente").val() == ''){
 		//voltar campo para digitar numero
+		var campo = $(".pula");
 		indice = $(".pula").index(this);
 		campo[indice - 1].focus();
 		
@@ -177,7 +178,8 @@ $('#buscarCliente').on('click', function(){
 								+'<option value="MESA">Mesa</option>'
 								+'<option value="DRIVE">Drive-Thru</option>'
 							+'</select>');
-				campo[2].focus();//focar no campo de buscar pedido
+				
+				$(".pula")[2].focus();//focar no campo de buscar pedido
 			}else {
 				window.location.href = "/cadastroCliente/" + numero;
 			}
@@ -675,6 +677,7 @@ $("#enviarPedido").click(function() {
 							}).done(function(e){
 
 								if(e.id != null) {
+									cliente.totalUnico = cliente.total; //valor antigo nao se altera
 									cliente.id = e.id;
 									cliente.total += e.total;
 									cliente.comanda = e.comanda;
@@ -1004,46 +1007,125 @@ function mostrarTabela(pizzas, produtos) {
 }
 
 
+//-------------------------------------------------------------------------
+function mostrarImpressao(pizzas, produtos) {
+	
+	linhaHtml = '';
+	if(pizzas.length != 0) {
+		linhaHtml += '<table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<pizzas.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td align="center">' + pizzas[i].borda + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].sabor + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].obs + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + ' ---- </td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
+	}
+
+	if(produtos.length != 0) {
+		linhaHtml += '<hr><table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+					+ '</tr>';
+		
+		for(var i=0; i<produtos.length; i++){
+			linhaHtml += '<tr>'
+						 +	'<td align="center">' + produtos[i].sabor + ' ---- </td>'
+						 +	'<td align="center">' + produtos[i].obs + ' ---- </td>'
+						 +	'<td align="center">' + produtos[i].qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + ' ---- </td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
+	}
+}
+
 //----------------------------------------------------------------------------
 function imprimir() {
+	
+	//salvar hora atual
+	var data = new Date();
+	console.log(data);
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+    dia  = data.getDate().toString();
+    dia = (dia.length == 1) ? '0'+dia : dia;
+    mes  = (data.getMonth()+1).toString();
+    mes = (mes.length == 1) ? '0'+mes : mes;
+    ano = data.getFullYear();
+    
+    
+    //buscar dados da empresa
 	$.ajax({
 		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
-			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
-						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
-						+ '<h3>Cliente: ' + cliente.nomePedido + '</h3>';
+			
+			imprimirTxt = '<html><h2 align="center">' + e.nomeEmpresa + '</h2>'//nome da empresa
+						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
+						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
+						
+						//numero da comanda e nome
+						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
+						+ '<label>Cliente: ' + cliente.nomePedido + '</label><br>';
+			
+			//mostrar endereco do cliente
 			if(cliente.envio == 'ENTREGA') {
-				imprimirTxt += '<p>Celular: ' + cliente.celular
-							+ '<br>Endereço: ' + cliente.endereco
-							+ '<br>Taxa de entrega: ' + cliente.taxa + '</p>';
+				imprimirTxt += '<p>Celular: ' + cliente.celular + '<br>'
+							+ 'Endereço: ' + cliente.endereco + '</p><br>';
 			}
 			
-			var data = new Date();
-			console.log(data);
-			hora = data.getHours();
-			hora = (hora.length == 1) ? '0'+hora : hora;
-			minuto = data.getMinutes();
-			minuto = (minuto.length == 0) ? '00' : minuto;
-			minuto = (minuto.length == 1) ? '0'+minuto : minuto;
-			segundo = data.getSeconds();
-			segundo = (segundo.length == 0) ? '00' : segundo;
-			segundo = (segundo.length == 1) ? '0'+segundo : segundo;
-	        dia  = data.getDate().toString();
-	        dia = (dia.length == 1) ? '0'+dia : dia;
-	        mes  = (data.getMonth()+1).toString();
-	        mes = (mes.length == 1) ? '0'+mes : mes;
-	        ano = data.getFullYear();
+	        //gerar tabela de produtos e pizzas
+			mostrarImpressao(pizzas, produtos);
+
+			//salvar hora
+			imprimirTxt += '<hr>' + linhaHtml + '<hr><br>';
 			
-			mostrarTabela(pizzas, produtos);//construir html
-			imprimirTxt += 'Hora: ' + hora + ':' + minuto + ':' + segundo
-						+ '<br>Data: ' + dia + '/' + mes + '/' + ano
-						+ '<hr>' + linhaHtml + '<hr>'
-						+ '<label>Total: R$ ' + cliente.total.toFixed(2) + '</label>'
-						+ '<label><br>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label>'; 
+			//pagamento em entrega
+			if(cliente.envio == 'ENTREGA') {//total com taxa
+				imprimirTxt += '<label>Taxa de entrega: ' + parseFloat(cliente.taxa).toFixed(2) + '</label><br>'
+				 			+ '<label>Total com taxa: R$ ' + parseFloat(cliente.totalUnico).toFixed(2) + '</label><br>';
 				
-			tela_impressao = window.open('about:blank');
+			}else {//total sem taxa
+				imprimirTxt += '<label>Total: R$ ' + parseFloat(cliente.totalUnico).toFixed(2) + '</label><br>'
+			}
+
+			//total a levar de troco
+			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - parseFloat(cliente.totalUnico)).toFixed(2) + '</label><br>'
+						
+			//texto2 e promocao
+			imprimirTxt += '<p>' + e.texto2 + '</p><hr><br>' 
+						+ '<label>Promoção</label><br>' + '<p>' + e.promocao + '</p>';
+						
+				
+			//salvar hora
+			imprimirTxt += '<p>Hora: ' + hora + ':' + minuto + ':' + segundo + '<br>'
+						+ 'Data: ' + dia + '/' + mes + '/' + ano + '</p>'
+						+ '</html>'; 
+			
+			tela_impressao = window.open('about:pedido');
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();
