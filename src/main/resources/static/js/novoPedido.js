@@ -628,6 +628,7 @@ $("#enviarPedido").click(function() {
 		            action: function(){
 						
 						var troco = this.$content.find('#troco').val();
+						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						troco = troco.toString().replace(",",".");
 						troco = parseFloat(troco);
@@ -645,7 +646,6 @@ $("#enviarPedido").click(function() {
 							cliente.produtos = JSON.stringify(produtos);
 							cliente.pizzas = JSON.stringify(pizzas);
 							cliente.horaPedido = new Date;
-							cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
 								cliente.total += parseFloat(cliente.taxa);
@@ -870,6 +870,7 @@ $("#atualizarPedido").click(function() {
 		            action: function(){
 			
 						var troco = this.$content.find('#troco').val();
+						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 						
 						troco = troco.toString().replace(",",".");
 						
@@ -880,7 +881,6 @@ $("#atualizarPedido").click(function() {
 						cliente.total = parseFloat(tPedido);
 						cliente.produtos = JSON.stringify(produtos);
 						cliente.pizzas = JSON.stringify(pizzas);
-						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
 							troco = cliente.total;
