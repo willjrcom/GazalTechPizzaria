@@ -870,7 +870,7 @@ $("#atualizarPedido").click(function() {
 		            action: function(){
 			
 						var troco = this.$content.find('#troco').val();
-
+						
 						troco = troco.toString().replace(",",".");
 						
 						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
@@ -880,7 +880,7 @@ $("#atualizarPedido").click(function() {
 						cliente.total = parseFloat(tPedido);
 						cliente.produtos = JSON.stringify(produtos);
 						cliente.pizzas = JSON.stringify(pizzas);
-						cliente.pagamento = $("#pagamentoCliente").val();
+						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
 							troco = cliente.total;
