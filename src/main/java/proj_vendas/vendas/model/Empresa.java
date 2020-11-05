@@ -21,7 +21,6 @@ public class Empresa {
 	private String cnpj;
 	private String email;
 	private String celular;
-	private String authentication;
 	private double horaExtra;
 	private int mesa;
 	private String funcionamento;
@@ -97,14 +96,6 @@ public class Empresa {
 
 	public void setHoraExtra(double horaExtra) {
 		this.horaExtra = horaExtra;
-	}
-
-	public String getAuthentication() {
-		return authentication;
-	}
-
-	public void setAuthentication(String authentication) {
-		this.authentication = authentication;
 	}
 
 	public int getMesa() {

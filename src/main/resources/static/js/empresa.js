@@ -16,7 +16,6 @@ $.ajax({
 		$("#email").val(empresa.email);
 		$("#horaExtra").val(empresa.horaExtra);
 		$("#cel").val(empresa.celular);
-		$("#authentication").val(empresa.authentication);
 		$("#cnpj").val(empresa.cnpj);
 		$("#mesa").val(empresa.mesa);
 		
@@ -49,7 +48,6 @@ function setEmpresa() {
 	empresa.email = $("#email").val();
 	empresa.horaExtra = $("#horaExtra").val();
 	empresa.celular = $("#cel").cleanVal();
-	empresa.authentication = $("#authentication").val();
 	empresa.cnpj = $("#cnpj").val();
 	empresa.mesa = $("#mesa").val();
 	empresa.funcionamento = $("#dia1").val() + $("#dia2").val()
@@ -81,7 +79,6 @@ $("#atualizar").click(function() {
 	&& $("#empresa").val() != ''
 	&& $("#email").val() != ''
 	&& $("#cnpj").val() != ''
-	&& $("#authentication").val() != ''
 	&& $("#mesa").val() != ''
 	&& $("#cel").val() != ''
 	&& $("#horaExtra").val() != ''
