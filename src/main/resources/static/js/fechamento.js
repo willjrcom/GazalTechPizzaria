@@ -13,6 +13,9 @@ var tEntrega = 0, tBalcao = 0, tMesa = 0, tDrive = 0;
 var pagHtml;
 var dinheiro = 0, cartao = 0;
 
+//impressao
+var linhaPizzas = '', linhaProdutos = '';
+var cont1 = 0, cont2 = 0;
 
 //-------------------------------------------------------------------------------
 $.ajax({
@@ -118,17 +121,84 @@ $.ajax({
 
 //--------------------------------------------------------------------------------
 $("#download_all").click(function(){
+	//salvar hora atual
+	var data = new Date();
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+    dia  = data.getDate().toString();
+    dia = (dia.length == 1) ? '0'+dia : dia;
+    mes  = (data.getMonth()+1).toString();
+    mes = (mes.length == 1) ? '0'+mes : mes;
+    ano = data.getFullYear();
+		    
 	$.ajax({
 		url: '/adm/fechamento/baixartudo',
 		type: 'PUT',
-	}).done(function(data){
-          data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+	}).done(function(pedidos){
+          
+		var totalPedidos = pedidos.length, totalDinheiro = 0, totalPizzas = 0, totalProdutos = 0;
+		
+	    for(pedido of pedidos) {
+	    	pedido.pizzas = JSON.parse(pedido.pizzas);
+	    	pedido.produtos = JSON.parse(pedido.produtos);
+	    	totalDinheiro += pedido.total;
+
+	    	mostrarPizzas(pedido.pizzas); //construir html de pizzas para impressao
+	    	mostrarProdutos(pedido.produtos); //construir html de produtos para impressao
+	    	
+	    	for(pizza of pedido.pizzas) {
+	    		totalPizzas += pizza.qtd;
+	    	}
+	    	
+	    	for(produto of pedido.produtos) {
+	    		totalProdutos += produto.qtd;
+	    	}
+	    }
+	    //buscar dados da empresa
+		$.ajax({
+			url: '/novoPedido/empresa',
+			type: 'PUT'
+		}).done(function(e){
+			if(e.length != 0) {
+				
+				//dados da empresa
+				var imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome do estabelecimento
+							+ '<label>Empresa: ' + e.nomeEmpresa + '<br>'
+							+ 'CNPJ: ' + e.cnpj + '<br>'
+							+ 'Endereço: ' + e.endereco.rua + ', ' + e.endereco.n + ' - '
+							+ e.endereco.bairro + ' - ' + e.endereco.cidade + '<br>'
+							+ 'Email: ' + e.email + '<hr><br>';
+				
+				//calcular quantidades
+				imprimirTxt += '<p>Total de pedidos: ' + totalPedidos + '<br>'
+							+ 'Total de vendas: R$ ' + totalDinheiro.toFixed(2) + '<br>'
+							+ 'Total de pizzas: ' + totalPizzas + '<br>'
+							+ 'Total de produtos: ' + totalProdutos + '<hr><br>';
+				
+				imprimirTxt += linhaPizzas + '</table>'
+						+ '<hr><br>' 
+						+ linhaProdutos + '</table>';
+				tela_impressao = window.open('about:blank');
+				tela_impressao.document.write(imprimirTxt);
+				tela_impressao.window.print();
+				tela_impressao.window.close();
+			}
+		});
+		
+		/*data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
           var a = document.createElement("a");
           document.body.appendChild(a);
           a.style = "display: none";
           a.href = 'data:' + data ;
           a.download = "data.json";
-          a.click();
+          a.click();*/
 	}).fail(function(){
 		$.alert("Pedidos não encontrados!");
 	});
@@ -296,3 +366,52 @@ function drawChart() {
 
 
 //----------------------------------------------------------------------------------------
+function mostrarPizzas(pizzas) {
+	if(pizzas.length != 0 && cont1 == 0) {
+		linhaPizzas = '<table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+					+ '</tr>';
+		cont1++; //evita mostrar o head 2 vezes
+	}
+	if(pizzas.length != 0) {
+		for(var i=0; i<pizzas.length; i++){
+			linhaPizzas += '<tr>'
+						 +	'<td align="center">' + pizzas[i].borda + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].sabor + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].obs + ' ---- </td>'
+						 +	'<td align="center">' + pizzas[i].qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + ' ---- </td>'
+					 +  '</tr>';
+		}
+	}
+}
+
+
+//---------------------------------------------------------------------------------------
+function mostrarProdutos(produtos) {
+	if(produtos.length != 0 && cont2 == 0) {
+		linhaProdutos += '<hr><table style="width: 100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+					+ '</tr>';
+		cont2++; //evita mostrar o head 2 vezes
+	}
+	if(produtos.length != 0) {
+		for(var i=0; i<produtos.length; i++){
+			linhaProdutos += '<tr>'
+						 +	'<td align="center">' + produtos[i].sabor + ' ---- </td>'
+						 +	'<td align="center">' + produtos[i].obs + ' ---- </td>'
+						 +	'<td align="center">' + produtos[i].qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + ' ---- </td>'
+					 +  '</tr>';
+		}
+	}
+}

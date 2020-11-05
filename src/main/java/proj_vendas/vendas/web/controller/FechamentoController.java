@@ -60,7 +60,8 @@ public class FechamentoController {
 	@RequestMapping(value = "/fechamento/baixartudo", method = RequestMethod.PUT)
 	@ResponseBody
 	public List<Pedido> baixarTudo() {
-		return pedidos.findAll();
+		String dia = dias.buscarId1().getDia();
+		return pedidos.findByStatusAndData("FINALIZADO", dia);
 	}
 	
 	@RequestMapping(value = "/fechamento/buscarIdData/{data}", method = RequestMethod.PUT)
