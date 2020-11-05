@@ -366,7 +366,7 @@ function mostrarProdutos() {
 							mesa.pagamento = 'Não';
 							mesa.pizzas = JSON.stringify(pizzas);
 							mesa.produtos = JSON.stringify(produtos);
-							mesa.status = 'COZINHA';
+							mesa.status = 'PRONTO';
 							mesa.total = tPedido;
 							
 							//----------------------------------------------------------------------
@@ -376,6 +376,7 @@ function mostrarProdutos() {
 							temp.produtos = mesa.produtos;
 							temp.status = "COZINHA";
 							temp.data = mesa.data;
+							temp.envio = "MESA";
 							
 							//salvar pedido
 							$.ajax({
@@ -424,44 +425,41 @@ function mostrarProdutos() {
 									contentType: "application/json",
 									data: JSON.stringify(mesa)
 								}).done(function(e){
-									if(parseFloat(e) == 200) {
-										//salvar pedido no temp
-										$.ajax({
-											url: '/novoPedido/salvarTemp',
-											type: 'PUT',
-											dataType : 'json',
-											contentType: "application/json",
-											data: JSON.stringify(temp)
-										});
-										
-										$.alert({
-											type: 'green',
-											title: 'Sucesso!',
-											content: 'Pedido enviado!',
-											buttons: {
-										        confirm: {
-										            text: 'Obrigado!',
-										            btnClass: 'btn-green',
-										            keys: ['enter','esc'],
-										            action: function(){
-														window.location.href = "/menuTablet/mesa/" + $("#Nmesa").text();
-													}
+									//salvar pedido no temp
+									$.ajax({
+										url: '/novoPedido/salvarTemp',
+										type: 'PUT',
+										dataType : 'json',
+										contentType: "application/json",
+										data: JSON.stringify(temp)
+									});
+									
+									$.alert({
+										type: 'green',
+										title: 'Sucesso!',
+										content: 'Pedido enviado!',
+										buttons: {
+									        confirm: {
+									            text: 'Obrigado!',
+									            btnClass: 'btn-green',
+									            keys: ['enter','esc'],
+									            action: function(){
+													window.location.href = "/menuTablet/mesa/" + $("#Nmesa").text();
 												}
 											}
-										});
-									}else if(parseFloat(e) == 404) {
-										$.alert({
-											type: 'red',
-											title: 'Atenção!',
-											content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
-											buttons: {
-										        confirm: {
-										            text: 'Obrigado!',
-										            btnClass: 'btn-danger'
-												}
+										}
+									});
+									$.alert({
+										type: 'red',
+										title: 'Atenção!',
+										content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
+										buttons: {
+									        confirm: {
+									            text: 'Obrigado!',
+									            btnClass: 'btn-danger'
 											}
-										});
-									}
+										}
+									});
 								}).fail(function(e){
 									$.alert("Erro, Pedido não enviado!");
 								});

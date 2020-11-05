@@ -200,7 +200,7 @@ $('#buscarCliente').on('click', function(){
 						+'<option value="DRIVE">Drive-Thru</option>'
 					+'</select>');
 		cliente.envio = "BALCAO";
-		campo[2].focus();//focar no campo de buscar pedido
+		$(".pula")[2].focus();//focar no campo de buscar pedido
 	}
 });
 
@@ -219,9 +219,24 @@ function buscarProdutos() {
 			$("#nomeProduto").val('');
 			buscaProdutos = [];
 			
-			if(e[0].id == -1) {
+			if(e.length == 0) {//se nao encontrar nenhum produto
 				$.confirm({
-					type: 'blue',
+					type: 'red',
+					title: 'OPS...',
+					content: '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>',
+				    closeIcon: true,
+					buttons: {
+				        confirm: {
+							isHidden: true,
+				            text: 'Voltar',
+				            btnClass: 'btn-green',
+				            keys: ['enter','esc'],
+						}
+					}
+				});
+			}else if(e[0].id == -1) {//se o produto estiver indisponivel
+				$.confirm({
+					type: 'red',
 					title: '<h4 align="center">Produto: ' + e[0].nomeProduto + '</h4>',
 					content: '<tr><td colspan="3"><label>Não disponível em estoque!</label></td></tr>',
 				    closeIcon: true,
@@ -234,9 +249,9 @@ function buscarProdutos() {
 						}
 					}
 				});
-			}else if(e.length == 1) {
+			}else if(e.length == 1) {//se existir apenas um resultado vai direto ao produto
 				enviarProduto(e[0].id);
-			}else{
+			}else{//senao vai para lista de produtos
 				for(var i = 0; i < e.length; i++){
 					buscaProdutos.push({
 						'id': e[i].id,
@@ -603,8 +618,18 @@ $("#enviarPedido").click(function() {
 	}else{
 		cliente.envio = $("#envioCliente").val();
 		
-		if(cliente.nomePedido.indexOf("Mesa") > -1) {//se existir a palavra mesa
+		if(cliente.nomePedido.indexOf("Mesa") > -1) {//se existir a palavra Mesa
 			cliente.envio = "MESA";
+			console.log("foiiii1");
+		}else if(cliente.nomePedido.indexOf("mesa") > -1){//se existir a palavra mesa
+			cliente.envio = "MESA";
+			console.log("foiiii2");
+		}else if((cliente.nomePedido[0] == 'M' && cliente.nomePedido[1] % 2 == 0) || (cliente.nomePedido[0] == 'M' && cliente.nomePedido[1] % 2 == 1)){
+			cliente.envio = "MESA";
+			console.log("foiiii3");
+		}else if((cliente.nomePedido[0] == 'm' && cliente.nomePedido[1] % 2 == 0) || (cliente.nomePedido[0] == 'M' && cliente.nomePedido[1] % 2 == 1)){
+			cliente.envio = "MESA";
+			console.log("foiiii4");
 		}else if(cliente.envio == '' || cliente.envio == null) {//se for nulo o campo
 			cliente.envio = $("#envioCliente").val();
 		}
@@ -637,6 +662,8 @@ $("#enviarPedido").click(function() {
 			type: 'green',
 		    title: 'Pedido: ' + cliente.nomePedido,
 		    content: linhaHtml,
+		    closeIcon: true,
+		    columnClass: 'col-md-8',
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
@@ -691,8 +718,8 @@ $("#enviarPedido").click(function() {
 								data: JSON.stringify(cliente)
 							}).done(function(e){
 
+								cliente.totalUnico = cliente.total; //valor antigo nao se altera
 								if(e.id != null) {
-									cliente.totalUnico = cliente.total; //valor antigo nao se altera
 									cliente.id = e.id;
 									cliente.total += e.total;
 									cliente.comanda = e.comanda;
@@ -732,49 +759,34 @@ $("#enviarPedido").click(function() {
 									
 								}).done(function(e){
 									
-									if(parseFloat(e) == 200) {
-										
-										//salvar pedido no temp
-										$.ajax({
-											url: '/novoPedido/salvarTemp',
-											type: 'PUT',
-											dataType : 'json',
-											contentType: "application/json",
-											data: JSON.stringify(temp)
-										});
-										
-										imprimir();
-										   
-										$.alert({
-											type: 'green',
-											title: 'Sucesso!',
-											content: 'Pedido enviado!',
-											buttons: {
-										        confirm: {
-										            text: 'Obrigado!',
-										            btnClass: 'btn-green',
-										            keys: ['enter','esc'],
-										            action: function(){
-														window.location.href = "/novoPedido";
-													}
+									cliente.comanda = e.comanda; //recebe numero do servidor
+									
+									//salvar pedido no temp
+									$.ajax({
+										url: '/novoPedido/salvarTemp',
+										type: 'PUT',
+										dataType : 'json',
+										contentType: "application/json",
+										data: JSON.stringify(temp)
+									});
+									
+									imprimir();
+									   
+									$.alert({
+										type: 'green',
+										title: 'Sucesso!',
+										content: 'Pedido enviado!',
+										buttons: {
+									        confirm: {
+									            text: 'Obrigado!',
+									            btnClass: 'btn-green',
+									            keys: ['enter','esc'],
+									            action: function(){
+													window.location.href = "/novoPedido";
 												}
 											}
-										});
-									}else if(parseFloat(e) == 404) {
-										$.alert({
-											type: 'red',
-											title: 'Atenção!',
-											content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
-											buttons: {
-										        confirm: {
-										            text: 'Obrigado!',
-										            btnClass: 'btn-danger'
-												}
-											}
-										});
-									}
-									
-									
+										}
+									});
 								}).fail(function(e){
 									$.alert("Pedido não enviado!");
 									if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
@@ -880,6 +892,8 @@ $("#atualizarPedido").click(function() {
 			type: 'green',
 		    title: 'Pedido: ' + cliente.nomePedido,
 		    content: linhaHtml,
+		    closeIcon: true,
+		    columnClass: 'col-md-8',
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
@@ -904,6 +918,7 @@ $("#atualizarPedido").click(function() {
 							troco = cliente.total;
 						}
 
+						cliente.totalUnico = cliente.total; //valor antigo nao se altera
 						cliente.troco = parseFloat(troco);
 						
 						//apagar pedido temporario relacionado
@@ -1098,6 +1113,7 @@ function imprimir() {
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
 			
+			
 			imprimirTxt = '<html><h2 align="center">' + e.nomeEmpresa + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
@@ -1120,15 +1136,15 @@ function imprimir() {
 			
 			//pagamento em entrega
 			if(cliente.envio == 'ENTREGA') {//total com taxa
-				imprimirTxt += '<label>Taxa de entrega: ' + parseFloat(cliente.taxa).toFixed(2) + '</label><br>'
-				 			+ '<label>Total com taxa: R$ ' + parseFloat(cliente.totalUnico).toFixed(2) + '</label><br>';
+				imprimirTxt += '<label>Taxa de entrega: R$ ' + parseFloat(cliente.taxa).toFixed(2) + '</label><br>'
+				 			+ '<label>Total com taxa: R$ ' + cliente.totalUnico.toFixed(2) + '</label><br>';
 				
 			}else {//total sem taxa
-				imprimirTxt += '<label>Total: R$ ' + parseFloat(cliente.totalUnico).toFixed(2) + '</label><br>'
+				imprimirTxt += '<label>Total: R$ ' + cliente.totalUnico.toFixed(2) + '</label><br>';
 			}
 
 			//total a levar de troco
-			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - parseFloat(cliente.totalUnico)).toFixed(2) + '</label><br>'
+			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.totalUnico).toFixed(2) + '</label><br>'
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>' + e.texto2 + '</p><hr><br>' 

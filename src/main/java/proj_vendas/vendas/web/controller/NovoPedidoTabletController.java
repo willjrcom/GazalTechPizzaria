@@ -14,12 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
-import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
-import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
 
@@ -29,9 +27,6 @@ public class NovoPedidoTabletController{
 	
 	@Autowired
 	private Produtos produtos;
-	
-	@Autowired
-	private Empresas empresas;
 	
 	@Autowired
 	private Dados dados;
@@ -88,25 +83,16 @@ public class NovoPedidoTabletController{
 	
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT)
 	@ResponseBody
-	public String novoPedido(@RequestBody Pedido pedido) {
+	public Pedido novoPedido(@RequestBody Pedido pedido) {
 		
-		Empresa empresa = empresas.buscarId1();
-		if(empresa.getAuthentication() == null) {
-			empresa.setAuthentication("nulo");
+		if(pedido.getId() == null) {//se o pedido ja existir
+			Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+			Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
+			
+			pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
+			dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
+			dados.save(dado); //autalizar n da comanda
 		}
-		String authentication = "gazaltech";
-		if(empresa.getAuthentication().equals(authentication) == true) {
-			if(pedido.getId() == null) {//se o pedido ja existir
-				Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-				Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
-				
-				pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
-				dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
-				dados.save(dado); //autalizar n da comanda
-			}
-			pedidos.save(pedido); //salvar pedido
-			return "200";
-		}
-		return "404";
+		return pedidos.save(pedido); //salvar pedido
 	}
 }
