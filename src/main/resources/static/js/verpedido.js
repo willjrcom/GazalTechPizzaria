@@ -36,7 +36,7 @@ function buscarPedido() {
 					tPizzas = 0;
 					
 					linhaHtml += '<tr>'
-								+ '<td>' + pedidos[i].id + '</td>'
+								+ '<td>' + pedidos[i].comanda + '</td>'
 								+ '<td>' + pedidos[i].nomePedido + '</td>';
 								
 					for(var k = 0; k<pedidos[i].produtos.length; k++) {
@@ -155,6 +155,7 @@ function verPedido() {
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: linhaHtml,
+	    closeIcon: true,
 	    columnClass: 'col-md-8',
 	    buttons: {
 			confirm: {
@@ -170,11 +171,6 @@ function verPedido() {
 		        action: function(){
 					imprimirPizzas(pedidos[idBusca]);
 				}
-			},
-	        cancel: {
-				text: 'Voltar',
-	    		keys: ['enter','esc'],
-	            btnClass: 'btn-green',
 			}
 		}
 	});

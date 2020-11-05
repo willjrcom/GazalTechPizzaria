@@ -29,7 +29,9 @@ function buscarPedido() {
 		pedidos = e;
 		for(var i = 0; i< e.length; i++){
 			Tpedidos++;
-			pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
+			if(pedidos[i].pizzas != null) {
+				pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
+			}
 		}
 
 		$("#todosPedidos").html("");
@@ -41,7 +43,7 @@ function buscarPedido() {
 		}else{
 			for(var i = 0; i<pedidos.length; i++){
 				if(filtro == pedidos[i].envio || filtro == "TODOS"){
-					if(pedidos[i].pizzas.length != 0) {
+					if(pedidos[i].pizzas != null) {
 						divisao = 1;
 						
 						linhaHtml += '<tr>'
