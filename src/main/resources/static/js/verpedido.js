@@ -261,49 +261,72 @@ function excluirPedido() {
 					            action: function(){
 									var apagarSim = this.$content.find('#apagar').val();
 									
-									if(apagarSim === 'sim') {
-
-										pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
-										pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
-										
-										$.ajax({
-											url: "/verpedido/excluirPedido/" + idProduto.toString(),
-											type: 'PUT',
-											data: pedidos[idBusca]
+									//verificar permissao adm
+									$.ajax({
+										url: "/verpedido/autenticado"
+									}).done(function(e){
+										if(e[0].authority === "ADM") {
 											
-										}).done(function(){		
+											if(apagarSim === 'sim') {
+
+												pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
+												pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
+												
+												$.ajax({
+													url: "/verpedido/excluirPedido/" + idProduto.toString(),
+													type: 'PUT',
+													data: pedidos[idBusca]
+													
+												}).done(function(){		
+													$.alert({
+														type: 'red',
+													    title: 'Pedido apagado!',
+													    content: 'Espero que dê tudo certo!',
+													    buttons: {
+													        confirm: {
+																text: 'Voltar',
+													    		keys: ['enter'],
+													            btnClass: 'btn-green',
+													            action: function(){
+																	window.location.href = "/verpedido";
+																}
+															}
+														}
+													});
+												}).fail(function(){
+													$.alert("Erro, Pedido não apagado!");
+												});
+											}else {
+												$.alert({
+													type: 'red',
+												    title: 'Texto incorreto!',
+												    content: 'Pense bem antes de apagar um pedido!',
+												    buttons: {
+												        confirm: {
+															text: 'Voltar',
+												    		keys: ['enter'],
+												            btnClass: 'btn-red',
+														}
+													}
+												});
+											}
+										}else {//se nao for ADM
 											$.alert({
 												type: 'red',
-											    title: 'Pedido apagado!',
-											    content: 'Espero que dê tudo certo!',
+											    title: 'Permissão de usuário!',
+											    content: 'Você não tem permissão para apagar um pedido<br>Utilize um usuário ADM!',
 											    buttons: {
 											        confirm: {
 														text: 'Voltar',
 											    		keys: ['enter'],
-											            btnClass: 'btn-green',
-											            action: function(){
-															window.location.href = "/verpedido";
-														}
+											            btnClass: 'btn-red',
 													}
 												}
 											});
-										}).fail(function(){
-											$.alert("Erro, Pedido não apagado!");
-										});
-									}else {
-										$.alert({
-											type: 'red',
-										    title: 'Texto incorreto!',
-										    content: 'Pense bem antes de apagar um pedido!',
-										    buttons: {
-										        confirm: {
-													text: 'Voltar',
-										    		keys: ['enter'],
-										            btnClass: 'btn-red',
-												}
-											}
-										});
-									}
+										}
+										
+									});
+									
 								}
 							},
 					        cancel: {
@@ -392,8 +415,8 @@ function imprimirTudo(cliente) {
 			}
 						
 			//texto2 e promocao
-			imprimirTxt += '<p>' + e.texto2 + '</p><hr><br>' 
-						+ '<label>Promoção</label><br>' + '<p>' + e.promocao + '</p>';
+			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
+						+ '<label>Promoção </label><br>' + '<p>' + e.promocao + '</p>';
 						
 				
 			//salvar hora

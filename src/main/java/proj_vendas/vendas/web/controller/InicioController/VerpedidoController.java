@@ -1,8 +1,12 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,5 +52,14 @@ public class VerpedidoController{
 	public List<Pedido> todosPedidos() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByDataAndStatusNotAndStatusNot(dia, "FINALIZADO", "EXCLUIDO");
+	}
+	
+	@RequestMapping("/autenticado")
+	@ResponseBody
+	public Collection<? extends GrantedAuthority> autenticado() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		return ((UserDetails)principal).getAuthorities();
+		
 	}
 }
