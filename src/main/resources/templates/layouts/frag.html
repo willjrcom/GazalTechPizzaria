@@ -35,7 +35,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav id="Tmenu">
 					<ul class="menu1">
 						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
-						<li><a th:href="@{/adm/relatoriodia}"><span class="oi oi-bar-chart"></span> ADM</a></li>
+						<li><a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> ADM</a></li>
 						<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> CADASTROS</a></li>
 						<li><a th:href="@{/adm/estatistica}"><span class="oi oi-clipboard"></span> EMPRESA</a></li>
 						<li><a onclick="tablet()"><span class="oi oi-tablet"></span> TABLET</a></li>
@@ -88,8 +88,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li><a th:href="@{/adm/relatoriodia}"><span class="oi oi-list"></span> Relatório dos Pedidos</a></li>
 							<li><a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> Fechamento do Dia</a></li>
+							<li><a th:href="@{/adm/relatoriodia}"><span class="oi oi-list"></span> Relatório dos Pedidos</a></li>
 							<li><a th:href="@{/adm/pedidosExcluidos}"><span class="oi oi-ban"></span> Pedidos Cancelados</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
@@ -175,9 +175,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li><a th:href="@{/adm/empresa}"><span class="oi oi-folder"></span> Preferências</a></li>
+							<li><a th:href="@{/adm/empresa}"><span class="oi oi-folder"></span> Dados Empresa</a></li>
 							<li><a th:href="@{/tutorial}"><span class="oi oi-info"></span> Tutorial</a></li>
-							<li><a th:href="@{/adm/dev}"><span class="oi oi-cog"></span> Usuários</a></li>
+							<li><a th:href="@{/adm/dev}"><span class="oi oi-cog"></span> Desenvolvedor</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
