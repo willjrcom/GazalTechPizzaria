@@ -18,10 +18,10 @@ $.ajax({
 .done(function(e){
 	
 	pedidos = e;
-	for(var i = 0; i< e.length; i++){
+	for(pedido of pedidos){
 		Tpedidos++;
-		pedidos[i].pizzas = JSON.parse(e[i].pizzas);
-		pedidos[i].produtos = JSON.parse(e[i].produtos);
+		pedido.pizzas = JSON.parse(pedido.pizzas);
+		pedido.produtos = JSON.parse(pedido.produtos);
 	}
 });
 
@@ -29,21 +29,20 @@ $.ajax({
 	url: "/motoboy/funcionarios",
 	type: 'PUT'
 })
-.done(function(e){
+.done(function(motoboys){
 	
-	for(var i = 0; i<e.length; i++){
-		if(e[i].cargo == "MOTOBOY"){
+	for(motoboy of motoboys){
+		if(motoboy.cargo == "MOTOBOY"){
 			funcionarios.unshift({
-				'id': e[i].id,
-				'nome': e[i].nome
+				'id': motoboy.id,
+				'nome': motoboy.nome
 			})
 		}
 	}
 	var linhaFuncionarios = '<option value="--">-------</option>';
 	
-	for(var i = 0; i<funcionarios.length; i++){
-		linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
-	}
+	for(funcionario of funcionarios) linhaFuncionarios += '<option value="' + funcionario.nome + '">' + funcionario.nome +'</option>';
+	
 	$("#filtro").html(linhaFuncionarios);
 
 	$("#todosPedidos").html("");
@@ -52,28 +51,25 @@ $.ajax({
 	if(pedidos.length == 0){
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
-		for(var i = 0; i<pedidos.length; i++){
+		for(pedido of pedidos){
 			linhaHtml += '<tr>'
-						+ '<td>' + pedidos[i].comanda + '</td>'
-						+ '<td>' + pedidos[i].nomePedido + '</td>'
-						+ '<td>' + pedidos[i].endereco + '</td>';
+						+ '<td>' + pedido.comanda + '</td>'
+						+ '<td>' + pedido.nomePedido + '</td>'
+						+ '<td>' + pedido.endereco + '</td>';
 			
 			Tpizzas = 0;
-			for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-				Tpizzas += pedidos[i].pizzas[k].qtd;
-			}
-			for(var k = 0; k<pedidos[i].produtos.length; k++) {
-				Tpizzas += pedidos[i].produtos[k].qtd;
-			}
+			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
+			
+			for(produto of pedido.produtos) Tpizzas += produto.qtd;
 			
 			linhaHtml += '<td>' + Tpizzas + '</td>'
-						+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
-						+ '<td>R$ ' + pedidos[i].troco.toFixed(2) + '</td>'
-						+ '<td>R$ ' + (pedidos[i].troco - pedidos[i].total).toFixed(2) + '</td>'	
+						+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
+						+ '<td>R$ ' + pedido.troco.toFixed(2) + '</td>'
+						+ '<td>R$ ' + (pedido.troco - pedido.total).toFixed(2) + '</td>'	
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-							+ 'value="'+ pedidos[i].id + '"><span class="oi oi-location"></span> Entregar</button></a></td>'		
+							+ 'value="'+ pedido.id + '"><span class="oi oi-location"></span> Entregar</button></a></td>'		
 					+ '<tr>'
 				+ linhaCinza;
 		}
@@ -88,7 +84,7 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
+	for(i in pedidos){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
 			var idBusca = i;
 		}

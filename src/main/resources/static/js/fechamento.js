@@ -1,5 +1,5 @@
 
-var dados = {};
+var dados = {}, pedidos;
 var Tpedidos;
 var Tvendas = 0, Tfaturamento = 0;
 var Tpizza = 0, Tproduto = 0;
@@ -35,85 +35,70 @@ $.ajax({
 	url: '/adm/fechamento/Tvendas',
 	type: 'PUT'
 }).done(function(e){
-	
+	pedidos = e;
 	//para cada pedido
-	for(var i = 0; i < e.length; i++) {
-			e[i].produtos = JSON.parse(e[i].produtos);
-			e[i].pizzas = JSON.parse(e[i].pizzas);
+	for(pedido of pedidos) {
+			pedido.produtos = JSON.parse(pedido.produtos);
+			pedido.pizzas = JSON.parse(pedido.pizzas);
 						
-			Tvendas += parseFloat(e[i].total);
+			Tvendas += parseFloat(pedido.total);
 
 			//para cada produto
-			for(var j = 0; j < e[i].produtos.length; j++) {
-				Tfaturamento += parseFloat(e[i].produtos[j].custo);
-				Tproduto += parseFloat(e[i].produtos[j].qtd);
+			for(produto of pedido.produtos) {
+				Tfaturamento += parseFloat(produto.custo);
+				Tproduto += parseFloat(produto.qtd);
 			}
 			//para cada pizza
-			for(var j = 0; j < e[i].pizzas.length; j++) {
-				Tfaturamento += parseFloat(e[i].pizzas[j].custo);
-				Tpizza += parseFloat(e[i].pizzas[j].qtd);
+			for(pizza of pedido.pizzas) {
+				Tfaturamento += parseFloat(pizza.custo);
+				Tpizza += parseFloat(pizza.qtd);
 			}
 			
-			
 			//separar tipos de envio
-			if(e[i].envio == "ENTREGA") {
-				entrega ++;
-				tEntrega += e[i].total;
-			}else if(e[i].envio == "BALCAO") {
-				balcao ++;
-				tBalcao += e[i].total;
-			}else if(e[i].envio == "MESA") {
-				mesa ++;
-				tMesa += e[i].total;
-			}else if(e[i].envio == "DRIVE") {
-				drive ++;
-				tDrive += e[i].total;
+			if(pedido.envio == "ENTREGA") {
+				entrega++;
+				tEntrega += pedido.total;
+			}else if(pedido.envio == "BALCAO") {
+				balcao++;
+				tBalcao += pedido.total;
+			}else if(pedido.envio == "MESA") {
+				mesa++;
+				tMesa += pedido.total;
+			}else if(pedido.envio == "DRIVE") {
+				drive++;
+				tDrive += pedido.total;
 			}
 	}
 	
 	
 	//criar html de acordo com os tipos existentes
 	if(Tpedidos != 0) {
-		if(Tpedidos == 1) {
-			envioHtml = '<tr><td>' + Tpedidos + ' Pedido total sendo:</td></tr>';
-		}else {
-			envioHtml = '<tr><td><label>' + Tpedidos + ' Pedidos totais sendo:</label></td></tr>';
-		}
+		if(Tpedidos == 1) envioHtml = '<tr><td>' + Tpedidos + ' Pedido total sendo:</td></tr>';
+		else envioHtml = '<tr><td><label>' + Tpedidos + ' Pedidos totais sendo:</label></td></tr>';
 	}else {
 		envioHtml = '<tr><td><label>' + 0 + ' Pedidos finalizados</label></td></tr>';
 	}
 	if(entrega != 0) {
-		if(entrega == 1) {
-			envioHtml += '<tr><td>' + entrega + ' entrega - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
-		}else {
-			envioHtml += '<tr><td>' + entrega + ' entregas - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
-		}
+		if(entrega == 1) envioHtml += '<tr><td>' + entrega + ' entrega - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
+		else envioHtml += '<tr><td>' + entrega + ' entregas - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
 	}
 	if(balcao != 0) {
-		if(balcao == 1) {
-			envioHtml += '<tr><td>' + balcao + ' balcão - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
-		}else {
-			envioHtml += '<tr><td>' + balcao + ' balcões - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
-		}
+		if(balcao == 1) envioHtml += '<tr><td>' + balcao + ' balcão - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
+		else envioHtml += '<tr><td>' + balcao + ' balcões - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
 	}
 	if(mesa != 0) {
-		if(mesa == 1) {
-			envioHtml += '<tr><td>' + mesa + ' mesa - R$: ' + tMesa.toFixed(2) + '</td></tr>';
-		}else {
-			envioHtml += '<tr><td>' + mesa + ' mesas - R$: ' + tMesa.toFixed(2) + '</td></tr>';
-		}
+		if(mesa == 1) envioHtml += '<tr><td>' + mesa + ' mesa - R$: ' + tMesa.toFixed(2) + '</td></tr>';
+		else envioHtml += '<tr><td>' + mesa + ' mesas - R$: ' + tMesa.toFixed(2) + '</td></tr>';
 	}
 	if(drive != 0) {
-		if(drive == 1) {
-			envioHtml += '<tr><td>' + drive + ' drive - R$: ' + drive.toFixed(2) + '</td></tr>';
-		}else {
-			envioHtml += '<tr><td>' + drive + ' drives - R$: ' + drive.toFixed(2) + '</td></tr>';
-		}
+		if(drive == 1) envioHtml += '<tr><td>' + drive + ' drive - R$: ' + drive.toFixed(2) + '</td></tr>';
+		else envioHtml += '<tr><td>' + drive + ' drives - R$: ' + drive.toFixed(2) + '</td></tr>';
 	}
 
 	$("#fEnvio").html(envioHtml);
 	$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
 	$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento).toFixed(2)).toFixed(2) );
+	
 }).fail(function(){
 	$.alert("Nenhum valor encontrado!");
 });
@@ -379,13 +364,13 @@ function mostrarPizzas(pizzas) {
 		cont1++; //evita mostrar o head 2 vezes
 	}
 	if(pizzas.length != 0) {
-		for(var i=0; i<pizzas.length; i++){
+		for(pizza of pizzas){
 			linhaPizzas += '<tr>'
-						 +	'<td align="center">' + pizzas[i].borda + ' ---- </td>'
-						 +	'<td align="center">' + pizzas[i].sabor + ' ---- </td>'
-						 +	'<td align="center">' + pizzas[i].obs + ' ---- </td>'
-						 +	'<td align="center">' + pizzas[i].qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + pizza.borda + ' ---- </td>'
+						 +	'<td align="center">' + pizza.sabor + ' ---- </td>'
+						 +	'<td align="center">' + pizza.obs + ' ---- </td>'
+						 +	'<td align="center">' + pizza.qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
 					 +  '</tr>';
 		}
 	}
@@ -405,12 +390,12 @@ function mostrarProdutos(produtos) {
 		cont2++; //evita mostrar o head 2 vezes
 	}
 	if(produtos.length != 0) {
-		for(var i=0; i<produtos.length; i++){
+		for(produto of produtos){
 			linhaProdutos += '<tr>'
-						 +	'<td align="center">' + produtos[i].sabor + ' ---- </td>'
-						 +	'<td align="center">' + produtos[i].obs + ' ---- </td>'
-						 +	'<td align="center">' + produtos[i].qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + produto.sabor + ' ---- </td>'
+						 +	'<td align="center">' + produto.obs + ' ---- </td>'
+						 +	'<td align="center">' + produto.qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
 					 +  '</tr>';
 		}
 	}

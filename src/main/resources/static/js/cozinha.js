@@ -27,10 +27,13 @@ function buscarPedido() {
 	}).done(function(e){
 
 		pedidos = e;
-		for(var i = 0; i< e.length; i++){
+		for(pedido of pedidos){
 			Tpedidos++;
-			if(pedidos[i].pizzas != null) {
-				pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
+			if(pedido.pizzas != null) {
+				pedido.pizzas = JSON.parse(pedido.pizzas);
+				for(pizza of pedido.pizzas) {
+					AllPizzas += pizza.qtd;
+				}
 			}
 		}
 
@@ -41,79 +44,56 @@ function buscarPedido() {
 		if(pedidos.length == 0){
 			$("#todosPedidos").html(pedidoVazio);
 		}else{
-			for(var i = 0; i<pedidos.length; i++){
-				if(filtro == pedidos[i].envio || filtro == "TODOS"){
-					if(pedidos[i].pizzas != null) {
+			for([i, pedido] of pedidos.entries()){
+				if(filtro == pedido.envio || filtro == "TODOS"){
+					if(pedido.pizzas != null) {
 						divisao = 1;
-						
-						linhaHtml += '<tr>'
-								+ '<td>' + pedidos[i].comanda + '</td>'
-								+ '<td>' + pedidos[i].nome + '</td>'
-								+ '<td>' + pedidos[i].pizzas[0].borda + '</td>'
-								+ '<td>' + pedidos[i].pizzas[0].qtd + ' x ' + pedidos[i].pizzas[0].sabor 
-									+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
-									+ pedidos[i].pizzas[0].descricao 
-									+ '" title="Ingredientes: ' + pedidos[i].pizzas[0].descricao 
-									+ '"><span class="oi oi-question-mark"></span></button></td>'
-								+ '<td>' + pedidos[i].pizzas[0].obs + '</td>';
-					
-						if(i == 0) {//adicionar autofocus
-							linhaHtml += '<td>' 
-										+ '<a class="enviarPedido">'
-										+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
-										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-						}else {
-							linhaHtml += '<td>' 
-										+ '<a class="enviarPedido">'
-										+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
-										+ 'value="'+ pedidos[i].id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
-						}
-						linhaHtml += '</tr>';
-						
-						if(divisao - pedidos[i].pizzas[0].qtd <= 0) {
-							linhaHtml += linhaCinza;
-							divisao = 1;
-						}else {
-							divisao -= pedidos[i].pizzas[0].qtd;
-						}
-						
-						//mostrar produtos
-						if(pedidos[i].pizzas.length > 1){
-							for(var j = 1; j<pedidos[i].pizzas.length; j++){
-								linhaHtml += '<tr>';
+						for([j, pizza] of pedido.pizzas.entries()) {
+							linhaHtml += '<tr>';
+							
+							if(j == 0) {//se for a primeira linha de cada pedido
+								linhaHtml += '<td>' + pedido.comanda + '</td>'
+										+ '<td>' + pedido.nome + '</td>';
+							}else if(j == 1) {//se for a segunda linha de cada pedido
+								Tpizzas = 0;
+								for(contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
 								
-								if(j == 1) {
-									Tpizzas = 0;
-									for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-										Tpizzas += pedidos[i].pizzas[k].qtd;
-									}
-									AllPizzas += Tpizzas;
-									
-									if(Tpizzas == 1) {
-										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizza</td>';
-									}else {
-										linhaHtml += '<td colspan="2">' + Tpizzas + ' pizzas</td>';
-									}
-									
-								}else {
-									linhaHtml +=	'<td colspan="2"></td>';
-								}
-								linhaHtml += '<td>' + pedidos[i].pizzas[j].borda + '</td>'
-											+ '<td>' + pedidos[i].pizzas[j].qtd + ' x ' + pedidos[i].pizzas[j].sabor 
-												+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
-												+ pedidos[i].pizzas[j].descricao 
-												+ '" title="Ingredientes: ' + pedidos[i].pizzas[j].descricao 
-												+ '"><span class="oi oi-question-mark"></span></button></td>'
-											+ '<td>' + pedidos[i].pizzas[j].obs + '</td>'
-											+ '<td></td>'
-											+ '</tr>';	
-			
-								if(divisao - pedidos[i].pizzas[j].qtd <= 0) {
-									linhaHtml += linhaCinza;
-									divisao = 1;
-								}else {
-									divisao -= pedidos[i].pizzas[j].qtd;
-								}
+								//singular
+								if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizza</td>';
+								//plural
+								else linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+								
+								
+							}else {//se for 3 linha a frente
+								linhaHtml += '<td colspan="2"></td>';
+							}
+							
+							//mostrar pizza
+							linhaHtml += '<td>' + pizza.borda + '</td>' + '<td>' + pizza.qtd + ' x ' + pizza.sabor 
+									+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+									+ pizza.descricao 
+									+ '" title="Ingredientes: ' + pizza.descricao 
+									+ '"><span class="oi oi-question-mark"></span></button></td>'
+								+ '<td>' + pizza.obs + '</td>';
+						
+							if(j == 0 && i == 0) {//primeiro botao com focus
+								linhaHtml += '<td>' 
+											+ '<a class="enviarPedido">'
+											+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
+											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+							}else if(j == 0){//botoes seguintes
+								linhaHtml += '<td>' 
+											+ '<a class="enviarPedido">'
+											+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
+											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+							}
+							linhaHtml += '</tr>';
+
+							if(divisao - pizza.qtd <= 0) {
+								linhaHtml += linhaCinza;
+								divisao = 1;
+							}else {
+								divisao -= pizza.qtd;
 							}
 						}
 						linhaHtml += linhaCinza + linhaCinza + linhaCinza;
@@ -122,17 +102,13 @@ function buscarPedido() {
 			}
 			$("#todosPedidos").html(linhaHtml);
 		}
-		if(Tpedidos == 0) {
-			$("#Tpedidos").text('0');
-		}else {
-			$("#Tpedidos").text(pedidos.length);
-		}
+		if(Tpedidos == 0) $("#Tpedidos").text('0');
 		
-		if(AllPizzas == 0) {
-			$("#Tpizzas").text('0');
-		}else {
-			$("#Tpizzas").text(AllPizzas);
-		}
+		else $("#Tpedidos").text(pedidos.length);
+		
+		if(AllPizzas == 0) $("#Tpizzas").text('0');
+		
+		else $("#Tpizzas").text(AllPizzas);
 	});	
 };
 
@@ -163,7 +139,7 @@ function enviarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
+	for(i in pedidos){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
 			var idBusca = i;
 		}
@@ -181,10 +157,6 @@ function enviarPedido() {
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
-					
-					for(var i = 0; i<pedidos[idBusca].pizzas; i++) {
-						pedidos[idBusca].pizzas[i].status = "PRONTO";
-					}
 					
 					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 

@@ -54,9 +54,8 @@ var celular = url_atual.split("/")[4];//pega o id de novo cadastro
 celular = parseInt(celular);
 url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
 
-if(celular % 2 == 1 || celular % 2 == 0) {
-	$("#numeroCliente").val(celular);
-}
+if(celular % 2 == 1 || celular % 2 == 0) $("#numeroCliente").val(celular);
+
 if(typeof url_atual == "undefined") {
 	$("#enviarPedido").addClass("pula");
 	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$0,00');
@@ -104,12 +103,10 @@ if(typeof url_atual == "undefined") {
 			$("#nomeBalcao").html('<h2>Cliente: ' + cliente.nomePedido + '</h2>');
 		}
 		
-		for(var i = 0; i<cliente.pizzas.length; i++) {
-			tPizzas += cliente.pizzas[i].qtd;
-		}
-		for(var i = 0; i<cliente.produtos.length; i++) {
-			tPizzas += cliente.produtos[i].qtd;
-		}
+		for(pizza of cliente.pizzas) tPizzas += pizza.qtd;
+	
+		for(produto of cliente.produtos) tPizzas += produto.qtd;
+		
 		pizzas = cliente.pizzas;
 		produtos = cliente.produtos;
 		tPedido = cliente.total;
@@ -502,23 +499,23 @@ function mostrarProdutos() {
 	$("#novoProduto").html("");
 	$("#novoPizza").html("");
 	
-	for(var i=0; i<pizzas.length; i++){
+	for(pizza of pizzas){
 		linhaHtml = '<tr>'
-					 +	'<td>' + pizzas[i].borda + '</td>'
-					 +	'<td>' + pizzas[i].sabor + '</td>'
-					 +	'<td>' + pizzas[i].obs + '</td>'
-					 +	'<td>' + pizzas[i].qtd + '</td>'
-					 +	'<td>R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
+					 +	'<td>' + pizza.borda + '</td>'
+					 +	'<td>' + pizza.sabor + '</td>'
+					 +	'<td>' + pizza.obs + '</td>'
+					 +	'<td>' + pizza.qtd + '</td>'
+					 +	'<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
 		$("#novoPizza").append(linhaHtml);
 	}
-	for(var i=0; i<produtos.length; i++){
+	for(produto of produtos){
 		linhaHtml = '<tr>'
-				 +	'<td>' + produtos[i].sabor + '</td>'
-				 +	'<td>' + produtos[i].obs + '</td>'
-				 +	'<td>' + produtos[i].qtd + '</td>'
-				 +	'<td>R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+				 +	'<td>' + produto.sabor + '</td>'
+				 +	'<td>' + produto.obs + '</td>'
+				 +	'<td>' + produto.qtd + '</td>'
+				 +	'<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 			 + '</tr>'
 			 + linhaCinza;
 		$("#novoProduto").append(linhaHtml);
@@ -536,15 +533,12 @@ $(".removerProduto").click(function(e){
 	
 	produtos.shift();
 	
-	if(produtos.length == 0) {
-		$("#novoProduto").append(pedidoVazio);
-	}
+	if(produtos.length == 0) $("#novoProduto").append(pedidoVazio);
 	
-	if(pizzas.length == 0 && produtos.length == 0) {
-		$(".mostrarPedidos").hide('slow');
-	} else {
-		mostrarProdutos();
-	}
+	if(pizzas.length == 0 && produtos.length == 0) $(".mostrarPedidos").hide('slow');
+	
+	else mostrarProdutos();
+
 	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));	
 });
 
@@ -557,15 +551,12 @@ $(".removerPizza").click(function(e){
 	
 	pizzas.shift();
 	
-	if(pizzas.length == 0) {
-		$("#novoPizza").append(pedidoVazio);
-	} 
+	if(pizzas.length == 0) $("#novoPizza").append(pedidoVazio);
 	
-	if(pizzas.length == 0 && produtos.length == 0) {
-		$(".mostrarPedidos").hide('slow');	
-	}else {
-		mostrarProdutos();
-	}
+	if(pizzas.length == 0 && produtos.length == 0) $(".mostrarPedidos").hide('slow');	
+	
+	else mostrarProdutos();
+
 	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));	
 });
 
@@ -573,7 +564,6 @@ $(".removerPizza").click(function(e){
 //------------------------------------------------------------------------------------------------------------------------
 $("#enviarPedido").click(function() {
 	
-
 	if($("#nomeCliente").text() == "" && $("#nomeBalcao").text() == ""){
 		$.alert({
 			type: 'red',
@@ -686,13 +676,9 @@ $("#enviarPedido").click(function() {
 							cliente.pizzas = JSON.stringify(pizzas);
 							cliente.horaPedido = new Date;
 
-							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
-								cliente.total += parseFloat(cliente.taxa);
-							}
+							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) cliente.total += parseFloat(cliente.taxa);
 							
-							if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
-								troco = cliente.total;
-							}
+							if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) troco = cliente.total;
 
 							cliente.troco = parseFloat(troco);
 							
@@ -728,16 +714,12 @@ $("#enviarPedido").click(function() {
 									//converter pedido antigo para objeto
 									e.pizzas = JSON.parse(e.pizzas);
 									e.produtos = JSON.parse(e.produtos);
-									
-									for(pizza of e.pizzas) {
-										//concatenar pizzas
-										cliente.pizzas.unshift(pizza);
-									}
-									
-									for(produto of e.produtos) {
-										//concatenar produtos
-										cliente.produtos.unshift(produto);
-									}
+
+									//concatenar pizzas
+									for(pizza of e.pizzas) cliente.pizzas.unshift(pizza);
+
+											//concatenar produtos
+									for(produto of e.produtos) cliente.produtos.unshift(produto);
 									
 									//converter pedido atual em JSON
 									cliente.pizzas = JSON.stringify(cliente.pizzas);
@@ -864,10 +846,8 @@ $("#atualizarPedido").click(function() {
 		});
 	}else{
 		
-		if($('#envioCliente').is(':visible'))
-		{
-			cliente.envio = $("#envioCliente").val();
-		}
+		if($('#envioCliente').is(':visible')) cliente.envio = $("#envioCliente").val();
+		
 		mostrarTabela(pizzas, produtos);
 
 		linhaHtml += '<hr><b>Nº Produtos:</b> ' + tPizzas 
@@ -901,17 +881,13 @@ $("#atualizarPedido").click(function() {
 						
 						troco = troco.toString().replace(",",".");
 						
-						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
-							$("#troco").val(tPedido);
-						}
+						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) $("#troco").val(tPedido);
 						
 						cliente.total = parseFloat(tPedido);
 						cliente.produtos = JSON.stringify(produtos);
 						cliente.pizzas = JSON.stringify(pizzas);
 
-						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
-							troco = cliente.total;
-						}
+						if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) troco = cliente.total;
 
 						cliente.totalUnico = cliente.total; //valor antigo nao se altera
 						cliente.troco = parseFloat(troco);
@@ -967,9 +943,7 @@ $("#atualizarPedido").click(function() {
 							
 						}).fail(function(e){
 							$.alert("Pedido não enviado!");
-							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) {
-								cliente.troco -= ParseFloat(cliente.taxa);
-							}
+							if(cliente.taxa % 2 == 0 || cliente.taxa % 2 == 1) cliente.troco -= ParseFloat(cliente.taxa);
 						});
 					}
 		        },
@@ -998,13 +972,13 @@ function mostrarTabela(pizzas, produtos) {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pizzas.length; i++){
+		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizzas[i].borda + '</td>'
-						 +	'<td align="center">' + pizzas[i].sabor + '</td>'
-						 +	'<td align="center">' + pizzas[i].obs + '</td>'
-						 +	'<td align="center">' + pizzas[i].qtd + '</td>'
-						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + '</td>'
+						 +	'<td align="center">' + pizza.borda + '</td>'
+						 +	'<td align="center">' + pizza.sabor + '</td>'
+						 +	'<td align="center">' + pizza.obs + '</td>'
+						 +	'<td align="center">' + pizza.qtd + '</td>'
+						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -1019,12 +993,12 @@ function mostrarTabela(pizzas, produtos) {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<produtos.length; i++){
+		for(produto of produtos){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + produtos[i].sabor + '</td>'
-						 +	'<td align="center">' + produtos[i].obs + '</td>'
-						 +	'<td align="center">' + produtos[i].qtd + '</td>'
-						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + '</td>'
+						 +	'<td align="center">' + produto.sabor + '</td>'
+						 +	'<td align="center">' + produto.obs + '</td>'
+						 +	'<td align="center">' + produto.qtd + '</td>'
+						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -1046,13 +1020,13 @@ function mostrarImpressao(pizzas, produtos) {
 						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pizzas.length; i++){
+		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizzas[i].borda + ' ---- </td>'
-						 +	'<td align="center">' + pizzas[i].sabor + ' ---- </td>'
-						 +	'<td align="center">' + pizzas[i].obs + ' ---- </td>'
-						 +	'<td align="center">' + pizzas[i].qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + pizzas[i].preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + pizza.borda + ' ---- </td>'
+						 +	'<td align="center">' + pizza.sabor + ' ---- </td>'
+						 +	'<td align="center">' + pizza.obs + ' ---- </td>'
+						 +	'<td align="center">' + pizza.qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -1067,12 +1041,12 @@ function mostrarImpressao(pizzas, produtos) {
 						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<produtos.length; i++){
+		for(produto of produtos){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + produtos[i].sabor + ' ---- </td>'
-						 +	'<td align="center">' + produtos[i].obs + ' ---- </td>'
-						 +	'<td align="center">' + produtos[i].qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + produtos[i].preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + produto.sabor + ' ---- </td>'
+						 +	'<td align="center">' + produto.obs + ' ---- </td>'
+						 +	'<td align="center">' + produto.qtd + ' ---- </td>'
+						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -1133,9 +1107,8 @@ function imprimir() {
 				imprimirTxt += '<label>Taxa de entrega: R$ ' + parseFloat(cliente.taxa).toFixed(2) + '</label><br>'
 				 			+ '<label>Total com taxa: R$ ' + cliente.totalUnico.toFixed(2) + '</label><br>';
 				
-			}else {//total sem taxa
-				imprimirTxt += '<label>Total: R$ ' + cliente.totalUnico.toFixed(2) + '</label><br>';
-			}
+				//total sem taxa
+			}else imprimirTxt += '<label>Total: R$ ' + cliente.totalUnico.toFixed(2) + '</label><br>';
 
 			//total a levar de troco
 			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.totalUnico).toFixed(2) + '</label><br>'

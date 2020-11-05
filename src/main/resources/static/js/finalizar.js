@@ -18,57 +18,52 @@ $(document).ready(function(){
 		type: 'PUT'
 	}).done(function(e){
 		pedidos = e;
-		for(var i = 0; i< e.length; i++){
-			pedidos[i].pizzas = JSON.parse(e[i].pizzas);
-			pedidos[i].produtos = JSON.parse(e[i].produtos);
+		for(pedido of pedidos){
+			pedido.pizzas = JSON.parse(pedido.pizzas);
+			pedido.produtos = JSON.parse(pedido.produtos);
 		}
 		
 		$.ajax({
 			url: "/motoboy/funcionarios",
 			type: 'PUT'
-		}).done(function(e){
+		}).done(function(motoboys){
 			
-			for(var i = 0; i<e.length; i++){
+			for(motoboy of motoboys){
 				funcionarios.unshift({
-					'id': e[i].id,
-					'nome': e[i].nome
+					'id': motoboy.id,
+					'nome': motoboy.nome
 				});
 			}
 			
 			var linhaFuncionarios = '<option value="--">-------</option>';
 			
-			for(var i = 0; i<funcionarios.length; i++){
-				linhaFuncionarios += '<option value="' + funcionarios[i].nome + '">' + funcionarios[i].nome +'</option>';
-			}
+			for(funcionario of funcionarios) linhaFuncionarios += '<option value="' + funcionario.nome + '">' + funcionario.nome +'</option>';
 			
 			$("#filtro").html(linhaFuncionarios);
-
 			$("#todosPedidos").html("");
 			linhaHtml = "";
 			
 			if(pedidos.length == 0){
 				$("#todosPedidos").html(pedidoVazio);
 			}else{
-				for(var i = 0; i<pedidos.length; i++){
+				for(pedido of pedidos){
 					linhaHtml += '<tr>'
-								+ '<td>' + pedidos[i].comanda + '</td>'
-								+ '<td>' + pedidos[i].nomePedido + '</td>';
+								+ '<td>' + pedido.comanda + '</td>'
+								+ '<td>' + pedido.nomePedido + '</td>';
 					
 					Tpizzas = 0;
-					for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-						Tpizzas += pedidos[i].pizzas[k].qtd;
-					}
-					for(var k = 0; k < pedidos[i].produtos.length; k++) {
-						Tpizzas += pedidos[i].produtos[k].qtd;
-					}
+					for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
+					
+					for(produto of pedido.produtos) Tpizzas += produto.qtd;
+					
 					linhaHtml += '<td>' + Tpizzas + '</td>'
-								+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
-								+ '<td>' + pedidos[i].pagamento + '</td>'
-								+ '<td>' + pedidos[i].envio + '</td>'
+								+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
+								+ '<td>' + pedido.pagamento + '</td>'
+								+ '<td>' + pedido.envio + '</td>'
 								+ '<td>' 
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-									+ 'value="'+ pedidos[i].id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>'			
+									+ 'value="'+ pedido.id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>'			
 							+ '<tr>'
 						+ linhaCinza;
 				}
@@ -85,19 +80,17 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
+	for(i in pedidos){//buscar dados completos do pedido enviado
 		if(pedidos[i].id == idProduto){
 			var idBusca = i;
 		}
 	}
 	
 	Tpizzas = 0;
-	for(var k = 0; k < pedidos[idBusca].pizzas.length; k++) {
-		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
-	}
-	for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
-		Tpizzas += pedidos[idBusca].produtos[k].qtd;
-	}
+	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;
+	
+	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
+	
 	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width:100%">'
@@ -109,13 +102,13 @@ function finalizarPedido() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pedidos[idBusca].pizzas.length; i++){
+		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].borda + '</td>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco.toFixed(2) + '</td>'
+						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td>' + pizza.sabor + '</td>'
+						 +	'<td>' + pizza.obs + '</td>'
+						 +	'<td>' + pizza.qtd + '</td>'
+						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -129,12 +122,12 @@ function finalizarPedido() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pedidos[idBusca].produtos.length; i++){
+		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>'
-						 +	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>'
-						 +	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco.toFixed(2) + '</td>'
+						 +	'<td>' + produto.sabor + '</td>'
+						 +	'<td>' + produto.obs + '</td>'
+						 +	'<td>' + produto.qtd + '</td>'
+						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -142,13 +135,12 @@ function finalizarPedido() {
 	
 	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
 	
-	if(pedidos[idBusca].pagamento == "Não") {
-		linhaHtml += '<br>Troco:<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
-	}
+	if(pedidos[idBusca].pagamento == "Não") linhaHtml += '<br>Troco:<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
+	
 	linhaHtml += '<br>Deseja enviar o pedido?';
 
 
-//modal jquery confirmar
+	//modal jquery confirmar
 	if($("#filtro").val() == "--"){
 		$.alert({
 			type: 'red',
@@ -197,11 +189,9 @@ function finalizarPedido() {
 							document.location.reload(true);
 							
 						}).fail(function(e){
-							if(verificarTroco == 0) {
-								$.alert("Pedido não enviado!");
-							}else {
-								$.alert("Pedido não enviado!<br>Digite um valor válido.");
-							}
+							if(verificarTroco == 0) $.alert("Pedido não enviado!");
+							
+							else $.alert("Pedido não enviado!<br>Digite um valor válido.");
 						});
 					}
 		        },
