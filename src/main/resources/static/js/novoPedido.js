@@ -1141,7 +1141,7 @@ function imprimir() {
 			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.totalUnico).toFixed(2) + '</label><br>'
 						
 			//texto2 e promocao
-			imprimirTxt += '<p>' + e.texto2 + '</p><hr><br>' 
+			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
 						+ '<label>Promoção</label><br>' + '<p>' + e.promocao + '</p>';
 						
 				
