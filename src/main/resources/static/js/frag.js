@@ -39,7 +39,7 @@ $(document).ready(function(){
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
-			$("title").text($("title").text() + " - " + e.nomeEmpresa);
+			$("title").text($("title").text() + " - " + e.nomeEstabelecimento);
 		}
 	});
 });

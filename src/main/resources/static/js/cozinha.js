@@ -188,7 +188,6 @@ function enviarPedido() {
 					
 					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 
-					console.log(pedidos[idBusca]);
 					$.ajax({
 						url: "/cozinha/enviarPedido/" + idProduto.toString(),
 						type: 'PUT',
@@ -227,7 +226,6 @@ setInterval(function (){
 function imprimir(cliente) {
 	//salvar hora atual
 	var data = new Date();
-	console.log(data);
 	hora = data.getHours();
 	hora = (hora.length == 0) ? '00' : hora;
 	hora = (hora <= 9) ? '0'+hora : hora;
@@ -249,7 +247,7 @@ function imprimir(cliente) {
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
 			//dados da empresa
-			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
+			imprimirTxt = '<h1 align="center">' + e.nomeEstabelecimento + '</h1>'
 						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
 						
 						//numero da comanda e nome

@@ -41,7 +41,6 @@ if(typeof url_atual != "undefined") {
 //---------------------------------------------------------------
 function setCliente() {
 	cliente.id = $("#id").val();
-	console.log(cliente.id);
 	cliente.nome = $("#nome").val();
 	cliente.celular = $("#cel").cleanVal();
 	cliente.cpf = $("#cpf").val();

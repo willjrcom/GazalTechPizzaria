@@ -215,7 +215,6 @@ function buscarProdutos() {
 			url: "/novoPedido/nomeProduto/" + produto,
 			type: 'PUT'
 		}).done(function(e){
-			console.log(e);
 			$("#nomeProduto").val('');
 			buscaProdutos = [];
 			
@@ -620,16 +619,12 @@ $("#enviarPedido").click(function() {
 		
 		if(cliente.nomePedido.indexOf("Mesa") > -1) {//se existir a palavra Mesa
 			cliente.envio = "MESA";
-			console.log("foiiii1");
 		}else if(cliente.nomePedido.indexOf("mesa") > -1){//se existir a palavra mesa
 			cliente.envio = "MESA";
-			console.log("foiiii2");
 		}else if((cliente.nomePedido[0] == 'M' && cliente.nomePedido[1] % 2 == 0) || (cliente.nomePedido[0] == 'M' && cliente.nomePedido[1] % 2 == 1)){
 			cliente.envio = "MESA";
-			console.log("foiiii3");
 		}else if((cliente.nomePedido[0] == 'm' && cliente.nomePedido[1] % 2 == 0) || (cliente.nomePedido[0] == 'M' && cliente.nomePedido[1] % 2 == 1)){
 			cliente.envio = "MESA";
-			console.log("foiiii4");
 		}else if(cliente.envio == '' || cliente.envio == null) {//se for nulo o campo
 			cliente.envio = $("#envioCliente").val();
 		}
@@ -1089,7 +1084,6 @@ function imprimir() {
 	
 	//salvar hora atual
 	var data = new Date();
-	console.log(data);
 	hora = data.getHours();
 	hora = (hora.length == 0) ? '00' : hora;
 	hora = (hora <= 9) ? '0'+hora : hora;
@@ -1114,7 +1108,7 @@ function imprimir() {
 		if(e.length != 0 && e.imprimir == 1) {
 			
 			
-			imprimirTxt = '<html><h2 align="center">' + e.nomeEmpresa + '</h2>'//nome da empresa
+			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
 						
@@ -1156,7 +1150,7 @@ function imprimir() {
 						+ 'Data: ' + dia + '/' + mes + '/' + ano + '</p>'
 						+ '</html>'; 
 			
-			tela_impressao = window.open('about:pedido');
+			tela_impressao = window.open('about:blank');
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();

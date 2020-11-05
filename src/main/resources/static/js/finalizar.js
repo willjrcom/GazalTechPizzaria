@@ -18,7 +18,6 @@ $(document).ready(function(){
 		type: 'PUT'
 	}).done(function(e){
 		pedidos = e;
-		console.table(e);
 		for(var i = 0; i< e.length; i++){
 			pedidos[i].pizzas = JSON.parse(e[i].pizzas);
 			pedidos[i].produtos = JSON.parse(e[i].produtos);

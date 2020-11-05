@@ -63,8 +63,6 @@ $("#buscar").click(function(){
 				url: '/adm/dev/todos',
 				type: 'PUT'
 			}).done(function(e){
-				console.table(e);
-				
 				usuarios = e;
 				
 				var usuarioHtml = '<tr>'

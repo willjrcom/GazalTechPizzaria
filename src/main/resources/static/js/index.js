@@ -25,7 +25,6 @@ $("#enviarLogin").click(function(){
 							window.location.href = "/menu";
 						}).fail(function(){
 							$.alert("Falha no acesso!");
-							console.log(dia);
 						});
 					}
 				}

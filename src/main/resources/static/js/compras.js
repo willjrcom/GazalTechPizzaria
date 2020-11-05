@@ -44,13 +44,9 @@ function salvar() {
 				}
 				
 				compras.unshift(compra);
-				console.table(compras);
 				
 				var id = JSON.parse(e.id);
-				console.log(id);
 				e.compras = JSON.stringify(compras);
-
-				console.log(e);
 				
 				$.ajax({
 					url: '/adm/fechamento/finalizar/' + id,

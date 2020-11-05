@@ -123,7 +123,6 @@ $.ajax({
 							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
 							type: 'PUT'
 						}).done(function(e){
-							console.log(e)
 							
 							var horas = 0;
 							
@@ -169,7 +168,6 @@ $.ajax({
 												contentType: "application/json",
 												data: JSON.stringify(funcionario)
 											}).done(function(e){
-												console.log(e);
 											});
 										}
 									},
@@ -227,7 +225,6 @@ $.ajax({
 							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
 							type: 'PUT'
 						}).done(function(e){
-							console.log(e)
 							
 							var gastos = 0;
 							
@@ -341,7 +338,6 @@ $.ajax({
 							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
 							type: 'PUT'
 						}).done(function(e){
-							console.log(e)
 							
 							var gastos = 0;
 							var horas = 0;

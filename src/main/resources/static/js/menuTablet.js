@@ -62,9 +62,6 @@ function avalie() {
 				text: 'avaliar',
 				btnClass: 'btn-success',
 				action: function(){
-					console.log(Tempo);
-					console.log(Qtd);
-					console.log(Estrela);
 				}
 			},
 			cancel: {

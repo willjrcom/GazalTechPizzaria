@@ -133,6 +133,8 @@ function finalizarPedido() {
 		type: 'red',
 	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
 	    content: linhaHtml,
+	    closeIcon: true,
+	    columnClass: 'col-md-8',
 	    buttons: {
 	        confirm: {
 				text: 'Voltar',

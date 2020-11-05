@@ -53,7 +53,6 @@ $.ajax({
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
 		for(var i = 0; i<pedidos.length; i++){
-			console.log(pedidos[i]);
 			linhaHtml += '<tr>'
 						+ '<td>' + pedidos[i].comanda + '</td>'
 						+ '<td>' + pedidos[i].nomePedido + '</td>'

@@ -17,7 +17,6 @@ $('#cpf').on('blur', function(){
 			type: 'PUT',
 				
 		}).done(function(e){
-			console.log(e);
 			if(e.length != 0 && e != '' && e.id != -1) {
 				$("#avisoCpf").show().css({
 					'color': 'red'
@@ -48,7 +47,6 @@ $('#cel').on('blur', function(){
 			url:  (id != '') ? '/cadastroCliente/buscarCelular/' + cel + '/' + id.toString() : '/cadastroCliente/buscarCelular/' + cel + '/0',
 			type: 'PUT',
 		}).done(function(e){
-			console.log(e);
 			if(e.length != 0 && e.id != -1) {
 				$("#avisoCel").show().css({
 					'color': 'red'

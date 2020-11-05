@@ -6,7 +6,6 @@ $('#cep').on('blur', function(){
 			url: "https://viacep.com.br/ws/" + +$("#cep").val() + "/json/"
 			
 		}).done(function(e){
-			console.log(e);
 			$("#rua").val(e.logradouro);
 			$("#bairro").val(e.bairro);
 			$("#cidade").val(e.localidade);

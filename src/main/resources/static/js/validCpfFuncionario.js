@@ -14,7 +14,6 @@ $('#cpf').on('blur', function(){
 			url:  (id != '') ? "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/' + id : "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/-2',
 			type: 'PUT'
 		}).done(function(event){
-			console.log(event);
 			if(event.length != 0 && event != '' && event.id != -1) {
 				$("#avisoCpf").show().css({
 					'color': 'red'

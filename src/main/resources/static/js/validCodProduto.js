@@ -12,7 +12,6 @@ $('#codigoBusca').on('blur', function(){
 			url:  (id != '') ? "/cadastroProduto/buscarCodigo/" + cod + '/' + id : "/cadastroProduto/buscarCodigo/" + cod + '/-2',
 			type: 'PUT',
 		}).done(function(e){
-			console.log(e);
 			if(e.length != 0 && e != '' && e.id != -1) {
 				$("#avisoCod").show().css({
 					'color': 'red'

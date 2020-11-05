@@ -104,7 +104,7 @@ function verPedido() {
 	for(var k = 0; k < pedidos[idBusca].pizzas.length; k++) {
 		Tpizzas += pedidos[idBusca].pizzas[k].qtd;
 	}
-	console.log(pedidos[idBusca]);
+	
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width: 100%">'
 					+ '<tr>'
@@ -339,7 +339,6 @@ setInterval(function (){
 function imprimirTudo(cliente) {
 	//salvar hora atual
 	var data = new Date();
-	console.log(data);
 	hora = data.getHours();
 	hora = (hora.length == 0) ? '00' : hora;
 	hora = (hora <= 9) ? '0'+hora : hora;
@@ -363,7 +362,7 @@ function imprimirTudo(cliente) {
 	}).done(function(e){
 		if(e.length != 0) {
 			
-			imprimirTxt = '<html><h2 align="center">' + e.nomeEmpresa + '</h2>'//nome da empresa
+			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
 						
@@ -403,7 +402,7 @@ function imprimirTudo(cliente) {
 											  + cliente.horaPedido.split('-')[1] + '/'
 											  + cliente.horaPedido.split('-')[0];
 			
-			tela_impressao = window.open('about:pedido');
+			tela_impressao = window.open('about:blank');
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();
@@ -419,7 +418,7 @@ function imprimirPizzas(cliente) {
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
-			imprimirTxt = '<h1 align="center">' + e.nomeEmpresa + '</h1>'
+			imprimirTxt = '<h1 align="center">' + e.nomeEstabelecimento + '</h1>'
 						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
 						
 						//numero da comanda e nome
