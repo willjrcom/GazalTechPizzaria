@@ -52,6 +52,7 @@ function setCliente() {
 	cliente.endereco.cidade = $("#cidade").val();
 	cliente.endereco.referencia = $("#referencia").val();
 	cliente.endereco.taxa = $("#taxa").val();
+	if(cliente.endereco.taxa == '') cliente.endereco.taxa = 0;
 }
 
 

@@ -79,10 +79,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		
 		<div class="form-group">
 			<label>Referência da casa:<br/></label>
-			<textarea class="form-control pula" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
+			<textarea class="form-control" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
 		</div>
 		
-		<button type="button" id="enviar" class="form-contact-button">Cadastrar</button>  
+		<button type="button" id="enviar" class="form-contact-button pula">Cadastrar</button>  
 	</div>
 	
 	<br>
@@ -93,6 +93,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	<script th:src="@{/js/validCpfCliente.js}"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/clientes/cadastroCliente.js}"></script>
+	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: cadastros}"></div>

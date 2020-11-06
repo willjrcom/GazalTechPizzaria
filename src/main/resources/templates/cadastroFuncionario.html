@@ -108,7 +108,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="form-group">
 			<label>Referência da casa:<br></label>
-			<textarea class="form-control pula" id="referencia" name="referencia" placeholder="Referência da casa"></textarea>  
+			<textarea class="form-control" id="referencia" name="referencia" placeholder="Referência da casa"></textarea>  
 		</div>
 		
 		<h3>Pagamento:</h3>
@@ -128,16 +128,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<label>Salário:<br></label>
 			<input type="text" class="form-control pula preco" id="salario" name="salario" placeholder="Salário"/>
 		</div>	
-
-		<br>				
-		
-		<div class="custom-file">
-			<label>Foto:<br></label>
-		  	<input type="file" id="foto">
-		</div>
 		
 		<br>
-		<button type="button" id="enviar" class="form-contact-button" name="enviar">Cadastrar</button> 
+		<button type="button" id="enviar" class="form-contact-button pula" name="enviar">Cadastrar</button> 
 	</div>
 	
 	<br>
@@ -149,6 +142,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/validCpfFuncionario.js}"></script>
 	<script th:src="@{/js/funcionarios/cadastroFuncionario.js}"></script>
+	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: empresa}"></div>
