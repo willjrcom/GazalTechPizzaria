@@ -42,7 +42,7 @@ public class VerpedidoController{
 	@ResponseBody
 	public Pedido novoPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("EXCLUIDO");
-		List<PedidoTemp> temp = temps.findByNome(pedido.getNomePedido());
+		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
 		temps.deleteInBatch(temp);
 		return pedidos.save(pedido);
 	}

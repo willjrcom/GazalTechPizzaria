@@ -8,7 +8,7 @@
 
 <body>
 	<div class="divbase">
-		<div id="divBuscar">
+		<div id="divBuscarCliente">
 		
 			<div class=" col-md-2 fRight">
 				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success"><span class="oi oi-person"></span> Cadastrar Cliente</button></a>
@@ -32,7 +32,7 @@
 			<br>
 		</div>
 		
-		<div class="row" id="mostrar">
+		<div class="row" id="mostrarDadosCliente">
 			<div class="col-md-6 table-responsive">
 				<table>
 
@@ -73,7 +73,7 @@
 	<br>
 	<div>
 		<div class="col-md-6">
-			<div class="divbase" id="mostrarProdutos">
+			<div class="divbase" id="divBuscarProdutos">
 			
 				<div class="row">
 					<div class="form-group col-md-8">
@@ -90,7 +90,7 @@
 	
 	<!-- ------------------------------------------------------------------------------------------------- -->
 			
-			<div class="divbase mostrarPedidos">
+			<div class="divbase divListaGeral">
 				<div>
 					<h3>Pizzas</h3>
 					<hr>
@@ -112,7 +112,7 @@
 								</tr>
 							</thead>
 				
-							<tbody id="novoPizza"></tbody>
+							<tbody id="listaPizza"></tbody>
 						</table>
 					</div>
 				</div>
@@ -138,7 +138,7 @@
 								</tr>
 							</thead>
 				
-							<tbody id="novoProduto"></tbody>
+							<tbody id="listaProduto"></tbody>
 						</table>
 					</div>
 				</div>
@@ -146,7 +146,7 @@
 		</div>
 	
 		<div class="col-md-6">
-			<div class="divbase mostrarPedidos">
+			<div class="divbase divListaGeral">
 				<h2 class="h1Logo" align="center">Finalizar Pedido</h2>
 				<hr>
 				<div id="divEnvio"></div>
@@ -159,11 +159,7 @@
 				</div>
 		
 				<div class="btn-group fRight" role="group" aria-label="Second group">
-					<button class="btn btn-secondary btn-success" id="enviarPedido"><span class="oi oi-cart"></span> Salvar pedido</button>
-				</div>
-				
-				<div class="btn-group fRight" role="group" aria-label="Second group">
-					<button class="btn btn-secondary btn-success" id="atualizarPedido"><span class="oi oi-reload"></span> Atualizar pedido</button>
+					<button class="btn btn-secondary btn-success pula" id="BotaoEnviarPedido"><span class="oi oi-cart"></span> Salvar pedido</button>
 				</div>
 			</div>
 		</div>

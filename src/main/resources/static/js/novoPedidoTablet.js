@@ -358,8 +358,8 @@ function mostrarProdutos() {
 						}).done(function(event){
 							mesa.data = event.dia;
 							mesa.envio = 'MESA';
-							mesa.horaPedido = new Date();
-							mesa.nomePedido = 'Mesa ' + $("#Nmesa").text();
+							mesa.horaPedido = hora + ':' + minuto + ':' + segundo;
+							mesa.nome = 'Mesa ' + $("#Nmesa").text();
 							mesa.pagamento = 'Não';
 							mesa.pizzas = JSON.stringify(pizzas);
 							mesa.produtos = JSON.stringify(produtos);
@@ -368,7 +368,7 @@ function mostrarProdutos() {
 							
 							//----------------------------------------------------------------------
 							var temp = {};
-							temp.nome = mesa.nomePedido;
+							temp.nome = mesa.nome;
 							temp.pizzas = mesa.pizzas;
 							temp.produtos = mesa.produtos;
 							temp.status = "COZINHA";
@@ -520,3 +520,21 @@ function removerPizza() {
 	$("#meuCarrinho").text(tPizzas);
 	$("#item").text((tPizzas == 1) ? ' Item' : ' Itens');
 }
+
+
+//salvar hora atual
+	var data = new Date();
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+	dia  = data.getDate().toString();
+	dia = (dia.length == 1) ? '0'+dia : dia;
+	mes  = (data.getMonth()+1).toString();
+	mes = (mes.length == 1) ? '0'+mes : mes;
+	ano = data.getFullYear();

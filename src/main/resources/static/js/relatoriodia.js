@@ -32,7 +32,7 @@ $.ajax({
 		for(pedido of pedidos){
 			linhaHtml += '<tr>'
 						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nomePedido + '</td>';
+						+ '<td>' + pedido.nome + '</td>';
 
 			Tpizzas = 0;
 			for(produto of pedido.produtos) Tpizzas += produto.qtd;
@@ -63,12 +63,12 @@ function verPedido() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
-	
+
 	Tpizzas = 0;
 	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
 	
 	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;
-	
+			
 	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table>'
@@ -111,18 +111,21 @@ function verPedido() {
 		}
 		linhaHtml += '</table>';
 	}
-	
+
 	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br><br>' + '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
 				+ '<br><b>A/C:</b> ' + pedidos[idBusca].ac
-				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
+				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
+				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
 	
 	if(pedidos[idBusca].motoboy != null) {
 		linhaHtml += '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy;
 	}
 	$.alert({
 		type: 'green',
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: linhaHtml,
+	    closeIcon: true,
+	    columnClass: 'col-md-8',
 	    buttons: {
 	        confirm: {
 				text: 'Voltar',

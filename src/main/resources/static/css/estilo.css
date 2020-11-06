@@ -11,7 +11,7 @@
 	margin-left: 0px;
 }
 
-#mostrar, #mostrarProdutos, #atualizarPedido, .mostrarPedidos{
+#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, .divListaGeral{
 	display: none;
 }
 /*	

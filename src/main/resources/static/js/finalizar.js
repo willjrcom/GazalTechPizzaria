@@ -49,7 +49,7 @@ $(document).ready(function(){
 				for(pedido of pedidos){
 					linhaHtml += '<tr>'
 								+ '<td>' + pedido.comanda + '</td>'
-								+ '<td>' + pedido.nomePedido + '</td>';
+								+ '<td>' + pedido.nome + '</td>';
 					
 					Tpizzas = 0;
 					for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
@@ -154,7 +154,7 @@ function finalizarPedido() {
 	}else {
 		$.confirm({
 			type: 'green',
-		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+		    title: 'Pedido: ' + pedidos[idBusca].nome,
 		    content: linhaHtml,
 		    closeIcon: true,
 		    columnClass: 'col-md-8',

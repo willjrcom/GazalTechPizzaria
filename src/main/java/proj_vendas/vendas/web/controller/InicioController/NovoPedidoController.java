@@ -143,7 +143,7 @@ public class NovoPedidoController {
 	@ResponseBody
 	public String apagarTemp(@PathVariable Long comanda) {
 		Pedido pedido = pedidos.findByComanda(comanda);
-		List<PedidoTemp> temp = temps.findByNome(pedido.getNomePedido());
+		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
 		temps.deleteInBatch(temp);
 		return "ok";
 	}

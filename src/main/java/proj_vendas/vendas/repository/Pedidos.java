@@ -21,6 +21,6 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 
 	public List<Pedido> findByDataAndStatusNotAndStatusNot(String dia, String status1, String status2);//ver pedidos
 
-	public Pedido findByNomePedidoAndDataAndStatusNotAndStatusNot(String nomePedido, String dia, String status1,
+	public Pedido findByNomeAndDataAndStatusNotAndStatusNot(String nome, String dia, String status1,
 			String status2);
 }

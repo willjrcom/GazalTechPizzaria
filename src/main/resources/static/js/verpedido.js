@@ -36,7 +36,7 @@ function buscarPedido() {
 					
 					linhaHtml += '<tr>'
 								+ '<td>' + pedido.comanda + '</td>'
-								+ '<td>' + pedido.nomePedido + '</td>';
+								+ '<td>' + pedido.nome + '</td>';
 								
 					for(produto of pedido.produtos) tPizzas += produto.qtd;//total de produtos
 							
@@ -99,20 +99,20 @@ function verPedido() {
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
 					+ '</tr>';
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.borda + '</td>'
-						 +	'<td>' + pizza.sabor + '</td>'
-						 +	'<td>' + pizza.obs + '</td>'
-						 +	'<td>' + pizza.qtd + '</td>'
-						 +  '<td>R$ ' + pizza.preco + '</td>'
+						 +	'<td>' + pizza.borda + ' ---- </td>'
+						 +	'<td>' + pizza.sabor + '---- </td>'
+						 +	'<td>' + pizza.obs + ' ---- </td>'
+						 +	'<td>' + pizza.qtd + ' ---- </td>'
+						 +  '<td>R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -121,18 +121,18 @@ function verPedido() {
 	if(pedidos[idBusca].produtos.length != 0) {
 		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
 					+ '</tr>';
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.sabor + '</td>'
-						 +	'<td>' + produto.obs + '</td>'
-						 +	'<td>' + produto.qtd + '</td>'
-						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
+						 +	'<td>' + produto.sabor + ' ---- </td>'
+						 +	'<td>' + produto.obs + ' ---- </td>'
+						 +	'<td>' + produto.qtd + ' ---- </td>'
+						 +  '<td>R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -144,7 +144,7 @@ function verPedido() {
 	
 	$.confirm({
 		type: 'green',
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: linhaHtml,
 	    closeIcon: true,
 	    columnClass: 'col-md-8',
@@ -183,7 +183,7 @@ function editarPedido() {
 	
 	$.confirm({
 		type: 'red',
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: 'Tenha certeza do que você está fazendo!<br>' + aviso,
 	    buttons: {
 	        confirm: {
@@ -224,7 +224,7 @@ function excluirPedido() {
 			
 	$.confirm({
 		type: 'red',
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: 'Deseja apagar o pedido?',
 	    buttons: {
 	        confirm: {
@@ -375,7 +375,7 @@ function imprimirTudo(cliente) {
 						
 						//numero da comanda e nome
 						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
-						+ '<label>Cliente: ' + cliente.nomePedido + '</label><br>';
+						+ '<label>Cliente: ' + cliente.nome + '</label><br>';
 			
 			//mostrar endereco do cliente
 			if(cliente.envio == 'ENTREGA') {
@@ -404,10 +404,9 @@ function imprimirTudo(cliente) {
 						
 				
 			//salvar hora
-			cliente.horaPedido = cliente.horaPedido.split('T')[0]
-			imprimirTxt += 'Data do pedido: ' + cliente.horaPedido.split('-')[2] + '/'
-											  + cliente.horaPedido.split('-')[1] + '/'
-											  + cliente.horaPedido.split('-')[0];
+			imprimirTxt += 'Data do pedido: ' + cliente.data.split('-')[2] + '/'
+											  + cliente.data.split('-')[1] + '/'
+											  + cliente.data.split('-')[0];
 			
 			tela_impressao = window.open('about:blank');
 			tela_impressao.document.write(imprimirTxt);
@@ -430,7 +429,7 @@ function imprimirPizzas(cliente) {
 						
 						//numero da comanda e nome
 						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
-						+ '<label>Cliente: ' + cliente.nomePedido + '</label><br>';
+						+ '<label>Cliente: ' + cliente.nome + '</label><br>';
 			
 			mostrar(cliente);
 			

@@ -53,7 +53,7 @@ $.ajax({
 		for(pedido of pedidos){
 			linhaHtml += '<tr>'
 						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nomePedido + '</td>'
+						+ '<td>' + pedido.nome + '</td>'
 						+ '<td>' + pedido.endereco + '</td>';
 			
 			Tpizzas = 0;
@@ -103,7 +103,7 @@ function finalizarPedido() {
 	}else{
 		$.confirm({
 			type: 'green',
-		    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+		    title: 'Pedido: ' + pedidos[idBusca].nome,
 		    content: 'Deseja entregar?',
 		    buttons: {
 		        confirm: {

@@ -34,7 +34,7 @@ $.ajax({
 		for(pedido of pedidos){
 			linhaHtml += '<tr>'
 						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nomePedido + '</td>';
+						+ '<td>' + pedido.nome + '</td>';
 
 			Tpizzas = 0;
 
@@ -46,7 +46,7 @@ $.ajax({
 						+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
-							+ '<button type="button" title="finalizar" class="botao" onclick="finalizarPedido()"'
+							+ '<button type="button" title="finalizar" class="botao" onclick="verPedido()"'
 							+ 'value="'+ pedido.id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>'			
 					+ '<tr>'
 				+ linhaCinza;
@@ -56,7 +56,9 @@ $.ajax({
 	}
 });	
 
-function finalizarPedido() {
+
+//-------------------------------------------------------------------------------------------------------
+function verPedido() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
@@ -111,14 +113,16 @@ function finalizarPedido() {
 		}
 		linhaHtml += '</table>';
 	}
+
 	
 	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br><br>'
 			+ '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
-			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
+			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
+			+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
 
 	$.alert({
 		type: 'red',
-	    title: 'Pedido: ' + pedidos[idBusca].nomePedido,
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: linhaHtml,
 	    closeIcon: true,
 	    columnClass: 'col-md-8',

@@ -22,7 +22,7 @@ public class Pedido implements Serializable{
 	private Long id;
 
 	private Long comanda;
-	private String nomePedido;
+	private String nome;
 	private String celular;
 	private String endereco;
 	@Lob
@@ -54,11 +54,11 @@ public class Pedido implements Serializable{
 	public void setPizzas(String pizzas) {
 		this.pizzas = pizzas;
 	}
-	public String getNomePedido() {
-		return nomePedido;
+	public String getNome() {
+		return nome;
 	}
-	public void setNomePedido(String nomePedido) {
-		this.nomePedido = nomePedido;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 	public String getCelular() {
 		return celular;
