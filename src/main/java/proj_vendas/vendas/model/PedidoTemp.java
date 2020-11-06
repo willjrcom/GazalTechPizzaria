@@ -26,8 +26,6 @@ public class PedidoTemp implements Serializable{
 
 	@Lob
 	private String pizzas;
-	@Lob
-	private String produtos;
 	
 	private String status;
 	private String envio;
@@ -53,12 +51,6 @@ public class PedidoTemp implements Serializable{
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
-	}
-	public String getProdutos() {
-		return produtos;
-	}
-	public void setProdutos(String produtos) {
-		this.produtos = produtos;
 	}
 	public String getData() {
 		return data;

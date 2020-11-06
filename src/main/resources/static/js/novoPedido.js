@@ -683,11 +683,12 @@ $("#enviarPedido").click(function() {
 							cliente.troco = parseFloat(troco);
 							
 							//----------------------------------------------------------------------
+							
 							var temp = {};
 							temp.nome = cliente.nomePedido;
 							temp.pizzas = cliente.pizzas;
-							temp.produtos = cliente.produtos;
 							temp.status = "COZINHA";
+							temp.envio = cliente.envio;
 							temp.data = cliente.data;
 							
 							//salvar pedido
@@ -907,11 +908,10 @@ $("#atualizarPedido").click(function() {
 							
 						}).done(function(e){
 							imprimir();
-							
+
 							var temp = {};
 							temp.nome = cliente.nomePedido;
 							temp.pizzas = cliente.pizzas;
-							temp.produtos = cliente.produtos;
 							temp.status = "COZINHA";
 							temp.envio = cliente.envio;
 							temp.data = cliente.data;
@@ -1136,3 +1136,21 @@ function imprimir() {
 function recarregar() {
 	window.location.href= "/novoPedido";
 }
+
+
+//Método para pular campos teclando ENTER
+$('.pula').on('keypress', function(e){
+     var tecla = (e.keyCode?e.keyCode:e.which);
+
+     if(tecla == 13){
+         campo = $('.pula');
+     indice = campo.index(this);
+     
+     if(campo[indice+1] != null){
+     	if(indice == 3) proximo = campo[indice - 1];
+     	else proximo = campo[indice + 1];
+         proximo.focus();
+         //console.log("indice: " + indice);
+     }
+ }
+});
