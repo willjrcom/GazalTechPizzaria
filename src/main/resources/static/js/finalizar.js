@@ -63,7 +63,7 @@ $(document).ready(function(){
 								+ '<td>' 
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-									+ 'value="'+ pedido.id + '"><span class="oi oi-timer"></span> Finalizar</button></a></td>'			
+									+ 'value="'+ pedido.id + '"><span class="oi oi-data-transfer-download"></span></button></a></td>'			
 							+ '<tr>'
 						+ linhaCinza;
 				}

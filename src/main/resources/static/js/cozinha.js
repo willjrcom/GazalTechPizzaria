@@ -80,12 +80,12 @@ function buscarPedido() {
 								linhaHtml += '<td>' 
 											+ '<a class="enviarPedido">'
 											+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
-											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>';
 							}else if(j == 0){//botoes seguintes
 								linhaHtml += '<td>' 
 											+ '<a class="enviarPedido">'
 											+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
-											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span> Enviar</button></a></td>';
+											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>';
 							}
 							linhaHtml += '</tr>';
 
