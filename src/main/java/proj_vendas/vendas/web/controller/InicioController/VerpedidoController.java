@@ -40,7 +40,7 @@ public class VerpedidoController{
 	
 	@RequestMapping(value = "/excluirPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Pedido novoPedido(@ModelAttribute("id") Pedido pedido) {
+	public Pedido excluirPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("EXCLUIDO");
 		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
 		temps.deleteInBatch(temp);

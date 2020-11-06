@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -152,5 +153,12 @@ public class NovoPedidoController {
 	@ResponseBody
 	public Empresa editar() {
 		return empresas.buscarId1();
+	}
+	
+	@RequestMapping(value = "/excluirPedidosTemp/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public void excluirPedido(@ModelAttribute("id") Pedido pedido) {
+		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
+		temps.deleteInBatch(temp);
 	}
 }

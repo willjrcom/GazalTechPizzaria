@@ -629,6 +629,13 @@ $("#BotaoEnviarPedido").click(function() {
 									//converter pedido atual em JSON
 									cliente.pizzas = JSON.stringify(cliente.pizzas);
 									cliente.produtos = JSON.stringify(cliente.produtos);
+								}else {
+									//excluir temporarios para nao duplicar
+									$.ajax({
+										url: "/novoPedido/excluirPedidosTemp/" + cliente.id,
+										type: 'PUT',
+										data: cliente,
+									});
 								}
 								
 								//salvar pedido
