@@ -79,11 +79,9 @@ $("#buscar").click(function(){
 									+'<td align="center">' + usuario.email + '</td>'
 									+'<td align="center">' + usuario.perfil + '</td>';
 					
-					if(usuario.ativo == 1) {
-						usuarioHtml += '<td align="center">Sim</td>';
-					}else {
-						usuarioHtml += '<td align="center">Não</td>';
-					}
+					if(usuario.ativo == 1) usuarioHtml += '<td align="center">Sim</td>';
+					else usuarioHtml += '<td align="center">Não</td>';
+					
 					usuarioHtml += '<td align="center"><div class="row">'
 									+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-pencil"></span></button></div>'
 									+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-trash"></span></button></div>'
@@ -278,11 +276,8 @@ function editarUsuario() {
 							$("#id").val(usuario.id);
 							$("#email").val(usuario.email);
 							$("#perfil").val(usuario.perfil);
-							if(usuario.ativo == 1) {
-								$("#ativo").val("true");
-							}else {
-								$("#ativo").val("false");
-							}
+							if(usuario.ativo == 1) $("#ativo").val("true");
+							else $("#ativo").val("false");
 							
 							$("#criar").text("Atualizar usuário");
 							opSenha = -1;

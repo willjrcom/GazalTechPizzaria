@@ -1,6 +1,4 @@
-
 var produtos = [];
-
 var linhaHtml;
 var pedidoVazio = '<tr><td colspan="6">Nenhum produto encontrado!</td></tr>';
 var linhaCinza = '<tr><td colspan="6" class="fundoList"></td></tr>';
@@ -16,36 +14,22 @@ $("#buscar").click(function(){
 		type: 'PUT'
 	}).done(function(e){
 		
-		produtos = [];
-		
-		for(var i = 0; i<e.length; i++) {
-			produtos.unshift({
-				'id': e[i].id,
-				'codigoBusca': e[i].codigoBusca,
-				'nomeProduto': e[i].nomeProduto,
-				'preco': e[i].preco,
-				'custo': e[i].custo,
-				'estoque': e[i].estoque,
-				'setor': e[i].setor,
-				'descricao': e[i].descricao
-			});
-		}
-		
+		produtos = e;
 		linhaHtml = '';
 		
 		if(produtos.length != 0) {
-			for(var i = 0; i<produtos.length; i++) {
+			for(produto of produtos) {
 				linhaHtml += '<tr>'
-							+'<td>' + produtos[i].id + '</td>'
-							+'<td>' + produtos[i].codigoBusca + '</td>'
-							+'<td>' + produtos[i].nomeProduto + '</td>'
-							+'<td>R$ ' + parseFloat(produtos[i].preco).toFixed(2) + '</td>'
-							+'<td>R$ ' + parseFloat(produtos[i].custo).toFixed(2) + '</td>';
+							+'<td>' + produto.id + '</td>'
+							+'<td>' + produto.codigoBusca + '</td>'
+							+'<td>' + produto.nomeProduto + '</td>'
+							+'<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+							+'<td>R$ ' + parseFloat(produto.custo).toFixed(2) + '</td>'
 				
-							+ '<td><div class="row">';
+							+ '<td><div class="row">'
 								+ '<div class="col-md-1">'
 									+'<a title="Ver">'
-										+'<button class="botao" onclick="verProduto()" value="'+ produtos[i].id + '">'
+										+'<button class="botao" onclick="verProduto()" value="'+ produto.id + '">'
 											+'<span class="oi oi-magnifying-glass"></span>'
 										+'</button>'
 									+'</a>'
@@ -53,7 +37,7 @@ $("#buscar").click(function(){
 			
 								+ '<div class="col-md-1">'
 									+'<a title="Editar">'
-										+'<button class="botao" onclick="editarProduto()" value="'+ produtos[i].id + '">'
+										+'<button class="botao" onclick="editarProduto()" value="'+ produto.id + '">'
 											+'<span class="oi oi-pencil"></span>'
 										+'</button>'
 									+'</a>'
@@ -61,7 +45,7 @@ $("#buscar").click(function(){
 				
 								+ '<div class="col-md-1">'
 									+'<a title="Excluir">'
-										+'<button class="botao" onclick="excluirProduto()" value="'+ produtos[i].id + '">'
+										+'<button class="botao" onclick="excluirProduto()" value="'+ produto.id + '">'
 											+'<span class="oi oi-trash"></span>'
 										+'</button>'
 									+'</a>'
@@ -84,12 +68,9 @@ function verProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
-		if(produtos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
-	
+	//buscar dados completos do pedido enviado
+	for(i in produtos) if(produtos[i].id == idProduto) var idBusca = i;		
+		
 	linhaHtml = '<table><tr>'
 					+ '<td><h4>Codigo</h4></td>'
 					+ '<td><h4>Nome</h4></td>'
@@ -129,11 +110,8 @@ function editarProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
-		if(produtos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in produtos) if(produtos[i].id == idProduto) var idBusca = i;		
 	
 	$.confirm({
 		type: 'red',
@@ -145,15 +123,7 @@ function editarProduto() {
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){
-					
-					$.ajax({
-						url: "/cadastroProduto/editar/" + idProduto.toString(),
-						type: 'PUT',
-					}).done(function(){
-						window.location.href = "/cadastroProduto/editar/" + idProduto.toString();
-					}).fail(function(){
-						$.alert("Tente novamente!");
-					});
+					window.location.href = "/cadastroProduto/editar/" + idProduto.toString();
 				}
 			},
 	        cancel:{
@@ -171,11 +141,9 @@ function excluirProduto() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<produtos.length; i++){//buscar dados completos do pedido enviado
-		if(produtos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in produtos) if(produtos[i].id == idProduto) var idBusca = i;		
+		
 	var inputApagar = '<input type="text" placeholder="Digite SIM para apagar!" class="form-control" id="apagar" required />'
 			
 	$.confirm({
@@ -201,42 +169,61 @@ function excluirProduto() {
 					            action: function(){
 									var apagarSim = this.$content.find('#apagar').val();
 									
-									if(apagarSim === 'sim') {
-										
-										$.ajax({
-											url: "/produtosCadastrados/excluirProduto/" + idProduto.toString(),
-											type: 'PUT'
-											
-										}).done(function(){		
+									$.ajax({
+										url: "/verpedido/autenticado"
+									}).done(function(e){
+										if(e[0].authority === "ADM") {
+											if(apagarSim === 'sim') {
+												
+												$.ajax({
+													url: "/produtosCadastrados/excluirProduto/" + idProduto.toString(),
+													type: 'PUT'
+													
+												}).done(function(){		
+													$.alert({
+														type: 'green',
+													    title: 'Produto apagado!',
+													    content: 'Espero que dê tudo certo!',
+													    buttons: {
+													        confirm: {
+																text: 'Voltar',
+													    		keys: ['enter'],
+													            btnClass: 'btn-green',
+															}
+														}
+													});
+												}).fail(function(){
+													$.alert("Erro, Produto não apagado!");
+												});
+											}else {
+												$.alert({
+													type: 'red',
+												    title: 'Texto incorreto!',
+												    content: 'Pense bem antes de apagar um produto!',
+												    buttons: {
+												        confirm: {
+															text: 'Voltar',
+												    		keys: ['enter'],
+												            btnClass: 'btn-red',
+														}
+													}
+												});
+											}
+										}else {//se nao for ADM
 											$.alert({
-												type: 'green',
-											    title: 'Produto apagado!',
-											    content: 'Espero que dê tudo certo!',
+												type: 'red',
+											    title: 'Permissão de usuário!',
+											    content: 'Você não tem permissão para apagar um funcionario<br>Utilize um usuário ADM!',
 											    buttons: {
 											        confirm: {
 														text: 'Voltar',
 											    		keys: ['enter'],
-											            btnClass: 'btn-green',
+											            btnClass: 'btn-red',
 													}
 												}
 											});
-										}).fail(function(){
-											$.alert("Erro, Produto não apagado!");
-										});
-									}else {
-										$.alert({
-											type: 'red',
-										    title: 'Texto incorreto!',
-										    content: 'Pense bem antes de apagar um produto!',
-										    buttons: {
-										        confirm: {
-													text: 'Voltar',
-										    		keys: ['enter'],
-										            btnClass: 'btn-red',
-												}
-											}
-										});
-									}
+										}
+									});
 								}
 							},
 					        cancel: {

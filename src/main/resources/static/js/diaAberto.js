@@ -13,19 +13,19 @@ $.ajax({
 	type: 'PUT'
 })
 .done(function(e){
-	dia = e;
+	dias = e;
 	$("#todosFuncionarios").html("");
 	linhaHtml = "";
 	
-	if(dia.length == 0){
+	if(dias.length == 0){
 		$("#todosFuncionarios").html(pedidoVazio);
 	}else{
-		for(var i = 0; i<dia.length; i++){
+		for(dia of dias){
 			linhaHtml += '<tr>'
-							+ '<td>' + dia[i].id + '</td>'
-							+ '<td>' + dia[i].data.split('-')[2] + '/' + dia[i].data.split('-')[1] + '/' + dia[i].data.split('-')[0] + '</td>'
-							+ '<td>R$ ' + dia[i].trocoInicio.toFixed(2) + '</td>'
-							+ '<td>' + dia[i].trocoFinal.toFixed(2) + '</td>'
+							+ '<td>' + dia.id + '</td>'
+							+ '<td>' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
+							+ '<td>R$ ' + dia.trocoInicio.toFixed(2) + '</td>'
+							+ '<td>' + dia.trocoFinal.toFixed(2) + '</td>'
 						+ '</tr>'
 					+ linhaCinza;
 		}

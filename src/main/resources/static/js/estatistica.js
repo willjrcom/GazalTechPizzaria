@@ -25,12 +25,12 @@ function drawBackgroundColor() {
   					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
   		  });
     	  
-    	  for(var i = 0; i<objeto.length; i++) {
-    		  if(objeto[i].totalVendas != 0) {
+    	  for(obj of objeto) {
+    		  if(obj.totalVendas != 0) {
     			  dados.push([
-    			              (objeto[i].data.split('-')[2] + '/' + objeto[i].data.split('-')[1]),
-    			              objeto[i].totalVendas,
-    			              objeto[i].totalLucro
+    			              (obj.data.split('-')[2] + '/' + obj.data.split('-')[1]),
+    			              obj.totalVendas,
+    			              obj.totalLucro
     			  ]);
     		  }
     	  }
@@ -73,12 +73,12 @@ function drawBackgroundColor() {
     					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
     	  });
     	  
-    	  for(var i = 0; i<objeto1.length; i++) {
-    		  if(objeto1[i].totalVendas != 0) {
+    	  for(obj1 of objeto1) {
+    		  if(obj1.totalVendas != 0) {
     			  dados1.push([
-    			              objeto1[i].data.split('-')[2] + '/' + objeto1[i].data.split('-')[1], 
-    			              objeto1[i].balcao, 
-    			              objeto1[i].entregas
+    			              obj1.data.split('-')[2] + '/' + obj1.data.split('-')[1], 
+    			              obj1.balcao, 
+    			              obj1.entregas
     			  ]);
     		  }
     	  }
@@ -119,12 +119,12 @@ function drawBackgroundColor() {
     					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
     		  });
     	  
-    	  for(var i = 0; i<objeto2.length; i++) {
-    		  if(objeto2[i].totalVendas != 0) {
+    	  for(obj2 of objeto2) {
+    		  if(obj2.totalVendas != 0) {
     			  dados2.push([
-    			              objeto2[i].data.split('-')[2] + '/' + objeto2[i].data.split('-')[1], 
-    			              objeto2[i].totalPizza, 
-    			              objeto2[i].totalProduto
+    			              obj2.data.split('-')[2] + '/' + obj2.data.split('-')[1], 
+    			              obj2.totalPizza, 
+    			              obj2.totalProduto
     			  ]);
     		  }
     	  }

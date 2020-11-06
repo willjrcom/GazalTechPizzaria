@@ -82,17 +82,11 @@ function qtdGarcon(qtd) {
 
 //---------------------------------------------------------------
 function qtdTempo(tempo) {
-	if(tempo == 1) {
-		Tempo = "Péssimo";
-	}else if(tempo == 2) {
-		Tempo = "Lento";
-	}else if(tempo == 3) {
-		Tempo = "Regular";
-	}else if(tempo == 4) {
-		Tempo = "Rápido";
-	}else if(tempo == 5) {
-		Tempo = "Excelente";
-	}
+	if(tempo == 1) Tempo = "Péssimo";
+	else if(tempo == 2) Tempo = "Lento";
+	else if(tempo == 3) Tempo = "Regular";
+	else if(tempo == 4) Tempo = "Rápido";
+	else if(tempo == 5) Tempo = "Excelente";
 	
 	$("#inputTempo").text(Tempo);
 }
@@ -122,14 +116,10 @@ $("#mesa").click(function(){
 				filtro += '<option value="' + Nmesa + '">' + Nmesa +'</option>';
 				
 				for(var i = 1; i <= mesas; i++) {
-					if(i != Nmesa) {
-						filtro += '<option value="' + i + '">' + i +'</option>';	
-					}
+					if(i != Nmesa) filtro += '<option value="' + i + '">' + i +'</option>';	
 				}
 			}else {
-				for(var i = 1; i <= mesas; i++) {
-					filtro += '<option value="' + i + '">' + i +'</option>';
-				}
+				for(var i = 1; i <= mesas; i++) filtro += '<option value="' + i + '">' + i +'</option>';
 			}
 			
 			

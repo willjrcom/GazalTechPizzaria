@@ -121,17 +121,17 @@ $("#data").click(function(){
 													  + dados.data.split('-')[1] + '/'
 													  + dados.data.split('-')[0] + ' criada',
 									buttons:{
-									confirm:{
-									text:'Alterar troco',
-									btnClass: 'btn-green',
-									action: function(){
-										troco();
-									}
-								},
-								cancel:{
-									text:'Continuar',
-									btnClass: 'btn-danger'
-								}
+										confirm:{
+											text:'Alterar troco',
+											btnClass: 'btn-green',
+											action: function(){
+												troco();
+											}
+										},
+										cancel:{
+											text:'Continuar',
+											btnClass: 'btn-danger'
+										}
 									}
 								});
 							}).fail(function(){

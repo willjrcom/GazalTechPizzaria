@@ -80,11 +80,8 @@ function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(i in pedidos){//buscar dados completos do pedido enviado
-		if(pedidos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;	
 	
 	Tpizzas = 0;
 	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;

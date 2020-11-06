@@ -39,9 +39,7 @@ function salvar() {
 				type: 'PUT'
 			}).done(function(e){
 				
-				if(e.compras != null) {
-					compras = JSON.parse(e.compras);
-				}
+				if(e.compras != null) compras = JSON.parse(e.compras);
 				
 				compras.unshift(compra);
 				

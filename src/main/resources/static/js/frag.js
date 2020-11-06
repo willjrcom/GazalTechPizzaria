@@ -38,8 +38,6 @@ $(document).ready(function(){
 		url: '/novoPedido/empresa',
 		type: 'PUT'
 	}).done(function(e){
-		if(e.length != 0) {
-			$("title").text($("title").text() + " - " + e.nomeEstabelecimento);
-		}
+		if(e.length != 0) $("title").text($("title").text() + " - " + e.nomeEstabelecimento);
 	});
 });

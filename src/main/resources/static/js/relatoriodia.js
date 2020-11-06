@@ -17,10 +17,10 @@ $.ajax({
 .done(function(e){
 	pedidos = e;
 	
-	for(var i = 0; i< e.length; i++){
+	for(pedido of pedidos){
 		Tpedidos++;
-		pedidos[i].pizzas = JSON.parse(e[i].pizzas);
-		pedidos[i].produtos = JSON.parse(e[i].produtos);
+		pedido.pizzas = JSON.parse(pedido.pizzas);
+		pedido.produtos = JSON.parse(pedido.produtos);
 	}
 
 	$("#todosPedidos").html("");
@@ -29,25 +29,22 @@ $.ajax({
 	if(pedidos.length == 0){
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
-		for(var i = 0; i<pedidos.length; i++){
+		for(pedido of pedidos){
 			linhaHtml += '<tr>'
-						+ '<td>' + pedidos[i].comanda + '</td>'
-						+ '<td>' + pedidos[i].nomePedido + '</td>';
+						+ '<td>' + pedido.comanda + '</td>'
+						+ '<td>' + pedido.nomePedido + '</td>';
 
 			Tpizzas = 0;
-			for(var k = 0; k<pedidos[i].produtos.length; k++) {
-				Tpizzas += pedidos[i].produtos[k].qtd;
-			}
-			for(var k = 0; k<pedidos[i].pizzas.length; k++) {
-				Tpizzas += pedidos[i].pizzas[k].qtd;
-			}
+			for(produto of pedido.produtos) Tpizzas += produto.qtd;
+			
+			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
 			
 			linhaHtml += '<td>' + Tpizzas + '</td>'
-						+ '<td>R$ ' + pedidos[i].total.toFixed(2) + '</td>'
+						+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
-							+ '<button type="button" title="finalizar" onclick="finalizarPedido()" class="botao"'
-							+ 'value="'+ pedidos[i].id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>'		
+							+ '<button type="button" title="finalizar" onclick="verPedido()" class="botao"'
+							+ 'value="'+ pedido.id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>'		
 					+ '</tr>'
 				+ linhaCinza;
 		}
@@ -59,29 +56,19 @@ $.ajax({
 
 
 //----------------------------------------------------------------------
-function finalizarPedido() {
+function verPedido() {
 	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(var i = 0; i<pedidos.length; i++){//buscar dados completos do pedido enviado
-		if(pedidos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 	
 	Tpizzas = 0;
-	if(pedidos[idBusca].produtos.length != 0) {
-		for(var k = 0; k < pedidos[idBusca].produtos.length; k++) {
-			Tpizzas += pedidos[idBusca].produtos[k].qtd;
-		}
-	}
+	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
 	
-	if(pedidos[idBusca].pizzas.length != 0) {
-		for(var k = 0; k<pedidos[idBusca].pizzas.length; k++) {
-			Tpizzas += pedidos[idBusca].pizzas[k].qtd;
-		}
-	}
+	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;
+	
 	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table>'
@@ -93,13 +80,13 @@ function finalizarPedido() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pedidos[idBusca].pizzas.length; i++){
+		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].borda + '</td>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].sabor + '</td>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].obs + '</td>'
-						 +	'<td>' + pedidos[idBusca].pizzas[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].pizzas[i].preco.toFixed(2) + '</td>'
+						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td>' + pizza.sabor + '</td>'
+						 +	'<td>' + pizza.obs + '</td>'
+						 +	'<td>' + pizza.qtd + '</td>'
+						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -114,12 +101,12 @@ function finalizarPedido() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pedidos[idBusca].produtos.length; i++){
+		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pedidos[idBusca].produtos[i].sabor + '</td>'
-						 +	'<td>' + pedidos[idBusca].produtos[i].obs + '</td>'
-						 +	'<td>' + pedidos[idBusca].produtos[i].qtd + '</td>'
-						 +  '<td>R$ ' + pedidos[idBusca].produtos[i].preco.toFixed(2) + '</td>'
+						 +	'<td>' + produto.sabor + '</td>'
+						 +	'<td>' + produto.obs + '</td>'
+						 +	'<td>' + produto.qtd + '</td>'
+						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';

@@ -53,9 +53,8 @@ function mostrarOpcao(opcao) {
 					  		+ '<div class="description">'
 							+ '<h1>' + produto.nomeProduto +'</h1>';
 							
-							if(produto.descricao != '') {
-								linhaHtml += '<p>' + produto.descricao + '</p>';
-							}
+							if(produto.descricao != '') linhaHtml += '<p>' + produto.descricao + '</p>';
+							
 							linhaHtml += '<p>R$ ' + parseFloat(produto.preco).toFixed(2) + '</p>'
 										+ '<p class="read-more">'
 									+ '<button class="btn" value="' + produto.id + '" onclick="adicionar()">+</button>'
@@ -120,13 +119,11 @@ function adicionar() {
 			$.ajax({
 				url: '/novoPedido/bordas',
 				type: 'PUT'
-			}).done(function(e){
+			}).done(function(todasBordas){
 				
 				//buscar bordas
 				var bordas = '';
-				for(var k = 0; k<e.length; k++) {
-					bordas += '<option value="' + e[k].id + '">' + e[k].nomeProduto + '</option>';
-				}
+				for(borda of todasBordas) bordas += '<option value="' + borda.id + '">' + borda.nomeProduto + '</option>';
 				
 				var bordasHtml = '<label>Borda Recheada:</label>'
 								+ '<select class="form-control" name="borda" id="borda">'
@@ -282,13 +279,13 @@ function mostrarProdutos() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pizzas.length; i++){
+		for(pizza of pizzas){
 			carrinho += '<tr>'
-						 +	'<td align="center">' + pizzas[i].borda + '</td>'
-						 +	'<td align="center">' + pizzas[i].sabor + '</td>'
-						 +	'<td align="center">' + pizzas[i].obs + '</td>'
-						 +	'<td align="center">' + pizzas[i].qtd + '</td>'
-						 +  '<td align="center">R$ ' + parseFloat(pizzas[i].preco).toFixed(2) + '</td>'
+						 +	'<td align="center">' + pizza.borda + '</td>'
+						 +	'<td align="center">' + pizza.sabor + '</td>'
+						 +	'<td align="center">' + pizza.obs + '</td>'
+						 +	'<td align="center">' + pizza.qtd + '</td>'
+						 +  '<td align="center">R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		carrinho += '</table>';
@@ -306,12 +303,12 @@ function mostrarProdutos() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<produtos.length; i++){
+		for(produto of produtos){
 			carrinho += '<tr>'
-						 +	'<td align="center">' + produtos[i].sabor + '</td>'
-						 +	'<td align="center">' + produtos[i].obs + '</td>'
-						 +	'<td align="center">' + produtos[i].qtd + '</td>'
-						 +  '<td align="center">R$ ' + parseFloat(produtos[i].preco).toFixed(2) + '</td>'
+						 +	'<td align="center">' + produto.sabor + '</td>'
+						 +	'<td align="center">' + produto.obs + '</td>'
+						 +	'<td align="center">' + produto.qtd + '</td>'
+						 +  '<td align="center">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		carrinho += '</table>';
@@ -402,15 +399,11 @@ function mostrarProdutos() {
 									e.pizzas = JSON.parse(e.pizzas);
 									e.produtos = JSON.parse(e.produtos);
 									
-									for(pizza of e.pizzas) {
-										//concatenar pizzas
-										mesa.pizzas.unshift(pizza);
-									}
-									
-									for(produto of e.produtos) {
-										//concatenar produtos
-										mesa.produtos.unshift(produto);
-									}
+									//concatenar pizzas
+									for(pizza of e.pizzas) mesa.pizzas.unshift(pizza);
+
+									//concatenar produtos
+									for(produto of e.produtos) mesa.produtos.unshift(produto);
 									
 									//converter pedido atual em JSON
 									mesa.pizzas = JSON.stringify(mesa.pizzas);

@@ -139,12 +139,8 @@ function enviarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(i in pedidos){//buscar dados completos do pedido enviado
-		if(pedidos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
-	imprimir(pedidos[idBusca]);
+	//buscar dados completos do pedido enviado
+	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 	
 	$.confirm({
 		icon: 'fa fa-spinner fa-spin',
@@ -157,6 +153,7 @@ function enviarPedido() {
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
+					imprimir(pedidos[idBusca]);
 					
 					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 

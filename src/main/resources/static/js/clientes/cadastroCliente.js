@@ -5,9 +5,8 @@ var celular = url_atual.split("/")[4];
 celular = parseInt(celular);
 url_atual = url_atual.split("/")[5];
 
-if(celular % 2 == 1 || celular % 2 == 0) {
-	$("#cel").val(celular);
-}
+if(celular % 2 == 1 || celular % 2 == 0) $("#cel").val(celular);
+
 if(typeof url_atual != "undefined") {
 	
 	$.ajax({

@@ -18,10 +18,10 @@ function buscarPedido() {
 	}).done(function(e){
 
 		pedidos = e;
-		for(var i = 0; i< e.length; i++){
+		for(pedido of pedidos){
 			Tpedidos++;
-			pedidos[i].pizzas = JSON.parse(e[i].pizzas);
-			pedidos[i].produtos = JSON.parse(e[i].produtos);
+			pedido.pizzas = JSON.parse(pedido.pizzas);
+			pedido.produtos = JSON.parse(pedido.produtos);
 		}
 		
 		$("#todosPedidos").html("");
@@ -88,11 +88,9 @@ function verPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(i in pedidos){//buscar dados completos do pedido enviado
-		if(pedidos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
+	
 	Tpizzas = 0;
 	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
 	
@@ -175,11 +173,8 @@ function editarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(i in pedidos){//buscar dados completos do pedido enviado
-		if(pedidos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 	
 	var aviso;
 	if(pedidos[idBusca].status == "PRONTO") aviso = "O pedido está pronto";
@@ -222,11 +217,9 @@ function excluirPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
-	for(i in pedidos){//buscar dados completos do pedido enviado
-		if(pedidos[i].id == idProduto){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
+
 	var inputApagar = '<input type="text" placeholder="Digite SIM para apagar!" class="form-control" id="apagar" required />'
 			
 	$.confirm({

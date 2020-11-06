@@ -23,9 +23,8 @@ $.ajax({
 	url: '/novoPedido/empresa',
 	type: 'PUT'
 }).done(function(e){
-	if(e.length != 0) {
-		horaExtra = e.horaExtra;
-	}
+	if(e.length != 0) horaExtra = e.horaExtra;
+	
 
 	$("#horaExtra").text('R$ ' + horaExtra.toFixed(2));
 	
@@ -44,32 +43,32 @@ $.ajax({
 		if(funcionarios.length == 0){
 			$("#todosFuncionarios").html(pedidoVazio);
 		}else{
-			for(var i = 0; i<funcionarios.length; i++){
+			for(funcionario of funcionarios){
 				linhaHtml += '<tr>'
-								+ '<td>' + funcionarios[i].id + '</td>'
-								+ '<td>' + funcionarios[i].nome + '</td>'
-								+ '<td>R$ ' + funcionarios[i].salario.toFixed(2) + '</td>'
-								+ '<td>' + funcionarios[i].cargo + '</td>'
+								+ '<td>' + funcionario.id + '</td>'
+								+ '<td>' + funcionario.nome + '</td>'
+								+ '<td>R$ ' + funcionario.salario.toFixed(2) + '</td>'
+								+ '<td>' + funcionario.cargo + '</td>'
 								+ '<td>'
 									+'<div class="row">'
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
-											+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-clock"></span></button>'
+											+ 'value="'+ funcionario.id + '"><span class="oi oi-clock"></span></button>'
 											+'</a>'
 										+'</div>'
 										
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Adicionar Gastos" onclick="addGastos()" class="botao"'
-											+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-credit-card"></span></button>'
+											+ 'value="'+ funcionario.id + '"><span class="oi oi-credit-card"></span></button>'
 											+'</a>'
 										+'</div>'
 										
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Pagar" onclick="pagarSalario()" class="botao"'
-											+ 'value="'+ funcionarios[i].id + '"><span class="oi oi-task"></span></button>'
+											+ 'value="'+ funcionario.id + '"><span class="oi oi-task"></span></button>'
 											+'</a>'
 										+'</div>'
 									+'</div>'
@@ -90,11 +89,9 @@ $.ajax({
 		var botaoReceber = $(event.currentTarget);
 		var idProduto = botaoReceber.attr('value');
 		
-		for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
-			if(funcionarios[i].id == idProduto){
-				var idBusca = i;
-			}
-		}
+		//buscar dados completos do pedido enviado
+		for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+			
 		mesAtual = new Date();
 				
 		$.alert({
@@ -126,9 +123,7 @@ $.ajax({
 							
 							var horas = 0;
 							
-							for(j = 0; j<e.length; j++) {
-								horas += e[j]. horas;
-							}
+							for(j = 0; j<e.length; j++) horas += e[j].horas;
 							
 							linhaHtml = '<table>'
 										+ '<tr>'
@@ -167,7 +162,6 @@ $.ajax({
 												dataType : 'json',
 												contentType: "application/json",
 												data: JSON.stringify(funcionario)
-											}).done(function(e){
 											});
 										}
 									},
@@ -192,11 +186,9 @@ $.ajax({
 		var botaoReceber = $(event.currentTarget);
 		var idProduto = botaoReceber.attr('value');
 		
-		for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
-			if(funcionarios[i].id == idProduto){
-				var idBusca = i;
-			}
-		}
+		//buscar dados completos do pedido enviado
+		for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+				
 		mesAtual = new Date()
 				
 		$.alert({
@@ -228,9 +220,7 @@ $.ajax({
 							
 							var gastos = 0;
 							
-							for(j = 0; j<e.length; j++) {
-								gastos += e[j].gastos;
-							}
+							for(j = 0; j<e.length; j++) gastos += e[j].gastos;
 							
 							linhaHtml = '<table>'
 										+ '<tr><th class="col-md-1"><h5>Gastos totais</h5></th></tr>'
@@ -304,11 +294,8 @@ $.ajax({
 		var botaoReceber = $(event.currentTarget);
 		var idProduto = botaoReceber.attr('value');
 		
-		for(var i = 0; i<funcionarios.length; i++){//buscar dados completos do pedido enviado
-			if(funcionarios[i].id == idProduto){
-				var idBusca = i;
-			}
-		}
+		//buscar dados completos do pedido enviado
+		for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;			
 		
 		mesAtual = new Date()
 				

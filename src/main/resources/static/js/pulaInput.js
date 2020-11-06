@@ -8,11 +8,8 @@
             indice = campo.index(this);
             
             if(campo[indice+1] != null){
-            	if(indice == 3) {
-            		proximo = campo[indice - 1];
-            	}else {
-                    proximo = campo[indice + 1];
-            	}
+            	if(indice == 3) proximo = campo[indice - 1];
+            	else proximo = campo[indice + 1];
                 proximo.focus();
                 //console.log("indice: " + indice);
             }

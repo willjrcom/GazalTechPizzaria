@@ -14,30 +14,30 @@ $("#buscar").click(function(){
 		type: 'PUT'
 	}).done(function(e){
 		clientes = [];
-		for(var i = 0; i<e.length; i++) {
+		for(cliente of e) {
 			clientes.unshift({
-				'id': e[i].id,
-				'nome': e[i].nome,
-				'cpf': e[i].cpf,
-				'celular': e[i].celular,
-				'endereco': e[i].endereco.rua + ' - ' + e[i].endereco.n  + ' - ' + e[i].endereco.bairro + ' - ' + e[i].endereco.cidade,
-				'referencia' : e[i].endereco.referencia,
-				'taxa' : e[i].endereco.taxa
+				'id': cliente.id,
+				'nome': cliente.nome,
+				'cpf': cliente.cpf,
+				'celular': cliente.celular,
+				'endereco': cliente.endereco.rua + ' - ' + cliente.endereco.n  + ' - ' + cliente.endereco.bairro,
+				'referencia' : cliente.endereco.referencia,
+				'taxa' : cliente.endereco.taxa
 			});
 		}
 
 		linhaHtml = "";
-		for(var i=0; i<clientes.length; i++){
+		for(cliente of clientes){
 			linhaHtml += '<tr>'
-						+ '<td>' + clientes[i].id + '</td>'
-						+ '<td>' + clientes[i].nome + '</td>'
-						+ '<td>' + clientes[i].celular + '</td>'
-						+ '<td>' + clientes[i].endereco + '</td>'
+						+ '<td>' + cliente.id + '</td>'
+						+ '<td>' + cliente.nome + '</td>'
+						+ '<td>' + cliente.celular + '</td>'
+						+ '<td>' + cliente.endereco + '</td>'
 						
 						+ '<td><div class="row">'
 							+ '<div class="col-md-1">'
 								+'<a title="Ver">'
-									+'<button class="botao" onclick="verCliente()" value="'+ clientes[i].id + '">'
+									+'<button class="botao" onclick="verCliente()" value="'+ cliente.id + '">'
 										+'<span class="oi oi-magnifying-glass"></span>'
 									+'</button>'
 								+'</a>'
@@ -45,7 +45,7 @@ $("#buscar").click(function(){
 					
 							+ '<div class="col-md-1">'
 								+'<a title="Editar">'
-									+'<button class="botao" onclick="editarCliente()" value="'+ clientes[i].id + '">'
+									+'<button class="botao" onclick="editarCliente()" value="'+ cliente.id + '">'
 										+'<span class="oi oi-pencil"></span>'
 									+'</button>'
 								+'</a>'
@@ -53,7 +53,7 @@ $("#buscar").click(function(){
 				
 							+ '<div class="col-md-1">'
 								+'<a title="Excluir">'
-									+'<button class="botao" onclick="excluirCliente()" value="'+ clientes[i].id + '">'
+									+'<button class="botao" onclick="excluirCliente()" value="'+ cliente.id + '">'
 										+'<span class="oi oi-trash"></span>'
 									+'</button>'
 								+'</a>'
@@ -76,11 +76,8 @@ function verCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
 	
-	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
-		if(clientes[i].id == idCliente){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in clientes) if(clientes[i].id == idCliente) var idBusca = i;
 
 	linhaHtml = '<table><tr>'
 					+ '<td><h4>Celular</h4></td>'
@@ -121,11 +118,8 @@ function editarCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
 	
-	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
-		if(clientes[i].id == idCliente){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in clientes) if(clientes[i].id == idCliente) var idBusca = i;
 	
 	$.confirm({
 		type: 'red',
@@ -155,11 +149,9 @@ function excluirCliente() {
 	var botaoReceber = $(event.currentTarget);
 	var idCliente = botaoReceber.attr('value');
 	
-	for(var i = 0; i<clientes.length; i++){//buscar dados completos do pedido enviado
-		if(clientes[i].id == idCliente){
-			var idBusca = i;
-		}
-	}
+	//buscar dados completos do pedido enviado
+	for(i in clientes) if(clientes[i].id == idCliente) var idBusca = i;
+
 	var inputApagar = '<input type="text" placeholder="Digite SIM para apagar!" class="form-control" id="apagar" required />'
 			
 	$.confirm({
@@ -185,42 +177,62 @@ function excluirCliente() {
 					            action: function(){
 									var apagarSim = this.$content.find('#apagar').val();
 									
-									if(apagarSim === 'sim') {
-										
-										$.ajax({
-											url: "/clientesCadastrados/excluirCliente/" + idCliente,
-											type: 'PUT'
-											
-										}).done(function(){		
+									//verificar permissao adm
+									$.ajax({
+										url: "/verpedido/autenticado"
+									}).done(function(e){
+										if(e[0].authority === "ADM") {
+											if(apagarSim === 'sim') {
+												
+												$.ajax({
+													url: "/clientesCadastrados/excluirCliente/" + idCliente,
+													type: 'PUT'
+													
+												}).done(function(){		
+													$.alert({
+														type: 'green',
+													    title: 'Cliente apagado!',
+													    content: 'Espero que dê tudo certo!',
+													    buttons: {
+													        confirm: {
+																text: 'Voltar',
+													    		keys: ['enter'],
+													            btnClass: 'btn-green'
+															}
+														}
+													});
+												}).fail(function(){
+													$.alert("Erro, Cliente nâo apagado!");
+												});
+											}else {
+												$.alert({
+													type: 'red',
+												    title: 'Texto incorreto!',
+												    content: 'Pense bem antes de apagar um cliente!',
+												    buttons: {
+												        confirm: {
+															text: 'Voltar',
+												    		keys: ['enter'],
+												            btnClass: 'btn-red',
+														}
+													}
+												});
+											}
+										}else {//se nao for ADM
 											$.alert({
-												type: 'green',
-											    title: 'Cliente apagado!',
-											    content: 'Espero que dê tudo certo!',
+												type: 'red',
+											    title: 'Permissão de usuário!',
+											    content: 'Você não tem permissão para apagar um pedido<br>Utilize um usuário ADM!',
 											    buttons: {
 											        confirm: {
 														text: 'Voltar',
 											    		keys: ['enter'],
-											            btnClass: 'btn-green'
+											            btnClass: 'btn-red',
 													}
 												}
 											});
-										}).fail(function(){
-											$.alert("Erro, Cliente nâo apagado!");
-										});
-									}else {
-										$.alert({
-											type: 'red',
-										    title: 'Texto incorreto!',
-										    content: 'Pense bem antes de apagar um cliente!',
-										    buttons: {
-										        confirm: {
-													text: 'Voltar',
-										    		keys: ['enter'],
-										            btnClass: 'btn-red',
-												}
-											}
-										});
-									}
+										}
+									});
 								}
 							},
 					        cancel: {

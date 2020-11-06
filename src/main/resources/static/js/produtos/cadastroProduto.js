@@ -19,11 +19,8 @@ if(typeof url_atual != "undefined") {
 		$("#custo").val(produto.custo);
 		$("#setor").val(produto.setor);
 		$("#descricao").val(produto.descricao);
-		if(produto.disponivel == 1){
-			$("#disponivel").prop("checked", true);
-		}else {
-			$("#disponivel").prop("checked", false);
-		}
+		if(produto.disponivel == 1) $("#disponivel").prop("checked", true);
+		else $("#disponivel").prop("checked", false);
 		
 	}).fail(function(){
 		$.alert("Erro, Produto não encontrado!");
@@ -41,11 +38,8 @@ function setProduto() {
 	produto.setor = $("#setor").val();
 	produto.descricao = $("#descricao").val();
 	
-	if($("#disponivel:checked").val() == 'on') {
-		produto.disponivel = true;
-	}else {
-		produto.disponivel = false;
-	}
+	if($("#disponivel:checked").val() == 'on') produto.disponivel = true;
+	else produto.disponivel = false;
 }
 
 

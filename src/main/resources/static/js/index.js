@@ -3,7 +3,7 @@ var dia = {};
 $("#enviarLogin").click(function(){
 	
 	if($("#email").val() == "" && $("#senha").val() == "") {
-	$("#esconderLogin").hide('slow');
+		$("#esconderLogin").hide('slow');
 	
 		$.alert({
 			type: 'green',
