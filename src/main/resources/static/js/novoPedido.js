@@ -843,7 +843,7 @@ function imprimir() {
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
 			
-			
+			/*
 			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
@@ -886,11 +886,63 @@ function imprimir() {
 			imprimirTxt += '<p>Hora: ' + hora + ':' + minuto + ':' + segundo + '<br>'
 						+ 'Data: ' + dia + '/' + mes + '/' + ano + '</p>'
 						+ '</html>'; 
+			*/
 			
+			imprimirTxt = e.nomeEstabelecimento//nome da empresa
+					+ '\n' + cliente.envio //forma de envio
+					+ '\n' + e.texto1//texto1 gerado pela empresa
+					
+					//numero da comanda e nome
+					+ '\n' + 'Comanda: ' + cliente.comanda
+					+ '\n' + 'Cliente: ' + cliente.nome;
+		
+			//mostrar endereco do cliente
+			if(cliente.envio == 'ENTREGA') {
+				imprimirTxt += '\n' + 'Celular: ' + cliente.celular
+							+ '\n' + 'Endereço: ' + cliente.endereco;
+			}
+			
+	        //gerar tabela de produtos e pizzas
+			mostrarImpressao(pizzas, produtos);
+	
+			
+			//pagamento em entrega
+			if(cliente.envio == 'ENTREGA') {//total com taxa
+				imprimirTxt += '\n' + 'Total sem taxa: R$ ' + cliente.total.toFixed(2)
+							+ '\n' + 'Taxa de entrega: R$ ' + cliente.taxa.toFixed(2)
+				 			+ '\n' + 'Total com taxa: R$ ' + (cliente.total + cliente.taxa).toFixed(2);
+				
+				//total sem taxa
+			}else imprimirTxt += '\n' + 'Total do Pedido: R$ ' + cliente.total.toFixed(2);
+	
+			//total a levar de troco
+			imprimirTxt += '\n' + 'Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2)
+						+ '\n' + 'Observação: ' + cliente.obs;
+						
+			//texto2 e promocao
+			imprimirTxt += '\n' + 'Horário de funcionamento: ' + e.texto2 
+						+ '\n' + 'Promoção: ' + e.promocao;
+						
+				
+			//salvar hora
+			imprimirTxt += '\n' + 'Hora: ' + hora + ':' + minuto + ':' + segundo
+						+ '\n' + 'Data: ' + dia + '/' + mes + '/' + ano;
+			
+			cliente.pizzas = imprimirTxt;
+			
+			$.ajax({
+				url: "/novoPedido/imprimir",
+				type: 'PUT',
+				dataType : 'json',
+				contentType: "application/json",
+				data: JSON.stringify(cliente)
+			});
+			/*
 			tela_impressao = window.open('about:blank');
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();
+			*/
 		}
 	});
 }

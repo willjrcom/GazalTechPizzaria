@@ -1,7 +1,23 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.DocPrintJob;
+import javax.print.PrintException;
+import javax.print.PrintService;
+import javax.print.PrintServiceLookup;
+import javax.print.SimpleDoc;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -160,5 +176,39 @@ public class NovoPedidoController {
 	public void excluirPedido(@ModelAttribute("id") Pedido pedido) {
 		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
 		temps.deleteInBatch(temp);
+	}
+	
+	@RequestMapping("/imprimir")
+	@ResponseBody
+	public String imprimir(@RequestBody Pedido texto) throws PrintException, IOException {
+		System.out.println("\n-------------- texto: " + texto.getPizzas());
+		
+		//salvar arquivo
+		FileWriter fw = new FileWriter(new File("..\\impressaoTemp.txt"));
+
+		BufferedWriter buffer = new BufferedWriter(fw);
+		
+		buffer.write(texto.getPizzas());
+
+		buffer.close();
+		
+		//enviar para impressora
+		String defaultPrinter = PrintServiceLookup.lookupDefaultPrintService().getName();
+		System.out.println("Default printer: " + defaultPrinter);
+		
+		PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+		
+		FileInputStream in = new FileInputStream(new File("..\\impressaoTemp.txt"));
+		
+		PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+		pras.add(new Copies(1));
+		
+		DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+		Doc doc = new SimpleDoc(in, flavor, null);
+		
+		DocPrintJob job = service.createPrintJob();
+		job.print(doc, pras);
+		
+		return "200";
 	}
 }
