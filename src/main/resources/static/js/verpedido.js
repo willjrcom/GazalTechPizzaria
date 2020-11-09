@@ -399,8 +399,9 @@ function imprimirTudo(cliente) {
 			}
 
 			//total a levar de troco
-			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>'
-						+ '<label>Observação: ' + cliente.obs + '</label><br>';
+			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>';
+			
+			if(cliente.obs != '') imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 

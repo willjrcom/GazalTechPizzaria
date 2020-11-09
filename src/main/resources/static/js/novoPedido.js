@@ -843,7 +843,6 @@ function imprimir() {
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
 			
-			/*
 			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
@@ -874,8 +873,9 @@ function imprimir() {
 			}else imprimirTxt += '<label>Total do Pedido: R$ ' + cliente.total.toFixed(2) + '</label><br>';
 
 			//total a levar de troco
-			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>'
-						+ '<label>Observação: ' + cliente.obs + '</label><br>';
+			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>';
+			
+			if(cliente.obs != '') imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
@@ -886,8 +886,13 @@ function imprimir() {
 			imprimirTxt += '<p>Hora: ' + hora + ':' + minuto + ':' + segundo + '<br>'
 						+ 'Data: ' + dia + '/' + mes + '/' + ano + '</p>'
 						+ '</html>'; 
-			*/
 			
+			tela_impressao = window.open('about:blank');
+			tela_impressao.document.write(imprimirTxt);
+			tela_impressao.window.print();
+			tela_impressao.window.close();
+			
+			/*
 			imprimirTxt = e.nomeEstabelecimento//nome da empresa
 					+ '\n' + cliente.envio //forma de envio
 					+ '\n' + e.texto1//texto1 gerado pela empresa
@@ -916,8 +921,9 @@ function imprimir() {
 			}else imprimirTxt += '\n' + 'Total do Pedido: R$ ' + cliente.total.toFixed(2);
 	
 			//total a levar de troco
-			imprimirTxt += '\n' + 'Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2)
-						+ '\n' + 'Observação: ' + cliente.obs;
+			imprimirTxt += '\n' + 'Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2);
+
+			if(cliente.obs != '') imprimirTxt += '\n' + 'Observação: ' + cliente.obs;
 						
 			//texto2 e promocao
 			imprimirTxt += '\n' + 'Horário de funcionamento: ' + e.texto2 
@@ -937,11 +943,6 @@ function imprimir() {
 				contentType: "application/json",
 				data: JSON.stringify(cliente)
 			});
-			/*
-			tela_impressao = window.open('about:blank');
-			tela_impressao.document.write(imprimirTxt);
-			tela_impressao.window.print();
-			tela_impressao.window.close();
 			*/
 		}
 	});
