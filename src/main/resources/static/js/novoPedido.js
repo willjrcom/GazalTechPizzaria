@@ -57,7 +57,7 @@ if(typeof url_atual == "undefined") {
 		$("#mostrarDadosCliente").show(); 
 		$("#cancelar").html('<span class="oi oi-ban"></span> Cancelar alteração');
 
-		op = "ATUALIZAR";
+		op = "EDITAR";
 		cliente = e;
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
@@ -545,9 +545,8 @@ $("#BotaoEnviarPedido").click(function() {
 						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
 						+ (parseFloat(tPedido) + cliente.taxa).toFixed(2) + '"/></div>';
 		}else {
-			linhaHtml += '<div class="col-md-4">'
-						+ '<b>Tº Produtos:</b> ' + tPizzas 
-						+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2) +
+			linhaHtml += '<b>Tº Produtos:</b> ' + tPizzas 
+						+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><div class="row"><div class="col-md-6">'
 						+ '<b>Receber:</b>'
 						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
@@ -560,6 +559,7 @@ $("#BotaoEnviarPedido").click(function() {
 						+'<option value="Não">Não</option>'
 						+'<option value="Sim">Sim</option>'
 					+ '</select></div>'
+					
 					+ '<label>Observação do Pedido:</label>'
 					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
 					+ '<br><br><hr><b class="fRight">Deseja enviar o pedido?</b>';
@@ -602,7 +602,7 @@ $("#BotaoEnviarPedido").click(function() {
 							cliente.produtos = JSON.stringify(produtos);
 							cliente.total = tPedido;
 							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
-							cliente.troco = parseFloat(troco);
+							cliente.troco = troco;
 							
 							//salvar pedido
 							$.ajax({
@@ -612,16 +612,20 @@ $("#BotaoEnviarPedido").click(function() {
 								contentType: "application/json",
 								data: JSON.stringify(cliente)
 							}).done(function(e){
-
-								if(e.id != null && op != "ATUALIZAR") {
+								console.log(troco);
+								console.log(tPedido);
+								if(e.id != null && op != "EDITAR") {//atualizar
 									cliente.id = e.id;
 									cliente.total += e.total;
-									cliente.troco += e.troco;
 									cliente.comanda = e.comanda;
 									cliente.horaPedido = e.horaPedido;
 									cliente.data = e.data;
 									
-									if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) if(e.taxa == '' || e.taxa == null) troco = cliente.total + cliente.taxa;
+									if((troco % 2 != 0 && troco % 2 != 1) || (troco < cliente.total)) {
+										if(e.taxa == '' || e.taxa == null) //se for balcao
+											cliente.troco = cliente.total;
+										else cliente.troco = cliente.total + cliente.taxa;//se for entrega
+									}
 									
 									//converter pedido atual para objeto
 									cliente.pizzas = JSON.parse(cliente.pizzas);
@@ -634,13 +638,21 @@ $("#BotaoEnviarPedido").click(function() {
 									//concatenar pizzas
 									for(pizza of e.pizzas) cliente.pizzas.unshift(pizza);
 
-											//concatenar produtos
+									//concatenar produtos
 									for(produto of e.produtos) cliente.produtos.unshift(produto);
 									
 									//converter pedido atual em JSON
 									cliente.pizzas = JSON.stringify(cliente.pizzas);
 									cliente.produtos = JSON.stringify(cliente.produtos);
-								}else {
+							
+								//editar ou criar
+								}else if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
+									if(cliente.taxa == '' || cliente.taxa == null || cliente.taxa == NaN) //se for balcao
+										cliente.troco = cliente.total;
+									else cliente.troco = cliente.total + cliente.taxa; //se for entrega
+								}
+									
+								if(op == "EDITAR"){//editar
 									//excluir temporarios para nao duplicar
 									$.ajax({
 										url: "/novoPedido/excluirPedidosTemp/" + cliente.id,
@@ -660,7 +672,7 @@ $("#BotaoEnviarPedido").click(function() {
 								}).done(function(e){
 									
 									cliente.comanda = e.comanda; //recebe numero do servidor
-									console.log(cliente);
+
 									//salvar pedido no temp
 									$.ajax({
 										url: '/novoPedido/salvarTemp',

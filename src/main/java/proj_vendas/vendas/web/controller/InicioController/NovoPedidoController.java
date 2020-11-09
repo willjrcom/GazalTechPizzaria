@@ -119,11 +119,10 @@ public class NovoPedidoController {
 	
 	@RequestMapping(value = "/salvarTemp", method = RequestMethod.PUT)
 	@ResponseBody
-	public PedidoTemp salvarTemp(@RequestBody PedidoTemp temp) {
+	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
 		Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
 		temp.setComanda((long)(dado.getComanda()));
-		return temps.save(temp);
 	}
 	
 	@RequestMapping(value = "/editarPedido/{id}", method = RequestMethod.PUT)
