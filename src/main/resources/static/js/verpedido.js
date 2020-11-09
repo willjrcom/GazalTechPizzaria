@@ -99,20 +99,20 @@ function verPedido() {
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.borda + ' ---- </td>'
-						 +	'<td>' + pizza.sabor + '---- </td>'
-						 +	'<td>' + pizza.obs + ' ---- </td>'
-						 +	'<td>' + pizza.qtd + ' ---- </td>'
-						 +  '<td>R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
+						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td>' + pizza.sabor + '</td>'
+						 +	'<td>' + pizza.obs + '</td>'
+						 +	'<td>' + pizza.qtd + '</td>'
+						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -121,18 +121,18 @@ function verPedido() {
 	if(pedidos[idBusca].produtos.length != 0) {
 		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.sabor + ' ---- </td>'
-						 +	'<td>' + produto.obs + ' ---- </td>'
-						 +	'<td>' + produto.qtd + ' ---- </td>'
-						 +  '<td>R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
+						 +	'<td>' + produto.sabor + '</td>'
+						 +	'<td>' + produto.obs + '</td>'
+						 +	'<td>' + produto.qtd + '</td>'
+						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -397,6 +397,10 @@ function imprimirTudo(cliente) {
 			}else {//total sem taxa
 				imprimirTxt += '<label>Total: R$ ' + parseFloat(cliente.total).toFixed(2) + '</label><br>'
 			}
+
+			//total a levar de troco
+			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>'
+						+ '<label>Observação: ' + cliente.obs + '</label><br>';
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
@@ -496,20 +500,20 @@ function mostrarImpressao(pizzas, produtos) {
 	if(pizzas.length != 0) {
 		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizza.borda + ' ---- </td>'
-						 +	'<td align="center">' + pizza.sabor + ' ---- </td>'
-						 +	'<td align="center">' + pizza.obs + ' ---- </td>'
-						 +	'<td align="center">' + pizza.qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + pizza.borda + '</td>'
+						 +	'<td align="center">' + pizza.sabor + '</td>'
+						 +	'<td align="center">' + pizza.obs + '</td>'
+						 +	'<td align="center">' + pizza.qtd + '</td>'
+						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -518,18 +522,18 @@ function mostrarImpressao(pizzas, produtos) {
 	if(produtos.length != 0) {
 		linhaHtml += '<hr><table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(produto of produtos){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + produto.sabor + ' ---- </td>'
-						 +	'<td align="center">' + produto.obs + ' ---- </td>'
-						 +	'<td align="center">' + produto.qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + produto.sabor + '</td>'
+						 +	'<td align="center">' + produto.obs + '</td>'
+						 +	'<td align="center">' + produto.qtd + '</td>'
+						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';

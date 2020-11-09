@@ -532,28 +532,37 @@ $("#BotaoEnviarPedido").click(function() {
 		}
 		
 		mostrarTabela(pizzas, produtos);
-
+		
+		linhaHtml += '<hr>';
+		
 		if(cliente.envio == 'ENTREGA') {
-			linhaHtml += '<hr><b>Tº Produtos:</b> ' + tPizzas 
+			linhaHtml += '<b>Tº Produtos:</b> ' + tPizzas 
 						+ '<br><b>Total sem Taxa:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><b>Taxa de Entrega:</b> R$ ' + cliente.taxa.toFixed(2)
 						+ '<br><b>Total do Pedido:</b> R$ ' + (parseFloat(tPedido) + cliente.taxa).toFixed(2)
-						+'<br><br><b>Receber:</b>'
+						+ '<br><div class="row"><div class="col-md-6">'
+						+ '<b>Receber:</b>'
 						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
-						+ (parseFloat(tPedido) + cliente.taxa).toFixed(2) + '"/>';
+						+ (parseFloat(tPedido) + cliente.taxa).toFixed(2) + '"/></div>';
 		}else {
-			linhaHtml += '<hr><b>Tº Produtos:</b> ' + tPizzas 
-					+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2)
-					+'<br><br><b>Receber:</b>'
-					+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + tPedido + '"/>';
+			linhaHtml += '<div class="col-md-4">'
+						+ '<b>Tº Produtos:</b> ' + tPizzas 
+						+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2) +
+						+ '<br><div class="row"><div class="col-md-6">'
+						+ '<b>Receber:</b>'
+						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
+						+ tPedido.toFixed(2) + '"/></div>';
 		}
 		
-		linhaHtml += '<br><label>O pedido foi pago:</label>'
+		linhaHtml += '<div class="col-md-6">'
+					+'<label>O pedido foi pago:</label>'
 					+'<select name="pagamento" class="form-control" id="pagamentoCliente">'
 						+'<option value="Não">Não</option>'
 						+'<option value="Sim">Sim</option>'
-					+ '</select>'
-					+ '<br><b>Deseja enviar o pedido?</b>';
+					+ '</select></div>'
+					+ '<label>Observação do Pedido:</label>'
+					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
+					+ '<br><br><hr><b class="fRight">Deseja enviar o pedido?</b>';
 
 		//modal jquery confirmar
 		$.confirm({
@@ -561,7 +570,7 @@ $("#BotaoEnviarPedido").click(function() {
 		    title: 'Pedido: ' + cliente.nome,
 		    content: linhaHtml,
 		    closeIcon: true,
-		    columnClass: 'col-md-8',
+		    columnClass: 'col-md-12',
 		    buttons: {
 		        confirm: {
 		            text: 'Enviar',
@@ -570,6 +579,8 @@ $("#BotaoEnviarPedido").click(function() {
 		            action: function(){
 						
 						var troco = this.$content.find('#troco').val();
+						var obs = this.$content.find('#obs').val();
+						if(obs != '') cliente.obs = obs;
 						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						troco = parseFloat(troco.toString().replace(",","."));
@@ -780,20 +791,20 @@ function mostrarImpressao(pizzas, produtos) {
 	if(pizzas.length != 0) {
 		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizza.borda + ' ---- </td>'
-						 +	'<td align="center">' + pizza.sabor + ' ---- </td>'
-						 +	'<td align="center">' + pizza.obs + ' ---- </td>'
-						 +	'<td align="center">' + pizza.qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + pizza.borda + '</td>'
+						 +	'<td align="center">' + pizza.sabor + '</td>'
+						 +	'<td align="center">' + pizza.obs + '</td>'
+						 +	'<td align="center">' + pizza.qtd + '</td>'
+						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -802,18 +813,18 @@ function mostrarImpressao(pizzas, produtos) {
 	if(produtos.length != 0) {
 		linhaHtml += '<hr><table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Obs</h5></th>'
+						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(produto of produtos){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + produto.sabor + ' ---- </td>'
-						 +	'<td align="center">' + produto.obs + ' ---- </td>'
-						 +	'<td align="center">' + produto.qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
+						 +	'<td align="center">' + produto.sabor + '</td>'
+						 +	'<td align="center">' + produto.obs + '</td>'
+						 +	'<td align="center">' + produto.qtd + '</td>'
+						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -864,10 +875,11 @@ function imprimir() {
 
 			//total a levar de troco
 			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>'
+						+ '<label>Observação: ' + cliente.obs + '</label><br>';
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
-						+ '<label>Promoção</label><br>' + '<p>' + e.promocao + '</p>';
+						+ '<label>Promoção:</label><br>' + '<p>' + e.promocao + '</p>';
 						
 				
 			//salvar hora

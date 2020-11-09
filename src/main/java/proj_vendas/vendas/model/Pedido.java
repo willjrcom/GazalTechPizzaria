@@ -39,6 +39,7 @@ public class Pedido implements Serializable{
 	private double total;
 	private double troco;
 
+	private String obs;
 	private String horaPedido;
 	private String data;
 	
@@ -146,5 +147,11 @@ public class Pedido implements Serializable{
 	}
 	public void setComanda(Long comanda) {
 		this.comanda = comanda;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 }
