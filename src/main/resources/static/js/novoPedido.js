@@ -62,7 +62,7 @@ if(typeof url_atual == "undefined") {
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
 		cliente.taxa = parseFloat(cliente.taxa);
-		console.log(cliente);
+
 		//mostrar entrega
 		if(e.envio == 'ENTREGA') {
 			$("#mostrarDadosCliente").show('slow'); //esconder tabelas
@@ -612,8 +612,7 @@ $("#BotaoEnviarPedido").click(function() {
 								contentType: "application/json",
 								data: JSON.stringify(cliente)
 							}).done(function(e){
-								console.log(troco);
-								console.log(tPedido);
+
 								if(e.id != null && op != "EDITAR") {//atualizar
 									cliente.id = e.id;
 									cliente.total += e.total;
@@ -621,7 +620,7 @@ $("#BotaoEnviarPedido").click(function() {
 									cliente.horaPedido = e.horaPedido;
 									cliente.data = e.data;
 									
-									if((troco % 2 != 0 && troco % 2 != 1) || (troco < cliente.total)) {
+									if((troco % 2 != 0 && troco % 2 != 1) || (troco < (cliente.total + cliente.taxa))) {
 										if(e.taxa == '' || e.taxa == null) //se for balcao
 											cliente.troco = cliente.total;
 										else cliente.troco = cliente.total + cliente.taxa;//se for entrega
@@ -646,8 +645,8 @@ $("#BotaoEnviarPedido").click(function() {
 									cliente.produtos = JSON.stringify(cliente.produtos);
 							
 								//editar ou criar
-								}else if((troco % 2 != 0 && troco % 2 != 1) || (troco < tPedido)) {
-									if(cliente.taxa == '' || cliente.taxa == null || cliente.taxa == NaN) //se for balcao
+								}else if((troco % 2 != 0 && troco % 2 != 1) || (troco < (cliente.total + cliente.taxa))) {
+									if(cliente.taxa == '' || cliente.taxa == null) //se for balcao
 										cliente.troco = cliente.total;
 									else cliente.troco = cliente.total + cliente.taxa; //se for entrega
 								}
@@ -877,17 +876,16 @@ function imprimir() {
 			
 			//pagamento em entrega
 			if(cliente.envio == 'ENTREGA') {//total com taxa
-				imprimirTxt += '<label>Total sem taxa: R$ ' + cliente.total.toFixed(2) + '</label><br>';
+				imprimirTxt += '<label>Total sem taxa: R$ ' + cliente.total.toFixed(2) + '</label><br>'
 							+ '<label>Taxa de entrega: R$ ' + cliente.taxa.toFixed(2) + '</label><br>'
-				 			+ '<label>Total com taxa: R$ ' + (cliente.total + cliente.taxa).toFixed(2) + '</label><br>';
+				 			+ '<label>Total com taxa: R$ ' + (cliente.total + cliente.taxa).toFixed(2) + '</label><br>'
+				 			+ '<label>Levar: R$ ' + (cliente.troco - cliente.total - cliente.taxa).toFixed(2) + '</label><br>';
 				
 				//total sem taxa
-			}else imprimirTxt += '<label>Total do Pedido: R$ ' + cliente.total.toFixed(2) + '</label><br>';
+			}else imprimirTxt += '<label>Total do Pedido: R$ ' + cliente.total.toFixed(2) + '</label><br>'
+							+ '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>';
 
-			//total a levar de troco
-			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>';
-			
-			if(cliente.obs != '') imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
+			if(cliente.obs != null) imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
