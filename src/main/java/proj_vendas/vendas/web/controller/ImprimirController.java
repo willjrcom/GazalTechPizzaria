@@ -49,7 +49,7 @@ public class ImprimirController {
 		services = PrintServiceLookup.lookupPrintServices(null, null);
 		
 		//CRIA E INSTANCIA UM TRABALHO DE IMPRESSAO
-		DocPrintJob job = services[4].createPrintJob();
+		DocPrintJob job = services[3].createPrintJob();
 		for(int i = 0; i<services.length; i++) {
 			System.out.println("i: " + i + "-- " + services[i]);
 		}
