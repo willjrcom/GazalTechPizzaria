@@ -40,16 +40,19 @@ public class ImprimirController {
 		DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 		
 		//LOCALIZA AS IMPRESSORAS DISPONIVEIS NO SERVIDOR/PC
-		PrintService services = PrintServiceLookup.lookupDefaultPrintService();
+		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
 		
 		//CRIA UM SERVIÇO DE IMPRESSAO, NESTE PONTO A IMPRESSORA AINDA NAO ESTA DEFINIDA
-		//services = PrintServiceLookup.lookupPrintServices(null, null);
+		services = PrintServiceLookup.lookupPrintServices(null, null);
 		
 		//CRIA UM TRABALHO DE IMPRESSAO
 		DocPrintJob job = null;
+		for(int i = 0; i<services.length; i++) {
+			System.out.println("i: " + i + "-- " + services[i]);
+		}
 	
         //INSTANCIA O TRABALHO DE IMPRESSAO
-        job = services.createPrintJob();
+        job = services[0].createPrintJob();
 
         //INSTANCIA O DOCUMENTO
         Doc doc = new SimpleDoc(ps, flavor, null);
