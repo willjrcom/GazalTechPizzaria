@@ -30,7 +30,7 @@ public class ImprimirController {
 	@RequestMapping("/imprimir")
 	@ResponseBody
 	public void imprimir(@RequestBody Pedido texto) throws URISyntaxException, FileNotFoundException, PrintException, IOException{
-		System.out.println("-----------------------------");
+
 		//CRIA A STREAM A PARTIR DA STRING
 		InputStream ps = null;
 		
@@ -40,19 +40,16 @@ public class ImprimirController {
 		DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 		
 		//LOCALIZA AS IMPRESSORAS DISPONIVEIS NO SERVIDOR/PC
-		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
+		PrintService services = PrintServiceLookup.lookupDefaultPrintService();
 		
 		//CRIA UM SERVIÇO DE IMPRESSAO, NESTE PONTO A IMPRESSORA AINDA NAO ESTA DEFINIDA
-		services = PrintServiceLookup.lookupPrintServices(null, null);
+		//services = PrintServiceLookup.lookupPrintServices(null, null);
 		
 		//CRIA UM TRABALHO DE IMPRESSAO
 		DocPrintJob job = null;
-		for(int i = 0; i<services.length; i++) {
-			System.out.println("i: " + i + "-- " + services[i]);
-		}
 	
         //INSTANCIA O TRABALHO DE IMPRESSAO
-        job = services[4].createPrintJob();
+        job = services.createPrintJob();
 
         //INSTANCIA O DOCUMENTO
         Doc doc = new SimpleDoc(ps, flavor, null);
@@ -142,9 +139,34 @@ public class ImprimirController {
 		}
 	}
 	
+
+	private static PrintService impressora;
+	
 	@RequestMapping("/imprimir1")
 	@ResponseBody
 	public void diebold(@RequestBody Pedido texto) {
+		try{
+			// Pega a impressora padrão
+			impressora = PrintServiceLookup.lookupDefaultPrintService();
 		
+			// Definição de atributos do conteúdo a ser impresso:
+			DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+		
+			// Conteúdo a ser impresso
+			InputStream stream = new ByteArrayInputStream((texto.getPizzas() + "\u039A").getBytes());  
+		
+			// Cria um Doc para impressão a partir do arquivo exemplo.txt   
+			Doc documentoTexto = new SimpleDoc(stream, flavor, null);
+		
+			// Cria uma tarefa de impressão
+			DocPrintJob dpj = impressora.createPrintJob();
+		
+			// 	Imprime o documento sem exibir uma tela de dialogo
+			dpj.print(documentoTexto, null);
+			
+			
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 }
