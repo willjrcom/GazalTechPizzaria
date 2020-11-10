@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 
 import javax.print.Doc;
 import javax.print.DocFlavor;
@@ -13,6 +14,7 @@ import javax.print.PrintException;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import javax.print.SimpleDoc;
+import javax.print.attribute.HashDocAttributeSet;
 import javax.print.event.PrintJobAdapter;
 import javax.print.event.PrintJobEvent;
 
@@ -31,31 +33,29 @@ public class ImprimirController {
 	@ResponseBody
 	public void imprimir(@RequestBody Pedido texto) throws URISyntaxException, FileNotFoundException, PrintException, IOException{
 
-		//CRIA A STREAM A PARTIR DA STRING
-		InputStream ps = null;
-		
-		ps = new ByteArrayInputStream(texto.getPizzas().getBytes());
 		
 		//CRIA O DOCUMENTO DE IMPRESSAO
 		DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 		
+		HashDocAttributeSet hashDocAttributeSet = new HashDocAttributeSet();
+
+		//CRIA A STREAM A PARTIR DA STRING
+		InputStream ps = new ByteArrayInputStream(texto.getPizzas().getBytes(StandardCharsets.UTF_8));
+		
 		//LOCALIZA AS IMPRESSORAS DISPONIVEIS NO SERVIDOR/PC
-		PrintService[] services = PrintServiceLookup.lookupPrintServices(null, null);
+		PrintService[] services = PrintServiceLookup.lookupPrintServices(flavor, hashDocAttributeSet);
 		
 		//CRIA UM SERVIÇO DE IMPRESSAO, NESTE PONTO A IMPRESSORA AINDA NAO ESTA DEFINIDA
 		services = PrintServiceLookup.lookupPrintServices(null, null);
 		
-		//CRIA UM TRABALHO DE IMPRESSAO
-		DocPrintJob job = null;
+		//CRIA E INSTANCIA UM TRABALHO DE IMPRESSAO
+		DocPrintJob job = services[4].createPrintJob();
 		for(int i = 0; i<services.length; i++) {
 			System.out.println("i: " + i + "-- " + services[i]);
 		}
-	
-        //INSTANCIA O TRABALHO DE IMPRESSAO
-        job = services[0].createPrintJob();
-
+		
         //INSTANCIA O DOCUMENTO
-        Doc doc = new SimpleDoc(ps, flavor, null);
+        Doc doc = new SimpleDoc(ps, flavor, hashDocAttributeSet);
 
         //VERIFICA QUANDO O TRABALHO ESTA COMPLETO
         PrintJobWatcher pjDone = new PrintJobWatcher(job);
@@ -156,7 +156,7 @@ public class ImprimirController {
 			DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
 		
 			// Conteúdo a ser impresso
-			InputStream stream = new ByteArrayInputStream((texto.getPizzas() + "\u039A").getBytes());  
+			InputStream stream = new ByteArrayInputStream((texto.getPizzas() + "\u039A" + "END").getBytes());  
 		
 			// Cria um Doc para impressão a partir do arquivo exemplo.txt   
 			Doc documentoTexto = new SimpleDoc(stream, flavor, null);
