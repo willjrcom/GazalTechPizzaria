@@ -74,20 +74,12 @@ function buscarPedido() {
 									+ pizza.descricao 
 									+ '" title="Ingredientes: ' + pizza.descricao 
 									+ '"><span class="oi oi-question-mark"></span></button></td>'
-								+ '<td>' + pizza.obs + '</td>';
-						
-							if(j == 0 && i == 0) {//primeiro botao com focus
-								linhaHtml += '<td>' 
-											+ '<a class="enviarPedido">'
-											+ '<button type="button" class="btn btn-success" autofocus="autofocus" onclick="enviarPedido()"'
-											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>';
-							}else if(j == 0){//botoes seguintes
-								linhaHtml += '<td>' 
-											+ '<a class="enviarPedido">'
-											+ '<button type="button" class="btn btn-success" onclick="enviarPedido()"'
-											+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>';
-							}
-							linhaHtml += '</tr>';
+									+ '<td>' + pizza.obs + '</td>'
+									+ '<td>' 
+									+ '<a class="enviarPedido">'
+									+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
+									+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>'
+								+'</tr>';
 
 							if(divisao - pizza.qtd <= 0) {
 								linhaHtml += linhaCinza;
@@ -109,6 +101,8 @@ function buscarPedido() {
 		if(AllPizzas == 0) $("#Tpizzas").text('0');
 		
 		else $("#Tpizzas").text(AllPizzas);
+
+		try {$("#enviar")[0].focus();}catch{}
 	});	
 };
 
@@ -141,7 +135,9 @@ function enviarPedido() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
-	
+
+	imprimir(pedidos[idBusca]);
+			
 	$.confirm({
 		icon: 'fa fa-spinner fa-spin',
 		type: 'green',
@@ -153,12 +149,10 @@ function enviarPedido() {
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
-					imprimir(pedidos[idBusca]);
-					
 					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 
 					$.ajax({
-						url: "/cozinha/enviarPedido/" + idProduto.toString(),
+						url: "/cozinha/enviarPedido/" + idProduto,
 						type: 'PUT',
 						data: pedidos[idBusca], //dados completos do pedido enviado
 					})
@@ -253,13 +247,13 @@ function mostrarTabela(pizzas) {
 						+ '<th class="col-md-1"><h5>V. Total</h5></th>'
 					+ '</tr>';
 		
-		for(var i=0; i<pizzas.length; i++){
+		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizzas[i].borda + '</td>'
-						 +	'<td align="center">' + pizzas[i].sabor + '</td>'
-						 +	'<td align="center">' + parseFloat(pizzas[i].qtd).toFixed(2) + '</td>'
-						 +  '<td align="center">R$ ' + parseFloat(pizzas[i].preco).toFixed(2) + '</td>'
-						 +  '<td align="center">R$ ' + (parseFloat(pizzas[i].preco) * pizzas[i].qtd).toFixed(2) + '</td>'
+						 +	'<td align="center">' + pizza.borda + '</td>'
+						 +	'<td align="center">' + pizza.sabor + '</td>'
+						 +	'<td align="center">' + parseFloat(pizza.qtd).toFixed(2) + '</td>'
+						 +  '<td align="center">R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
+						 +  '<td align="center">R$ ' + (parseFloat(pizza.preco) * pizza.qtd).toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';

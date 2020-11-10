@@ -12,7 +12,7 @@ public interface PedidoTemps extends JpaRepository<PedidoTemp, Long>{
 
 	public List<PedidoTemp> findByStatus(String string);
 	
-	public List<PedidoTemp> findByNome(String nome);
+	public List<PedidoTemp> findByComanda(long comanda);
 
 	public List<PedidoTemp> findByDataAndStatusOrDataAndStatus(String dia, String string, String dia2, String string2);
 

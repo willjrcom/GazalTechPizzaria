@@ -22,6 +22,7 @@ function buscarPedido() {
 			Tpedidos++;
 			pedido.pizzas = JSON.parse(pedido.pizzas);
 			pedido.produtos = JSON.parse(pedido.produtos);
+			pedido.taxa = parseFloat(pedido.taxa);
 		}
 		
 		$("#todosPedidos").html("");
@@ -41,9 +42,9 @@ function buscarPedido() {
 					for(produto of pedido.produtos) tPizzas += produto.qtd;//total de produtos
 							
 					for(pizza of pedido.pizzas) tPizzas += pizza.qtd;//total de pizzas
-					
+
 					linhaHtml += '<td>' + tPizzas + '</td>'
-								+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
+								+ '<td>R$ ' + ((isNaN(pedido.taxa)) ? pedido.total.toFixed(2) : (pedido.total + pedido.taxa).toFixed(2)) + '</td>'
 								+ '<td>' + pedido.envio + '</td>'
 								+ '<td><div class="row">'
 								+ '<div class="col-md-1">'
@@ -139,7 +140,7 @@ function verPedido() {
 	}
 	
 	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br>' 
-				+ '<br><b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
+				+ '<br><b>Total do Pedido:</b> R$' + ((isNaN(pedidos[idBusca].taxa)) ? pedidos[idBusca].total.toFixed(2) : (pedidos[idBusca].total + pedidos[idBusca].taxa).toFixed(2))
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio;
 	
 	$.confirm({
@@ -391,17 +392,17 @@ function imprimirTudo(cliente) {
 			
 			//pagamento em entrega
 			if(cliente.envio == 'ENTREGA') {//total com taxa
-				imprimirTxt += '<label>Taxa de entrega: ' + parseFloat(cliente.taxa).toFixed(2) + '</label><br>'
-				 			+ '<label>Total com taxa: R$ ' + parseFloat(cliente.total).toFixed(2) + '</label><br>';
+				imprimirTxt += '<label>Taxa de entrega: ' + cliente.taxa.toFixed(2) + '</label><br>'
+				 			+ '<label>Total com taxa: R$ ' + (cliente.total + cliente.taxa).toFixed(2) + '</label><br>';
 				
 			}else {//total sem taxa
-				imprimirTxt += '<label>Total: R$ ' + parseFloat(cliente.total).toFixed(2) + '</label><br>'
+				imprimirTxt += '<label>Total: R$ ' + cliente.total.toFixed(2) + '</label><br>'
 			}
 
 			//total a levar de troco
-			imprimirTxt += '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>';
+			imprimirTxt += '<label>Levar: R$ ' + (isNaN(cliente.taxa) ? (cliente.troco - cliente.total).toFixed(2) : (cliente.troco - cliente.total - cliente.taxa).toFixed(2)) + '</label><br>';
 			
-			if(cliente.obs != '') imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
+			if(cliente.obs != null) imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
 						
 			//texto2 e promocao
 			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 

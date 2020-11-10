@@ -73,13 +73,7 @@ public class NovoPedidoController {
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
 	}
-	
-	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public Optional<Produto> adicionarProduto(@PathVariable long id) {
-		return produtos.findById(id);
-	}
-	
+
 	@RequestMapping(value = "/numeroCliente/{celular}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Cliente buscarCliente(@PathVariable String celular) {
@@ -101,6 +95,24 @@ public class NovoPedidoController {
 		}
 		return produtos.findByNomeProdutoContainingAndDisponivelAndSetorNot(nome, true, "BORDA");//busca qualquer item relacionado
 	}
+
+	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Produto> adicionarProduto(@PathVariable long id) {
+		return produtos.findById(id);
+	}
+	
+	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
+	@ResponseBody
+	public List<Produto> mostrarBordas() {
+		return produtos.findAllBordas();
+	}
+	
+	@RequestMapping(value = "/buscarBorda/{id}", method = RequestMethod.PUT)
+	@ResponseBody
+	public Optional<Produto> buscarBorda(@PathVariable Long id) {
+		return produtos.findById(id);
+	}
 	
 	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT)
 	@ResponseBody
@@ -117,36 +129,35 @@ public class NovoPedidoController {
 		return pedidos.save(pedido); //salvar pedido
 	}
 	
-	@RequestMapping(value = "/salvarTemp", method = RequestMethod.PUT)
-	@ResponseBody
-	public void salvarTemp(@RequestBody PedidoTemp temp) {
-		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-		Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
-		temp.setComanda((long)(dado.getComanda()));
-	}
-	
 	@RequestMapping(value = "/editarPedido/{id}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Optional<Pedido> buscarPedido(@PathVariable Long id) {
 		return pedidos.findById(id);
 	}
 	
-	@RequestMapping(value = "/atualizarPedido/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/atualizar", method = RequestMethod.PUT)
 	@ResponseBody
-	public Pedido atualizarPedido(@RequestBody Pedido pedido) {
-		return pedidos.save(pedido);
+	public Pedido atualizar(@RequestBody Pedido pedido) {
+		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+		
+		Pedido antigo = pedidos.findByNomeAndDataAndStatusNotAndStatusNot(pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
+		if(antigo == null) {
+			return new Pedido();
+		}
+		return antigo;
 	}
 	
-	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
+	@RequestMapping(value = "/salvarTemp", method = RequestMethod.PUT)
 	@ResponseBody
-	public List<Produto> mostrarBordas() {
-		return produtos.findAllBordas();
+	public void salvarTemp(@RequestBody PedidoTemp temp) {
+		temps.save(temp);
 	}
-	
-	@RequestMapping(value = "/buscarBorda/{id}", method = RequestMethod.PUT)
+
+	@RequestMapping(value = "/excluirPedidosTemp/{comanda}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Optional<Produto> buscarBorda(@PathVariable Long id) {
-		return produtos.findById(id);
+	public void excluirPedido(@ModelAttribute("comanda") Pedido pedido) {
+		List<PedidoTemp> temp = temps.findByComanda(pedido.getComanda());
+		temps.deleteInBatch(temp);
 	}
 	
 	@RequestMapping(value = "/data", method = RequestMethod.PUT)
@@ -155,26 +166,10 @@ public class NovoPedidoController {
 		return dias.findById((long) 1);
 	}
 	
-	@RequestMapping(value = "/apagarTemp/{comanda}", method = RequestMethod.PUT)
-	@ResponseBody
-	public String apagarTemp(@PathVariable Long comanda) {
-		Pedido pedido = pedidos.findByComanda(comanda);
-		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
-		temps.deleteInBatch(temp);
-		return "ok";
-	}
-	
 	@RequestMapping(value = "/empresa", method = RequestMethod.PUT)
 	@ResponseBody
 	public Empresa editar() {
 		return empresas.buscarId1();
-	}
-	
-	@RequestMapping(value = "/excluirPedidosTemp/{id}", method = RequestMethod.PUT)
-	@ResponseBody
-	public void excluirPedido(@ModelAttribute("id") Pedido pedido) {
-		List<PedidoTemp> temp = temps.findByNome(pedido.getNome());
-		temps.deleteInBatch(temp);
 	}
 	
 	@RequestMapping("/imprimir")
