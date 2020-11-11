@@ -12,4 +12,9 @@ public class GazaltechController {
 	public ModelAndView tela() {
 		return new ModelAndView("gazaltech");
 	}
+	
+	@RequestMapping("/imprimir")
+	public String imprimir() {
+		return "sucesso no acesso";
+	}
 }
