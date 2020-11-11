@@ -9,11 +9,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class GazaltechController {
 
 	@RequestMapping
-	public ModelAndView tela() {
-		return new ModelAndView("gazaltech");
-	}
-	
-	@RequestMapping("/imprimir")
 	public String imprimir() {
 		return "sucesso no acesso";
 	}
