@@ -174,9 +174,8 @@ public class NovoPedidoController {
 	
 	@RequestMapping("/imprimir")
 	@ResponseBody
-	public String imprimir(@RequestBody Pedido texto) throws PrintException, IOException {
-		System.out.println("\n-------------- texto: " + texto.getPizzas());
-		
+	public String imprimir(){
+		/*
 		//salvar arquivo
 		FileWriter fw = new FileWriter(new File("..\\impressaoTemp.txt"));
 
@@ -202,7 +201,7 @@ public class NovoPedidoController {
 		
 		DocPrintJob job = service.createPrintJob();
 		job.print(doc, pras);
-		
+		*/
 		return "200";
 	}
 }

@@ -880,7 +880,7 @@ function imprimir() {
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
-			/*
+			
 			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
@@ -928,7 +928,9 @@ function imprimir() {
 			tela_impressao.window.print();
 			tela_impressao.window.close();
 			
-			*/
+			
+			//------------------------------------------------------------
+			/*
 			imprimirTxt = e.nomeEstabelecimento//nome da empresa
 					+ '\n' + cliente.envio //forma de envio
 					+ '\n' + e.texto1//texto1 gerado pela empresa
@@ -973,13 +975,13 @@ function imprimir() {
 			cliente.pizzas = imprimirTxt;
 			
 			$.ajax({
-				url: "/impressora/imprimir",
+				url: "/novoPedido/imprimir",
 				type: 'PUT',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(cliente)
 			});
-			
+			*/
 		}
 	});
 }
