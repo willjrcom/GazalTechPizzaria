@@ -512,6 +512,10 @@ function imprimirPizzas(cliente) {
 			impressaoPedido.nome = cliente.nome;
 			impressaoPedido.pizzas = cliente.pizzas;
 
+			//salvar hora
+			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+			impressaoPedido.data = dia + '/' + mes + '/' + ano;
+
 			$.ajax({
 				url: "/novoPedido/imprimirPizza",
 				type: 'PUT',
@@ -539,6 +543,10 @@ function imprimirProdutos(cliente) {
 			impressaoPedido.comanda = cliente.comanda;
 			impressaoPedido.nome = cliente.nome;
 			impressaoPedido.produtos = cliente.produtos;
+			
+			//salvar hora
+			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 
 			$.ajax({
 				url: "/novoPedido/imprimirProduto",

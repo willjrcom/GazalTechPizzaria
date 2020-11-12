@@ -1,6 +1,9 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
@@ -168,7 +171,7 @@ public class NovoPedidoController {
 	@RequestMapping("/imprimirTudo")
 	@ResponseBody
 	public void imprimirTudo(@RequestBody ImpressaoPedido pedido) {
-
+		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		String impressaoCompleta;
 		impressaoCompleta ="\n\n--------------------\n\t" + pedido.getNomeEstabelecimento() 
@@ -225,6 +228,19 @@ public class NovoPedidoController {
 		
 		System.out.println(impressaoCompleta);
 		
+		//salvar arquivo
+		 FileWriter fw;
+		try {
+			fw = new FileWriter(new File("C:\\Users\\Public\\Documents\\impressaoTemp.txt"));
+			BufferedWriter buffer = new BufferedWriter(fw);
+			 
+			buffer.write(impressaoCompleta);
+			  
+			 buffer.close();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
 		//impressora matricial
 		try { 
 			FileOutputStream lpt1 = new FileOutputStream("LPT1");
@@ -240,9 +256,11 @@ public class NovoPedidoController {
 			// Fecha o Stream da impressora 
 			impressora.close();
 			lpt1.close();
+			
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	@RequestMapping("/imprimirPizza")
@@ -335,8 +353,9 @@ public class NovoPedidoController {
 }
 
 /*
- * //salvar arquivo FileWriter fw = new FileWriter(new
- * File("..\\impressaoTemp.txt"));
+ * //salvar arquivo
+ * FileWriter fw = new FileWriter(new
+ * File("C:\\impressaoTemp.txt"));
  * 
  * BufferedWriter buffer = new BufferedWriter(fw);
  * 
