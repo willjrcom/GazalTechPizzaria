@@ -5,6 +5,7 @@ public class PizzaImpressao {
 	private String sabor;
 	private String qtd;
 	private String preco;
+	private String obs;
 	
 	public String getBorda() {
 		return borda;
@@ -29,6 +30,12 @@ public class PizzaImpressao {
 	}
 	public void setPreco(String preco) {
 		this.preco = preco;
+	}
+	public String getObs() {
+		return obs;
+	}
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	
 }

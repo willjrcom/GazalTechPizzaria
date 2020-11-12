@@ -14,7 +14,7 @@ public class ImpressaoPedido {
 	private ProdutoImpressao[] produtos;
 	
 	private double total;
-	private String taxa;
+	private double taxa;
 	private double troco;
 	
 	private String texto1;
@@ -85,10 +85,10 @@ public class ImpressaoPedido {
 	public void setTotal(double total) {
 		this.total = total;
 	}
-	public String getTaxa() {
+	public double getTaxa() {
 		return taxa;
 	}
-	public void setTaxa(String taxa) {
+	public void setTaxa(double taxa) {
 		this.taxa = taxa;
 	}
 	public double getTroco() {

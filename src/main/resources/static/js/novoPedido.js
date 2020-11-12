@@ -971,7 +971,7 @@ function imprimir() {
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 			
 			$.ajax({
-				url: "/novoPedido/imprimir",
+				url: "/novoPedido/imprimirTudo",
 				type: 'PUT',
 				dataType : 'json',
 				contentType: "application/json",

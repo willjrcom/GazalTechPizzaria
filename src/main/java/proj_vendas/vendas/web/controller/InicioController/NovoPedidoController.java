@@ -1,7 +1,9 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -163,90 +165,198 @@ public class NovoPedidoController {
 		return empresas.buscarId1();
 	}
 
-	@RequestMapping("/imprimir")
+	@RequestMapping("/imprimirTudo")
 	@ResponseBody
-	public String imprimir(@RequestBody ImpressaoPedido pedido) {
+	public void imprimirTudo(@RequestBody ImpressaoPedido pedido) {
 
-		System.out.println("\n--------------------\n\t" + pedido.getNomeEstabelecimento() 
+		DecimalFormat decimal = new DecimalFormat("0.00");
+		String impressaoCompleta;
+		impressaoCompleta ="\n\n--------------------\n\t" + pedido.getNomeEstabelecimento() 
 					+ "\n\t" + pedido.getEnvio() 
 					+ "\n--------------------"
 					+ "\n\tDados do cliente"
 					+ "\nComanda: " + pedido.getComanda() 
-					+ "\nCliente: " + pedido.getNome()
-					+ "\n\nCelular: " + pedido.getCelular() 
+					+ "\nCliente: " + pedido.getNome();
+		
+		if(pedido.getEnvio().equals("ENTREGA"))
+			impressaoCompleta += "\n\nCelular: " + pedido.getCelular() 
 					+ "\n" + pedido.getEndereco() 
-					+ "\nTaxa de entrega: R$ " + pedido.getTaxa() 
-					+ "\nHora: " + pedido.getHora() 
+					+ "\nTaxa de entrega: R$ " + decimal.format(pedido.getTaxa());
+					
+		impressaoCompleta += "\nHora: " + pedido.getHora() 
 					+ "   Data: " + pedido.getData()
-					+ "\n\n" + pedido.getTexto1() 
-					);
+					+ "\n\n" + pedido.getTexto1();
 
 		if (pedido.getPizzas().length != 0) {
-			System.out.println("\n--------------------\n\tPizzas");
+			impressaoCompleta += "\n\n--------------------\n\tPizzas";
+			
 			for (int i = 0; i < pedido.getPizzas().length; i++) {
-				System.out.println("\n" + pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor());
-				if (pedido.getPizzas()[i].getBorda() != "") System.out.println("Com " + pedido.getPizzas()[i].getBorda());
-				System.out.println("v. Uni: R$" + pedido.getPizzas()[i].getPreco());
+				impressaoCompleta += "\n\n- " + pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor();
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "\nCom " + pedido.getPizzas()[i].getBorda();
+				
+				impressaoCompleta += "\nv. Total: R$ " + decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco()))
+								+ "\nv. Uni: R$ " + decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco()) 
+										/ Float.parseFloat(pedido.getPizzas()[i].getQtd()));
+				
 			}
 		}
 
 		if (pedido.getProdutos().length != 0) {
-			System.out.println("\n--------------------\n\tProdutos");
+			impressaoCompleta += "\n\n--------------------\n\tProdutos";
+			
 			for (int i = 0; i < pedido.getProdutos().length; i++) {
-				System.out.println("\n" + pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor()
-								+ "\nv. Uni: R$" + pedido.getProdutos()[i].getPreco());
+				impressaoCompleta += "\n\n- " + pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor()
+								+ "\nv. Total: R$ " + decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco()))
+								+ "\nv. Uni: R$ " + decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco()) 
+										/ Float.parseFloat(pedido.getProdutos()[i].getQtd()));
+			}
+		}
+
+		if(pedido.getEnvio().equals("ENTREGA")) {
+			impressaoCompleta += "\n\n--------------------\nTotal com taxa: R$ " + decimal.format(pedido.getTotal() + pedido.getTaxa())
+			+ "\nLevar: R$ " + decimal.format(pedido.getTroco() - pedido.getTotal() - pedido.getTaxa());
+		}else {
+			impressaoCompleta += "\n\n--------------------\nTotal: R$ " + decimal.format(pedido.getTotal())
+			+ "\nLevar: R$ " + decimal.format(pedido.getTroco() - pedido.getTotal());
+		}
+		
+		if(pedido.getTexto2() != "")impressaoCompleta += "\n\n" + pedido.getTexto2();
+		if(pedido.getPromocao() != "") impressaoCompleta += "\n\n--------------------\n\tPromoção\n" + pedido.getPromocao();
+		
+		System.out.println(impressaoCompleta);
+		
+		//impressora matricial
+		try { 
+			FileOutputStream lpt1 = new FileOutputStream("LPT1");
+			PrintStream impressora = new PrintStream(lpt1);
+		
+			// Imprime o texto 
+			impressora.print("\n\nSistema GazalTech\n"); 
+			impressora.print(impressaoCompleta); 
+			//Quebra linha
+			
+			impressora.print("\n\n\n\f");
+			
+			// Fecha o Stream da impressora 
+			impressora.close();
+			lpt1.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/imprimirPizza")
+	@ResponseBody
+	public void imprimirPizza(@RequestBody ImpressaoPedido pedido) {
+
+		String impressaoCompleta;
+		impressaoCompleta ="\n\n--------------------\n\t" + pedido.getNomeEstabelecimento() 
+					+ "\n\t" + pedido.getEnvio() 
+					+ "\n--------------------"
+					+ "\nComanda: " + pedido.getComanda() 
+					+ "\nCliente: " + pedido.getNome();
+		
+		if (pedido.getPizzas().length != 0) {
+			impressaoCompleta += "\n\n--------------------\n\tPizzas";
+			
+			for (int i = 0; i < pedido.getPizzas().length; i++) {
+				impressaoCompleta += "\n\n- " + pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor();
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "\nCom " + pedido.getPizzas()[i].getBorda();
+				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "\nOBS: " + pedido.getPizzas()[i].getObs();
 			}
 		}
 		
-		if(pedido.getTaxa() == "") {
-			System.out.println("\n--------------------\nTotal: R$ " + pedido.getTotal()
-								+ "\nLevar: R$ " + (pedido.getTroco() - pedido.getTotal()));
-		}else {
-			System.out.println("\n--------------------\nTotal com taxa: R$ " + (pedido.getTotal() + Float.parseFloat(pedido.getTaxa()))
-								+ "\nLevar: R$ " + (pedido.getTroco() - pedido.getTotal() - Float.parseFloat(pedido.getTaxa()))
-								);
-		}
-		
-		if(pedido.getTexto2() != "")System.out.println("\n" + pedido.getTexto2());
-		if(pedido.getPromocao() != "") System.out.println("\n--------------------\n\tPromoção\n" + pedido.getPromocao());
-		
-		/*
-		 * //impressora matricial try { FileOutputStream fos = new
-		 * FileOutputStream("LPT1"); PrintStream ps = new PrintStream(fos);
-		 * 
-		 * // Imprime o texto ps.print("testando a impressao \n"); ps.print(json); //
-		 * Quebra linha ps.print("\n\f END");
-		 * 
-		 * // Fecha o Stream da impressora ps.close(); }catch(Exception e) {
-		 * e.printStackTrace(); }
-		 */
+		impressaoCompleta += "\n\n--------------------\nHora: " + pedido.getHora() 
+					+ "   Data: " + pedido.getData();
 
-		/*
-		 * //salvar arquivo FileWriter fw = new FileWriter(new
-		 * File("..\\impressaoTemp.txt"));
-		 * 
-		 * BufferedWriter buffer = new BufferedWriter(fw);
-		 * 
-		 * buffer.write(texto.getPizzas());
-		 * 
-		 * buffer.close();
-		 * 
-		 * //enviar para impressora String defaultPrinter =
-		 * PrintServiceLookup.lookupDefaultPrintService().getName();
-		 * System.out.println("Default printer: " + defaultPrinter);
-		 * 
-		 * PrintService service = PrintServiceLookup.lookupDefaultPrintService();
-		 * 
-		 * FileInputStream in = new FileInputStream(new File("..\\impressaoTemp.txt"));
-		 * 
-		 * PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
-		 * pras.add(new Copies(1));
-		 * 
-		 * DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE; Doc doc = new
-		 * SimpleDoc(in, flavor, null);
-		 * 
-		 * DocPrintJob job = service.createPrintJob(); job.print(doc, pras);
-		 */
-		return "200";
+		System.out.println(impressaoCompleta);
+		
+		//impressora matricial
+		try { 
+			FileOutputStream lpt1 = new FileOutputStream("LPT1");
+			PrintStream impressora = new PrintStream(lpt1);
+		
+			// Imprime o texto 
+			impressora.print("\n\nSistema GazalTech\n"); 
+			impressora.print(impressaoCompleta); 
+			//Quebra linha
+			
+			impressora.print("\n\n\n\f");
+			
+			// Fecha o Stream da impressora 
+			impressora.close();
+			lpt1.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("/imprimirProduto")
+	@ResponseBody
+	public void imprimirProduto(@RequestBody ImpressaoPedido pedido) {
+
+		String impressaoCompleta;
+		impressaoCompleta ="\n\n--------------------\n\t" + pedido.getNomeEstabelecimento() 
+					+ "\n\t" + pedido.getEnvio() 
+					+ "\n--------------------"
+					+ "\nComanda: " + pedido.getComanda() 
+					+ "\nCliente: " + pedido.getNome();
+		
+		if (pedido.getProdutos().length != 0) {
+			impressaoCompleta += "\n\n--------------------\n\tProdutos";
+			
+			for (int i = 0; i < pedido.getProdutos().length; i++) {
+				impressaoCompleta += "\n\n- " + pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor();
+				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "\nOBS: " + pedido.getProdutos()[i].getObs();
+			}
+		}
+
+		System.out.println(impressaoCompleta);
+		
+		//impressora matricial
+		try { 
+			FileOutputStream lpt1 = new FileOutputStream("LPT1");
+			PrintStream impressora = new PrintStream(lpt1);
+		
+			// Imprime o texto 
+			impressora.print("\n\nSistema GazalTech\n"); 
+			impressora.print(impressaoCompleta); 
+			//Quebra linha
+			
+			impressora.print("\n\n\n\f");
+			
+			// Fecha o Stream da impressora 
+			impressora.close();
+			lpt1.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
+
+/*
+ * //salvar arquivo FileWriter fw = new FileWriter(new
+ * File("..\\impressaoTemp.txt"));
+ * 
+ * BufferedWriter buffer = new BufferedWriter(fw);
+ * 
+ * buffer.write(texto.getPizzas());
+ * 
+ * buffer.close();
+ * 
+ * //enviar para impressora String defaultPrinter =
+ * PrintServiceLookup.lookupDefaultPrintService().getName();
+ * System.out.println("Default printer: " + defaultPrinter);
+ * 
+ * PrintService service = PrintServiceLookup.lookupDefaultPrintService();
+ * 
+ * FileInputStream in = new FileInputStream(new File("..\\impressaoTemp.txt"));
+ * 
+ * PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
+ * pras.add(new Copies(1));
+ * 
+ * DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE; Doc doc = new
+ * SimpleDoc(in, flavor, null);
+ * 
+ * DocPrintJob job = service.createPrintJob(); job.print(doc, pras);
+ */

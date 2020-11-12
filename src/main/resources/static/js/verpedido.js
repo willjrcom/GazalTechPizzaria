@@ -150,18 +150,25 @@ function verPedido() {
 	    closeIcon: true,
 	    columnClass: 'col-md-8',
 	    buttons: {
-			confirm: {
-				text: 'Imprimir tudo',
-		        btnClass: 'btn-warning',
+			tudo: {
+				text: '<span class="oi oi-print"></span> Pedido',
+		        btnClass: 'btn-success',
 		        action: function(){
 					imprimirTudo(pedidos[idBusca]);
 				}
 			},
-			print: {
-				text: 'Imprimir Pizzas',
+			pizzas: {
+				text: '<span class="oi oi-print"></span> Pizzas',
 		        btnClass: 'btn-orange',
 		        action: function(){
 					imprimirPizzas(pedidos[idBusca]);
+				}
+			},
+			produtos: {
+				text: '<span class="oi oi-print"></span> Produtos',
+		        btnClass: 'btn-info',
+		        action: function(){
+					imprimirProdutos(pedidos[idBusca]);
 				}
 			}
 		}
@@ -369,7 +376,7 @@ function imprimirTudo(cliente) {
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
-			
+			/*
 			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
 						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
 						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
@@ -418,6 +425,54 @@ function imprimirTudo(cliente) {
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();
+			*/
+			
+			impressaoPedido = {};
+			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
+			impressaoPedido.envio = cliente.envio; //forma de envio
+			impressaoPedido.texto1 = e.texto1;//texto1 gerado pela empresa
+					
+					//numero da comanda e nome
+			impressaoPedido.comanda = cliente.comanda;
+			impressaoPedido.nome = cliente.nome;
+		
+			//mostrar endereco do cliente
+			if(cliente.envio == 'ENTREGA') {
+				impressaoPedido.celular = cliente.celular
+				impressaoPedido.endereco =  cliente.endereco;
+			}
+			impressaoPedido.pizzas = cliente.pizzas;
+			impressaoPedido.produtos = cliente.produtos;
+	
+			
+			//pagamento em entrega
+			if(cliente.envio == 'ENTREGA') {//total com taxa
+				impressaoPedido.total = cliente.total;
+				impressaoPedido.taxa = cliente.taxa;
+				
+				//total sem taxa
+			}else impressaoPedido.total = cliente.total;
+	
+			//total a levar de troco
+			impressaoPedido.troco = cliente.troco;
+
+			if(cliente.obs != null) impressaoPedido.obs = cliente.obs;
+						
+			//texto2 e promocao
+			impressaoPedido.texto2 = e.texto2;
+			impressaoPedido.promocao = e.promocao;
+						
+			//salvar hora
+			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+			impressaoPedido.data = dia + '/' + mes + '/' + ano;
+			
+			$.ajax({
+				url: "/novoPedido/imprimirTudo",
+				type: 'PUT',
+				dataType : 'json',
+				contentType: "application/json",
+				data: JSON.stringify(impressaoPedido)
+			});
 		}
 	});
 }
@@ -430,6 +485,7 @@ function imprimirPizzas(cliente) {
 		type: 'PUT'
 	}).done(function(e){
 		if(e.length != 0) {
+			/*
 			imprimirTxt = '<h1 align="center">' + e.nomeEstabelecimento + '</h1>'
 						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
 						
@@ -445,10 +501,55 @@ function imprimirPizzas(cliente) {
 			tela_impressao.document.write(imprimirTxt);
 			tela_impressao.window.print();
 			tela_impressao.window.close();
+			*/
+			
+			impressaoPedido = {};
+			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
+			impressaoPedido.envio = cliente.envio; //forma de envio
+					
+			//numero da comanda e nome
+			impressaoPedido.comanda = cliente.comanda;
+			impressaoPedido.nome = cliente.nome;
+			impressaoPedido.pizzas = cliente.pizzas;
+
+			$.ajax({
+				url: "/novoPedido/imprimirPizza",
+				type: 'PUT',
+				dataType : 'json',
+				contentType: "application/json",
+				data: JSON.stringify(impressaoPedido)
+			});
 		}
 	});
 }
 
+
+//------------------------------------------------------------------------------------
+function imprimirProdutos(cliente) {
+	$.ajax({
+		url: '/novoPedido/empresa',
+		type: 'PUT'
+	}).done(function(e){
+		if(e.length != 0) {
+			impressaoPedido = {};
+			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
+			impressaoPedido.envio = cliente.envio; //forma de envio
+					
+			//numero da comanda e nome
+			impressaoPedido.comanda = cliente.comanda;
+			impressaoPedido.nome = cliente.nome;
+			impressaoPedido.produtos = cliente.produtos;
+
+			$.ajax({
+				url: "/novoPedido/imprimirProduto",
+				type: 'PUT',
+				dataType : 'json',
+				contentType: "application/json",
+				data: JSON.stringify(impressaoPedido)
+			});
+		}
+	});
+}
 
 //-------------------------------------------------------------
 function mostrar(cliente) {
