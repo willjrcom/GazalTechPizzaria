@@ -480,6 +480,23 @@ function imprimirTudo(cliente) {
 
 //------------------------------------------------------------------------------------
 function imprimirPizzas(cliente) {
+	//salvar hora atual
+	var data = new Date();
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+    dia  = data.getDate().toString();
+    dia = (dia.length == 1) ? '0'+dia : dia;
+    mes  = (data.getMonth()+1).toString();
+    mes = (mes.length == 1) ? '0'+mes : mes;
+    ano = data.getFullYear();
+	    
 	$.ajax({
 		url: '/novoPedido/empresa',
 		type: 'PUT'
@@ -530,6 +547,23 @@ function imprimirPizzas(cliente) {
 
 //------------------------------------------------------------------------------------
 function imprimirProdutos(cliente) {
+	//salvar hora atual
+	var data = new Date();
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+    dia  = data.getDate().toString();
+    dia = (dia.length == 1) ? '0'+dia : dia;
+    mes  = (data.getMonth()+1).toString();
+    mes = (mes.length == 1) ? '0'+mes : mes;
+    ano = data.getFullYear();
+	    
 	$.ajax({
 		url: '/novoPedido/empresa',
 		type: 'PUT'

@@ -1,11 +1,5 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +18,7 @@ import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.ImpressaoPedido;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
@@ -32,6 +27,7 @@ import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
+import proj_vendas.vendas.repository.Impressoes;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
@@ -61,6 +57,9 @@ public class NovoPedidoController {
 	@Autowired
 	private PedidoTemps temps;
 
+	@Autowired
+	private Impressoes impressoes;
+	
 	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
@@ -228,39 +227,9 @@ public class NovoPedidoController {
 		
 		System.out.println(impressaoCompleta);
 		
-		//salvar arquivo
-		 FileWriter fw;
-		try {
-			fw = new FileWriter(new File("C:\\Users\\Public\\Documents\\impressaoTemp.txt"));
-			BufferedWriter buffer = new BufferedWriter(fw);
-			 
-			buffer.write(impressaoCompleta);
-			  
-			 buffer.close();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		//impressora matricial
-		try { 
-			FileOutputStream lpt1 = new FileOutputStream("LPT1");
-			PrintStream impressora = new PrintStream(lpt1);
-		
-			// Imprime o texto 
-			impressora.print("\n\nSistema GazalTech\n"); 
-			impressora.print(impressaoCompleta); 
-			//Quebra linha
-			
-			impressora.print("\n\n\n\f");
-			
-			// Fecha o Stream da impressora 
-			impressora.close();
-			lpt1.close();
-			
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-		
+		ImpressaoMatricial im = new ImpressaoMatricial();
+		im.setImpressao(impressaoCompleta);
+		impressoes.save(im);
 	}
 	
 	@RequestMapping("/imprimirPizza")
@@ -289,24 +258,9 @@ public class NovoPedidoController {
 
 		System.out.println(impressaoCompleta);
 		
-		//impressora matricial
-		try { 
-			FileOutputStream lpt1 = new FileOutputStream("LPT1");
-			PrintStream impressora = new PrintStream(lpt1);
-		
-			// Imprime o texto 
-			impressora.print("\n\nSistema GazalTech\n"); 
-			impressora.print(impressaoCompleta); 
-			//Quebra linha
-			
-			impressora.print("\n\n\n\f");
-			
-			// Fecha o Stream da impressora 
-			impressora.close();
-			lpt1.close();
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		ImpressaoMatricial im = new ImpressaoMatricial();
+		im.setImpressao(impressaoCompleta);
+		impressoes.save(im);
 	}
 	
 	@RequestMapping("/imprimirProduto")
@@ -331,24 +285,9 @@ public class NovoPedidoController {
 
 		System.out.println(impressaoCompleta);
 		
-		//impressora matricial
-		try { 
-			FileOutputStream lpt1 = new FileOutputStream("LPT1");
-			PrintStream impressora = new PrintStream(lpt1);
-		
-			// Imprime o texto 
-			impressora.print("\n\nSistema GazalTech\n"); 
-			impressora.print(impressaoCompleta); 
-			//Quebra linha
-			
-			impressora.print("\n\n\n\f");
-			
-			// Fecha o Stream da impressora 
-			impressora.close();
-			lpt1.close();
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		ImpressaoMatricial im = new ImpressaoMatricial();
+		im.setImpressao(impressaoCompleta);
+		impressoes.save(im);
 	}
 }
 

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.print.Doc;
 import javax.print.DocFlavor;
@@ -16,16 +17,31 @@ import javax.print.SimpleDoc;
 import javax.print.event.PrintJobAdapter;
 import javax.print.event.PrintJobEvent;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.repository.Impressoes;
 
-@Controller
-@RequestMapping("/impressora")
+@RestController
+@RequestMapping("/imprimir")
 public class ImprimirController {
+	
+	@Autowired
+	private Impressoes impressoes;
+	
+	@RequestMapping
+	public String impressaoNetBeans() {
+		List<ImpressaoMatricial> todosIm = impressoes.findAll();
+		ImpressaoMatricial im = todosIm.get(0);
+		impressoes.deleteById(im.getId());
+		return im.getImpressao();
+	}
+	
 	
 	@RequestMapping("/imprimir")
 	@ResponseBody
