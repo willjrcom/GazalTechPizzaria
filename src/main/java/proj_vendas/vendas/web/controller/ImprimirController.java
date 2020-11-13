@@ -37,9 +37,12 @@ public class ImprimirController {
 	@RequestMapping
 	public String impressaoNetBeans() {
 		List<ImpressaoMatricial> todosIm = impressoes.findAll();
-		ImpressaoMatricial im = todosIm.get(0);
-		impressoes.deleteById(im.getId());
-		return im.getImpressao();
+		if(todosIm.size() != 0) {
+			ImpressaoMatricial im = todosIm.get(0);
+			impressoes.deleteById(im.getId());
+			return im.getImpressao();
+		}
+		return null;
 	}
 	
 	
