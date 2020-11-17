@@ -343,11 +343,9 @@ function excluirPedido() {
 //-------------------------------------------------
 buscarPedido();
 
-
-//-------------------------------------------------
-setInterval(function (){
+setInterval(function(){
 	buscarPedido();
-},5000);
+},30000); // recarregar a cada 30 segundos
 
 
 //-------------------------------------------------

@@ -108,5 +108,5 @@ buscarPedidos();
 
 setInterval(function (){
 	buscarPedidos();
-},3000);
+},20000); // recarregar a cada 20 segundos
 	
