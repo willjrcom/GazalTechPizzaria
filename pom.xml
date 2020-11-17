@@ -72,13 +72,13 @@
             <artifactId> dx-java </artifactId>
             <version> 1.0.33 </version>
 		</dependency>
-		
+		-->
 		<dependency>
 		    <groupId>org.directwebremoting</groupId>
 		    <artifactId>dwr</artifactId>
 		    <version>3.0.2-RELEASE</version>
 		 </dependency>
-		 -->
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

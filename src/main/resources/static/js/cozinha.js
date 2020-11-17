@@ -12,7 +12,7 @@ var divisao;
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
-	
+
 function buscarPedido() {
 	pedidos = [];
 	produtos = [];
@@ -20,10 +20,14 @@ function buscarPedido() {
 	Tpedidos = 0;
 	Tpizzas = 0;
 	AllPizzas = 0;
+	totalPedidos = 0;
 	
 	$.ajax({
 		url: "/cozinha/todosPedidos",
-		type: 'PUT'
+		type: 'PUT',
+		beforeSend: function(){
+			$("#alertaPedidos").hide();
+		}
 	}).done(function(e){
 
 		pedidos = e;
@@ -169,20 +173,18 @@ function enviarPedido() {
 		}
 	});
 };
-/*
-//ajax reverso
-function init() {
-	console.log("dwr init....");
-	dwr.engine.setActiveReverseAjax(true);
-};
-*/
 
-//recarregar a cada 5 segundos
+
 buscarPedido();
 
 setInterval(function (){
 	buscarPedido();
-},5000);
+}, 10000);//recarregar a cada 10 segundos
+
+
+$("#alertaPedidos").on("click",function(){
+	buscarPedido();
+});
 
 
 //----------------------------------------------------------------------------
@@ -282,3 +284,39 @@ function mostrarTabela(pizzas) {
 		linhaHtml += '</table>';
 	}
 }
+
+
+var totalPedidos = 0;
+
+//ajax reverso
+/*
+//---------------------------------------
+$(document).ready(function(){
+	init();
+});
+
+
+function init() {
+	console.log("dwr init....");
+	dwr.engine.setActiveReverseAjax(true);
+	dwr.engine.setErrorHandler(error);
+	DwrAlertaPedidos.init();
+};
+
+
+//----------------------------------------
+function error(exception) {
+	console.log("dwr error: " + exception);
+}
+
+
+//-----------------------------------------
+function showButton(count) {
+	totalPedidos += count;
+	$("#alertaPedidos").show(function(){
+		$(this)
+		.attr("style","display: block")
+		.text(totalPedidos + " novos pedidos!");
+	});
+}
+*/

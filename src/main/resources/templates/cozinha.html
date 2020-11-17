@@ -12,6 +12,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Cozinha</h1>
 		<hr>
 		
+		<div class="alert alert-success" role="alert" id="alertaPedidos" style="display:none">novos pedidos!</div>
+		
 		<div class="table-responsive">
 			<table>
 				<thead>
@@ -29,7 +31,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</tbody>
 			</table>
 		</div>
-		
+
 		<br>
 		<div>
 			<label for="filtro">Filtrar:</label>
@@ -63,6 +65,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<br>
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/cozinha.js}"></script>
+	
+	<!-- dwr ajax -->
+	<script type='text/javascript' th:src="@{/dwr/engine.js}"></script>
+  	<script type='text/javascript' th:src="@{/dwr/interface/DwrAlertaPedidos.js}"></script>
+  	<script type='text/javascript' th:src="@{/dwr/util.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: inicio}"></div>
