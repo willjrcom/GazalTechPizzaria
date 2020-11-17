@@ -30,13 +30,13 @@ function salvar() {
 		//buscar data
 		$.ajax({
 			url: '/menu/mostrarDia',
-			type: 'PUT'
+			type: 'GET'
 		}).done(function(e){
 			
 			//buscar id da data
 			$.ajax({
 				url: '/menu/verificarData/' + e.dia,
-				type: 'PUT'
+				type: 'GET'
 			}).done(function(e){
 				
 				if(e.compras != null) compras = JSON.parse(e.compras);
@@ -48,7 +48,7 @@ function salvar() {
 				
 				$.ajax({
 					url: '/adm/fechamento/finalizar/' + id,
-					type: 'PUT',
+					type: 'POST',
 					dataType : 'json',
 					contentType: "application/json",
 					data: JSON.stringify(e),
@@ -94,13 +94,13 @@ $(document).ready(function(){
 	//buscar data
 	$.ajax({
 		url: '/menu/mostrarDia',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 
 		//buscar id da data
 		$.ajax({
 			url: '/menu/verificarData/' + e.dia,
-			type: 'PUT'
+			type: 'GET'
 		}).done(function(e){
 			
 			Tcompras = '';

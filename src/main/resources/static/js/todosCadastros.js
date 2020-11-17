@@ -2,7 +2,7 @@
 //buscar total de clientes
 $.ajax({
 	url: '/cadastros/Tclientes',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	$("#Tclientes").text(e);
 }).fail(function(){
@@ -13,7 +13,7 @@ $.ajax({
 //buscar total de funcionarios
 $.ajax({
 	url: '/cadastros/Tfuncionarios',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	$("#Tfuncionarios").text(e);
 }).fail(function(){
@@ -24,7 +24,7 @@ $.ajax({
 //buscar total de produtos
 $.ajax({
 	url: '/cadastros/Tprodutos',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	$("#Tprodutos").text(e);
 }).fail(function(){

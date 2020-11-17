@@ -14,7 +14,7 @@ $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
 	url: "/adm/pedidosExcluidos/todosPedidos",
-	type: 'PUT'
+	type: 'GET'
 })
 .done(function(e){
 	pedidos = e;
@@ -163,7 +163,7 @@ ano = data.getFullYear();
 //buscar dados da empresa
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
 			
@@ -203,12 +203,12 @@ ano = data.getFullYear();
 			impressaoPedido.promocao = e.promocao;
 						
 			//salvar hora
-			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+			impressaoPedido.hora = cliente.horaPedido;
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 			
 			$.ajax({
 				url: "/novoPedido/imprimirTudo",
-				type: 'PUT',
+				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)

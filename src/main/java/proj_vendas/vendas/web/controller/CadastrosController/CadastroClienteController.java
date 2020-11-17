@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,7 +26,7 @@ public class CadastroClienteController {
 		return new ModelAndView("cadastroCliente");
 	}
 	
-	@RequestMapping(value = "/buscarCpf/{cpf}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCpf/{cpf}/{id}")
 	@ResponseBody
 	public Cliente buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Cliente cliente) {
 		Cliente busca = clientes.findByCpf(cpf);
@@ -42,7 +41,7 @@ public class CadastroClienteController {
 		return clientes.findByCpf(cpf);
 	}
 
-	@RequestMapping(value = "/buscarCelular/{celular}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCelular/{celular}/{id}")
 	@ResponseBody
 	public Cliente buscarCelular(@PathVariable String celular, @ModelAttribute("id")Cliente cliente) {
 		Cliente busca = clientes.findByCelular(celular);
@@ -57,13 +56,13 @@ public class CadastroClienteController {
 		return clientes.findByCelular(celular);
 	}
 	
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@RequestMapping(value = "/cadastrar")
 	@ResponseBody
 	public Cliente cadastrarCliente(@RequestBody Cliente cliente) {
 		return clientes.save(cliente);
 	}
 	
-	@RequestMapping(value = "/editarCliente/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/editarCliente/{id}")
 	@ResponseBody
 	public Optional<Cliente> buscarCliente(@PathVariable Long id) {
 		return clientes.findById(id);

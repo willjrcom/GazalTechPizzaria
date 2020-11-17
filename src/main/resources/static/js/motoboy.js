@@ -13,7 +13,7 @@ $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
 	url: "/motoboy/todosPedidos",
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	
 	pedidos = e;
@@ -26,7 +26,7 @@ $.ajax({
 
 $.ajax({
 	url: "/motoboy/funcionarios",
-	type: 'PUT'
+	type: 'GET'
 })
 .done(function(motoboys){
 	

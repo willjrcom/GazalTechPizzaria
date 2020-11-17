@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,19 +31,19 @@ public class PagamentoController {
 		return new ModelAndView("pagamento");
 	}
 	
-	@RequestMapping(value = "/pagamento/todosFuncionarios", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pagamento/todosFuncionarios")
 	@ResponseBody
 	public List<Funcionario> todos() {
 		return funcionarios.findAll();
 	}
 	
-	@RequestMapping(value = "/pagamento/salvar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pagamento/salvar")
 	@ResponseBody
 	public Salario salvar(@RequestBody Salario salario) {
 		return salarios.save(salario);
 	}
 	
-	@RequestMapping(value = "/pagamento/buscar/{id}/{data}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/pagamento/buscar/{id}/{data}")
 	@ResponseBody
 	public List<Salario> buscar(@PathVariable Long id, @PathVariable String data){
 		return salarios.findByIdFuncionarioAndData(id, data);

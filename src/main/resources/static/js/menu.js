@@ -4,7 +4,7 @@ var dados = {};
 function verData() {
 	$.ajax({
 		url: '/menu/mostrarDia',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		var hoje = new Date();
 		
@@ -64,13 +64,13 @@ $("#data").click(function(){
 
 					$.ajax({
 						url: '/menu/verificarData/' + dados.data,
-						type: 'PUT'
+						type: 'GET'
 					}).done(function(e){
 						
 						if(e.length != 0) {
 							$.ajax({
 								url: '/menu/acessarData/' + dados.data,
-								type: 'PUT'
+								type: 'GET'
 							}).done(function(e){
 								verData();
 								
@@ -110,7 +110,7 @@ $("#data").click(function(){
 						}else {
 							$.ajax({
 								url: '/menu/criarData/' + dados.data,
-								type: 'PUT'
+								type: 'GET'
 							}).done(function(e){
 								verData();
 								
@@ -196,7 +196,7 @@ function troco() {
 					//buscar id da data do sistema
 					$.ajax({
 						url: '/menu/buscarIdData/' + dados.data,
-						type: 'PUT'
+						type: 'GET'
 					}).done(function(e){
 		
 						dados.id = e.id;

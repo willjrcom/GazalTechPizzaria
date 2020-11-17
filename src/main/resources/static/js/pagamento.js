@@ -21,7 +21,7 @@ function dataAtualFormatada(){
 //------------------------------------------------------------
 $.ajax({
 	url: '/novoPedido/empresa',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	if(e.length != 0) horaExtra = e.horaExtra;
 	
@@ -34,7 +34,7 @@ $.ajax({
 	
 	$.ajax({
 		url: "/adm/pagamento/todosFuncionarios",
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		funcionarios = e;
 		$("#todosFuncionarios").html("");
@@ -118,7 +118,7 @@ $.ajax({
 						//buscar o mes de gastos do funcionario
 						$.ajax({
 							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-							type: 'PUT'
+							type: 'GET'
 						}).done(function(e){
 							
 							var horas = 0;
@@ -158,7 +158,7 @@ $.ajax({
 											
 											$.ajax({
 												url: '/adm/pagamento/salvar',
-												type: 'PUT',
+												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
 												data: JSON.stringify(funcionario)
@@ -215,7 +215,7 @@ $.ajax({
 						//buscar o mes de gastos do funcionario
 						$.ajax({
 							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-							type: 'PUT'
+							type: 'GET'
 						}).done(function(e){
 							
 							var gastos = 0;
@@ -252,7 +252,7 @@ $.ajax({
 											
 											$.ajax({
 												url: '/adm/pagamento/salvar',
-												type: 'PUT',
+												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
 												data: JSON.stringify(funcionario)
@@ -323,7 +323,7 @@ $.ajax({
 						//buscar o mes de gastos do funcionario
 						$.ajax({
 							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-							type: 'PUT'
+							type: 'GET'
 						}).done(function(e){
 							
 							var gastos = 0;
@@ -382,7 +382,7 @@ $.ajax({
 											
 											$.ajax({
 												url: '/adm/pagamento/salvar',
-												type: 'PUT',
+												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
 												data: JSON.stringify(funcionario)

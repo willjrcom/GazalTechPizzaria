@@ -103,7 +103,7 @@ $("#mesa").click(function(){
 	
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
 			mesas = e.mesa;

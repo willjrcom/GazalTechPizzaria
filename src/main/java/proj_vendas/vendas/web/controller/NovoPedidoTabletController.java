@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -42,13 +41,13 @@ public class NovoPedidoTabletController{
 		return new ModelAndView("novoPedidoTablet");
 	}
 	
-	@RequestMapping(value = "/todosProdutos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/todosProdutos")
 	@ResponseBody
 	public List<Produto> mostrarTodos(){
 		return produtos.findByDisponivelAndSetorNot(true, "BORDA");
 	}
 
-	@RequestMapping(value = "/escolher/{setor}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/escolher/{setor}")
 	@ResponseBody
 	public List<Produto> mostraropcao(@PathVariable String setor){
 		if(setor.equals("TODOS") == true) {
@@ -57,19 +56,19 @@ public class NovoPedidoTabletController{
 		return produtos.findBySetorAndDisponivel(setor, true);
 	}
 
-	@RequestMapping(value = "/produto/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/produto/{id}")
 	@ResponseBody
 	public Optional<Produto> buscarProduto(@PathVariable Long id){
 		return produtos.findById(id);
 	}
 
-	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
+	@RequestMapping(value = "/bordas")
 	@ResponseBody
 	public List<Produto> buscarBordas(){
 		return produtos.findBySetorAndDisponivel("BORDA", true);
 	}
 	
-	@RequestMapping(value = "/atualizar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/atualizar")
 	@ResponseBody
 	public Pedido atualizar(@RequestBody Pedido pedido) {
 		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
@@ -81,7 +80,7 @@ public class NovoPedidoTabletController{
 		return antigo;
 	}
 	
-	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT)
+	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
 	public Pedido novoPedido(@RequestBody Pedido pedido) {
 		

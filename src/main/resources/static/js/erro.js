@@ -2,7 +2,7 @@ var usuarios = [];
 
 $.ajax({
 	url: '/erro/todos',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	
 	usuarios = e;

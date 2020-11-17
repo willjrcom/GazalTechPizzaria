@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -41,19 +40,19 @@ public class CadastrosController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/Tclientes", method = RequestMethod.PUT)
+	@RequestMapping(value = "/Tclientes")
 	@ResponseBody
 	public long totalClientes() {
 		return clientes.count();
 	}
 	
-	@RequestMapping(value = "/Tfuncionarios", method = RequestMethod.PUT)
+	@RequestMapping(value = "/Tfuncionarios")
 	@ResponseBody
 	public long totalFuncionarios() {
 		return funcionarios.count();
 	}
 	
-	@RequestMapping(value = "/Tprodutos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/Tprodutos")
 	@ResponseBody
 	public long totalProdutos() {
 		return produtos.count();

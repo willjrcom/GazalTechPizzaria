@@ -43,7 +43,7 @@ function mostrarOpcao(opcao) {
 	
 	$.ajax({
 		url: '/novoPedidoTablet/escolher/' + opcao,
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		linhaHtml = '<h4>'+ opcao +'</h4><hr>';
 		
@@ -102,7 +102,7 @@ function adicionar() {
 	
 	$.ajax({
 		url: '/novoPedido/addProduto/' + idProduto,
-		type: 'PUT'
+		type: 'GET'
 	})
 	.done(function(e){
 		var Id = e.id;
@@ -118,7 +118,7 @@ function adicionar() {
 			//buscar borda recheada
 			$.ajax({
 				url: '/novoPedido/bordas',
-				type: 'PUT'
+				type: 'GET'
 			}).done(function(todasBordas){
 				
 				//buscar bordas
@@ -157,7 +157,7 @@ function adicionar() {
 									//buscar borda por id
 									$.ajax({
 										url: "/novoPedido/buscarBorda/" + bordaId,
-										type: 'PUT'
+										type: 'GET'
 									}).done(function(event){
 										
 										Borda = event.nomeProduto;
@@ -354,7 +354,7 @@ function mostrarProdutos() {
 					action: function(){
 						$.ajax({
 							url: '/novoPedido/data',
-							type: 'PUT'
+							type: 'GET'
 						}).done(function(event){
 							mesa.data = event.dia;
 							mesa.envio = 'MESA';
@@ -421,7 +421,7 @@ function mostrarProdutos() {
 									//salvar pedido no temp
 									$.ajax({
 										url: '/novoPedido/salvarTemp',
-										type: 'PUT',
+										type: 'POST',
 										dataType : 'json',
 										contentType: "application/json",
 										data: JSON.stringify(temp)

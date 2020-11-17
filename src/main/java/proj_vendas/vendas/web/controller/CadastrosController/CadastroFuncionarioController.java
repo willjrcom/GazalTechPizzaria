@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -28,13 +27,13 @@ public class CadastroFuncionarioController{
 		return new ModelAndView("cadastroFuncionario");
 	}
 
-	@RequestMapping(value = "/cadastroFuncionario/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@RequestMapping(value = "/cadastroFuncionario/cadastrar")
 	@ResponseBody
 	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
 		return funcionarios.save(funcionario);
 	}
 		
-	@RequestMapping(value = "/cadastroFuncionario/buscarCpf/{cpf}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cadastroFuncionario/buscarCpf/{cpf}/{id}")
 	@ResponseBody
 	public Funcionario buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Funcionario funcionario) {
 		Funcionario busca = funcionarios.findByCpf(cpf);
@@ -49,7 +48,7 @@ public class CadastroFuncionarioController{
 		return funcionarios.findByCpf(cpf);
 	}
 	
-	@RequestMapping(value = "/cadastroFuncionario/buscarCelular/{celular}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cadastroFuncionario/buscarCelular/{celular}/{id}")
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular, @ModelAttribute("id")Funcionario funcionario) {
 		Funcionario busca = funcionarios.findByCelular(celular);
@@ -64,7 +63,7 @@ public class CadastroFuncionarioController{
 		return funcionarios.findByCelular(celular);
 	}
 	
-	@RequestMapping(value = "/cadastroFuncionario/editarFuncionario/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/cadastroFuncionario/editarFuncionario/{id}")
 	@ResponseBody
 	public Optional<Funcionario> buscarFuncionario(@PathVariable Long id) {
 		return funcionarios.findById(id);

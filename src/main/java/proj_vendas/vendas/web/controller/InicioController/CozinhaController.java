@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,13 +24,13 @@ public class CozinhaController{
 		return new ModelAndView("cozinha");
 	}
 	
-	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
 		return temps.findByStatus("COZINHA"); //mostrar todos temporarios
 	}
 	
-	@RequestMapping(value = "/enviarPedido/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/enviarPedido/{id}")
 	@ResponseBody
 	public PedidoTemp enviarPedido(@ModelAttribute("id") PedidoTemp pedido) {//falta enviar as outras variaveis
 		pedido.setStatus("PRONTO");

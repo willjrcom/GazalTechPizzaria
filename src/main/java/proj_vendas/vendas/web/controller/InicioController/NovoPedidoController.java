@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -65,13 +64,13 @@ public class NovoPedidoController {
 		return new ModelAndView("novoPedido");
 	}
 
-	@RequestMapping(value = "/numeroCliente/{celular}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/numeroCliente/{celular}")
 	@ResponseBody
 	public Cliente buscarCliente(@PathVariable String celular) {
 		return clientes.findByCelular(celular);
 	}
 
-	@RequestMapping(value = "/nomeProduto/{nome}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/nomeProduto/{nome}")
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
 		List<Produto> produto = produtos.findByCodigoBuscaAndDisponivelAndSetorNot(nome, true, "BORDA");// busca apenas
@@ -90,25 +89,25 @@ public class NovoPedidoController {
 																									// relacionado
 	}
 
-	@RequestMapping(value = "/addProduto/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/addProduto/{id}")
 	@ResponseBody
 	public Optional<Produto> adicionarProduto(@PathVariable long id) {
 		return produtos.findById(id);
 	}
 
-	@RequestMapping(value = "/bordas", method = RequestMethod.PUT)
+	@RequestMapping(value = "/bordas")
 	@ResponseBody
 	public List<Produto> mostrarBordas() {
 		return produtos.findAllBordas();
 	}
 
-	@RequestMapping(value = "/buscarBorda/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarBorda/{id}")
 	@ResponseBody
 	public Optional<Produto> buscarBorda(@PathVariable Long id) {
 		return produtos.findById(id);
 	}
 
-	@RequestMapping(value = "/salvarPedido", method = RequestMethod.PUT)
+	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
 	public Pedido novoPedido(@RequestBody Pedido pedido) {
 
@@ -123,13 +122,13 @@ public class NovoPedidoController {
 		return pedidos.save(pedido); // salvar pedido
 	}
 
-	@RequestMapping(value = "/editarPedido/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/editarPedido/{id}")
 	@ResponseBody
 	public Optional<Pedido> buscarPedido(@PathVariable Long id) {
 		return pedidos.findById(id);
 	}
 
-	@RequestMapping(value = "/atualizar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/atualizar")
 	@ResponseBody
 	public Pedido atualizar(@RequestBody Pedido pedido) {
 		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
@@ -142,26 +141,26 @@ public class NovoPedidoController {
 		return antigo;
 	}
 
-	@RequestMapping(value = "/salvarTemp", method = RequestMethod.PUT)
+	@RequestMapping(value = "/salvarTemp")
 	@ResponseBody
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		temps.save(temp);
 	}
 
-	@RequestMapping(value = "/excluirPedidosTemp/{comanda}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
 	@ResponseBody
 	public void excluirPedido(@ModelAttribute("comanda") Pedido pedido) {
 		List<PedidoTemp> temp = temps.findByComanda(pedido.getComanda());
 		temps.deleteInBatch(temp);
 	}
 
-	@RequestMapping(value = "/data", method = RequestMethod.PUT)
+	@RequestMapping(value = "/data")
 	@ResponseBody
 	public Optional<Dia> data() {
 		return dias.findById((long) 1);
 	}
 
-	@RequestMapping(value = "/empresa", method = RequestMethod.PUT)
+	@RequestMapping(value = "/empresa")
 	@ResponseBody
 	public Empresa editar() {
 		return empresas.buscarId1();

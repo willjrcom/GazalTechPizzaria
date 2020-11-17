@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,7 +37,7 @@ public class VerpedidoController{
 		return new ModelAndView("verpedido");
 	}
 	
-	@RequestMapping(value = "/excluirPedido/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/excluirPedido/{id}")
 	@ResponseBody
 	public Pedido excluirPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("EXCLUIDO");
@@ -47,7 +46,7 @@ public class VerpedidoController{
 		return pedidos.save(pedido);
 	}
 	
-	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		String dia = dias.buscarId1().getDia();

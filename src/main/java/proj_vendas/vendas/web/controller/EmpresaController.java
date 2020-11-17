@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,7 +23,7 @@ public class EmpresaController {
 		return new ModelAndView ("empresa");
 	}
 	
-	@RequestMapping(value = "/empresa/atualizar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/empresa/atualizar")
 	@ResponseBody
 	public Empresa salvar(@RequestBody Empresa empresa) {
 		
@@ -38,7 +37,7 @@ public class EmpresaController {
 		}
 	}
 	
-	@RequestMapping(value = "/empresa/editar", method = RequestMethod.PUT)
+	@RequestMapping(value = "/empresa/editar")
 	@ResponseBody
 	public Empresa editar() {
 		return empresas.buscarId1();

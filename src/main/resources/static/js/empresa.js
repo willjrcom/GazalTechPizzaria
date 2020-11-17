@@ -3,7 +3,7 @@ var empresa = {};
 //---------------------------------------------------
 $.ajax({
 	url: "/adm/empresa/editar",
-	type: 'PUT',
+	type: 'GET',
 }).done(function(e){
 	
 	if(e.length != 0) {

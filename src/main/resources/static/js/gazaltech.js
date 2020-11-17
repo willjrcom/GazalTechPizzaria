@@ -9,9 +9,9 @@ function enviarEmail(){
                '<strong>Descição: </strong>'+duvida;
 
     $.ajax({
-        type:"POST",
-        url:"https://mandrillapp.com/api/1.0/messages/send.json",
-        data:{
+        url: "https://mandrillapp.com/api/1.0/messages/send.json",
+        type: "GET",
+        data: {
                 'key':'e21763e87eb17a220f928fcec9de5432-us2',
                 'message':{
                     'from_email':'williamjunior67@gmail.com',

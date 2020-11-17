@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,34 +42,34 @@ public class FechamentoController {
 		return new ModelAndView("fechamento");
 	}
 	
-	@RequestMapping(value = "/fechamento/Tpedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/Tpedidos")
 	@ResponseBody
 	public long totalPedidos() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndData("FINALIZADO", dia).size();
 	}
 	
-	@RequestMapping(value = "/fechamento/Tvendas", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/Tvendas")
 	@ResponseBody
 	public List<Pedido> totalVendas() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndData("FINALIZADO", dia);
 	}
 	
-	@RequestMapping(value = "/fechamento/baixartudo", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/baixartudo")
 	@ResponseBody
 	public List<Pedido> baixarTudo() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndData("FINALIZADO", dia);
 	}
 	
-	@RequestMapping(value = "/fechamento/buscarIdData/{data}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/buscarIdData/{data}")
 	@ResponseBody
 	public Dado buscarId(@PathVariable String data) {
 		return dados.findByData(data);
 	}
 	
-	@RequestMapping(value = "/fechamento/finalizar/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/finalizar/{id}")
 	@ResponseBody
 	public Dado finalizarCaixa(@RequestBody Dado dado) {
 		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
@@ -79,7 +78,7 @@ public class FechamentoController {
 		return dados.save(dado);
 	}
 	
-	@RequestMapping(value = "/fechamento/data", method = RequestMethod.PUT)
+	@RequestMapping(value = "/fechamento/data")
 	@ResponseBody
 	public Optional<Dia> data() {
 		return dias.findById((long) 1);

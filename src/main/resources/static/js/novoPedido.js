@@ -47,7 +47,7 @@ if(typeof url_atual == "undefined") {
 	
 	$.ajax({
 		url: urlNumero,
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		
 		$("#divBuscarCliente").hide();
@@ -62,7 +62,7 @@ if(typeof url_atual == "undefined") {
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
 		cliente.taxa = parseFloat(cliente.taxa);
-
+		
 		//mostrar entrega
 		if(e.envio == 'ENTREGA') {
 			$("#mostrarDadosCliente").show('slow'); //esconder tabelas
@@ -132,7 +132,7 @@ $('#buscarCliente').on('click', function(){
 	
 			$.ajax({
 				url: "/novoPedido/numeroCliente/" + numero,
-				type: 'PUT'
+				type: 'GET'
 			}).done(function(e){
 	
 				if(e.length != 0) {
@@ -191,7 +191,7 @@ function atualizarDados() {
 	//buscar data do sistema
 	$.ajax({
 		url: '/novoPedido/data',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		
 		cliente.data = e.dia;
@@ -227,7 +227,7 @@ function buscarProdutos() {
 		
 		$.ajax({
 			url: "/novoPedido/nomeProduto/" + produto,
-			type: 'PUT'
+			type: 'GET'
 		}).done(function(e){
 			
 			if(e.length == 0) {//se nao encontrar nenhum produto
@@ -347,7 +347,7 @@ function enviarProduto(idUnico) {
 	
 	$.ajax({
 		url: '/novoPedido/addProduto/' + idProduto,
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		
 		Sabor = e.nomeProduto;
@@ -362,7 +362,7 @@ function enviarProduto(idUnico) {
 			//buscar borda recheada
 			$.ajax({
 				url: '/novoPedido/bordas',
-				type: 'PUT'
+				type: 'GET'
 			}).done(function(todasBordas){
 				
 				//buscar bordas
@@ -401,7 +401,7 @@ function enviarProduto(idUnico) {
 									//buscar borda por id
 									$.ajax({
 										url: "/novoPedido/buscarBorda/" + bordaId,
-										type: 'PUT'
+										type: 'GET'
 									}).done(function(event){
 										
 										//setar valores da borda escolhida
@@ -511,7 +511,7 @@ $(".removerProduto").click(function(e){
 	tPedido -= produtos[0].preco;
 	
 	produtos.shift();
-	
+	console.log("produto: " + produtos.length);
 	if(produtos.length == 0) $("#listaProduto").html(pedidoVazio);
 	
 	if(pizzas.length == 0 && produtos.length == 0) $(".divListaGeral").hide('slow');
@@ -703,7 +703,7 @@ $("#BotaoEnviarPedido").click(function() {
 								//salvar pedido no temp
 								$.ajax({
 									url: '/novoPedido/salvarTemp',
-									type: 'PUT',
+									type: 'POST',
 									dataType : 'json',
 									contentType: "application/json",
 									data: JSON.stringify(temp)
@@ -795,6 +795,9 @@ function mostrarProdutos() {//todos
 
 	$("#listaProduto").html("");
 	$("#listaPizza").html("");
+
+	if(produtos.length == 0) $("#listaProduto").html(pedidoVazio);
+	if(pizzas.length == 0) $("#listaPizza").html(pedidoVazio);
 	
 	for(pizza of pizzas){
 		linhaHtml = '<tr>'
@@ -877,7 +880,7 @@ function imprimir() {
     //buscar dados da empresa
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
 			/*
@@ -930,7 +933,7 @@ function imprimir() {
 			*/
 			
 			//------------------------------------------------------------
-			
+			console.log(cliente);
 			impressaoPedido = {};
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
@@ -967,12 +970,12 @@ function imprimir() {
 			impressaoPedido.promocao = e.promocao;
 						
 			//salvar hora
-			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+			impressaoPedido.hora = cliente.horaPedido;
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 			
 			$.ajax({
 				url: "/novoPedido/imprimirTudo",
-				type: 'PUT',
+				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)

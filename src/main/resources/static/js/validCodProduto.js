@@ -10,7 +10,7 @@ $('#codigoBusca').on('blur', function(){
 		
 		$.ajax({
 			url:  (id != '') ? "/cadastroProduto/buscarCodigo/" + cod + '/' + id : "/cadastroProduto/buscarCodigo/" + cod + '/-2',
-			type: 'PUT',
+			type: 'GET',
 		}).done(function(e){
 			if(e.length != 0 && e != '' && e.id != -1) {
 				$("#avisoCod").show().css({

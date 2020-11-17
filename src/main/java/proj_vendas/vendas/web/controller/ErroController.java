@@ -3,7 +3,6 @@ package proj_vendas.vendas.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +21,7 @@ public class ErroController {
 		return new ModelAndView("erro");
 	}
 	
-	@RequestMapping(value = "/todos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/todos")
 	@ResponseBody
 	public java.util.List<Usuario> todos(){
 		return usuarios.findByAtivo(false);

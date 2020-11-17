@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,13 +25,13 @@ public class FuncionariosCadastradosController {
 		return new ModelAndView("funcionariosCadastrados");
 	}
 	
-	@RequestMapping(value = "/funcionariosCadastrados/buscar/{nome}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/funcionariosCadastrados/buscar/{nome}")
 	@ResponseBody
 	public List<Funcionario> buscar(@PathVariable String nome) {
 		return funcionarios.findByNomeContainingOrCelularContainingOrCpfContainingOrEmailOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContaining(nome, nome, nome, nome, nome, nome, nome);
 	}
 	
-	@RequestMapping(value = "/funcionariosCadastrados/excluirFuncionario/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/funcionariosCadastrados/excluirFuncionario/{id}")
 	@ResponseBody
 	public String excluirFuncionario(@PathVariable long id) {
 		funcionarios.deleteById(id);

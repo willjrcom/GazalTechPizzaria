@@ -15,7 +15,7 @@ $("#todosPedidos").html(linhaCinza);
 $(document).ready(function(){
 	$.ajax({
 		url: "/finalizar/todosPedidos",
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		pedidos = e;
 		for(pedido of pedidos){
@@ -25,7 +25,7 @@ $(document).ready(function(){
 		
 		$.ajax({
 			url: "/motoboy/funcionarios",
-			type: 'PUT'
+			type: 'GET'
 		}).done(function(motoboys){
 			
 			for(motoboy of motoboys){
@@ -179,7 +179,7 @@ function finalizarPedido() {
 						
 						$.ajax({
 							url: "/finalizar/finalizarPedido/" + idProduto.toString(),
-							type: 'PUT',
+							type: 'GET',
 							data: pedidos[idBusca]
 							
 						}).done(function(e){

@@ -10,7 +10,7 @@ $("#todosFuncionarios").html(linhaCinza);
 
 $.ajax({
 	url: "/adm/diaAberto/todosDias",
-	type: 'PUT'
+	type: 'GET'
 })
 .done(function(e){
 	dias = e;

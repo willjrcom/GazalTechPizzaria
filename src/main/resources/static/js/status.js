@@ -20,7 +20,7 @@ function buscarPedidos() {
 	
 	$.ajax({
 		url: "/status/todosPedidos",
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		
 		pedidos = e;

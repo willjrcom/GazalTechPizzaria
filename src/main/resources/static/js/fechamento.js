@@ -21,7 +21,7 @@ var cont1 = 0, cont2 = 0;
 $.ajax({
 	//buscar total de pedidos
 	url: '/adm/fechamento/Tpedidos',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	Tpedidos = e;
 }).fail(function(){
@@ -33,7 +33,7 @@ $.ajax({
 $.ajax({
 	//buscar total de vendas
 	url: '/adm/fechamento/Tvendas',
-	type: 'PUT'
+	type: 'GET'
 }).done(function(e){
 	pedidos = e;
 	//para cada pedido
@@ -125,7 +125,7 @@ $("#download_all").click(function(){
 		    
 	$.ajax({
 		url: '/adm/fechamento/baixartudo',
-		type: 'PUT',
+		type: 'GET',
 	}).done(function(pedidos){
           
 		var totalPedidos = pedidos.length, totalDinheiro = 0, totalPizzas = 0, totalProdutos = 0;
@@ -149,7 +149,7 @@ $("#download_all").click(function(){
 	    //buscar dados da empresa
 		$.ajax({
 			url: '/novoPedido/empresa',
-			type: 'PUT'
+			type: 'GET'
 		}).done(function(e){
 			if(e.length != 0) {
 				
@@ -233,14 +233,14 @@ function troco(){
 					//buscar data do sistema
 					$.ajax({
 						url: '/adm/fechamento/data',
-						type: 'PUT'
+						type: 'GET'
 					}).done(function(e){
 						dados.data = e.dia;
 							
 						//buscar id da data do sistema
 						$.ajax({
 							url: '/adm/fechamento/buscarIdData/' + dados.data,
-							type: 'PUT'
+							type: 'GET'
 						}).done(function(e){
 							
 							dados.id = e.id;
@@ -256,7 +256,7 @@ function troco(){
 							
 							$.ajax({
 								url: '/adm/fechamento/finalizar/' + dados.id,
-								type: 'PUT',
+								type: 'POST',
 								dataType : 'json',
 								contentType: "application/json",
 								data: JSON.stringify(dados)

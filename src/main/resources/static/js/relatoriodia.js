@@ -12,7 +12,7 @@ $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
 	url: "/adm/relatoriodia/todosPedidos",
-	type: 'PUT'
+	type: 'GET'
 })
 .done(function(e){
 	pedidos = e;
@@ -176,7 +176,7 @@ function imprimirTudo(cliente) {
   //buscar dados da empresa
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
 			
@@ -216,12 +216,12 @@ function imprimirTudo(cliente) {
 			impressaoPedido.promocao = e.promocao;
 						
 			//salvar hora
-			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+			impressaoPedido.hora = cliente.horaPedido;
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 			
 			$.ajax({
 				url: "/novoPedido/imprimirTudo",
-				type: 'PUT',
+				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)
@@ -235,7 +235,7 @@ function imprimirTudo(cliente) {
 function imprimirPizzas(cliente) {
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
 			impressaoPedido = {};
@@ -249,7 +249,7 @@ function imprimirPizzas(cliente) {
 
 			$.ajax({
 				url: "/novoPedido/imprimirPizza",
-				type: 'PUT',
+				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)
@@ -263,7 +263,7 @@ function imprimirPizzas(cliente) {
 function imprimirProdutos(cliente) {
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
 			impressaoPedido = {};
@@ -277,7 +277,7 @@ function imprimirProdutos(cliente) {
 
 			$.ajax({
 				url: "/novoPedido/imprimirProduto",
-				type: 'PUT',
+				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)

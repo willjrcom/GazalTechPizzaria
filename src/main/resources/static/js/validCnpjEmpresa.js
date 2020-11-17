@@ -11,7 +11,7 @@ $('#cnpj').on('blur', function(){
 		
 		$.ajax({
 			url:  urlEnviar,
-			type: 'PUT',
+			type: 'GET',
 				
 		}).done(function(e){
 			if(e.length != 0 && e != '') {
@@ -40,7 +40,7 @@ $('#cel').on('blur', function(){
 			
 			$.ajax({
 				url:  urlEnviar,
-				type: 'PUT',
+				type: 'GET',
 					
 			}).done(function(e){
 				if(e.length != 0) {

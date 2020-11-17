@@ -24,7 +24,7 @@ function buscarPedido() {
 	
 	$.ajax({
 		url: "/cozinha/todosPedidos",
-		type: 'PUT',
+		type: 'GET',
 		beforeSend: function(){
 			$("#alertaPedidos").hide();
 		}
@@ -208,7 +208,7 @@ function imprimir(cliente) {
     
 	$.ajax({
 		url: '/novoPedido/empresa',
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
 			/*
@@ -248,7 +248,7 @@ function imprimir(cliente) {
 			
 			$.ajax({
 				url: "/novoPedido/imprimirPizza",
-				type: 'PUT',
+				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)

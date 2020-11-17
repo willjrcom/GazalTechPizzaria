@@ -12,7 +12,7 @@ $('#cpf').on('blur', function(){
 		
 		$.ajax({
 			url:  (id != '') ? "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/' + id : "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/-2',
-			type: 'PUT'
+			type: 'GET'
 		}).done(function(event){
 			if(event.length != 0 && event != '' && event.id != -1) {
 				$("#avisoCpf").show().css({
@@ -48,7 +48,7 @@ $('#cel').on('blur', function(){
 		
 		$.ajax({
 			url:  "/cadastroFuncionario/buscarCelular/" + cel + '/' + id,
-			type: 'PUT',
+			type: 'GET',
 				
 		}).done(function(e){
 			if(e.length != 0 && e.id != -1) {

@@ -53,7 +53,7 @@ $("#buscar").click(function(){
 
 	$.ajax({
 		url:'/adm/dev/liberar/' + codigo,
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		if(e == true) {
 			$("#liberar").html(linhaHtml);
@@ -61,7 +61,7 @@ $("#buscar").click(function(){
 			
 			$.ajax({
 				url: '/adm/dev/todos',
-				type: 'PUT'
+				type: 'GET'
 			}).done(function(e){
 				usuarios = e;
 				
@@ -106,7 +106,7 @@ $("#buscar").click(function(){
 				
 				$.ajax({
 					url:  (id != '') ? "/adm/dev/validar/" + email + '/' + id : "/adm/dev/validar/" + email + '/-2',
-					type: 'PUT'
+					type: 'GET'
 				}).done(function(event){
 
 					if(event.length != 0 && event != '' && event.id != -1) {
@@ -200,7 +200,7 @@ $("#buscar").click(function(){
 			if(dados.senha === confirmar && dados.senha != '' && dados.email != '') {
 				$.ajax({
 					url:'/adm/dev/criar',
-					type:'PUT',
+					type:'POST',
 					dataType : 'json',
 					contentType: "application/json",
 					data: JSON.stringify(dados)
@@ -340,7 +340,7 @@ function apagarUsuario() {
 									if(apagarSim === 'sim') {
 										$.ajax({
 											url: "/adm/dev/excluirUsuario/" + idUsuario,
-											type: 'PUT'
+											type: 'GET'
 										}).done(function(e){
 											if(e == "200") {
 												$.alert({

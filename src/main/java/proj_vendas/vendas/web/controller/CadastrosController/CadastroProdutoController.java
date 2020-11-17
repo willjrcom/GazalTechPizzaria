@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,19 +26,19 @@ public class CadastroProdutoController {
 		return new ModelAndView("cadastroProduto");
 	}
 	
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.PUT, consumes = {"application/json"}, produces = {"application/json"})
+	@RequestMapping(value = "/cadastrar")
 	@ResponseBody
 	public Produto cadastrarProduto(@RequestBody Produto produto) {
 		return produtos.save(produto);
 	}
 	
-	@RequestMapping(value = "/editarProduto/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/editarProduto/{id}")
 	@ResponseBody
 	public Optional<Produto> buscarProduto(@PathVariable Long id) {
 		return produtos.findById(id);
 	}
 
-	@RequestMapping(value = "/buscarCodigo/{codigo}/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/buscarCodigo/{codigo}/{id}")
 	@ResponseBody
 	public Produto buscarCodigo(@PathVariable String codigo, @ModelAttribute("id")Produto produto) {
 		Produto busca = produtos.findByCodigoBusca(codigo);

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,14 +29,14 @@ public class FinalizarController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/todosPedidos", method = RequestMethod.PUT)
+	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		String dia = dias.buscarId1().getDia();
 		return pedidos.findByStatusAndDataAndEnvioNotOrStatusAndDataAndEnvio("PRONTO", dia, "ENTREGA", "MOTOBOY", dia, "ENTREGA");
 	}
 
-	@RequestMapping(value = "/finalizarPedido/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/finalizarPedido/{id}")
 	@ResponseBody
 	public Pedido enviarPedido(@ModelAttribute("id") Pedido pedido) {
 		pedido.setStatus("FINALIZADO");
