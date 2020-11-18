@@ -27,9 +27,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
 				
-				<a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
-				<br><br>
-				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
+				<h1 id="estabelecimento"></h1>
 				<hr>
 				
 				<nav id="Tmenu">
@@ -43,7 +41,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</ul>
 				</nav>
 				<button class="btn btn-primary" id="data"><span class="oi oi-calendar"></span> Data de acesso</button>
+				
+				<br><br>
+				<label id="usuario"></label>
 			</div>
+			
 		</div>
 		<br>
 	</div>
@@ -67,8 +69,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calculadora()"><span class="oi oi-calculator"></span> Calculadora</a></li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -94,8 +96,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calculadora()"><span class="oi oi-calculator"></span> Calculadora</a></li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -123,8 +125,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calculadora()"><span class="oi oi-calculator"></span> Calculadora</a></li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -154,8 +156,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calculadora()"><span class="oi oi-calculator"></span> Calculadora</a></li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -181,8 +183,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calculadora()"><span class="oi oi-calculator"></span> Calculadora</a></li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -220,7 +222,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		<br> -->
 		
-		<script th:src="@{/js/datas.js}"></script>
 		<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>

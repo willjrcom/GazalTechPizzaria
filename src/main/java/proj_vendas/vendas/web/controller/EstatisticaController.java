@@ -27,6 +27,6 @@ public class EstatisticaController {
 	@RequestMapping(value = "/estatistica/todos")
 	@ResponseBody
 	public List<Dado> buscarTodos() {
-		return dados.findAll();
+		return dados.findByTrocoInicioNotLikeAndTrocoFinalNotLike(0, 0);
 	}
 }

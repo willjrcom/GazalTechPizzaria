@@ -211,7 +211,7 @@ $("#buscar").click(function(){
 						content: textoEnviado,
 						buttons: {
 							confirm:{
-								text:'menu',
+								text:'Dev',
 								btnClass: 'btn-success',
 								keys: ['enter', 'esc'],
 								action: function(){

@@ -40,4 +40,11 @@ $(document).ready(function(){
 	}).done(function(e){
 		if(e.length != 0) $("title").text($("title").text() + " - " + e.nomeEstabelecimento);
 	});
+	
+	$.ajax({
+		url: '/menu/autenticado',
+		type: 'GET'
+	}).done(function(e){
+		$("#usuario").html("&nbsp; <span class=\"oi oi-person\"></span> " + e + "&nbsp;");
+	});
 });

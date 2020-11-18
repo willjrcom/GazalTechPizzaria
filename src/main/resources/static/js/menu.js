@@ -250,3 +250,17 @@ function troco() {
 		}
 	});
 }
+
+$.ajax({
+	url: '/menu/autenticado',
+	type: 'GET'
+}).done(function(e){
+	$("#usuario").html('<span class="oi oi-person"></span> Usuário conectado: ' + e);
+});
+
+$.ajax({
+	url: '/novoPedido/empresa',
+	type: 'GET'
+}).done(function(e){
+	if(e.length != 0) $("#estabelecimento").text(e.nomeEstabelecimento);
+});

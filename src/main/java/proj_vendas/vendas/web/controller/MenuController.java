@@ -1,6 +1,8 @@
 package proj_vendas.vendas.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -79,5 +81,14 @@ public class MenuController {
 	@ResponseBody
 	public Dia MostrarDia() {
 		return dias.buscarId1();
+	}
+	
+	@RequestMapping("/autenticado")
+	@ResponseBody
+	public String autenticado() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		return ((UserDetails)principal).getUsername();
+		
 	}
 }

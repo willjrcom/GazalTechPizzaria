@@ -11,4 +11,6 @@ public interface Dados extends JpaRepository<Dado, Long>{
 	public Dado findByData(String data);
 
 	public List<Dado> findByTrocoFinalOrTrocoInicio(double i, double j);
+
+	public List<Dado> findByTrocoInicioNotLikeAndTrocoFinalNotLike(double i, double j);
 }
