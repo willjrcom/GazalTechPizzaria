@@ -1,19 +1,14 @@
 package proj_vendas.vendas.security;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import proj_vendas.vendas.service.UsuarioService;
 
@@ -22,9 +17,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Autowired 
 	private UsuarioService service;
-	
-	@Autowired
-	private DataSource datasource;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -54,42 +46,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 				.logout()
 				.logoutSuccessUrl("/index")
+	            .invalidateHttpSession(true)
+	            .deleteCookies("JSESSIONID")
 				
 			//tratamento de erro
 			.and()
 				.exceptionHandling()
 				.accessDeniedPage("/permissao")
-			
+			.and()
+				.sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 			.and()
 				.httpBasic()
-			
+				
 				//desabilitar verificacao
 			.and()
 				.csrf().disable();
 	}
+	/*
+	.and()
+		.sessionManagement()
+		.sessionFixation().migrateSession() //migrar sessao para novo pc que acessar
 	
-	//usuario padrao
+	*/
+	
 	@Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) 
-      throws Exception {
-        auth.jdbcAuthentication().dataSource(datasource)
-        .withDefaultSchema().withUser("williamjunior@gmail.com")
-          .password(passwordEncoder().encode("root")).authorities("ADM").roles("ADM");
+    public void configureInMemoryAuthentication(AuthenticationManagerBuilder auth) throws Exception
+    {
+        auth.inMemoryAuthentication()
+                .withUser("teste@hotmail.com")
+                .password(passwordEncoder().encode("root"))
+                .roles("USUARIO", "ADM").authorities("ADM");
     }
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public UserDetailsService users() {
-	    UserDetails admin = User.builder()
-	        .username("williamjunior67@gmail.com")
-	        .password("{bcrypt}$2a$10$0bM08/LDOpUBPGSKg.wVL.MEQkshAefRfgSu467mnGMV3trwQCfea")
-	        .roles("USUARIO", "ADM")
-	        .build();
-	    return new InMemoryUserDetailsManager(admin);
 	}
 	
 	//criptografar senha
