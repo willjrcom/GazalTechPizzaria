@@ -426,7 +426,7 @@ function enviarProduto(idUnico) {
 										});
 
 										mostrarProdutos();
-										$("#divListaGeral").show('slow');
+										$(".divListaGeral").show('slow');
 									});
 									
 								//sem borda
