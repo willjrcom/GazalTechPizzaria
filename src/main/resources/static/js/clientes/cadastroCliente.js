@@ -35,13 +35,6 @@ if(typeof url_atual != "undefined") {
 	}).fail(function(){
 		$.alert("Erro, Cliente não encontrado!");
 	});
-}else {//criar data de cadastro
-	$.ajax({
-		url: '/novoPedido/data',
-		type: 'GET'
-	}).done(function(e){
-		cliente .dataCadastro = e.dia;
-	});
 }
 
 

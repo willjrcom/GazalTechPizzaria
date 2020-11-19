@@ -1,6 +1,7 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 
@@ -32,6 +35,9 @@ public class VerpedidoController{
 	@Autowired
 	private PedidoTemps temps;
 	
+	@Autowired
+	private LogUsuarios usuarios;
+	
 	@RequestMapping
 	public ModelAndView verPedido() {
 		return new ModelAndView("verpedido");
@@ -40,6 +46,16 @@ public class VerpedidoController{
 	@RequestMapping(value = "/excluirPedido/{id}")
 	@ResponseBody
 	public Pedido excluirPedido(@ModelAttribute("id") Pedido pedido) {
+		//log
+		LogUsuario log = new LogUsuario();
+		Date hora = new Date();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		log.setUsuario(((UserDetails)principal).getUsername());
+		log.setAcao("Excluir pedido: " + pedido.getNome());
+		log.setData(hora.toString());
+		
+		usuarios.save(log); //salvar logUsuario
+				
 		pedido.setStatus("EXCLUIDO");
 		List<PedidoTemp> temp = temps.findByComanda(pedido.getComanda());
 		temps.deleteInBatch(temp);

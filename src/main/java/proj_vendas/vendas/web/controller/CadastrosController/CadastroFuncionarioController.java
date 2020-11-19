@@ -1,8 +1,11 @@
 package proj_vendas.vendas.web.controller.CadastrosController;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
+import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.repository.Funcionarios;
+import proj_vendas.vendas.repository.LogUsuarios;
 
 @Controller
 @RequestMapping("adm")
@@ -21,6 +26,9 @@ public class CadastroFuncionarioController{
 	
 	@Autowired
 	private Funcionarios funcionarios;
+	
+	@Autowired
+	private LogUsuarios usuarios;
 	
 	@GetMapping("/cadastroFuncionario/**")
 	public ModelAndView CadastroFuncionario() {
@@ -30,6 +38,15 @@ public class CadastroFuncionarioController{
 	@RequestMapping(value = "/cadastroFuncionario/cadastrar")
 	@ResponseBody
 	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
+		//log
+		LogUsuario log = new LogUsuario();
+		Date hora = new Date();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		log.setUsuario(((UserDetails)principal).getUsername());
+		log.setAcao("Cadastrar/atualizar funcionário: " + funcionario.getNome());
+		log.setData(hora.toString());
+		
+		usuarios.save(log); //salvar logUsuario
 		return funcionarios.save(funcionario);
 	}
 		

@@ -23,6 +23,8 @@ public class Salario implements Serializable {
 
 	private Long idFuncionario;
 	
+	private String usuario;
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private String data;
 	private int horas = 0;
@@ -64,6 +66,12 @@ public class Salario implements Serializable {
 	}
 	public void setPago(double pago) {
 		this.pago = pago;
+	}
+	public String getUsuario() {
+		return usuario;
+	}
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 	
 	

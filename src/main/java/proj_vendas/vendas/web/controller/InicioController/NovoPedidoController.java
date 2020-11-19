@@ -4,10 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,8 @@ import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.ImpressaoPedido;
+import proj_vendas.vendas.model.LogMesa;
+import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Produto;
@@ -30,6 +35,8 @@ import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Impressoes;
+import proj_vendas.vendas.repository.LogMesas;
+import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
@@ -61,6 +68,12 @@ public class NovoPedidoController {
 
 	@Autowired
 	private Impressoes impressoes;
+	
+	@Autowired
+	private LogMesas mesas;
+	
+	@Autowired
+	private LogUsuarios usuarios;
 	
 	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
@@ -114,14 +127,38 @@ public class NovoPedidoController {
 	@ResponseBody
 	public Pedido novoPedido(@RequestBody Pedido pedido) {
 
+		LogUsuario usuario = new LogUsuario();
+		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
+		
 		if (pedido.getId() == null) {// se o pedido ja existir
-			Dia data = dias.buscarId1(); // buscar tabela dia de acesso
 			Dado dado = dados.findByData(data.getDia()); // buscar dia nos dados
 
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
 			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
+			
+			if(pedido.getCelular() != null) {//se for cliente cadastrado
+				Cliente cliente = clientes.findByCelular(pedido.getCelular());//buscar cliente nos dados
+				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
+			}
+			if(pedido.getEnvio().equals("MESA")) {
+				LogMesa mesa = new LogMesa();
+				mesa.setMesa(pedido.getNome());
+				mesas.save(mesa);
+			}
 			dados.save(dado); // autalizar n da comanda
+
+			usuario.setAcao("Criar pedido: " + pedido.getNome());
+		}else {
+			usuario.setAcao("Atualizar pedido: " + pedido.getNome());
 		}
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		
+		Date hora = new Date();
+		usuario.setUsuario(((UserDetails)principal).getUsername());
+		usuario.setData(hora.toString());
+		
+		usuarios.save(usuario); //salvar logUsuario
 		return pedidos.save(pedido); // salvar pedido
 	}
 
@@ -136,8 +173,7 @@ public class NovoPedidoController {
 	public Pedido atualizar(@RequestBody Pedido pedido) {
 		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
 
-		Pedido antigo = pedidos.findByNomeAndDataAndStatusNotAndStatusNot(pedido.getNome(), data.getDia(), "FINALIZADO",
-				"EXCLUIDO");
+		Pedido antigo = pedidos.findByNomeAndDataAndStatusNotAndStatusNot(pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
 		if (antigo == null) {
 			return new Pedido();
 		}

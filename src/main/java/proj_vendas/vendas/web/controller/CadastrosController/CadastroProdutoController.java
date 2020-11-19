@@ -1,8 +1,11 @@
 package proj_vendas.vendas.web.controller.CadastrosController;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Produto;
+import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Produtos;
 
 @Controller
@@ -21,6 +26,9 @@ public class CadastroProdutoController {
 	@Autowired
 	private Produtos produtos;
 	
+	@Autowired
+	private LogUsuarios usuarios;
+	
 	@RequestMapping("/**")
 	public ModelAndView cadastroProduto() {
 		return new ModelAndView("cadastroProduto");
@@ -29,6 +37,16 @@ public class CadastroProdutoController {
 	@RequestMapping(value = "/cadastrar")
 	@ResponseBody
 	public Produto cadastrarProduto(@RequestBody Produto produto) {
+		//log
+		LogUsuario log = new LogUsuario();
+		Date hora = new Date();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		log.setUsuario(((UserDetails)principal).getUsername());
+		log.setAcao("Cadastrar/atualizar produto: " + produto.getNomeProduto());
+		log.setData(hora.toString());
+		
+		usuarios.save(log); //salvar logUsuario
+		
 		return produtos.save(produto);
 	}
 	

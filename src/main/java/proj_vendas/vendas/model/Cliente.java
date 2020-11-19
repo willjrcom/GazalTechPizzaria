@@ -1,7 +1,6 @@
 package proj_vendas.vendas.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,10 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 @Entity
@@ -37,9 +33,8 @@ public class Cliente implements Serializable {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@Temporal(TemporalType.DATE)
-	private Date dataCadastro;
+	private String dataCadastro;
+	private int contPedidos = 0;
 	
 	public Long getId() {
 		return id;
@@ -81,12 +76,20 @@ public class Cliente implements Serializable {
 		this.endereco = endereco;
 	}
 
-	public Date getDataCadastro() {
+	public String getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Date dataCadastro) {
+	public void setDataCadastro(String dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	public int getContPedidos() {
+		return contPedidos;
+	}
+
+	public void setContPedidos(int contPedidos) {
+		this.contPedidos = contPedidos;
 	}
 }
 
