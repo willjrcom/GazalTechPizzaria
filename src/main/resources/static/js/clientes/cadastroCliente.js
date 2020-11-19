@@ -23,6 +23,7 @@ if(typeof url_atual != "undefined") {
 		$("#cpf").val(cliente.cpf);
 		
 		//endereco
+		$("#idEnd").val(cliente.endereco.id);
 		$("#cep").val(cliente.endereco.cep);
 		$("#rua").val(cliente.endereco.rua);
 		$("#n").val(cliente.endereco.n);
@@ -33,6 +34,13 @@ if(typeof url_atual != "undefined") {
 		
 	}).fail(function(){
 		$.alert("Erro, Cliente não encontrado!");
+	});
+}else {//criar data de cadastro
+	$.ajax({
+		url: '/novoPedido/data',
+		type: 'GET'
+	}).done(function(e){
+		cliente .dataCadastro = e.dia;
 	});
 }
 
@@ -45,6 +53,7 @@ function setCliente() {
 	cliente.cpf = $("#cpf").val();
 	
 	cliente.endereco = {};
+	cliente.endereco.id = $("#idEnd").val();
 	cliente.endereco.cep = $("#cep").val();
 	cliente.endereco.rua = $("#rua").val();
 	cliente.endereco.n = $("#n").val();

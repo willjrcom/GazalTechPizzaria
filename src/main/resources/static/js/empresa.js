@@ -31,6 +31,7 @@ $.ajax({
 		$("#promocao").val(empresa.promocao);
 		
 		//endereco
+		$("#idEnd").val(empresa.endereco.id);
 		$("#cep").val(empresa.endereco.cep);
 		$("#rua").val(empresa.endereco.rua);
 		$("#n").val(empresa.endereco.n);
@@ -66,6 +67,7 @@ function setEmpresa() {
 	
 	//endereco
 	empresa.endereco = {};
+	empresa.endereco.id = $("#idEnd").val();
 	empresa.endereco.cep = $("#cep").val();
 	empresa.endereco.rua = $("#rua").val();
 	empresa.endereco.n = $("#n").val();

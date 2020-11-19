@@ -11,9 +11,6 @@ if(typeof url_atual != "undefined") {
 	}).done(function(e){
 		//receber valores do servidor
 		funcionario = e;
-
-		id_endereco = e.endereco.id;
-		funcionario.endereco.id = e.endereco.id;//evitar de criar outros endereços
 		
 		//madar os valores para o front
 		$("#id").val(funcionario.id);
@@ -26,6 +23,7 @@ if(typeof url_atual != "undefined") {
 		$("#sexo").val(funcionario.sexo);
 		
 		//endereco
+		$("#idEnd").val(funcionario.endereco.id);
 		$("#cep").val(funcionario.endereco.cep);
 		$("#rua").val(funcionario.endereco.rua);
 		$("#n").val(funcionario.endereco.n);
@@ -59,6 +57,7 @@ function setFuncionario() {
 	
 	//endereco
 	funcionario.endereco = {};
+	funcionario.endereco.id = $("#idEnd").val();
 	funcionario.endereco.cep = $("#cep").val();
 	funcionario.endereco.rua = $("#rua").val();
 	funcionario.endereco.n = $("#n").val();

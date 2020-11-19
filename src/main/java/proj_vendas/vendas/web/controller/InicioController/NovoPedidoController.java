@@ -328,6 +328,7 @@ public class NovoPedidoController {
                 }catch(FileNotFoundException e2) {
                 	e2.printStackTrace();
                 }
+                e.printStackTrace();
             }
 		}else {
 			System.out.println("Modo online");
