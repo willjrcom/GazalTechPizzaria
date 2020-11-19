@@ -20,8 +20,11 @@ $.ajax({
 		$("#mesa").val(empresa.mesa);
 		
 		//impressao
-		if(empresa.imprimir == 1) $("#imprimir").prop("checked", true);
-		else $("#imprimir").prop("checked", false);
+		if(empresa.impressoraOnline == 1) $("#impressoraOnline").prop("checked", true);
+		else $("#impressoraOnline").prop("checked", false);
+		
+		if(empresa.impressoraOnline == 1) $("#impressoraOnline").prop("checked", true);
+		else $("#impressoraOnline").prop("checked", false);
 		
 		$("#texto1").val(empresa.texto1);
 		$("#texto2").val(empresa.texto2);
@@ -54,8 +57,12 @@ function setEmpresa() {
 	empresa.texto1 = $("#texto1").val();
 	empresa.texto2 = $("#texto2").val();
 	empresa.promocao = $("#promocao").val();
+	
 	if($("#imprimir:checked").val() == 'on') empresa.imprimir = true;
 	else empresa.imprimir = false;
+	
+	if($("#impressoraOnline:checked").val() == 'on') empresa.impressoraOnline = true;
+	else empresa.impressoraOnline = false;
 	
 	//endereco
 	empresa.endereco = {};

@@ -1,5 +1,8 @@
 package proj_vendas.vendas.web.controller.InicioController;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
@@ -224,11 +227,7 @@ public class NovoPedidoController {
 		if(pedido.getTexto2() != "")impressaoCompleta += "#$#$" + pedido.getTexto2();
 		if(pedido.getPromocao() != "") impressaoCompleta += "#$#$--------------------#$\tPromoção#$" + pedido.getPromocao();
 		
-		System.out.println(impressaoCompleta);
-		
-		ImpressaoMatricial im = new ImpressaoMatricial();
-		im.setImpressao(impressaoCompleta);
-		impressoes.save(im);
+		imprimirLocal(impressaoCompleta);
 	}
 	
 	@RequestMapping("/imprimirPizza")
@@ -253,13 +252,9 @@ public class NovoPedidoController {
 		}
 		
 		impressaoCompleta += "#$#$--------------------#$Hora: " + pedido.getHora() 
-					+ "   Data: " + pedido.getData();
+						+ "   Data: " + pedido.getData();
 
-		System.out.println(impressaoCompleta);
-		
-		ImpressaoMatricial im = new ImpressaoMatricial();
-		im.setImpressao(impressaoCompleta);
-		impressoes.save(im);
+		imprimirLocal(impressaoCompleta);
 	}
 	
 	@RequestMapping("/imprimirProduto")
@@ -281,39 +276,64 @@ public class NovoPedidoController {
 				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "#$OBS: " + pedido.getProdutos()[i].getObs();
 			}
 		}
-
-		System.out.println(impressaoCompleta);
 		
-		ImpressaoMatricial im = new ImpressaoMatricial();
-		im.setImpressao(impressaoCompleta);
-		impressoes.save(im);
+		impressaoCompleta += "#$#$--------------------#$Hora: " + pedido.getHora() 
+						+ "   Data: " + pedido.getData();
+		
+		imprimirLocal(impressaoCompleta);
+	}
+	
+	public void imprimirLocal(String impressaoCompleta) {
+		Empresa empresa = empresas.findAll().get(0); //validar modo de impressao
+		
+		impressaoCompleta = impressaoCompleta
+                .replace("ç", "c")
+                .replace("á", "a")
+                .replace("ã", "a")
+                .replace("à", "a")
+                .replace("Á", "A")
+                .replace("À", "A")
+                .replace("ó", "o")
+                .replace("õ", "o")
+                .replace("ô", "o")
+                .replace("ò", "o")
+                .replace("é", "e")
+                .replace("ê", "e")
+                .replace("è", "e")
+                .replace("í", "i")
+                .replace("ì", "i");
+		
+		if(empresa.isImpressoraOnline() == false) {
+			
+			System.out.println("Modo offline");
+			try {
+                FileOutputStream fos1 = new FileOutputStream("LPT1");
+                // Imprime o texto
+                try (PrintStream ps1 = new PrintStream(fos1)) {
+                    // Imprime o texto
+                    ps1.print(impressaoCompleta + "\n\n\n\n\n\n\n\n");
+                    // Fecha o Stream da impressora
+                    ps1.close();
+                }
+            }catch(FileNotFoundException e) {
+                try {
+                    FileOutputStream fos2 = new FileOutputStream("LPT2");
+                    // Imprime o texto
+                    try (PrintStream ps2 = new PrintStream(fos2)) {
+                        // Imprime o texto
+                        ps2.print(impressaoCompleta + "\n\n\n\n\n\n\n\n");
+                        // Fecha o Stream da impressora
+                        ps2.close();
+                    }
+                }catch(FileNotFoundException e2) {
+                	e2.printStackTrace();
+                }
+            }
+		}else {
+			System.out.println("Modo online");
+			ImpressaoMatricial im = new ImpressaoMatricial();
+			im.setImpressao(impressaoCompleta);
+			impressoes.save(im);
+		}
 	}
 }
-
-/*
- * //salvar arquivo
- * FileWriter fw = new FileWriter(new
- * File("C:\\impressaoTemp.txt"));
- * 
- * BufferedWriter buffer = new BufferedWriter(fw);
- * 
- * buffer.write(texto.getPizzas());
- * 
- * buffer.close();
- * 
- * //enviar para impressora String defaultPrinter =
- * PrintServiceLookup.lookupDefaultPrintService().getName();
- * System.out.println("Default printer: " + defaultPrinter);
- * 
- * PrintService service = PrintServiceLookup.lookupDefaultPrintService();
- * 
- * FileInputStream in = new FileInputStream(new File("..\\impressaoTemp.txt"));
- * 
- * PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();
- * pras.add(new Copies(1));
- * 
- * DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE; Doc doc = new
- * SimpleDoc(in, flavor, null);
- * 
- * DocPrintJob job = service.createPrintJob(); job.print(doc, pras);
- */

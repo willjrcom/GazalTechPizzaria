@@ -30,6 +30,7 @@ public class Empresa {
 	private String texto1;
 	private String texto2;
 	private boolean imprimir;
+	private boolean impressoraOnline;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
@@ -144,6 +145,14 @@ public class Empresa {
 
 	public void setFuncionamento(String funcionamento) {
 		this.funcionamento = funcionamento;
+	}
+
+	public boolean isImpressoraOnline() {
+		return impressoraOnline;
+	}
+
+	public void setImpressoraOnline(boolean impressoraOnline) {
+		this.impressoraOnline = impressoraOnline;
 	}
 	
 	

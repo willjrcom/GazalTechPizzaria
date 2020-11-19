@@ -167,7 +167,6 @@ $('#buscarCliente').on('click', function(){
 		
 		}else if(typeof $("#numeroCliente").val() == 'string'){
 			cliente.nome = $("#numeroCliente").val();
-			cliente.envio = "BALCAO";
 			
 			$("#divBuscarCliente").hide('slow');
 			$("#mostrarDadosCliente").hide("slow");
