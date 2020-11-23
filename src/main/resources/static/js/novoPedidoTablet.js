@@ -66,7 +66,6 @@ function mostrarOpcao(opcao) {
 			linhaHtml += '<label>Nenhum produto encontrado!</label>';
 		}
 		
-		
 		$("#cardapio").html(linhaHtml);
 	}).fail(function(){
 		$.alert({
@@ -409,7 +408,7 @@ function mostrarProdutos() {
 									mesa.pizzas = JSON.stringify(mesa.pizzas);
 									mesa.produtos = JSON.stringify(mesa.produtos);
 								}
-								
+
 								//salvar pedido
 								$.ajax({
 									url: "/novoPedidoTablet/salvarPedido",
@@ -417,7 +416,10 @@ function mostrarProdutos() {
 									dataType : 'json',
 									contentType: "application/json",
 									data: JSON.stringify(mesa)
-								}).done(function(e){
+								}).done(function(){
+									
+									mesa.comanda = temp.comanda = e.comanda; //recebe numero do servidor
+									
 									//salvar pedido no temp
 									$.ajax({
 										url: '/novoPedido/salvarTemp',
@@ -439,17 +441,6 @@ function mostrarProdutos() {
 									            action: function(){
 													window.location.href = "/menuTablet/mesa/" + $("#Nmesa").text();
 												}
-											}
-										}
-									});
-									$.alert({
-										type: 'red',
-										title: 'Atenção!',
-										content: 'É necessário alterar a chave de validação na empresa<br>Entre em contato com a Gazal Tech!',
-										buttons: {
-									        confirm: {
-									            text: 'Obrigado!',
-									            btnClass: 'btn-danger'
 											}
 										}
 									});

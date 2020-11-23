@@ -1,9 +1,13 @@
 package proj_vendas.vendas.web.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
+import proj_vendas.vendas.model.LogMesa;
+import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.LogMesas;
+import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
 
@@ -35,6 +43,12 @@ public class NovoPedidoTabletController{
 	
 	@Autowired
 	private Pedidos pedidos;
+	
+	@Autowired
+	private LogUsuarios usuarios;
+	
+	@Autowired
+	private LogMesas mesas;
 	
 	@RequestMapping("/**")
 	public ModelAndView tela() {
@@ -82,16 +96,36 @@ public class NovoPedidoTabletController{
 	
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
-	public Pedido novoPedido(@RequestBody Pedido pedido) {
+	public ResponseEntity<Pedido> novoPedido(@RequestBody Pedido pedido) {
+		System.out.println(pedido.getComanda());
+		LogUsuario usuario = new LogUsuario();
+		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
 		
-		if(pedido.getId() == null) {//se o pedido ja existir
-			Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-			Dado dado = dados.findByData(data.getDia()); //buscar dia nos dados
+		if (pedido.getId() == null) {// se o pedido ja existir
+			Dado dado = dados.findByData(data.getDia()); // buscar dia nos dados
+
+			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
+			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
+			dados.save(dado); // atualizar n da comanda
+
+			//log mesa
+			LogMesa mesa = new LogMesa();
+			mesa.setMesa(pedido.getNome());
+			mesas.save(mesa);
 			
-			pedido.setComanda((long)(dado.getComanda() + 1)); //salvar o numero do pedido
-			dado.setComanda(dado.getComanda() + 1); //incrementar o n da comanda
-			dados.save(dado); //autalizar n da comanda
+			usuario.setAcao("Criar pedido: " + pedido.getNome());
+		}else {
+			usuario.setAcao("Atualizar pedido: " + pedido.getNome());
 		}
-		return pedidos.save(pedido); //salvar pedido
+		System.out.println(pedido.getComanda());
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		
+		Date hora = new Date();
+		usuario.setUsuario(((UserDetails)principal).getUsername());
+		usuario.setData(hora.toString());
+		
+		usuarios.save(usuario); //salvar logUsuario
+		return ResponseEntity.ok(pedidos.save(pedido)); //salvar pedido
 	}
 }

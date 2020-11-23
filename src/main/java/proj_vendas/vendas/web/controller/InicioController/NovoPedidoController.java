@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -125,7 +126,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
-	public Pedido novoPedido(@RequestBody Pedido pedido) {
+	public ResponseEntity<Pedido> novoPedido(@RequestBody Pedido pedido) {
 
 		LogUsuario usuario = new LogUsuario();
 		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
@@ -159,7 +160,7 @@ public class NovoPedidoController {
 		usuario.setData(hora.toString());
 		
 		usuarios.save(usuario); //salvar logUsuario
-		return pedidos.save(pedido); // salvar pedido
+		return ResponseEntity.ok(pedidos.save(pedido)); // salvar pedido
 	}
 
 	@RequestMapping(value = "/editarPedido/{id}")
@@ -179,7 +180,7 @@ public class NovoPedidoController {
 		}
 		return antigo;
 	}
-
+	
 	@RequestMapping(value = "/salvarTemp")
 	@ResponseBody
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
