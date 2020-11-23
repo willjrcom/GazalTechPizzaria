@@ -3,9 +3,11 @@ package proj_vendas.vendas.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Pedido;
 
+@Transactional(readOnly = true)
 public interface Pedidos extends JpaRepository<Pedido, Long>{
 
 	public Pedido findByCelular(String id);//buscar para fazer novo pedido

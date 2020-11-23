@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Produto;
 
+@Transactional(readOnly = true)
 public interface Produtos extends JpaRepository<Produto, Long>{
 	
 	public List<Produto> findByNomeProdutoContainingOrDescricaoContaining(String nome, String descricao);//Produtos cadastrados

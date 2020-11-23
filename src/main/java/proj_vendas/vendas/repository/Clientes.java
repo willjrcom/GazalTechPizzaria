@@ -3,9 +3,11 @@ package proj_vendas.vendas.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Cliente;
 
+@Transactional(readOnly = true) //evitar duplo acesso ao banco
 public interface Clientes extends JpaRepository<Cliente, Long>{
 
 	public List<Cliente> findByNomeContaining(String nome);
