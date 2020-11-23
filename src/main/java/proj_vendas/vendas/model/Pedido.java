@@ -1,26 +1,19 @@
 package proj_vendas.vendas.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
 
+import proj_vendas.vendas.domain.AbstractEntity;
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "PEDIDOS")
 @Service
-public class Pedido implements Serializable{
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
+public class Pedido extends AbstractEntity<Long> {
+	
 	private Long comanda;
 	private String nome;
 	private String celular;
@@ -43,12 +36,6 @@ public class Pedido implements Serializable{
 	private String horaPedido;
 	private String data;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getPizzas() {
 		return pizzas;
 	}
@@ -84,9 +71,6 @@ public class Pedido implements Serializable{
 	}
 	public void setEnvio(String envio) {
 		this.envio = envio;
-	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 	public String getProdutos() {
 		return produtos;

@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class DiaAbertoController {
 	
 	@RequestMapping(value = "/diaAberto/todosDias")
 	@ResponseBody
-	public List<Dado> todos() {
-		return dados.findByTrocoFinalOrTrocoInicio(0,0);
+	public ResponseEntity<List<Dado>> todos() {
+		return ResponseEntity.ok(dados.findByTrocoFinalOrTrocoInicio(0,0));
 	}
 }

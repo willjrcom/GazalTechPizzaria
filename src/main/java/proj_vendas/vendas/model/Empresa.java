@@ -2,19 +2,15 @@ package proj_vendas.vendas.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import proj_vendas.vendas.domain.AbstractEntity;
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "EMPRESA")
-public class Empresa {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Empresa extends AbstractEntity<Long>{
 	
 	private String nomeEstabelecimento;
 	private String nomeEmpresa;
@@ -34,14 +30,6 @@ public class Empresa {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	public String getEmail() {
 		return email;

@@ -1,17 +1,14 @@
 package proj_vendas.vendas.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+import proj_vendas.vendas.domain.AbstractEntity;
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "ENDERECOS")
-public class Endereco {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class Endereco extends AbstractEntity<Long>{
 	
 	private String cep;
 	private String rua;
@@ -21,13 +18,6 @@ public class Endereco {
 	private String referencia;
 	private String taxa;
 
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getCep() {
 		return cep;
 	}

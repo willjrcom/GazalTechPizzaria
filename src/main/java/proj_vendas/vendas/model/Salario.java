@@ -1,28 +1,20 @@
 package proj_vendas.vendas.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
+import proj_vendas.vendas.domain.AbstractEntity;
+
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "SALARIOS")
 @Service
-public class Salario implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	private Long idFuncionario;
+public class Salario extends AbstractEntity<Long> {
 	
+	private Long idFuncionario;
 	private String usuario;
 	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -31,12 +23,6 @@ public class Salario implements Serializable {
 	private double gastos = 0;
 	private double pago = 0;
 	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public Long getIdFuncionario() {
 		return idFuncionario;
 	}
