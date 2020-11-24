@@ -66,13 +66,6 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<!-- 
-		<dependency>
-            <groupId> com.mercadopago </groupId>
-            <artifactId> dx-java </artifactId>
-            <version> 1.0.33 </version>
-		</dependency>
-		-->
 		<dependency>
 		    <groupId>org.directwebremoting</groupId>
 		    <artifactId>dwr</artifactId>
