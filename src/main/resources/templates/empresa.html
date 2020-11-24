@@ -16,9 +16,23 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<input type="hidden" id="id" name="id"/>
 			<input type="hidden" id="idEnd" name="idEnd"/>
 			
+			<label>&nbsp; CNPJ:</label>
+			<div class="row">
+				<div class="form-group col-md-8">
+					<input type="text" class="form-control pula cnpj" id="cnpj" name="cnpj" placeholder="CNPJ"/>
+				</div>
+				
+				<div class="form-group col-md-4"><button class="btn btn-primary" id="buscarCnpj">Buscar</button></div>
+			</div>
+			
 			<div class="form-group">
 				<label>Nome do Empresa:</label>
 				<input type="text" class="form-control pula" id="empresa" name="empresa" placeholder="Nome da empresa"  autofocus="autofocus"/>  
+			</div>
+			
+			<div class="form-group">
+				<label>Nome fantasia:</label>
+				<input type="text" class="form-control pula" id="estabelecimento" name="estabelecimento" placeholder="Nome do Estabelecimento"/>  
 			</div>
 			
 			<div class="form-group">
@@ -27,17 +41,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			
 			<div class="form-group">
-				<label>Nome da Estabelecimento:</label>
-				<input type="text" class="form-control pula" id="estabelecimento" name="estabelecimento" placeholder="Nome do Estabelecimento"/>  
-			</div>
-			
-			<div class="form-group">
-				<label>CNPJ:</label>
-				<input type="text" class="form-control pula cnpj" id="cnpj" name="cnpj" placeholder="CNPJ"/>
-			</div>
-			
-			<div class="form-group">
-				<label>Celular:</label>
+				<label>Telefone:</label>
 				<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular"/> 
 			</div>
 			
@@ -163,6 +167,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/js/buscaCep.js}"></script>
+	<script th:src="@{/js/buscaCnpj.js}"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/empresa.js}"></script>
 	<script th:src="@{/js/pulaInput.js}"></script>
