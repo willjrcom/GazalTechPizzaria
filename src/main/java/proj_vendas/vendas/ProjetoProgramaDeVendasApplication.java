@@ -26,8 +26,8 @@ public class ProjetoProgramaDeVendasApplication extends SpringBootServletInitial
 		
 		//conectar ao banco de dados
 		try {
-			String url = "jdbc:mysql://localhost/vendas?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=America/Sao_Paulo&SameSite=None";
-			DriverManager.getConnection(url, "root", "toor");
+			String url = "jdbc:sqlserver://ibitidaspizzasdb.database.windows.net:1433;database=IbitiDasPizzas;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;";
+			DriverManager.getConnection(url, "willjrcom", "objetivo42461255!");
 		}catch(Exception e) {
 			System.err.println("Falha ao conectar ao banco de dados");
 			System.out.println(e.getMessage());
