@@ -70,8 +70,8 @@ $("#data").click(function(){
 						if(e.length != 0) {
 							$.ajax({
 								url: '/menu/acessarData/' + dados.data,
-								type: 'GET'
-							}).done(function(e){
+								type: 'PUT'
+							}).done(function(){
 								verData();
 								
 								$.alert({
@@ -110,8 +110,8 @@ $("#data").click(function(){
 						}else {
 							$.ajax({
 								url: '/menu/criarData/' + dados.data,
-								type: 'GET'
-							}).done(function(e){
+								type: 'POST'
+							}).done(function(){
 								verData();
 								
 								$.alert({
@@ -218,7 +218,7 @@ function troco() {
 							dataType : 'json',
 							contentType: "application/json",
 							data: JSON.stringify(dados)
-						}).done(function(e){
+						}).done(function(){
 							$.alert({
 								type:'green',
 								title: 'Troco alterado',

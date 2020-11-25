@@ -22,59 +22,59 @@ $.ajax({
 		pedido.pizzas = JSON.parse(pedido.pizzas);
 		pedido.produtos = JSON.parse(pedido.produtos);
 	}
-});
-
-$.ajax({
-	url: "/motoboy/funcionarios",
-	type: 'GET'
-})
-.done(function(motoboys){
 	
-	for(motoboy of motoboys){
-		if(motoboy.cargo == "MOTOBOY"){
-			funcionarios.unshift({
-				'id': motoboy.id,
-				'nome': motoboy.nome
-			})
+	$.ajax({
+		url: "/motoboy/funcionarios",
+		type: 'GET'
+	})
+	.done(function(motoboys){
+		
+		for(motoboy of motoboys){
+			if(motoboy.cargo == "MOTOBOY"){
+				funcionarios.unshift({
+					'id': motoboy.id,
+					'nome': motoboy.nome
+				})
+			}
 		}
-	}
-	var linhaFuncionarios = '<option value="--">-------</option>';
-	
-	for(funcionario of funcionarios) linhaFuncionarios += '<option value="' + funcionario.nome + '">' + funcionario.nome +'</option>';
-	
-	$("#filtro").html(linhaFuncionarios);
+		var linhaFuncionarios = '<option value="--">-------</option>';
+		
+		for(funcionario of funcionarios) linhaFuncionarios += '<option value="' + funcionario.nome + '">' + funcionario.nome +'</option>';
+		
+		$("#filtro").html(linhaFuncionarios);
 
-	$("#todosPedidos").html("");
-	linhaHtml = "";
-	
-	if(pedidos.length == 0){
-		$("#todosPedidos").html(pedidoVazio);
-	}else{
-		for(pedido of pedidos){
-			linhaHtml += '<tr>'
-						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nome + '</td>'
-						+ '<td>' + pedido.endereco + '</td>';
-			
-			Tpizzas = 0;
-			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
-			
-			for(produto of pedido.produtos) Tpizzas += produto.qtd;
-			
-			linhaHtml += '<td>' + Tpizzas + '</td>'
-						+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
-						+ '<td>R$ ' + pedido.troco.toFixed(2) + '</td>'
-						+ '<td>R$ ' + (pedido.troco - pedido.total).toFixed(2) + '</td>'	
-						+ '<td>' 
-							+ '<a class="enviarPedido">'
-							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-							+ 'value="'+ pedido.id + '"><span class="oi oi-location"></span></button></a></td>'		
-					+ '<tr>'
-				+ linhaCinza;
+		$("#todosPedidos").html("");
+		linhaHtml = "";
+		
+		if(pedidos.length == 0){
+			$("#todosPedidos").html(pedidoVazio);
+		}else{
+			for(pedido of pedidos){
+				linhaHtml += '<tr>'
+							+ '<td>' + pedido.comanda + '</td>'
+							+ '<td>' + pedido.nome + '</td>'
+							+ '<td>' + pedido.endereco + '</td>';
+				
+				Tpizzas = 0;
+				for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
+				
+				for(produto of pedido.produtos) Tpizzas += produto.qtd;
+				
+				linhaHtml += '<td>' + Tpizzas + '</td>'
+							+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
+							+ '<td>R$ ' + pedido.troco.toFixed(2) + '</td>'
+							+ '<td>R$ ' + (pedido.troco - pedido.total).toFixed(2) + '</td>'	
+							+ '<td>' 
+								+ '<a class="enviarPedido">'
+								+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
+								+ 'value="'+ pedido.id + '"><span class="oi oi-location"></span></button></a></td>'		
+						+ '<tr>'
+					+ linhaCinza;
+			}
+			$("#todosPedidos").html(linhaHtml);
+			$("#Tpedidos").html(Tpedidos);
 		}
-		$("#todosPedidos").html(linhaHtml);
-		$("#Tpedidos").html(Tpedidos);
-	}
+	});
 });
 
 
@@ -118,11 +118,9 @@ function finalizarPedido() {
 						
 						//ENVIAR PEDIDO
 						$.ajax({
-							url: "/motoboy/enviarMotoboy/" + idProduto.toString(),
-							type: 'PUT',
-							data: pedidos[idBusca], //dados completos do pedido enviado
-						})
-						.done(function(e){
+							url: "/motoboy/enviarMotoboy/" + idProduto,
+							type: 'PUT'
+						}).done(function(){
 							document.location.reload(true);
 						});
 					}

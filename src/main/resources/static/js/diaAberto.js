@@ -11,8 +11,7 @@ $("#todosFuncionarios").html(linhaCinza);
 $.ajax({
 	url: "/adm/diaAberto/todosDias",
 	type: 'GET'
-})
-.done(function(e){
+}).done(function(e){
 	dias = e;
 	$("#todosFuncionarios").html("");
 	linhaHtml = "";

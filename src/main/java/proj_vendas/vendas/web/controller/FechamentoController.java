@@ -77,7 +77,7 @@ public class FechamentoController {
 		return dados.findByData(data);
 	}
 	
-	@RequestMapping(value = "/fechamento/finalizar/{id}")
+	@RequestMapping(value = "/fechamento/finalizar")
 	@ResponseBody
 	public Dado finalizarCaixa(@RequestBody Dado dado) {
 		//log

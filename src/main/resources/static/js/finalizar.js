@@ -178,14 +178,12 @@ function finalizarPedido() {
 						}
 						
 						$.ajax({
-							url: "/finalizar/finalizarPedido/" + idProduto.toString(),
-							type: 'GET',
-							data: pedidos[idBusca]
-							
-						}).done(function(e){
+							url: "/finalizar/finalizarPedido/" + idProduto,
+							type: 'PUT'
+						}).done(function(){
 							document.location.reload(true);
 							
-						}).fail(function(e){
+						}).fail(function(){
 							if(verificarTroco == 0) $.alert("Pedido não enviado!");
 							
 							else $.alert("Pedido não enviado!<br>Digite um valor válido.");

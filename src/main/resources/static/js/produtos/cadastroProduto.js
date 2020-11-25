@@ -6,7 +6,7 @@ url_atual = url_atual.split("/")[5];
 if(typeof url_atual != "undefined") {
 	$.ajax({
 		url: "/cadastroProduto/editarProduto/" + url_atual,
-		type: 'PUT',
+		type: 'GET',
 	}).done(function(e){
 		
 		produto = e;
@@ -71,7 +71,7 @@ $("#enviar").click(function() {
 							contentType:'application/json',
 							data: JSON.stringify(produto)
 							
-						}).done(function(e){
+						}).done(function(){
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -82,12 +82,12 @@ $("#enviar").click(function() {
 							            btnClass: 'btn-blue',
 							            keys: ['esc','enter'],
 							            action: function(){
-											document.location.reload(true);
+											document.location.href = "/cadastroProduto";
 										}
 									}
 								}
 							});
-						}).fail(function(e){
+						}).fail(function(){
 							$.alert({
 								type: 'red',
 								title: 'Aviso',

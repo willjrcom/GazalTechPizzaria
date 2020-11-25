@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
+import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.repository.Dados;
+import proj_vendas.vendas.repository.LogMesas;
 
 @Controller
 @RequestMapping("adm")
@@ -18,6 +20,9 @@ public class EstatisticaController {
 
 	@Autowired
 	private Dados dados;
+	
+	@Autowired
+	private LogMesas mesas;
 	
 	@GetMapping("/estatistica")
 	public ModelAndView tela() {
@@ -28,5 +33,11 @@ public class EstatisticaController {
 	@ResponseBody
 	public List<Dado> buscarTodos() {
 		return dados.findByTrocoInicioNotLikeAndTrocoFinalNotLike(0, 0);
+	}
+	
+	@RequestMapping(value = "/estatistica/mesas")
+	@ResponseBody
+	public List<LogMesa> buscarMesas() {
+		return mesas.findAll();
 	}
 }

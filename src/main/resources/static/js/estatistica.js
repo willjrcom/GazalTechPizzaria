@@ -5,141 +5,189 @@ google.charts.load('current', {packages: ['corechart', 'line']});
 google.charts.setOnLoadCallback(drawBackgroundColor);
 
 function drawBackgroundColor() {
-	  var dados = [];
-	  var objeto = {};
-      var data = new google.visualization.DataTable();
-      data.addColumn('string', 'X');
-      data.addColumn('number', 'Bruto');
-      data.addColumn('number', 'Líquido');
+  var dados = [];
+  var objeto = {};
+  var data = new google.visualization.DataTable();
+  data.addColumn('string', 'X');
+  data.addColumn('number', 'Bruto');
+  data.addColumn('number', 'Líquido');
 
-      
-      $.ajax({
-    	  url: '/adm/estatistica/todos',
-    	  type: 'GET'
-      }).done(function(e){
-    	  objeto = e;
+  
+  $.ajax({
+	  url: '/adm/estatistica/todos',
+	  type: 'GET'
+  }).done(function(e){
+	  objeto = e;
 
-    	  objeto.sort(function (a, b) {
-  			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
-  					? 1 
-  					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
-  		  });
-    	  
-    	  for(obj of objeto) {
-    		  if(obj.totalVendas != 0) {
-    			  dados.push([
-    			              (obj.data.split('-')[2] + '/' + obj.data.split('-')[1]),
-    			              obj.totalVendas,
-    			              obj.totalLucro
-    			  ]);
-    		  }
-    	  }
+	  objeto.sort(function (a, b) {
+		return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
+				? 1 
+				: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
+	  });
+	  
+	  for(obj of objeto) {
+		  if(obj.totalVendas != 0) {
+			  dados.push([
+			              (obj.data.split('-')[2] + '/' + obj.data.split('-')[1]),
+			              obj.totalVendas,
+			              obj.totalLucro
+			  ]);
+		  }
+	  }
 
-    	  data.addRows(dados);
-    	  var options = {
-    		        hAxis: {
-    		          title: 'Dia'
-    		        },
-    		        vAxis: {
-    		          title: 'Total de Vendas R$'
-    		        },
-    		        backgroundColor: 'white'
-    		      };
+	  data.addRows(dados);
+	  var options = {
+		        hAxis: {
+		          title: 'Dia'
+		        },
+		        vAxis: {
+		          title: 'Total de Vendas R$'
+		        },
+		        backgroundColor: 'white'
+		      };
 
-    		      var chart = new google.visualization.LineChart(document.getElementById('totalVendas'));
-    		      chart.draw(data, options);
-      });
-      
-      
-      //balcao/entregas
-      //------------------------------------------------------------------------------------------------
-      var dados1 = [];
-      var data1 = new google.visualization.DataTable();
-      data1.addColumn('string', 'X');
-      data1.addColumn('number', 'Balcão');
-      data1.addColumn('number', 'Entrega');
+		      var chart = new google.visualization.LineChart(document.getElementById('totalVendas'));
+		      chart.draw(data, options);
+  });
+  
+  
+  //balcao/entregas
+  //------------------------------------------------------------------------------------------------
+  var dados1 = [];
+  var data1 = new google.visualization.DataTable();
+  data1.addColumn('string', 'X');
+  data1.addColumn('number', 'Balcão');
+  data1.addColumn('number', 'Entrega');
 
-      
-      $.ajax({
-    	  url: '/adm/estatistica/todos',
-    	  type: 'GET'
-      }).done(function(e){
-    	  
-    	  var objeto1 = e;
+  
+  $.ajax({
+	  url: '/adm/estatistica/todos',
+	  type: 'GET'
+  }).done(function(e){
+	  
+	  var objeto1 = e;
 
-    	  objeto1.sort(function (a, b) {
-    			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
-    					? 1 
-    					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
-    	  });
-    	  
-    	  for(obj1 of objeto1) {
-    		  if(obj1.totalVendas != 0) {
-    			  dados1.push([
-    			              obj1.data.split('-')[2] + '/' + obj1.data.split('-')[1], 
-    			              obj1.balcao, 
-    			              obj1.entregas
-    			  ]);
-    		  }
-    	  }
-    	  data1.addRows(dados1);
-    	  var options = {
-    		        hAxis: {
-    		          title: 'Dia'
-    		        },
-    		        vAxis: {
-    		          title: 'Total de Pedidos R$'
-    		        },
-    		        backgroundColor: 'white'
-    		      };
+	  objeto1.sort(function (a, b) {
+			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
+					? 1 
+					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
+	  });
+	  
+	  for(obj1 of objeto1) {
+		  if(obj1.totalVendas != 0) {
+			  dados1.push([
+			              obj1.data.split('-')[2] + '/' + obj1.data.split('-')[1], 
+			              obj1.balcao, 
+			              obj1.entregas
+			  ]);
+		  }
+	  }
+	  data1.addRows(dados1);
+	  var options = {
+		        hAxis: {
+		          title: 'Dia'
+		        },
+		        vAxis: {
+		          title: 'Total de Pedidos R$'
+		        },
+		        backgroundColor: 'white'
+		      };
 
-    		      var chart = new google.visualization.LineChart(document.getElementById('entregaBalcao'));
-    		      chart.draw(data1, options);
-      });
+		      var chart = new google.visualization.LineChart(document.getElementById('entregaBalcao'));
+		      chart.draw(data1, options);
+  });
 
-     
-      //pizzas/produtos
-      //------------------------------------------------------------------------------------------------
-      var dados2 = [];
-      var data2 = new google.visualization.DataTable();
-      data2.addColumn('string', 'X');
-      data2.addColumn('number', 'Pizza');
-      data2.addColumn('number', 'Produto');
+ 
+  //pizzas/produtos
+  //------------------------------------------------------------------------------------------------
+  var dados2 = [];
+  var data2 = new google.visualization.DataTable();
+  data2.addColumn('string', 'X');
+  data2.addColumn('number', 'Pizza');
+  data2.addColumn('number', 'Produto');
 
-      
-      $.ajax({
-    	  url: '/adm/estatistica/todos',
-    	  type: 'GET'
-      }).done(function(e){
-    	  
-    	  var objeto2 = e;
-    	  objeto2.sort(function (a, b) {
-    			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
-    					? 1 
-    					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
-    		  });
-    	  
-    	  for(obj2 of objeto2) {
-    		  if(obj2.totalVendas != 0) {
-    			  dados2.push([
-    			              obj2.data.split('-')[2] + '/' + obj2.data.split('-')[1], 
-    			              obj2.totalPizza, 
-    			              obj2.totalProduto
-    			  ]);
-    		  }
-    	  }
-    	  data2.addRows(dados2);
-    	  var options = {
-    		        hAxis: {
-    		          title: 'Dia'
-    		        },
-    		        vAxis: {
-    		          title: 'Total de Produtos'
-    		        },
-    		        backgroundColor: 'white'
-    		      };
+  
+  $.ajax({
+	  url: '/adm/estatistica/todos',
+	  type: 'GET'
+  }).done(function(e){
+	  
+	  var objeto2 = e;
+	  objeto2.sort(function (a, b) {
+			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
+					? 1 
+					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
+		  });
+	  
+	  for(obj2 of objeto2) {
+		  if(obj2.totalVendas != 0) {
+			  dados2.push([
+			              obj2.data.split('-')[2] + '/' + obj2.data.split('-')[1], 
+			              obj2.totalPizza, 
+			              obj2.totalProduto
+			  ]);
+		  }
+	  }
+	  data2.addRows(dados2);
+	  var options = {
+		        hAxis: {
+		          title: 'Dia'
+		        },
+		        vAxis: {
+		          title: 'Total de Produtos'
+		        },
+		        backgroundColor: 'white'
+		      };
 
-    		      var chart = new google.visualization.LineChart(document.getElementById('pizzaProduto'));
-    		      chart.draw(data2, options);
-      });
-    }
+		      var chart = new google.visualization.LineChart(document.getElementById('pizzaProduto'));
+		      chart.draw(data2, options);
+  });
+}
+
+
+//------------------------------------------------------------
+$(document).ready(function(){
+	var mesas = [];
+	
+	$.ajax({
+		url: "/adm/estatistica/mesas",
+		type: "GET"
+	}).done(function(e){
+		console.log(e);
+		for([i, mesa1] of e.entries()) {
+			for([j, mesa2] of e.entries()) {
+				if(i != j) {//se nao for ela mesma
+					if(mesa1.mesa === mesa2.mesa) {//se a mesa for igual
+						
+						if(mesas.length != 0) {
+							for([k, mesa3] of mesas.entries()) {//buscar no top 5
+								if(mesa2.mesa === mesa3.mesa) {//ver se ja existe top 5
+									mesa3.total++;
+								}else if(k + 1 == mesas.length) {
+									mesas.push({
+										'mesa': mesa2.mesa,
+										'total': 1
+									});
+								}
+							}
+						}else{
+							mesas.push({
+								'mesa': mesa2.mesa,
+								'total': 1
+							});
+						}
+					}
+				}
+			}
+		}
+		console.log(mesas);
+		
+		mesasHtml = '';
+		for([i, mesa] of mesas.entries()) {
+			mesasHtml += '<tr>' 
+						+ '<td>' + i+1 + ' - <b>' +  mesa.mesa + ':</b> utilizada ' + mesa.total + ' vezes</td>'
+					+ '</tr>';
+		}
+		$("#mesasTop").html(mesasHtml);
+	});
+});

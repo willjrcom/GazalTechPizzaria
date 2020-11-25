@@ -13,8 +13,7 @@ $("#todosPedidos").html(linhaCinza);
 $.ajax({
 	url: "/adm/relatoriodia/todosPedidos",
 	type: 'GET'
-})
-.done(function(e){
+}).done(function(e){
 	pedidos = e;
 	
 	for(pedido of pedidos){

@@ -4,14 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Service;
-
 import proj_vendas.vendas.domain.AbstractEntity;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "IMPRESSAO_MATRICIAL")
-@Service
+@Table(name = "IMPRESSAOMATRICIAL")
 public class ImpressaoMatricial extends AbstractEntity<Long>{
 
 	@Lob

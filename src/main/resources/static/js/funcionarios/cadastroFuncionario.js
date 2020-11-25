@@ -7,7 +7,7 @@ if(typeof url_atual != "undefined") {
 	
 	$.ajax({
 		url: "/adm/cadastroFuncionario/editarFuncionario/" + url_atual,
-		type: 'PUT',
+		type: 'GET',
 	}).done(function(e){
 		//receber valores do servidor
 		funcionario = e;
@@ -110,7 +110,7 @@ $("#enviar").click(function() {
 							contentType:'application/json',
 							data: JSON.stringify(funcionario)
 							
-						}).done(function(e){
+						}).done(function(){
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -128,7 +128,7 @@ $("#enviar").click(function() {
 							});
 							
 							
-						}).fail(function(e){
+						}).fail(function(){
 							$.alert({
 								type: 'red',
 								title: 'Aviso',

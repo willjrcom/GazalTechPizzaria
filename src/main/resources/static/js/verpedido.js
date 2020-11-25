@@ -258,10 +258,8 @@ function excluirPedido() {
 												pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 												
 												$.ajax({
-													url: "/verpedido/excluirPedido/" + idProduto.toString(),
-													type: 'PUT',
-													data: pedidos[idBusca]
-													
+													url: "/verpedido/excluirPedido/" + idProduto,
+													type: 'PUT'
 												}).done(function(){		
 													$.alert({
 														type: 'red',

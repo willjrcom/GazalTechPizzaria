@@ -11,7 +11,7 @@ $("#buscar").click(function(){
 	
 	$.ajax({
 		url: '/clientesCadastrados/buscar/' + nome,
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		clientes = [];
 		for(cliente of e) {

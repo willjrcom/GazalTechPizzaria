@@ -139,7 +139,7 @@ function enviarPedido() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
-
+			console.log(pedidos[idBusca]);
 	imprimir(pedidos[idBusca]);
 			
 	$.confirm({
@@ -157,10 +157,8 @@ function enviarPedido() {
 
 					$.ajax({
 						url: "/cozinha/enviarPedido/" + idProduto,
-						type: 'PUT',
-						data: pedidos[idBusca], //dados completos do pedido enviado
-					})
-					.done(function(e){
+						type: 'PUT'
+					}).done(function(){
 						document.location.reload(true);
 					});
 			    },
@@ -233,7 +231,7 @@ function imprimir(cliente) {
 			tela_impressao.window.close();
 			*/
 			
-			impressaoPedido = {};
+			var impressaoPedido = {};
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
 					

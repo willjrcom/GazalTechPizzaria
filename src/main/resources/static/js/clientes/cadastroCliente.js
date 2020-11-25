@@ -11,7 +11,7 @@ if(typeof url_atual != "undefined") {
 	
 	$.ajax({
 		url: "/cadastroCliente/editarCliente/" + url_atual,
-		type: 'PUT',
+		type: 'GET',
 	}).done(function(e){
 		
 		cliente = e;
@@ -21,6 +21,8 @@ if(typeof url_atual != "undefined") {
 		$("#nome").val(cliente.nome);
 		$("#cel").val(cliente.celular);
 		$("#cpf").val(cliente.cpf);
+		$("#contPedidos").val(cliente.contPedidos);
+		$("#dataCadastro").val(cliente.dataCadastro);
 		
 		//endereco
 		$("#idEnd").val(cliente.endereco.id);
@@ -44,7 +46,10 @@ function setCliente() {
 	cliente.nome = $("#nome").val();
 	cliente.celular = $("#cel").cleanVal();
 	cliente.cpf = $("#cpf").val();
+	cliente.contPedidos = $("#contPedidos").val();
+	cliente.dataCadastro = $("#dataCadastro").val();
 	
+	//endereco
 	cliente.endereco = {};
 	cliente.endereco.id = $("#idEnd").val();
 	cliente.endereco.cep = $("#cep").val();
@@ -90,7 +95,7 @@ $("#enviar").click(function() {
 							contentType:'application/json',
 							data: JSON.stringify(cliente)
 							
-						}).done(function(e){
+						}).done(function(){
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -106,7 +111,7 @@ $("#enviar").click(function() {
 									},
 								}
 							});
-						}).fail(function(e){
+						}).fail(function(){
 							$.alert({
 								type: 'red',
 								title: 'Aviso',

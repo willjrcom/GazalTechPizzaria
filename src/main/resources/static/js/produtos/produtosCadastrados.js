@@ -11,7 +11,7 @@ $("#buscar").click(function(){
 	
 	$.ajax({
 		url: '/produtosCadastrados/buscar/' + nome,
-		type: 'PUT'
+		type: 'GET'
 	}).done(function(e){
 		
 		produtos = e;

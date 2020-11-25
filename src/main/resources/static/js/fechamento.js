@@ -255,12 +255,12 @@ function troco(){
 							dados.trocoInicio = e.trocoInicio;
 							
 							$.ajax({
-								url: '/adm/fechamento/finalizar/' + dados.id,
-								type: 'POST',
+								url: '/adm/fechamento/finalizar',
+								type: 'PUT',
 								dataType : 'json',
 								contentType: "application/json",
 								data: JSON.stringify(dados)
-							}).done(function(e){
+							}).done(function(){
 
 								$.alert({
 									type:'green',
