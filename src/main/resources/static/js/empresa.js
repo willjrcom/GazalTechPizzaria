@@ -49,7 +49,7 @@ function setEmpresa() {
 	empresa.nomeEmpresa = $("#empresa").val();
 	empresa.email = $("#email").val();
 	empresa.horaExtra = $("#horaExtra").val();
-	empresa.celular = $("#cel").cleanVal();
+	empresa.celular = $("#cel").val();
 	empresa.cnpj = $("#cnpj").val();
 	empresa.mesa = $("#mesa").val();
 	empresa.funcionamento = $("#dia1").val() + $("#dia2").val()

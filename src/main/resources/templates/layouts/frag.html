@@ -28,6 +28,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="corFundo centralizar" id="login">
 				
 				<h1 id="estabelecimento"></h1>
+				<p id="celular"></p>
 				<hr>
 				
 				<nav id="Tmenu">
@@ -36,7 +37,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<li><a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> ADM</a></li>
 						<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> CADASTROS</a></li>
 						<li><a th:href="@{/adm/estatistica}"><span class="oi oi-clipboard"></span> EMPRESA</a></li>
-						<li><a onclick="tablet()"><span class="oi oi-tablet"></span> TABLET</a></li>
+						<!-- <li><a onclick="tablet()"><span class="oi oi-tablet"></span> TABLET</a></li>  -->
 						<li><a th:href="@{/logout}"><span class="oi oi-account-logout"></span> SAIR</a></li>
 					</ul>
 				</nav>
@@ -70,6 +71,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</nav>
 			</li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"><span class="oi oi-calendar"></span> Suporte</a></li>
 			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
@@ -97,6 +99,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</nav>
 			</li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"><span class="oi oi-calendar"></span> Suporte</a></li>
 			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
@@ -126,6 +129,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</nav>
 			</li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"><span class="oi oi-calendar"></span> Suporte</a></li>
 			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
@@ -157,6 +161,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</nav>
 			</li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"><span class="oi oi-calendar"></span> Suporte</a></li>
 			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
@@ -184,6 +189,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</nav>
 			</li>
 			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"><span class="oi oi-calendar"></span> Suporte</a></li>
 			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
