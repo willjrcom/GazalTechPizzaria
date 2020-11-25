@@ -20,6 +20,8 @@ public class Empresa extends AbstractEntity<Long>{
 	private double horaExtra;
 	private int mesa;
 	private String funcionamento;
+	private float taxaEntrega;
+	private float taxaMesa;
 	
 	//impressao
 	private String promocao;
@@ -141,6 +143,22 @@ public class Empresa extends AbstractEntity<Long>{
 
 	public void setImpressoraOnline(boolean impressoraOnline) {
 		this.impressoraOnline = impressoraOnline;
+	}
+
+	public float getTaxaEntrega() {
+		return taxaEntrega;
+	}
+
+	public void setTaxaEntrega(float taxaEntrega) {
+		this.taxaEntrega = taxaEntrega;
+	}
+
+	public float getTaxaMesa() {
+		return taxaMesa;
+	}
+
+	public void setTaxaMesa(float taxaMesa) {
+		this.taxaMesa = taxaMesa;
 	}
 	
 	

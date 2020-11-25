@@ -18,6 +18,8 @@ $.ajax({
 		$("#cel").val(empresa.celular);
 		$("#cnpj").val(empresa.cnpj);
 		$("#mesa").val(empresa.mesa);
+		$("#taxaMesa").val(empresa.taxaMesa);
+		$("#taxaEntrega").val(empresa.taxaEntrega);
 		
 		//impressao
 		if(empresa.impressoraOnline == 1) $("#impressoraOnline").prop("checked", true);
@@ -53,6 +55,8 @@ function setEmpresa() {
 	empresa.cnpj = $("#cnpj").val();
 	empresa.mesa = $("#mesa").val();
 	empresa.funcionamento = $("#dia1").val() + $("#dia2").val()
+	empresa.taxaEntrega = $("#taxaEntrega").val();
+	empresa.taxaMesa = $("#taxaMesa").val();
 	
 	//impressao
 	empresa.texto1 = $("#texto1").val();
@@ -112,7 +116,7 @@ $("#atualizar").click(function() {
 							contentType:'application/json',
 							data: JSON.stringify(empresa)
 							
-						}).done(function(e){
+						}).done(function(){
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -130,11 +134,11 @@ $("#atualizar").click(function() {
 							});
 							
 							
-						}).fail(function(e){
+						}).fail(function(){
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Empresa não atualizado!"
+								content: "Erro, Empresa não atualizado!"
 							});
 						});
 					}
