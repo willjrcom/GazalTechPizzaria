@@ -24,83 +24,135 @@ $.ajax({
 	type: 'GET'
 }).done(function(e){
 	Tpedidos = e;
+		
+	//-------------------------------------------------------------------------------
+	$.ajax({
+		//buscar total de vendas
+		url: '/adm/fechamento/Tvendas',
+		type: 'GET'
+	}).done(function(e){
+		pedidos = e;
+		//para cada pedido
+		for(pedido of pedidos) {
+				pedido.produtos = JSON.parse(pedido.produtos);
+				pedido.pizzas = JSON.parse(pedido.pizzas);
+							
+				Tvendas += parseFloat(pedido.total);
+
+				//para cada produto
+				for(produto of pedido.produtos) {
+					Tfaturamento += parseFloat(produto.custo);
+					Tproduto += parseFloat(produto.qtd);
+				}
+				//para cada pizza
+				for(pizza of pedido.pizzas) {
+					Tfaturamento += parseFloat(pizza.custo);
+					Tpizza += parseFloat(pizza.qtd);
+				}
+				
+				//separar tipos de envio
+				if(pedido.envio == "ENTREGA") {
+					entrega++;
+					tEntrega += pedido.total;
+				}else if(pedido.envio == "BALCAO") {
+					balcao++;
+					tBalcao += pedido.total;
+				}else if(pedido.envio == "MESA") {
+					mesa++;
+					tMesa += pedido.total;
+				}else if(pedido.envio == "DRIVE") {
+					drive++;
+					tDrive += pedido.total;
+				}
+		}
+		
+		
+		//criar html de acordo com os tipos existentes
+		if(Tpedidos != 0) {
+			if(Tpedidos == 1) envioHtml = '<tr><td>' + Tpedidos + ' Pedido total sendo:</td></tr>';
+			else envioHtml = '<tr><td><label>' + Tpedidos + ' Pedidos totais sendo:</label></td></tr>';
+		}else {
+			envioHtml = '<tr><td><label>' + 0 + ' Pedidos finalizados</label></td></tr>';
+		}
+		if(entrega != 0) {
+			if(entrega == 1) envioHtml += '<tr><td>' + entrega + ' entrega - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
+			else envioHtml += '<tr><td>' + entrega + ' entregas - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
+		}
+		if(balcao != 0) {
+			if(balcao == 1) envioHtml += '<tr><td>' + balcao + ' balcão - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
+			else envioHtml += '<tr><td>' + balcao + ' balcões - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
+		}
+		if(mesa != 0) {
+			if(mesa == 1) envioHtml += '<tr><td>' + mesa + ' mesa - R$: ' + tMesa.toFixed(2) + '</td></tr>';
+			else envioHtml += '<tr><td>' + mesa + ' mesas - R$: ' + tMesa.toFixed(2) + '</td></tr>';
+		}
+		if(drive != 0) {
+			if(drive == 1) envioHtml += '<tr><td>' + drive + ' drive - R$: ' + drive.toFixed(2) + '</td></tr>';
+			else envioHtml += '<tr><td>' + drive + ' drives - R$: ' + drive.toFixed(2) + '</td></tr>';
+		}
+
+		$("#fEnvio").html(envioHtml);
+		$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
+		$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento).toFixed(2)).toFixed(2) );
+		
+		
+		//----------------------------------------------------------------------------
+		google.charts.load("current", {packages:['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+
+		function drawChart() {
+		  var data = google.visualization.arrayToDataTable([
+		    ["Element", "Density", { role: "style" } ],
+		    ["Entrega", entrega, "green"],
+		    ["Balcão", balcao, "blue"],
+		    ["Mesa", mesa, "Brown"],
+		    ["Drive-Thru", drive, "color: yellow"]
+		  ]);
+
+		  var view = new google.visualization.DataView(data);
+		  view.setColumns([0, 1,
+		                   { calc: "stringify",
+		                     sourceColumn: 1,
+		                     type: "string",
+		                     role: "annotation" },
+		                   2]);
+
+		  var options = {
+		    bar: {groupWidth: "80%"},
+		    legend: { position: "none" },
+		  };
+		  var chart = new google.visualization.ColumnChart(document.getElementById("totalPedidos"));
+		  chart.draw(view, options);
+		  
+		  
+		  
+		  //------------------------------------------------------------------------------------------------
+		  var data = google.visualization.arrayToDataTable([
+			["Element", "Density", { role: "style" } ],
+			["Lucro Bruto", Tvendas, "green"],
+			["Lucro Liquido", Tfaturamento, "blue"],
+			  ]);
+			
+		  	  var view = new google.visualization.DataView(data);
+			  view.setColumns([0, 1,
+			                   { calc: "stringify",
+			                 sourceColumn: 1,
+			                 type: "string",
+			                 role: "annotation" },
+			                   2]);
+			
+			  var options = {
+			    bar: {groupWidth: "60%"},
+			    legend: { position: "none" },
+			  };
+			  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
+			  chart.draw(view, options);
+		}
+	}).fail(function(){
+		$.alert("Nenhum valor encontrado!");
+	});
 }).fail(function(){
 	$.alert("Erro, Nenhum pedido encontrado!");
-});
-
-
-//-------------------------------------------------------------------------------
-$.ajax({
-	//buscar total de vendas
-	url: '/adm/fechamento/Tvendas',
-	type: 'GET'
-}).done(function(e){
-	pedidos = e;
-	//para cada pedido
-	for(pedido of pedidos) {
-			pedido.produtos = JSON.parse(pedido.produtos);
-			pedido.pizzas = JSON.parse(pedido.pizzas);
-						
-			Tvendas += parseFloat(pedido.total);
-
-			//para cada produto
-			for(produto of pedido.produtos) {
-				Tfaturamento += parseFloat(produto.custo);
-				Tproduto += parseFloat(produto.qtd);
-			}
-			//para cada pizza
-			for(pizza of pedido.pizzas) {
-				Tfaturamento += parseFloat(pizza.custo);
-				Tpizza += parseFloat(pizza.qtd);
-			}
-			
-			//separar tipos de envio
-			if(pedido.envio == "ENTREGA") {
-				entrega++;
-				tEntrega += pedido.total;
-			}else if(pedido.envio == "BALCAO") {
-				balcao++;
-				tBalcao += pedido.total;
-			}else if(pedido.envio == "MESA") {
-				mesa++;
-				tMesa += pedido.total;
-			}else if(pedido.envio == "DRIVE") {
-				drive++;
-				tDrive += pedido.total;
-			}
-	}
-	
-	
-	//criar html de acordo com os tipos existentes
-	if(Tpedidos != 0) {
-		if(Tpedidos == 1) envioHtml = '<tr><td>' + Tpedidos + ' Pedido total sendo:</td></tr>';
-		else envioHtml = '<tr><td><label>' + Tpedidos + ' Pedidos totais sendo:</label></td></tr>';
-	}else {
-		envioHtml = '<tr><td><label>' + 0 + ' Pedidos finalizados</label></td></tr>';
-	}
-	if(entrega != 0) {
-		if(entrega == 1) envioHtml += '<tr><td>' + entrega + ' entrega - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
-		else envioHtml += '<tr><td>' + entrega + ' entregas - R$: ' + tEntrega.toFixed(2) + '</td></tr>';
-	}
-	if(balcao != 0) {
-		if(balcao == 1) envioHtml += '<tr><td>' + balcao + ' balcão - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
-		else envioHtml += '<tr><td>' + balcao + ' balcões - R$: ' + tBalcao.toFixed(2) + '</td></tr>';
-	}
-	if(mesa != 0) {
-		if(mesa == 1) envioHtml += '<tr><td>' + mesa + ' mesa - R$: ' + tMesa.toFixed(2) + '</td></tr>';
-		else envioHtml += '<tr><td>' + mesa + ' mesas - R$: ' + tMesa.toFixed(2) + '</td></tr>';
-	}
-	if(drive != 0) {
-		if(drive == 1) envioHtml += '<tr><td>' + drive + ' drive - R$: ' + drive.toFixed(2) + '</td></tr>';
-		else envioHtml += '<tr><td>' + drive + ' drives - R$: ' + drive.toFixed(2) + '</td></tr>';
-	}
-
-	$("#fEnvio").html(envioHtml);
-	$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
-	$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento).toFixed(2)).toFixed(2) );
-	
-}).fail(function(){
-	$.alert("Nenhum valor encontrado!");
 });
 
 
@@ -214,6 +266,8 @@ $("#finalizar_caixa").click(function(){
 	});
 });
 
+
+//-------------------------------------------------------------------
 function troco(){
 	$.confirm({
 		type: 'blue',
@@ -293,60 +347,6 @@ function troco(){
 			}
 		}
 	});
-}
-
-
-//----------------------------------------------------------------------------
-google.charts.load("current", {packages:['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ["Element", "Density", { role: "style" } ],
-    ["Entrega", entrega, "green"],
-    ["Balcão", balcao, "blue"],
-    ["Mesa", mesa, "Brown"],
-    ["Drive-Thru", drive, "color: yellow"]
-  ]);
-
-  var view = new google.visualization.DataView(data);
-  view.setColumns([0, 1,
-                   { calc: "stringify",
-                     sourceColumn: 1,
-                     type: "string",
-                     role: "annotation" },
-                   2]);
-
-  var options = {
-    bar: {groupWidth: "80%"},
-    legend: { position: "none" },
-  };
-  var chart = new google.visualization.ColumnChart(document.getElementById("totalPedidos"));
-  chart.draw(view, options);
-  
-  
-  
-  //------------------------------------------------------------------------------------------------
-  var data = google.visualization.arrayToDataTable([
-	["Element", "Density", { role: "style" } ],
-	["Lucro Bruto", Tvendas, "green"],
-	["Lucro Liquido", Tfaturamento, "blue"],
-	  ]);
-	
-	  var view = new google.visualization.DataView(data);
-	  view.setColumns([0, 1,
-	                   { calc: "stringify",
-	                 sourceColumn: 1,
-	                 type: "string",
-	                 role: "annotation" },
-	                   2]);
-	
-	  var options = {
-	    bar: {groupWidth: "60%"},
-	legend: { position: "none" },
-	  };
-	  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
-	  chart.draw(view, options);
 }
 
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +32,9 @@ public class CozinhaController{
 	
 	@RequestMapping(value = "/enviarPedido/{id}")
 	@ResponseBody
-	public PedidoTemp enviarPedido(@ModelAttribute("id") PedidoTemp pedido) {//falta enviar as outras variaveis
+	public PedidoTemp enviarPedido(@PathVariable long id) {//falta enviar as outras variaveis
+
+		PedidoTemp pedido = temps.findById((long)id).get();
 		pedido.setStatus("PRONTO");
 		return temps.save(pedido);
 	}

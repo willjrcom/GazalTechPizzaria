@@ -10,7 +10,7 @@ var verificarTroco = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza); 
+$("#todosPedidos").html(linhaCinza);
 
 $(document).ready(function(){
 	$.ajax({
@@ -178,7 +178,7 @@ function finalizarPedido() {
 						}
 						
 						$.ajax({
-							url: "/finalizar/finalizarPedido/" + idProduto,
+							url: "/finalizar/finalizarPedido/" + idProduto.toString(),
 							type: 'PUT'
 						}).done(function(){
 							document.location.reload(true);

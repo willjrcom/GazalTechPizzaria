@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -45,7 +45,10 @@ public class VerpedidoController{
 	
 	@RequestMapping(value = "/excluirPedido/{id}")
 	@ResponseBody
-	public Pedido excluirPedido(@ModelAttribute("id") Pedido pedido) {
+	public Pedido excluirPedido(@PathVariable long id) {
+		
+		Pedido pedido = pedidos.findById((long)id).get();
+		
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();

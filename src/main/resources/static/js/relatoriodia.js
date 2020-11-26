@@ -15,7 +15,7 @@ $.ajax({
 	type: 'GET'
 }).done(function(e){
 	pedidos = e;
-	
+	console.log(e);
 	for(pedido of pedidos){
 		Tpedidos++;
 		pedido.pizzas = JSON.parse(pedido.pizzas);
