@@ -10,7 +10,7 @@ var verificarTroco = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
+$("#todosPedidos").html(linhaCinza); 
 
 $(document).ready(function(){
 	$.ajax({
