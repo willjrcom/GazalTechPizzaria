@@ -16,10 +16,6 @@ public interface PedidoTemps extends JpaRepository<PedidoTemp, Long>{
 	
 	public List<PedidoTemp> findByComanda(long comanda);
 
-	public List<PedidoTemp> findByDataAndStatusOrDataAndStatus(String dia, String string, String dia2, String string2);
-
-	public PedidoTemp findByComandaAndData(Long comanda, String dia);
-
 	@Transactional(readOnly = false)
 	public void deleteByData(String dia);// apagar no fechamento
 }

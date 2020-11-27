@@ -9,15 +9,10 @@ import proj_vendas.vendas.model.Cliente;
 
 @Transactional(readOnly = true) //evitar duplo acesso ao banco
 public interface Clientes extends JpaRepository<Cliente, Long>{
-
-	public List<Cliente> findByNomeContaining(String nome);
 	
 	public Cliente findByCelular(String celular);
 
-	public List<Cliente> findByNomeContainingOrCelularContaining(String nome, String celular);
-
-	public List<Cliente> findByNomeContainingOrCelularContainingOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContainingOrEnderecoCidadeContaining(
-			String nome, String nome2, String nome3, String nome4, String nome5, String nome6);
+	public List<Cliente> findByNomeContainingOrCelular(String nome, String celular);
 
 	public Cliente findByCpf(String cpf);
 }

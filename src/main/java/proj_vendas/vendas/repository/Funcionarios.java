@@ -10,10 +10,7 @@ import proj_vendas.vendas.model.Funcionario;
 @Transactional(readOnly = true)
 public interface Funcionarios extends JpaRepository<Funcionario, Long>{
 
-	public List<Funcionario> findByNomeContaining(String nome);
-
-	public List<Funcionario> findByNomeContainingOrCelularContainingOrCpfContainingOrEmailOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContaining(
-			String nome, String nome2, String nome3, String nome4, String nome5, String nome6, String nome7);
+	public List<Funcionario> findByNomeContainingOrCelular(String nome, String celular);
 	
 	public Funcionario findByCpf(String cpf);
 

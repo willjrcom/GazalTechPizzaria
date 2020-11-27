@@ -27,9 +27,8 @@ public class ClientesCadastradosController {
 	@RequestMapping(value = "/buscar/{nome}")
 	@ResponseBody
 	public List<Cliente> buscar(@PathVariable String nome) {
-		return clientes.findByNomeContainingOrCelularContainingOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContainingOrEnderecoCidadeContaining(nome,nome,nome,nome,nome,nome);
+		return clientes.findByNomeContainingOrCelular(nome, nome);
 	}
-	
 	
 	@RequestMapping(value = "/clientesCadastrados/excluirCliente/{id}")
 	@ResponseBody

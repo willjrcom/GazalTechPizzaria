@@ -28,7 +28,7 @@ public class FuncionariosCadastradosController {
 	@RequestMapping(value = "/funcionariosCadastrados/buscar/{nome}")
 	@ResponseBody
 	public List<Funcionario> buscar(@PathVariable String nome) {
-		return funcionarios.findByNomeContainingOrCelularContainingOrCpfContainingOrEmailOrEnderecoRuaContainingOrEnderecoNContainingOrEnderecoBairroContaining(nome, nome, nome, nome, nome, nome, nome);
+		return funcionarios.findByNomeContainingOrCelular(nome, nome);
 	}
 	
 	@RequestMapping(value = "/funcionariosCadastrados/excluirFuncionario/{id}")
