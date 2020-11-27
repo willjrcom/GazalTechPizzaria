@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,8 +39,9 @@ public class CadastroClienteController {
 	
 	@RequestMapping(value = "/buscarCpf/{cpf}/{id}")
 	@ResponseBody
-	public Cliente buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Cliente cliente) {
+	public Cliente buscarCpf(@PathVariable String cpf, @PathVariable long id) {
 		Cliente busca = clientes.findByCpf(cpf);
+		Cliente cliente = clientes.findById(id).get();
 		
 		if(busca != null) {
 			if(busca.getId() == cliente.getId()) {
@@ -55,8 +55,9 @@ public class CadastroClienteController {
 
 	@RequestMapping(value = "/buscarCelular/{celular}/{id}")
 	@ResponseBody
-	public Cliente buscarCelular(@PathVariable String celular, @ModelAttribute("id")Cliente cliente) {
+	public Cliente buscarCelular(@PathVariable String celular, @PathVariable long id) {
 		Cliente busca = clientes.findByCelular(celular);
+		Cliente cliente = clientes.findById(id).get();
 
 		if(busca != null) {
 			if(busca.getId() == cliente.getId()) {

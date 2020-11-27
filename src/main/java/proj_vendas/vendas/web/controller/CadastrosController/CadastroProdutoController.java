@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,9 +57,9 @@ public class CadastroProdutoController {
 
 	@RequestMapping(value = "/buscarCodigo/{codigo}/{id}")
 	@ResponseBody
-	public Produto buscarCodigo(@PathVariable String codigo, @ModelAttribute("id")Produto produto) {
+	public Produto buscarCodigo(@PathVariable String codigo, @PathVariable long id) {
 		Produto busca = produtos.findByCodigoBusca(codigo);
-		
+		Produto produto = produtos.findById(id).get();
 		if(busca != null) {
 			if(busca.getId() == produto.getId()) {
 				Produto vazio = new Produto();

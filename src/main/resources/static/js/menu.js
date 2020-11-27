@@ -1,27 +1,5 @@
 var dados = {};
 
-
-//-----------------------------------------------------
-$.ajax({
-	url: '/novoPedido/empresa',
-	type: 'GET'
-}).done(function(e){
-	if(e.length != 0) {
-		$("#celular").html('<b>Contato:</b> ' + e.celular);
-		$("#estabelecimento").text(e.nomeEstabelecimento);
-	}
-});
-
-
-//-----------------------------------------------------
-$.ajax({
-	url: '/menu/autenticado',
-	type: 'GET'
-}).done(function(e){
-	$("#usuario").html('<span class="oi oi-person"></span> Usuário conectado: ' + e);
-});
-
-
 //-----------------------------------------------------
 function verData() {
 	$.ajax({
@@ -33,7 +11,7 @@ function verData() {
 		if(	(hoje.getDate() == e.dia.split('-')[2])
 		&&	((hoje.getMonth() + 1) == e.dia.split('-')[1])
 		&&	(hoje.getFullYear() == e.dia.split('-')[0])) {
-			$("#data").text('Hoje');
+			$("#data").html('<span class="oi oi-calendar"></span> Hoje');
 		}else {
 			$("#data").text(e.dia.split('-')[2] + '/' + e.dia.split('-')[1] + '/' + e.dia.split('-')[0]);
 		}

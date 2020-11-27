@@ -27,8 +27,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
 				
-				<h1 id="estabelecimento"></h1>
-				<p id="celular"></p>
+				<h1 th:text="${empresa}"></h1>
+				<p th:text="${contato}"></p>
 				<hr>
 				
 				<nav id="Tmenu">
@@ -44,7 +44,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<button class="btn btn-primary" id="data"><span class="oi oi-calendar"></span> Data de acesso</button>
 				
 				<br><br>
-				<label id="usuario"></label>
+				<label th:text="${usuario}"></label>
 			</div>
 			
 		</div>

@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,8 +51,9 @@ public class CadastroFuncionarioController{
 		
 	@RequestMapping(value = "/cadastroFuncionario/buscarCpf/{cpf}/{id}")
 	@ResponseBody
-	public Funcionario buscarCpf(@PathVariable String cpf, @ModelAttribute("id")Funcionario funcionario) {
+	public Funcionario buscarCpf(@PathVariable String cpf, @PathVariable long id) {
 		Funcionario busca = funcionarios.findByCpf(cpf);
+		Funcionario funcionario = funcionarios.findById(id).get();
 		
 		if(busca != null) {
 			if(busca.getId() == funcionario.getId()) {
@@ -67,8 +67,9 @@ public class CadastroFuncionarioController{
 	
 	@RequestMapping(value = "/cadastroFuncionario/buscarCelular/{celular}/{id}")
 	@ResponseBody
-	public Funcionario buscarCelular(@PathVariable String celular, @ModelAttribute("id")Funcionario funcionario) {
+	public Funcionario buscarCelular(@PathVariable String celular, @PathVariable long id) {
 		Funcionario busca = funcionarios.findByCelular(celular);
+		Funcionario funcionario = funcionarios.findById(id).get();
 	
 		if(busca != null) {
 			if(busca.getId() == funcionario.getId()) {

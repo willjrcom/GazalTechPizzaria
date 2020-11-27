@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -189,8 +188,8 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
 	@ResponseBody
-	public void excluirPedido(@ModelAttribute("comanda") Pedido pedido) {
-		List<PedidoTemp> temp = temps.findByComanda(pedido.getComanda());
+	public void excluirPedido(@PathVariable long comanda) {
+		List<PedidoTemp> temp = temps.findByComanda(comanda);
 		temps.deleteInBatch(temp);
 	}
 

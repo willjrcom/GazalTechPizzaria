@@ -12,8 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.Empresas;
 
 @Controller
 @RequestMapping("/menu")
@@ -25,9 +27,19 @@ public class MenuController {
 	@Autowired
 	private Dias dias;
 	
+	@Autowired
+	private Empresas empresas;
+	
 	@RequestMapping
 	public ModelAndView tela() {
-		return new ModelAndView("menu");
+		ModelAndView mv = new ModelAndView("menu");
+		Empresa empresa = empresas.buscarId1();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		mv.addObject("empresa", empresa.getNomeEstabelecimento());
+		mv.addObject("contato", "Contato: " + empresa.getCelular());
+		mv.addObject("usuario", "Usuário conectado: " + ((UserDetails)principal).getUsername());
+		return mv;
 	}
 	
 	@RequestMapping(value = "/verificarData/{dia}")
@@ -81,14 +93,5 @@ public class MenuController {
 	@ResponseBody
 	public Dia MostrarDia() {
 		return dias.buscarId1();
-	}
-	
-	@RequestMapping("/autenticado")
-	@ResponseBody
-	public String autenticado() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		return ((UserDetails)principal).getUsername();
-		
 	}
 }

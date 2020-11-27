@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,11 +48,11 @@ public class DevController {
 	
 	@RequestMapping(value = "/dev/validar/{email}/{id}")
 	@ResponseBody
-	public Usuario validar(@PathVariable String email, @ModelAttribute("id")Usuario usuario) {
+	public Usuario validar(@PathVariable String email, @PathVariable long id) {
 		Usuario busca = usuarios.findByEmail(email);
 		
 		if(busca != null) {
-			if(busca.getId() == usuario.getId()) {
+			if(busca.getId() == id) {
 				Usuario vazio = new Usuario();
 				vazio.setId((long) -1);
 				return vazio;
@@ -70,8 +69,8 @@ public class DevController {
 
 	@RequestMapping(value = "/dev/excluirUsuario/{id}")
 	@ResponseBody
-	public String excluirUsuario(@ModelAttribute("id") Usuario usuario) {
-		usuarios.deleteById(usuario.getId());
+	public String excluirUsuario(@PathVariable long id) {
+		usuarios.deleteById(id);
 		return "200";
 	}
 }
