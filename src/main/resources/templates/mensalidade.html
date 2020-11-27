@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Mensalidade</title></head>
+
+<body>
+				
+	<div class="divbaseForm">
+			
+		<hr>
+		<h1 class="h1Logo">Mensalidade</h1><br/>
+		<br>
+		<button onclick="gerarBoleto()" class="btn btn-success">Gerar boleto</button>
+	</div>
+	
+	<br>
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	
+	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+	<script th:src="@{/js/mensalidade.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: opcoes}"></div>
+</html>
