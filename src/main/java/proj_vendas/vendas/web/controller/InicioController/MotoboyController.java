@@ -8,13 +8,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.LogUsuarios;
@@ -32,6 +35,9 @@ public class MotoboyController{
 
 	@Autowired
 	private Dias dias;
+	
+	@Autowired
+	private Dados dados;
 	
 	@Autowired
 	private LogUsuarios usuarios;
@@ -54,10 +60,24 @@ public class MotoboyController{
 		return funcionarios.findAll();
 	}
 	
-	@RequestMapping(value = "/enviarMotoboy/{id}")
+	@RequestMapping(value = "/logMotoboys")
 	@ResponseBody
-	public Pedido enviarPedido(@PathVariable long id) {
-
+	public String logMotoboys() {
+		return dados.findByData(dias.buscarId1().getDia()).getLogMotoboy();
+	}
+	
+	@RequestMapping(value = "/salvarMotoboys")
+	@ResponseBody
+	public void salvarMotoboys(@RequestBody Pedido motoboys) {
+		Dado dado = dados.findByData(dias.buscarId1().getDia()); // buscar dia nos dados
+		dado.setLogMotoboy(motoboys.getPizzas());
+		dados.save(dado);
+	}
+	
+	@RequestMapping(value = "/enviarMotoboy/{id}/{motoboy}")
+	@ResponseBody
+	public Pedido enviarPedido(@PathVariable long id, @PathVariable String motoboy) {
+		
 		Pedido pedido = pedidos.findById((long)id).get();
 		
 		//log
@@ -70,7 +90,9 @@ public class MotoboyController{
 		
 		usuarios.save(log); //salvar logUsuario
 				
+		//pedido
 		pedido.setStatus("MOTOBOY");
+		pedido.setMotoboy(motoboy);
 		return pedidos.save(pedido);
 	}
 }

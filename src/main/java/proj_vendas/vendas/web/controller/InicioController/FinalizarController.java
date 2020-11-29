@@ -44,9 +44,9 @@ public class FinalizarController {
 		return pedidos.findByStatusAndDataAndEnvioNotOrStatusAndDataAndEnvio("PRONTO", dia, "ENTREGA", "MOTOBOY", dia, "ENTREGA");
 	}
 
-	@RequestMapping(value = "/finalizarPedido/{id}")
+	@RequestMapping(value = "/finalizarPedido/{id}/{ac}")
 	@ResponseBody
-	public Pedido enviarPedido(@PathVariable long id) {
+	public Pedido enviarPedido(@PathVariable long id, @PathVariable String ac) {
 		
 		Pedido pedido = pedidos.findById((long)id).get();
 		
@@ -61,6 +61,7 @@ public class FinalizarController {
 		usuarios.save(log); //salvar logUsuario
 				
 		pedido.setStatus("FINALIZADO");
+		pedido.setAc(ac);
 		return pedidos.save(pedido);
 	}
 }

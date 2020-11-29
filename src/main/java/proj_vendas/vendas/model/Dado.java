@@ -15,6 +15,8 @@ import proj_vendas.vendas.domain.AbstractEntity;
 public class Dado extends AbstractEntity<Long> {
 	
 	private String data;
+	@Lob
+	private String logMotoboy;
 	
 	private double totalVendas = 0;
 	private double totalLucro = 0;
@@ -124,6 +126,14 @@ public class Dado extends AbstractEntity<Long> {
 
 	public void setComanda(int comanda) {
 		this.comanda = comanda;
+	}
+
+	public String getLogMotoboy() {
+		return logMotoboy;
+	}
+
+	public void setLogMotoboy(String logMotoboy) {
+		this.logMotoboy = logMotoboy;
 	}
 	
 }

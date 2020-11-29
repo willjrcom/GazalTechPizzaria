@@ -165,7 +165,7 @@ function finalizarPedido() {
 		            keys: ['enter'],
 		            action: function(){
 						
-						pedidos[idBusca].ac = $("#filtro").val();
+						//pedidos[idBusca].ac = $("#filtro").val();
 						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 
@@ -178,7 +178,7 @@ function finalizarPedido() {
 						}
 						
 						$.ajax({
-							url: "/finalizar/finalizarPedido/" + idProduto.toString(),
+							url: "/finalizar/finalizarPedido/" + idProduto + '/' + $("#filtro").val(),
 							type: 'PUT'
 						}).done(function(){
 							document.location.reload(true);

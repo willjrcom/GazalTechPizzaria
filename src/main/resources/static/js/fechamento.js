@@ -19,6 +19,17 @@ var cont1 = 0, cont2 = 0;
 
 //-------------------------------------------------------------------------------
 $.ajax({
+	url: "/motoboy/logMotoboys",
+	type: "GET"
+}).done(function(e){
+	logmotoboys = e;
+	if(logmotoboys != '') logmotoboys = JSON.parse(logmotoboys);
+	else logmotoboys = [];
+	
+});
+
+
+$.ajax({
 	//buscar total de pedidos
 	url: '/adm/fechamento/Tpedidos',
 	type: 'GET'

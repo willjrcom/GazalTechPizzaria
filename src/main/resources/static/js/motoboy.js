@@ -112,17 +112,49 @@ function finalizarPedido() {
 		            keys: ['enter'],
 		            action: function(){
 			
-						pedidos[idBusca].motoboy = $("#filtro").val();
+						//pedidos[idBusca].motoboy = $("#filtro").val();
 						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 						
+						var objeto = {};
+
+						objeto.motoboy = $("#filtro").val();
+						objeto.taxa = pedidos[idBusca].taxa;
+						objeto.comanda = pedidos[idBusca].comanda;
+						objeto.endereco = pedidos[idBusca].endereco;
+						objeto.nome = pedidos[idBusca].nome;
+						
+						
+						//buscar tabela de motoboys do dia
+						$.ajax({
+							url: "/motoboy/logMotoboys",
+							type: "GET"
+						}).done(function(e){
+							logmotoboys = e;
+							if(logmotoboys != '') logmotoboys = JSON.parse(logmotoboys);
+							else logmotoboys = [];
+							
+							log = {};
+							logmotoboys.unshift(objeto);
+							log.pizzas = JSON.stringify(logmotoboys);
+							console.log(log.pizzas);
+							$.ajax({
+								url: "/motoboy/salvarMotoboys",
+								type: "PUT",
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(log)
+							});
+						});
+						
 						//ENVIAR PEDIDO
 						$.ajax({
-							url: "/motoboy/enviarMotoboy/" + idProduto,
+							url: "/motoboy/enviarMotoboy/" + idProduto + '/' + $("#filtro").val(),
 							type: 'PUT'
 						}).done(function(){
 							document.location.reload(true);
 						});
+						
 					}
 				},
 		        cancel: {
