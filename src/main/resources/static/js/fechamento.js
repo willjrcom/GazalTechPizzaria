@@ -14,7 +14,7 @@ var pagHtml;
 var dinheiro = 0, cartao = 0;
 
 //impressao
-var linhaPizzas = '', linhaProdutos = '';
+var linhaPizzas = '', linhaProdutos = '', linhaBoy = '';
 var cont1 = 0, cont2 = 0;
 
 //-------------------------------------------------------------------------------
@@ -23,8 +23,28 @@ $.ajax({
 	type: "GET"
 }).done(function(e){
 	logmotoboys = e;
-	if(logmotoboys != '') logmotoboys = JSON.parse(logmotoboys);
-	else logmotoboys = [];
+	if(logmotoboys != '') {
+		logmotoboys = JSON.parse(logmotoboys);
+		console.log(logmotoboys);
+		
+		linhaBoy = '';
+		
+		for(boy of logmotoboys) {
+			linhaBoy += '<tr>'
+					+ '<td>' + boy.comanda + '</td>'
+					+ '<td>' + boy.motoboy + '</td>'
+					+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+					+ '<td>' + boy.nome + '</td>'
+					+ '<td>' + boy.endereco + '</td>'
+				+ '</tr>';
+		}
+		$("#divmotoboys").css({
+			'overflow': 'scroll'
+		}).css({
+			'height': '30vh'
+		});
+		$("#logmotoboys").html(linhaBoy);
+	}else $("#logmotoboys").html('<tr><td colspan="5">Nenhuma entrega feita hoje!</td></tr>');
 	
 });
 
