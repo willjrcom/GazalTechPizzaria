@@ -25,8 +25,20 @@ $.ajax({
 	logmotoboys = e;
 	if(logmotoboys != '') {
 		logmotoboys = JSON.parse(logmotoboys);
-		console.log(logmotoboys);
+		var reduced = [];
 		
+		logmotoboys.forEach((item) => {
+		    var duplicated = reduced.findIndex(redItem => {
+		        return item.a == redItem.a;
+		    }) > -1;
+
+		    if(!duplicated) {
+		        reduced.push(item);
+		    }
+		});
+
+		console.log(reduced);
+
 		linhaBoy = '';
 		
 		for(boy of logmotoboys) {
@@ -302,8 +314,8 @@ $("#finalizar_caixa").click(function(){
 function troco(){
 	$.confirm({
 		type: 'blue',
-		title: 'Troco do caixa',
-		content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control preco" id="troco" value="0"/>',
+		title: 'Troco final do caixa',
+		content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control preco" id="troco"/>',
 		buttons:{
 			confirm:{
 				text:'Salvar',
@@ -313,62 +325,72 @@ function troco(){
 		
 					var troco = this.$content.find('#troco').val();
 					
-					troco = troco.toString().replace(",",".");
-					
-					//buscar data do sistema
-					$.ajax({
-						url: '/adm/fechamento/data',
-						type: 'GET'
-					}).done(function(e){
-						dados.data = e.dia;
-							
-						//buscar id da data do sistema
+					troco = parseFloat(troco.toString().replace(",","."));
+
+					if(Number.isFinite(troco) == false) {
+						$.alert({
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
+					}else {
+						//buscar data do sistema
 						$.ajax({
-							url: '/adm/fechamento/buscarIdData/' + dados.data,
+							url: '/adm/fechamento/data',
 							type: 'GET'
 						}).done(function(e){
-							
-							dados.id = e.id;
-							dados.balcao = balcao + mesa + drive;
-							dados.entregas = entrega;
-							dados.totalLucro = Tvendas - parseFloat(Tfaturamento);
-							dados.totalPedidos = Tpedidos;
-							dados.totalVendas = Tvendas;
-							dados.totalPizza = Tpizza;
-							dados.totalProduto = Tproduto;
-							dados.trocoFinal = troco;
-							dados.trocoInicio = e.trocoInicio;
-							
-							$.ajax({
-								url: '/adm/fechamento/finalizar',
-								type: 'PUT',
-								dataType : 'json',
-								contentType: "application/json",
-								data: JSON.stringify(dados)
-							}).done(function(){
-
-								$.alert({
-									type:'green',
-									title: 'Sucesso!',
-									content: 'Caixa finalizado com sucesso!',
-									buttons:{
-										confirm:{
-											text:'Continuar',
-											btnClass: 'btn-success',
-											keys:['enter', 'esc'],
-										}
-									}
-								});
+							dados.data = e.dia;
 								
-							}).fail(function(){
-								$.alert("Erro, digite um valor válido");
-								troco();
+							//buscar id da data do sistema
+							$.ajax({
+								url: '/adm/fechamento/buscarIdData/' + dados.data,
+								type: 'GET'
+							}).done(function(e){
+								
+								dados.id = e.id;
+								dados.balcao = balcao + mesa + drive;
+								dados.entregas = entrega;
+								dados.totalLucro = Tvendas - parseFloat(Tfaturamento);
+								dados.totalPedidos = Tpedidos;
+								dados.totalVendas = Tvendas;
+								dados.totalPizza = Tpizza;
+								dados.totalProduto = Tproduto;
+								dados.trocoFinal = troco;
+								dados.trocoInicio = e.trocoInicio;
+								
+								$.ajax({
+									url: '/adm/fechamento/finalizar',
+									type: 'PUT',
+									dataType : 'json',
+									contentType: "application/json",
+									data: JSON.stringify(dados)
+								}).done(function(){
+	
+									$.alert({
+										type:'green',
+										title: 'Sucesso!',
+										content: 'Caixa finalizado com sucesso!',
+										buttons:{
+											confirm:{
+												text:'Continuar',
+												btnClass: 'btn-success',
+												keys:['enter', 'esc'],
+											}
+										}
+									});
+								});
 							});
-						
+						}).fail(function(){
+							$.alert("Entre em contato conosco!");
 						});
-					}).fail(function(){
-						$.alert("Entre em contato conosco!");
-					});
+					}
 				}
 			},
 			cancel:{
@@ -378,56 +400,4 @@ function troco(){
 			}
 		}
 	});
-}
-
-
-//----------------------------------------------------------------------------------------
-function mostrarPizzas(pizzas) {
-	if(pizzas.length != 0 && cont1 == 0) {
-		linhaPizzas = '<table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
-					+ '</tr>';
-		cont1++; //evita mostrar o head 2 vezes
-	}
-	if(pizzas.length != 0) {
-		for(pizza of pizzas){
-			linhaPizzas += '<tr>'
-						 +	'<td align="center">' + pizza.borda + ' ---- </td>'
-						 +	'<td align="center">' + pizza.sabor + ' ---- </td>'
-						 +	'<td align="center">' + pizza.obs + ' ---- </td>'
-						 +	'<td align="center">' + pizza.qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + ' ---- </td>'
-					 +  '</tr>';
-		}
-	}
-}
-
-
-//---------------------------------------------------------------------------------------
-function mostrarProdutos(produtos) {
-	if(produtos.length != 0 && cont2 == 0) {
-		linhaProdutos += '<hr><table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Obs ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd ---- </h5></th>'
-						+ '<th class="col-md-1"><h5>Preço ---- </h5></th>'
-					+ '</tr>';
-		cont2++; //evita mostrar o head 2 vezes
-	}
-	if(produtos.length != 0) {
-		for(produto of produtos){
-			linhaProdutos += '<tr>'
-						 +	'<td align="center">' + produto.sabor + ' ---- </td>'
-						 +	'<td align="center">' + produto.obs + ' ---- </td>'
-						 +	'<td align="center">' + produto.qtd + ' ---- </td>'
-						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + ' ---- </td>'
-					 +  '</tr>';
-		}
-	}
 }

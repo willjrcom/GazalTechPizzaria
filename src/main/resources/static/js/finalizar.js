@@ -172,7 +172,22 @@ function finalizarPedido() {
 						if(pedidos[idBusca].pagamento == "Não") {
 							var troco = this.$content.find('#troco').val();
 
-							troco = troco.toString().replace(",",".");
+							troco = parseFloat(troco.toString().replace(",","."));
+							
+							if(Number.isFinite(troco) == false) {
+								$.alert({
+									type: 'red',
+									title: 'OPS...',
+									content: "Digite um valor válido",
+									buttons: {
+										confirm:{
+											text: 'Voltar',
+											btnClass: 'btn-danger',
+											keys: ['esc', 'enter']
+										}
+									}
+								});
+							}
 							
 							verificarTroco = 1;
 						}

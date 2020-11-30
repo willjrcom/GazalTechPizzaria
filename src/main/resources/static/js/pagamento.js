@@ -243,33 +243,48 @@ $.ajax({
 									
 											var gastos = this.$content.find('#gastos').val();
 											
-											gastos = gastos.toString().replace(",",".");
+											gastos = parseFloat(gastos.toString().replace(",","."));
 											
-											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
-											funcionario.gastos = gastos;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar',
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).fail(function(){
+											if(Number.isFinite(gastos) == false) {
 												$.alert({
 													type: 'red',
-													title: 'OPS..',
-													content: 'Digite um valor valido',
+													title: 'OPS...',
+													content: "Digite um valor válido",
 													buttons: {
-														confirm: {
+														confirm:{
 															text: 'Voltar',
-															btnClass: 'btn-success',
+															btnClass: 'btn-danger',
 															keys: ['esc', 'enter']
 														}
 													}
 												});
-											});
+											}else {
+												var funcionario = {};
+												funcionario.idFuncionario = funcionarios[idBusca].id;
+												funcionario.gastos = gastos;
+												funcionario.data = dataAtualFormatada();
+												
+												$.ajax({
+													url: '/adm/pagamento/salvar',
+													type: 'POST',
+													dataType : 'json',
+													contentType: "application/json",
+													data: JSON.stringify(funcionario)
+												}).fail(function(){
+													$.alert({
+														type: 'red',
+														title: 'OPS..',
+														content: 'Digite um valor valido',
+														buttons: {
+															confirm: {
+																text: 'Voltar',
+																btnClass: 'btn-success',
+																keys: ['esc', 'enter']
+															}
+														}
+													});
+												});
+											}
 										}
 									},
 							        cancel:{
@@ -373,33 +388,48 @@ $.ajax({
 							            action: function(){
 											var pagamento = this.$content.find('#pagamento').val();
 
-											pagamento = pagamento.toString().replace(",",".");
+											pagamento = parseFloat(pagamento.toString().replace(",","."));
 											
-											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
-											funcionario.pago = pagamento;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar',
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).fail(function(){
+											if(Number.isFinite(pagamento) == false) {
 												$.alert({
 													type: 'red',
-													title: 'OPS..',
-													content: 'Digite um valor valido',
+													title: 'OPS...',
+													content: "Digite um valor válido",
 													buttons: {
-														confirm: {
+														confirm:{
 															text: 'Voltar',
-															btnClass: 'btn-success',
+															btnClass: 'btn-danger',
 															keys: ['esc', 'enter']
 														}
 													}
 												});
-											});
+											}else {
+												var funcionario = {};
+												funcionario.idFuncionario = funcionarios[idBusca].id;
+												funcionario.pago = pagamento;
+												funcionario.data = dataAtualFormatada();
+												
+												$.ajax({
+													url: '/adm/pagamento/salvar',
+													type: 'POST',
+													dataType : 'json',
+													contentType: "application/json",
+													data: JSON.stringify(funcionario)
+												}).fail(function(){
+													$.alert({
+														type: 'red',
+														title: 'OPS..',
+														content: 'Digite um valor valido',
+														buttons: {
+															confirm: {
+																text: 'Voltar',
+																btnClass: 'btn-success',
+																keys: ['esc', 'enter']
+															}
+														}
+													});
+												});
+											}
 										}
 									},
 							        cancel:{

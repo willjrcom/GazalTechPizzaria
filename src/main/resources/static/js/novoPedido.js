@@ -621,114 +621,129 @@ $("#BotaoEnviarPedido").click(function() {
 
 						troco = parseFloat(troco.toString().replace(",","."));
 						
-						var temp = {};
-						
-						temp.data = cliente.data;
-						temp.pizzas = cliente.pizzas = JSON.stringify(pizzas);
-						temp.nome = cliente.nome;
-						temp.envio = cliente.envio;
-						temp.status = "COZINHA";
-						
-						cliente.produtos = JSON.stringify(produtos);
-						cliente.total = tPedido;
-						cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
-						cliente.troco = troco;
-						
-						if(cliente.envio != "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
-						
-						//buscar pedido no sistema
-						$.ajax({
-							url: "/novoPedido/atualizar",
-							type: "PUT",
-							dataType : 'json',
-							contentType: "application/json",
-							data: JSON.stringify(cliente)
-						}).done(function(e){
-
-							if(e.id != null && op == "ATUALIZAR") {//atualizar
-								cliente.horaPedido = e.horaPedido;
-								
-								if((troco % 2 != 0 && troco % 2 != 1) || (troco < (cliente.total + cliente.taxa))) {
-									if(e.taxa == '' || e.taxa == null) //se for balcao
-										cliente.troco = cliente.total;
-									else cliente.troco = cliente.total + cliente.taxa;//se for entrega
+						if(Number.isFinite(troco) == false) {
+							$.alert({
+								type: 'red',
+								title: 'OPS...',
+								content: "Digite um valor válido",
+								buttons: {
+									confirm:{
+										text: 'Voltar',
+										btnClass: 'btn-danger',
+										keys: ['esc', 'enter']
+									}
 								}
-								
-								//converter pedido atual para objeto
-								cliente.pizzas = JSON.parse(cliente.pizzas);
-								cliente.produtos = JSON.parse(cliente.produtos);
-								
-								//converter pedido antigo para objeto
-								e.pizzas = JSON.parse(e.pizzas);
-								e.produtos = JSON.parse(e.produtos);
-
-								//concatenar pizzas
-								for(pizza of e.pizzas) cliente.pizzas.unshift(pizza);
-
-								//concatenar produtos
-								for(produto of e.produtos) cliente.produtos.unshift(produto);
-								
-								//converter pedido atual em JSON
-								cliente.pizzas = JSON.stringify(cliente.pizzas);
-								cliente.produtos = JSON.stringify(cliente.produtos);
-						
-							//editar ou criar
-							}else if((troco % 2 != 0 && troco % 2 != 1) || (troco < (cliente.total + cliente.taxa))) {
-								if(cliente.taxa == '' || cliente.taxa == null) //se for balcao
-									cliente.troco = cliente.total;
-								else cliente.troco = cliente.total + cliente.taxa; //se for entrega
-							}
-								
-							if(op == "EDITAR"){//editar
-								//excluir temporarios para nao duplicar
-								$.ajax({
-									url: "/novoPedido/excluirPedidosTemp/" + cliente.comanda,
-									type: 'PUT'
-								});
-							}
-
-							//salvar pedido
+							});
+						}else {
+							var temp = {};
+							
+							temp.data = cliente.data;
+							temp.pizzas = cliente.pizzas = JSON.stringify(pizzas);
+							temp.nome = cliente.nome;
+							temp.envio = cliente.envio;
+							temp.status = "COZINHA";
+							
+							cliente.produtos = JSON.stringify(produtos);
+							cliente.total = tPedido;
+							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
+							cliente.troco = troco;
+							
+							if(cliente.envio != "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
+							
+							//buscar pedido no sistema
 							$.ajax({
-								url: "/novoPedido/salvarPedido",
+								url: "/novoPedido/atualizar",
 								type: "PUT",
 								dataType : 'json',
 								contentType: "application/json",
 								data: JSON.stringify(cliente)
-								
 							}).done(function(e){
-
-								cliente.comanda = temp.comanda = e.comanda; //recebe numero do servidor
-								
-								//salvar pedido no temp
+	
+								if(e.id != null && op == "ATUALIZAR") {//atualizar
+									cliente.horaPedido = e.horaPedido;
+									
+									if((troco % 2 != 0 && troco % 2 != 1) || (troco < (cliente.total + cliente.taxa))) {
+										if(e.taxa == '' || e.taxa == null) //se for balcao
+											cliente.troco = cliente.total;
+										else cliente.troco = cliente.total + cliente.taxa;//se for entrega
+									}
+									
+									//converter pedido atual para objeto
+									cliente.pizzas = JSON.parse(cliente.pizzas);
+									cliente.produtos = JSON.parse(cliente.produtos);
+									
+									//converter pedido antigo para objeto
+									e.pizzas = JSON.parse(e.pizzas);
+									e.produtos = JSON.parse(e.produtos);
+	
+									//concatenar pizzas
+									for(pizza of e.pizzas) cliente.pizzas.unshift(pizza);
+	
+									//concatenar produtos
+									for(produto of e.produtos) cliente.produtos.unshift(produto);
+									
+									//converter pedido atual em JSON
+									cliente.pizzas = JSON.stringify(cliente.pizzas);
+									cliente.produtos = JSON.stringify(cliente.produtos);
+							
+								//editar ou criar
+								}else if((troco % 2 != 0 && troco % 2 != 1) || (troco < (cliente.total + cliente.taxa))) {
+									if(cliente.taxa == '' || cliente.taxa == null) //se for balcao
+										cliente.troco = cliente.total;
+									else cliente.troco = cliente.total + cliente.taxa; //se for entrega
+								}
+									
+								if(op == "EDITAR"){//editar
+									//excluir temporarios para nao duplicar
+									$.ajax({
+										url: "/novoPedido/excluirPedidosTemp/" + cliente.comanda,
+										type: 'PUT'
+									});
+								}
+	
+								//salvar pedido
 								$.ajax({
-									url: '/novoPedido/salvarTemp',
-									type: 'POST',
+									url: "/novoPedido/salvarPedido",
+									type: "PUT",
 									dataType : 'json',
 									contentType: "application/json",
-									data: JSON.stringify(temp)
-								});
-								
-								imprimir();
-								   
-								$.alert({
-									type: 'green',
-									title: 'Sucesso!',
-									content: 'Pedido enviado!',
-									buttons: {
-								        confirm: {
-								            text: 'Obrigado!',
-								            btnClass: 'btn-green',
-								            keys: ['enter','esc'],
-								            action: function(){
-												window.location.href = "/novoPedido";
+									data: JSON.stringify(cliente)
+									
+								}).done(function(e){
+	
+									cliente.comanda = temp.comanda = e.comanda; //recebe numero do servidor
+									
+									//salvar pedido no temp
+									$.ajax({
+										url: '/novoPedido/salvarTemp',
+										type: 'POST',
+										dataType : 'json',
+										contentType: "application/json",
+										data: JSON.stringify(temp)
+									});
+									
+									imprimir();
+									   
+									$.alert({
+										type: 'green',
+										title: 'Sucesso!',
+										content: 'Pedido enviado!',
+										buttons: {
+									        confirm: {
+									            text: 'Obrigado!',
+									            btnClass: 'btn-green',
+									            keys: ['enter','esc'],
+									            action: function(){
+													window.location.href = "/novoPedido";
+												}
 											}
 										}
-									}
+									});
+								}).fail(function(){
+									$.alert("Erro, Pedido não enviado!");
 								});
-							}).fail(function(e){
-								$.alert("Erro, Pedido não enviado!");
 							});
-						});
+						}
 					}
 		        },
 		        cancel: {

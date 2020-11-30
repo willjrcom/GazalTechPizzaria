@@ -189,62 +189,77 @@ function troco() {
 	
 					var troco = this.$content.find('#troco').val();
 
-					troco = troco.toString().replace(",",".");
+					troco = parseFloat(troco.toString().replace(",","."));
 					
-					dados.trocoInicio = troco;
-					
-					//buscar id da data do sistema
-					$.ajax({
-						url: '/menu/buscarIdData/' + dados.data,
-						type: 'GET'
-					}).done(function(e){
-		
-						dados.id = e.id;
-						dados.comanda = e.comanda;
-						dados.balcao = e.balcao;
-						dados.entregas = e.entregas;
-						dados.totalLucro = e.totalLucro;
-						dados.totalPedidos = e.totalPedidos;
-						dados.totalVendas = e.totalVendas;
-						dados.totalPizza = e.totalPizza;
-						dados.totalProduto = e.totalProduto;
-						dados.trocoFinal = e.trocoFinal;
-						dados.compras = e.compras;
+					if(Number.isFinite(troco) == false) {
+						$.alert({
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
+					}else {
+						dados.trocoInicio = troco;
 						
-						//alterar troco inicial
+						//buscar id da data do sistema
 						$.ajax({
-							url: '/menu/troco/' + dados.id,
-							type: 'PUT',
-							dataType : 'json',
-							contentType: "application/json",
-							data: JSON.stringify(dados)
-						}).done(function(){
-							$.alert({
-								type:'green',
-								title: 'Troco alterado',
-								content:'Boas vendas!',
-								buttons:{
-									confirm:{
-										text:'Obrigado',
-										btnClass: 'btn-success'
+							url: '/menu/buscarIdData/' + dados.data,
+							type: 'GET'
+						}).done(function(e){
+			
+							dados.id = e.id;
+							dados.comanda = e.comanda;
+							dados.balcao = e.balcao;
+							dados.entregas = e.entregas;
+							dados.totalLucro = e.totalLucro;
+							dados.totalPedidos = e.totalPedidos;
+							dados.totalVendas = e.totalVendas;
+							dados.totalPizza = e.totalPizza;
+							dados.totalProduto = e.totalProduto;
+							dados.trocoFinal = e.trocoFinal;
+							dados.compras = e.compras;
+							
+							//alterar troco inicial
+							$.ajax({
+								url: '/menu/troco/' + dados.id,
+								type: 'PUT',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(dados)
+							}).done(function(){
+								$.alert({
+									type:'green',
+									title: 'Troco alterado',
+									content:'Boas vendas!',
+									buttons:{
+										confirm:{
+											text:'Obrigado',
+											btnClass: 'btn-success'
+										}
 									}
-								}
-							});
-						}).fail(function(){
-							$.alert({
-								type: 'red',
-								title: 'Alerta',
-								content: "Digite um valor válido!",
-								buttons: {
-									confirm: {
-										text: 'Tentar novamente',
-										btnClass: 'btn-danger',
-										keys: ['esc', 'enter']
+								});
+							}).fail(function(){
+								$.alert({
+									type: 'red',
+									title: 'Alerta',
+									content: "Digite um valor válido!",
+									buttons: {
+										confirm: {
+											text: 'Tentar novamente',
+											btnClass: 'btn-danger',
+											keys: ['esc', 'enter']
+										}
 									}
-								}
+								});
 							});
 						});
-					});
+					}
 				}
 			}
 		}
