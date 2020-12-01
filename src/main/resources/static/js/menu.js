@@ -67,88 +67,28 @@ $("#data").click(function(){
 						type: 'GET'
 					}).done(function(e){
 						
-						if(e.length != 0) {
-							$.ajax({
-								url: '/menu/acessarData/' + dados.data,
-								type: 'PUT'
-							}).done(function(){
-								verData();
-								
-								$.alert({
-									type: 'green',
-									title: 'Sucesso!',
-									content: 'Data: ' + dados.data.split('-')[2] + '/'
-											          + dados.data.split('-')[1] + '/'
-											          + dados.data.split('-')[0] + ' acessado',
-									buttons:{
-										confirm:{
-											text:'Alterar troco',
-											btnClass: 'btn-green',
-											action: function(){
-												troco();
-											}
-										},
-										cancel:{
-											text:'Continuar',
-											btnClass: 'btn-primary'
-										}
-									}
-								});
-							}).fail(function(){
-								$.alert({
-									type: 'red',
-									title: 'Tente novamente!',
-									content: 'Não foi possivel acessar uma data',
-									buttons:{
-										confirm:{
-											text:'Voltar',
-											btnClass: 'btn-danger'
-										}
-									}
-								});
-							});
-						}else {
-							$.ajax({
-								url: '/menu/criarData/' + dados.data,
-								type: 'POST'
-							}).done(function(){
-								verData();
-								
-								$.alert({
-									type: 'green',
-									title: 'Sucesso!',
-									content: 'Data: ' + dados.data.split('-')[2] + '/'
-													  + dados.data.split('-')[1] + '/'
-													  + dados.data.split('-')[0] + ' criada',
-									buttons:{
-										confirm:{
-											text:'Alterar troco',
-											btnClass: 'btn-green',
-											action: function(){
-												troco();
-											}
-										},
-										cancel:{
-											text:'Continuar',
-											btnClass: 'btn-danger'
-										}
-									}
-								});
-							}).fail(function(){
-								$.alert({
-									type: 'red',
-									title: 'Tente novamente!',
-									content: 'Não foi possivel criar uma data',
-									buttons:{
-										confirm:{
-											text:'Voltar',
-											btnClass: 'btn-danger'
-										}
-									}
-								});
-							});
-						}
+						verData();
 						
+						$.alert({
+							type: 'green',
+							title: 'Sucesso!',
+							content: 'Data: ' + dados.data.split('-')[2] + '/'
+									          + dados.data.split('-')[1] + '/'
+									          + dados.data.split('-')[0] + ' acessado',
+							buttons:{
+								confirm:{
+									text:'Alterar troco',
+									btnClass: 'btn-green',
+									action: function(){
+										troco();
+									}
+								},
+								cancel:{
+									text:'Continuar',
+									btnClass: 'btn-primary'
+								}
+							}
+						});
 					}).fail(function(){
 						$.alert({
 							type: 'red',

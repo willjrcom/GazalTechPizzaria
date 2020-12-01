@@ -45,36 +45,31 @@ public class MenuController {
 	@RequestMapping(value = "/verificarData/{dia}")
 	@ResponseBody
 	public Dado alterarData(@PathVariable String dia) {
-		return dados.findByData(dia);
-	}
-	
-	@RequestMapping(value = "/acessarData/{dia}")
-	@ResponseBody
-	public Dia acessarData(@PathVariable String dia) {
-		Dia data = dias.buscarId1();
-		data.setDia(dia);
-		return dias.save(data);
-	}
-	
-	@RequestMapping(value = "/criarData/{dia}")
-	@ResponseBody
-	public Dado criarData(@PathVariable String dia) {
+		Dado dado1 = dados.findByData(dia);
 		
-		//alterar a tabela dados
-		Dado dado = new Dado();
-		dado.setData(dia);
-		
-		//alterar a tabela dia
-		Dia data = dias.buscarId1();
-		
-		if(data == null) {
-			data = new Dia();
+		if(dado1 != null) {//se ja existir
+			Dia data = dias.buscarId1();
+			data.setDia(dia);
+			dias.save(data);
+			return dado1;
+			
+		}else {//se nao existir
+			//alterar a tabela dados
+			Dado dado = new Dado();
+			dado.setData(dia);
+			
+			//alterar a tabela dia
+			Dia data = dias.buscarId1();
+			
+			if(data == null) {
+				data = new Dia();
+			}
+			data.setDia(dia);
+			
+			//salvar dados
+			dias.save(data);
+			return dados.save(dado);
 		}
-		data.setDia(dia);
-		
-		//salvar dados
-		dias.save(data);
-		return dados.save(dado);
 	}
 	
 	@RequestMapping(value = "/buscarIdData/{data}")

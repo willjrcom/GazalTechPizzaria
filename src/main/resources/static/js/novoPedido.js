@@ -839,54 +839,6 @@ function mostrarProdutos() {//todos
 }
 
 
-//-------------------------------------------------------------------------
-function mostrarImpressao(pizzas, produtos) {
-	
-	linhaHtml = '';
-	if(pizzas.length != 0) {
-		linhaHtml += '<table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-					+ '</tr>';
-		
-		for(pizza of pizzas){
-			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizza.borda + '</td>'
-						 +	'<td align="center">' + pizza.sabor + '</td>'
-						 +	'<td align="center">' + pizza.obs + '</td>'
-						 +	'<td align="center">' + pizza.qtd + '</td>'
-						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
-
-	if(produtos.length != 0) {
-		linhaHtml += '<hr><table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-					+ '</tr>';
-		
-		for(produto of produtos){
-			linhaHtml += '<tr>'
-						 +	'<td align="center">' + produto.sabor + '</td>'
-						 +	'<td align="center">' + produto.obs + '</td>'
-						 +	'<td align="center">' + produto.qtd + '</td>'
-						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
-}
-
-
 //----------------------------------------------------------------------------
 function imprimir() {
     
@@ -897,63 +849,13 @@ function imprimir() {
 		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
-			/*
-			imprimirTxt = '<html><h2 align="center">' + e.nomeEstabelecimento + '</h2>'//nome da empresa
-						+ '<h3 align="center"><b>' + cliente.envio + '</b></h3>'//forma de envio
-						+ '<p>' + e.texto1 + '</p>'//texto1 gerado pela empresa
-						
-						//numero da comanda e nome
-						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
-						+ '<label>Cliente: ' + cliente.nome + '</label><br>';
 			
-			//mostrar endereco do cliente
-			if(cliente.envio == 'ENTREGA') {
-				imprimirTxt += '<p>Celular: ' + cliente.celular + '<br>'
-							+ 'Endereço: ' + cliente.endereco + '</p><br>';
-			}
-			
-	        //gerar tabela de produtos e pizzas
-			mostrarImpressao(pizzas, produtos);
-
-			//salvar hora
-			imprimirTxt += '<hr>' + linhaHtml + '<hr><br>';
-			
-			//pagamento em entrega
-			if(cliente.envio == 'ENTREGA') {//total com taxa
-				imprimirTxt += '<label>Total sem taxa: R$ ' + cliente.total.toFixed(2) + '</label><br>'
-							+ '<label>Taxa de entrega: R$ ' + cliente.taxa.toFixed(2) + '</label><br>'
-				 			+ '<label>Total com taxa: R$ ' + (cliente.total + cliente.taxa).toFixed(2) + '</label><br>'
-				 			+ '<label>Levar: R$ ' + (cliente.troco - cliente.total - cliente.taxa).toFixed(2) + '</label><br>';
-				
-				//total sem taxa
-			}else imprimirTxt += '<label>Total do Pedido: R$ ' + cliente.total.toFixed(2) + '</label><br>'
-							+ '<label>Levar: R$ ' + (cliente.troco - cliente.total).toFixed(2) + '</label><br>';
-
-			if(cliente.obs != null) imprimirTxt += '<label>Observação: ' + cliente.obs + '</label><br>';
-						
-			//texto2 e promocao
-			imprimirTxt += '<p>Horário de funcionamento:<br>' + e.texto2 + '</p><hr><br>' 
-						+ '<label>Promoção:</label><br>' + '<p>' + e.promocao + '</p>';
-				
-			//salvar hora
-			imprimirTxt += '<p>Hora: ' + hora + ':' + minuto + ':' + segundo + '<br>'
-						+ 'Data: ' + dia + '/' + mes + '/' + ano + '</p>'
-						+ '</html>'; 
-			
-			tela_impressao = window.open('about:blank');
-			tela_impressao.document.write(imprimirTxt);
-			tela_impressao.window.print();
-			tela_impressao.window.close();
-			*/
-			
-			//------------------------------------------------------------
-			console.log(cliente);
 			impressaoPedido = {};
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
 			impressaoPedido.texto1 = e.texto1;//texto1 gerado pela empresa
 					
-					//numero da comanda e nome
+			//numero da comanda e nome
 			impressaoPedido.comanda = cliente.comanda;
 			impressaoPedido.nome = cliente.nome;
 		
@@ -994,7 +896,6 @@ function imprimir() {
 				contentType: "application/json",
 				data: JSON.stringify(impressaoPedido)
 			});
-			
 		}
 	});
 }
@@ -1008,19 +909,18 @@ function recarregar() {
 
 //Método para pular campos teclando ENTER
 $('.pula').on('keypress', function(e){
-     var tecla = (e.keyCode?e.keyCode:e.which);
+	var tecla = (e.keyCode?e.keyCode:e.which);
 
-     if(tecla == 13){
-         campo = $('.pula');
-     indice = campo.index(this);
+    if(tecla == 13){
+    	campo = $('.pula');
+    	indice = campo.index(this);
      
-     if(campo[indice+1] != null){
-     	if(indice == 3) proximo = campo[indice - 1];
-     	else proximo = campo[indice + 1];
-         proximo.focus();
-         //console.log("indice: " + indice);
-     }
- }
+    	if(campo[indice+1] != null){
+    		if(indice == 3) proximo = campo[indice - 1];
+    		else proximo = campo[indice + 1];
+    		proximo.focus();
+    	}
+    }
 });
 
 

@@ -40,19 +40,17 @@ function salvar() {
 			}).done(function(e){
 				
 				if(e.compras != null) compras = JSON.parse(e.compras);
-				
 				compras.unshift(compra);
-				
-				var id = JSON.parse(e.id);
 				e.compras = JSON.stringify(compras);
 				
 				$.ajax({
-					url: '/adm/fechamento/finalizar/' + id,
+					url: '/adm/compras/comprar',
 					type: 'POST',
 					dataType : 'json',
 					contentType: "application/json",
 					data: JSON.stringify(e),
 				}).done(function(){
+					
 					$.alert({
 						type: 'green',
 						title: 'Sucesso',
@@ -102,13 +100,13 @@ $(document).ready(function(){
 			url: '/menu/verificarData/' + e.dia,
 			type: 'GET'
 		}).done(function(e){
-			
-			Tcompras = '';
-			var produtos = JSON.parse(e.compras);
 
+			Tcompras = '';
+
+			var total = 0;
 			//se existir algum produto
-			if(produtos != null) {
-				var total = 0;
+			if(e.compras != null) {
+				var produtos = JSON.parse(e.compras);
 				for(produto of produtos) {
 					Tcompras += '<tr>'
 								+ '<td>' + produto.produto + '</td>'
@@ -119,7 +117,7 @@ $(document).ready(function(){
 			}else {
 				Tcompras = '<tr><td colspan="2">Nenhuma compra feita nessa data</td></tr>';
 			}
-			
+
 			$("#compras").html(Tcompras);
 			$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
 		});
