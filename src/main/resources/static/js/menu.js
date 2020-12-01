@@ -65,7 +65,7 @@ $("#data").click(function(){
 					$.ajax({
 						url: '/menu/verificarData/' + dados.data,
 						type: 'GET'
-					}).done(function(e){
+					}).done(function(){
 						
 						verData();
 						
@@ -153,17 +153,7 @@ function troco() {
 							type: 'GET'
 						}).done(function(e){
 			
-							dados.id = e.id;
-							dados.comanda = e.comanda;
-							dados.balcao = e.balcao;
-							dados.entregas = e.entregas;
-							dados.totalLucro = e.totalLucro;
-							dados.totalPedidos = e.totalPedidos;
-							dados.totalVendas = e.totalVendas;
-							dados.totalPizza = e.totalPizza;
-							dados.totalProduto = e.totalProduto;
-							dados.trocoFinal = e.trocoFinal;
-							dados.compras = e.compras;
+							dados = e;
 							
 							//alterar troco inicial
 							$.ajax({

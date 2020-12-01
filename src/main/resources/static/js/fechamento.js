@@ -364,6 +364,10 @@ function troco(){
 								dados.totalProduto = Tproduto;
 								dados.trocoFinal = troco;
 								dados.trocoInicio = e.trocoInicio;
+								dados.comanda = e.comanda;
+								dados.compras = e.compras;
+								dados.data = e.data;
+								dados.logMotoboy = e.logMotoboy;
 								
 								$.ajax({
 									url: '/adm/fechamento/finalizar',
