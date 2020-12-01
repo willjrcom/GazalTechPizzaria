@@ -25,7 +25,7 @@ label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
 html {
     height: 100%;
     min-height: 100%;
-    background-color: rgb(39, 60, 117);
+    background-color: #0c2461;
     /*background-image: url("/img/azul.jpg"); */
 	background-repeat: repeat-y;
 	background-size: cover;

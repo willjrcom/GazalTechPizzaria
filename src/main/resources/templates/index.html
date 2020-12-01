@@ -16,10 +16,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1">
 			<div class="corFundo centralizar" id="login">
 				
-				<a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
+				<!-- <a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
 				<br><br>
-				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
-				<hr>
+				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>-->
+				
+				<img th:src="@{/img/logo.png}" width="50%"/>
+				<br>
 				
 				<form class="form-signin was-validated" method="post" th:action="@{/index}">
 				
