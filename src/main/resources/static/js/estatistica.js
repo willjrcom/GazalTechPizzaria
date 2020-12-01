@@ -153,39 +153,50 @@ $(document).ready(function(){
 		url: "/adm/estatistica/mesas",
 		type: "GET"
 	}).done(function(e){
-		console.log(e);
-		for([i, mesa1] of e.entries()) {
-			for([j, mesa2] of e.entries()) {
-				if(i != j) {//se nao for ela mesma
-					if(mesa1.mesa === mesa2.mesa) {//se a mesa for igual
-						
-						if(mesas.length != 0) {
-							for([k, mesa3] of mesas.entries()) {//buscar no top 5
-								if(mesa2.mesa === mesa3.mesa) {//ver se ja existe top 5
-									mesa3.total++;
-								}else if(k + 1 == mesas.length) {
-									mesas.push({
-										'mesa': mesa2.mesa,
-										'total': 1
-									});
-								}
-							}
-						}else{
-							mesas.push({
-								'mesa': mesa2.mesa,
-								'total': 1
-							});
+		
+		//remover caracteres
+		for(mesa of e) {
+			mesa.mesa = mesa.mesa.replace(/[^\d]+/g,'');//remover letras
+			mesas.push(mesa.mesa);
+		}
+		
+		//filtrar array top 5
+		var novaMesas = mesas.reduce((unico, item) => {
+		    return unico.includes(item) ? unico : [...unico, item]
+		}, []);
+		
+		var top5 = [];
+		
+		//adicionar objetos top 5
+		for(mesa of novaMesas) {
+			top5.unshift({
+				'mesa': mesa,
+				'total': 0
+			});
+		}
+
+		//calcular total de mesas
+		for(mesa of mesas) {//todas mesas
+			for(nova of novaMesas) {//filtro das mesas
+				if(mesa == nova) {
+					for(i = 0; i<top5.length; i++) {
+						if(mesa == top5[i].mesa) {
+							top5[i].total++;
 						}
 					}
 				}
 			}
 		}
-		console.log(mesas);
+		
+		//ordenar vetor decrescente
+		top5.sort(function(a, b){
+			return (a.total < b.total) ? 1 : ((b.total < a.total) ? -1 : 0);
+		})
 		
 		mesasHtml = '';
-		for([i, mesa] of mesas.entries()) {
+		for([i, mesa] of top5.entries()) {
 			mesasHtml += '<tr>' 
-						+ '<td>' + i+1 + ' - <b>' +  mesa.mesa + ':</b> utilizada ' + mesa.total + ' vezes</td>'
+						+ '<td>Top ' + (i+1) + ' - <b>Mesa ' +  mesa.mesa + ':</b> utilizada ' + mesa.total + ' vezes</td>'
 					+ '</tr>';
 		}
 		$("#mesasTop").html(mesasHtml);

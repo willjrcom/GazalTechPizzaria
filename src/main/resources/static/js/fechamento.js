@@ -17,50 +17,7 @@ var dinheiro = 0, cartao = 0;
 var linhaPizzas = '', linhaProdutos = '', linhaBoy = '';
 var cont1 = 0, cont2 = 0;
 
-//-------------------------------------------------------------------------------
-$.ajax({
-	url: "/motoboy/logMotoboys",
-	type: "GET"
-}).done(function(e){
-	logmotoboys = e;
-	if(logmotoboys != '') {
-		logmotoboys = JSON.parse(logmotoboys);
-		var reduced = [];
-		
-		logmotoboys.forEach((item) => {
-		    var duplicated = reduced.findIndex(redItem => {
-		        return item.a == redItem.a;
-		    }) > -1;
-
-		    if(!duplicated) {
-		        reduced.push(item);
-		    }
-		});
-
-		console.log(reduced);
-
-		linhaBoy = '';
-		
-		for(boy of logmotoboys) {
-			linhaBoy += '<tr>'
-					+ '<td>' + boy.comanda + '</td>'
-					+ '<td>' + boy.motoboy + '</td>'
-					+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
-					+ '<td>' + boy.nome + '</td>'
-					+ '<td>' + boy.endereco + '</td>'
-				+ '</tr>';
-		}
-		$("#divmotoboys").css({
-			'overflow': 'scroll'
-		}).css({
-			'height': '30vh'
-		});
-		$("#logmotoboys").html(linhaBoy);
-	}else $("#logmotoboys").html('<tr><td colspan="5">Nenhuma entrega feita hoje!</td></tr>');
-	
-});
-
-
+//---------------------------------------------------------------------------
 $.ajax({
 	//buscar total de pedidos
 	url: '/adm/fechamento/Tpedidos',
@@ -196,6 +153,70 @@ $.ajax({
 	});
 }).fail(function(){
 	$.alert("Erro, Nenhum pedido encontrado!");
+});
+
+
+//-------------------------------------------------------------------------------
+$.ajax({
+	url: "/motoboy/logMotoboys",
+	type: "GET"
+}).done(function(e){
+	logmotoboys = e;
+	if(logmotoboys != '') {
+		logmotoboys = JSON.parse(logmotoboys);
+		var reduced = [];
+		
+		logmotoboys.forEach((item) => {
+		    var duplicated = reduced.findIndex(redItem => {
+		        return item.a == redItem.a;
+		    }) > -1;
+
+		    if(!duplicated) {
+		        reduced.push(item);
+		    }
+		});
+
+		console.log(reduced);
+
+		linhaBoy = '<h3>Taxas de entrega</h3>'
+					+'<div id="divmotoboys">'
+					+'<table style="width:100%">'
+						+'<thead>'
+							+'<tr>'
+								+'<th class="text-center col-md-1"><h4>Comanda</h4></th>'
+								+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
+								+'<th class="text-center col-md-1"><h4>Taxa</h4></th>'
+								+'<th class="text-center col-md-1"><h4>Pedido</h4></th>'
+								+'<th class="text-center col-md-1"><h4>Endereco</h4></th>'
+							+'</tr>'
+						+'</thead>'
+						
+						+'<tbody>';
+						
+		
+		for(boy of logmotoboys) {
+			linhaBoy += '<tr>'
+					+ '<td>' + boy.comanda + '</td>'
+					+ '<td>' + boy.motoboy + '</td>'
+					+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+					+ '<td>' + boy.nome + '</td>'
+					+ '<td>' + boy.endereco + '</td>'
+				+ '</tr>';
+		}
+		
+		linhaBoy += '</tbody>'
+				+'</table>'
+				+'<br>'
+			+'</div>';
+		
+		$("#divmotoboys").css({
+			'overflow': 'scroll'
+		}).css({
+			'height': '30vh'
+		});
+		$("#logmotoboys").html(linhaBoy);
+	}else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
+	
 });
 
 
