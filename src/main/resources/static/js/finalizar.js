@@ -57,7 +57,8 @@ $(document).ready(function(){
 					for(produto of pedido.produtos) Tpizzas += produto.qtd;
 					
 					linhaHtml += '<td>' + Tpizzas + '</td>'
-								+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
+								+ '<td>R$ ' + (pedido.total + ((pedido.taxa == null)
+										? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
 								+ '<td>' + pedido.pagamento + '</td>'
 								+ '<td>' + pedido.envio + '</td>'
 								+ '<td>' 
@@ -130,9 +131,20 @@ function finalizarPedido() {
 		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '<hr>Total de Produtos: ' + Tpizzas + '<br><br>' + 'Total do Pedido: R$' + pedidos[idBusca].total.toFixed(2);	
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas
+				+ '<br><b>Total do Pedido:</b> R$' 
+				+ (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
+						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2);	
 	
-	if(pedidos[idBusca].pagamento == "Não") linhaHtml += '<br>Troco:<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' + pedidos[idBusca].total + '" required />';
+	if(pedidos[idBusca].envio == "ENTREGA")
+		linhaHtml += '<br><b>Taxa de entrega:</b> ' + Number(pedidos[idBusca].taxa).toFixed(2)
+					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco;
+	
+	if(pedidos[idBusca].pagamento == "Não") 
+		linhaHtml += '<br><b>Receber:</b>'
+					+'<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
+					+ (pedidos[idBusca].total + ((pedidos[idBusca].taxa == null) 
+							? Number(0) : Number(pedidos[idBusca].taxa))) + '"/>';
 	
 	linhaHtml += '<br>Deseja enviar o pedido?';
 

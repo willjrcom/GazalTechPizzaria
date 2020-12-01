@@ -61,9 +61,9 @@ $.ajax({
 				for(produto of pedido.produtos) Tpizzas += produto.qtd;
 				
 				linhaHtml += '<td>' + Tpizzas + '</td>'
-							+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
+							+ '<td>R$ ' + (pedido.total + Number(pedido.taxa)).toFixed(2) + '</td>'
 							+ '<td>R$ ' + pedido.troco.toFixed(2) + '</td>'
-							+ '<td>R$ ' + (pedido.troco - pedido.total).toFixed(2) + '</td>'	
+							+ '<td>R$ ' + (pedido.troco - pedido.total - Number(pedido.taxa)).toFixed(2) + '</td>'	
 							+ '<td>' 
 								+ '<a class="enviarPedido">'
 								+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
@@ -137,7 +137,7 @@ function finalizarPedido() {
 							log = {};
 							logmotoboys.unshift(objeto);
 							log.pizzas = JSON.stringify(logmotoboys);
-							console.log(log.pizzas);
+
 							$.ajax({
 								url: "/motoboy/salvarMotoboys",
 								type: "PUT",

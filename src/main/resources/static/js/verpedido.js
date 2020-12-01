@@ -144,6 +144,8 @@ function verPedido() {
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
 				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
 	
+	if(pedidos[idBusca].obs != null) linhaHtml += '<br><b>Observação:</b> ' + pedidos[idBusca].obs;
+	
 	$.confirm({
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
@@ -171,6 +173,10 @@ function verPedido() {
 		        action: function(){
 					imprimirProdutos(pedidos[idBusca]);
 				}
+			},
+			cancel: {
+	            isHidden: true, // hide the button
+	            keys: ['esc']
 			}
 		}
 	});
