@@ -4,6 +4,8 @@ public class ImpressaoPedido {
 	private String comanda;
 	private String nome;
 	private String nomeEstabelecimento;
+	private String cnpj;
+	private String enderecoEmpresa;
 	
 	private String envio;
 	private String celular;
@@ -126,5 +128,17 @@ public class ImpressaoPedido {
 	}
 	public void setHora(String hora) {
 		this.hora = hora;
+	}
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
+	public String getEnderecoEmpresa() {
+		return enderecoEmpresa;
+	}
+	public void setEnderecoEmpresa(String enderecoEmpresa) {
+		this.enderecoEmpresa = enderecoEmpresa;
 	}
 }

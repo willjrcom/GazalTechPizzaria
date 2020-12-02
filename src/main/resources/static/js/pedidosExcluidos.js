@@ -175,6 +175,8 @@ function imprimirTudo(cliente) {
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
 			impressaoPedido.texto1 = e.texto1;//texto1 gerado pela empresa
+			impressaoPedido.cnpj = e.cnpj;
+			impressaoPedido.enderecoEmpresa = e.endereco.rua + " " + e.endereco.n + "\n" + e.endereco.bairro;
 					
 					//numero da comanda e nome
 			impressaoPedido.comanda = cliente.comanda;
@@ -200,7 +202,7 @@ function imprimirTudo(cliente) {
 			//total a levar de troco
 			impressaoPedido.troco = cliente.troco;
 
-			if(cliente.obs != null) impressaoPedido.obs = cliente.obs;
+			if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
 						
 			//texto2 e promocao
 			impressaoPedido.texto2 = e.texto2;
