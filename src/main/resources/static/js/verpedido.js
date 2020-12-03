@@ -414,7 +414,7 @@ function imprimirTudo(cliente) {
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 			
 			$.ajax({
-				url: "/novoPedido/imprimirTudo",
+				url: "/imprimir/imprimirPedido",
 				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
@@ -464,7 +464,7 @@ function imprimirPizzas(cliente) {
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 
 			$.ajax({
-				url: "/novoPedido/imprimirPizza",
+				url: "/imprimir/imprimirPizza",
 				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",
@@ -513,7 +513,7 @@ function imprimirProdutos(cliente) {
 			impressaoPedido.data = dia + '/' + mes + '/' + ano;
 
 			$.ajax({
-				url: "/novoPedido/imprimirProduto",
+				url: "/imprimir/imprimirProduto",
 				type: 'POST',
 				dataType : 'json',
 				contentType: "application/json",

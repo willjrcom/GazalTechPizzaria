@@ -1,21 +1,10 @@
 package proj_vendas.vendas.web.controller;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.text.DecimalFormat;
 import java.util.List;
-
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.DocPrintJob;
-import javax.print.PrintException;
-import javax.print.PrintService;
-import javax.print.PrintServiceLookup;
-import javax.print.SimpleDoc;
-import javax.print.event.PrintJobAdapter;
-import javax.print.event.PrintJobEvent;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.ImpressaoMatricial;
-import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.ImpressaoPedido;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Impressoes;
 
 @RestController
@@ -34,8 +25,11 @@ public class ImprimirController {
 	@Autowired
 	private Impressoes impressoes;
 	
-	@RequestMapping
-	public String impressaoNetBeans() {
+	@Autowired
+	private Empresas empresas;
+	
+	@RequestMapping("/online")
+	public String impressaoNetBeans() {//modo online
 		List<ImpressaoMatricial> todosIm = impressoes.findAll();
 		if(todosIm.size() != 0) {
 			ImpressaoMatricial im = todosIm.get(0);
@@ -45,7 +39,227 @@ public class ImprimirController {
 		return null;
 	}
 	
+
+	@RequestMapping("/imprimirPedido")
+	@ResponseBody
+	public void imprimirTudo(@RequestBody ImpressaoPedido pedido) {
+		
+		DecimalFormat decimal = new DecimalFormat("0.00");
+		String impressaoCompleta;
+		impressaoCompleta = "\t" + pedido.getNomeEstabelecimento() +  "\r"
+							+ pedido.getEnderecoEmpresa() +           "\r"
+							+ "CNPJ: " + pedido.getCnpj() +           "\r"
+							+ "----------------------------------------\r"
+							+ "            CUPOM NAO FISCAL            \r"
+							+ "----------------------------------------\r"
+							+ "\t\t" + pedido.getEnvio() +          "\r\r"
+							+ "----------- DADOS DO CLIENTE -----------\r"
+							+ "Comanda: " + pedido.getComanda() +     "\r"
+							+ "Cliente: " + cortaString(pedido.getNome()) + "\r";
+		
+		if(pedido.getEnvio().equals("ENTREGA"))
+			impressaoCompleta += "Celular: " + pedido.getCelular() + "\r"
+							+ cortaString(pedido.getEndereco()) + "\r"
+							+ "Taxa de entrega: \tR$ " + decimal.format(pedido.getTaxa()) + "\r";
+					
+		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r\r"
+							+ cortaString(pedido.getTexto1()) + "\r";
+
+		if (pedido.getPizzas().length != 0) {
+			impressaoCompleta += "----------------------------------------\r" 
+								+ "\t\tPIZZAS\r"
+								+ "QTD  PRODUTO\r\r";
+			
+			for (int i = 0; i < pedido.getPizzas().length; i++) {
+				impressaoCompleta += pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor() + "\r";
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + pedido.getPizzas()[i].getBorda() + "\r";
+				
+				impressaoCompleta += "\tv. Total: \tR$ " + decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco())) + "\r"
+								   + "\tv. Uni:   \tR$ " + decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco()) 
+										/ Float.parseFloat(pedido.getPizzas()[i].getQtd())) + "\r\r";
+				
+			}
+		}
+
+		if (pedido.getProdutos().length != 0) {
+			impressaoCompleta += "----------------------------------------\r"
+								+ "\t\tPRODUTOS\r"
+								+ "QTD  PRODUTO\r\r";
+			
+			for (int i = 0; i < pedido.getProdutos().length; i++) {
+				impressaoCompleta += pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor() + "\r"
+								+ "\tv. Total: \tR$ " + decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco())) + "\r"
+								+ "\tv. Uni:   \tR$ " + decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco()) 
+										/ Float.parseFloat(pedido.getProdutos()[i].getQtd())) + "\r\r";
+			}
+		}
+
+		impressaoCompleta += "----------------------------------------\r"
+							+ "\t\tTOTAL\r";
+				
+		if(pedido.getEnvio().equals("ENTREGA")) {
+			impressaoCompleta += "Total:          \tR$ " + decimal.format(pedido.getTotal()) + "\r"
+							   + "Total com taxa: \tR$ " + decimal.format(pedido.getTotal() + pedido.getTaxa()) + "\r"
+							   + "Levar:          \tR$ " + decimal.format(pedido.getTroco() - pedido.getTotal() - pedido.getTaxa()) + "\r";
+		}else {
+			impressaoCompleta += "Total:          \tR$ " + decimal.format(pedido.getTotal()) + "\r"
+							   + "Levar:          \tR$ " + decimal.format(pedido.getTroco() - pedido.getTotal()) + "\r";
+		}
+
+		if(pedido.getTexto2() != "") impressaoCompleta += "----------------------------------------\r"
+														+ "\tHORARIO DE FUNCIONAMENTO\r" 
+														+ cortaString(pedido.getTexto2()) + "\r";
+		
+		if(pedido.getPromocao() != "") impressaoCompleta += "----------------------------------------\r"
+														+ "\t\tPROMOCAO\r" 
+														+ cortaString(pedido.getPromocao()) + "\r";
+		
+		if(pedido.getObs() != null) impressaoCompleta += "----------------------------------------\r"
+													+ "\t\tOBSERVACAO\r" 
+													+ cortaString(pedido.getObs()) + "\r";
+		
+		imprimirLocal(impressaoCompleta);
+	}
 	
+	@RequestMapping("/imprimirPizza")
+	@ResponseBody
+	public void imprimirPizza(@RequestBody ImpressaoPedido pedido) {
+
+		String impressaoCompleta;
+		
+		impressaoCompleta = "\t" + pedido.getNomeEstabelecimento() +  "\r"
+							+ "----------------------------------------\r"
+							+ "\t\t" + pedido.getEnvio() +            "\r"
+							+ "Comanda: " + pedido.getComanda() +     "\r"
+							+ "Cliente:\r"
+							+ pedido.getNome() +                     "\r";
+		
+		if (pedido.getPizzas().length != 0) {
+			impressaoCompleta += "----------------------------------------\r"
+								+ "\t\tPIZZAS\r"
+								+ "QTD  PRODUTO\r";
+			
+			for (int i = 0; i < pedido.getPizzas().length; i++) {
+				impressaoCompleta += "\r" + pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor() + "\r";
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "\tCom " + pedido.getPizzas()[i].getBorda() + "\r";
+				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + pedido.getPizzas()[i].getObs() + "\r";
+			}
+		}
+		
+		impressaoCompleta += "----------------------------------------\r"
+							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r";
+
+		imprimirLocal(impressaoCompleta);
+	}
+	
+	@RequestMapping("/imprimirProduto")
+	@ResponseBody
+	public void imprimirProduto(@RequestBody ImpressaoPedido pedido) {
+
+		String impressaoCompleta;
+		
+		impressaoCompleta = "\t" + pedido.getNomeEstabelecimento() +  "\r"
+							+ "----------------------------------------\r"
+							+ "\t\t" + pedido.getEnvio() +            "\r"
+							+ "Comanda: " + pedido.getComanda() +     "\r"
+							+ "Cliente: " + pedido.getNome() +        "\r";
+		
+		if (pedido.getProdutos().length != 0) {
+			impressaoCompleta += "----------------------------------------\r"
+								+ "\t\tPRODUTOS\r"
+								+ "QTD  PRODUTO\r";
+			
+			for (int i = 0; i < pedido.getProdutos().length; i++) {
+				impressaoCompleta += "\r" + pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor() + "\r";
+				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + pedido.getProdutos()[i].getObs() + "\r";
+			}
+		}
+		
+		impressaoCompleta += "----------------------------------------\r"
+							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r";
+		
+		imprimirLocal(impressaoCompleta);
+	}
+	
+	public void imprimirLocal(String impressaoCompleta) {
+		Empresa empresa = empresas.findAll().get(0); //validar modo de impressao
+		
+		impressaoCompleta = impressaoCompleta
+                .replace("ç", "c")
+                .replace("á", "a")
+                .replace("ã", "a")
+                .replace("à", "a")
+                .replace("Á", "A")
+                .replace("À", "A")
+                .replace("ó", "o")
+                .replace("õ", "o")
+                .replace("ô", "o")
+                .replace("ò", "o")
+                .replace("é", "e")
+                .replace("ê", "e")
+                .replace("è", "e")
+                .replace("í", "i")
+                .replace("ì", "i");
+		
+		if(empresa.isImpressoraOnline() == false) {
+			System.out.println("\n\n\n");
+			System.out.println(impressaoCompleta);
+			//System.out.println("Modo offline");
+			try {
+                FileOutputStream fos1 = new FileOutputStream("LPT1");
+                // Imprime o texto
+                try (PrintStream ps1 = new PrintStream(fos1)) {
+                    // Imprime o texto
+                    ps1.print(impressaoCompleta + "\r\r\r\r\r\r\r");
+                    // Fecha o Stream da impressora
+                    ps1.close();
+                }
+            }catch(FileNotFoundException e) {
+                try {
+                    FileOutputStream fos2 = new FileOutputStream("LPT2");
+                    // Imprime o texto
+                    try (PrintStream ps2 = new PrintStream(fos2)) {
+                        // Imprime o texto
+                        ps2.print(impressaoCompleta + "\r\r\r\r\r\r\r");
+                        // Fecha o Stream da impressora
+                        ps2.close();
+                    }
+                }catch(FileNotFoundException e2) {
+                	//e2.printStackTrace();
+                }
+                //e.printStackTrace();
+            }
+		}else {
+			ImpressaoMatricial im = new ImpressaoMatricial();
+			im.setImpressao(impressaoCompleta);
+			impressoes.save(im);
+		}
+	}
+	
+	public String limitaString(String texto, int limite) {
+		
+		String vazio = "               ";
+		if(texto.length() < limite) texto += vazio;
+		System.out.println("-" + ((texto.length() <= limite) ? texto : texto.substring(0, limite)) + "-");
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
+	}
+	
+	public String cortaString(String texto) {
+		int limite = 40;
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "\r" + cortaString(texto.substring(limite));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
 	@RequestMapping("/imprimir")
 	@ResponseBody
 	public void imprimir(@RequestBody Pedido texto) throws URISyntaxException, FileNotFoundException, PrintException, IOException{
@@ -82,22 +296,15 @@ public class ImprimirController {
 		}
 		
 	}
+	*/
 	
+	/*
 	//Classe para controle de impressões em impressoras matriciais.
 	class PrintJobWatcher {
 	
 		// true iff it is safe to close the print job's input stream
 		boolean done = false;
 		
-		/**
-		 * @author Jean C Becker
-		 * @version 1.0
-		 * Método para verificar o trabalho de impressão em impressoras matriciais.
-		 *
-		 * @param DocPrintJog   Objeto com o trabalho de impressão.
-		 * @return          Não se aplica.
-		
-		 */
 		PrintJobWatcher(DocPrintJob job)
 		{
 		
@@ -135,14 +342,7 @@ public class ImprimirController {
 		        }
 		    });
 		}
-		
-		/**
-		 * @author Jean C Becker
-		 * @version 1.0
-		 * Método para aguardar a finalização do trabalho de impressao.
-		 * @return          Não se aplica.
-		
-		 */
+
 		public synchronized void waitForDone()
 		{
 		    try {
@@ -154,8 +354,9 @@ public class ImprimirController {
 		    }
 		}
 	}
+	*/
 	
-
+	/*
 	private static PrintService impressora;
 	
 	@RequestMapping("/imprimir1")
@@ -185,8 +386,9 @@ public class ImprimirController {
 			e.printStackTrace();
 		}
 	}
+	*/
 	
-	
+	/*
 	@RequestMapping("/imprimir2")
 	@ResponseBody
 	public void imprimir2(@RequestBody Pedido texto) {
@@ -209,8 +411,7 @@ public class ImprimirController {
 
 		} catch (PrintException e) {
 			e.printStackTrace();
-		}
-
-		
+		}	
 	}
+	*/
 }
