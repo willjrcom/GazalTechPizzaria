@@ -109,8 +109,8 @@ public class FechamentoController {
 		return dias.findById((long) 1);
 	}
 	
-	@RequestMapping("/fechamento/relatorio")
-	public ModelAndView imprimirTudo() {
+	@RequestMapping("/fechamento/relatorio/{lucro}")
+	public ModelAndView imprimirTudo(@PathVariable float lucro) {
 		Empresa empresa = empresas.buscarId1();
 
 		String dia = dias.buscarId1().getDia();
@@ -122,8 +122,8 @@ public class FechamentoController {
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
-		impressaoCompleta = "\t" + empresa.getNomeEstabelecimento() + "\r"
-							+      endereco +                         "\r"
+		impressaoCompleta = "\t" + limitaString(empresa.getNomeEstabelecimento(), 40) + "\r"
+							+      limitaString(endereco, 40) +                         "\r"
 							+ "CNPJ: " + empresa.getCnpj() +          "\r"
 							+ "----------------------------------------\r"
 							+ "               RELATORIO                \r"
@@ -132,15 +132,19 @@ public class FechamentoController {
 		for(int i = 0; i<pedido.size(); i++) {
 			total += pedido.get(i).getTotal();
 			if(pedido.get(i).getEnvio().equals("ENTREGA")){
+				tEntrega += pedido.get(i).getTotal();
 				entrega++;
 			}
 			if(pedido.get(i).getEnvio().equals("MESA")){
+				tMesa += pedido.get(i).getTotal();
 				mesa++;
 			}
 			if(pedido.get(i).getEnvio().equals("BALCAO")){
+				tBalcao += pedido.get(i).getTotal();
 				balcao++;
 			}
 			if(pedido.get(i).getEnvio().equals("DRIVE")){
+				tDrive += pedido.get(i).getTotal();
 				drive++;
 			}
 		}
@@ -151,11 +155,14 @@ public class FechamentoController {
 				if(pedido.get(i).getEnvio().equals("ENTREGA") == true){
 					if(cont == 0) {
 						impressaoCompleta += "----------------------------------------\r"
-										   + "\t\tENTREGA                             \r"
-								   		   + "    CLIENTE    TOTAL                    \r";
+										   + "\t\tENTREGA           \r"
+								   		   + "CLIENTE         \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += pedido.get(i).getNome() + "\t" + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+				}
+				if(cont != 0 && i+1 == pedido.size()) {
+					impressaoCompleta += "\r\t\tTotal: " + entrega + "\r";
 				}
 			}
 			
@@ -165,11 +172,14 @@ public class FechamentoController {
 				if(pedido.get(i).getEnvio().equals("BALCAO") == true){
 					if(cont == 0) {
 						impressaoCompleta += "----------------------------------------\r"
-										   + "\t\tBALCAO                              \r"
-								   		   + "    CLIENTE    TOTAL                    \r";
+										   + "\t\tBALCAO            \r"
+								   		   + "CLIENTE         \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += pedido.get(i).getNome() + "\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+				}
+				if(cont != 0 && i+1 == pedido.size()) {
+					impressaoCompleta += "\r\t\tTotal: " + balcao + "\r";
 				}
 			}
 
@@ -179,11 +189,14 @@ public class FechamentoController {
 				if(pedido.get(i).getEnvio().equals("MESA") == true){
 					if(cont == 0) {
 						impressaoCompleta += "----------------------------------------\r"
-								   		   + "\t\tMESA                                \r"
-								   		   + "    MESA       TOTAL                    \r";
+								   		   + "\t\tMESA              \r"
+								   		   + "MESA            \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += pedido.get(i).getNome() + "\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+				}
+				if(cont != 0 && i+1 == pedido.size()) {
+					impressaoCompleta += "\r\t\tTotal: " + mesa + "\r";
 				}
 			}
 			
@@ -193,23 +206,27 @@ public class FechamentoController {
 				if(pedido.get(i).getEnvio().equals("DRIVE") == true){
 					if(cont == 0) {
 						impressaoCompleta += "----------------------------------------\r"
-								   		   + "\t\tDRIVE THRU                          \r"
-								   		   + "    CLIENTE    TOTAL                    \r";
+								   		   + "\t\tDRIVE THRU        \r"
+								   		   + "CLIENTE         \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += pedido.get(i).getNome() + "\t" + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+				}
+				if(cont != 0 && i+1 == pedido.size()) {
+					impressaoCompleta += "\r\t\tTotal: " + drive + "\r";
 				}
 			}
 		}
 		
 		impressaoCompleta += "----------------------------------------\r"
-						   + "                 TOTAL                  \r"
-						   + "ENTREGAS: R$ " + decimal.format(tEntrega) +               "\r"
-						   + "BALCOES: R$ " + decimal.format(tBalcao) +                 "\r"
-						   + "MESAS: R$ " + decimal.format(tMesa) +                     "\r"
-						   + "DRIVES: R$ " + decimal.format(tDrive) +                   "\r"
-						   + "TOTAL GERAL: R$ " + decimal.format(total) +               "\r";
-						
+						   + "            TOTAL DE VENDAS             \r"
+						   + "ENTREGAS:     \t\tR$ " + decimal.format(tEntrega) + "\r"
+						   + "BALCOES:      \t\tR$ " + decimal.format(tBalcao) +   "\r"
+						   + "MESAS:        \t\tR$ " + decimal.format(tMesa) +       "\r"
+						   + "DRIVES:       \t\tR$ " + decimal.format(tDrive) +   "\r\r"
+						   + "LUCRO BRUTO:  \t\tR$ " + decimal.format(total) + "\r"
+						   + "LUCRO LIQUIDO:\t\tR$ " + decimal.format(lucro) + "\r";
+			
 		imprimirLocal(impressaoCompleta);
 		
 		return new ModelAndView("fechamento");
@@ -269,5 +286,13 @@ public class FechamentoController {
 			im.setImpressao(impressaoCompleta);
 			impressoes.save(im);
 		}
+	}
+	
+	public String limitaString(String texto, int limite) {
+		
+		String vazio = "               ";
+		if(texto.length() < limite) texto += vazio;
+		System.out.println("-" + ((texto.length() <= limite) ? texto : texto.substring(0, limite)) + "-");
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
 }

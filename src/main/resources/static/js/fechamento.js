@@ -17,6 +17,8 @@ var dinheiro = 0, cartao = 0;
 var linhaPizzas = '', linhaProdutos = '', linhaBoy = '';
 var cont1 = 0, cont2 = 0;
 
+$("#relatorio").attr("disabled", true);
+
 //---------------------------------------------------------------------------
 $.ajax({
 	//buscar total de pedidos
@@ -94,6 +96,32 @@ $.ajax({
 		$("#fEnvio").html(envioHtml);
 		$("#Tvendas").text('R$ ' + Tvendas.toFixed(2));
 		$("#Tfaturamento").text('R$ ' + (Tvendas - parseFloat(Tfaturamento).toFixed(2)).toFixed(2) );
+		
+
+		$("#relatorio").attr("disabled", false);
+		//--------------------------------------------------------------------------------
+		$("#relatorio").click(function(){
+			$(this).attr("disabled", true);
+			var relatorio = $.alert({type: "blue", title: "Carregando", content: "Carregando relatorio..."});
+			relatorio.open();
+			
+			$.ajax({
+				url: '/adm/fechamento/relatorio/' + Tfaturamento,
+				type: 'GET'
+			}).done(function(){
+				relatorio.close();
+				$("#relatorio").attr("disabled", false);
+				relatorio = $.alert({type: "green", title: "Sucesso", content: "Sucesso!"});
+				relatorio.open();
+				setTimeout(function(){
+					relatorio.close();
+				}, 3000);
+			}).fail(function(){
+				relatorio.close();
+				$("#relatorio").attr("disabled", false);
+				$.alert("Erro, Pedidos não encontrados!");
+			});
+		});
 		
 		
 		//----------------------------------------------------------------------------
@@ -217,31 +245,6 @@ $.ajax({
 		$("#logmotoboys").html(linhaBoy);
 	}else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
 	
-});
-
-
-//--------------------------------------------------------------------------------
-$("#relatorio").click(function(){
-	$(this).attr("disabled", true);
-	var relatorio = $.alert({type: "blue", title: "Carregando", content: "Carregando relatorio..."});
-	relatorio.open();
-	
-	$.ajax({
-		url: '/adm/fechamento/relatorio',
-		type: 'GET'
-	}).done(function(){
-		relatorio.close();
-		$("#relatorio").attr("disabled", false);
-		relatorio = $.alert({type: "green", title: "Sucesso", content: "Sucesso!"});
-		relatorio.open();
-		setTimeout(function(){
-			relatorio.close();
-		}, 3000);
-	}).fail(function(){
-		relatorio.close();
-		$("#relatorio").attr("disabled", false);
-		$.alert("Erro, Pedidos não encontrados!");
-	});
 });
 
 
