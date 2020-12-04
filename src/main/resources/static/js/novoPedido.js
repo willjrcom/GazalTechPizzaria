@@ -756,6 +756,7 @@ $("#BotaoEnviarPedido").click(function() {
 	}
 });
 
+
 //----------------------------------------------------------------------------
 function mostrarTabela(pizzas, produtos) {
 	
@@ -842,7 +843,6 @@ function mostrarProdutos() {//todos
 //----------------------------------------------------------------------------
 function imprimir() {
     
-    
     //buscar dados da empresa
 	$.ajax({
 		url: '/novoPedido/empresa',
@@ -889,7 +889,7 @@ function imprimir() {
 						
 			//salvar hora
 			impressaoPedido.hora = cliente.horaPedido;
-			impressaoPedido.data = dia + '/' + mes + '/' + ano;
+			impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 			
 			$.ajax({
 				url: "/imprimir/imprimirPedido",

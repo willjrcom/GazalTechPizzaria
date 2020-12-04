@@ -46,8 +46,8 @@ public class ImprimirController {
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		String impressaoCompleta;
-		impressaoCompleta = "\t" + pedido.getNomeEstabelecimento() +  "\r"
-							+ pedido.getEnderecoEmpresa() +           "\r"
+		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) + "\r"
+							+ cortaString(pedido.getEnderecoEmpresa()) +          "\r"
 							+ "CNPJ: " + pedido.getCnpj() +           "\r"
 							+ "----------------------------------------\r"
 							+ "            CUPOM NAO FISCAL            \r"
@@ -55,7 +55,7 @@ public class ImprimirController {
 							+ "\t\t" + pedido.getEnvio() +          "\r\r"
 							+ "----------- DADOS DO CLIENTE -----------\r"
 							+ "Comanda: " + pedido.getComanda() +     "\r"
-							+ "Cliente: " + cortaString(pedido.getNome()) + "\r";
+							+ "Cliente:\r" + cortaString(pedido.getNome()) + "\r";
 		
 		if(pedido.getEnvio().equals("ENTREGA"))
 			impressaoCompleta += "Celular: " + pedido.getCelular() + "\r"
@@ -65,32 +65,42 @@ public class ImprimirController {
 		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r\r"
 							+ cortaString(pedido.getTexto1()) + "\r";
 
+		//pizzas------------------------------------------------------------------------------------------
 		if (pedido.getPizzas().length != 0) {
 			impressaoCompleta += "----------------------------------------\r" 
-								+ "\t\tPIZZAS\r"
-								+ "QTD  PRODUTO\r\r";
+							   + "\t\tPIZZAS\r"
+								+ "QTD    PRODUTO         V.UNI    V.TOTAL\r\r";
 			
 			for (int i = 0; i < pedido.getPizzas().length; i++) {
-				impressaoCompleta += pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor() + "\r";
-				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + pedido.getPizzas()[i].getBorda() + "\r";
+				impressaoCompleta += limitaString(pedido.getPizzas()[i].getQtd(), 5) 
+									+ "  "
+									+ limitaString(pedido.getPizzas()[i].getSabor(), 14)
+									+ "  "
+									+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco())), 7)
+									+ "  "
+									+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco()) 
+											/ Float.parseFloat(pedido.getPizzas()[i].getQtd())), 7)
+									+ "\r";
 				
-				impressaoCompleta += "\tv. Total: \tR$ " + decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco())) + "\r"
-								   + "\tv. Uni:   \tR$ " + decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco()) 
-										/ Float.parseFloat(pedido.getPizzas()[i].getQtd())) + "\r\r";
-				
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "\r";
 			}
 		}
 
 		if (pedido.getProdutos().length != 0) {
 			impressaoCompleta += "----------------------------------------\r"
 								+ "\t\tPRODUTOS\r"
-								+ "QTD  PRODUTO\r\r";
+								+ "QTD    PRODUTO         V.UNI    V.TOTAL\r\r";
 			
 			for (int i = 0; i < pedido.getProdutos().length; i++) {
-				impressaoCompleta += pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor() + "\r"
-								+ "\tv. Total: \tR$ " + decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco())) + "\r"
-								+ "\tv. Uni:   \tR$ " + decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco()) 
-										/ Float.parseFloat(pedido.getProdutos()[i].getQtd())) + "\r\r";
+				impressaoCompleta += limitaString(pedido.getProdutos()[i].getQtd(), 5)
+									+ "  "
+									+ limitaString(pedido.getProdutos()[i].getSabor(), 14)
+									+ "  "
+									+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco())), 7)
+									+ "  "
+									+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco()) 
+										/ Float.parseFloat(pedido.getProdutos()[i].getQtd())), 7)
+									+ "\r";
 			}
 		}
 
@@ -115,8 +125,8 @@ public class ImprimirController {
 														+ cortaString(pedido.getPromocao()) + "\r";
 		
 		if(pedido.getObs() != null) impressaoCompleta += "----------------------------------------\r"
-													+ "\t\tOBSERVACAO\r" 
-													+ cortaString(pedido.getObs()) + "\r";
+														+ "\t\tOBSERVACAO\r" 
+														+ cortaString(pedido.getObs()) + "\r";
 		
 		imprimirLocal(impressaoCompleta);
 	}
@@ -127,22 +137,26 @@ public class ImprimirController {
 
 		String impressaoCompleta;
 		
-		impressaoCompleta = "\t" + pedido.getNomeEstabelecimento() +  "\r"
+		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) +  "\r"
 							+ "----------------------------------------\r"
 							+ "\t\t" + pedido.getEnvio() +            "\r"
 							+ "Comanda: " + pedido.getComanda() +     "\r"
 							+ "Cliente:\r"
-							+ pedido.getNome() +                     "\r";
+							+ cortaString(pedido.getNome()) +         "\r";
 		
 		if (pedido.getPizzas().length != 0) {
 			impressaoCompleta += "----------------------------------------\r"
 								+ "\t\tPIZZAS\r"
-								+ "QTD  PRODUTO\r";
+								+ "QTD   PRODUTO\r\r";
 			
 			for (int i = 0; i < pedido.getPizzas().length; i++) {
-				impressaoCompleta += "\r" + pedido.getPizzas()[i].getQtd() + " x " + pedido.getPizzas()[i].getSabor() + "\r";
-				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "\tCom " + pedido.getPizzas()[i].getBorda() + "\r";
-				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + pedido.getPizzas()[i].getObs() + "\r";
+				impressaoCompleta += limitaString(pedido.getPizzas()[i].getQtd(), 4)
+									+ "  " 
+									+ cortaString(pedido.getPizzas()[i].getSabor()) 
+									+ "\r";
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "\r";
+				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas()[i].getObs(), 30) + "\r";
+				impressaoCompleta += "\r";
 			}
 		}
 		
@@ -158,20 +172,25 @@ public class ImprimirController {
 
 		String impressaoCompleta;
 		
-		impressaoCompleta = "\t" + pedido.getNomeEstabelecimento() +  "\r"
+		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) +  "\r"
 							+ "----------------------------------------\r"
 							+ "\t\t" + pedido.getEnvio() +            "\r"
 							+ "Comanda: " + pedido.getComanda() +     "\r"
-							+ "Cliente: " + pedido.getNome() +        "\r";
+							+ "Cliente:\r"
+							+ cortaString(pedido.getNome()) +         "\r";
 		
 		if (pedido.getProdutos().length != 0) {
 			impressaoCompleta += "----------------------------------------\r"
 								+ "\t\tPRODUTOS\r"
-								+ "QTD  PRODUTO\r";
+								+ "QTD   PRODUTO\r\r";
 			
 			for (int i = 0; i < pedido.getProdutos().length; i++) {
-				impressaoCompleta += "\r" + pedido.getProdutos()[i].getQtd() + " x " + pedido.getProdutos()[i].getSabor() + "\r";
-				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + pedido.getProdutos()[i].getObs() + "\r";
+				impressaoCompleta += limitaString(pedido.getProdutos()[i].getQtd(), 4)
+									+ "  " 
+									+ cortaString(pedido.getProdutos()[i].getSabor()) 
+									+ "\r";
+				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos()[i].getObs(), 30) + "\r";
+				impressaoCompleta += "\r";
 			}
 		}
 		
@@ -238,9 +257,8 @@ public class ImprimirController {
 	
 	public String limitaString(String texto, int limite) {
 		
-		String vazio = "               ";
+		String vazio = "                              ";
 		if(texto.length() < limite) texto += vazio;
-		System.out.println("-" + ((texto.length() <= limite) ? texto : texto.substring(0, limite)) + "-");
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
 	

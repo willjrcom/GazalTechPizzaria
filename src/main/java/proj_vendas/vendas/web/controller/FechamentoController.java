@@ -122,8 +122,8 @@ public class FechamentoController {
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
-		impressaoCompleta = "\t" + limitaString(empresa.getNomeEstabelecimento(), 40) + "\r"
-							+      limitaString(endereco, 40) +                         "\r"
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "\r"
+							+      cortaString(endereco) +                         "\r"
 							+ "CNPJ: " + empresa.getCnpj() +          "\r"
 							+ "----------------------------------------\r"
 							+ "               RELATORIO                \r"
@@ -155,11 +155,12 @@ public class FechamentoController {
 				if(pedido.get(i).getEnvio().equals("ENTREGA") == true){
 					if(cont == 0) {
 						impressaoCompleta += "----------------------------------------\r"
-										   + "\t\tENTREGA           \r"
+										   + "\t\tENTREGA             \r"
 								   		   + "CLIENTE         \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) 
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
 					impressaoCompleta += "\r\t\tTotal: " + entrega + "\r";
@@ -176,7 +177,8 @@ public class FechamentoController {
 								   		   + "CLIENTE         \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15)
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
 					impressaoCompleta += "\r\t\tTotal: " + balcao + "\r";
@@ -193,7 +195,8 @@ public class FechamentoController {
 								   		   + "MESA            \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15)
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
 					impressaoCompleta += "\r\t\tTotal: " + mesa + "\r";
@@ -210,7 +213,8 @@ public class FechamentoController {
 								   		   + "CLIENTE         \tTOTAL \r";
 						cont++;
 					}
-					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) + "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15)
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
 					impressaoCompleta += "\r\t\tTotal: " + drive + "\r";
@@ -290,9 +294,13 @@ public class FechamentoController {
 	
 	public String limitaString(String texto, int limite) {
 		
-		String vazio = "               ";
+		String vazio = "                              ";
 		if(texto.length() < limite) texto += vazio;
-		System.out.println("-" + ((texto.length() <= limite) ? texto : texto.substring(0, limite)) + "-");
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
+	}
+	
+	public String cortaString(String texto) {
+		int limite = 40;
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "\r" + cortaString(texto.substring(limite));
 	}
 }

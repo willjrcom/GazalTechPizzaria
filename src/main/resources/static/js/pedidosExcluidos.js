@@ -8,24 +8,6 @@ var pedidoVazio = '<tr><td colspan="6">Nenhum pedido cancelado!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 
-
-//salvar hora atual
-var data = new Date();
-hora = data.getHours();
-hora = (hora.length == 0) ? '00' : hora;
-hora = (hora <= 9) ? '0'+hora : hora;
-minuto = data.getMinutes();
-minuto = (minuto.length == 0) ? '00' : minuto;
-minuto = (minuto <= 9) ? '0'+minuto : minuto;
-segundo = data.getSeconds();
-segundo = (segundo.length == 0) ? '00' : segundo;
-segundo = (segundo <= 9) ? '0'+segundo : segundo;
-dia  = data.getDate().toString();
-dia = (dia.length == 1) ? '0'+dia : dia;
-mes  = (data.getMonth()+1).toString();
-mes = (mes.length == 1) ? '0'+mes : mes;
-ano = data.getFullYear();
-
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
@@ -210,7 +192,7 @@ function imprimirTudo(cliente) {
 						
 			//salvar hora
 			impressaoPedido.hora = cliente.horaPedido;
-			impressaoPedido.data = dia + '/' + mes + '/' + ano;
+			impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 			
 			$.ajax({
 				url: "/imprimir/imprimirPedido",
