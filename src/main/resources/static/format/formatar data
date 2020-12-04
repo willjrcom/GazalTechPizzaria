@@ -1,0 +1,15 @@
+SimpleDateFormat format = new SimpleDateFormat ("aaaa-MM-dd");
+
+String dateString = format.format (new Date ());
+Data data = format.parse ("31/12/2009");    
+
+y = ano (aa ou aaaa)
+M = mês (MM)
+d = dia do mês (dd)
+h = hora (0-12) (hh)
+H = hora (0-23) (HH)
+m = minuto em hora (mm)
+s = segundos (ss)
+S = milissegundos (SSS)
+z = texto de fuso horário (por exemplo, horário padrão do Pacífico ...)
+Z = fuso horário, deslocamento de tempo (por exemplo, -0800)

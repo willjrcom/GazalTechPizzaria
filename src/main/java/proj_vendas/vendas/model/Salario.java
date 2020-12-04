@@ -19,6 +19,7 @@ public class Salario extends AbstractEntity<Long> {
 	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private String data;
+	private String logData;
 	private int horas = 0;
 	private double gastos = 0;
 	private double pago = 0;
@@ -58,6 +59,12 @@ public class Salario extends AbstractEntity<Long> {
 	}
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
+	}
+	public String getLogData() {
+		return logData;
+	}
+	public void setLogData(String logData) {
+		this.logData = logData;
 	}
 	
 	

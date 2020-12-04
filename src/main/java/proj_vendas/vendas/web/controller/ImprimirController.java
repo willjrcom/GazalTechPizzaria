@@ -7,15 +7,20 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.ImpressaoPedido;
+import proj_vendas.vendas.model.Salario;
 import proj_vendas.vendas.repository.Empresas;
+import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Impressoes;
 
 @RestController
@@ -24,6 +29,9 @@ public class ImprimirController {
 	
 	@Autowired
 	private Impressoes impressoes;
+	
+	@Autowired
+	private Funcionarios funcionarios;
 	
 	@Autowired
 	private Empresas empresas;
@@ -253,6 +261,100 @@ public class ImprimirController {
 			im.setImpressao(impressaoCompleta);
 			impressoes.save(im);
 		}
+	}
+	
+	@RequestMapping("/imprimirLogFuncionario")
+	@ResponseBody
+	public void imprimirLogFuncionario(@RequestBody Salario salario) {
+
+		DecimalFormat decimal = new DecimalFormat("0.00");
+		
+		//log usuario
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado	
+		salario.setUsuario(((UserDetails)principal).getUsername());
+		
+		Empresa empresa = empresas.buscarId1();
+		Funcionario funcionario = funcionarios.findById((long)salario.getIdFuncionario()).get();
+		
+		String impressaoCompleta;
+		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
+		
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "\r"
+						  + cortaString(endereco) +                  "\r"
+						  + "CNPJ: " + empresa.getCnpj() +           "\r"
+						  + "----------------------------------------\r"
+						  + "         REGISTRO DE PAGAMENTO          \r"
+						  + "----------------------------------------\r"
+						  + "Usuario logado: " + cortaString(salario.getUsuario()) + "\r"
+						  + "Data: " + salario.getLogData() + "\r"
+						  + "----------------------------------------\r"
+						  + "Funcionario: " + cortaString(funcionario.getNome()) + "\r"
+						  + "Cpf: " + funcionario.getCpf() + "\r"
+						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "\r";
+		
+		if(salario.getGastos() != 0) impressaoCompleta	+= "Gerou gastou de: R$ " + decimal.format(salario.getGastos()) + "\r";
+		if(salario.getPago() != 0) impressaoCompleta	+= "Recebeu o vale de: R$ " + decimal.format(salario.getPago()) + "\r";
+		if(salario.getHoras() != 0) impressaoCompleta	+= "Acrescentou em hora extra: R$ " + decimal.format(salario.getHoras()) + "\r";
+		
+		impressaoCompleta += "----------------------------------------\r";
+		imprimirLocal(impressaoCompleta);
+	}
+	
+	@RequestMapping("/imprimirGeralFuncionario")
+	@ResponseBody
+	public void imprimirGeralFuncionario(@RequestBody List<Salario> salario) {
+
+		DecimalFormat decimal = new DecimalFormat("0.00");
+		
+		//log usuario
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado	
+		
+		Empresa empresa = empresas.buscarId1();
+		Funcionario funcionario = funcionarios.findById((long)salario.get(0).getIdFuncionario()).get();
+		
+		float total = 0, pago = 0, gasto = 0, hora = 0;
+		String impressaoCompleta;
+		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
+		
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "\r"
+						  + cortaString(endereco) +                  "\r"
+						  + "CNPJ: " + empresa.getCnpj() +           "\r"
+						  + "----------------------------------------\r"
+						  + "         REGISTRO DE PAGAMENTO          \r"
+						  + "----------------------------------------\r"
+						  + "Usuario logado: " + cortaString(((UserDetails)principal).getUsername()) + "\r"
+						  + "Data: " + salario.get(0).getLogData() + "\r"
+						  + "----------------------------------------\r"
+						  + "Funcionario: " + cortaString(funcionario.getNome()) + "\r"
+						  + "Cpf: " + funcionario.getCpf() + "\r"
+						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "\r"
+						  + "----------------------------------------\r";
+		
+		for(int i = 0; i<salario.size(); i++) {
+			if(salario.get(i).getGastos() != 0) {
+				impressaoCompleta += "Gerou gastou de: R$ " + decimal.format(salario.get(i).getGastos()) + "\r";
+				gasto += salario.get(i).getGastos();
+				total -= gasto;
+			}
+			if(salario.get(i).getPago() != 0) {
+				impressaoCompleta += "Recebeu o vale de: R$ " + decimal.format(salario.get(i).getPago()) + "\r";
+				pago += salario.get(i).getPago();
+				total -= pago;
+			}
+			if(salario.get(i).getHoras() != 0) {
+				impressaoCompleta += "Acrescentou em hora extra: R$ " + decimal.format(salario.get(i).getHoras()) + "\r";
+				hora += salario.get(i).getHoras();
+				total += hora;
+			}
+		}
+		impressaoCompleta += "----------------------------------------\r"
+						   + "                 TOTAL                  \r"
+						   + "Gastos:     \t\tR$ " + decimal.format(gasto) + "\r"
+						   + "Hora extra: \t\tR$ " + decimal.format(hora) +  "\r"
+						   + "Pago:       \t\tR$ " + decimal.format(pago) +  "\r"
+						   + "Total:      \t\tR$ " + decimal.format(total + funcionario.getSalario().floatValue()) + "\r"
+						   + "----------------------------------------\r";
+		imprimirLocal(impressaoCompleta);
 	}
 	
 	public String limitaString(String texto, int limite) {

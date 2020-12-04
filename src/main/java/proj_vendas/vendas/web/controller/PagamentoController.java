@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +44,16 @@ public class PagamentoController {
 	@RequestMapping(value = "/pagamento/salvar")
 	@ResponseBody
 	public Salario salvar(@RequestBody Salario salario) {
+		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
+		//log usuario
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado	
 		salario.setUsuario(((UserDetails)principal).getUsername());
+		salario.setLogData(format.format(new Date()).toString());
+		
+		//imprimir
+		//ImprimirController imprimir = new ImprimirController();
+		//imprimir.imprimirLogFuncionario(salario);
+		
 		return salarios.save(salario);
 	}
 	

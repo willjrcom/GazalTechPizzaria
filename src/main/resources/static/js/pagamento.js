@@ -71,6 +71,13 @@ $.ajax({
 											+ 'value="'+ funcionario.id + '"><span class="oi oi-task"></span></button>'
 											+'</a>'
 										+'</div>'
+										
+										+'<div class="col-md-1">'
+											+'<a>'
+											+ '<button type="button" title="Imprimir" onclick="imprimirResumo()" class="botao"'
+											+ 'value="'+ funcionario.id + '"><span class="oi oi-print"></span></button>'
+											+'</a>'
+										+'</div>'
 									+'</div>'
 								+'</td>'
 							+ '</tr>'
@@ -139,7 +146,7 @@ $.ajax({
 							+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
 							
 							$.alert({
-								type: 'green',
+								type: 'blue',
 							    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 							    content: linhaHtml,
 							    buttons: {
@@ -151,18 +158,70 @@ $.ajax({
 											
 											var horas = this.$content.find('#horas').val();
 											
-											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
-											funcionario.horas = horas * horaExtra;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar',
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											});
+											if(horas == 0) {
+												$.alert({
+													type: 'red',
+													title: 'OPS...',
+													content: "Digite um valor válido",
+													buttons: {
+														confirm:{
+															text: 'Voltar',
+															btnClass: 'btn-danger',
+															keys: ['esc', 'enter']
+														}
+													}
+												});
+											}else {
+												var funcionario = {};
+												funcionario.idFuncionario = funcionarios[idBusca].id;
+												funcionario.horas = horas * horaExtra;
+												funcionario.data = dataAtualFormatada();
+												
+												$.ajax({
+													url: '/adm/pagamento/salvar',
+													type: 'POST',
+													dataType : 'json',
+													contentType: "application/json",
+													data: JSON.stringify(funcionario)
+												}).done(function(){
+	
+													//imprimir pagamento
+													$.ajax({
+														url: "/imprimir/imprimirLogFuncionario",
+														type: 'POST',
+														dataType : 'json',
+														contentType: "application/json",
+														data: JSON.stringify(funcionario)
+													});
+													
+													$.alert({
+														type: 'green',
+														title: "Sucesso",
+														content: "Hora extra registrada!",
+														buttons:{
+															confirm:{
+																text: "Continuar",
+																btnClass: 'btn-success',
+																keys: ['enter', 'esc']
+															}
+														}
+													});
+												}).fail(function(){
+													$.alert({
+														type: 'red',
+														title: 'OPS..',
+														content: 'Digite um valor valido',
+														buttons: {
+															confirm: {
+																text: 'Voltar',
+																btnClass: 'btn-success',
+																keys: ['esc', 'enter']
+															}
+														}
+													});
+													
+												});
+											}
 										}
 									},
 							        cancel:{
@@ -231,7 +290,7 @@ $.ajax({
 							+'<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>';
 							
 							$.alert({
-								type: 'green',
+								type: 'blue',
 							    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 							    content: linhaHtml,
 							    buttons: {
@@ -245,7 +304,7 @@ $.ajax({
 											
 											gastos = parseFloat(gastos.toString().replace(",","."));
 											
-											if(Number.isFinite(gastos) == false) {
+											if(Number.isFinite(gastos) == false || gastos == 0) {
 												$.alert({
 													type: 'red',
 													title: 'OPS...',
@@ -270,6 +329,29 @@ $.ajax({
 													dataType : 'json',
 													contentType: "application/json",
 													data: JSON.stringify(funcionario)
+												}).done(function(){
+													
+													//imprimir pagamento
+													$.ajax({
+														url: "/imprimir/imprimirLogFuncionario",
+														type: 'POST',
+														dataType : 'json',
+														contentType: "application/json",
+														data: JSON.stringify(funcionario)
+													});
+													
+													$.alert({
+														type: 'green',
+														title: "Sucesso",
+														content: "Gasto registrado!",
+														buttons:{
+															confirm:{
+																text: "Continuar",
+																btnClass: 'btn-success',
+																keys: ['enter', 'esc']
+															}
+														}
+													});
 												}).fail(function(){
 													$.alert({
 														type: 'red',
@@ -343,7 +425,6 @@ $.ajax({
 							
 							var gastos = 0;
 							var horas = 0;
-							var total = 0;
 							var pago = 0;
 							
 							for(j = 0; j<e.length; j++) {
@@ -376,7 +457,7 @@ $.ajax({
 							+'<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>';
 							
 							$.alert({
-								type: 'green',
+								type: 'blue',
 							    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 							    content: linhaHtml,
 					    	    columnClass: 'col-md-12',
@@ -390,7 +471,7 @@ $.ajax({
 
 											pagamento = parseFloat(pagamento.toString().replace(",","."));
 											
-											if(Number.isFinite(pagamento) == false) {
+											if(Number.isFinite(pagamento) == false || pagamento == 0) {
 												$.alert({
 													type: 'red',
 													title: 'OPS...',
@@ -415,6 +496,29 @@ $.ajax({
 													dataType : 'json',
 													contentType: "application/json",
 													data: JSON.stringify(funcionario)
+												}).done(function(){
+													
+													//imprimir pagamento
+													$.ajax({
+														url: "/imprimir/imprimirLogFuncionario",
+														type: 'POST',
+														dataType : 'json',
+														contentType: "application/json",
+														data: JSON.stringify(funcionario)
+													});
+													
+													$.alert({
+														type: 'green',
+														title: "Sucesso",
+														content: "Pagamento registrado!",
+														buttons:{
+															confirm:{
+																text: "Continuar",
+																btnClass: 'btn-success',
+																keys: ['enter', 'esc']
+															}
+														}
+													});
 												}).fail(function(){
 													$.alert({
 														type: 'red',
@@ -446,6 +550,101 @@ $.ajax({
 					text: 'Voltar',
 					btnClass: 'btn-danger',
 					keys: ['esc']
+				}
+			}
+		});
+	};
+	
+	
+	function imprimirResumo() {
+		
+		var botaoReceber = $(event.currentTarget);
+		var idProduto = botaoReceber.attr('value');
+		
+		//buscar dados completos do pedido enviado
+		for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+			
+		mesAtual = new Date();
+				
+		$.alert({
+			type: 'blue',
+			title: 'Data',
+			content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
+			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+			buttons: {
+				confirm: {
+					text: 'Acessar',
+					btnClass: 'btn-primary',
+					keys: ['enter'],
+					action: function(){
+						var mes = this.$content.find('#mes').val();
+						mes = (mes.length == 1) ? '0'+mes : mes;
+
+						var ano = this.$content.find('#ano').val();
+						ano = (ano.length == 1) ? '0'+ano : ano;
+						
+						var salario = {};
+						salario.id = funcionarios[idBusca].id;
+						salario.mes = mes + '-' + ano;
+	
+						//buscar o mes de gastos do funcionario
+						$.ajax({
+							url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+							type: 'GET'
+						}).done(function(e){
+							
+							linhaHtml = '<table>'
+										+ '<tr>'
+											+'<td>Mês</td>'
+											+'<td>Ação</td>'
+											+'<td>Total</td>';
+							
+							for(log of e) {
+								linhaHtml += '<tr>'
+											+ '<td>' + log.logData + '</td>';
+								
+								if(log.gastos != 0) linhaHtml += '<td>gasto</td><td>R$ ' + log.gastos.toFixed(2) + '</td>';
+								if(log.horas != 0) linhaHtml += '<td>hora extra</td><td>R$ ' + log.horas.toFixed(2) + '</td>';
+								if(log.pago != 0) linhaHtml += '<td>pago</td><td>R$ ' + log.pago.toFixed(2) + '</td>';
+							}
+
+							linhaHtml += '</table>';
+							
+							$.alert({
+								type: 'blue',
+							    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+							    content: linhaHtml,
+							    buttons: {
+							        confirm: {
+										text: '<span class="oi oi-print"></span> Imprimir',
+							    		keys: ['enter'],
+							            btnClass: 'btn-green',
+							            action: function(){
+											console.log(e);
+											//imprimir pagamento
+											$.ajax({
+												url: "/imprimir/imprimirGeralFuncionario",
+												type: 'POST',
+												dataType : 'json',
+												contentType: "application/json",
+												data: JSON.stringify(e)
+											});	
+										}
+									},
+							        cancel:{
+										text: 'Voltar',
+							    		keys: ['esc'],
+							            btnClass: 'btn-danger'
+									}
+								}
+							});
+						});
+					}
+				},
+		        cancel:{
+					text: 'Voltar',
+		    		keys: ['esc'],
+		            btnClass: 'btn-danger'
 				}
 			}
 		});
