@@ -204,7 +204,7 @@ $("#buscar").click(function(){
 					dataType : 'json',
 					contentType: "application/json",
 					data: JSON.stringify(dados)
-				}).done(function(e){
+				}).done(function(){
 					$.alert({
 						type: 'blue',
 						title: 'Sucesso',

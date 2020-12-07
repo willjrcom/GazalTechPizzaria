@@ -16,6 +16,7 @@ public class LogUsuario extends AbstractEntity<Long> {
 	private String usuario;
 	private String acao;
 	private String data;
+	private int codEmpresa;
 	
 	public String getUsuario() {
 		return usuario;
@@ -34,6 +35,12 @@ public class LogUsuario extends AbstractEntity<Long> {
 	}
 	public void setData(String data) {
 		this.data = data;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

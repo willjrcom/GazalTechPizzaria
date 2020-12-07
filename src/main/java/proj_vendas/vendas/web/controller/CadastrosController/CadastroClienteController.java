@@ -15,9 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.LogUsuario;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.LogUsuarios;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/cadastroCliente")
@@ -30,7 +32,10 @@ public class CadastroClienteController {
 	private Dias dias;
 	
 	@Autowired
-	private LogUsuarios usuarios;
+	private LogUsuarios logUsuarios;
+	
+	@Autowired
+	private Usuarios usuarios;
 	
 	@RequestMapping("/**")
 	public ModelAndView CadastroCliente() {
@@ -40,50 +45,66 @@ public class CadastroClienteController {
 	@RequestMapping(value = "/buscarCpf/{cpf}/{id}")
 	@ResponseBody
 	public Cliente buscarCpf(@PathVariable String cpf, @PathVariable long id) {
-		Cliente busca = clientes.findByCpf(cpf);
-		Cliente cliente = clientes.findById(id).get();
+
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		
-		if(busca != null) {
-			if(busca.getId() == cliente.getId()) {
+		Cliente busca = clientes.findByCodEmpresaAndCpf(user.getCodEmpresa(), cpf);
+		
+		if(busca != null && id != -2) {
+			long cliente = clientes.findById((long)id).get().getId();
+			
+			if(busca.getId() == cliente) {
 				Cliente vazio = new Cliente();
 				vazio.setId((long) -1);
 				return vazio;
 			}
 		}
-		return clientes.findByCpf(cpf);
+		return busca;
 	}
 
 	@RequestMapping(value = "/buscarCelular/{celular}/{id}")
 	@ResponseBody
 	public Cliente buscarCelular(@PathVariable String celular, @PathVariable long id) {
-		Cliente busca = clientes.findByCelular(celular);
-		Cliente cliente = clientes.findById(id).get();
 
-		if(busca != null) {
-			if(busca.getId() == cliente.getId()) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Cliente busca = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
+
+		if(busca != null && id != -2) {
+			long cliente = clientes.findById((long)id).get().getId();
+			
+			if(busca.getId() == cliente) {
 				Cliente vazio = new Cliente();
 				vazio.setId((long) -1);
 				return vazio;
 			}
 		}
-		return clientes.findByCelular(celular);
+		return busca;
 	}
 	
 	@RequestMapping(value = "/cadastrar")
 	@ResponseBody
 	public Cliente cadastrarCliente(@RequestBody Cliente cliente) {
+
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 		if(cliente.getId() == null) {
-			cliente.setDataCadastro(dias.buscarId1().getDia());
+			cliente.setDataCadastro(dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
 		}
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+		
+		log.setUsuario(user.getEmail());
 		log.setAcao("Cadastrar/atualizar cliente: " + cliente.getNome());
 		log.setData(hora.toString());
+		log.setCodEmpresa(user.getCodEmpresa());
 		
-		usuarios.save(log); //salvar logUsuario
+		logUsuarios.save(log); //salvar logUsuario
+		cliente.setCodEmpresa(user.getCodEmpresa());
 		return clientes.save(cliente);
 	}
 	

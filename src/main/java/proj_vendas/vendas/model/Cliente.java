@@ -28,6 +28,7 @@ public class Cliente extends AbstractEntity<Long> {
 
 	private String dataCadastro;
 	private int contPedidos = 0;
+	private int codEmpresa;
 
 	public String getNome() {
 		return nome;
@@ -75,6 +76,14 @@ public class Cliente extends AbstractEntity<Long> {
 
 	public void setContPedidos(int contPedidos) {
 		this.contPedidos = contPedidos;
+	}
+
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 }
 

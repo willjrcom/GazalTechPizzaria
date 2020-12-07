@@ -17,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/verpedido")
@@ -36,8 +38,11 @@ public class VerpedidoController{
 	private PedidoTemps temps;
 	
 	@Autowired
-	private LogUsuarios usuarios;
-	
+	private LogUsuarios logUsuarios;
+
+	@Autowired
+	private Usuarios usuarios;
+
 	@RequestMapping
 	public ModelAndView verPedido() {
 		return new ModelAndView("verpedido");
@@ -46,21 +51,25 @@ public class VerpedidoController{
 	@RequestMapping(value = "/excluirPedido/{id}")
 	@ResponseBody
 	public Pedido excluirPedido(@PathVariable long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 		
 		Pedido pedido = pedidos.findById((long)id).get();
 		
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+
+		log.setUsuario(user.getEmail());
 		log.setAcao("Excluir pedido: " + pedido.getNome());
 		log.setData(hora.toString());
+		log.setCodEmpresa(user.getCodEmpresa());
 		
-		usuarios.save(log); //salvar logUsuario
+		logUsuarios.save(log); //salvar logUsuario
 				
 		pedido.setStatus("EXCLUIDO");
-		List<PedidoTemp> temp = temps.findByComanda(pedido.getComanda());
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndComanda(user.getCodEmpresa(), pedido.getComanda());
 		temps.deleteInBatch(temp);
 		return pedidos.save(pedido);
 	}
@@ -68,16 +77,17 @@ public class VerpedidoController{
 	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByDataAndStatusNotAndStatusNot(dia, "FINALIZADO", "EXCLUIDO");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		return pedidos.findByCodEmpresaAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, "FINALIZADO", "EXCLUIDO");
 	}
 	
 	@RequestMapping("/autenticado")
 	@ResponseBody
 	public Collection<? extends GrantedAuthority> autenticado() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
 		return ((UserDetails)principal).getAuthorities();
-		
 	}
 }

@@ -16,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.LogUsuario;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.LogUsuarios;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
@@ -27,7 +29,10 @@ public class CadastroFuncionarioController{
 	private Funcionarios funcionarios;
 	
 	@Autowired
-	private LogUsuarios usuarios;
+	private LogUsuarios logUsuarios;
+
+	@Autowired
+	private Usuarios usuarios;
 	
 	@GetMapping("/cadastroFuncionario/**")
 	public ModelAndView CadastroFuncionario() {
@@ -37,48 +42,60 @@ public class CadastroFuncionarioController{
 	@RequestMapping(value = "/cadastroFuncionario/cadastrar")
 	@ResponseBody
 	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+		log.setUsuario(user.getEmail());
 		log.setAcao("Cadastrar/atualizar funcionário: " + funcionario.getNome());
 		log.setData(hora.toString());
+		log.setCodEmpresa(user.getCodEmpresa());
 		
-		usuarios.save(log); //salvar logUsuario
+		logUsuarios.save(log); //salvar logUsuario
+		funcionario.setCodEmpresa(user.getCodEmpresa());
 		return funcionarios.save(funcionario);
 	}
 		
 	@RequestMapping(value = "/cadastroFuncionario/buscarCpf/{cpf}/{id}")
 	@ResponseBody
 	public Funcionario buscarCpf(@PathVariable String cpf, @PathVariable long id) {
-		Funcionario busca = funcionarios.findByCpf(cpf);
-		Funcionario funcionario = funcionarios.findById(id).get();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		
-		if(busca != null) {
-			if(busca.getId() == funcionario.getId()) {
+		Funcionario busca = funcionarios.findByCodEmpresaAndCpf(user.getCodEmpresa(), cpf);
+		
+		if(busca != null && id != -2) {
+			long funcionario = funcionarios.findById(id).get().getId();
+			
+			if(busca.getId() == funcionario) {
 				Funcionario vazio = new Funcionario();
 				vazio.setId((long) -1);
 				return vazio;
 			}
 		}
-		return funcionarios.findByCpf(cpf);
+		return busca;
 	}
 	
 	@RequestMapping(value = "/cadastroFuncionario/buscarCelular/{celular}/{id}")
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular, @PathVariable long id) {
-		Funcionario busca = funcionarios.findByCelular(celular);
-		Funcionario funcionario = funcionarios.findById(id).get();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Funcionario busca = funcionarios.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 	
-		if(busca != null) {
-			if(busca.getId() == funcionario.getId()) {
+		if(busca != null && id != -2) {
+			long funcionario = funcionarios.findById(id).get().getId();
+			
+			if(busca.getId() == funcionario) {
 				Funcionario vazio = new Funcionario();
 				vazio.setId((long) -1);
 				return vazio;
 			}
 		}
-		return funcionarios.findByCelular(celular);
+		return busca;
 	}
 	
 	@RequestMapping(value = "/cadastroFuncionario/editarFuncionario/{id}")

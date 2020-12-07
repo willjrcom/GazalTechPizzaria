@@ -46,6 +46,7 @@ public class Funcionario extends AbstractEntity<Long>{
 	private int diaPagamento;
 	
 	private BigDecimal salario;
+	private int codEmpresa;
 
 	public String getNome() {
 		return nome;
@@ -133,6 +134,14 @@ public class Funcionario extends AbstractEntity<Long>{
 
 	public void setSalario(BigDecimal salario) {
 		this.salario = salario;
+	}
+
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

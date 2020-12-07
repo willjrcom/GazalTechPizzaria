@@ -16,6 +16,7 @@ public class Usuario extends AbstractEntity<Long> {
 	private String senha;
 	private String perfil;
 	private boolean ativo;
+	private int codEmpresa;
 	
 	public String getEmail() {
 		return email;
@@ -40,6 +41,12 @@ public class Usuario extends AbstractEntity<Long> {
 	}
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.formLogin()
 				.loginPage("/index")
 				.defaultSuccessUrl("/menu", true)
-				.failureUrl("/index")
+				.failureUrl("/index/erro")
 				.permitAll()
 				
 			//logout
@@ -68,15 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.sessionFixation().migrateSession() //migrar sessao para novo pc que acessar
 	
 	*/
-	
-	@Autowired
-    public void configureInMemoryAuthentication(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.inMemoryAuthentication()
-                .withUser("teste@hotmail.com")
-                .password(passwordEncoder().encode("root"))
-                .roles("USUARIO", "ADM").authorities("ADM");
-    }
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {

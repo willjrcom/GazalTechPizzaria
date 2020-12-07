@@ -26,6 +26,7 @@ import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
@@ -33,6 +34,7 @@ import proj_vendas.vendas.repository.Impressoes;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
@@ -51,7 +53,7 @@ public class FechamentoController {
 	private PedidoTemps temps;
 	
 	@Autowired
-	private LogUsuarios usuarios;
+	private LogUsuarios logUsuarios;
 
 	@Autowired
 	private Impressoes impressoes;
@@ -59,6 +61,9 @@ public class FechamentoController {
 	@Autowired
 	private Empresas empresas;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@GetMapping("/fechamento")
 	public ModelAndView tela() {
 		return new ModelAndView("fechamento");
@@ -67,39 +72,55 @@ public class FechamentoController {
 	@RequestMapping(value = "/fechamento/Tpedidos")
 	@ResponseBody
 	public long totalPedidos() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndData("FINALIZADO", dia).size();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		return pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia).size();
 	}
 	
 	@RequestMapping(value = "/fechamento/Tvendas")
 	@ResponseBody
 	public List<Pedido> totalVendas() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndData("FINALIZADO", dia);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+
+		return pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia);
 	}
 	
 	@RequestMapping(value = "/fechamento/buscarIdData/{data}")
 	@ResponseBody
 	public Dado buscarId(@PathVariable String data) {
-		return dados.findByData(data);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);
 	}
 	
 	@RequestMapping(value = "/fechamento/finalizar")
 	@ResponseBody
 	public Dado finalizarCaixa(@RequestBody Dado dado) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+
+		log.setUsuario(user.getEmail());
 		log.setAcao("Fechamento de caixa");
 		log.setData(hora.toString());
+		log.setCodEmpresa(user.getCodEmpresa());
 		
-		usuarios.save(log); //salvar logUsuario
+		logUsuarios.save(log); //salvar logUsuario
 				
-		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-		List<PedidoTemp> temp = temps.findByStatusAndData("PRONTO", data.getDia());
+		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); //buscar tabela dia de acesso
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "PRONTO", data.getDia());
 		temps.deleteInBatch(temp);
+		
+		dado.setCodEmpresa(user.getCodEmpresa());
 		return dados.save(dado);
 	}
 	
@@ -111,10 +132,13 @@ public class FechamentoController {
 	
 	@RequestMapping("/fechamento/relatorio/{lucro}")
 	public ModelAndView imprimirTudo(@PathVariable float lucro) {
-		Empresa empresa = empresas.buscarId1();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
-		String dia = dias.buscarId1().getDia();
-		List<Pedido> pedido = pedidos.findByStatusAndData("FINALIZADO", dia);
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		List<Pedido> pedido = pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia);
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		int entrega = 0, balcao = 0, mesa = 0, drive = 0;
@@ -237,7 +261,10 @@ public class FechamentoController {
 	}
 	
 	public void imprimirLocal(String impressaoCompleta) {
-		Empresa empresa = empresas.findAll().get(0); //validar modo de impressao
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		
 		impressaoCompleta = impressaoCompleta
                 .replace("ç", "c")
@@ -288,6 +315,7 @@ public class FechamentoController {
 			System.out.println("Modo online");
 			ImpressaoMatricial im = new ImpressaoMatricial();
 			im.setImpressao(impressaoCompleta);
+			im.setCodEmpresa(user.getCodEmpresa());
 			impressoes.save(im);
 		}
 	}

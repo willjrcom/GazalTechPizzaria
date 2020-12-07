@@ -10,9 +10,15 @@ import proj_vendas.vendas.model.Dado;
 @Transactional(readOnly = true)
 public interface Dados extends JpaRepository<Dado, Long>{
 
-	public Dado findByData(String data);
+	//public Dado findByData(String data);
 
-	public List<Dado> findByTrocoFinalOrTrocoInicio(double i, double j);
+	//public List<Dado> findByTrocoFinalOrTrocoInicio(double i, double j);
 
-	public List<Dado> findByTrocoInicioNotLikeAndTrocoFinalNotLike(double i, double j);
+	//public List<Dado> findByTrocoInicioNotLikeAndTrocoFinalNotLike(double i, double j);
+
+	public List<Dado> findByCodEmpresaAndTrocoFinalOrCodEmpresaAndTrocoInicio(int codEmpresa, double i, int codEmpresa2, double j);
+
+	public Dado findByCodEmpresaAndData(int codEmpresa, String data);
+
+	public List<Dado> findByCodEmpresaAndTrocoInicioNotLikeAndTrocoFinalNotLike(int codEmpresa, double i, double j);
 }

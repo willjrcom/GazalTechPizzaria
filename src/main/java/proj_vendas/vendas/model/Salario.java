@@ -23,6 +23,7 @@ public class Salario extends AbstractEntity<Long> {
 	private int horas = 0;
 	private double gastos = 0;
 	private double pago = 0;
+	private int codEmpresa;
 	
 	public Long getIdFuncionario() {
 		return idFuncionario;
@@ -65,6 +66,12 @@ public class Salario extends AbstractEntity<Long> {
 	}
 	public void setLogData(String logData) {
 		this.logData = logData;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

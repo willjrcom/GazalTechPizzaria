@@ -399,7 +399,7 @@ function enviarProduto(idUnico) {
 									
 									//buscar borda por id
 									$.ajax({
-										url: "/novoPedido/buscarBorda/" + bordaId,
+										url: "/novoPedido/addProduto/" + bordaId,
 										type: 'GET'
 									}).done(function(event){
 										

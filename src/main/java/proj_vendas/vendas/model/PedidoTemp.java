@@ -23,6 +23,7 @@ public class PedidoTemp extends AbstractEntity<Long> {
 	private String status;
 	private String envio;
 	private String data;
+	private int codEmpresa;
 
 	public String getPizzas() {
 		return pizzas;
@@ -59,5 +60,11 @@ public class PedidoTemp extends AbstractEntity<Long> {
 	}
 	public void setEnvio(String envio) {
 		this.envio = envio;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 }

@@ -11,7 +11,8 @@ $('#cpf').on('blur', function(){
 		var id = $("#id").val();	
 		
 		$.ajax({
-			url:  (id != '') ? "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/' + id : "/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/-2',
+			url:  (id != '') ? "/adm/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/' + id 
+							: "/adm/cadastroFuncionario/buscarCpf/" + cpf.toString() + '/-2',
 			type: 'GET'
 		}).done(function(event){
 			if(event.length != 0 && event != '' && event.id != -1) {
@@ -38,16 +39,13 @@ $('#cpf').on('blur', function(){
 $('#cel').on('blur', function(){
 	
 	if($.trim($("#cel").val()) != ''){
-		var cel = $(this).val();
 		
-		if($("#id").val() == '') {
-			var id = -2;
-		}else {
-			var id = $("#id").val();
-		}
+		var cel = $(this).val();	
+		var id = $("#id").val();
 		
 		$.ajax({
-			url:  "/cadastroFuncionario/buscarCelular/" + cel + '/' + id,
+			url:  (id != '') ? "/adm/cadastroFuncionario/buscarCelular/" + cel.toString() + '/' + id 
+							: "/adm/cadastroFuncionario/buscarCelular/" + cel.toString() + '/-2',
 			type: 'GET',
 				
 		}).done(function(e){

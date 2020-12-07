@@ -1,14 +1,17 @@
 package proj_vendas.vendas.web.controller.CadastrosController;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Produtos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/cadastros")
@@ -23,26 +26,18 @@ public class CadastrosController {
 	@Autowired
 	private Produtos produtos;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@RequestMapping
 	public ModelAndView lerCadastros() {
-		return new ModelAndView("todosCadastros");
-	}
-	
-	@RequestMapping(value = "/Tclientes")
-	@ResponseBody
-	public long totalClientes() {
-		return clientes.count();
-	}
-	
-	@RequestMapping(value = "/Tfuncionarios")
-	@ResponseBody
-	public long totalFuncionarios() {
-		return funcionarios.count();
-	}
-	
-	@RequestMapping(value = "/Tprodutos")
-	@ResponseBody
-	public long totalProdutos() {
-		return produtos.count();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		ModelAndView mv = new ModelAndView("todosCadastros");
+		mv.addObject("clientes", clientes.totalClientes(user.getCodEmpresa()));
+		mv.addObject("funcionarios", funcionarios.totalFuncionarios(user.getCodEmpresa()));
+		mv.addObject("produtos", produtos.totalProdutos(user.getCodEmpresa()));
+		return mv;
 	}
 }

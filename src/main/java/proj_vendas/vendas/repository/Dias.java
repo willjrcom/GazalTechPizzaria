@@ -1,7 +1,6 @@
 package proj_vendas.vendas.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Dia;
@@ -9,6 +8,8 @@ import proj_vendas.vendas.model.Dia;
 @Transactional(readOnly = true)
 public interface Dias extends JpaRepository<Dia, Long>{
 
-	@Query("SELECT u FROM Dia u WHERE u.id = 1")
-	public Dia buscarId1();
+	//@Query("SELECT u FROM Dia u WHERE u.id = 1")
+	//public Dia buscarId1();
+
+	public Dia findByCodEmpresa(int codEmpresa);
 }

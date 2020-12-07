@@ -17,8 +17,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Salario;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Salarios;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
@@ -30,29 +32,35 @@ public class PagamentoController {
 	@Autowired
 	private Salarios salarios;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@GetMapping("/pagamento")
 	public ModelAndView tela() {
 		return new ModelAndView("pagamento");
 	}
-	
+
 	@RequestMapping(value = "/pagamento/todosFuncionarios")
 	@ResponseBody
 	public List<Funcionario> todos() {
-		return funcionarios.findAll();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return funcionarios.findByCodEmpresa(user.getCodEmpresa());
 	}
 	
 	@RequestMapping(value = "/pagamento/salvar")
 	@ResponseBody
 	public Salario salvar(@RequestBody Salario salario) {
-		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		//log usuario
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado	
-		salario.setUsuario(((UserDetails)principal).getUsername());
-		salario.setLogData(format.format(new Date()).toString());
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		
-		//imprimir
-		//ImprimirController imprimir = new ImprimirController();
-		//imprimir.imprimirLogFuncionario(salario);
+		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
+		
+		//log usuario	
+		salario.setUsuario(user.getEmail());
+		salario.setCodEmpresa(user.getCodEmpresa());
+		salario.setLogData(format.format(new Date()).toString());
 		
 		return salarios.save(salario);
 	}
@@ -60,6 +68,9 @@ public class PagamentoController {
 	@RequestMapping(value = "/pagamento/buscar/{id}/{data}")
 	@ResponseBody
 	public List<Salario> buscar(@PathVariable Long id, @PathVariable String data){
-		return salarios.findByIdFuncionarioAndData(id, data);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return salarios.findByCodEmpresaAndIdFuncionarioAndData(user.getCodEmpresa(), id, data);
 	}
 }

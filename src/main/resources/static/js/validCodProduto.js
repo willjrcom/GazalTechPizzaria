@@ -16,6 +16,7 @@ $('#codigoBusca').on('blur', function(){
 				$("#avisoCod").show().css({
 					'color': 'red'
 				});
+				$("#enviar").hide();
 				$("#codigoBusca").css({
 					'border':'1px solid red'
 				});

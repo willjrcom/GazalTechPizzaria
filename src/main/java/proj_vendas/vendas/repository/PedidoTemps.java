@@ -10,12 +10,20 @@ import proj_vendas.vendas.model.PedidoTemp;
 @Transactional(readOnly = true)
 public interface PedidoTemps extends JpaRepository<PedidoTemp, Long>{
 
-	public List<PedidoTemp> findByStatusAndData(String string, String dia);
+	//public List<PedidoTemp> findByStatusAndData(String string, String dia);
 
-	public List<PedidoTemp> findByStatus(String string);
+	//public List<PedidoTemp> findByStatus(String string);
 	
-	public List<PedidoTemp> findByComanda(long comanda);
+	//public List<PedidoTemp> findByComanda(long comanda);
 
-	@Transactional(readOnly = false)
-	public void deleteByData(String dia);// apagar no fechamento
+	//@Transactional(readOnly = false)
+	//public void deleteByData(String dia);// apagar no fechamento
+
+	public List<PedidoTemp> findByCodEmpresaAndStatusAndData(int codEmpresa, String string, String dia);
+
+	public List<PedidoTemp> findByCodEmpresaAndStatus(int codEmpresa, String string);
+
+	public List<PedidoTemp> findByCodEmpresaAndComanda(int codEmpresa, long comanda);
+
+	public List<PedidoTemp> findByCodEmpresa(int codEmpresa);
 }

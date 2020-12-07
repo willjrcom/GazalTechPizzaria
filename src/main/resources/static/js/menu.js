@@ -1,5 +1,17 @@
 var dados = {};
 
+if(document.referrer.split("/")[3] == "index") {//acessar pagina anterior
+	var tela = $.alert({type: "blue", title: "Carregando", content: "Carregando data atual..."});
+	tela.open();
+	$.ajax({
+		url: "/menu/login"
+	}).done(function(){
+		tela.close();
+		verData();
+	});
+}
+
+
 //-----------------------------------------------------
 function verData() {
 	$.ajax({

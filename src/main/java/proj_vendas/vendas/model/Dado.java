@@ -28,6 +28,7 @@ public class Dado extends AbstractEntity<Long> {
 	private double trocoFinal = 0;
 	private int totalPedidos = 0;
 	private int comanda = 0;
+	private int codEmpresa;
 	
 	@Lob
 	private String compras;
@@ -134,6 +135,14 @@ public class Dado extends AbstractEntity<Long> {
 
 	public void setLogMotoboy(String logMotoboy) {
 		this.logMotoboy = logMotoboy;
+	}
+
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 }

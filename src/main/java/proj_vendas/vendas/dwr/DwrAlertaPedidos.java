@@ -1,33 +1,25 @@
 package proj_vendas.vendas.dwr;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.directwebremoting.Browser;
-import org.directwebremoting.ScriptSessions;
-import org.directwebremoting.WebContext;
-import org.directwebremoting.WebContextFactory;
-import org.directwebremoting.annotations.RemoteMethod;
 import org.directwebremoting.annotations.RemoteProxy;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import proj_vendas.vendas.model.PedidoTemp;
-import proj_vendas.vendas.repository.PedidoTemps;
 
 @Component
 @RemoteProxy
 public class DwrAlertaPedidos {
-	
+	/*
 	@Autowired
 	private PedidoTemps temps;
+
+	@Autowired
+	private Usuarios usuarios;
+
+	
+			.getAuthentication().getPrincipal()).getUsername());
 	
 	@RemoteMethod
 	public synchronized void init() {
 		System.out.println("Dwr ativado");
-		List<PedidoTemp> pedidos = temps.findByStatus("COZINHA"); //mostrar todos temporarios
+		List<PedidoTemp> pedidos = temps.findByCodEmpresaAndStatus(user.getCodEmpresa(), "COZINHA"); //mostrar todos temporarios
 		WebContext context = WebContextFactory.get();
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new AlertTask(context, pedidos), 0, 30000);
@@ -51,7 +43,7 @@ public class DwrAlertaPedidos {
 
 				@Override
 				public void run() {
-					List<PedidoTemp> pedidos = temps.findByStatus("COZINHA"); //mostrar todos temporarios
+					List<PedidoTemp> pedidos = temps.findByCodEmpresaAndStatus(user.getCodEmpresa(), "COZINHA"); //mostrar todos temporarios
 					count = pedidos.size();
 					
 					Calendar time = Calendar.getInstance();
@@ -74,4 +66,5 @@ public class DwrAlertaPedidos {
 			this.pedidos = pedidos;
 		}
 	}
+	*/
 }

@@ -13,11 +13,12 @@ $('#cpf').on('blur', function(){
 		var id = $("#id").val();
 		
 		$.ajax({
-			url:  (id != '') ? '/cadastroCliente/buscarCpf/' + cpf + '/' + id : '/cadastroCliente/buscarCpf/' + cpf + '/-2',
+			url:  (id != '') ? '/cadastroCliente/buscarCpf/' + cpf + '/' + id.toString() 
+							: '/cadastroCliente/buscarCpf/' + cpf + '/-2',
 			type: 'GET',
 				
 		}).done(function(e){
-			if(e.length != 0 && e != '' && e.id != -1) {
+			if(e.length != 0 && e.id != -1) {
 				$("#avisoCpf").show().css({
 					'color': 'red'
 				});
@@ -41,10 +42,13 @@ $('#cpf').on('blur', function(){
 $('#cel').on('blur', function(){
 
 	if($.trim($("#cel").val()) != ""){
+		
 		var cel = $(this).cleanVal();
 		var id = $("#id").val();
+		
 		$.ajax({
-			url:  (id != '') ? '/cadastroCliente/buscarCelular/' + cel + '/' + id.toString() : '/cadastroCliente/buscarCelular/' + cel + '/0',
+			url:  (id != '') ? '/cadastroCliente/buscarCelular/' + cel + '/' + id.toString()
+							: '/cadastroCliente/buscarCelular/' + cel + '/-2',
 			type: 'GET',
 		}).done(function(e){
 			if(e.length != 0 && e.id != -1) {

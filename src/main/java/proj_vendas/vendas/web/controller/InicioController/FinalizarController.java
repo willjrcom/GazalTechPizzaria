@@ -14,9 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/finalizar")
@@ -29,36 +31,44 @@ public class FinalizarController {
 	private Dias dias;
 	
 	@Autowired
-	private LogUsuarios usuarios;
-	
+	private LogUsuarios logUsuarios;
+
+	@Autowired
+	private Usuarios usuarios;
+
 	@RequestMapping
 	public ModelAndView finalizar() {
-		ModelAndView mv = new ModelAndView("finalizar");
-		return mv;
+		return new ModelAndView("finalizar");
 	}
 
 	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndDataAndEnvioNotOrStatusAndDataAndEnvio("PRONTO", dia, "ENTREGA", "MOTOBOY", dia, "ENTREGA");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		return pedidos.findByCodEmpresaAndStatusAndDataAndEnvioNotOrCodEmpresaAndStatusAndDataAndEnvio(user.getCodEmpresa(), "PRONTO", dia, "ENTREGA", user.getCodEmpresa(), "MOTOBOY", dia, "ENTREGA");
 	}
 
 	@RequestMapping(value = "/finalizarPedido/{id}/{ac}")
 	@ResponseBody
 	public Pedido enviarPedido(@PathVariable long id, @PathVariable String ac) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		
 		Pedido pedido = pedidos.findById((long)id).get();
 		
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+
+		log.setUsuario(user.getEmail());
 		log.setAcao("Finalizar pedido: " + pedido.getNome());
 		log.setData(hora.toString());
+		log.setCodEmpresa(user.getCodEmpresa());
 		
-		usuarios.save(log); //salvar logUsuario
+		logUsuarios.save(log); //salvar logUsuario
 				
 		pedido.setStatus("FINALIZADO");
 		pedido.setAc(ac);

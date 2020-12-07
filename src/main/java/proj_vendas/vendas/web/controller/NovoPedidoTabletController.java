@@ -21,12 +21,14 @@ import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.LogMesas;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/novoPedidoTablet")
@@ -45,11 +47,14 @@ public class NovoPedidoTabletController{
 	private Pedidos pedidos;
 	
 	@Autowired
-	private LogUsuarios usuarios;
+	private LogUsuarios logUsuarios;
 	
 	@Autowired
 	private LogMesas mesas;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@RequestMapping("/**")
 	public ModelAndView tela() {
 		return new ModelAndView("novoPedidoTablet");
@@ -58,16 +63,22 @@ public class NovoPedidoTabletController{
 	@RequestMapping(value = "/todosProdutos")
 	@ResponseBody
 	public List<Produto> mostrarTodos(){
-		return produtos.findByDisponivelAndSetorNot(true, "BORDA");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return produtos.findByCodEmpresaAndDisponivelAndSetorNot(user.getCodEmpresa(), true, "BORDA");
 	}
 
 	@RequestMapping(value = "/escolher/{setor}")
 	@ResponseBody
 	public List<Produto> mostraropcao(@PathVariable String setor){
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 		if(setor.equals("TODOS") == true) {
-			return produtos.findByDisponivelAndSetorNot(true, "BORDA");
+			return produtos.findByCodEmpresaAndDisponivelAndSetorNot(user.getCodEmpresa(), true, "BORDA");
 		}
-		return produtos.findBySetorAndDisponivel(setor, true);
+		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), setor, true);
 	}
 
 	@RequestMapping(value = "/produto/{id}")
@@ -79,15 +90,21 @@ public class NovoPedidoTabletController{
 	@RequestMapping(value = "/bordas")
 	@ResponseBody
 	public List<Produto> buscarBordas(){
-		return produtos.findBySetorAndDisponivel("BORDA", true);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 	}
 	
 	@RequestMapping(value = "/atualizar")
 	@ResponseBody
 	public Pedido atualizar(@RequestBody Pedido pedido) {
-		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		
-		Pedido antigo = pedidos.findByNomeAndDataAndStatusNotAndStatusNot(pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
+		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); //buscar tabela dia de acesso
+		
+		Pedido antigo = pedidos.findByCodEmpresaAndNomeAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
 		if(antigo == null) {
 			return new Pedido();
 		}
@@ -97,12 +114,14 @@ public class NovoPedidoTabletController{
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
 	public ResponseEntity<Pedido> novoPedido(@RequestBody Pedido pedido) {
-		System.out.println(pedido.getComanda());
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+
 		LogUsuario usuario = new LogUsuario();
-		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
+		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); // buscar tabela dia de acesso
 		
 		if (pedido.getId() == null) {// se o pedido ja existir
-			Dado dado = dados.findByData(data.getDia()); // buscar dia nos dados
+			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data.getDia()); // buscar dia nos dados
 
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
 			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
@@ -111,21 +130,22 @@ public class NovoPedidoTabletController{
 			//log mesa
 			LogMesa mesa = new LogMesa();
 			mesa.setMesa(pedido.getNome());
+			mesa.setCodEmpresa(user.getCodEmpresa());
 			mesas.save(mesa);
 			
 			usuario.setAcao("Criar pedido: " + pedido.getNome());
 		}else {
 			usuario.setAcao("Atualizar pedido: " + pedido.getNome());
 		}
-		System.out.println(pedido.getComanda());
-		
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
 		
 		Date hora = new Date();
-		usuario.setUsuario(((UserDetails)principal).getUsername());
-		usuario.setData(hora.toString());
 		
-		usuarios.save(usuario); //salvar logUsuario
+		usuario.setUsuario(user.getEmail());
+		usuario.setData(hora.toString());
+		usuario.setCodEmpresa(user.getCodEmpresa());
+		logUsuarios.save(usuario); //salvar logUsuario
+
+		pedido.setCodEmpresa(user.getCodEmpresa());
 		return ResponseEntity.ok(pedidos.save(pedido)); //salvar pedido
 	}
 }

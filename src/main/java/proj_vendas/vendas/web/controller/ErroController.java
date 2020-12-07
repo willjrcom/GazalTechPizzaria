@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +17,7 @@ public class ErroController {
 	
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@RequestMapping
 	public ModelAndView tela() {
 		return new ModelAndView("erro");
@@ -23,7 +25,7 @@ public class ErroController {
 	
 	@RequestMapping(value = "/todos")
 	@ResponseBody
-	public java.util.List<Usuario> todos(){
-		return usuarios.findByAtivo(false);
+	public List<Usuario> todos(){
+		return usuarios.findByAtivo(true);
 	}
 }
