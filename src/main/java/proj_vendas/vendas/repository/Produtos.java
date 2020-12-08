@@ -11,35 +11,18 @@ import proj_vendas.vendas.model.Produto;
 
 @Transactional(readOnly = true)
 public interface Produtos extends JpaRepository<Produto, Long>{
+
+	public Produto findByCodEmpresaAndCodigoBusca(int codEmpresa, String codigo);
 	
-	//public List<Produto> findByNomeProdutoContainingOrDescricaoContaining(String nome, String descricao);//Produtos cadastrados
+	public List<Produto> findByCodEmpresa(int codEmpresa);
 	
-	//@Query("select p from Produto p where p.setor = 'BORDA' AND p.disponivel = true")
-	//public List<Produto> findAllBordas();//novo pedido
-
-	//public List<Produto> findByDisponivelAndSetorNot(boolean i, String setor);//novo pedido tablet // mostrar todos
-
-	//public List<Produto> findBySetorAndDisponivel(String setor, boolean i);//buscar para paginas
-
-	//public List<Produto> findByCodigoBuscaAndDisponivelAndSetorNot(String codigo, boolean i, String setor);//buscar produto por codigo
-	
-	//public Produto findByCodigoBusca(String codigo);//buscar no cadastro
-
-	//public List<Produto> findByNomeProdutoContainingAndDisponivelAndSetorNot(String nome, boolean b, String setor);//buscar produto por nome
-
-	public List<Produto> findByCodEmpresaAndDisponivelAndSetorNot(int codEmpresa, boolean b, String string);
+	public List<Produto> findByCodEmpresaAndSetorNotAndDisponivel(int codEmpresa, String setorNot, boolean b);
 
 	public List<Produto> findByCodEmpresaAndSetorAndDisponivel(int codEmpresa, String setor, boolean b);
 
-	public Produto findByCodEmpresaAndCodigoBusca(int codEmpresa, String codigo);
+	public List<Produto> findByCodEmpresaAndNomeProdutoContainingOrCodEmpresaAndDescricaoContaining(int codEmpresa, String nome, int codEmpresa2, String nome2);
 
-	public List<Produto> findByCodEmpresa(int codEmpresa);
-
-	public List<Produto> findByCodEmpresaAndNomeProdutoContainingOrCodEmpresaAndDescricaoContaining(int codEmpresa,
-			String nome, int codEmpresa2, String nome2);
-
-	public List<Produto> findByCodEmpresaAndCodigoBuscaAndDisponivelAndSetorNot(int codEmpresa, String nome, boolean b,
-			String string);
+	public List<Produto> findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(int codEmpresa, String nome, String setorNot, boolean b);
 	
 	@Query("SELECT COUNT(u) FROM Produto u WHERE u.codEmpresa=:cod")
     public int totalProdutos(@Param("cod") int codEmpresa);

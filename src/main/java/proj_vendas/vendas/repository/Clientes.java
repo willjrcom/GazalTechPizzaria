@@ -11,12 +11,6 @@ import proj_vendas.vendas.model.Cliente;
 
 @Transactional(readOnly = true) //evitar duplo acesso ao banco
 public interface Clientes extends JpaRepository<Cliente, Long>{
-	
-	//public Cliente findByCelular(String celular);
-
-	//public List<Cliente> findByNomeContainingOrCelular(String nome, String celular);
-
-	//public Cliente findByCpf(String cpf);
 
 	public Cliente findByCodEmpresaAndCpf(int codEmpresa, String cpf);
 
@@ -24,8 +18,7 @@ public interface Clientes extends JpaRepository<Cliente, Long>{
 
 	public List<Cliente> findByCodEmpresa(int codEmpresa);
 
-	public List<Cliente> findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(int codEmpresa, String nome,
-			int codEmpresa2, String nome2);
+	public List<Cliente> findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(int codEmpresa, String nome, int codEmpresa2, String nome2);
 	
 	@Query("SELECT COUNT(u) FROM Cliente u WHERE u.codEmpresa=:cod")
     public int totalClientes(@Param("cod") int codEmpresa);

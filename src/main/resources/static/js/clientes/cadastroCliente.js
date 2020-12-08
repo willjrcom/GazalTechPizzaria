@@ -34,6 +34,12 @@ if(typeof url_atual != "undefined") {
 		$("#referencia").val(cliente.endereco.referencia);
 		$("#taxa").val(cliente.endereco.taxa);
 		
+		$("#dados").html("Total de pedidos: " + cliente.contPedidos
+						+ "<br>Data de cadastro: "  + cliente.dataCadastro.split("-")[2] + "/"
+													+ cliente.dataCadastro.split("-")[1] + "/"
+													+ cliente.dataCadastro.split("-")[0]
+					).css({"float":"right"});
+		
 	}).fail(function(){
 		$.alert("Erro, Cliente não encontrado!");
 	});

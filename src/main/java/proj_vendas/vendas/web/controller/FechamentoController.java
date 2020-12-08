@@ -76,7 +76,7 @@ public class FechamentoController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia).size();
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO").size();
 	}
 	
 	@RequestMapping(value = "/fechamento/Tvendas")
@@ -87,7 +87,7 @@ public class FechamentoController {
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 
-		return pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia);
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 	}
 	
 	@RequestMapping(value = "/fechamento/buscarIdData/{data}")
@@ -117,7 +117,7 @@ public class FechamentoController {
 		logUsuarios.save(log); //salvar logUsuario
 				
 		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); //buscar tabela dia de acesso
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "PRONTO", data.getDia());
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), data.getDia(), "PRONTO");
 		temps.deleteInBatch(temp);
 		
 		dado.setCodEmpresa(user.getCodEmpresa());
@@ -138,7 +138,7 @@ public class FechamentoController {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		List<Pedido> pedido = pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia);
+		List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		int entrega = 0, balcao = 0, mesa = 0, drive = 0;

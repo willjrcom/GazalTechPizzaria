@@ -10,7 +10,5 @@ import proj_vendas.vendas.model.Salario;
 @Transactional(readOnly = true)
 public interface Salarios extends JpaRepository<Salario, Long>{
 
-	//public List<Salario> findByIdFuncionarioAndData(Long idFuncionario, String data);
-
 	public List<Salario> findByCodEmpresaAndIdFuncionarioAndData(int codEmpresa, Long id, String data);
 }

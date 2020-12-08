@@ -48,7 +48,8 @@ public class FinalizarController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndStatusAndDataAndEnvioNotOrCodEmpresaAndStatusAndDataAndEnvio(user.getCodEmpresa(), "PRONTO", dia, "ENTREGA", user.getCodEmpresa(), "MOTOBOY", dia, "ENTREGA");
+		return pedidos.findByCodEmpresaAndDataAndEnvioNotAndStatusOrCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO", user.getCodEmpresa(), dia, "ENTREGA", "MOTOBOY");
+
 	}
 
 	@RequestMapping(value = "/finalizarPedido/{id}/{ac}")

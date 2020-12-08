@@ -42,6 +42,6 @@ public class RelatoriodiaController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndStatusAndData(user.getCodEmpresa(), "FINALIZADO", dia);
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 	}
 }

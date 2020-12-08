@@ -135,7 +135,7 @@ function editarFuncionario() {
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){
-					window.location.href = "/adm/cadastroFuncionario/editarFuncionario/" + idFuncionario;
+					window.location.href = "/adm/cadastroFuncionario/editar/" + idFuncionario;
 				}
 			},
 	        cancel:{

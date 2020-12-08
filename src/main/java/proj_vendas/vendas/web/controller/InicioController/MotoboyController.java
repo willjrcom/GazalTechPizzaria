@@ -59,7 +59,7 @@ public class MotoboyController{
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndStatusAndEnvioAndData(user.getCodEmpresa(), "PRONTO", "ENTREGA", dia);
+		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO");
 	}
 	
 	@RequestMapping(value = "/funcionarios")

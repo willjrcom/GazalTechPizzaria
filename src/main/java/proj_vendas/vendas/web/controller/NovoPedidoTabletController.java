@@ -66,7 +66,7 @@ public class NovoPedidoTabletController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return produtos.findByCodEmpresaAndDisponivelAndSetorNot(user.getCodEmpresa(), true, "BORDA");
+		return produtos.findByCodEmpresaAndSetorNotAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 	}
 
 	@RequestMapping(value = "/escolher/{setor}")
@@ -76,7 +76,7 @@ public class NovoPedidoTabletController{
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		if(setor.equals("TODOS") == true) {
-			return produtos.findByCodEmpresaAndDisponivelAndSetorNot(user.getCodEmpresa(), true, "BORDA");
+			return produtos.findByCodEmpresaAndSetorNotAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 		}
 		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), setor, true);
 	}
@@ -104,7 +104,8 @@ public class NovoPedidoTabletController{
 		
 		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); //buscar tabela dia de acesso
 		
-		Pedido antigo = pedidos.findByCodEmpresaAndNomeAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
+		Pedido antigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), data.getDia(), pedido.getNome(), "FINALIZADO", "EXCLUIDO");
+		
 		if(antigo == null) {
 			return new Pedido();
 		}

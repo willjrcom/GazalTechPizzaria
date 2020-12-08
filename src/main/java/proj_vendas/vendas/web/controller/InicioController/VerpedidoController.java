@@ -53,8 +53,7 @@ public class VerpedidoController{
 	public Pedido excluirPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		Pedido pedido = pedidos.findById((long)id).get();
 		
 		//log
@@ -69,7 +68,7 @@ public class VerpedidoController{
 		logUsuarios.save(log); //salvar logUsuario
 				
 		pedido.setStatus("EXCLUIDO");
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndComanda(user.getCodEmpresa(), pedido.getComanda());
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, pedido.getComanda());
 		temps.deleteInBatch(temp);
 		return pedidos.save(pedido);
 	}

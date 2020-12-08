@@ -90,13 +90,12 @@ public class NovoPedidoController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndDisponivelAndSetorNot(user.getCodEmpresa(), nome, true, "BORDA");// busca apenas
-																										// 1 item
+		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);// busca apenas 1 item
+																										
 		if (produto.size() >= 1) {
 			return produto;
 		} else {// buscar se esta indisponivel
-			List<Produto> produtoIndisponivel = produtos.findByCodEmpresaAndCodigoBuscaAndDisponivelAndSetorNot(user.getCodEmpresa(), nome, false,
-					"BORDA");// busca apenas 1 item
+			List<Produto> produtoIndisponivel = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", false);// busca produto indisponivel
 			if (produtoIndisponivel.size() != 0) {
 				produtoIndisponivel.get(0).setId((long) -1);// codigo -1: nao disponivel
 				return produtoIndisponivel;
@@ -175,8 +174,8 @@ public class NovoPedidoController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); // buscar tabela dia de acesso
-		Pedido antigo = pedidos.findByCodEmpresaAndNomeAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
-		
+		Pedido antigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), data.getDia(), pedido.getNome(), "FINALIZADO", "EXCLUIDO");
+				
 		if (antigo == null) {
 			return new Pedido();
 		}
@@ -198,8 +197,8 @@ public class NovoPedidoController {
 	public void excluirPedido(@PathVariable long comanda) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndComanda(user.getCodEmpresa(), comanda);
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, comanda);
 		temps.deleteInBatch(temp);
 	}
 
