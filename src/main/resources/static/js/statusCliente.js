@@ -24,36 +24,29 @@ function buscarPedidos() {
 			}
 		}
 		
-		linhaHtml = "";
+		andamentoHtml = "";
+		prontoHtml = "";
 		
 		if(pedidos.length == 0){
 			$("#todosPedidos").html(pedidoVazio);
 		}else{
 			for(var i = pedidos.length-1; i>=0; i--){//cada pedido
 			
-				if(pedidos[i].pizzas != null) {
-					linhaHtml += '<tr>'
-								+ '<td>' + pedidos[i].comanda + '</td>'
-								+ '<td>' + pedidos[i].nome + '</td>'
-							
-					//verificar a situacao do pedido
-					if(pedidos[i].status == "PRONTO"){
-						linhaHtml += '<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-success"'
-									+ 'value="'+ pedidos[i].id + '">Pronto</button></a></td>';
-					}else if(pedidos[i].status == "COZINHA"){
-						linhaHtml += '<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-danger"'
-									+ 'value="'+ pedidos[i].id + '">Andamento</button></a></td>';
-					}
+				if(pedidos[i].pizzas != null && pedidos[i].status == "PRONTO") {
+					prontoHtml += '<tr>'
+									+ '<td class="text-center col-md-6"><h4>' + pedidos[i].comanda + '</h4></td>'
+									+ '<td class="text-center col-md-6"><h4>' + limit(pedidos[i].nome) + '</h4></td>'
+								+ '</tr>' + linhaCinza + linhaCinza;
 					
-					linhaHtml += '</tr>';
-					linhaHtml += linhaCinza + linhaCinza;
+				}else if(pedidos[i].pizzas != null && pedidos[i].status == "COZINHA") {
+					andamentoHtml += '<tr>'
+									+ '<td class="text-center col-md-6"><h4>' + pedidos[i].comanda + '</h4></td>'
+									+ '<td class="text-center col-md-6"><h4>' + limit(pedidos[i].nome) + '</h4></td>'
+								+ '</tr>' + linhaCinza + linhaCinza;
 				}
 			}
-			$("#todosPedidos").html(linhaHtml);
+			$("#andamento").html(andamentoHtml);
+			$("#pronto").html(prontoHtml);
 		}
 	});
 };
@@ -64,3 +57,8 @@ setInterval(function (){
 	buscarPedidos();
 },20000); // recarregar a cada 20 segundos
 	
+
+//-------------------------------------
+function limit(nome) {
+	return nome.substr(0, 20);
+}
