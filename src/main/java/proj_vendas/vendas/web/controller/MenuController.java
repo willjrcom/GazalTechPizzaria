@@ -52,17 +52,14 @@ public class MenuController {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		
 		if(empresa != null) {
-			String nome = empresa.getNomeEstabelecimento();
-			String contato = empresa.getCelular();
-			
-			mv.addObject("empresa", nome);
-			mv.addObject("contato", "Contato: " + contato);
+			mv.addObject("empresa", empresa.getNomeEstabelecimento());
+			mv.addObject("contato", "Contato: " + empresa.getCelular());
 		}else {
 			mv.addObject("empresa", "GazalTech");
 			mv.addObject("contato", "Acesse: EMPRESA -> OPÇÕES -> Cadastre-se");
 		}
-		String usuario = user.getEmail();
-		mv.addObject("usuario", "Usuário conectado: " + usuario);
+		mv.addObject("usuario", user.getEmail());
+		mv.addObject("permissao", user.getPerfil());
 		return mv;
 	}
 	
@@ -166,5 +163,12 @@ public class MenuController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		return dias.findByCodEmpresa(user.getCodEmpresa());
+	}
+	
+	@RequestMapping("/autenticado")
+	@ResponseBody
+	public String autenticado() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		return ((UserDetails)principal).getUsername();
 	}
 }

@@ -340,3 +340,10 @@ h3{
 #Tmenu{
 	width: 50vh;
 }
+
+.bola {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    background-color: #00FF00;
+}

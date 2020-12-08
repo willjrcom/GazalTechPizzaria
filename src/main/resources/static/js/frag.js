@@ -39,10 +39,18 @@ function ajuda() {
 
 //---------------------------------------------------------------
 $(document).ready(function(){
+
+	$.ajax({
+		url: "/menu/autenticado"
+	}).done(function(e){
+		$("#usuario").html('<span class="oi oi-person"></span> ' + e);
+	});
+	
 	$.ajax({
 		url: '/novoPedido/empresa',
 		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) $("title").text($("title").text() + " - " + e.nomeEstabelecimento);
 	});
+	
 });
