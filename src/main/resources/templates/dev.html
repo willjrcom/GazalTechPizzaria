@@ -14,17 +14,62 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<input type="hidden" id="id" name="id"/>
 		
-		<div class="row" id="divLiberacao">
-			<div class="form-group col-md-8">
-				<input type="password" class="form-control pula" id="codigo" name="codigo" placeholder="Código de liberação"  autofocus="autofocus"/>  
+		<div class="form-group">
+				<label>E-mail:<br></label>
+				<p id="avisoUsuario">Usuário já cadastrado, tente outro!</p>
+				<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" />
 			</div>
 			
-			<div class="form-group col-md-4">
-				<button class="btn btn-primary pula" id="buscar"><span class="oi oi-lock-unlocked"></span> Liberar Acesso</button>
-			</div>
-		</div>
+			<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button><br>
 			
-		<div id="liberar"></div>
+			<div class="row" id="senhas">
+				<div class="form-group col-md-6">
+					<label>Senha:<br></label>
+					<p id="avisoSenha">As senhas não conferem!</p>
+					<input type="password" class="form-control pula" id="senha" name="senha" placeholder="Senha" /> 
+				</div>
+	
+				<div class="form-group col-md-6">
+					<label>Confirmar Senha:<br></label>
+					<input type="password" class="form-control pula" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label>Permissão:<br></label>
+					<select class="form-control" id="perfil">
+						<option value="USUARIO">USUARIO</option>
+						<option value="ADM">ADM</option>
+						<option value="ADM">DEV</option>
+					</select>
+				</div>
+				
+				<div class="form-group col-md-6">
+					<label>Ativo:<br></label>
+					<select class="form-control" id="ativo">
+						<option value="true">Sim</option>
+						<option value="false">Não</option>
+					</select>
+				</div>
+			</div>
+			<br>
+			<button type="button" id="criar" class="form-contact-button" name="enviar">Criar Usuário</button>
+			 <br><hr>
+			 <h3 align="center">Todos Usuários</h3>
+			 <table>
+			 	<thead>
+			 		<tr>
+						<th class="col-md-1"><h5>Empresa</h5></th>
+						<th class="col-md-1"><h5>Email</h5></th>
+						<th class="col-md-1"><h5>Perfil</h5></th>
+						<th class="col-md-1"><h5>Ativo</h5></th>
+						<th class="col-md-1"><h5>Editar</h5></th>
+					</tr>
+				</thead>
+				
+				<tbody id="todosUsuarios"></tbody>
+			 </table>
 	</div>
 	
 	<br>
