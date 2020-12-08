@@ -49,8 +49,27 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="dadosMenu" class="container">
-		<ul id="gn-menu" class="gn-menu-main">
-			<li><a style="text-decoration: none"><span class="bola">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
+		<ul id="gn-menu" class="gn-menu-main"><li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li>
+								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
+								<a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${totalFinalizado}"></span> Finalizado</a>
+								<a style="text-decoration: none"><span class="bolaRed">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${totalAberto}"></span> Em aberto</a>
+							</li>
+							
+							<li>
+								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
+								<a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${pronto}"></span> Pronto</a>
+								<a style="text-decoration: none"><span class="bolaRed">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${cozinha}"></span> Na cozinha</a>
+							</li>
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
 			<li><a style="text-decoration: none"><span class="oi oi-key"></span> <label th:text="${permissao}"></label></a></li>
 			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
 			<li><a style="text-decoration: none" id="data"><span class="oi oi-calendar"></span> Data de acesso</a></li>
@@ -73,14 +92,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Atendimento</b></p>
+								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
 								<a th:href="@{/novoPedido}" accesskey="N"><span class="oi oi-plus"></span> Novo Pedido</a>
 								<a th:href="@{/motoboy}" accesskey="E"><span class="oi oi-timer"></span> Entregar</a>
 								<a th:href="@{/finalizar}" accesskey="F"><span class="oi oi-data-transfer-download"></span> Finalizar</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Preparação</b></p>
+								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
 								<a th:href="@{/cozinha}" accesskey="C"><span class="oi oi-clock"></span> Cozinha</a>
 								<a th:href="@{/statusCliente}" accesskey="S"><span class="oi oi-eye"></span> Status Cliente</a>
 								<a th:href="@{/statusEmpresa}" accesskey="S"><span class="oi oi-eye"></span> Status Empresa</a>

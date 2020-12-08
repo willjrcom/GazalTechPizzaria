@@ -3,6 +3,8 @@ package proj_vendas.vendas.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Pedido;
@@ -19,4 +21,7 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 	public List<Pedido> findByCodEmpresaAndDataAndEnvioAndStatus(int codEmpresa, String data, String envio, String status);
 
 	public List<Pedido> findByCodEmpresaAndDataAndStatusNotAndStatusNot(int codEmpresa, String data, String statusNot, String statusNot2);
+
+	@Query("SELECT COUNT(u) FROM Pedido u WHERE u.codEmpresa=:cod AND u.data=:dia AND NOT u.status=:status1 AND NOT u.status=:status2")
+    public int totalPedidos(@Param("cod") int codEmpresa, @Param("dia") String dia, @Param("status1") String status1, @Param("status2") String status2);
 }

@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +21,8 @@ import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.LogUsuarios;
+import proj_vendas.vendas.repository.PedidoTemps;
+import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -43,6 +44,12 @@ public class MenuController {
 	@Autowired
 	private LogUsuarios logUsuarios;
 	
+	@Autowired
+	private Pedidos pedidos;
+	
+	@Autowired
+	private PedidoTemps temps;
+	
 	@RequestMapping
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -51,6 +58,14 @@ public class MenuController {
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		
+		//pedidos
+		int totalAberto = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "FINALIZADO", "EXCLUIDO");
+		int totalFinalizado = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO", "EXCLUIDO");
+		
+		//pizzas
+		int cozinha = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "COZINHA");
+		int pronto = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO");
+		
 		if(empresa != null) {
 			mv.addObject("empresa", empresa.getNomeEstabelecimento());
 			mv.addObject("contato", "Contato: " + empresa.getCelular());
@@ -58,6 +73,16 @@ public class MenuController {
 			mv.addObject("empresa", "GazalTech");
 			mv.addObject("contato", "Acesse: EMPRESA -> OPÇÕES -> Cadastre-se");
 		}
+		
+		//pizzas
+		mv.addObject("cozinha", cozinha);
+		mv.addObject("pronto", pronto);
+	
+		//pedidos
+		mv.addObject("totalFinalizado", totalFinalizado);
+		mv.addObject("totalAberto", totalAberto);
+		
+		//empresa
 		mv.addObject("usuario", user.getEmail());
 		mv.addObject("permissao", user.getPerfil());
 		return mv;
@@ -141,19 +166,16 @@ public class MenuController {
 		}
 	}
 	
-	@RequestMapping(value = "/buscarIdData/{data}")
+	@RequestMapping(value = "/troco/{data}/{trocoInicial}")
 	@ResponseBody
-	public Dado buscarId(@PathVariable String data) {
+	public int buscarId(@PathVariable String data, @PathVariable double trocoInicial) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);
-	}
-	
-	@RequestMapping(value = "/troco/{id}")
-	@ResponseBody
-	public Dado alterarTroco(@RequestBody Dado dado) {
-		return dados.save(dado);
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);
+		dado.setTrocoInicio(trocoInicial);
+		dados.save(dado);
+		return 200;
 	}
 	
 	@RequestMapping(value = "/mostrarDia")

@@ -339,9 +339,16 @@ h3{
 	width: 50vh;
 }
 
-.bola {
+.bolaGreen {
     border-radius: 50%;
     height: 30px;
     width: 30px;
     background-color: #00FF00;
+}
+
+.bolaRed {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    background-color: red;
 }

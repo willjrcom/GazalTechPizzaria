@@ -157,48 +157,39 @@ function troco() {
 							}
 						});
 					}else {
-						dados.trocoInicio = troco;
-						
-						//buscar id da data do sistema
+
+						//alterar troco inicial						
 						$.ajax({
-							url: '/menu/buscarIdData/' + dados.data,
+							url: '/menu/troco/' + dados.data + "/" + troco,
 							type: 'GET'
-						}).done(function(e){
-			
-							dados = e;
-							
-							//alterar troco inicial
-							$.ajax({
-								url: '/menu/troco/' + dados.id,
-								type: 'PUT',
-								dataType : 'json',
-								contentType: "application/json",
-								data: JSON.stringify(dados)
-							}).done(function(){
-								$.alert({
-									type:'green',
-									title: 'Troco alterado',
-									content:'Boas vendas!',
-									buttons:{
-										confirm:{
-											text:'Obrigado',
-											btnClass: 'btn-success'
+						}).done(function(){
+							$.alert({
+								type:'green',
+								title: 'Troco alterado',
+								content:'Boas vendas!',
+								buttons:{
+									confirm:{
+										text:'Obrigado',
+										btnClass: 'btn-success',
+										keys: ['esc', 'enter'],
+										action: function(){
+											window.location.href= "/menu";
 										}
 									}
-								});
-							}).fail(function(){
-								$.alert({
-									type: 'red',
-									title: 'Alerta',
-									content: "Digite um valor válido!",
-									buttons: {
-										confirm: {
-											text: 'Tentar novamente',
-											btnClass: 'btn-danger',
-											keys: ['esc', 'enter']
-										}
+								}
+							});
+						}).fail(function(){
+							$.alert({
+								type: 'red',
+								title: 'Alerta',
+								content: "Digite um valor válido!",
+								buttons: {
+									confirm: {
+										text: 'Tentar novamente',
+										btnClass: 'btn-danger',
+										keys: ['esc', 'enter']
 									}
-								});
+								}
 							});
 						});
 					}
