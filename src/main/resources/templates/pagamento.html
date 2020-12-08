@@ -12,21 +12,24 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Pagamento</h1>
 		
 		<hr>
-		
-		<div class="table-responsive">
-			<table class="col-md-2">
-				<tr><th class="text-center col-md-1"><h3>Preço Hora Extra</h3></th></tr>
-				<tr><td class="sombra" id="horaExtra"><h5></h5></td></tr>
-			</table>
+		<div class="row">
+			<div class="col-md-2">
+				<a th:href="@{/adm/cadastroFuncionario}"><button class="btn btn-success"><span class="oi oi-plus"></span> Cadastrar funcionário</button></a>
+			</div>
+			
+			<div class="col-md-2">
+				<a th:href="@{/adm/funcionariosCadastrados}"><button class="btn btn-primary"><span class="oi oi-people"></span> Funcionários cadastrados</button></a>
+			</div>
 		</div>
+				
 		<br>
 		
 		<div class="table-responsive">
 			<table>
 				<thead>
 					<tr>
-						<th class="text-center col-md-1"><h3>{}</h3></th>
 						<th class="text-center col-md-1"><h3>Funcionário</h3></th>
+						<th class="text-center col-md-1"><h3>Celular</h3></th>
 						<th class="text-center col-md-1"><h3>Salário</h3></th>
 						<th class="text-center col-md-1"><h3>Cargo</h3></th>
 						<th class="text-center col-md-1"><h3>Ver</h3></th>

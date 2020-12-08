@@ -16,8 +16,8 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/status")
-public class StatusController{
+@RequestMapping("/statusCliente")
+public class StatusClienteController{
 	
 	@Autowired
 	private PedidoTemps temps;
@@ -27,7 +27,7 @@ public class StatusController{
 
 	@RequestMapping
 	public ModelAndView pronto() {
-		return new ModelAndView("status");
+		return new ModelAndView("statusCliente");
 	}
 	
 	@RequestMapping(value = "/todosPedidos")

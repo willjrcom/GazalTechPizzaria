@@ -63,9 +63,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li><a th:href="@{/verpedido}" accesskey="V"><span class="oi oi-grid-two-up"></span> Ver Pedidos</a></li>
 							<li><a th:href="@{/novoPedido}" accesskey="N"><span class="oi oi-plus"></span> Novo Pedido</a></li>
 							<li><a th:href="@{/cozinha}" accesskey="C"><span class="oi oi-clock"></span> Cozinha</a></li>
-							<li><a th:href="@{/status}" accesskey="S"><span class="oi oi-eye"></span> Status</a></li>
 							<li><a th:href="@{/motoboy}" accesskey="E"><span class="oi oi-timer"></span> Entregar</a></li>
 							<li><a th:href="@{/finalizar}" accesskey="F"><span class="oi oi-data-transfer-download"></span> Finalizar</a></li>
+				
+							<li><br><a th:href="@{/statusCliente}" accesskey="S"><span class="oi oi-eye"></span> Status Cliente</a></li>
+							<li><a th:href="@{/statusEmpresa}" accesskey="S"><span class="oi oi-eye"></span> Status Empresa</a></li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
@@ -151,8 +153,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<ul class="gn-menu">
 							<li><a th:href="@{/adm/estatistica}"><span class="oi oi-graph"></span> Estatística</a></li>
 							<li><a th:href="@{/adm/pagamento}"><span class="oi oi-credit-card"></span> Pagamentos</a></li>
-							<li><a th:href="@{/adm/funcionariosCadastrados}"><span class="oi oi-clipboard"></span> Funcionários</a>
-							<li><a th:href="@{/adm/cadastroFuncionario}"><span class="oi oi-plus"></span> Funcionário</a></li>
 							<li><a th:href="@{/adm/compras}"><span class="oi oi-cart"></span> Compras</a></li>
 							<li><a th:href="@{/adm/diaAberto}"><span class="oi oi-warning"></span> Dias Abertos</a></li>
 							<li><a th:href="@{/adm/empresa}"><span class="oi oi-wrench"></span> Opções</a>

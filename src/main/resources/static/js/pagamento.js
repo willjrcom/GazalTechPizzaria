@@ -25,9 +25,6 @@ $.ajax({
 }).done(function(e){
 	if(e.length != 0) horaExtra = e.horaExtra;
 	
-
-	$("#horaExtra").text('R$ ' + horaExtra.toFixed(2));
-	
 	//Ao carregar a tela
 	//-------------------------------------------------------------------------------------------------------------------
 	$("#todosFuncionarios").html(linhaCinza);
@@ -45,8 +42,8 @@ $.ajax({
 		}else{
 			for(funcionario of funcionarios){
 				linhaHtml += '<tr>'
-								+ '<td>' + funcionario.id + '</td>'
 								+ '<td>' + funcionario.nome + '</td>'
+								+ '<td>' + funcionario.celular + '</td>'
 								+ '<td>R$ ' + funcionario.salario.toFixed(2) + '</td>'
 								+ '<td>' + funcionario.cargo + '</td>'
 								+ '<td>'
@@ -104,8 +101,10 @@ $.ajax({
 		$.alert({
 			type: 'blue',
 			title: 'Data',
-			content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
-			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+			content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' 
+				+ (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
+				+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' 
+				+ mesAtual.getFullYear() + '" max="2050" class="form-control" />',
 			buttons: {
 				confirm: {
 					text: 'Acessar',
@@ -141,7 +140,7 @@ $.ajax({
 											+ '<td>R$ ' + horas.toFixed(2) +'</td>'
 										+ '</tr>'
 									+'</table>'
-				
+							+ '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
 							+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label><br>'
 							+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
 							

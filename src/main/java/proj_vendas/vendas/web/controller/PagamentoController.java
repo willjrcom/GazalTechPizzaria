@@ -1,5 +1,6 @@
 package proj_vendas.vendas.web.controller;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Salario;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Salarios;
 import proj_vendas.vendas.repository.Usuarios;
@@ -35,9 +37,20 @@ public class PagamentoController {
 	@Autowired
 	private Usuarios usuarios;
 
+	@Autowired
+	private Empresas empresas;
+	
 	@GetMapping("/pagamento")
 	public ModelAndView tela() {
-		return new ModelAndView("pagamento");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+
+		DecimalFormat decimal = new DecimalFormat("0.00");
+		double horaExtra = empresas.findByCodEmpresa(user.getCodEmpresa()).getHoraExtra();
+		
+		ModelAndView mv = new ModelAndView("pagamento");
+		mv.addObject("horaExtra", decimal.format(horaExtra));
+		return mv;
 	}
 
 	@RequestMapping(value = "/pagamento/todosFuncionarios")
