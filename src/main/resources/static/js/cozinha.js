@@ -78,12 +78,14 @@ function buscarPedido() {
 									+ pizza.descricao 
 									+ '" title="Ingredientes: ' + pizza.descricao 
 									+ '"><span class="oi oi-question-mark"></span></button></td>'
-									+ '<td>' + pizza.obs + '</td>'
-									+ '<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
-									+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>'
-								+'</tr>';
+									+ '<td>' + pizza.obs + '</td>';
+							
+							if(j == 0)
+								linhaHtml += '<td>' 
+										+ '<a class="enviarPedido">'
+										+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
+										+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>'
+									+'</tr>';
 
 							if(divisao - pizza.qtd <= 0) {
 								linhaHtml += linhaCinza;
