@@ -49,7 +49,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="dadosMenu" class="container">
-		<ul id="gn-menu" class="gn-menu-main"><li class="gn-trigger">
+		<ul id="gn-menu" class="gn-menu-main">
+			<!--
+			<li class="gn-trigger">
 				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
@@ -66,9 +68,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<a style="text-decoration: none"><span class="bolaRed">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${cozinha}"></span> Na cozinha</a>
 							</li>
 						</ul>
-					</div><!-- /gn-scroller -->
+					</div>
 				</nav>
 			</li>
+			-->
 			<li><a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
 			<li><a style="text-decoration: none"><span class="oi oi-key"></span> <label th:text="${permissao}"></label></a></li>
 			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>

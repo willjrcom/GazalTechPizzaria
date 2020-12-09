@@ -109,6 +109,12 @@ public class FechamentoController {
 		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "PRONTO");
 		temps.deleteInBatch(temp);
 
+		//pedidos
+		List<Pedido> finalizados = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		List<Pedido> excluidos = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "EXCLUIDO");
+		pedidos.deleteInBatch(finalizados);
+		pedidos.deleteInBatch(excluidos);
+		
 		//buscar dado do dia
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 		dado.setTrocoFinal(trocoFinal);

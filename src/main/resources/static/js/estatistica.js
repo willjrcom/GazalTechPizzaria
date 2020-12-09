@@ -78,7 +78,7 @@ function drawBackgroundColor() {
 			  dados1.push([
 			              obj1.data.split('-')[2] + '/' + obj1.data.split('-')[1], 
 			              obj1.balcao, 
-			              obj1.entregas
+			              obj1.entrega
 			  ]);
 		  }
 	  }

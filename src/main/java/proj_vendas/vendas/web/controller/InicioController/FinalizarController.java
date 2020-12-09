@@ -67,8 +67,12 @@ public class FinalizarController {
 
 		if(pedido.getBalcao() == 1) {
 			dado.setBalcao(dado.getBalcao() + 1);
-		}else {
-			dado.setEntregas(dado.getEntregas() + 1);
+		}else if(pedido.getEntrega()== 1){
+			dado.setEntrega(dado.getEntrega() + 1);
+		}else if(pedido.getMesa() == 1){
+			dado.setMesa(dado.getMesa() + 1);
+		}else if(pedido.getDrive() == 1){
+			dado.setDrive(dado.getDrive() + 1);
 		}
 		
 		dado.setTotalLucro(dado.getTotalLucro() + pedido.getTotalLucro());

@@ -25,8 +25,10 @@ public class Dado extends AbstractEntity<Long> {
 	private int totalPedidos = 0;
 	private int totalPizza = 0;
 	private int totalProduto = 0;
-	private int entregas = 0;
+	private int entrega = 0;
 	private int balcao = 0;
+	private int mesa = 0;
+	private int drive = 0;
 	private int comanda = 0;
 	private int codEmpresa;
 	
@@ -55,14 +57,6 @@ public class Dado extends AbstractEntity<Long> {
 
 	public void setTotalLucro(double totalLucro) {
 		this.totalLucro = totalLucro;
-	}
-
-	public int getEntregas() {
-		return entregas;
-	}
-
-	public void setEntregas(int entregas) {
-		this.entregas = entregas;
 	}
 
 	public int getBalcao() {
@@ -143,6 +137,30 @@ public class Dado extends AbstractEntity<Long> {
 
 	public void setCodEmpresa(int codEmpresa) {
 		this.codEmpresa = codEmpresa;
+	}
+
+	public int getEntrega() {
+		return entrega;
+	}
+
+	public void setEntrega(int entrega) {
+		this.entrega = entrega;
+	}
+
+	public int getMesa() {
+		return mesa;
+	}
+
+	public void setMesa(int mesa) {
+		this.mesa = mesa;
+	}
+
+	public int getDrive() {
+		return drive;
+	}
+
+	public void setDrive(int drive) {
+		this.drive = drive;
 	}
 	
 }

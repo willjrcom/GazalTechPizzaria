@@ -21,8 +21,6 @@ import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.LogUsuarios;
-import proj_vendas.vendas.repository.PedidoTemps;
-import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -43,13 +41,13 @@ public class MenuController {
 
 	@Autowired
 	private LogUsuarios logUsuarios;
-	
+	/*
 	@Autowired
 	private Pedidos pedidos;
 	
 	@Autowired
 	private PedidoTemps temps;
-	
+	*/
 	@RequestMapping
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -57,7 +55,7 @@ public class MenuController {
 		
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		
+		/*
 		//pedidos
 		int totalAberto = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "FINALIZADO", "EXCLUIDO");
 		int totalFinalizado = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO", "EXCLUIDO");
@@ -65,7 +63,7 @@ public class MenuController {
 		//pizzas
 		int cozinha = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "COZINHA");
 		int pronto = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO");
-		
+		*/
 		if(empresa != null) {
 			mv.addObject("empresa", empresa.getNomeEstabelecimento());
 			mv.addObject("contato", "Contato: " + empresa.getCelular());
@@ -73,7 +71,7 @@ public class MenuController {
 			mv.addObject("empresa", "GazalTech");
 			mv.addObject("contato", "Acesse: EMPRESA -> OPÇÕES -> Cadastre-se");
 		}
-		
+		/*
 		//pizzas
 		mv.addObject("cozinha", cozinha);
 		mv.addObject("pronto", pronto);
@@ -81,6 +79,7 @@ public class MenuController {
 		//pedidos
 		mv.addObject("totalFinalizado", totalFinalizado);
 		mv.addObject("totalAberto", totalAberto);
+		*/
 		
 		//empresa
 		mv.addObject("usuario", user.getEmail());

@@ -22,29 +22,9 @@ $("#relatorio").attr("disabled", true);
 		
 //-------------------------------------------------------------------------------
 $.ajax({
-	//buscar total de vendas
-	url: '/adm/fechamento/pedidos',
-	type: 'GET'
+  	url: "/adm/fechamento/dados",
+  	type: "GET"
 }).done(function(e){
-	pedidos = e;
-	
-	//para cada pedido
-	for(pedido of pedidos) {
-			//separar tipos de envio
-			if(pedido.envio == "ENTREGA") {
-				entrega++;
-				tEntrega += pedido.total;
-			}else if(pedido.envio == "BALCAO") {
-				balcao++;
-				tBalcao += pedido.total;
-			}else if(pedido.envio == "MESA") {
-				mesa++;
-				tMesa += pedido.total;
-			}else if(pedido.envio == "DRIVE") {
-				drive++;
-				tDrive += pedido.total;
-			}
-	}
 
 	$("#relatorio").attr("disabled", false);
 	//--------------------------------------------------------------------------------
@@ -54,7 +34,7 @@ $.ajax({
 		relatorio.open();
 		
 		$.ajax({
-			url: '/adm/fechamento/relatorio/' + Tfaturamento,
+			url: '/adm/fechamento/relatorio/' + e.totalLucro,
 			type: 'GET'
 		}).done(function(){
 			relatorio.close();
@@ -79,10 +59,10 @@ $.ajax({
 	function drawChart() {
 	  var data = google.visualization.arrayToDataTable([
 	    ["Element", "Density", { role: "style" } ],
-	    ["Entrega", entrega, "green"],
-	    ["Balcão", balcao, "blue"],
-	    ["Mesa", mesa, "Brown"],
-	    ["Drive-Thru", drive, "color: yellow"]
+	    ["Entrega", Number(e.entrega), "green"],
+	    ["Balcão", Number(e.balcao), "blue"],
+	    ["Mesa", Number(e.mesa), "Brown"],
+	    ["Drive-Thru", Number(e.drive), "color: yellow"]
 	  ]);
 
 	  var view = new google.visualization.DataView(data);
@@ -100,32 +80,27 @@ $.ajax({
 	  var chart = new google.visualization.ColumnChart(document.getElementById("totalPedidos"));
 	  chart.draw(view, options);
 	  
-	//-------------------------------------------------------------------------------
-	  $.ajax({
-	  	url: "/adm/fechamento/dados",
-	  	type: "GET"
-	  }).done(function(e){
-	  	  var data = google.visualization.arrayToDataTable([
-	  		["Element", "Density", { role: "style" } ],
-	  		["Lucro Bruto", e.totalVendas, "green"],
-	  		["Lucro Liquido", e.totalLucro, "blue"],
-	  		  ]);
-	  		
-	  	  	  var view = new google.visualization.DataView(data);
-	  		  view.setColumns([0, 1,
-	  		                   { calc: "stringify",
-	  		                 sourceColumn: 1,
-	  		                 type: "string",
-	  		                 role: "annotation" },
-	  		                   2]);
-	  		
-	  		  var options = {
-	  		    bar: {groupWidth: "60%"},
-	  		    legend: { position: "none" },
-	  		  };
-	  		  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
-	  		  chart.draw(view, options);
-	  });
+	  //-------------------------------------------------------------------------------
+  	  var data = google.visualization.arrayToDataTable([
+  		["Element", "Density", { role: "style" } ],
+  		["Lucro Bruto", Number(e.totalVendas), "green"],
+  		["Lucro Liquido", Number(e.totalLucro), "blue"],
+  		  ]);
+  		
+  	  	  var view = new google.visualization.DataView(data);
+  		  view.setColumns([0, 1,
+  		                   { calc: "stringify",
+  		                 sourceColumn: 1,
+  		                 type: "string",
+  		                 role: "annotation" },
+  		                   2]);
+  		
+  		  var options = {
+  		    bar: {groupWidth: "60%"},
+  		    legend: { position: "none" },
+  		  };
+  		  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
+  		  chart.draw(view, options);
 	}
 }).fail(function(){
 	$.alert("Nenhum valor encontrado!");

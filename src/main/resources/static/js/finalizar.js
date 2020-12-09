@@ -221,12 +221,14 @@ function finalizarPedido() {
 								? Number(0) : Number(pedidos[idBusca].taxa)));
 						
 						if(pedidos[idBusca].envio == "ENTREGA") {
-							dado.entregas = 1;
-						}else {
+							dado.entrega = 1;
+						}else if(pedidos[idBusca].envio == "BALCAO"){
 							dado.balcao = 1;
+						}else if(pedidos[idBusca].envio == "MESA"){
+							dado.mesa = 1;
+						}else if(pedidos[idBusca].envio == "DRIVE"){
+							dado.drive = 1;
 						}
-						console.table(dado);
-						
 						
 						//salvar dados
 						$.ajax({
