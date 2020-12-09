@@ -23,7 +23,10 @@ public interface Produtos extends JpaRepository<Produto, Long>{
 	public List<Produto> findByCodEmpresaAndNomeProdutoContainingOrCodEmpresaAndDescricaoContaining(int codEmpresa, String nome, int codEmpresa2, String nome2);
 
 	public List<Produto> findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(int codEmpresa, String nome, String setorNot, boolean b);
+
+	public List<Produto> findByCodEmpresaAndNomeProdutoContainingAndSetorNotAndDisponivel(int codEmpresa, String nome, String setorNot, boolean b);
 	
 	@Query("SELECT COUNT(u) FROM Produto u WHERE u.codEmpresa=:cod")
     public int totalProdutos(@Param("cod") int codEmpresa);
+
 }

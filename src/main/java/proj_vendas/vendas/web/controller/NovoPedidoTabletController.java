@@ -102,12 +102,14 @@ public class NovoPedidoTabletController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); //buscar tabela dia de acesso
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia(); //buscar tabela dia de acesso
 		
-		Pedido antigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), data.getDia(), pedido.getNome(), "FINALIZADO", "EXCLUIDO");
+		Pedido antigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, pedido.getNome(), "FINALIZADO", "EXCLUIDO");
 		
 		if(antigo == null) {
-			return new Pedido();
+			Pedido vazio = new Pedido();
+			vazio.setData(dia);
+			return vazio;
 		}
 		return antigo;
 	}
@@ -121,7 +123,7 @@ public class NovoPedidoTabletController{
 		LogUsuario usuario = new LogUsuario();
 		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); // buscar tabela dia de acesso
 		
-		if (pedido.getId() == null) {// se o pedido ja existir
+		if (pedido.getId() == null) {// se o pedido nao existir
 			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data.getDia()); // buscar dia nos dados
 
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido

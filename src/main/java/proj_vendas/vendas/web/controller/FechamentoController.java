@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,13 +14,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.LogUsuario;
@@ -69,19 +67,9 @@ public class FechamentoController {
 		return new ModelAndView("fechamento");
 	}
 	
-	@RequestMapping(value = "/fechamento/Tpedidos")
+	@RequestMapping(value = "/fechamento/pedidos")
 	@ResponseBody
-	public long totalPedidos() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO").size();
-	}
-	
-	@RequestMapping(value = "/fechamento/Tvendas")
-	@ResponseBody
-	public List<Pedido> totalVendas() {
+	public List<Pedido> pedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -90,44 +78,41 @@ public class FechamentoController {
 		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 	}
 	
-	@RequestMapping(value = "/fechamento/buscarIdData/{data}")
+	@RequestMapping(value = "/fechamento/dados")
 	@ResponseBody
-	public Dado buscarId(@PathVariable String data) {
+	public Dado dados() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+
+		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 	}
 	
-	@RequestMapping(value = "/fechamento/finalizar")
+	@RequestMapping(value = "/fechamento/finalizar/{trocoFinal}")
 	@ResponseBody
-	public Dado finalizarCaixa(@RequestBody Dado dado) {
+	public Dado finalizarCaixa(@PathVariable double trocoFinal) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
 		
 		//log
 		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
-
 		log.setUsuario(user.getEmail());
 		log.setAcao("Fechamento de caixa");
-		log.setData(hora.toString());
+		log.setData(format.format(new Date()).toString());
 		log.setCodEmpresa(user.getCodEmpresa());
-		
 		logUsuarios.save(log); //salvar logUsuario
 				
-		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); //buscar tabela dia de acesso
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), data.getDia(), "PRONTO");
+		//temp
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "PRONTO");
 		temps.deleteInBatch(temp);
-		
-		dado.setCodEmpresa(user.getCodEmpresa());
+
+		//buscar dado do dia
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		dado.setTrocoFinal(trocoFinal);
 		return dados.save(dado);
-	}
-	
-	@RequestMapping(value = "/fechamento/data")
-	@ResponseBody
-	public Optional<Dia> data() {
-		return dias.findById((long) 1);
 	}
 	
 	@RequestMapping("/fechamento/relatorio/{lucro}")

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
+import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -25,18 +26,30 @@ public class ComprasController {
 	@Autowired
 	private Usuarios usuarios;
 
+	@Autowired
+	private Dias dias;
 	
 	@GetMapping("/compras")
 	public ModelAndView tela() {
 		return new ModelAndView("compras");
 	}
 	
-	@RequestMapping("/compras/comprar")
+	@RequestMapping(value = "/compras/dados")
 	@ResponseBody
-	public Dado comprar(@RequestBody Dado dado) {
+	public String dados() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 			.getAuthentication().getPrincipal()).getUsername());
-		dado.setCodEmpresa(user.getCodEmpresa());
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+		return dado.getCompras();
+	}
+	
+	@RequestMapping("/compras/comprar")
+	@ResponseBody
+	public Dado comprar(@RequestBody String compras) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+			.getAuthentication().getPrincipal()).getUsername());
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+		dado.setCompras(compras);
 		return dados.save(dado);
 	}
 }

@@ -187,32 +187,23 @@ $('#buscarCliente').on('click', function(){
 
 //------------------------------------------------------------------------------------
 function atualizarDados() {
-	//buscar data do sistema
+	//buscar pedido no sistema
 	$.ajax({
-		url: '/novoPedido/data',
-		type: 'GET'
+		url: "/novoPedido/atualizar",
+		type: "PUT",
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(cliente)
 	}).done(function(e){
+		cliente.data = e.data;
 		
-		cliente.data = e.dia;
-		cliente.status = "PRONTO";
-		
-		//buscar pedido no sistema
-		$.ajax({
-			url: "/novoPedido/atualizar",
-			type: "PUT",
-			dataType : 'json',
-			contentType: "application/json",
-			data: JSON.stringify(cliente)
-		}).done(function(e){
-	
-			if(e.id != null) {
-				op = "ATUALIZAR";
-				tPedido = e.total;
-				cliente.id = e.id;
-				cliente.comanda = e.comanda;
-				cliente.horaPedido = e.horaPedido;
-			}
-		});
+		if(e.id != null) {
+			op = "ATUALIZAR";
+			tPedido = e.total;
+			cliente.id = e.id;
+			cliente.comanda = e.comanda;
+			cliente.horaPedido = e.horaPedido;
+		}
 	});
 }
 		

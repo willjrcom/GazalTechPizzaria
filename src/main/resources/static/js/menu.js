@@ -64,7 +64,7 @@ $("#data").click(function(){
 	$.confirm({
 		type: 'blue',
 		title: 'Data de acesso:',
-		content: 'Dia:<br><input type="date" name="dia" id="dia" class="form-control" placeholder="Digite a data de acesso"/>',
+		content: 'Dia:<br><input type="date" name="dia" id="dia" class="form-control"/>',
 		buttons: {
 	        confirm: {
 	            text: 'Acessar',

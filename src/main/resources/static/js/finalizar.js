@@ -1,6 +1,7 @@
 var pedidos = [];
 var funcionarios = [];
 var pizzas = [];
+var dado = {};
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="7" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
@@ -85,9 +86,21 @@ function finalizarPedido() {
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;	
 	
 	Tpizzas = 0;
-	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;
+	dado.totalPizza = 0;
+	dado.totalProduto = 0;
+	dado.totalLucro = 0;
 	
-	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
+	for(pizza of pedidos[idBusca].pizzas) {
+		dado.totalLucro += pizza.custo;
+		dado.totalPizza += pizza.qtd;
+	}
+	Tpizzas = dado.totalPizza;
+	
+	for(produto of pedidos[idBusca].produtos) {
+		dado.totalLucro += produto.custo;
+		dado.totalProduto += produto.qtd;
+	}
+	Tpizzas += dado.totalProduto;
 	
 	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
@@ -203,6 +216,26 @@ function finalizarPedido() {
 							
 							verificarTroco = 1;
 						}
+						
+						dado.totalVendas = (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
+								? Number(0) : Number(pedidos[idBusca].taxa)));
+						
+						if(pedidos[idBusca].envio == "ENTREGA") {
+							dado.entregas = 1;
+						}else {
+							dado.balcao = 1;
+						}
+						console.table(dado);
+						
+						
+						//salvar dados
+						$.ajax({
+							url: "/finalizar/dados",
+							type: "PUT",
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(dado)
+						});
 						
 						$.ajax({
 							url: "/finalizar/finalizarPedido/" + idProduto + '/' + $("#filtro").val(),
