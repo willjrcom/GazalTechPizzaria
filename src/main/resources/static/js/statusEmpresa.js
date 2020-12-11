@@ -1,3 +1,4 @@
+$("#filtro").selectmenu().addClass("overflow");
 var pedidos = [];
 var linhaHtml= "";
 var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList" ></td></tr>';

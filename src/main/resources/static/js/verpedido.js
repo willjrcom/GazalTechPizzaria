@@ -1,3 +1,4 @@
+$("#filtro").selectmenu().addClass( "overflow" );
 var pedidos = [];
 var funcionarios = [];
 var linhaHtml= "";
