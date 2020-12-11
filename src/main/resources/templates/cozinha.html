@@ -13,28 +13,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<hr>
 		
 		<div class="alert alert-success" role="alert" id="alertaPedidos" style="display:none">novos pedidos!</div>
-		
-		<div class="table-responsive">
-			<table>
-				<thead>
-					<tr>
-						<th class="col-md-6"><h4>Total pedidos</h4></th>
-						<th class="col-md-6"><h4>Total pizzas</h4></th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<tr>
-						<td id="Tpedidos"></td>
-						<td id="Tpizzas"></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
 
-		<br>
 		<div>
-			<label for="filtro">Filtrar:</label>
 			<select name="filtro" id="filtro">
 				<option value="TODOS">Todos</option>
 				<option value="ENTREGA">Entrega</option>
@@ -42,8 +22,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<option value="MESA">Mesa</option>
 				<option value="DRIVE">Drive-thru</option>
 			</select>
+			
+			<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
 		</div>
 		
+		<br>
 		<div class="table-responsive">
 			<table>
 				<thead>
