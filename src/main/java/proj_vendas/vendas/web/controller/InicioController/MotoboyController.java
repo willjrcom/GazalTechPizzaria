@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
@@ -49,7 +48,11 @@ public class MotoboyController{
 	
 	@RequestMapping
 	public ModelAndView motoboy() {
-		return new ModelAndView("motoboy");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("motoboy");
+		mv.addObject("todosFun", funcionarios.findByCodEmpresa(user.getCodEmpresa()));
+		return mv;
 	}
 	
 	@RequestMapping(value = "/todosPedidos")
@@ -60,15 +63,6 @@ public class MotoboyController{
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO");
-	}
-	
-	@RequestMapping(value = "/funcionarios")
-	@ResponseBody
-	public List<Funcionario> funcionarios() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		return funcionarios.findByCodEmpresa(user.getCodEmpresa());
 	}
 	
 	@RequestMapping(value = "/logMotoboys")

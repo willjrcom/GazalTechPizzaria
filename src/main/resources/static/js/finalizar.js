@@ -1,3 +1,4 @@
+$("#filtro").selectmenu().addClass("overflow");
 var pedidos = [];
 var funcionarios = [];
 var pizzas = [];
@@ -23,58 +24,39 @@ $(document).ready(function(){
 			pedido.pizzas = JSON.parse(pedido.pizzas);
 			pedido.produtos = JSON.parse(pedido.produtos);
 		}
+		console.log(pedidos);
+		$("#todosPedidos").html("");
+		linhaHtml = "";
 		
-		$.ajax({
-			url: "/motoboy/funcionarios",
-			type: 'GET'
-		}).done(function(motoboys){
-			
-			for(motoboy of motoboys){
-				funcionarios.unshift({
-					'id': motoboy.id,
-					'nome': motoboy.nome
-				});
+		if(pedidos.length == 0){
+			$("#todosPedidos").html(pedidoVazio);
+		}else{
+			for(pedido of pedidos){
+				linhaHtml += '<tr>'
+							+ '<td>' + pedido.comanda + '</td>'
+							+ '<td>' + pedido.nome + '</td>';
+				
+				Tpizzas = 0;
+				for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
+				
+				for(produto of pedido.produtos) Tpizzas += produto.qtd;
+				
+				linhaHtml += '<td>' + Tpizzas + '</td>'
+							+ '<td>R$ ' + (pedido.total + ((pedido.taxa == null)
+									? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
+							+ '<td>' + pedido.pagamento + '</td>'
+							+ '<td>' + pedido.envio + '</td>'
+							+ '<td>' 
+								+ '<a class="enviarPedido">'
+								+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
+								+ 'value="'+ pedido.id + '"><span class="oi oi-data-transfer-download"></span></button></a></td>'			
+						+ '<tr>'
+					+ linhaCinza;
 			}
-			
-			var linhaFuncionarios = '<option value="--">-------</option>';
-			
-			for(funcionario of funcionarios) linhaFuncionarios += '<option value="' + funcionario.nome + '">' + funcionario.nome +'</option>';
-			
-			$("#filtro").html(linhaFuncionarios);
-			$("#todosPedidos").html("");
-			linhaHtml = "";
-			
-			if(pedidos.length == 0){
-				$("#todosPedidos").html(pedidoVazio);
-			}else{
-				for(pedido of pedidos){
-					linhaHtml += '<tr>'
-								+ '<td>' + pedido.comanda + '</td>'
-								+ '<td>' + pedido.nome + '</td>';
-					
-					Tpizzas = 0;
-					for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
-					
-					for(produto of pedido.produtos) Tpizzas += produto.qtd;
-					
-					linhaHtml += '<td>' + Tpizzas + '</td>'
-								+ '<td>R$ ' + (pedido.total + ((pedido.taxa == null)
-										? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
-								+ '<td>' + pedido.pagamento + '</td>'
-								+ '<td>' + pedido.envio + '</td>'
-								+ '<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-									+ 'value="'+ pedido.id + '"><span class="oi oi-data-transfer-download"></span></button></a></td>'			
-							+ '<tr>'
-						+ linhaCinza;
-				}
-				$("#todosPedidos").html(linhaHtml);
-			}
-		});
-	});	
-});
-
+			$("#todosPedidos").html(linhaHtml);
+		}
+	});
+});	
 
 
 //---------------------------------------------------------------------------------
@@ -151,7 +133,8 @@ function finalizarPedido() {
 	
 	if(pedidos[idBusca].envio == "ENTREGA")
 		linhaHtml += '<br><b>Taxa de entrega:</b> ' + Number(pedidos[idBusca].taxa).toFixed(2)
-					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco;
+					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco
+					+ '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy;
 	
 	if(pedidos[idBusca].pagamento == "Não") 
 		linhaHtml += '<br><b>Receber:</b>'

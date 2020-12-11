@@ -15,9 +15,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="distMargin">
 			<label>Motoboy</label>
 			<select autofocus="autofocus" name="filtro" id="filtro">
-			<option value="--">-----------</option>
-		</select></div>
-
+				<option value="--">-----------</option>
+				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
+			</select>
+		</div>
+		
+		<br>
 		<div class="table-responsive">
 			<table>
 				<thead>

@@ -19,6 +19,7 @@ import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
@@ -42,9 +43,16 @@ public class FinalizarController {
 	@Autowired
 	private Usuarios usuarios;
 
+	@Autowired
+	private Funcionarios funcionarios;
+	
 	@RequestMapping
 	public ModelAndView finalizar() {
-		return new ModelAndView("finalizar");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("finalizar");
+		mv.addObject("todosFun", funcionarios.findByCodEmpresa(user.getCodEmpresa()));
+		return mv;
 	}
 
 	@RequestMapping(value = "/todosPedidos")
