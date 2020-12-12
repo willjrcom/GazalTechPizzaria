@@ -14,7 +14,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="distMargin">
 			<label>Motoboy</label>
-			<select autofocus="autofocus" name="filtro" id="filtro">
+			<select autofocus name="filtro" id="filtro">
 				<option value="--">-----------</option>
 				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
 			</select>
@@ -29,8 +29,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="text-center col-md-1"><h3>Cliente</h3></th>
 						<th class="text-center col-md-2"><h3>Endereço</h3></th>
 						<th class="text-center col-md-1"><h3>Tº produtos</h3></th>
-						<th class="text-center col-md-1"><h3>Total R$</h3></th>
-						<th class="text-center col-md-1"><h3>Receber</h3></th>
 						<th class="text-center col-md-1"><h3>Levar</h3></th>
 						<th class="text-center col-md-1"><h3>Entregar</h3></th>
 					</tr>

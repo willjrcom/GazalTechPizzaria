@@ -40,7 +40,7 @@ public class ClientesCadastradosController {
 		return clientes.findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(user.getCodEmpresa(), nome, user.getCodEmpresa(), nome);
 	}
 	
-	@RequestMapping(value = "/clientesCadastrados/excluirCliente/{id}")
+	@RequestMapping(value = "/excluirCliente/{id}")
 	@ResponseBody
 	public String excluirCliente(@PathVariable long id) {
 		clientes.deleteById(id);

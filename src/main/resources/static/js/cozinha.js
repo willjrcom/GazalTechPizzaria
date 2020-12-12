@@ -40,30 +40,30 @@ function buscarPedido() {
 				}
 			}
 		}
+		
+		if(pedidos.length == 0)
+			$("#todosPedidos").html(pedidoVazio);
+			
 		if(totalPedidos != Tpedidos) {
 			
-			if(pedidos.length == 0){
-				$("#todosPedidos").html(pedidoVazio);
-			}else{
-				if(totalPedidos == 0) {
-					mostrar(pedidos, "TODOS");
-				}else {
-					mostrar(pedidos, $("#filtro").val());
-				}
-				
+			if(totalPedidos == 0) {
+				mostrar(pedidos, "TODOS");
+			}else {
+				mostrar(pedidos, $("#filtro").val());
 			}
-			if(Tpedidos == 0) $("#Tpedidos").text('0');
-			
-			else $("#Tpedidos").text(pedidos.length);
-			
-			if(AllPizzas == 0) $("#Tpizzas").text('0');
-			
-			else $("#Tpizzas").text(AllPizzas);
-	
-			try {$("#enviar")[0].focus();}catch{}
-
-			totalPedidos = Tpedidos;
 		}
+			
+		if(Tpedidos == 0) $("#Tpedidos").text('0');
+		
+		else $("#Tpedidos").text(pedidos.length);
+		
+		if(AllPizzas == 0) $("#Tpizzas").text('0');
+		
+		else $("#Tpizzas").text(AllPizzas);
+
+		try {$("#enviar")[0].focus();}catch{}
+
+		totalPedidos = Tpedidos;
 	});	
 };
 
@@ -306,9 +306,6 @@ function mostrarTabela(pizzas) {
 		linhaHtml += '</table>';
 	}
 }
-
-
-var totalPedidos = 0;
 
 //ajax reverso
 /*

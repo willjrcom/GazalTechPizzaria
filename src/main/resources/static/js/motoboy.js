@@ -41,8 +41,6 @@ $.ajax({
 			for(produto of pedido.produtos) Tpizzas += produto.qtd;
 			
 			linhaHtml += '<td>' + Tpizzas + '</td>'
-						+ '<td>R$ ' + (pedido.total + Number(pedido.taxa)).toFixed(2) + '</td>'
-						+ '<td>R$ ' + pedido.troco.toFixed(2) + '</td>'
 						+ '<td>R$ ' + (pedido.troco - pedido.total - Number(pedido.taxa)).toFixed(2) + '</td>'	
 						+ '<td>' 
 							+ '<a class="enviarPedido">'

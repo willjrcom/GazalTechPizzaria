@@ -31,16 +31,16 @@ function buscarPedidos() {
 			}
 		}
 
+		if(pedidos.length == 0)
+			$("#todosPedidos").html(pedidoVazio);
+			
 		if(totalPedidos != Tpedidos) {
-			if(pedidos.length == 0){
-				$("#todosPedidos").html(pedidoVazio);
-			}else{
-				if(totalPedidos == 0) {
-					mostrar(pedidos, "TODOS");
-				}else {
-					mostrar(pedidos, $("#filtro").val());
-				}
-			}	
+			if(totalPedidos == 0) {
+				mostrar(pedidos, "TODOS");
+			}else {
+				mostrar(pedidos, $("#filtro").val());
+			}
+				
 			totalPedidos = Tpedidos;
 		}
 	});

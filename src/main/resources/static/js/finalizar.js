@@ -24,8 +24,6 @@ $(document).ready(function(){
 			pedido.pizzas = JSON.parse(pedido.pizzas);
 			pedido.produtos = JSON.parse(pedido.produtos);
 		}
-		console.log(pedidos);
-		$("#todosPedidos").html("");
 		linhaHtml = "";
 		
 		if(pedidos.length == 0){
@@ -34,14 +32,7 @@ $(document).ready(function(){
 			for(pedido of pedidos){
 				linhaHtml += '<tr>'
 							+ '<td>' + pedido.comanda + '</td>'
-							+ '<td>' + pedido.nome + '</td>';
-				
-				Tpizzas = 0;
-				for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
-				
-				for(produto of pedido.produtos) Tpizzas += produto.qtd;
-				
-				linhaHtml += '<td>' + Tpizzas + '</td>'
+							+ '<td>' + pedido.nome + '</td>'
 							+ '<td>R$ ' + (pedido.total + ((pedido.taxa == null)
 									? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
 							+ '<td>' + pedido.pagamento + '</td>'

@@ -10,33 +10,32 @@ var imprimirTxt;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
 
 function buscarPedido() {
 	Tpedidos = 0;
-	
+
 	$.ajax({
 		url: "/verpedido/todosPedidos",
 		type: 'GET'
 	}).done(function(e){
 
 		pedidos = e;
+
 		for(pedido of pedidos){
 			Tpedidos++;
 			pedido.pizzas = JSON.parse(pedido.pizzas);
 			pedido.produtos = JSON.parse(pedido.produtos);
 			pedido.taxa = parseFloat(pedido.taxa);
 		}
-
+		
+		if(pedidos.length == 0)	
+			$("#todosPedidos").html(pedidoVazio);
+		
 		if(totalPedidos != Tpedidos) {
-			if(pedidos.length == 0)	
-				$("#todosPedidos").html(pedidoVazio);
-			else{
-				if(totalPedidos == 0) {
-					mostrar(pedidos, "TODOS");
-				}else {
-					mostrar(pedidos, $("#filtro").val());
-				}
+			if(totalPedidos == 0) {
+				mostrar(pedidos, "TODOS");
+			}else {
+				mostrar(pedidos, $("#filtro").val());
 			}
 			totalPedidos = Tpedidos;
 		}
@@ -98,12 +97,22 @@ function mostrar(pedidos, filtro) {
 			+ linhaCinza;
 		}
 	}
+
 	if(linhaHtml != "") {
 		$("#todosPedidos").html(linhaHtml);
 	}else {
 		$("#todosPedidos").html(pedidoVazio);
 	}
 }
+
+
+//-------------------------------------------------
+buscarPedido();
+
+setInterval(function(){
+	buscarPedido();
+},10000); // recarregar a cada 30 segundos
+
 
 //-----------------------------------------------------------------------------------------------------------
 function verPedido() {
@@ -278,7 +287,7 @@ function excluirPedido() {
 									$.ajax({
 										url: "/verpedido/autenticado"
 									}).done(function(e){
-										if(e[0].authority === "ADM") {
+										if(e[0].authority === "ADM" || e[0].authority === "DEV") {
 											
 											if(apagarSim === 'sim' || apagarSim === 'SIM') {
 
@@ -357,14 +366,6 @@ function excluirPedido() {
 		}
 	});
 }
-
-
-//-------------------------------------------------
-buscarPedido();
-
-setInterval(function(){
-	buscarPedido();
-},30000); // recarregar a cada 30 segundos
 
 
 //-------------------------------------------------
