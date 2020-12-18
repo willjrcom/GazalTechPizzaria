@@ -32,6 +32,8 @@ public class Empresa extends AbstractEntity<Long>{
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
+
+	private int codEmpresa;
 	
 	public String getEmail() {
 		return email;
@@ -159,6 +161,14 @@ public class Empresa extends AbstractEntity<Long>{
 
 	public void setTaxaMesa(float taxaMesa) {
 		this.taxaMesa = taxaMesa;
+	}
+
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

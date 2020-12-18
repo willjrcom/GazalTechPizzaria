@@ -13,12 +13,19 @@ public class ImpressaoMatricial extends AbstractEntity<Long>{
 
 	@Lob
 	private String impressao;
+	private int codEmpresa;
 	
 	public String getImpressao() {
 		return impressao;
 	}
 	public void setImpressao(String impressao) {
 		this.impressao = impressao;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

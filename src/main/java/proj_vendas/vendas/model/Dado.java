@@ -22,12 +22,13 @@ public class Dado extends AbstractEntity<Long> {
 	private double totalLucro = 0;
 	private int totalPizza = 0;
 	private int totalProduto = 0;
-	private double entregas = 0;
+	private double entrega = 0;
 	private double balcao = 0;
 	private double trocoInicio = 0;
 	private double trocoFinal = 0;
 	private int totalPedidos = 0;
 	private int comanda = 0;
+	private int codEmpresa;
 	
 	@Lob
 	private String compras;
@@ -56,12 +57,12 @@ public class Dado extends AbstractEntity<Long> {
 		this.totalLucro = totalLucro;
 	}
 
-	public double getEntregas() {
-		return entregas;
+	public double getEntrega() {
+		return entrega;
 	}
 
-	public void setEntregas(double entregas) {
-		this.entregas = entregas;
+	public void setEntrega(double entrega) {
+		this.entrega = entrega;
 	}
 
 	public double getBalcao() {
@@ -134,6 +135,14 @@ public class Dado extends AbstractEntity<Long> {
 
 	public void setLogMotoboy(String logMotoboy) {
 		this.logMotoboy = logMotoboy;
+	}
+
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 }

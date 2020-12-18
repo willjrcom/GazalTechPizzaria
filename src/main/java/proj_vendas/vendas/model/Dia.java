@@ -14,6 +14,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 public class Dia extends AbstractEntity<Long> {
 
 	private String dia;
+	private int codEmpresa;
 
 	public String getDia() {
 		return dia;
@@ -21,6 +22,14 @@ public class Dia extends AbstractEntity<Long> {
 
 	public void setDia(String dia) {
 		this.dia = dia;
+	}
+
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 
 }

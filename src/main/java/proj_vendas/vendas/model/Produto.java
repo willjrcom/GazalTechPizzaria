@@ -20,6 +20,7 @@ public class Produto extends AbstractEntity<Long> {
 	private String setor;
 	private String descricao;
 	private boolean disponivel;
+	private int codEmpresa;
 	
 	public String getCodigoBusca() {
 		return codigoBusca;
@@ -62,6 +63,12 @@ public class Produto extends AbstractEntity<Long> {
 	}
 	public void setDisponivel(boolean disponivel) {
 		this.disponivel = disponivel;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 	
 	

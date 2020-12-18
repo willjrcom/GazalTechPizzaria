@@ -1,6 +1,10 @@
 package proj_vendas.vendas.web.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +47,11 @@ public class DevController {
 		}else {
 			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		}
+
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		Usuario user = usuarios.findByEmail(((UserDetails)principal).getUsername());
+		usuario.setCodEmpresa(user.getCodEmpresa());
+		
 		return usuarios.save(usuario);
 	}
 	
@@ -63,8 +72,10 @@ public class DevController {
 	
 	@RequestMapping(value = "/dev/todos")
 	@ResponseBody
-	public java.util.List<Usuario> todos(){
-		return usuarios.findAll();
+	public List<Usuario> todos(){
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
+		Usuario user = usuarios.findByEmail(((UserDetails)principal).getUsername());
+		return usuarios.findByCodEmpresa(user.getCodEmpresa());
 	}
 
 	@RequestMapping(value = "/dev/excluirUsuario/{id}")

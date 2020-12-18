@@ -35,6 +35,7 @@ public class Pedido extends AbstractEntity<Long> {
 	private String obs;
 	private String horaPedido;
 	private String data;
+	private int codEmpresa;
 	
 	public String getPizzas() {
 		return pizzas;
@@ -137,5 +138,11 @@ public class Pedido extends AbstractEntity<Long> {
 	}
 	public void setObs(String obs) {
 		this.obs = obs;
+	}
+	public int getCodEmpresa() {
+		return codEmpresa;
+	}
+	public void setCodEmpresa(int codEmpresa) {
+		this.codEmpresa = codEmpresa;
 	}
 }
