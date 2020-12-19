@@ -161,7 +161,7 @@ $(document).ready(function(){
 		}
 		
 		//filtrar array top 5
-		var novaMesas = mesas.reduce((unico, item) => {
+		const novaMesas = mesas.reduce((unico, item) => {
 		    return unico.includes(item) ? unico : [...unico, item]
 		}, []);
 		
@@ -193,12 +193,24 @@ $(document).ready(function(){
 			return (a.total < b.total) ? 1 : ((b.total < a.total) ? -1 : 0);
 		})
 		
+		//reduzir a 10 mesas
+		if(top5.length > 10){
+			top5 = top5.slice(0, 10);	
+		}
+		
 		mesasHtml = '';
-		for([i, mesa] of top5.entries()) {
+		if(top5.length == 0){
+			mesasHtml = '<tr><td colspan="3" align="center"><label>Nenhuma mesa encontrada!</label></td><tr>';
+		}else{
+			for([i, mesa] of top5.entries()) {
 			mesasHtml += '<tr>' 
-						+ '<td>Top ' + (i+1) + ' - <b>Mesa ' +  mesa.mesa + ':</b> utilizada ' + mesa.total + ' vezes</td>'
+						+ `<td align="center">Top ${i+1}</td>`
+						+ `<td align="center"><b>Mesa ${mesa.mesa}</b></td>`
+						+ `<td align="center">${mesa.total} vezes</td>`
 					+ '</tr>';
 		}
+		}
+		
 		$("#mesasTop").html(mesasHtml);
 	});
 });
