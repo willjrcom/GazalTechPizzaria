@@ -3,8 +3,6 @@ package proj_vendas.vendas.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("adm")
+@RequestMapping("dev")
 public class DevController {
 	
 	@Autowired
@@ -27,16 +25,6 @@ public class DevController {
 	@GetMapping("/dev")
 	public ModelAndView tela() {
 		return new ModelAndView("dev");
-	}
-	
-	@RequestMapping(value = "/dev/liberar/{codigo}")
-	@ResponseBody
-	public boolean liberarCadastro(@PathVariable String codigo) {
-		if(codigo.equals("willjrcom18")) {
-			return true;
-		}else {
-			return false;
-		}
 	}
 
 	@RequestMapping(value = "/dev/criar")
@@ -47,10 +35,6 @@ public class DevController {
 		}else {
 			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		}
-
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		Usuario user = usuarios.findByEmail(((UserDetails)principal).getUsername());
-		usuario.setCodEmpresa(user.getCodEmpresa());
 		
 		return usuarios.save(usuario);
 	}
@@ -67,15 +51,13 @@ public class DevController {
 				return vazio;
 			}
 		}	
-		return usuarios.findByEmail(email);
+		return busca;
 	}
 	
 	@RequestMapping(value = "/dev/todos")
 	@ResponseBody
 	public List<Usuario> todos(){
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		Usuario user = usuarios.findByEmail(((UserDetails)principal).getUsername());
-		return usuarios.findByCodEmpresa(user.getCodEmpresa());
+		return usuarios.findAll();
 	}
 
 	@RequestMapping(value = "/dev/excluirUsuario/{id}")
