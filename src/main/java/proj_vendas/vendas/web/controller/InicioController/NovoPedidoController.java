@@ -24,6 +24,7 @@ import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Produto;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
@@ -33,6 +34,7 @@ import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/novoPedido")
@@ -63,8 +65,11 @@ public class NovoPedidoController {
 	private LogMesas mesas;
 	
 	@Autowired
-	private LogUsuarios usuarios;
-	
+	private LogUsuarios logUsuarios;
+
+	@Autowired
+	private Usuarios usuarios;
+
 	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
 		return new ModelAndView("novoPedido");
@@ -73,26 +78,31 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/numeroCliente/{celular}")
 	@ResponseBody
 	public Cliente buscarCliente(@PathVariable String celular) {
-		return clientes.findByCelular(celular);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 	}
 
 	@RequestMapping(value = "/nomeProduto/{nome}")
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
-		List<Produto> produto = produtos.findByCodigoBuscaAndDisponivelAndSetorNot(nome, true, "BORDA");// busca apenas
-																										// 1 item
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		//buscar apenas codigo
+		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);// busca apenas 1 item
+																		
 		if (produto.size() >= 1) {
 			return produto;
 		} else {// buscar se esta indisponivel
-			List<Produto> produtoIndisponivel = produtos.findByCodigoBuscaAndDisponivelAndSetorNot(nome, false,
-					"BORDA");// busca apenas 1 item
-			if (produtoIndisponivel.size() != 0) {
+			List<Produto> produtoIndisponivel = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", false);// busca produto indisponivel
+			if(produtoIndisponivel.size() != 0) {
 				produtoIndisponivel.get(0).setId((long) -1);// codigo -1: nao disponivel
 				return produtoIndisponivel;
 			}
 		}
-		return produtos.findByNomeProdutoContainingAndDisponivelAndSetorNot(nome, true, "BORDA");// busca qualquer item
-																									// relacionado
+		return produtos.findByCodEmpresaAndNomeProdutoContainingAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);
 	}
 
 	@RequestMapping(value = "/addProduto/{id}")
@@ -104,68 +114,75 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/bordas")
 	@ResponseBody
 	public List<Produto> mostrarBordas() {
-		return produtos.findAllBordas();
-	}
-
-	@RequestMapping(value = "/buscarBorda/{id}")
-	@ResponseBody
-	public Optional<Produto> buscarBorda(@PathVariable Long id) {
-		return produtos.findById(id);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 	}
 
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
 	public ResponseEntity<Pedido> novoPedido(@RequestBody Pedido pedido) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 
 		LogUsuario usuario = new LogUsuario();
-		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
+		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); // buscar tabela dia de acesso
 		
-		if (pedido.getId() == null) {// se o pedido ja existir
-			Dado dado = dados.findByData(data.getDia()); // buscar dia nos dados
+		pedido.setStatus("PRONTO");
+		
+		if (pedido.getId() == null) {// se o pedido nao existir
+			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data.getDia()); // buscar dia nos dados
 
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
 			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
 			
 			if(pedido.getCelular() != null) {//se for cliente cadastrado
-				Cliente cliente = clientes.findByCelular(pedido.getCelular());//buscar cliente nos dados
+				Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
 				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
 			}
 			if(pedido.getEnvio().equals("MESA")) {
 				LogMesa mesa = new LogMesa();
 				mesa.setMesa(pedido.getNome());
+				mesa.setCodEmpresa(user.getCodEmpresa());
 				mesas.save(mesa);
 			}
-			dados.save(dado); // autalizar n da comanda
+			dados.save(dado); // atualizar n da comanda
 
 			usuario.setAcao("Criar pedido: " + pedido.getNome());
 		}else {
 			usuario.setAcao("Atualizar pedido: " + pedido.getNome());
 		}
 		
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		
 		Date hora = new Date();
-		usuario.setUsuario(((UserDetails)principal).getUsername());
+		usuario.setUsuario(user.getEmail());
 		usuario.setData(hora.toString());
+		usuario.setCodEmpresa(user.getCodEmpresa());
 		
-		usuarios.save(usuario); //salvar logUsuario
+		logUsuarios.save(usuario); //salvar logUsuario
+		pedido.setCodEmpresa(user.getCodEmpresa());
 		return ResponseEntity.ok(pedidos.save(pedido)); // salvar pedido
 	}
 
 	@RequestMapping(value = "/editarPedido/{id}")
 	@ResponseBody
-	public Optional<Pedido> buscarPedido(@PathVariable Long id) {
+	public Optional<Pedido> buscarPedido(@PathVariable long id) {
 		return pedidos.findById(id);
 	}
 
 	@RequestMapping(value = "/atualizar")
 	@ResponseBody
 	public Pedido atualizar(@RequestBody Pedido pedido) {
-		Dia data = dias.buscarId1(); // buscar tabela dia de acesso
-
-		Pedido antigo = pedidos.findByNomeAndDataAndStatusNotAndStatusNot(pedido.getNome(), data.getDia(), "FINALIZADO", "EXCLUIDO");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia(); // buscar tabela dia de acesso
+		Pedido antigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, pedido.getNome(), "FINALIZADO", "EXCLUIDO");
+				
 		if (antigo == null) {
-			return new Pedido();
+			Pedido vazio = new Pedido();
+			vazio.setData(dia);
+			return vazio;
 		}
 		return antigo;
 	}
@@ -173,25 +190,38 @@ public class NovoPedidoController {
 	@RequestMapping(value = "/salvarTemp")
 	@ResponseBody
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		temp.setStatus("COZINHA");
+		temp.setCodEmpresa(user.getCodEmpresa());
 		temps.save(temp);
 	}
 
 	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
 	@ResponseBody
 	public void excluirPedido(@PathVariable long comanda) {
-		List<PedidoTemp> temp = temps.findByComanda(comanda);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, comanda);
 		temps.deleteInBatch(temp);
 	}
 
 	@RequestMapping(value = "/data")
 	@ResponseBody
-	public Optional<Dia> data() {
-		return dias.findById((long) 1);
+	public Dia data() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return dias.findByCodEmpresa(user.getCodEmpresa());
 	}
 
 	@RequestMapping(value = "/empresa")
 	@ResponseBody
 	public Empresa editar() {
-		return empresas.buscarId1();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return empresas.findByCodEmpresa(user.getCodEmpresa());
 	}
 }

@@ -1,5 +1,17 @@
 var dados = {};
 
+if(document.referrer.split("/")[3] == "index") {//acessar pagina anterior
+	var tela = $.alert({type: "blue", title: "Carregando", content: "Carregando data atual..."});
+	tela.open();
+	$.ajax({
+		url: "/menu/login"
+	}).done(function(){
+		tela.close();
+		verData();
+	});
+}
+
+
 //-----------------------------------------------------
 function verData() {
 	$.ajax({
@@ -52,7 +64,7 @@ $("#data").click(function(){
 	$.confirm({
 		type: 'blue',
 		title: 'Data de acesso:',
-		content: 'Dia:<br><input type="date" name="dia" id="dia" class="form-control" placeholder="Digite a data de acesso"/>',
+		content: 'Dia:<br><input type="date" name="dia" id="dia" class="form-control"/>',
 		buttons: {
 	        confirm: {
 	            text: 'Acessar',
@@ -145,52 +157,65 @@ function troco() {
 							}
 						});
 					}else {
-						dados.trocoInicio = troco;
-						
-						//buscar id da data do sistema
+
+						//alterar troco inicial						
 						$.ajax({
-							url: '/menu/buscarIdData/' + dados.data,
+							url: '/menu/troco/' + dados.data + "/" + troco,
 							type: 'GET'
-						}).done(function(e){
-			
-							dados = e;
-							
-							//alterar troco inicial
-							$.ajax({
-								url: '/menu/troco/' + dados.id,
-								type: 'PUT',
-								dataType : 'json',
-								contentType: "application/json",
-								data: JSON.stringify(dados)
-							}).done(function(){
-								$.alert({
-									type:'green',
-									title: 'Troco alterado',
-									content:'Boas vendas!',
-									buttons:{
-										confirm:{
-											text:'Obrigado',
-											btnClass: 'btn-success'
+						}).done(function(){
+							$.alert({
+								type:'green',
+								title: 'Troco alterado',
+								content:'Boas vendas!',
+								buttons:{
+									confirm:{
+										text:'Obrigado',
+										btnClass: 'btn-success',
+										keys: ['esc', 'enter'],
+										action: function(){
+											window.location.href= "/menu";
 										}
 									}
-								});
-							}).fail(function(){
-								$.alert({
-									type: 'red',
-									title: 'Alerta',
-									content: "Digite um valor válido!",
-									buttons: {
-										confirm: {
-											text: 'Tentar novamente',
-											btnClass: 'btn-danger',
-											keys: ['esc', 'enter']
-										}
+								}
+							});
+						}).fail(function(){
+							$.alert({
+								type: 'red',
+								title: 'Alerta',
+								content: "Digite um valor válido!",
+								buttons: {
+									confirm: {
+										text: 'Tentar novamente',
+										btnClass: 'btn-danger',
+										keys: ['esc', 'enter']
 									}
-								});
+								}
 							});
 						});
 					}
 				}
+			}
+		}
+	});
+}
+
+
+//------------------------------------------------------------
+function ajuda() {
+	$.alert({
+		type:'blue',
+		title: 'Suporte',
+		content:'Caso ocorra algum erro no sistema envie um email para os desenvolvedores: '
+			+ '<br><a href="mailto:williamjunior67@gmail.com?subject=Preciso%20de%20ajuda">Enviar email</a>'
+			+ '<br><br>Ou envie uma mensagem atraves do nosso whatsapp: '
+			+ '<br><a href="https://api.whatsapp.com/send/?phone=5511963849111&text=Preciso+de+ajuda+com+meu+sistema+para+pizzaria&app_absent=0"> Enviar mensagem</a>'
+			+ '<br><br>Acesse nossa página instagram: '
+			+ '<br><a href="https://www.instagram.com/gazal.tech">Acessar</a>',
+		buttons:{
+			confirm:{
+				text:'Voltar!',
+				btnClass:'btn-success',
+				keys:['esc','enter']
 			}
 		}
 	});

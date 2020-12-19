@@ -23,7 +23,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 					<tbody>
 						<tr>
-							<td id="Tclientes" class="text-center col-md-1 sombra">0</td>
+							<td th:text="${clientes}" class="text-center col-md-1 sombra">0</td>
 						</tr>
 					</tbody>
 				</table>
@@ -40,7 +40,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					
 					<tbody>
 						<tr>
-							<td id="Tfuncionarios" class="text-center col-md-1 sombra">0</td>
+							<td th:text="${funcionarios}" class="text-center col-md-1 sombra">0</td>
 						</tr>
 					</tbody>
 				</table>
@@ -56,7 +56,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					
 					<tbody>
 						<tr>
-							<td id="Tprodutos" class="text-center col-md-1 sombra">0</td>
+							<td th:text="${produtos}" class="text-center col-md-1 sombra">0</td>
 						</tr>
 					</tbody>
 				</table>

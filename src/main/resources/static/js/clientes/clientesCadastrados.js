@@ -181,8 +181,8 @@ function excluirCliente() {
 									$.ajax({
 										url: "/verpedido/autenticado"
 									}).done(function(e){
-										if(e[0].authority === "ADM") {
-											if(apagarSim === 'sim') {
+										if(e[0].authority === "ADM" || e[0].authority === "DEV") {
+											if(apagarSim === 'sim' || apagarSim === 'SIM') {
 												
 												$.ajax({
 													url: "/clientesCadastrados/excluirCliente/" + idCliente,
@@ -197,7 +197,10 @@ function excluirCliente() {
 													        confirm: {
 																text: 'Voltar',
 													    		keys: ['enter'],
-													            btnClass: 'btn-green'
+													            btnClass: 'btn-green',
+													            action: function(){
+																	window.location.href = "/clientesCadastrados";
+																}
 															}
 														}
 													});

@@ -14,6 +14,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	<div id="esconderLogin">
 		<div class="elemento1">
+			<div id="erro"></div>
 			<div class="corFundo centralizar" id="login">
 				
 				<img th:src="@{/img/logo.png}" width="50%"/>
@@ -51,7 +52,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 	</div>
-	
+	<script th:src="@{/js/index.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>
 </html>

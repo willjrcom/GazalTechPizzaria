@@ -13,4 +13,9 @@ public class HomeController {
 	public ModelAndView tela() {
 		return new ModelAndView("index");
 	}
+	
+	@RequestMapping("/index/erro")
+	public ModelAndView erro() {
+		return new ModelAndView("index");
+	}
 }

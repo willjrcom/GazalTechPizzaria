@@ -1,10 +1,11 @@
+$("#filtro").selectmenu().addClass("overflow");
 var pedidos = [];
 var produtos = [];
 var pizzas = [];
 var linhaHtml =  "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>';
-var Tpedidos = 0;
+var Tpedidos = 0, totalPedidos = 0;
 var Tpizzas = 0;
 var AllPizzas = 0;
 var divisao;
@@ -20,7 +21,6 @@ function buscarPedido() {
 	Tpedidos = 0;
 	Tpizzas = 0;
 	AllPizzas = 0;
-	totalPedidos = 0;
 	
 	$.ajax({
 		url: "/cozinha/todosPedidos",
@@ -40,64 +40,19 @@ function buscarPedido() {
 				}
 			}
 		}
-
-		$("#todosPedidos").html("");
-		filtro = $("#filtro").val();
-		linhaHtml = "";
 		
-		if(pedidos.length == 0){
+		if(pedidos.length == 0)
 			$("#todosPedidos").html(pedidoVazio);
-		}else{
-			for([i, pedido] of pedidos.entries()){
-				if(filtro == pedido.envio || filtro == "TODOS"){
-					if(pedido.pizzas != null) {
-						divisao = 1;
-						for([j, pizza] of pedido.pizzas.entries()) {
-							linhaHtml += '<tr>';
-							
-							if(j == 0) {//se for a primeira linha de cada pedido
-								linhaHtml += '<td>' + pedido.comanda + '</td>'
-										+ '<td>' + pedido.nome + '</td>';
-							}else if(j == 1) {//se for a segunda linha de cada pedido
-								Tpizzas = 0;
-								for(contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
-								
-								//singular
-								if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizza</td>';
-								//plural
-								else linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
-								
-								
-							}else {//se for 3 linha a frente
-								linhaHtml += '<td colspan="2"></td>';
-							}
-							
-							//mostrar pizza
-							linhaHtml += '<td>' + pizza.borda + '</td>' + '<td>' + pizza.qtd + ' x ' + pizza.sabor 
-									+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
-									+ pizza.descricao 
-									+ '" title="Ingredientes: ' + pizza.descricao 
-									+ '"><span class="oi oi-question-mark"></span></button></td>'
-									+ '<td>' + pizza.obs + '</td>'
-									+ '<td>' 
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
-									+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>'
-								+'</tr>';
-
-							if(divisao - pizza.qtd <= 0) {
-								linhaHtml += linhaCinza;
-								divisao = 1;
-							}else {
-								divisao -= pizza.qtd;
-							}
-						}
-						linhaHtml += linhaCinza + linhaCinza + linhaCinza;
-					}
-				}
+			
+		if(totalPedidos != Tpedidos) {
+			
+			if(totalPedidos == 0) {
+				mostrar(pedidos, "TODOS");
+			}else {
+				mostrar(pedidos, $("#filtro").val());
 			}
-			$("#todosPedidos").html(linhaHtml);
 		}
+			
 		if(Tpedidos == 0) $("#Tpedidos").text('0');
 		
 		else $("#Tpedidos").text(pedidos.length);
@@ -107,8 +62,77 @@ function buscarPedido() {
 		else $("#Tpizzas").text(AllPizzas);
 
 		try {$("#enviar")[0].focus();}catch{}
+
+		totalPedidos = Tpedidos;
 	});	
 };
+
+
+//--------------------------------------------------------------------------
+function filtrar() {
+	mostrar(pedidos, $("#filtro").val());
+}
+
+
+//----------------------------------------------------------------------------------------------------------
+function mostrar(pedidos, filtro) {
+	linhaHtml = "";
+	for([i, pedido] of pedidos.entries()){
+		if(filtro == pedido.envio || filtro == "TODOS"){
+			if(pedido.pizzas != null) {
+				divisao = 1;
+				for([j, pizza] of pedido.pizzas.entries()) {
+					linhaHtml += '<tr>';
+					
+					if(j == 0) {//se for a primeira linha de cada pedido
+						linhaHtml += '<td>' + pedido.comanda + '</td>'
+								+ '<td>' + pedido.nome + '</td>';
+					}else if(j == 1) {//se for a segunda linha de cada pedido
+						Tpizzas = 0;
+						for(contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
+						
+						//singular
+						if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizza</td>';
+						//plural
+						else linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+						
+						
+					}else {//se for 3 linha a frente
+						linhaHtml += '<td colspan="2"></td>';
+					}
+					
+					//mostrar pizza
+					linhaHtml += '<td>' + pizza.borda + '</td>' + '<td>' + pizza.qtd + ' x ' + pizza.sabor 
+							+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+							+ pizza.descricao 
+							+ '" title="Ingredientes: ' + pizza.descricao 
+							+ '"><span class="oi oi-question-mark"></span></button></td>'
+							+ '<td>' + pizza.obs + '</td>';
+					
+					if(j == 0)
+						linhaHtml += '<td>' 
+								+ '<a class="enviarPedido">'
+								+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
+								+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>'
+							+'</tr>';
+
+					if(divisao - pizza.qtd <= 0) {
+						linhaHtml += linhaCinza;
+						divisao = 1;
+					}else {
+						divisao -= pizza.qtd;
+					}
+				}
+				linhaHtml += linhaCinza + linhaCinza + linhaCinza;
+			}
+		}
+	}
+	if(linhaHtml != "") {
+		$("#todosPedidos").html(linhaHtml);
+	}else {
+		$("#todosPedidos").html(pedidoVazio);
+	}
+}
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -282,9 +306,6 @@ function mostrarTabela(pizzas) {
 		linhaHtml += '</table>';
 	}
 }
-
-
-var totalPedidos = 0;
 
 //ajax reverso
 /*

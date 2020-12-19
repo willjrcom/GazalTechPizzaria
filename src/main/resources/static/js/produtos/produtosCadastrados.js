@@ -172,8 +172,8 @@ function excluirProduto() {
 									$.ajax({
 										url: "/verpedido/autenticado"
 									}).done(function(e){
-										if(e[0].authority === "ADM") {
-											if(apagarSim === 'sim') {
+										if(e[0].authority === "ADM" || e[0].authority === "DEV") {
+											if(apagarSim === 'sim' || apagarSim === 'SIM') {
 												
 												$.ajax({
 													url: "/produtosCadastrados/excluirProduto/" + idProduto.toString(),
@@ -189,6 +189,9 @@ function excluirProduto() {
 																text: 'Voltar',
 													    		keys: ['enter'],
 													            btnClass: 'btn-green',
+													            action: function(){
+																	window.location.href = "/produtosCadastrados";
+																}
 															}
 														}
 													});

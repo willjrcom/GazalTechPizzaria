@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,18 +14,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
@@ -33,6 +32,7 @@ import proj_vendas.vendas.repository.Impressoes;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
@@ -51,7 +51,7 @@ public class FechamentoController {
 	private PedidoTemps temps;
 	
 	@Autowired
-	private LogUsuarios usuarios;
+	private LogUsuarios logUsuarios;
 
 	@Autowired
 	private Impressoes impressoes;
@@ -59,62 +59,77 @@ public class FechamentoController {
 	@Autowired
 	private Empresas empresas;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@GetMapping("/fechamento")
 	public ModelAndView tela() {
 		return new ModelAndView("fechamento");
 	}
 	
-	@RequestMapping(value = "/fechamento/Tpedidos")
+	@RequestMapping(value = "/fechamento/pedidos")
 	@ResponseBody
-	public long totalPedidos() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndData("FINALIZADO", dia).size();
+	public List<Pedido> pedidos() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 	}
 	
-	@RequestMapping(value = "/fechamento/Tvendas")
+	@RequestMapping(value = "/fechamento/dados")
 	@ResponseBody
-	public List<Pedido> totalVendas() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndData("FINALIZADO", dia);
+	public Dado dados() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+
+		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 	}
 	
-	@RequestMapping(value = "/fechamento/buscarIdData/{data}")
+	@RequestMapping(value = "/fechamento/finalizar/{trocoFinal}")
 	@ResponseBody
-	public Dado buscarId(@PathVariable String data) {
-		return dados.findByData(data);
-	}
-	
-	@RequestMapping(value = "/fechamento/finalizar")
-	@ResponseBody
-	public Dado finalizarCaixa(@RequestBody Dado dado) {
+	public Dado finalizarCaixa(@PathVariable double trocoFinal) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
+		
 		//log
 		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+		log.setUsuario(user.getEmail());
 		log.setAcao("Fechamento de caixa");
-		log.setData(hora.toString());
-		
-		usuarios.save(log); //salvar logUsuario
+		log.setData(format.format(new Date()).toString());
+		log.setCodEmpresa(user.getCodEmpresa());
+		logUsuarios.save(log); //salvar logUsuario
 				
-		Dia data = dias.buscarId1(); //buscar tabela dia de acesso
-		List<PedidoTemp> temp = temps.findByStatusAndData("PRONTO", data.getDia());
+		//temp
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "PRONTO");
 		temps.deleteInBatch(temp);
+
+		//pedidos
+		List<Pedido> finalizados = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		List<Pedido> excluidos = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "EXCLUIDO");
+		pedidos.deleteInBatch(finalizados);
+		pedidos.deleteInBatch(excluidos);
+		
+		//buscar dado do dia
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		dado.setTrocoFinal(trocoFinal);
 		return dados.save(dado);
-	}
-	
-	@RequestMapping(value = "/fechamento/data")
-	@ResponseBody
-	public Optional<Dia> data() {
-		return dias.findById((long) 1);
 	}
 	
 	@RequestMapping("/fechamento/relatorio/{lucro}")
 	public ModelAndView imprimirTudo(@PathVariable float lucro) {
-		Empresa empresa = empresas.buscarId1();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
-		String dia = dias.buscarId1().getDia();
-		List<Pedido> pedido = pedidos.findByStatusAndData("FINALIZADO", dia);
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		int entrega = 0, balcao = 0, mesa = 0, drive = 0;
@@ -237,7 +252,10 @@ public class FechamentoController {
 	}
 	
 	public void imprimirLocal(String impressaoCompleta) {
-		Empresa empresa = empresas.findAll().get(0); //validar modo de impressao
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		
 		impressaoCompleta = impressaoCompleta
                 .replace("ç", "c")
@@ -288,6 +306,7 @@ public class FechamentoController {
 			System.out.println("Modo online");
 			ImpressaoMatricial im = new ImpressaoMatricial();
 			im.setImpressao(impressaoCompleta);
+			im.setCodEmpresa(user.getCodEmpresa());
 			impressoes.save(im);
 		}
 	}

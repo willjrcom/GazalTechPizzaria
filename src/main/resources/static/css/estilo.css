@@ -218,8 +218,6 @@ img{
 	
 }
 .menu1 li a:hover{
-	-moz-box-shadow:0 3px 10px 0 #ccc; 
-	-webkit-box-shadow:0 3px 10px 0 #ccc; 
 	text-shadow:0px 0px 5px #fff; 
 }
 	
@@ -339,4 +337,23 @@ h3{
 
 #Tmenu{
 	width: 50vh;
+}
+
+.bolaGreen {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    background-color: #00FF00;
+}
+
+.bolaRed {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    background-color: red;
+}
+
+/*dev*/
+#avisoUsuario, #avisoSenha {
+	display: none;
 }

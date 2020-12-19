@@ -25,12 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 			//liberar acesso basico de scripts
 			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/gazaltech/**", "/imprimir/**").permitAll()
-			  .antMatchers(HttpMethod.OPTIONS).permitAll()
+			.antMatchers(HttpMethod.OPTIONS).permitAll()
+			  
+			//acesso dev
+			.antMatchers("/dev/**").hasAnyAuthority("DEV")
+			
 			//acesso adm
-			.antMatchers("/adm/**").hasAuthority("ADM")
+			.antMatchers("/adm/**").hasAnyAuthority("ADM", "DEV")
 			
 			//acesso usuario
-			.antMatchers("/u/**").hasAnyAuthority("USUARIO","ADM")
+			.antMatchers("/u/**").hasAnyAuthority("USUARIO","ADM", "DEV")
 			
 			//autenticar
 			.anyRequest().authenticated()
@@ -40,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.formLogin()
 				.loginPage("/index")
 				.defaultSuccessUrl("/menu", true)
-				.failureUrl("/index")
+				.failureUrl("/index/erro")
 				.permitAll()
 				
 			//logout
@@ -68,15 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.sessionFixation().migrateSession() //migrar sessao para novo pc que acessar
 	
 	*/
-	
-	@Autowired
-    public void configureInMemoryAuthentication(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.inMemoryAuthentication()
-                .withUser("teste@hotmail.com")
-                .password(passwordEncoder().encode("root"))
-                .roles("USUARIO", "ADM").authorities("ADM");
-    }
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {

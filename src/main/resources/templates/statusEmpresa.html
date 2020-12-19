@@ -9,16 +9,18 @@
 <body>
 	
 	<div class="divbase">
-		<h1 class="h1Logo">Saída de Pedidos</h1>
+		<h1 class="h1Logo">Pedidos</h1>
 		<hr>
 		<div>
-			<label for="filtro">Filtrar:</label >
-				<select name="filtro" id="filtro" >
-					<option value="TODOS">Todos</option>
-					<option value="PRONTO">Pronto</option>
-					<option value="COZINHA">Em Andamento</option>
-				</select>
+			<select name="filtro" id="filtro" >
+				<option value="TODOS">Todos</option>
+				<option value="PRONTO">Pronto</option>
+				<option value="COZINHA">Em Andamento</option>
+			</select>
+			<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
 		</div>
+		
+		<br>
 		<div class="table-responsive">
 			<table>
 				<thead>
@@ -39,7 +41,7 @@
 	
 	<br>
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
-	<script th:src="@{/js/status.js}"></script>
+	<script th:src="@{/js/statusEmpresa.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: inicio}"></div>

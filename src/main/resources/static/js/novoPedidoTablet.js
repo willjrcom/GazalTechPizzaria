@@ -155,7 +155,7 @@ function adicionar() {
 									
 									//buscar borda por id
 									$.ajax({
-										url: "/novoPedido/buscarBorda/" + bordaId,
+										url: "/novoPedido/addProduto/" + bordaId,
 										type: 'GET'
 									}).done(function(event){
 										
@@ -351,102 +351,96 @@ function mostrarProdutos() {
 					text: 'Confirmar',
 					btnClass: 'btn-success',
 					action: function(){
+						mesa.envio = 'MESA';
+						mesa.horaPedido = hora + ':' + minuto + ':' + segundo;
+						mesa.nome = 'Mesa ' + $("#Nmesa").text();
+						mesa.pagamento = 'Não';
+						mesa.pizzas = JSON.stringify(pizzas);
+						mesa.produtos = JSON.stringify(produtos);
+						mesa.status = 'PRONTO';
+						mesa.total = tPedido;
+						
+						//----------------------------------------------------------------------
+						var temp = {};
+						temp.nome = mesa.nome;
+						temp.pizzas = mesa.pizzas;
+						temp.produtos = mesa.produtos;
+						temp.data = mesa.data;
+						temp.envio = "MESA";
+						
+						//salvar pedido
 						$.ajax({
-							url: '/novoPedido/data',
-							type: 'GET'
-						}).done(function(event){
-							mesa.data = event.dia;
-							mesa.envio = 'MESA';
-							mesa.horaPedido = hora + ':' + minuto + ':' + segundo;
-							mesa.nome = 'Mesa ' + $("#Nmesa").text();
-							mesa.pagamento = 'Não';
-							mesa.pizzas = JSON.stringify(pizzas);
-							mesa.produtos = JSON.stringify(produtos);
-							mesa.status = 'PRONTO';
-							mesa.total = tPedido;
+							url: "/novoPedidoTablet/atualizar",
+							type: "PUT",
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(mesa)
+						}).done(function(e){
+							mesa.data = e.data;
 							
-							//----------------------------------------------------------------------
-							var temp = {};
-							temp.nome = mesa.nome;
-							temp.pizzas = mesa.pizzas;
-							temp.produtos = mesa.produtos;
-							temp.status = "COZINHA";
-							temp.data = mesa.data;
-							temp.envio = "MESA";
-							
+							if(e.id != null) {
+								mesa.id = e.id;
+								mesa.total += e.total;
+								mesa.comanda = e.comanda;
+								mesa.horaPedido = e.horaPedido;
+								mesa.data = e.data;
+								
+								//converter pedido atual para objeto
+								mesa.pizzas = JSON.parse(mesa.pizzas);
+								mesa.produtos = JSON.parse(mesa.produtos);
+								
+								//converter pedido antigo para objeto
+								e.pizzas = JSON.parse(e.pizzas);
+								e.produtos = JSON.parse(e.produtos);
+								
+								//concatenar pizzas
+								for(pizza of e.pizzas) mesa.pizzas.unshift(pizza);
+
+								//concatenar produtos
+								for(produto of e.produtos) mesa.produtos.unshift(produto);
+								
+								//converter pedido atual em JSON
+								mesa.pizzas = JSON.stringify(mesa.pizzas);
+								mesa.produtos = JSON.stringify(mesa.produtos);
+							}
+
 							//salvar pedido
 							$.ajax({
-								url: "/novoPedidoTablet/atualizar",
+								url: "/novoPedidoTablet/salvarPedido",
 								type: "PUT",
 								dataType : 'json',
 								contentType: "application/json",
 								data: JSON.stringify(mesa)
-							}).done(function(e){
-
-								if(e.id != null) {
-									mesa.id = e.id;
-									mesa.total += e.total;
-									mesa.comanda = e.comanda;
-									mesa.horaPedido = e.horaPedido;
-									mesa.data = e.data;
-									
-									//converter pedido atual para objeto
-									mesa.pizzas = JSON.parse(mesa.pizzas);
-									mesa.produtos = JSON.parse(mesa.produtos);
-									
-									//converter pedido antigo para objeto
-									e.pizzas = JSON.parse(e.pizzas);
-									e.produtos = JSON.parse(e.produtos);
-									
-									//concatenar pizzas
-									for(pizza of e.pizzas) mesa.pizzas.unshift(pizza);
-
-									//concatenar produtos
-									for(produto of e.produtos) mesa.produtos.unshift(produto);
-									
-									//converter pedido atual em JSON
-									mesa.pizzas = JSON.stringify(mesa.pizzas);
-									mesa.produtos = JSON.stringify(mesa.produtos);
-								}
-
-								//salvar pedido
+							}).done(function(){
+								
+								mesa.comanda = temp.comanda = e.comanda; //recebe numero do servidor
+								
+								//salvar pedido no temp
 								$.ajax({
-									url: "/novoPedidoTablet/salvarPedido",
-									type: "PUT",
+									url: '/novoPedido/salvarTemp',
+									type: 'POST',
 									dataType : 'json',
 									contentType: "application/json",
-									data: JSON.stringify(mesa)
-								}).done(function(){
-									
-									mesa.comanda = temp.comanda = e.comanda; //recebe numero do servidor
-									
-									//salvar pedido no temp
-									$.ajax({
-										url: '/novoPedido/salvarTemp',
-										type: 'POST',
-										dataType : 'json',
-										contentType: "application/json",
-										data: JSON.stringify(temp)
-									});
-									
-									$.alert({
-										type: 'green',
-										title: 'Sucesso!',
-										content: 'Pedido enviado!',
-										buttons: {
-									        confirm: {
-									            text: 'Obrigado!',
-									            btnClass: 'btn-green',
-									            keys: ['enter','esc'],
-									            action: function(){
-													window.location.href = "/menuTablet/mesa/" + $("#Nmesa").text();
-												}
+									data: JSON.stringify(temp)
+								});
+								
+								$.alert({
+									type: 'green',
+									title: 'Sucesso!',
+									content: 'Pedido enviado!',
+									buttons: {
+								        confirm: {
+								            text: 'Obrigado!',
+								            btnClass: 'btn-green',
+								            keys: ['enter','esc'],
+								            action: function(){
+												window.location.href = "/menuTablet/mesa/" + $("#Nmesa").text();
 											}
 										}
-									});
-								}).fail(function(e){
-									$.alert("Erro, Pedido não enviado!");
+									}
 								});
+							}).fail(function(){
+								$.alert("Erro, Pedido não enviado!");
 							});
 						});
 					}

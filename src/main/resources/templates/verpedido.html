@@ -12,12 +12,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<hr>
 		<div>
-			<label for="filtro">Filtrar:</label >
-				<select name="filtro" id="filtro">
-					<option value="TODOS">Todos</option>
-					<option value="Sim">Pago</option>
-					<option value="Não">A pagar</option>
-				</select>
+			<select name="filtro" id="filtro">
+				<option value="TODOS">Todos</option>
+				<option value="Sim">Pago</option>
+				<option value="Não">A pagar</option>
+			</select>
+			<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
 		</div>
 		
 		<br>

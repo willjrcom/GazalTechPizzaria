@@ -3,6 +3,8 @@ package proj_vendas.vendas.web.controller.CadastrosController;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Funcionarios;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
@@ -20,6 +24,9 @@ public class FuncionariosCadastradosController {
 	@Autowired
 	private Funcionarios funcionarios;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@GetMapping("/funcionariosCadastrados")
 	public ModelAndView lerCadastros() {
 		return new ModelAndView("funcionariosCadastrados");
@@ -28,7 +35,10 @@ public class FuncionariosCadastradosController {
 	@RequestMapping(value = "/funcionariosCadastrados/buscar/{nome}")
 	@ResponseBody
 	public List<Funcionario> buscar(@PathVariable String nome) {
-		return funcionarios.findByNomeContainingOrCelular(nome, nome);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return funcionarios.findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(user.getCodEmpresa(), nome, user.getCodEmpresa(), nome);
 	}
 	
 	@RequestMapping(value = "/funcionariosCadastrados/excluirFuncionario/{id}")

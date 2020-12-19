@@ -19,9 +19,11 @@ import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.ImpressaoPedido;
 import proj_vendas.vendas.model.Salario;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Impressoes;
+import proj_vendas.vendas.repository.Usuarios;
 
 @RestController
 @RequestMapping("/imprimir")
@@ -36,9 +38,15 @@ public class ImprimirController {
 	@Autowired
 	private Empresas empresas;
 	
+	@Autowired
+	private Usuarios usuarios;
+
 	@RequestMapping("/online")
 	public String impressaoNetBeans() {//modo online
-		List<ImpressaoMatricial> todosIm = impressoes.findAll();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		List<ImpressaoMatricial> todosIm = impressoes.findByCodEmpresa(user.getCodEmpresa());
 		if(todosIm.size() != 0) {
 			ImpressaoMatricial im = todosIm.get(0);
 			impressoes.deleteById(im.getId());
@@ -209,7 +217,10 @@ public class ImprimirController {
 	}
 	
 	public void imprimirLocal(String impressaoCompleta) {
-		Empresa empresa = empresas.findAll().get(0); //validar modo de impressao
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa()); //validar modo de impressao
 		
 		impressaoCompleta = impressaoCompleta
                 .replace("ç", "c")
@@ -259,6 +270,7 @@ public class ImprimirController {
 		}else {
 			ImpressaoMatricial im = new ImpressaoMatricial();
 			im.setImpressao(impressaoCompleta);
+			im.setCodEmpresa(user.getCodEmpresa());
 			impressoes.save(im);
 		}
 	}
@@ -266,14 +278,16 @@ public class ImprimirController {
 	@RequestMapping("/imprimirLogFuncionario")
 	@ResponseBody
 	public void imprimirLogFuncionario(@RequestBody Salario salario) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		
 		//log usuario
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado	
-		salario.setUsuario(((UserDetails)principal).getUsername());
+		salario.setUsuario(user.getEmail());
 		
-		Empresa empresa = empresas.buscarId1();
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Funcionario funcionario = funcionarios.findById((long)salario.getIdFuncionario()).get();
 		
 		String impressaoCompleta;
@@ -303,13 +317,13 @@ public class ImprimirController {
 	@RequestMapping("/imprimirGeralFuncionario")
 	@ResponseBody
 	public void imprimirGeralFuncionario(@RequestBody List<Salario> salario) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		
-		//log usuario
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado	
-		
-		Empresa empresa = empresas.buscarId1();
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Funcionario funcionario = funcionarios.findById((long)salario.get(0).getIdFuncionario()).get();
 		
 		float total = 0, pago = 0, gasto = 0, hora = 0;
@@ -322,7 +336,7 @@ public class ImprimirController {
 						  + "----------------------------------------\r"
 						  + "         REGISTRO DE PAGAMENTO          \r"
 						  + "----------------------------------------\r"
-						  + "Usuario logado: " + cortaString(((UserDetails)principal).getUsername()) + "\r"
+						  + "Usuario logado: " + cortaString(user.getEmail()) + "\r"
 						  + "Data: " + salario.get(0).getLogData() + "\r"
 						  + "----------------------------------------\r"
 						  + "Funcionario: " + cortaString(funcionario.getNome()) + "\r"

@@ -15,16 +15,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="distMargin">
 			<label>A/C</label>
 			<select autofocus="autofocus" name="filtro" id="filtro">
-			<option value="--">-----------</option>
-		</select></div>
-		
+				<option value="--">-----------</option>
+				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
+			</select>
+		</div>
+		<br>
 		<div class="table-responsive">
 			<table>
 				<thead>
 					<tr>
 						<th class="text-center col-md-1"><h3>Comanda</h3></th>
 						<th class="text-center col-md-1"><h3>Cliente</h3></th>
-						<th class="text-center col-md-1"><h3>Tº produtos</h3></th>
 						<th class="text-center col-md-1"><h3>Total</h3></th>
 						<th class="text-center col-md-1"><h3>Pago</h3></th>
 						<th class="text-center col-md-1"><h3>Tipo</h3></th>

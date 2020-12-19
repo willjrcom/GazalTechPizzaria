@@ -27,45 +27,39 @@ function salvar() {
 		compra.produto = $("#produto").val();
 		compra.preco = $("#preco").val();
 		
-		//buscar data
+			
+		//buscar id da data
 		$.ajax({
-			url: '/menu/mostrarDia',
+			url: '/adm/compras/dados',
 			type: 'GET'
 		}).done(function(e){
 			
-			//buscar id da data
+			if(e != "") compras = JSON.parse(e);
+			compras.unshift(compra);
+			e = JSON.stringify(compras);
+			
 			$.ajax({
-				url: '/menu/verificarData/' + e.dia,
-				type: 'GET'
-			}).done(function(e){
+				url: '/adm/compras/comprar',
+				type: 'PUT',
+				dataType : 'json',
+				contentType: "application/json",
+				data: e,
+			}).done(function(){
 				
-				if(e.compras != null) compras = JSON.parse(e.compras);
-				compras.unshift(compra);
-				e.compras = JSON.stringify(compras);
-				
-				$.ajax({
-					url: '/adm/compras/comprar',
-					type: 'POST',
-					dataType : 'json',
-					contentType: "application/json",
-					data: JSON.stringify(e),
-				}).done(function(){
-					
-					$.alert({
-						type: 'green',
-						title: 'Sucesso',
-						content: "Salvo com sucesso!",
-						buttons: {
-							confirm: {
-								text: 'continuar',
-								btnClass: 'btn-success',
-								keys: ['esc', 'enter'],
-								action: function(){
-									document.location.reload(true);
-								}
+				$.alert({
+					type: 'green',
+					title: 'Sucesso',
+					content: "Salvo com sucesso!",
+					buttons: {
+						confirm: {
+							text: 'continuar',
+							btnClass: 'btn-success',
+							keys: ['esc', 'enter'],
+							action: function(){
+								document.location.reload(true);
 							}
 						}
-					});
+					}
 				});
 			});
 		});
@@ -89,37 +83,30 @@ function salvar() {
 //---------------------------------------------------------------------------
 $(document).ready(function(){
 
-	//buscar data
+	//buscar id da data
 	$.ajax({
-		url: '/menu/mostrarDia',
+		url: '/adm/compras/dados',
 		type: 'GET'
 	}).done(function(e){
 
-		//buscar id da data
-		$.ajax({
-			url: '/menu/verificarData/' + e.dia,
-			type: 'GET'
-		}).done(function(e){
+		Tcompras = '';
+		var total = 0;
 
-			Tcompras = '';
-
-			var total = 0;
-			//se existir algum produto
-			if(e.compras != null) {
-				var produtos = JSON.parse(e.compras);
-				for(produto of produtos) {
-					Tcompras += '<tr>'
-								+ '<td>' + produto.produto + '</td>'
-								+ '<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
-							+ '</tr>';
-					total += parseFloat(produto.preco);
-				}
-			}else {
-				Tcompras = '<tr><td colspan="2">Nenhuma compra feita nessa data</td></tr>';
+		//se existir algum produto
+		if(e != "") {
+			var produtos = JSON.parse(e);
+			for(produto of produtos) {
+				Tcompras += '<tr>'
+							+ '<td>' + produto.produto + '</td>'
+							+ '<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+						+ '</tr>';
+				total += parseFloat(produto.preco);
 			}
+		}else {
+			Tcompras = '<tr><td colspan="2">Nenhuma compra feita nessa data</td></tr>';
+		}
 
-			$("#compras").html(Tcompras);
-			$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
-		});
+		$("#compras").html(Tcompras);
+		$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
 	});
 });

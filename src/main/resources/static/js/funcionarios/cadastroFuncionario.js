@@ -16,7 +16,7 @@ if(typeof url_atual != "undefined") {
 		$("#id").val(funcionario.id);
 		$("#nome").val(funcionario.nome);
 		$("#email").val(funcionario.email);
-		$("#nascimento").val(funcionario.nascimento);
+		$("#nascimento").val(funcionario.nascimento).attr("disabled", true);
 		$("#cpf").val(funcionario.cpf);
 		$("#cel").val(funcionario.celular);
 		$("#cargo").val(funcionario.cargo);
@@ -33,7 +33,7 @@ if(typeof url_atual != "undefined") {
 		$("#taxa").val(funcionario.endereco.taxa);
 		
 		//pagamento
-		$("#admissao").val(funcionario.admissao);
+		$("#admissao").val(funcionario.admissao).attr("disabled", true);
 		$("#diaPagamento").val(funcionario.diaPagamento);
 		$("#salario").val(funcionario.salario);
 		

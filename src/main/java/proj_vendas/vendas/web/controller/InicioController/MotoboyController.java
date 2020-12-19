@@ -14,14 +14,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
+import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
+import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("/motoboy")
@@ -40,36 +41,46 @@ public class MotoboyController{
 	private Dados dados;
 	
 	@Autowired
-	private LogUsuarios usuarios;
+	private LogUsuarios logUsuarios;
+
+	@Autowired
+	private Usuarios usuarios;
 	
 	@RequestMapping
 	public ModelAndView motoboy() {
-		return new ModelAndView("motoboy");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("motoboy");
+		mv.addObject("todosFun", funcionarios.findByCodEmpresa(user.getCodEmpresa()));
+		return mv;
 	}
 	
 	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
-		String dia = dias.buscarId1().getDia();
-		return pedidos.findByStatusAndEnvioAndData("PRONTO", "ENTREGA", dia);
-	}
-	
-	@RequestMapping(value = "/funcionarios")
-	@ResponseBody
-	public List<Funcionario> funcionarios() {
-		return funcionarios.findAll();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO");
 	}
 	
 	@RequestMapping(value = "/logMotoboys")
 	@ResponseBody
 	public String logMotoboys() {
-		return dados.findByData(dias.buscarId1().getDia()).getLogMotoboy();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()).getLogMotoboy();
 	}
 	
 	@RequestMapping(value = "/salvarMotoboys")
 	@ResponseBody
 	public void salvarMotoboys(@RequestBody Pedido motoboys) {
-		Dado dado = dados.findByData(dias.buscarId1().getDia()); // buscar dia nos dados
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()); // buscar dia nos dados
 		dado.setLogMotoboy(motoboys.getPizzas());
 		dados.save(dado);
 	}
@@ -77,18 +88,21 @@ public class MotoboyController{
 	@RequestMapping(value = "/enviarMotoboy/{id}/{motoboy}")
 	@ResponseBody
 	public Pedido enviarPedido(@PathVariable long id, @PathVariable String motoboy) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
 		
 		Pedido pedido = pedidos.findById((long)id).get();
 		
 		//log
 		LogUsuario log = new LogUsuario();
 		Date hora = new Date();
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); //buscar usuario logado
-		log.setUsuario(((UserDetails)principal).getUsername());
+
+		log.setUsuario(user.getEmail());
 		log.setAcao("Entregar pedido: " + pedido.getNome());
 		log.setData(hora.toString());
-		
-		usuarios.save(log); //salvar logUsuario
+		log.setCodEmpresa(user.getCodEmpresa());
+		logUsuarios.save(log); //salvar logUsuario
 				
 		//pedido
 		pedido.setStatus("MOTOBOY");
