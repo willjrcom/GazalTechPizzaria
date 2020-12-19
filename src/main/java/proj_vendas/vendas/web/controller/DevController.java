@@ -3,8 +3,6 @@ package proj_vendas.vendas.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,16 +30,11 @@ public class DevController {
 	@RequestMapping(value = "/dev/criar")
 	@ResponseBody
 	public Usuario criarUsuario(@RequestBody Usuario usuario) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
 		if(usuario.getSenha().equals("-1") == true) {
 			usuario.setSenha(usuarios.findByEmail(usuario.getEmail()).getSenha());
 		}else {
 			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		}
-
-		usuario.setCodEmpresa(user.getCodEmpresa());
 		
 		return usuarios.save(usuario);
 	}

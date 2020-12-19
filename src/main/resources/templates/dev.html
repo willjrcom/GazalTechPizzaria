@@ -23,9 +23,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button><br>
 			
 			<div class="row" id="senhas">
+				<p id="avisoSenha">As senhas não conferem!</p>
 				<div class="form-group col-md-6">
 					<label>Senha:<br></label>
-					<p id="avisoSenha">As senhas não conferem!</p>
 					<input type="password" class="form-control pula" id="senha" name="senha" placeholder="Senha" /> 
 				</div>
 	
@@ -36,21 +36,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			
 			<div class="row">
-				<div class="form-group col-md-6">
-					<label>Permissão:<br></label>
+				<div class="form-group col-md-4">
+					<label>Permissão:</label><br>
 					<select class="form-control" id="perfil">
 						<option value="USUARIO">USUARIO</option>
 						<option value="ADM">ADM</option>
-						<option value="ADM">DEV</option>
+						<option value="DEV">DEV</option>
 					</select>
 				</div>
 				
-				<div class="form-group col-md-6">
-					<label>Ativo:<br></label>
+				<div class="form-group col-md-4">
+					<label>Ativo:</label><br>
 					<select class="form-control" id="ativo">
 						<option value="true">Sim</option>
 						<option value="false">Não</option>
 					</select>
+				</div>
+				
+				<div class="form-group col-md-4">
+					<label>Codigo Empresa:</label><br>
+					<input type="number" class="form-control" id="codEmpresa" value="0"/>
 				</div>
 			</div>
 			<br>

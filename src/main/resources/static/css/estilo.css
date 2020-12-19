@@ -352,3 +352,8 @@ h3{
     width: 30px;
     background-color: red;
 }
+
+/*dev*/
+#avisoUsuario, #avisoSenha {
+	display: none;
+}

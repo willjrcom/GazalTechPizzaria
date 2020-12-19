@@ -3,9 +3,6 @@ var codigo;
 var dados = {}, usuarios = {};
 var email, senha, confirmar;
 var opSenha = 0; //-1 nao alterar, 0 alterar
-$("#avisoUsuario").hide();
-$("#avisoSenha").hide();
-
 
 //---------------------------------------------------------------------------------
 $.ajax({
@@ -63,11 +60,11 @@ $('#email').on('blur', function(){// Método para consultar o Usuario
 				$("#criar").show();
 				$("#email").css({
 					'border':'1px solid #ccc'
-					});
-				}
-			});
-		}			
-	});
+				});
+			}
+		});
+	}			
+});
 
 
 //---------------------------------------------------------------------------
@@ -129,6 +126,7 @@ $("#criar").click(function(){
 	dados.email = $("#email").val();
 	dados.perfil = $("#perfil").val();
 	dados.ativo = $("#ativo").val();
+	dados.codEmpresa = $("#codEmpresa").val();
 	var textoEnviado;
 	
 	if(opSenha == 0) {
@@ -202,11 +200,28 @@ function editarUsuario() {
 					for(usuario of usuarios) {
 						if(usuario.id == idUsuario) {
 							
+							//variaveis
 							$("#id").val(usuario.id);
 							$("#email").val(usuario.email);
+							$("#senha").val("");
 							$("#perfil").val(usuario.perfil);
+							$("#codEmpresa").val(usuario.codEmpresa);
 							if(usuario.ativo == 1) $("#ativo").val("true");
 							else $("#ativo").val("false");
+							
+							//avisos
+							$("#avisoSenha").hide();
+							$("#avisoUsuario").hide();
+							$("#email").css({
+								'border':'1px solid #ccc'
+							});
+							$("#senha").css({
+								'border':'1px solid #ccc'
+							});
+							$("#confirmar").css({
+								'border':'1px solid #ccc'
+							});
+							$("#criar").show();
 							
 							$("#criar").text("Atualizar usuário");
 							opSenha = -1;
