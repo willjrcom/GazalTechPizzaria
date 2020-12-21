@@ -34,7 +34,6 @@ $("#buscar").click(function(){
 		}else {
 			for(funcionario of funcionarios) {
 				linhaHtml += '<tr>'
-							+ '<td>' + funcionario.id + '</td>'
 							+ '<td>' + funcionario.nome + '</td>'
 							+ '<td>' + funcionario.celular + '</td>'
 							+ '<td>' + funcionario.cargo + '</td>'

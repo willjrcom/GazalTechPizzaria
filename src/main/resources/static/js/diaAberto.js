@@ -21,7 +21,6 @@ $.ajax({
 	}else{
 		for(dia of dias){
 			linhaHtml += '<tr>'
-							+ '<td>' + dia.id + '</td>'
 							+ '<td>' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
 							+ '<td>R$ ' + dia.trocoInicio.toFixed(2) + '</td>'
 							+ '<td>' + dia.trocoFinal.toFixed(2) + '</td>'

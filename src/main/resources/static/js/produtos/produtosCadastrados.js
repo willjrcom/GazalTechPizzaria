@@ -20,7 +20,6 @@ $("#buscar").click(function(){
 		if(produtos.length != 0) {
 			for(produto of produtos) {
 				linhaHtml += '<tr>'
-							+'<td>' + produto.id + '</td>'
 							+'<td>' + produto.codigoBusca + '</td>'
 							+'<td>' + produto.nomeProduto + '</td>'
 							+'<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'

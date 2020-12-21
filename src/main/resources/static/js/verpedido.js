@@ -258,26 +258,26 @@ function excluirPedido() {
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 
-	var inputApagar = '<input type="text" placeholder="Digite SIM para apagar!" class="form-control" id="apagar" required />'
+	var inputApagar = '<input type="text" placeholder="Digite SIM para cancelar!" class="form-control" id="apagar" required />'
 			
 	$.confirm({
 		type: 'red',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
-	    content: 'Deseja apagar o pedido?',
+	    content: 'Deseja cancelar o pedido?',
 	    buttons: {
 	        confirm: {
-	            text: 'Apagar pedido',
+	            text: 'Cancelar pedido',
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){
 		
 					$.confirm({
 						type: 'red',
-					    title: 'APAGAR PEDIDO!',
+					    title: 'CANCELAR PEDIDO!',
 					    content: 'Tem certeza?' + inputApagar,
 					    buttons: {
 					        confirm: {
-					            text: 'Apagar pedido',
+					            text: 'Cancelar pedido',
 					            btnClass: 'btn-red',
 					            keys: ['enter'],
 					            action: function(){
@@ -320,7 +320,7 @@ function excluirPedido() {
 												$.alert({
 													type: 'red',
 												    title: 'Texto incorreto!',
-												    content: 'Pense bem antes de apagar um pedido!',
+												    content: 'Pense bem antes de cancelar um pedido!',
 												    buttons: {
 												        confirm: {
 															text: 'Voltar',
@@ -334,7 +334,7 @@ function excluirPedido() {
 											$.alert({
 												type: 'red',
 											    title: 'Permissão de usuário!',
-											    content: 'Você não tem permissão para apagar um pedido<br>Utilize um usuário ADM!',
+											    content: 'Você não tem permissão para cancelar um pedido<br>Utilize um usuário ADM!',
 											    buttons: {
 											        confirm: {
 														text: 'Voltar',

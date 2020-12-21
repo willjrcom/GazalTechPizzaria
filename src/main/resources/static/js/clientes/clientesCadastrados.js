@@ -29,7 +29,6 @@ $("#buscar").click(function(){
 		linhaHtml = "";
 		for(cliente of clientes){
 			linhaHtml += '<tr>'
-						+ '<td>' + cliente.id + '</td>'
 						+ '<td>' + cliente.nome + '</td>'
 						+ '<td>' + cliente.celular + '</td>'
 						+ '<td>' + cliente.endereco + '</td>'
