@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller;
+package proj_vendas.vendas.web.controller.Tablet;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

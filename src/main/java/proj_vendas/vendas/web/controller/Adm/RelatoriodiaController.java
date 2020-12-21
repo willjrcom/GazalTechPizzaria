@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller;
+package proj_vendas.vendas.web.controller.Adm;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
-public class PedidosExcluidosController {
+public class RelatoriodiaController {
 	
 	@Autowired
 	private Pedidos pedidos;
@@ -30,18 +30,18 @@ public class PedidosExcluidosController {
 	@Autowired
 	private Usuarios usuarios;
 
-	@GetMapping("/pedidosExcluidos")
-	public ModelAndView lerCadastros() {
-		return new ModelAndView("pedidosExcluidos");
+	@GetMapping("/relatoriodia")
+	public ModelAndView relatorioDia() {
+		return new ModelAndView("relatoriodia");
 	}
-
-	@RequestMapping(value = "/pedidosExcluidos/todosPedidos")
+	
+	@RequestMapping(value = "/relatoriodia/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "EXCLUIDO");
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 	}
 }

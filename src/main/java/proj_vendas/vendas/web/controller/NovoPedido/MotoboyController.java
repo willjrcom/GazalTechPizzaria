@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller.InicioController;
+package proj_vendas.vendas.web.controller.NovoPedido;
 
 import java.util.Date;
 import java.util.List;

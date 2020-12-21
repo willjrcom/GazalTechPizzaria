@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller;
+package proj_vendas.vendas.web.controller.Adm;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

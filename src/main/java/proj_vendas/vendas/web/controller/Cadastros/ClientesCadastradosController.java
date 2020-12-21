@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller.CadastrosController;
+package proj_vendas.vendas.web.controller.Cadastros;
 
 import java.util.List;
 

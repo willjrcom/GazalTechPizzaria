@@ -37,7 +37,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<ul class="menu1">
 						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
 						<li><a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> ADM</a></li>
-						<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> CADASTROS</a></li>
+						<li><a th:href="@{/cadastroCliente}"><span class="oi oi-people"></span> CADASTROS</a></li>
 						<li><a th:href="@{/adm/estatistica}"><span class="oi oi-clipboard"></span> EMPRESA</a></li>
 						<!-- <li><a onclick="tablet()"><span class="oi oi-tablet"></span> TABLET</a></li>  -->
 						<li><a th:href="@{/logout}"><span class="oi oi-account-logout"></span> SAIR</a></li>
@@ -77,6 +77,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<li><a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
 			<li><a style="text-decoration: none"><span class="oi oi-key"></span> <label th:text="${permissao}"></label></a></li>
 			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+						<li><a th:href="@{/tutorial}"><span class="oi oi-clipboard"></span> Tutorial</a></li>
 			<li><a style="text-decoration: none" id="data"><span class="oi oi-calendar"></span> Data de acesso</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -172,7 +173,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li><a th:href="@{/cadastros}"><span class="oi oi-people"></span> Cadastros</a>
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
 								<a th:href="@{/clientesCadastrados}"><span class="oi oi-people"></span> Cadastrados</a>
@@ -216,6 +216,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
 								<a th:href="@{/adm/estatistica}"><span class="oi oi-graph"></span> Estatística</a>
+								<a th:href="@{/adm/cadastros}"><span class="oi oi-people"></span> Cadastros</a>
 							</li>
 							
 							<li>

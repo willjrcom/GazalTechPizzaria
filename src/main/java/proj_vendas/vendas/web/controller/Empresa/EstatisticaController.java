@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller;
+package proj_vendas.vendas.web.controller.Empresa;
 
 import java.util.List;
 
