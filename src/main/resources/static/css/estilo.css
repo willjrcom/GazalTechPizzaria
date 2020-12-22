@@ -3,24 +3,13 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: "Helvetica, Times New-Roman";
+    font-family: "Helvetica, Arial, Verdana";
 }
 
 .row{
 	margin-right: 0px;
 	margin-left: 0px;
 }
-
-#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, .divListaGeral{
-	display: none;
-}
-/*	
-a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
-label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
-    margin-left: 0.3em;
-    content: "[" attr(accesskey) "]";
-}
-*/
 
 html {
     height: 100%;
@@ -51,77 +40,40 @@ th h3, td h3, th h5, th h4{
     margin-bottom: 5px;
 }
 
+h3{
+	text-align: center;
+}
+
 ul {
   	overflow: hidden;
+}
+
+a:link{
+	text-decoration: none;
 }
 
 li a{
   	text-align: center;
 }
-.menu1 li a {
-  	display: block;
-  	text-decoration: none;
-}
-
-
-.menu1 li a:hover {
-  	background-color: #107b11; /*cor verde do menu*/
-  	color: white;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    min-width: 160px;
-}
-.Dropdown:hover .dropdown-content {
-    display: block;
-}
-
 /*table*/
 table{
 	border-collapse: separate;
 	width: 100%;
 }
 
-thead{
+thead, tr th{
 	background-color: #253b80;	
 }
 
-tr th{
-	background-color: #253b80;
-}
-
-table thead tr th{
+table thead tr th, table tr th{
 	text-align: center;
+	color: white;
 }
 
 table tbody tr td{
 	text-align: center;
 	padding: .5vh;
 }
-
-table tr th{
-	color: white;
-}
-
-tr td:last-child{
-    width:1%;
-    white-space:nowrap;
-}
-
-/*footer
-footer{
-    margin-top: auto;
-	width: 100%;
-	background-color: #333;
-	border-top: 2px solid black;	
-	position: relative;
-	height: 150%;
-	left:0;
-	bottom:0;
-	margin-left: 0;
-}*/
 
 /*-------------------------------------*/
 .centralizar{
@@ -132,39 +84,10 @@ footer{
 	background-color: #D3D3D3;
 }
 
-/*WIDTH---------------------------------*/
-.img {
-    max-width:50px;
-    max-height:30px;
-    width: auto;
-    height: auto;
-    padding: 2px;
-}
-.logo {
-    max-width:60%;
-    max-height:40%;
-    width: auto;
-    height: auto;
-}
-
-.logoTitulo {
-    max-width:10%;
-    width: auto;
-    margin-left: 10vh
-}
-/*
-img{
-	width: 35px;
-}*/
-
 /*TITULO---------------------------------*/
 
 .h1Logo{
 	text-align: center; 
-}
-
-.sobre{
-	text-align: left; 
 }
 
 .elemento{
@@ -174,11 +97,6 @@ img{
 	height: 70vh;
 	transform: translate(-50%, -50%);
 }
-
-.cw{
-	color: white;
-}
-
 /*celular*/
 @media (max-width:768px){
 		
@@ -207,6 +125,19 @@ img{
 /*menu inicial*/
 .menu1 li{
 	float: none;
+	list-style-type: none;
+}
+
+.menu1 li a {
+  	display: block;
+  	text-decoration: none;
+	padding: 3vh;
+}
+
+.menu1 li a:hover {
+  	background-color: #107b11; /*cor verde do menu*/
+  	color: white;
+	text-shadow:0px 0px 5px #fff; 
 }
 
 .menu1 .row{
@@ -215,31 +146,11 @@ img{
 .menu1 a{
 	background-color: white;
 	color: black;
-	
-}
-.menu1 li a:hover{
-	text-shadow:0px 0px 5px #fff; 
-}
-	
-.menu1 li a{
-	padding: 3vh;
-}   
-
-#logoMenu{
-	background-color: white;
-	width: 100%;
 }
 
-#fb{
-	background-color: #333;
-}
 .posicaoMenu{
 	float: left;
 	position: absolute;
-}
-
-a:link{
-	text-decoration: none;
 }
 
 .active {
@@ -292,17 +203,10 @@ a:link{
 	text-indent: 10px;
 }
 
-#dados{
-    margin-bottom: 0px;
-}
-
 .sombra{
 	background-color: #D3D3D3;
 }
 
-h3{
-	text-align: center;
-}
 .form-contact-button {
   	width: 100%;
   	font-size: 22px;
@@ -331,14 +235,6 @@ h3{
 	width: 100%;
 }
 
-#login{
-	padding: 2vh 10vh 2vh 10vh;	
-}
-
-#Tmenu{
-	width: 50vh;
-}
-
 .bolaGreen {
     border-radius: 50%;
     height: 30px;
@@ -353,7 +249,117 @@ h3{
     background-color: red;
 }
 
+.elemento1{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: 70vh;
+	transform: translate(-50%, -50%);
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;
 }
+
+#logoMenu{
+	background-color: white;
+	width: 100%;
+}
+
+#fb{
+	background-color: #333;
+}
+
+#dados{
+    margin-bottom: 0px;
+}
+
+#login{
+	padding: 2vh 10vh 2vh 10vh;	
+}
+/*
+#Tmenu{
+	width: 50vh;
+}*/
+
+#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, .divListaGeral{
+	display: none;
+}
+
+/*WIDTH---------------------------------*/
+/*.img {
+    max-width:50px;
+    max-height:30px;
+    width: auto;
+    height: auto;
+    padding: 2px;
+}
+
+.logo {
+    max-width:60%;
+    max-height:40%;
+    width: auto;
+    height: auto;
+}
+
+
+.logoTitulo {
+    max-width:10%;
+    width: auto;
+    margin-left: 10vh
+}
+
+
+img{
+	width: 35px;
+}
+
+
+.sobre{
+	text-align: left; 
+}
+
+
+
+.cw{
+	color: white;
+}
+
+
+
+tr td:last-child{
+    width:1%;
+    white-space:nowrap;
+}
+
+footer{
+    margin-top: auto;
+	width: 100%;
+	background-color: #333;
+	border-top: 2px solid black;	
+	position: relative;
+	height: 150%;
+	left:0;
+	bottom:0;
+	margin-left: 0;
+}
+
+
+a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
+label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
+    margin-left: 0.3em;
+    content: "[" attr(accesskey) "]";
+}
+
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+}
+.Dropdown:hover .dropdown-content {
+    display: block;
+}
+*/

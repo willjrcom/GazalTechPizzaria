@@ -12,19 +12,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Buscar Funcionários</h1>
 		<hr>
 		
-		<div class="form-group col-md-10">
-			<label>Pesquisar:<br/></label>
-			<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control" 
-				placeholder="Qual nome você está procurando?" style="text-indent: 10px"/>
+		<div class="row">
+			<div class="col-md-10">
+				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control" 
+					placeholder="Qual funcionário você está procurando?" style="text-indent: 10px"/>
+			</div>
+					
+			<div class="col-md-2">
+				<button type="submit" name="buscarFunc" id="buscar" class="form-control btn btn-primary">Buscar</button>
+			</div>
 		</div>
-				
-		<div class="form-group col-md-2">
-			<label><br/></label>
-			<button type="submit" name="buscarProduto" id="buscar" class="form-control btn btn-primary">Buscar</button>
-		</div>
-	
 		<br>
-		<div>&nbsp;</div>
 <!-- ----------------------------------------------------------------------------------------------------------- -->
 		<div class="table-responsive">
 			<table>

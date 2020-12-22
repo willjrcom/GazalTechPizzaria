@@ -10,30 +10,32 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	<div class="divbaseForm">
 		
-		<h1 class="h1Logo">Cadastrar Produto</h1><br/>
+		<h1 class="h1Logo">Cadastrar Produto</h1><br>
 		<hr>
 		
 		<input type="hidden" id="id" name="id"/>
 		
 		<br>
-		<div class="form-group">
-			<label>Código de busca: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
-			<p id="avisoCod">Código já cadastrado, tente outro!</p>
-			<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus"/>
+		<div class="row">
+			<div class="col-md-6">
+				<label>Código de busca: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
+				<p id="avisoCod">Código já cadastrado, tente outro!</p>
+				<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca" autofocus="autofocus"/>
+			</div>
+			
+			<div class="col-md-6">
+				<label>Nome do produto:</label><br>
+				<input type="text" class="form-control pula" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" />
+			</div>
 		</div>
 		
-		<div class="form-group">
-			<label>Nome do produto:<br></label>
-			<input type="text" class="form-control pula" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" />
-		</div>
-		
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label>Preço:<br></label>
+		<div class="row">
+			<div class="col-md-6">
+				<label>Preço:</label><br>
 				<input type="text" class="form-control preco pula" id="preco" name="preco" placeholder="Preço do produto" />
 			</div>
-			<div class="form-group col-md-6">
-				<label>Custo:<br></label>
+			<div class="col-md-6">
+				<label>Custo:</label><br>
 				<input type="text" class="form-control preco pula" id="custo" name="custo" placeholder="Total em custo"/>
 			</div>
 		</div>
@@ -55,7 +57,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			 <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label>
 		</div>
 		
-		<br>
 		<div class="form-group">
 			<label>Descrição do produto: <button class="btn btn-link" onclick="aviso3()"><span class="oi oi-question-mark"></span></button></label>
 			<textarea class="form-control" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto"></textarea>  

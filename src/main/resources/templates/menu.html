@@ -3,8 +3,9 @@
 xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 >
-
-<head th:replace="~{layouts/frag :: head}" ></head>
+<head>
+	<link th:href="@{/css/login.css}" rel="stylesheet"/>
+	<title>Menu</title>
 	<script>
 	$(document).ready(function(){
 		$.ajax({
@@ -17,10 +18,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		});
 	});
 	</script>
-<head>
-	<link th:href="@{/css/login.css}" rel="stylesheet"/>
-	<title>Menu</title>
 </head>
+<head th:replace="~{layouts/frag :: head}" ></head>
+
 
 <body>
 	<header th:replace="~{layouts/frag :: menu}"></header>

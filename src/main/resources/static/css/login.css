@@ -2,24 +2,24 @@
     margin: 0;
     padding: 0;
 }
-
+/*
 body{
-	/*background-color: #0069c1; /*cor de fundo*/
-}
+	background-color: #0069c1;
+}*/
 		
 .centralizar{
-		text-align: center;
+	text-align: center;
 }
 
 .imgFundo{
 	width: 100%;
-	heidth: auto;	
+	height: auto;	
     background-size: cover;
 }
 
 .elemento1{
 	position: absolute;
-	top: 50%;
+	top: 40%;
 	left: 50%;
 	height: 70vh;
 	transform: translate(-50%, -50%);

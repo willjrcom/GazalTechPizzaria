@@ -222,15 +222,10 @@ function editarPedido() {
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 	
-	var aviso;
-	if(pedidos[idBusca].status == "PRONTO") aviso = "O pedido está pronto";
-	else aviso = "O pedido está em preparação";
-	
-	
 	$.confirm({
 		type: 'red',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
-	    content: 'Tenha certeza do que você está fazendo!<br>' + aviso,
+	    content: 'Tenha certeza do que você está fazendo!',
 	    buttons: {
 	        confirm: {
 	            text: 'Editar pedido',

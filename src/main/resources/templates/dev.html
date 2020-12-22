@@ -10,71 +10,73 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 	<div class="divbaseForm">
 			
-		<h1 class="h1Logo">Desenvolvedor</h1><br/>
+		<h1 class="h1Logo">Desenvolvedor</h1><br>
 		
 		<input type="hidden" id="id" name="id"/>
 		
 		<div class="form-group">
-				<label>E-mail:<br></label>
-				<p id="avisoUsuario">Usuário já cadastrado, tente outro!</p>
-				<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" />
+			<label>E-mail:</label><br>
+			<p id="avisoUsuario">Usuário já cadastrado, tente outro!</p>
+			<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" />
+		</div>
+			
+		<br>
+		<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button>
+		
+		<div class="row" id="senhas">
+			<p id="avisoSenha">As senhas não conferem!</p>
+			<div class="col-md-6">
+				<label>Senha:</label><br>
+				<input type="password" class="form-control pula" id="senha" name="senha" placeholder="Senha" /> 
+			</div>
+
+			<div class="col-md-6">
+				<label>Confirmar Senha:</label><br>
+				<input type="password" class="form-control pula" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
+			</div>
+		</div>
+			
+		<br>
+		<div class="row">
+			<div class="form-group col-md-4">
+				<label>Permissão:</label><br>
+				<select class="form-control" id="perfil">
+					<option value="USUARIO">USUARIO</option>
+					<option value="ADM">ADM</option>
+					<option value="DEV">DEV</option>
+				</select>
 			</div>
 			
-			<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button><br>
-			
-			<div class="row" id="senhas">
-				<p id="avisoSenha">As senhas não conferem!</p>
-				<div class="form-group col-md-6">
-					<label>Senha:<br></label>
-					<input type="password" class="form-control pula" id="senha" name="senha" placeholder="Senha" /> 
-				</div>
-	
-				<div class="form-group col-md-6">
-					<label>Confirmar Senha:<br></label>
-					<input type="password" class="form-control pula" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
-				</div>
+			<div class="form-group col-md-4">
+				<label>Ativo:</label><br>
+				<select class="form-control" id="ativo">
+					<option value="true">Sim</option>
+					<option value="false">Não</option>
+				</select>
 			</div>
 			
-			<div class="row">
-				<div class="form-group col-md-4">
-					<label>Permissão:</label><br>
-					<select class="form-control" id="perfil">
-						<option value="USUARIO">USUARIO</option>
-						<option value="ADM">ADM</option>
-						<option value="DEV">DEV</option>
-					</select>
-				</div>
-				
-				<div class="form-group col-md-4">
-					<label>Ativo:</label><br>
-					<select class="form-control" id="ativo">
-						<option value="true">Sim</option>
-						<option value="false">Não</option>
-					</select>
-				</div>
-				
-				<div class="form-group col-md-4">
-					<label>Codigo Empresa:</label><br>
-					<input type="number" class="form-control" id="codEmpresa" value="0"/>
-				</div>
+			<div class="form-group col-md-4">
+				<label>Codigo Empresa:</label><br>
+				<input type="number" class="form-control" id="codEmpresa" value="0"/>
 			</div>
-			<br>
-			<button type="button" id="criar" class="form-contact-button" name="enviar">Criar Usuário</button>
-			 <br><hr>
-			 <h3 align="center">Todos Usuários</h3>
-			 <table>
-			 	<thead>
-			 		<tr>
-						<th class="col-md-1"><h5>Empresa</h5></th>
-						<th class="col-md-1"><h5>Email</h5></th>
-						<th class="col-md-1"><h5>Perfil</h5></th>
-						<th class="col-md-1"><h5>Ativo</h5></th>
-						<th class="col-md-1"><h5>Editar</h5></th>
-					</tr>
-				</thead>
-				
-				<tbody id="todosUsuarios"></tbody>
-			 </table>
+		</div>
+		<br>
+		<button type="button" id="criar" class="form-contact-button" name="enviar">Criar Usuário</button>
+		 <br><hr>
+		 <h3 align="center">Todos Usuários</h3>
+		 <table>
+		 	<thead>
+		 		<tr>
+					<th class="col-md-1"><h5>Empresa</h5></th>
+					<th class="col-md-1"><h5>Email</h5></th>
+					<th class="col-md-1"><h5>Perfil</h5></th>
+					<th class="col-md-1"><h5>Ativo</h5></th>
+					<th class="col-md-1"><h5>Editar</h5></th>
+				</tr>
+			</thead>
+			
+			<tbody id="todosUsuarios"></tbody>
+		 </table>
 	</div>
 	
 	<br>

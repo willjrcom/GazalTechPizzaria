@@ -4,27 +4,38 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:fragment="~{head}">
+	<!-- menu -->
 	<link th:href="@{/css/menu/normalize.css}" rel="stylesheet" type="text/css" />
 	<link th:href="@{/css/menu/demo.css}" rel="stylesheet" type="text/css" />
 	<link th:href="@{/css/menu/component.css}" rel="stylesheet" type="text/css" />
 	<script th:src="@{/js/menu/modernizr.custom.js}"></script>
 	
     <meta charset="utf-8" lang="pt-br"/>
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
-	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
-	<link th:href="@{/css/bootstrap-theme.min.css}" rel="stylesheet"/>
-    <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- jquery -->
 	<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet"/>
 	<link th:href="@{/jquery/jquery-ui.structure.min.css}" rel="stylesheet"/>
 	<link th:href="@{/jquery/jquery-ui.theme.min.css}" rel="stylesheet"/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
-	<link th:href="@{/img/open-iconic-master/font/css/open-iconic-bootstrap.css}" rel="stylesheet"/>
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	
+	<!-- icones -->
+	<link th:href="@{/img/open-iconic-master/font/css/open-iconic-bootstrap.css}" rel="stylesheet"/>
+	
+	<!-- bootstrap v5 -->
+	<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bstrap/bootstrap-grid.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bstrap/bootstrap-reboot.min.css}" rel="stylesheet"/>
+	<link th:href="@{/css/bstrap/bootstrap-utilities.min.css}" rel="stylesheet"/>
+	
+	<!-- css -->
+    <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
 </head>
 
 <body>
 
-<!--------------------------------------------------------------------------------------------------------->
+	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="menu" id="esconderLogin">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
@@ -33,7 +44,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<p th:text="${contato}"></p>
 				<hr>
 				
-				<nav id="Tmenu">
+				<nav>
 					<ul class="menu1">
 						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
 						<li><a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> ADM</a></li>
@@ -52,28 +63,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="dadosMenu" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
-			<!--
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
-							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
-								<a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${totalFinalizado}"></span> Finalizado</a>
-								<a style="text-decoration: none"><span class="bolaRed">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${totalAberto}"></span> Em aberto</a>
-							</li>
-							
-							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
-								<a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${pronto}"></span> Pronto</a>
-								<a style="text-decoration: none"><span class="bolaRed">&nbsp;&nbsp;&nbsp;&nbsp;</span> <span th:text="${cozinha}"></span> Na cozinha</a>
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</li>
-			-->
 			<li><a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
 			<li><a style="text-decoration: none"><span class="oi oi-key"></span> <label th:text="${permissao}"></label></a></li>
 			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
@@ -89,7 +78,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	
 	
-<!--------------------------------------------------------------------------------------------------------->
+	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="inicio" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
@@ -131,7 +120,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div><!-- /container -->
 	
 	
-<!--------------------------------------------------------------------------------------------------------->
+	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="adm" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
@@ -165,7 +154,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div><!-- /container -->
 
 
-<!--------------------------------------------------------------------------------------------------------->
+	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="cadastros" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
@@ -292,22 +281,31 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	</div><!-- /container -->
 	
 	
-<!--------------------------------------------------------------------------------------------------------->
+	<!--------------------------------------------------------------------------------------------------------->
 	<footer th:fragment="footer">
-		<script th:src="@{/jquery/jquery.mask.min.js}"></script>
-		<script th:src="@{/jquery/jquery-ui.min.js}"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
-		<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-		<script th:src="@{/js/validacoes.js}"></script>
-		<script th:src="@{/js/frag.js}"></script>
+		<!-- menu -->
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
 		<script>
 			new gnMenu( document.getElementById( 'gn-menu' ) );
 		</script>
+		
+		<!-- jquery -->
+		<script th:src="@{/jquery/jquery.mask.min.js}"></script>
+		<script th:src="@{/jquery/jquery-ui.min.js}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+		<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+		
+		<!-- bootstrap -->
+		<script th:src="@{/js/bstrap/bootstrap.min.js}"></script>
+		<script th:src="@{/js/bstrap/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/js/bstrap/bootstrap.esm.min.js}"></script>
+		
+		<!-- javascript -->
+		<script th:src="@{/js/validacoes.js}"></script>
+		<script th:src="@{/js/frag.js}"></script>
+		
 	</footer>
-
-<!--------------------------------------------------------------------------------------------------------->
 </body>
 </html>

@@ -12,18 +12,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Buscar Produtos</h1>
 		<hr>
 		
-		<div class="form-group col-md-10">
-			<label>Pesquisar:<br/></label>
-			<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control textIndent pula" 
-				placeholder="Qual nome você está procurando?"/>
+		<div class="row">
+			<div class="col-md-10">
+				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control textIndent pula" 
+					placeholder="Qual produto você está procurando?"/>
+			</div>
+	
+			<div class="col-md-2">
+				<input type="button" name="buscarProduto" id="buscar" class="form-control btn btn-primary pula" value="Buscar"/>
+			</div>
 		</div>
-
-		<div class="form-group col-md-2">
-			<label><br/></label>
-			<input type="button" name="buscarProduto" id="buscar" class="form-control btn btn-primary pula" value="Buscar"/>
-		</div>
-
-		<div>&nbsp;</div>
+		<br>
 
 		<div class="table-responsive">
 			<table>

@@ -11,7 +11,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<div class="divbaseForm">
 			
-		<h1 class="h1Logo">Cadastrar Cliente</h1><br/>
+		<h1 class="h1Logo">Cadastrar Cliente</h1><br>
 		<hr>
 		
 		<input type="hidden" id="id" name="id"/>
@@ -21,69 +21,72 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 		<label id="dados"></label>
 		
-		<br>
 		<div class="form-group">
-			<label for="file">Nome Completo:<br/></label>
+			<label for="file">Nome Completo:</label><br>
 			<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo" autofocus="autofocus"/>
 		</div>
 		
+		<br>
 		<div class="form-group" id="divCpf">
-			<label>CPF: (opcional)<br/></label>
+			<label>CPF: (opcional)</label><br>
 			<p id="avisoCpf">Cpf já cadastrado, tente outro!</p>
 			<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
 		</div>
 		
+		<br>
 		<div class="form-group">
-			<label>Celular:<br/></label>
+			<label>Celular:</label><br>
 			<p id="avisoCel">Celular já cadastrado, tente outro!</p>
 			<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular"/>
 		</div>
 		
-		<h3><br/>Endereço:<br/><br/></h3>
 		
+		<br>
+		<h3>Endereço:</h3>
+		<br><br>
 		<!-- ----------------------------------------------------------------------------- -->
-	
-  		<div class="col-md-2">
-		   	<div class="form-group">
-		        <label>CEP</label>
-      			<input type="text" class="form-control pula cep" id="cep" name="cep" maxlength="12" placeholder="Informe o CEP">
-		    </div>
-  		</div>
-  		
-	  	<div class="form-row">
+		<div class="row">
+	  		<div class="col-md-2">
+			   	<div class="form-group">
+			        <label>CEP</label><br>
+	      			<input type="text" class="form-control pula cep" id="cep" name="cep" maxlength="12" placeholder="Informe o CEP">
+			    </div>
+	  		</div>
+	  		
 	  		<div class="col-md-8">
 			   <div class="form-group">
-			       <label>Rua</label>
+			       <label>Rua</label><br>
 	      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua">
 			    </div>
 	  		</div>
+	  		
 	  		<div class="col-md-2">
 			   <div class="form-group">
-			       <label>Nº</label>
+			       <label>Nº</label><br>
 	      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número">
 			    </div>
 	  		</div>
-	  	</div>
+		</div>
 		
-		<div class="form-row">
-			<div class="form-group col-md-6">
-				<label><br/>Bairro:<br/></label>
+		<div class="row">
+			<div class="col-md-6">
+				<label><br>Bairro:</label><br>
 				<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro"/>  
 			</div>
 			
-			<div class="form-group col-md-6">
-				<label><br/>Cidade:<br/></label>
+			<div class="col-md-6">
+				<label><br>Cidade:</label><br>
 				<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade" value="Sorocaba"/> 
 			</div>
 		</div>
-		
+		<br>
 		<div class="form-group">
-			<label><br/>Taxa de entrega:<br/></label>
+			<label>Taxa de entrega:</label><br>
 			<input type="text" class="form-control pula preco" id="taxa" name="taxa" placeholder="Taxa de Entrega"/>
 		</div> 
-		
+		<br>
 		<div class="form-group">
-			<label>Referência da casa:<br/></label>
+			<label>Referência da casa:</label><br>
 			<textarea class="form-control" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
 		</div>
 		
