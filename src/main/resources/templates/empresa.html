@@ -119,17 +119,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<br><h3>Impressão do Pedido:</h3>
 		
-			<br>
-			<div class="form-group">
-				<input type="checkbox" class="form-group" id="imprimir"/>
-				<label>Deseja imprimir os pedidos? (Se sim, digite os texto a serem aplicados na impressão).</label>
-			</div>
-		
-			<div class="form-group">
-				<input type="checkbox" class="form-group" id="impressoraOnline"/>
-				<label>Sistema Modo Online (Opção para usar GazalTech impressora).</label>
+			<br>		
+			<div class="form-check form-switch">
+			    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked imprimir" checked>
+			    <label class="form-check-label" for="flexSwitchCheckChecked">
+			  		Deseja imprimir os pedidos? (Se sim, digite os texto a serem aplicados na impressão).</label>
 			</div>
 			
+			<div class="form-check form-switch">
+				<input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked impressoraOnline" checked>
+			    <label class="form-check-label" for="flexSwitchCheckChecked">
+					Sistema Modo Online (Opção para usar GazalTech impressora).</label>
+			</div>
 			<br>
 			<div class="form-group">
 				<label>Texto do rodapé:</label><br>
