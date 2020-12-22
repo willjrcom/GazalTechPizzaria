@@ -11,53 +11,74 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
 	<br>
-	<!-- 
-		" -->
 	<div class="divbaseForm">
-		<a th:href="@{/index}"><button class="btn btn-primary">Voltar ao login</button></a>
+		<a th:href="@{/index}"><button class="btn btn-primary">Voltar</button></a>
+		
 		<h2 align="center">Formulário</h2>
 		
-		<form>
-		
-			<div class="form-group">
+		<div class="row">
+			<div class="col-md-6">
 				<label>Nome:</label><br>
 				<input type="text" class="form-control" name="nome" id="nome"/>
 			</div>
 			
-			<div class="form-group">
+			<div class="col-md-6">
 				<label>Email:</label><br>
 				<input type="text" class="form-control" name="email" id="email"/>
 			</div>
-			
-			<div class="form-group">
-				<label>Selecione a opção:</label><br>
-				<select class="form-select" name="opcao" id="opcao" multiple aria-label="multiple select example">
-					<option>Dúvida</option>
-					<option>Reportar erro</option>
-					<option>Recomendar alteração</option>
-					<option>Avaliar</option>
-				</select>
-			</div>
-			
-			<div class="form-group">
-				<label>Selecione a página:</label><br>
-				<select class="form-control" name="pagina">
-					<option>Novo Pedido</option>
-					<option>Adm</option>
-					<option>Cadastros</option>
-					<option>Empresa</option>
-					<option>Login</option>
-				</select>
-			</div>
-			
-			<div class="form-group">
-				<label>Dúvidas:</label><br>
-				<textarea class="form-control" name="duvida" id="duvida" placeholder="Digite sua dúvida"></textarea>
-			</div>
-			
+		</div>
+		
+		<br>
+		<div class="form-group">
+			<label>Selecione a opção:</label><br>
+			<select class="form-select" name="opcao" id="opcao" multiple aria-label="multiple select example">
+				<option value="duvida">Dúvida</option>
+				<option value="reportar">Reportar erro</option>
+				<option value="recomendar">Recomendar alteração</option>
+				<option value="avaliar">Avaliar</option>
+			</select>
+		</div>
+		
+		<div class="form-group" id="areas" style="display:none">
 			<br>
-			<button class="form-control btn btn-success" onclick="enviarEmail()">Enviar</button>
-		</form>
+			<label for="exampleDataList" class="form-label">Selecione a tela:</label>
+			<input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Procurar...">
+			<datalist id="datalistOptions">
+				<option value="Login">
+				<option value="Menu">
+				<option value="Novo Pedido">
+				<option value="Ver pedidos">
+				<option value="Cozinha">
+				<option value="Status Cliente">
+				<option value="Status Empresa">
+				<option value="Motoboy">
+				<option value="Finalizar">
+				<option value="Fechamento">
+				<option value="Relatório do dia">
+				<option value="Pedidos Cancelados">
+				<option value="Clientes cadastrados">
+				<option value="Cadastrar Cliente">
+				<option value="Produtos Cadastrados">
+				<option value="Cadastrar produto">
+				<option value="Estatística">
+				<option value="Cadastros">
+				<option value="Pagamento">
+				<option value="Funcionários cadastrados">
+				<option value="Cadastrar Funcionário">
+				<option value="Compras">
+				<option value="Dias abertos">
+				<option value="Empresa">
+			</datalist>
+		</div>
+		
+		<div class="form-group" id="campo" style="display:none">
+			<br>
+			<label id="texto"></label><br>
+			<textarea class="form-control" name="conteudo" id="conteudo" placeholder=""></textarea>
+		</div>
+		
+		<br><br>
+		<button class="form-control btn btn-success" onclick="enviarEmail()">Enviar</button>
 	
 	<hr>
 	<br>
@@ -122,6 +143,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	</div>
 	<br>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script th:src="@{/js/gazaltech.js}"></script>

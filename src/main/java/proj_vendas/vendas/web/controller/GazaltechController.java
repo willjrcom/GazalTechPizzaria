@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/gazaltech")
 public class GazaltechController {
 
-	@RequestMapping
+	@RequestMapping("/**")
 	public ModelAndView imprimir() {
 		return new ModelAndView("gazaltech");
 	}

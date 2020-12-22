@@ -1,30 +1,62 @@
-function enviarEmail(){
-    var nome = $("#nome").val();
-    var email = $("#email").val();
-    var assunto = $("#opcao").val();
-    var duvida = $("#duvida").val();
-    var body = '<strong>Nome: </strong>'+nome+'<br />'+
-               '<strong>Email: </strong>'+email+'<br />'+
-               '<strong>Assunto: </strong>'+assunto+'<br />'+
-               '<strong>Descição: </strong>'+duvida;
+var url = window.location.href;
+if(url.split("/")[4] === "enviado"){
+	alert("Email enviado com sucesso!");
+}
 
-    $.ajax({
-        url: "https://mandrillapp.com/api/1.0/messages/send.json",
-        type: "GET",
-        data: {
-                'key':'e21763e87eb17a220f928fcec9de5432-us2',
-                'message':{
-                    'from_email':'williamjunior67@gmail.com',
-                    'to':[
-                        {
-                            'email':'williamjunior67@gmail.com',
-                            'name':'Seu Nome (ou nick)',
-                            'type':'to'
-                        }
-                    ],
-                    'subject':'Assunto',
-                    'html':body
-                }
-            }
-    });
+$("#opcao").change(function() {
+	if($(this).val()[0] === "duvida"){
+		$("#areas").hide("slow");
+		$("#campo").hide("slow", function(){
+			$("#texto").text("Dúvidas:");
+			$("#campo").show("slow");
+			$("#campo").attr("placeholder", "Digite sua duvida");
+		});
+	}else if($(this).val()[0] === "reportar"){
+		$("#areas").show("slow");
+		$("#campo").hide("slow", function(){
+			$("#texto").text("Reportar erro:");
+			$("#campo").show("slow");
+			$("#campo").attr("placeholder", "Digite seu problema");
+		});
+	}else if($(this).val()[0] === "recomendar"){
+		$("#areas").hide("slow");
+		$("#campo").hide("slow", function(){
+			$("#texto").text("Recomendar alteração:");
+			$("#campo").show("slow");
+			$("#campo").attr("placeholder", "Digite sua recomendação");
+		});
+	}else if($(this).val()[0] === "avaliar"){
+		$("#areas").hide("slow");
+		$("#campo").hide("slow", function(){
+			$("#texto").text("Avaliar:");
+			$("#campo").show("slow");
+			$("#campo").attr("placeholder", "Digite sua avaliação");
+		});
+	}
+});
+
+function enviarEmail(){
+	if($("#opcao").val() == null)
+		return alert("Escolha uma opção!");
+	
+	if($("#campo").text() == "")
+		return alert("Texto em branco!");
+	
+	const email = {
+    	email : $("#email").val(),
+    	assunto : $("#opcao").val() + " - GazalTech",
+    	texto : $("#nome").val() + "<br>" + $("#conteudo").val()
+	}
+
+	$.ajax({
+		url: "/email/enviar",
+		type: "POST",
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(email)
+	}).done(function(){
+		window.location.href="/gazaltech/enviado";
+	}).fail(function(){
+		alert("Email não enviado!");
+	});
 }
