@@ -14,15 +14,12 @@ import org.springframework.context.annotation.ImportResource;
 public class ProjetoProgramaDeVendasApplication extends SpringBootServletInitializer{
 
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {//iniciar pelo aws
-		return builder.sources(ProjetoProgramaDeVendasApplication.class);
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder app) {//iniciar servidor
+		return app.sources(ProjetoProgramaDeVendasApplication.class);
 	}
 	
 	public static void main(String[] args) {
-
 		SpringApplication.run(ProjetoProgramaDeVendasApplication.class, args);
-		
-		
 	}
 	
 	@Bean
