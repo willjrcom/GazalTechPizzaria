@@ -5,3 +5,9 @@ if(window.location.href.split("/")[4] == "erro") {
 			+ '</div>';
 	$("#erro").html(alerta);
 }
+
+$("button").click(() => {
+	$(".loading").css({
+		"display": "block"
+	});
+});

@@ -257,6 +257,17 @@ table tbody tr td{
 	transform: translate(-50%, -50%);
 }
 
+.loading {
+	display: none;
+    position: fixed;
+    left: 48.5%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    color: green;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;

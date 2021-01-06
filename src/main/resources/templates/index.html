@@ -12,6 +12,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 
 <body>
+	
 	<div id="esconderLogin">
 		<div class="elemento1">
 			<div id="erro"></div>
@@ -54,7 +55,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 	</div>
+	
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
+	
 	<script th:src="@{/js/index.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>
+	
 </html>

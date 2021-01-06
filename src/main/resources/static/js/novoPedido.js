@@ -1,49 +1,76 @@
-//var cliente
-//------------------------------------------------------------------------------------------------------------------------
+//objetos---------------------------------------------------------------------------------------------------------
 var cliente = {};
+carregarLoading("block")
+//vetores------------------------------------------------------------------------------------------------------
 var pizzas = [], produtos = [], buscaProdutos = [];
-var op;
-var string = '';
-var totalUnico; // valor fixo mesmo depois do sistema atualizar o pedido antigo com o novo
-//var pedido
-//------------------------------------------------------------------------------------------------------------------------
-var Sabor, Preco, Qtd, Descricao, Custo, Obs;
-var Borda, BordaPreco, BordaCusto;
-var tPizzas = 0, tPedido = 0;
 
+//produto------------------------------------------------------------------------------------------------------
+var Sabor, Preco, Descricao, Custo, Obs, Qtd;
+
+//borda------------------------------------------------------------------------------------------------------
+var Borda, BordaPreco, BordaCusto;
+
+//pedido------------------------------------------------------------------------------------------------------
+var tPizzas = 0, tPedido = 0;
+var op, string = '', totalUnico; // valor fixo mesmo depois do sistema atualizar o pedido antigo com o novo
+
+//html------------------------------------------------------------------------------------------------------
 var linhaHtml = "", imprimirTxt = '';
+
+//botoes------------------------------------------------------------------------------------------------------
 var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
 var buttonRemove = '<a class="removerProduto"><button type="button" class="btn btn-danger">Remover</button></a>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
-var url_atual = window.location.href;
-
-//quantidade
-var qtdHtml = '<label>Quantidade: <span id="qtdInput">1</span></label><br>'
-			+ '<div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">'
-				+ '<div class="btn-group mr-2" role="group" aria-label="First group">'
-				    + '<button type="button" onclick="qtdProduto(0.5)" class="btn btn-link">0.5</button>'
-				    + '<button type="button" onclick="qtdProduto(1)" class="btn btn-link">1</button>'
-				    + '<button type="button" onclick="qtdProduto(2)" class="btn btn-link">2</button>'
-				    + '<button type="button" onclick="qtdProduto(3)" class="btn btn-link">3</button>'
-				    + '<button type="button" onclick="qtdProduto(4)" class="btn btn-link">4</button>'
-				    + '<button type="button" onclick="qtdProduto(5)" class="btn btn-link">5</button>'
-			  + '</div>'
-			+ '</div>'
+var qtdHtml = '<label>Quantidade:</label><br>'
+			+ '<input type="text" placeholder="Quantidade" class="form-control" id="qtd" value="1"/>'
 			
 			+ '<label>Observação:</label>'
 			+ '<input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" />';
 
-var celular = url_atual.split("/")[4];//pega o id de novo cadastro
-celular = parseInt(celular);
-url_atual = url_atual.split("/")[5]; //pega o id de edicao do pedido
+//url------------------------------------------------------------------------------------------------------
+var url_atual = window.location.href;
+var celular = parseInt(url_atual.split("/")[4]);//pega o id de novo cadastro
+var id_edicao = url_atual.split("/")[5]; //pega o id de edicao do pedido
 
+//buscar borda recheada---------------------------------------------------------------------------
+var bordasHtml;
+(() => {
+	let dados;
+	
+	$.ajax({
+		url: '/novoPedido/bordas',
+		type: 'GET',
+		success: todasBordas => {
+			//buscar bordas
+			var bordas = '';
+			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco}</option>`;
+			
+			 dados = '<label>Borda Recheada:</label>'
+							+ '<select class="form-control" name="borda" id="borda">'
+								+ '<option value="0"></option>'
+								+ bordas
+							+ '</select><br>';
+			salvarBordas(dados);
+		}
+	});
+})();
+
+
+function salvarBordas(bordas){
+	bordasHtml = bordas;
+}
+
+
+//------------------------------------------------------------------------------------------------------------
 if(celular % 2 == 1 || celular % 2 == 0) $("#numeroCliente").val(celular);
 
-if(typeof url_atual == "undefined") {
+
+//------------------------------------------------------------------------------------------------------------
+if(typeof id_edicao == "undefined") {
 	$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>Total do Pedido: R$0,00');
 }else {
-	
-	urlNumero = "/novoPedido/editarPedido/" + url_atual.toString();
+	carregarLoading("block");
+	urlNumero = "/novoPedido/editarPedido/" + id_edicao.toString();
 	
 	$.ajax({
 		url: urlNumero,
@@ -97,6 +124,7 @@ if(typeof url_atual == "undefined") {
 		mostrarProdutos();
 		$("#Ttotal").html('Total de Produtos: ' + tPizzas + '<br><br>' + 'Total do Pedido: R$' + cliente.total.toFixed(2));
 		
+		carregarLoading("none");
 	}).fail(function(){
 		$.alert("Erro, cliente não encontrado!");
 	});	
@@ -126,8 +154,9 @@ $('#buscarCliente').on('click', function(){
 		});
 		
 	}else{
+		carregarLoading("block");
 		if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
-	
+		
 			var numero = $("#numeroCliente").val();
 	
 			$.ajax({
@@ -163,8 +192,9 @@ $('#buscarCliente').on('click', function(){
 				}else {
 					window.location.href = "/cadastroCliente/" + numero;
 				}
+				carregarLoading("none");
 			});
-		
+			
 		}else if(typeof $("#numeroCliente").val() == 'string'){
 			cliente.nome = $("#numeroCliente").val();
 			
@@ -172,12 +202,25 @@ $('#buscarCliente').on('click', function(){
 			$("#mostrarDadosCliente").hide("slow");
 			$("#divBuscarProdutos").show('slow');
 			$("#nomeBalcao").html('<h2>Cliente: ' + $("#numeroCliente").val() + '</h2>');
-			$("#divEnvio").html('<label>Envio:</label>'
-						+'<select name="opcao" class="form-control" id="envioCliente">'
-							+'<option value="BALCAO">Balcão</option>'
-							+'<option value="MESA">Mesa</option>'
-							+'<option value="DRIVE">Drive-Thru</option>'
-						+'</select>');
+			
+			if(cliente.nome.indexOf("Mesa") > -1) {//se existir a palavra Mesa
+				cliente.envio = "MESA";
+			}else if(cliente.nome.indexOf("mesa") > -1){//se existir a palavra mesa
+				cliente.envio = "MESA";
+			}else if((cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 1)){
+				cliente.envio = "MESA";
+			}else if((cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 1)){
+				cliente.envio = "MESA";
+			}else if(cliente.envio == '' || cliente.envio == null) {//se for nulo o campo
+				cliente.envio = $("#envioCliente").val();
+			}else{
+				$("#divEnvio").html('<label>Envio:</label>'
+									+'<select name="opcao" class="form-control" id="envioCliente">'
+										+'<option value="BALCAO">Balcão</option>'
+										+'<option value="MESA">Mesa</option>'
+										+'<option value="DRIVE">Drive-Thru</option>'
+									+'</select>');
+			}
 			atualizarDados();
 			$(".pula")[2].focus();//focar no campo de buscar pedido
 		}
@@ -207,8 +250,11 @@ function atualizarDados() {
 	});
 }
 		
+		
 //-----------------------------------------------------------------------------------------------------------------
 function buscarProdutos() {
+	
+	carregarLoading("block");
 	if($.trim($("#nomeProduto").val()) != ""){
 
 		var produto = $("#nomeProduto").val();
@@ -220,6 +266,7 @@ function buscarProdutos() {
 			type: 'GET'
 		}).done(function(e){
 			
+			carregarLoading("none");
 			if(e.length == 0) {//se nao encontrar nenhum produto
 				$.confirm({
 					type: 'red',
@@ -326,9 +373,6 @@ function enviarProduto(idUnico) {
 	//zerar valores de borda
 	BordaPreco = 0, BordaCusto = 0, Borda = '';
 	
-	//resetar valor anterior
-	Qtd = 1;
-	
 	if(idUnico == null) {
 		var botaoReceber = $(event.currentTarget);
 		var idProduto = botaoReceber.attr('value');
@@ -345,82 +389,47 @@ function enviarProduto(idUnico) {
 		Custo = parseFloat(e.custo);
 		Setor = e.setor;
 		Descricao = e.descricao;
-		
+		console.log(bordasHtml, qtdHtml);
 		//pizza
 		if(Setor == 'PIZZA') {
 			
-			//buscar borda recheada
-			$.ajax({
-				url: '/novoPedido/bordas',
-				type: 'GET'
-			}).done(function(todasBordas){
-				
-				//buscar bordas
-				var bordas = '';
-				for(borda of todasBordas) bordas += '<option value="' + borda.id + '">' + borda.nomeProduto + '</option>';
-				
-				var bordasHtml = '<label>Borda Recheada:</label>'
-								+ '<select class="form-control" name="borda" id="borda">'
-									+ '<option value="0"></option>'
-									+ bordas
-								+ '</select><br>';
-			
-				$.confirm({
-					type: 'blue',
-					title: Setor + ': ' + Sabor,
-					content: bordasHtml + qtdHtml,
-				    closeIcon: true,
-					buttons: {
-						confirm: {
-							text: 'adicionar',
-							btnClass: 'btn-success',
-							keys: ['enter'],
-							action: function(){
-					
-								Obs = $("#obs").val();
+			$.confirm({
+				type: 'blue',
+				title: Setor + ': ' + Sabor,
+				content: bordasHtml + qtdHtml,
+			    closeIcon: true,
+				buttons: {
+					confirm: {
+						text: 'adicionar',
+						btnClass: 'btn-success',
+						keys: ['enter'],
+						action: function(){
+							
+							Qtd = parseFloat($("#qtd").val().toString().replace(",","."));
+							Obs = $("#obs").val();
+							
+							//multiplica o preco da pizza
+							Preco *= Qtd;
+							
+							//adiciona o valor da borda
+							bordaId = parseFloat($("#borda").val());
+							
+							//se for escolhido uma borda
+							if(bordaId != 0) {
 								
-								//multiplica o preco da pizza
-								Preco *= Qtd;
-								
-								//adiciona o valor da borda
-								bordaId = parseFloat($("#borda").val());
-								
-								//se for escolhido uma borda
-								if(bordaId != 0) {
+								//buscar borda por id
+								$.ajax({
+									url: "/novoPedido/addProduto/" + bordaId,
+									type: 'GET'
+								}).done(function(event){
 									
-									//buscar borda por id
-									$.ajax({
-										url: "/novoPedido/addProduto/" + bordaId,
-										type: 'GET'
-									}).done(function(event){
-										
-										//setar valores da borda escolhida
-										Borda = event.nomeProduto;
-										BordaPreco = parseFloat(event.preco);
-										BordaCusto = parseFloat(event.custo);
-										Preco += (BordaPreco * Qtd);
-										Custo += parseFloat(BordaCusto * Qtd);
-										
-										tPizzas += Qtd;
-										tPedido += Preco;
-										
-										pizzas.unshift({
-											'sabor' : Sabor,
-											'qtd': Qtd,
-											'borda': Borda,
-											'obs': Obs,
-											'preco': Preco,
-											'custo': parseFloat(Custo),
-											'setor': Setor,
-											'descricao': Descricao,
-										});
-
-										mostrarProdutos();
-										$(".divListaGeral").show('slow');
-									});
+									//setar valores da borda escolhida
+									Borda = event.nomeProduto;
+									BordaPreco = parseFloat(event.preco);
+									BordaCusto = parseFloat(event.custo);
+									Preco += (BordaPreco * Qtd);
+									Custo += parseFloat(BordaCusto * Qtd);
 									
-								//sem borda
-								}else {
 									tPizzas += Qtd;
 									tPedido += Preco;
 									
@@ -437,16 +446,32 @@ function enviarProduto(idUnico) {
 
 									mostrarProdutos();
 									$(".divListaGeral").show('slow');
-								}
+								});
+								
+							//sem borda
+							}else {
+								tPizzas += Qtd;
+								tPedido += Preco;
+								
+								pizzas.unshift({
+									'sabor' : Sabor,
+									'qtd': Qtd,
+									'borda': Borda,
+									'obs': Obs,
+									'preco': Preco,
+									'custo': parseFloat(Custo),
+									'setor': Setor,
+									'descricao': Descricao,
+								});
 
+								mostrarProdutos();
+								$(".divListaGeral").show('slow');
 							}
+
 						}
 					}
-				});
-			}).fail(function(){
-				$.alert("Erro, Nenhuma borda cadastrada ou encontrada!")
+				}
 			});
-			
 		//outros produtos do cardapio
 		}else {
 			$.confirm({
@@ -460,8 +485,10 @@ function enviarProduto(idUnico) {
 						btnClass: 'btn-success',
 						keys: ['enter'],
 						action: function(){
-				
+							
+							Qtd = parseFloat($("#qtd").val().toString().replace(",","."));
 							Obs = $("#obs").val();
+							
 							Preco *= Qtd;
 							tPizzas += Qtd;
 							tPedido += Preco;
@@ -487,15 +514,8 @@ function enviarProduto(idUnico) {
 };
 
 
-//---------------------------------------------------------------
-function qtdProduto(qtd) {
-	$("#qtdInput").text(qtd);
-	Qtd = qtd;
-}
-
-
 //------------------------------------------------------------------------------------------------------------------------
-$(".removerProduto").click(function(e){
+$(".removerProduto").click(function(){
 	
 	tPizzas -= produtos[0].qtd;
 	tPedido -= produtos[0].preco;
@@ -513,7 +533,7 @@ $(".removerProduto").click(function(e){
 
 
 //------------------------------------------------------------------------------------------------------------------------
-$(".removerPizza").click(function(e){
+$(".removerPizza").click(function(){
 	
 	tPizzas -= pizzas[0].qtd;
 	tPedido -= pizzas[0].preco;
@@ -532,6 +552,9 @@ $(".removerPizza").click(function(e){
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#BotaoEnviarPedido").click(function() {
+		
+	if(cliente.envio !== "MESA")cliente.envio = $("#envioCliente").val();
+	
 	if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		$.alert({
 			type: 'red',
@@ -546,24 +569,12 @@ $("#BotaoEnviarPedido").click(function() {
 			}
 		});	
 	}else{
-		if(cliente.nome.indexOf("Mesa") > -1) {//se existir a palavra Mesa
-			cliente.envio = "MESA";
-		}else if(cliente.nome.indexOf("mesa") > -1){//se existir a palavra mesa
-			cliente.envio = "MESA";
-		}else if((cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 1)){
-			cliente.envio = "MESA";
-		}else if((cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 1)){
-			cliente.envio = "MESA";
-		}else if(cliente.envio == '' || cliente.envio == null) {//se for nulo o campo
-			cliente.envio = $("#envioCliente").val();
-		}
-		
 		mostrarTabela(pizzas, produtos);
 		
 		linhaHtml += '<hr>';
 		
 		if(cliente.envio == 'ENTREGA') {
-			linhaHtml += '<b>Tº Produtos:</b> ' + tPizzas 
+			linhaHtml += '<b>Qtd Produtos:</b> ' + tPizzas 
 						+ '<br><b>Total sem Taxa:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><b>Taxa de Entrega:</b> R$ ' + cliente.taxa.toFixed(2)
 						+ '<br><b>Total do Pedido:</b> R$ ' + (parseFloat(tPedido) + cliente.taxa).toFixed(2)
@@ -572,7 +583,7 @@ $("#BotaoEnviarPedido").click(function() {
 						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
 						+ (parseFloat(tPedido) + cliente.taxa).toFixed(2) + '"/></div>';
 		}else {
-			linhaHtml += '<b>Tº Produtos:</b> ' + tPizzas 
+			linhaHtml += '<b>Qtd Produtos:</b> ' + tPizzas 
 						+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><div class="row"><div class="col-md-6">'
 						+ '<b>Receber:</b>'
@@ -581,13 +592,13 @@ $("#BotaoEnviarPedido").click(function() {
 		}
 		
 		linhaHtml += '<div class="col-md-6">'
-					+'<label>O pedido foi pago:</label>'
+					+'<label><b>O pedido foi pago:</b></label>'
 					+'<select name="pagamento" class="form-control" id="pagamentoCliente">'
 						+'<option value="Não">Não</option>'
 						+'<option value="Sim">Sim</option>'
 					+ '</select></div>'
 					
-					+ '<label>Observação do Pedido:</label>'
+					+ '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
 					+ '<br><br><hr><b class="fRight">Deseja enviar o pedido?</b>';
 
@@ -605,14 +616,20 @@ $("#BotaoEnviarPedido").click(function() {
 		            keys: ['enter'],
 		            action: function(){
 						
+						carregarLoading("block");
+						
 						var troco = this.$content.find('#troco').val();
 						var obs = this.$content.find('#obs').val();
+						
 						if(obs != '') cliente.obs = obs;
+						
 						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						troco = parseFloat(troco.toString().replace(",","."));
 						
 						if(Number.isFinite(troco) == false) {
+							
+							carregarLoading("none");
 							$.alert({
 								type: 'red',
 								title: 'OPS...',
@@ -691,7 +708,7 @@ $("#BotaoEnviarPedido").click(function() {
 										type: 'PUT'
 									});
 								}
-	
+								console.log(cliente);
 								//salvar pedido
 								$.ajax({
 									url: "/novoPedido/salvarPedido",
@@ -714,7 +731,8 @@ $("#BotaoEnviarPedido").click(function() {
 									});
 									
 									imprimir();
-									   
+									carregarLoading("none");
+									
 									$.alert({
 										type: 'green',
 										title: 'Sucesso!',
@@ -732,7 +750,10 @@ $("#BotaoEnviarPedido").click(function() {
 									});
 								}).fail(function(){
 									$.alert("Erro, Pedido não enviado!");
+									carregarLoading("none");
 								});
+							}).fail(function(){
+								carregarLoading("none");
 							});
 						}
 					}
@@ -916,6 +937,12 @@ $('.pula').on('keypress', function(e){
     }
 });
 
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}
 
 //salvar hora atual
 	var data = new Date();
