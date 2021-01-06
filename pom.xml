@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Projeto Programa de Vendas</name>
 	<description>Programa de Vendas</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	
 	<properties>
 		<java.version>11</java.version>
