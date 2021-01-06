@@ -1,6 +1,5 @@
 package proj_vendas.vendas.web.controller.NovoPedido;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Funcionarios;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -39,9 +36,6 @@ public class MotoboyController{
 	
 	@Autowired
 	private Dados dados;
-	
-	@Autowired
-	private LogUsuarios logUsuarios;
 
 	@Autowired
 	private Usuarios usuarios;
@@ -88,25 +82,11 @@ public class MotoboyController{
 	@RequestMapping(value = "/enviarMotoboy/{id}/{motoboy}")
 	@ResponseBody
 	public Pedido enviarPedido(@PathVariable long id, @PathVariable String motoboy) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		
 		Pedido pedido = pedidos.findById((long)id).get();
-		
-		//log
-		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
 
-		log.setUsuario(user.getEmail());
-		log.setAcao("Entregar pedido: " + pedido.getNome());
-		log.setData(hora.toString());
-		log.setCodEmpresa(user.getCodEmpresa());
-		logUsuarios.save(log); //salvar logUsuario
-				
-		//pedido
 		pedido.setStatus("MOTOBOY");
 		pedido.setMotoboy(motoboy);
+		
 		return pedidos.save(pedido);
 	}
 }

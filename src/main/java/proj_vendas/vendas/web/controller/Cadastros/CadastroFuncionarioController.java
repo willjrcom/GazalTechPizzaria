@@ -1,6 +1,5 @@
 package proj_vendas.vendas.web.controller.Cadastros;
 
-import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Funcionarios;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -28,9 +25,6 @@ public class CadastroFuncionarioController{
 	@Autowired
 	private Funcionarios funcionarios;
 	
-	@Autowired
-	private LogUsuarios logUsuarios;
-
 	@Autowired
 	private Usuarios usuarios;
 	
@@ -45,16 +39,8 @@ public class CadastroFuncionarioController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		//log
-		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
-		log.setUsuario(user.getEmail());
-		log.setAcao("Cadastrar/atualizar funcionário: " + funcionario.getNome());
-		log.setData(hora.toString());
-		log.setCodEmpresa(user.getCodEmpresa());
-		
-		logUsuarios.save(log); //salvar logUsuario
 		funcionario.setCodEmpresa(user.getCodEmpresa());
+		
 		return funcionarios.save(funcionario);
 	}
 		

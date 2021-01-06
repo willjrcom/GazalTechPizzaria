@@ -45,7 +45,9 @@ function enviarEmail(){
 	const email = {
     	email : $("#email").val(),
     	assunto : $("#opcao").val() + " - GazalTech",
-    	texto : $("#nome").val() + "<br>" + $("#conteudo").val()
+    	texto : "Cliente: " + $("#nome").val()
+				+ "<br>Assunto: " + $("#opcao").val()
+				+ "<br>Mensagem: " + $("#conteudo").val()
 	}
 
 	$.ajax({

@@ -1,7 +1,6 @@
 package proj_vendas.vendas.web.controller;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,12 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -39,8 +36,6 @@ public class MenuController {
 	@Autowired
 	private Usuarios usuarios;
 
-	@Autowired
-	private LogUsuarios logUsuarios;
 	/*
 	@Autowired
 	private Pedidos pedidos;
@@ -48,6 +43,7 @@ public class MenuController {
 	@Autowired
 	private PedidoTemps temps;
 	*/
+	
 	@RequestMapping
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -117,17 +113,6 @@ public class MenuController {
 		//salvar dados
 		dias.save(data);//salva o dia
 		dados.save(dado);//salva a data
-		
-		//log
-		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
-		
-		log.setUsuario(user.getEmail());
-		log.setAcao("login");
-		log.setData(hora.toString());
-		log.setCodEmpresa(user.getCodEmpresa());
-		
-		logUsuarios.save(log); //salvar logUsuario
 	}
 	
 	@RequestMapping(value = "/verificarData/{dia}")
@@ -159,8 +144,10 @@ public class MenuController {
 			}
 			data.setDia(dia);
 			data.setCodEmpresa(user.getCodEmpresa());
+			
 			//salvar dados
 			dias.save(data);
+			
 			return dados.save(dado);
 		}
 	}
@@ -174,6 +161,7 @@ public class MenuController {
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);
 		dado.setTrocoInicio(trocoInicial);
 		dados.save(dado);
+		
 		return 200;
 	}
 	

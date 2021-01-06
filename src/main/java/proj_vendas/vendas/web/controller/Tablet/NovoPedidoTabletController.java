@@ -1,6 +1,5 @@
 package proj_vendas.vendas.web.controller.Tablet;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.LogMesa;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.LogMesas;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
@@ -45,10 +42,7 @@ public class NovoPedidoTabletController{
 	
 	@Autowired
 	private Pedidos pedidos;
-	
-	@Autowired
-	private LogUsuarios logUsuarios;
-	
+
 	@Autowired
 	private LogMesas mesas;
 	
@@ -120,7 +114,6 @@ public class NovoPedidoTabletController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 
-		LogUsuario usuario = new LogUsuario();
 		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); // buscar tabela dia de acesso
 		
 		if (pedido.getId() == null) {// se o pedido nao existir
@@ -135,20 +128,10 @@ public class NovoPedidoTabletController{
 			mesa.setMesa(pedido.getNome());
 			mesa.setCodEmpresa(user.getCodEmpresa());
 			mesas.save(mesa);
-			
-			usuario.setAcao("Criar pedido: " + pedido.getNome());
-		}else {
-			usuario.setAcao("Atualizar pedido: " + pedido.getNome());
 		}
-		
-		Date hora = new Date();
-		
-		usuario.setUsuario(user.getEmail());
-		usuario.setData(hora.toString());
-		usuario.setCodEmpresa(user.getCodEmpresa());
-		logUsuarios.save(usuario); //salvar logUsuario
 
 		pedido.setCodEmpresa(user.getCodEmpresa());
+		
 		return ResponseEntity.ok(pedidos.save(pedido)); //salvar pedido
 	}
 }

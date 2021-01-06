@@ -1,9 +1,14 @@
 package proj_vendas.vendas.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,29 +27,55 @@ public class EmailController {
 
     @RequestMapping(path = "/enviar")
     @ResponseBody
-    public String sendMail(@RequestBody Email email) throws MessagingException {
+    public ResponseEntity<String> sendMail(@RequestBody Email email) throws MessagingException {
+    	
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy");
        
-        MimeMessage msg = javaMailSender.createMimeMessage();
+    	if(email.getTexto().equals("-1")) {
+    		email.setTexto("<h3>Seu email está com pendencias em nosso sistema, por favor contate o suporte!</h3>"
+    					+ email.getEmail()
+        				+ "<br><p>Gazal Tech - " + format.format(new Date()).toString() + "</p>"
+        				+ "<label>Sistema Pizzaria Web</label>");
+    	}else {
+    		email.setTexto("<h1>Email enviado com sucesso!</h1>"
+        				+ "<br><p>Aguarde uma resposta da nossa equipe de suporte</p>"
+        				+ "<br><p>Gazal Tech - " + format.format(new Date()).toString() + "</p>"
+        				+ "<label>Sistema Pizzaria Web</label>");
+    	}
+    	//enviar email confirmacao
+    	cliente(email);
+    	
+    	//enviar mensagem a empresa
+        empresa(email);
+        return ResponseEntity.ok("200");
+    }
 
-        // true = multipart message
+
+    public void cliente(Email email) throws MessagingException {
+		
+		MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+
+        helper.setFrom("mestrespizzaacrobatica@gmail.com");
+        helper.setTo(email.getEmail());
+        helper.setSubject(email.getAssunto());
+        helper.setText(email.getTexto(), true);
+        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logo.png"));
+        
+        javaMailSender.send(msg);
+	}
+
+    
+    public void empresa(Email email) throws MessagingException {
+		MimeMessage msg = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(msg, true);
         
-        helper.setTo(email.getEmail());
         helper.setFrom("mestrespizzaacrobatica@gmail.com");
+        helper.setTo("williamjunior67@gmail.com");
         helper.setSubject(email.getAssunto());
-
-        // default = text/plain
-        //helper.setText("Check attachment for image!");
-
-        // true = text/html
         helper.setText(email.getTexto(), true);
-
-        // hard coded a file path
-        //FileSystemResource file = new FileSystemResource(new File("path/android.png"));
-
-        //helper.addAttachment("my_photo.png", new ClassPathResource("android.png"));
-        javaMailSender.send(msg);
         
-        return "200";
+        javaMailSender.send(msg);
     }
 }
+

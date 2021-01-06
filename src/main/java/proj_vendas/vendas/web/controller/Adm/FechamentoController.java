@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.ImpressaoMatricial;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Usuario;
@@ -29,7 +27,6 @@ import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Impressoes;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
@@ -50,9 +47,6 @@ public class FechamentoController {
 	@Autowired
 	private PedidoTemps temps;
 	
-	@Autowired
-	private LogUsuarios logUsuarios;
-
 	@Autowired
 	private Impressoes impressoes;
 	
@@ -95,15 +89,6 @@ public class FechamentoController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		
-		//log
-		LogUsuario log = new LogUsuario();
-		log.setUsuario(user.getEmail());
-		log.setAcao("Fechamento de caixa");
-		log.setData(format.format(new Date()).toString());
-		log.setCodEmpresa(user.getCodEmpresa());
-		logUsuarios.save(log); //salvar logUsuario
 				
 		//temp
 		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "PRONTO");

@@ -1,6 +1,5 @@
 package proj_vendas.vendas.web.controller.Cadastros;
 
-import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cliente;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dias;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -30,10 +27,7 @@ public class CadastroClienteController {
 
 	@Autowired
 	private Dias dias;
-	
-	@Autowired
-	private LogUsuarios logUsuarios;
-	
+
 	@Autowired
 	private Usuarios usuarios;
 	
@@ -94,17 +88,9 @@ public class CadastroClienteController {
 		if(cliente.getId() == null) {
 			cliente.setDataCadastro(dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
 		}
-		//log
-		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
 		
-		log.setUsuario(user.getEmail());
-		log.setAcao("Cadastrar/atualizar cliente: " + cliente.getNome());
-		log.setData(hora.toString());
-		log.setCodEmpresa(user.getCodEmpresa());
-		
-		logUsuarios.save(log); //salvar logUsuario
 		cliente.setCodEmpresa(user.getCodEmpresa());
+		
 		return clientes.save(cliente);
 	}
 	

@@ -1,7 +1,5 @@
 package proj_vendas.vendas.web.controller.Empresa;
 
-import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.LogUsuario;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
-import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -25,9 +21,6 @@ public class EmpresaController {
 	
 	@Autowired
 	private Empresas empresas;
-	
-	@Autowired
-	private LogUsuarios logUsuarios;
 	
 	@Autowired
 	private Usuarios usuarios;
@@ -42,24 +35,15 @@ public class EmpresaController {
 	public Empresa salvar(@RequestBody Empresa empresa) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		//log
-		LogUsuario log = new LogUsuario();
-		Date hora = new Date();
-		
-		log.setCodEmpresa(user.getCodEmpresa());
-		log.setUsuario(user.getEmail());
-		log.setAcao("Atualizar empresa");
-		log.setData(hora.toString());
-		
-		logUsuarios.save(log); //salvar logUsuario
 				
 		if(empresas.findByCodEmpresa(user.getCodEmpresa()) == null) {
 			empresa.setCodEmpresa(user.getCodEmpresa());
+			
 			return empresas.save(empresa);
 		}else {
 			Empresa e1 = empresas.findByCodEmpresa(user.getCodEmpresa());
 			empresa.setId(e1.getId());
+			
 			return empresas.save(empresa);
 		}
 	}
