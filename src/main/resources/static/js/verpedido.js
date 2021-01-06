@@ -10,7 +10,7 @@ var imprimirTxt;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-
+carregarLoading("block");
 function buscarPedido() {
 	Tpedidos = 0;
 
@@ -39,6 +39,7 @@ function buscarPedido() {
 			}
 			totalPedidos = Tpedidos;
 		}
+		carregarLoading("none");
 	});	
 }
 
@@ -489,5 +490,12 @@ function imprimirProdutos(cliente) {
 				data: JSON.stringify(impressaoPedido)
 			});
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }
