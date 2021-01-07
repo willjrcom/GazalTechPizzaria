@@ -12,177 +12,137 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Total de Cadastros</h1>
 		<hr>
 	
-	<div class="row">
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Clientes</h3></td>
-						</tr>
-					</thead>
-
-					<tbody>
-						<tr>
-							<td th:text="${clientes}" class="text-center col-md-1 sombra">0</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Funcionários</h3></td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr>
-							<td th:text="${funcionarios}" class="text-center col-md-1 sombra">0</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Produtos</h3></td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr>
-							<td th:text="${produtos}" class="text-center col-md-1 sombra">0</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class="col-md-4 table-responsive">
-				<table>
-					<thead>
-						<tr>
-							<td colspan="2"><h3>Top 5</h3></td>
-						</tr>
-					</thead>
-					
-					<tbody>
-						<tr>
-							<td id="top10" class="text-center col-md-1 sombra">0</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		<div class="row">
+				<div class="col-md-4 table-responsive">
+					<table>
+						<thead>
+							<tr>
+								<td colspan="2"><h3>Clientes</h3></td>
+							</tr>
+						</thead>
 	
-<!-- ------------------------------------------------------------------------------------------------ -->
-		<!-- <div>
-			<h2 class="centralizar h1Logo"><br>Clientes<br></h2>
-			<div class="table-responsive">
-			<table class="col-md-12">
-				<thead>
-					<tr>
-						<th class="col-md-1"><h3>{}</h3></th>
-						<th class="col-md-3"><h3>Cliente</h3></th> 
-						<th class="col-md-3"><h3>Celular</h3></th>
-						<th class="col-md-4"><h3>Endereço</h3></th>
-						<th class="col-md-1"><h3 >Editar</h3></th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<tr th:each="cliente : ${clientes}">
-						<td th:text="${cliente.id}"></td>
-						<td th:text="${cliente.nome}"></td>
-						<td th:text="${cliente.celular}"></td>
-						<td th:text="${cliente.endereco.rua}"></td>
-						<td>
-							<a th:href="@{/cadastroCliente/editar/{id}(id = ${cliente.id})}" title="Editar">
-							<button class="botao"><span class="oi oi-pencil"></span></button></a>
-						</td>
-					</tr>
+						<tbody>
+							<tr>
+								<td th:text="${clientes}" class="text-center col-md-1 sombra">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+	
+	
+				<div class="col-md-4 table-responsive">
+					<table>
+						<thead>
+							<tr>
+								<td colspan="2"><h3>Funcionários</h3></td>
+							</tr>
+						</thead>
 						
-					<tr>
-						<td th:if="${#lists.isEmpty(clientes)}" colspan="5">Nenhum cliente encontrado!</td>
-					</tr>
-				</tbody>
-			</table>
-			</div>
-		</div> -->
-<!-- ----------------------------------------------------------------------------------------------------------- -->
-		<!-- <div>&nbsp;</div>
-		<div>
-			<h2 class="centralizar h1Logo"><br>Funcionários<br></h2>
-			
-			<div class="table-responsive">
-			<table class="col-md-12">
-				<thead>
-					<tr>
-						<th class="col-md-1"><h3>{}</h3></th>
-						<th class="col-md-3"><h3>Funcionário</h3></th>
-						<th class="col-md-3"><h3>Celular</h3></th>
-						<th class="col-md-4"><h3>Cargo</h3></th>
-						<th class="col-md-1"><h3>Editar</h3></th>
-					</tr>
-				</thead>
-				
-				<tbody>
-					<tr th:each="funcionario : ${funcionarios}">
-						<td th:text="${funcionario.id}"></td>
-						<td th:text="${funcionario.nome}"></td>
-						<td th:text="${funcionario.celular}"></td>
-						<td th:text="${funcionario.cargo}"></td>
-						<td>
-							<a th:href="@{/adm/cadastroFuncionario/editar/{id}(id = ${funcionario.id})}" title="Editar">
-							<button class="botao"><span class="oi oi-pencil"></span></button></a>
-						</td>
-					</tr>
+						<tbody>
+							<tr>
+								<td th:text="${funcionarios}" class="text-center col-md-1 sombra">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+	
+				<div class="col-md-4 table-responsive">
+					<table>
+						<thead>
+							<tr>
+								<td colspan="2"><h3>Produtos</h3></td>
+							</tr>
+						</thead>
 						
-					<tr>
-						<td th:if="${#lists.isEmpty(funcionarios)}" colspan="5">Nenhum funcionário encontrado!</td>
-					</tr>
-				</tbody>
-			</table>
-			</div>
-		</div> -->
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-		<!-- <div>&nbsp;</div>
-		<div>
-			<h2 class="centralizar h1Logo"><br>Produtos<br></h2>
-			
-			<div class="table-responsive">
-			<table class="col-md-12">
-				<thead>
-					<tr>
-						<th class="col-md-1"><h3>{ }</h3></th>
-						<th class="col-md-1"><h3>Produto</h3></th>
-						<th class="col-md-1"><h3>Preço</h3></th>
-						<th class="col-md-1"><h3>Editar</h3></th>
-					</tr>
-				</thead>
+						<tbody>
+							<tr>
+								<td th:text="${produtos}" class="text-center col-md-1 sombra">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div>&nbsp;</div>
 				
-				<tbody>
-					<tr th:each="produto : ${produtos}">
-						<td th:text="${produto.codigoBusca}"></td>
-						<td th:text="${produto.nomeProduto}"></td>
-						<td th:text="${produto.preco}"></td>
-						<td>
-							<a th:href="@{/cadastroProduto/editar/{id}(id = ${produto.id})}" title="Editar">
-							<button class="botao"><span class="oi oi-pencil"></span></button></a>
-						</td>
-					</tr>
+				<div>
+					<button class="btn btn-primary" onclick="mostrarClientes()" id="btnClientes">Mostrar Top 10 Clientes</button>
+					<button class="btn btn-primary" onclick="mostrarMesas()" id="btnMesas">Mostrar Top 10 Mesas</button>
+				</div>
+				
+				<div class="col-md-4 table-responsive hidden" id="topClientes">
+					<table>
+						<thead>
+							<tr>
+								<td colspan="3"><h3>Top 10 Clientes</h3></td>
+							</tr>
+							<tr>
+			 		 			<th class="col-md-1">Ranking</th>
+								<th class="col-md-1">Cliente</th>
+	 		 					<th class="col-md-1">Pedidos</th>
+	 		 				</tr>
+						</thead>
 						
-					<tr>
-						<td th:if="${#lists.isEmpty(produtos)}" colspan="5">Nenhum produto encontrado!</td>
-					</tr>
-				</tbody>
-			</table>
+						<tbody>
+							<tr>
+								<td id="top10Rank" class="text-center col-md-1 sombra">Top 1</td>
+								<td id="top10Cliente" class="text-center col-md-1 sombra">...</td>
+								<td id="top10Total" class="text-center col-md-1 sombra">0</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				
+		 		<div class="col-md-4 table-responsive hidden" id="topMesas">
+			 		<table>
+			 			<thead>
+			 				<tr>
+			 					<td colspan="3"><h3>Top 10 Mesas</h3></td>
+			 				</tr>
+			 		 		<tr>
+			 		 			<th class="col-md-1">Ranking</th>
+			 		 			<th class="col-md-1">Mesa</th>
+			 		 			<th class="col-md-1">Utilizada</th>
+			 		 		</tr>
+			 		 	</thead>
+			 		 	<tbody id="mesasTop" class="text-center col-md-1 sombra"><tr><td colspan="3">........</td></tr></tbody>
+			 		 </table>
+		 		 </div>
 			</div>
-		</div> -->
+		
+	<!-- ------------------------------------------------------------------------------------------------ -->
+			<!-- <div>
+				<h2 class="centralizar h1Logo"><br>Clientes<br></h2>
+				<div class="table-responsive">
+				<table class="col-md-12">
+					<thead>
+						<tr>
+							<th class="col-md-1"><h3>{}</h3></th>
+							<th class="col-md-3"><h3>Cliente</h3></th> 
+							<th class="col-md-3"><h3>Celular</h3></th>
+							<th class="col-md-4"><h3>Endereço</h3></th>
+							<th class="col-md-1"><h3 >Editar</h3></th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr th:each="cliente : ${clientes}">
+							<td th:text="${cliente.id}"></td>
+							<td th:text="${cliente.nome}"></td>
+							<td th:text="${cliente.celular}"></td>
+							<td th:text="${cliente.endereco.rua}"></td>
+							<td>
+								<a th:href="@{/cadastroCliente/editar/{id}(id = ${cliente.id})}" title="Editar">
+								<button class="botao"><span class="oi oi-pencil"></span></button></a>
+							</td>
+						</tr>
+							
+						<tr>
+							<td th:if="${#lists.isEmpty(clientes)}" colspan="5">Nenhum cliente encontrado!</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+			</div> -->
 		<div>&nbsp;</div>
 	</div>
 	

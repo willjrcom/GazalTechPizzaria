@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.Cadastros;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Funcionarios;
+import proj_vendas.vendas.repository.LogMesas;
 import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -31,6 +35,9 @@ public class CadastrosController {
 	@Autowired
 	private Usuarios usuarios;
 
+	@Autowired
+	private LogMesas mesas;
+	
 	@GetMapping("/cadastros")
 	public ModelAndView lerCadastros() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -43,12 +50,21 @@ public class CadastrosController {
 		return mv;
 	}
 	
-	@RequestMapping("/cadastros/top10")
+	@RequestMapping("/cadastros/top10Clientes")
 	@ResponseBody
 	public String top10() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		return clientes.top10Clientes(user.getCodEmpresa()).toString();
+	}
+	
+	@RequestMapping("/cadastros/mesas")
+	@ResponseBody
+	public List<LogMesa> buscarMesas() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return mesas.findByCodEmpresa(user.getCodEmpresa());
 	}
 }

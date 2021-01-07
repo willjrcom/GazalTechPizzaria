@@ -268,6 +268,10 @@ table tbody tr td{
     color: green;
 }
 
+.hidden{
+	display: none;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;

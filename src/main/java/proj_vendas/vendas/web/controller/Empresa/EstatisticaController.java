@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.LogMesas;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -24,9 +22,6 @@ public class EstatisticaController {
 
 	@Autowired
 	private Dados dados;
-	
-	@Autowired
-	private LogMesas mesas;
 	
 	@Autowired
 	private Usuarios usuarios;
@@ -43,14 +38,5 @@ public class EstatisticaController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		return dados.findByCodEmpresaAndTrocoInicioNotLikeAndTrocoFinalNotLike(user.getCodEmpresa(), 0, 0);
-	}
-	
-	@RequestMapping(value = "/estatistica/mesas")
-	@ResponseBody
-	public List<LogMesa> buscarMesas() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		return mesas.findByCodEmpresa(user.getCodEmpresa());
 	}
 }
