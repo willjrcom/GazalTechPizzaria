@@ -22,4 +22,7 @@ public interface Clientes extends JpaRepository<Cliente, Long>{
 	
 	@Query("SELECT COUNT(u) FROM Cliente u WHERE u.codEmpresa=:cod")
     public int totalClientes(@Param("cod") int codEmpresa);
+	 
+	@Query("SELECT nome, contPedidos FROM Cliente u WHERE u.codEmpresa=:cod AND u.contPedidos != 0 ORDER BY u.contPedidos DESC")
+	public List<String> top10Clientes(@Param("cod") int codEmpresa);
 }
