@@ -4,6 +4,7 @@ var url_atual = window.location.href;
 url_atual = url_atual.split("/")[6];
 
 if(typeof url_atual != "undefined") {
+	carregarLoading("block");
 	
 	$.ajax({
 		url: "/adm/cadastroFuncionario/editarFuncionario/" + url_atual,
@@ -37,7 +38,9 @@ if(typeof url_atual != "undefined") {
 		$("#diaPagamento").val(funcionario.diaPagamento);
 		$("#salario").val(funcionario.salario);
 		
+		carregarLoading("none");
 	}).fail(function(){
+		carregarLoading("none");
 		$.alert("Erro, Funcionario não encontrado!");
 	});
 }
@@ -79,9 +82,9 @@ $("#enviar").click(function() {
 	
 	if($("#nome").val() != '' 
 	&& $("#email").val() != ''
+	&& $("#cpf").val() != ''
 	&& $("#cel").val() != ''
 	
-	&& $("#cep").val() != ''
 	&& $("#rua").val() != ''
 	&& $("#n").val() != ''
 	&& $("#bairro").val() != ''
@@ -89,7 +92,9 @@ $("#enviar").click(function() {
 	
 	&& $("#admissao").val() != ''
 	&& $("#diaPagamento").val() != ''
-	&& $("#salario").val() != '') {
+	&& $("#salario").val() != ''
+	&& $("#validCpf").val() == 1
+	&& $("#validCel").val() == 1) {
 		
 		setFuncionario();
 		
@@ -103,6 +108,8 @@ $("#enviar").click(function() {
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
+						carregarLoading("block");
+						
 						$.ajax({
 							url: "/adm/cadastroFuncionario/cadastrar",
 							type: 'PUT',
@@ -111,24 +118,24 @@ $("#enviar").click(function() {
 							data: JSON.stringify(funcionario)
 							
 						}).done(function(){
+							carregarLoading("none");
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
-								content: "Funcionário cadastrado",
+								content: "Funcionário cadastrado!",
 								buttons: {
 									confirmar: {
 										text: 'Recarregar',
 							            btnClass: 'btn-blue',
 							            keys: ['esc', 'enter'],
 							            action: function(){
-											document.location.reload(true);
+											window.location.href = "/adm/cadastroFuncionario";
 										}
 									}
 								}
 							});
-							
-							
 						}).fail(function(){
+							carregarLoading("none");
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
@@ -144,5 +151,19 @@ $("#enviar").click(function() {
 		        },
 			}
 		});
+	}else{
+		$.alert({
+			type: 'red',
+			title: 'Aviso',
+			content: "Preencha os campos corretamente!"
+		});
 	}
 });
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}
+

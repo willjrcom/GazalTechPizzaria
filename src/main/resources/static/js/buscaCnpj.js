@@ -4,6 +4,8 @@ $('#buscarCnpj').on('click', function(){
     $(this).attr("disabled", true);
     
 	if($.trim($("#cnpj").cleanVal()) != ""){
+		carregarLoading("block");
+		
 		$.ajax({
 			url: "https://www.receitaws.com.br/v1/cnpj/" + $("#cnpj").cleanVal(),
 			type: "GET",
@@ -24,8 +26,9 @@ $('#buscarCnpj').on('click', function(){
 			$("#cidade").val(e.municipio);
 			$("#email").val(e.email);
 			
+			carregarLoading("none");
 		}).fail(function(){
-			$.alert("Cnpj não encontrado!");
+			carregarLoading("none");
 		});
 	}			
 	setTimeout(() => { 
@@ -33,3 +36,10 @@ $('#buscarCnpj').on('click', function(){
 	}, 10000);
     
 });
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

@@ -4,6 +4,8 @@ var url_atual = window.location.href;
 url_atual = url_atual.split("/")[5];
 
 if(typeof url_atual != "undefined") {
+	carregarLoading("block");
+	
 	$.ajax({
 		url: "/cadastroProduto/editarProduto/" + url_atual,
 		type: 'GET',
@@ -22,7 +24,9 @@ if(typeof url_atual != "undefined") {
 		if(produto.disponivel == 1) $("#disponivel").prop("checked", true);
 		else $("#disponivel").prop("checked", false);
 		
+		carregarLoading("none");
 	}).fail(function(){
+		carregarLoading("none");
 		$.alert("Erro, Produto não encontrado!");
 	});
 }
@@ -50,7 +54,8 @@ $("#enviar").click(function() {
 	if($("#codigoBusca").val() != '' 
 	&& $("#nomeProduto").val() != ''
 	&& $("#preco").val() != ''
-	&& $("#custo").val() != '') {
+	&& $("#custo").val() != ''
+	&& $("#validCod").val() == 1) {
 		
 		setProduto();
 		
@@ -64,6 +69,8 @@ $("#enviar").click(function() {
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
+						carregarLoading("block");
+		
 						$.ajax({
 							url: "/cadastroProduto/cadastrar",
 							type: 'PUT',
@@ -72,6 +79,7 @@ $("#enviar").click(function() {
 							data: JSON.stringify(produto)
 							
 						}).done(function(){
+							carregarLoading("none");
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -88,10 +96,11 @@ $("#enviar").click(function() {
 								}
 							});
 						}).fail(function(){
+							carregarLoading("none");
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
-								content: "Produto não cadastrado!"
+								content: "Erro, Produto não cadastrado!"
 							});
 						});
 					}
@@ -174,5 +183,12 @@ function aviso3() {
 				keys: ['esc', 'enter']
 			}
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

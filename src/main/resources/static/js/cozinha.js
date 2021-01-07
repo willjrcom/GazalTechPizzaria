@@ -10,6 +10,9 @@ var Tpizzas = 0;
 var AllPizzas = 0;
 var divisao;
 
+carregarLoading("block");
+
+
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
@@ -64,6 +67,7 @@ function buscarPedido() {
 		try {$("#enviar")[0].focus();}catch{}
 
 		totalPedidos = Tpedidos;
+		carregarLoading("none");
 	});	
 };
 
@@ -306,6 +310,14 @@ function mostrarTabela(pizzas) {
 		linhaHtml += '</table>';
 	}
 }
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}
+
 
 //ajax reverso
 /*

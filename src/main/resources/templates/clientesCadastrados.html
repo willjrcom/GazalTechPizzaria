@@ -14,12 +14,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="row">
 			<div class="col-md-10">
-				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control" 
+				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control pula" 
 					placeholder="Qual cliente você está procurando?" style="text-indent: 10px"/>
 			</div>
 					
 			<div class="col-md-2">
-				<button type="submit" name="buscarCliente" id="buscar" class="form-control btn btn-primary">Buscar</button>
+				<button type="submit" name="buscarCliente" id="buscar" class="form-control btn btn-primary pula">Buscar</button>
 			</div>
 		</div>
 		<br>
@@ -42,8 +42,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <!-- ----------------------------------------------------------------------------------------------------------- -->
 	</div>
 	<br>
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
+	
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/clientes/clientesCadastrados.js}"></script>
+	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: cadastros}"></div>

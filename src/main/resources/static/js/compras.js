@@ -3,6 +3,9 @@ var compra = {};
 var compras = [];
 var Tcompras = '';
 
+carregarLoading("block");
+
+
 //-------------------------------------------------------------------
 function aviso() {
 	$.alert({
@@ -22,7 +25,7 @@ function aviso() {
 
 //----------------------------------------------------------------
 function salvar() {
-	
+	carregarLoading("block");
 	if($("#produto").val() != '' && $("#preco").val() != '') {
 		compra.produto = $("#produto").val();
 		compra.preco = $("#preco").val();
@@ -45,7 +48,7 @@ function salvar() {
 				contentType: "application/json",
 				data: e,
 			}).done(function(){
-				
+				carregarLoading("none");
 				$.alert({
 					type: 'green',
 					title: 'Sucesso',
@@ -108,5 +111,13 @@ $(document).ready(function(){
 
 		$("#compras").html(Tcompras);
 		$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
+		carregarLoading("none");
 	});
 });
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

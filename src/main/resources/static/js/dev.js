@@ -1,36 +1,45 @@
-
 var codigo;
 var dados = {}, usuarios = {};
 var email, senha, confirmar;
 var opSenha = 0; //-1 nao alterar, 0 alterar
 
+//linhas---------------------------------------------------------------------------
+var pedidoVazio = '<tr><td colspan="5">Nenhum usuário encontrado!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="5" class="fundoList"></td></tr>';
+
 //---------------------------------------------------------------------------------
+carregarLoading("block");
 $.ajax({
 	url: '/dev/dev/todos',
 	type: 'GET'
 }).done(function(e){
-	usuarios = e;
-	var usuarioHtml = '';
 	
-	for(usuario of usuarios) {
-		usuarioHtml += '<tr>'
-						+'<td align="center">' + usuario.codEmpresa + '</td>'
-						+'<td align="center">' + usuario.email + '</td>'
-						+'<td align="center">' + usuario.perfil + '</td>';
+	if(e.length == 0){
+		$("#todosUsuarios").html(pedidoVazio);
+	}else{
+		usuarios = e;
+		var usuarioHtml = '';
 		
-		if(usuario.ativo == 1) usuarioHtml += '<td align="center">Sim</td>';
-		else usuarioHtml += '<td align="center">Não</td>';
-		
-		usuarioHtml += '<td align="center"><div class="row">'
-						+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-pencil"></span></button></div>'
-						+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-trash"></span></button></div>'
-					+'</div></td>'
-				+'</tr>';
-						
+		for(usuario of usuarios) {
+			usuarioHtml += '<tr>'
+							+'<td align="center">' + usuario.codEmpresa + '</td>'
+							+'<td align="center">' + usuario.email + '</td>'
+							+'<td align="center">' + usuario.perfil + '</td>';
+			
+			if(usuario.ativo == 1) usuarioHtml += '<td align="center">Sim</td>';
+			else usuarioHtml += '<td align="center">Não</td>';
+			
+			usuarioHtml += '<td align="center"><div class="row">'
+							+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-pencil"></span></button></div>'
+							+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-trash"></span></button></div>'
+						+'</div></td>'
+					+'</tr>'
+					+ linhaCinza + linhaCinza;
+							
+		}
+		$("#todosUsuarios").html(usuarioHtml);
 	}
-	
-	$("#todosUsuarios").html(usuarioHtml);
-		
+	carregarLoading("none");
 });
 
 
@@ -140,6 +149,8 @@ $("#criar").click(function(){
 	}
 
 if(dados.senha === confirmar && dados.senha != '' && dados.email != '') {
+	carregarLoading("block");
+	
 	$.ajax({
 		url:'/dev/dev/criar',
 		type:'POST',
@@ -147,6 +158,7 @@ if(dados.senha === confirmar && dados.senha != '' && dados.email != '') {
 		contentType: "application/json",
 		data: JSON.stringify(dados)
 	}).done(function(){
+		carregarLoading("none");
 		$.alert({
 			type: 'blue',
 			title: 'Sucesso',
@@ -337,5 +349,12 @@ function apagarUsuario() {
 		        keys: ['esc'],
 			}
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

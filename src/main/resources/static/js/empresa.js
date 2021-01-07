@@ -1,4 +1,6 @@
 var empresa = {};
+carregarLoading("block");
+
 
 //---------------------------------------------------
 $.ajax({
@@ -39,10 +41,10 @@ $.ajax({
 		$("#n").val(empresa.endereco.n);
 		$("#bairro").val(empresa.endereco.bairro);
 		$("#cidade").val(empresa.endereco.cidade);
-		$("#referencia").val(empresa.endereco.referencia);	
+		$("#referencia").val(empresa.endereco.referencia);
+		carregarLoading("none");	
 	}
-});
-
+}).fail(() => carregarLoading("none"));
 
 
 //---------------------------------------------------------------
@@ -87,10 +89,9 @@ $("#atualizar").click(function() {
 	&& $("#empresa").val() != ''
 	&& $("#email").val() != ''
 	&& $("#cnpj").val() != ''
-	&& $("#mesa").val() != ''
 	&& $("#cel").val() != ''
 	&& $("#horaExtra").val() != ''
-	&& $("#cep").val() != ''
+	
 	&& $("#rua").val() != ''
 	&& $("#n").val() != ''
 	&& $("#bairro").val() != ''
@@ -109,6 +110,8 @@ $("#atualizar").click(function() {
 		            keys: ['enter'],
 		            content: "Deseja atualizar?",
 		            action: function(){
+						carregarLoading("block");
+						
 						$.ajax({
 							url: "/adm/empresa/atualizar",
 							type: 'PUT',
@@ -117,6 +120,8 @@ $("#atualizar").click(function() {
 							data: JSON.stringify(empresa)
 							
 						}).done(function(){
+							carregarLoading("none");
+							
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -135,6 +140,8 @@ $("#atualizar").click(function() {
 							
 							
 						}).fail(function(){
+							carregarLoading("none");
+							
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
@@ -152,3 +159,10 @@ $("#atualizar").click(function() {
 		});
 	}
 });
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

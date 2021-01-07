@@ -18,6 +18,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<input type="hidden" id="idEnd" name="idEnd"/>
 		<input type="hidden" id="contPedidos" name="contPedidos"/>
 		<input type="hidden" id="dataCadastro" name="dataCadastro"/>
+		<input type="hidden" id="validCpf" name="validCpf" value="1"/>
+		<input type="hidden" id="validCel" name="validCel" value="1"/>
 
 		<label id="dados"></label>
 		
@@ -89,11 +91,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<label>Referência da casa:</label><br>
 			<textarea class="form-control" id="referencia" name="referencia" rows="5" placeholder="Referência da casa"></textarea>  
 		</div>
-		
+		<br>
 		<button type="button" id="enviar" class="form-contact-button pula">Cadastrar</button>  
 	</div>
 	
 	<br>
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
+	
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 
 	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>

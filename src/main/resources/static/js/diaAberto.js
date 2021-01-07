@@ -4,6 +4,9 @@ var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="5" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="5">Nenhum dia em aberto!</td></tr>';
 
+carregarLoading("block");
+
+
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosFuncionarios").html(linhaCinza);
@@ -30,6 +33,7 @@ $.ajax({
 		
 		$("#todosFuncionarios").html(linhaHtml);
 	}
+	carregarLoading("none");
 });	
 
 
@@ -49,3 +53,10 @@ function aviso() {
 		}
 	});
 };
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

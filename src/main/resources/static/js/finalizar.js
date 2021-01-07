@@ -13,7 +13,7 @@ var verificarTroco = 0;
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 $("#todosPedidos").html(linhaCinza);
-
+carregarLoading("block");
 $(document).ready(function(){
 	$.ajax({
 		url: "/finalizar/todosPedidos",
@@ -46,6 +46,7 @@ $(document).ready(function(){
 			}
 			$("#todosPedidos").html(linhaHtml);
 		}
+		carregarLoading("none");
 	});
 });	
 
@@ -163,7 +164,7 @@ function finalizarPedido() {
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
-						
+						carregarLoading("block");
 						//pedidos[idBusca].ac = $("#filtro").val();
 						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
@@ -174,6 +175,8 @@ function finalizarPedido() {
 							troco = parseFloat(troco.toString().replace(",","."));
 							
 							if(Number.isFinite(troco) == false) {
+								carregarLoading("none");
+								
 								$.alert({
 									type: 'red',
 									title: 'OPS...',
@@ -220,6 +223,7 @@ function finalizarPedido() {
 							document.location.reload(true);
 							
 						}).fail(function(){
+							carregarLoading("none");
 							if(verificarTroco == 0) $.alert("Pedido não enviado!");
 							
 							else $.alert("Pedido não enviado!<br>Digite um valor válido.");
@@ -235,3 +239,10 @@ function finalizarPedido() {
 		});
 	}
 };
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

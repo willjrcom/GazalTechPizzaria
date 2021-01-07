@@ -75,11 +75,13 @@ $("#enviar").click(function() {
 	
 	if($("#nome").val() != '' 
 	&& $("#cel").val() != ''
-	&& $("#cep").val() != ''
 	&& $("#rua").val() != ''
 	&& $("#n").val() != ''
 	&& $("#bairro").val() != ''
-	&& $("#cidade").val() != '') {
+	&& $("#cidade").val() != ''
+	&& $("#taxa").val() != ''
+	&& $("#validCpf").val() == 1
+	&& $("#validCel").val() == 1) {
 		
 		setCliente();
 		
@@ -94,6 +96,9 @@ $("#enviar").click(function() {
 		            keys: ['enter'],
 		            content: "Deseja enviar?",
 		            action: function(){
+						
+						carregarLoading("block");
+						
 						$.ajax({
 							url: "/cadastroCliente/cadastrar",
 							type: 'PUT',
@@ -102,6 +107,8 @@ $("#enviar").click(function() {
 							data: JSON.stringify(cliente)
 							
 						}).done(function(){
+							
+							carregarLoading("none");
 							$.alert({
 								type: 'green',
 								title: 'Sucesso!',
@@ -118,6 +125,8 @@ $("#enviar").click(function() {
 								}
 							});
 						}).fail(function(){
+							carregarLoading("none");
+							
 							$.alert({
 								type: 'red',
 								title: 'Aviso',
@@ -133,5 +142,18 @@ $("#enviar").click(function() {
 		        },
 			}
 		});
+	}else{
+		$.alert({
+			type: 'red',
+			title: 'Aviso',
+			content: "Preencha os campos corretamente!"
+		});
 	}
 });
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

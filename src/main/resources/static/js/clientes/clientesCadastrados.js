@@ -1,69 +1,77 @@
 
 var clientes = [];
 var linhaHtml;
-var pedidoVazio = '<tr><td colspan="5">Nenhum cliente encontrado!</td></tr>';
-var linhaCinza = '<tr id="linhaCinza"><td colspan="5" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="4">Nenhum cliente encontrado!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="4" class="fundoList"></td></tr>';
 
 $("#todosClientes").html(pedidoVazio);
 
 $("#buscar").click(function(){
+	carregarLoading("block");
+	
 	var nome = $("#nomeBusca").val();
 	
 	$.ajax({
 		url: '/clientesCadastrados/buscar/' + nome,
 		type: 'GET'
 	}).done(function(e){
-		clientes = [];
-		for(cliente of e) {
-			clientes.unshift({
-				'id': cliente.id,
-				'nome': cliente.nome,
-				'cpf': cliente.cpf,
-				'celular': cliente.celular,
-				'endereco': cliente.endereco.rua + ' - ' + cliente.endereco.n  + ' - ' + cliente.endereco.bairro,
-				'referencia' : cliente.endereco.referencia,
-				'taxa' : cliente.endereco.taxa
-			});
-		}
-
-		linhaHtml = "";
-		for(cliente of clientes){
-			linhaHtml += '<tr>'
-						+ '<td>' + cliente.nome + '</td>'
-						+ '<td>' + cliente.celular + '</td>'
-						+ '<td>' + cliente.endereco + '</td>'
-						
-						+ '<td><div class="row">'
-							+ '<div class="col-md-1">'
-								+'<a title="Ver">'
-									+'<button class="botao" onclick="verCliente()" value="'+ cliente.id + '">'
-										+'<span class="oi oi-magnifying-glass"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>'
-					
-							+ '<div class="col-md-1">'
-								+'<a title="Editar">'
-									+'<button class="botao" onclick="editarCliente()" value="'+ cliente.id + '">'
-										+'<span class="oi oi-pencil"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>'
-				
-							+ '<div class="col-md-1">'
-								+'<a title="Excluir">'
-									+'<button class="botao" onclick="excluirCliente()" value="'+ cliente.id + '">'
-										+'<span class="oi oi-trash"></span>'
-									+'</button>'
-								+'</a>'
-							+'</div>'
-						+'</div>'
-					+ '</td></tr>'
-					+ linhaCinza;
-		}
-		$("#todosClientes").html(linhaHtml);
 		
+		clientes = [];
+		if(e.length == 0) {
+			$("#todosClientes").html(pedidoVazio);
+		}else{
+			for(cliente of e) {
+				clientes.unshift({
+					'id': cliente.id,
+					'nome': cliente.nome,
+					'cpf': cliente.cpf,
+					'celular': cliente.celular,
+					'endereco': cliente.endereco.rua + ' - ' + cliente.endereco.n  + ' - ' + cliente.endereco.bairro,
+					'referencia' : cliente.endereco.referencia,
+					'taxa' : cliente.endereco.taxa
+				});
+			}
+	
+			linhaHtml = "";
+			for(cliente of clientes){
+				linhaHtml += '<tr>'
+							+ '<td>' + cliente.nome + '</td>'
+							+ '<td>' + cliente.celular + '</td>'
+							+ '<td>' + cliente.endereco + '</td>'
+							
+							+ '<td><div class="row">'
+								+ '<div class="col-md-1">'
+									+'<a title="Ver">'
+										+'<button class="botao" onclick="verCliente()" value="'+ cliente.id + '">'
+											+'<span class="oi oi-magnifying-glass"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
+						
+								+ '<div class="col-md-1">'
+									+'<a title="Editar">'
+										+'<button class="botao" onclick="editarCliente()" value="'+ cliente.id + '">'
+											+'<span class="oi oi-pencil"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
+					
+								+ '<div class="col-md-1">'
+									+'<a title="Excluir">'
+										+'<button class="botao" onclick="excluirCliente()" value="'+ cliente.id + '">'
+											+'<span class="oi oi-trash"></span>'
+										+'</button>'
+									+'</a>'
+								+'</div>'
+							+'</div>'
+						+ '</td></tr>'
+						+ linhaCinza;
+			}
+			$("#todosClientes").html(linhaHtml);
+		}
+		carregarLoading("none");
 	}).fail(function(){
+		carregarLoading("none");
 		$.alert("Erro, Nenhum cliente encontrado!");
 	});
 });
@@ -252,5 +260,12 @@ function excluirCliente() {
 		        keys: ['esc'],
 			}
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

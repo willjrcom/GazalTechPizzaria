@@ -8,6 +8,7 @@ var Tpizzas = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
+carregarLoading("block");
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
@@ -15,7 +16,7 @@ $.ajax({
 	type: 'GET'
 }).done(function(e){
 	pedidos = e;
-	console.log(e);
+
 	for(pedido of pedidos){
 		Tpedidos++;
 		pedido.pizzas = JSON.parse(pedido.pizzas);
@@ -51,6 +52,7 @@ $.ajax({
 		$("#todosPedidos").html(linhaHtml);
 		$("#Tpedidos").html(Tpedidos);
 	}
+	carregarLoading("none");
 });	
 
 
@@ -279,5 +281,12 @@ function imprimirProdutos(cliente) {
 				data: JSON.stringify(impressaoPedido)
 			});
 		}
+	});
+}
+
+	
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

@@ -13,6 +13,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<hr>
 		<input type="hidden" id="id" name="id"/>
 		<input type="hidden" id="idEnd" name="idEnd"/>
+		<input type="hidden" id="validCpf" name="validCpf" value="1"/>
+		<input type="hidden" id="validCel" name="validCel" value="1"/>
 		
 		<div class="form-group">
 			<label>Nome Completo:</label><br>
@@ -137,7 +139,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<button type="button" id="enviar" class="form-contact-button pula" name="enviar">Cadastrar</button> 
 	</div>
 	
-	<br><br>
+	<br>
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
+	
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->

@@ -4,6 +4,7 @@ var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList" ></td></
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido disponível!</td></tr>';
 var pedidoSemPizza = '<tr><td colspan="6">Nenhum pedido com pizza disponível!</td></tr>';
 
+carregarLoading("block");
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
@@ -48,6 +49,7 @@ function buscarPedidos() {
 			$("#andamento").html(andamentoHtml);
 			$("#pronto").html(prontoHtml);
 		}
+		carregarLoading("none");
 	});
 };
 
@@ -61,4 +63,11 @@ setInterval(function (){
 //-------------------------------------
 function limit(nome) {
 	return nome.substr(0, 20);
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
 }

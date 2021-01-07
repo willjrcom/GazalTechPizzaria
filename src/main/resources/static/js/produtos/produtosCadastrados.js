@@ -1,11 +1,12 @@
 var produtos = [];
 var linhaHtml;
-var pedidoVazio = '<tr><td colspan="6">Nenhum produto encontrado!</td></tr>';
-var linhaCinza = '<tr><td colspan="6" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="5">Nenhum produto encontrado!</td></tr>';
+var linhaCinza = '<tr><td colspan="5" class="fundoList"></td></tr>';
 
 $("#todosProdutos").html(pedidoVazio);
 
 $("#buscar").click(function(){
+	carregarLoading("block");
 	
 	var nome = $("#nomeBusca").val();
 	
@@ -16,8 +17,9 @@ $("#buscar").click(function(){
 		
 		produtos = e;
 		linhaHtml = '';
-		
-		if(produtos.length != 0) {
+		if(produtos.length == 0) {
+			$("#todosProdutos").html(pedidoVazio);
+		} else {
 			for(produto of produtos) {
 				linhaHtml += '<tr>'
 							+'<td>' + produto.codigoBusca + '</td>'
@@ -55,8 +57,10 @@ $("#buscar").click(function(){
 			}
 			$("#todosProdutos").html(linhaHtml);
 		}
+		carregarLoading("none");
 	}).fail(function(){
-		$.alert("Erro, Produto não encontrado!");
+		carregarLoading("none");
+		$.alert("Erro, Produtos não encontrados!");
 	});
 });
 
@@ -243,5 +247,12 @@ function excluirProduto() {
 		        keys: ['esc'],
 			}
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

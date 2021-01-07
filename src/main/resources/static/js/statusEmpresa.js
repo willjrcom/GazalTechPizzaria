@@ -8,6 +8,7 @@ var Tpedidos = 0, totalPedidos = 0;
 var Tpizzas = 0;
 var divisao;
 
+carregarLoading("block");
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
@@ -43,6 +44,7 @@ function buscarPedidos() {
 				
 			totalPedidos = Tpedidos;
 		}
+		carregarLoading("none");
 	});
 };
 
@@ -131,3 +133,10 @@ setInterval(function (){
 	buscarPedidos();
 },20000); // recarregar a cada 20 segundos
 	
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

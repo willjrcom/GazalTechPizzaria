@@ -2,6 +2,8 @@
 $('#cep').on('blur', function(){
 
 	if($.trim($("#cep").val()) != ""){
+		carregarLoading("block");
+		
 		$.ajax({
 			url: "https://viacep.com.br/ws/" + +$("#cep").val() + "/json/"
 			
@@ -9,10 +11,16 @@ $('#cep').on('blur', function(){
 			$("#rua").val(e.logradouro);
 			$("#bairro").val(e.bairro);
 			$("#cidade").val(e.localidade);
-			
+			carregarLoading("none");
 		}).fail(function(){
-			$.alert("Cep não encontrado!");
+			carregarLoading("none");
 		});
 	}			
 });
 	
+	
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

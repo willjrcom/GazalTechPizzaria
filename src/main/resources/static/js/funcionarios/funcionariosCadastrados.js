@@ -1,12 +1,13 @@
 
 var funcionarios = [];
 var linhaHtml;
-var pedidoVazio = '<tr><td colspan="5">Nenhum funcionario encontrado!</td></tr>';
-var linhaCinza = '<tr id="linhaCinza"><td colspan="5" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="4">Nenhum funcionario encontrado!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="4" class="fundoList"></td></tr>';
 
 $("#todosFuncionarios").html(pedidoVazio);
 
 $("#buscar").click(function(){
+	carregarLoading("block");
 	var nome = $("#nomeBusca").val();
 	
 	$.ajax({
@@ -14,24 +15,25 @@ $("#buscar").click(function(){
 		type: 'PUT'
 	}).done(function(e){
 		
-		funcionarios = [];
-		
-		for(funcionario of e) {
-			funcionarios.unshift({
-				'id': funcionario.id,
-				'nome': funcionario.nome,
-				'cpf': funcionario.cpf,
-				'celular': funcionario.celular,
-				'cargo': funcionario.cargo,
-				'endereco': funcionario.endereco.rua + ', ' + funcionario.endereco.n + ' - ' + funcionario.endereco.bairro,
-				'referencia': funcionario.endereco.referencia
-			});
-		}
-		
-		linhaHtml = '';
-		if(funcionarios.length == 0) {
-			linhaHtml += pedidoVazio;
+		if(e.length == 0) {
+			$("#todosFuncionarios").html(pedidoVazio);
 		}else {
+			funcionarios = [];
+		
+			for(funcionario of e) {
+				funcionarios.unshift({
+					'id': funcionario.id,
+					'nome': funcionario.nome,
+					'cpf': funcionario.cpf,
+					'celular': funcionario.celular,
+					'cargo': funcionario.cargo,
+					'endereco': funcionario.endereco.rua + ', ' + funcionario.endereco.n + ' - ' + funcionario.endereco.bairro,
+					'referencia': funcionario.endereco.referencia
+				});
+			}
+			
+			linhaHtml = '';
+			
 			for(funcionario of funcionarios) {
 				linhaHtml += '<tr>'
 							+ '<td>' + funcionario.nome + '</td>'
@@ -66,9 +68,11 @@ $("#buscar").click(function(){
 						+ '</td></tr>'
 					+ linhaCinza;
 			}
+			$("#todosFuncionarios").html(linhaHtml);
 		}
-		$("#todosFuncionarios").html(linhaHtml);
+		carregarLoading("none");
 	}).fail(function(){
+		carregarLoading("none");
 		$.alert("Erro, Nenhum funcionario encontrado!");
 	});
 });
@@ -253,5 +257,12 @@ function excluirFuncionario() {
 		        keys: ['esc'],
 			}
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

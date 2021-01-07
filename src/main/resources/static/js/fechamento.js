@@ -19,7 +19,9 @@ var cont1 = 0, cont2 = 0;
 
 $("#relatorio").attr("disabled", true);
 
-		
+carregarLoading("block");
+
+
 //-------------------------------------------------------------------------------
 $.ajax({
   	url: "/adm/fechamento/dados",
@@ -29,7 +31,10 @@ $.ajax({
 	$("#relatorio").attr("disabled", false);
 	//--------------------------------------------------------------------------------
 	$("#relatorio").click(function(){
+		
+		carregarLoading("block");
 		$(this).attr("disabled", true);
+		
 		var relatorio = $.alert({type: "blue", title: "Carregando", content: "Carregando relatorio..."});
 		relatorio.open();
 		
@@ -37,6 +42,7 @@ $.ajax({
 			url: '/adm/fechamento/relatorio/' + e.totalLucro,
 			type: 'GET'
 		}).done(function(){
+			carregarLoading("none");
 			relatorio.close();
 			$("#relatorio").attr("disabled", false);
 			relatorio = $.alert({type: "green", title: "Sucesso", content: "Sucesso!"});
@@ -45,6 +51,7 @@ $.ajax({
 				relatorio.close();
 			}, 3000);
 		}).fail(function(){
+			carregarLoading("none");
 			relatorio.close();
 			$("#relatorio").attr("disabled", false);
 			$.alert("Erro, Pedidos não encontrados!");
@@ -102,8 +109,10 @@ $.ajax({
   		  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
   		  chart.draw(view, options);
 	}
+	carregarLoading("none");
 }).fail(function(){
 	$.alert("Nenhum valor encontrado!");
+	carregarLoading("none");
 });
 
 
@@ -255,3 +264,11 @@ function troco(){
 		}
 	});
 }
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}
+

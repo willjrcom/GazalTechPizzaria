@@ -10,6 +10,7 @@ var Tpizzas = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
+carregarLoading("block");
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
@@ -53,6 +54,7 @@ $.ajax({
 		$("#todosPedidos").html(linhaHtml);
 		$("#Tpedidos").html(Tpedidos);
 	}
+	carregarLoading("none");
 });	
 
 
@@ -202,5 +204,12 @@ function imprimirTudo(cliente) {
 				data: JSON.stringify(impressaoPedido)
 			});
 		}
+	});
+}
+
+	
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }

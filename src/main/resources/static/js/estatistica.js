@@ -1,3 +1,4 @@
+carregarLoading("block");
 
 //vendas/lucro
 //--------------------------------------------------------------------------------------------
@@ -141,6 +142,7 @@ function drawBackgroundColor() {
 
 		      var chart = new google.visualization.LineChart(document.getElementById('pizzaProduto'));
 		      chart.draw(data2, options);
+	carregarLoading("none");
   });
 }
 
@@ -214,3 +216,10 @@ $(document).ready(function(){
 		$("#mesasTop").html(mesasHtml);
 	});
 });
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
+	});
+}

@@ -24,6 +24,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 
 <body>
 	<header th:replace="~{layouts/frag :: menu}"></header>
+	
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
 </body>
 	<div th:replace="~{layouts/frag :: dadosMenu}"></div>
 	

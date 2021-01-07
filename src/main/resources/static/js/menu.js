@@ -71,6 +71,7 @@ $("#data").click(function(){
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
+					carregarLoading("block");
 					
 					dados.data = this.$content.find('#dia').val();
 
@@ -80,7 +81,7 @@ $("#data").click(function(){
 					}).done(function(){
 						
 						verData();
-						
+						carregarLoading("none");
 						$.alert({
 							type: 'green',
 							title: 'Sucesso!',
@@ -102,6 +103,8 @@ $("#data").click(function(){
 							}
 						});
 					}).fail(function(){
+						carregarLoading("none");
+						
 						$.alert({
 							type: 'red',
 							title: 'Alerta',
@@ -138,12 +141,15 @@ function troco() {
 				text:'Alterar troco',
 				btnClass: 'btn-green',
 				action: function(){	
+					carregarLoading("block");
 	
 					var troco = this.$content.find('#troco').val();
 
 					troco = parseFloat(troco.toString().replace(",","."));
 					
 					if(Number.isFinite(troco) == false) {
+						carregarLoading("none");
+						
 						$.alert({
 							type: 'red',
 							title: 'OPS...',
@@ -157,12 +163,13 @@ function troco() {
 							}
 						});
 					}else {
-
 						//alterar troco inicial						
 						$.ajax({
 							url: '/menu/troco/' + dados.data + "/" + troco,
 							type: 'GET'
 						}).done(function(){
+							carregarLoading("none");
+							
 							$.alert({
 								type:'green',
 								title: 'Troco alterado',
@@ -179,6 +186,8 @@ function troco() {
 								}
 							});
 						}).fail(function(){
+							carregarLoading("none");
+							
 							$.alert({
 								type: 'red',
 								title: 'Alerta',
@@ -218,5 +227,12 @@ function ajuda() {
 				keys:['esc','enter']
 			}
 		}
+	});
+}
+
+
+function carregarLoading(texto){
+	$(".loading").css({
+		"display": texto
 	});
 }
