@@ -29,9 +29,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			
 			<hr>
-			<div class="col-md-6 table-responsive" id="logmotoboys">
-				
+			
+			<div class="col-md-6 table-responsive">
+				<h3>Taxas de entrega</h3>
+				<div id="logCompleto" class="hidden"></div>
+				<div id="logResumo"></div>
+				<br>
+				<button id="mostrarTaxasCompleto" class="btn btn-warning btn-sm fRight hidden">Mostrar completo</button>
+				<button id="mostrarTaxasResumo" class="btn btn-warning btn-sm fRight hidden">Mostrar resumo</button>
 			</div>
+			<div class="col-md-6"><table id="compras"></table></div>
 		</div>
 		
 		<br><br>

@@ -72,7 +72,7 @@ public class NovoPedidoController {
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
 		
 		ModelAndView mv = new ModelAndView("novoPedido");
-		mv.addObject("troco", dado.getTrocoInicio());
+		mv.addObject("trocoInicial", dado.getTrocoInicio());
 		return mv;
 	}
 

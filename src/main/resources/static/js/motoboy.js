@@ -10,7 +10,6 @@ var Tpizzas = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
 carregarLoading("block");
 $.ajax({
 	url: "/motoboy/todosPedidos",

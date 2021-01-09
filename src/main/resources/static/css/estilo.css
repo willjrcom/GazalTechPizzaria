@@ -274,6 +274,11 @@ table tbody tr td{
 	transition: all 0.3s linear;
 }
 
+.divMotoboys{
+	overflow-y: scroll;
+	max-height: 30vh;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;

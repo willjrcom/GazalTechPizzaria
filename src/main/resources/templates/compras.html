@@ -25,7 +25,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div><hr>
 		<br>
 		
-		<button class="btn btn-success fRight pula" onclick="salvar()">Salvar compras</button>
+		<button class="btn btn-success fRight pula" id="salvar" onclick="salvar()">Salvar compras</button>
 	</div>
 	
 	<br>
@@ -39,7 +39,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</tr>
 				</thead>
 				
-				<tbody id="compras"></tbody>
+				<tbody id="compras"><tr><td colspan="2">Nenhuma compra feita nessa data</td></tr></tbody>
 			</table>
 		</div>
 		
@@ -52,7 +52,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</tr>
 				</thead>
 				
-				<tbody id="total"></tbody>
+				<tbody id="total"><tr><td><p>R$ 0.00</p></td></tr></tbody>
 			</table>
 		</div>
 	</div>

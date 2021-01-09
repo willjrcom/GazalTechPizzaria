@@ -4,7 +4,7 @@ var funcionarios = [];
 var pizzas = [];
 var dado = {};
 var linhaHtml= "";
-var linhaCinza = '<tr><td colspan="7" class="fundoList" ></td></tr>';
+var linhaCinza = '<tr><td colspan="7" class="fundoList"></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
 var Tpedido = 0;
 var Tpizzas = 0;
@@ -12,7 +12,6 @@ var verificarTroco = 0;
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
 carregarLoading("block");
 $(document).ready(function(){
 	$.ajax({

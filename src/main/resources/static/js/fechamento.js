@@ -1,5 +1,5 @@
 
-var dados = {}, pedidos;
+var dados = {}, Dado, pedidos;
 var Tpedidos;
 var Tvendas = 0, Tfaturamento = 0;
 var Tpizza = 0, Tproduto = 0;
@@ -17,17 +17,30 @@ var dinheiro = 0, cartao = 0;
 var linhaPizzas = '', linhaProdutos = '', linhaBoy = '';
 var cont1 = 0, cont2 = 0;
 
+var linhaCinza = '<tr><td colspan="4" class="fundoList" ></td></tr>';
+
 $("#relatorio").attr("disabled", true);
 
 carregarLoading("block");
 
+function todosDados(e){
+	Dado = e;
+	if(typeof Dado.logMotoboy != "undefined"){	
+		Dado.logMotoboy = JSON.parse(Dado.logMotoboy);
+		carregarMotoboy();
+	}
+	else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
+	setTimeout(() => $("#mostrarTaxasCompleto").show('slow'), 1000);
+}
+	
 
 //-------------------------------------------------------------------------------
 $.ajax({
   	url: "/adm/fechamento/dados",
   	type: "GET"
 }).done(function(e){
-
+	todosDados(e);
+	
 	$("#relatorio").attr("disabled", false);
 	//--------------------------------------------------------------------------------
 	$("#relatorio").click(function(){
@@ -58,7 +71,31 @@ $.ajax({
 		});
 	});
 	
+	var compras = 0;
+
+	//compras---------------------------------------------------------------------
+	if(typeof e.compras != "undefined") {
+		var produtos = JSON.parse(e.compras);
+		for(produto of produtos) {
+			compras += parseFloat(produto.preco);
+		}
+		var comprasHtml = '<tr">'
+						+ '<th class="text-center"><h5><span class="oi oi-dollar"></span> Total compras da empresa</h5></th>'
+					+ '</tr>'
+					+ '<tr>'
+						+ '<td>R$ ' + compras.toFixed(2) + '</td>'
+					+ '</tr>';
+					
+		$("#compras").html(comprasHtml);
+	}else{
+		$("#compras").text("Nenhuma compra feita hoje!");
+	}
 	
+	
+	
+	
+	
+		
 	//----------------------------------------------------------------------------
 	google.charts.load("current", {packages:['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
@@ -111,70 +148,108 @@ $.ajax({
 	}
 	carregarLoading("none");
 }).fail(function(){
-	$.alert("Nenhum valor encontrado!");
 	carregarLoading("none");
+	$.alert("Nenhum valor encontrado!");
 });
 
 
-//-------------------------------------------------------------------------------
-$.ajax({
-	url: "/motoboy/logMotoboys",
-	type: "GET"
-}).done(function(e){
-	logmotoboys = e;
-	if(logmotoboys != '') {
-		logmotoboys = JSON.parse(logmotoboys);
-		var reduced = [];
-		
-		logmotoboys.forEach((item) => {
-		    var duplicated = reduced.findIndex(redItem => {
-		        return item.a == redItem.a;
-		    }) > -1;
-
-		    if(!duplicated) {
-		        reduced.push(item);
-		    }
-		});
-
-		linhaBoy = '<h3>Taxas de entrega</h3>'
-					+'<div id="divmotoboys">'
-					+'<table style="width:100%">'
-						+'<thead>'
-							+'<tr>'
-								+'<th class="text-center col-md-1"><h4>Comanda</h4></th>'
-								+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
-								+'<th class="text-center col-md-1"><h4>Taxa</h4></th>'
-								+'<th class="text-center col-md-1"><h4>Pedido</h4></th>'
-								+'<th class="text-center col-md-1"><h4>Endereco</h4></th>'
-							+'</tr>'
-						+'</thead>'
-						
-						+'<tbody>';
-						
-		
-		for(boy of logmotoboys) {
-			linhaBoy += '<tr>'
-					+ '<td>' + boy.comanda + '</td>'
-					+ '<td>' + boy.motoboy + '</td>'
-					+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
-					+ '<td>' + boy.nome + '</td>'
-					+ '<td>' + boy.endereco + '</td>'
-				+ '</tr>';
-		}
-		
-		linhaBoy += '</tbody>'
-				+'</table>'
-				+'<br>'
-			+'</div>';
-		
-		$("#divmotoboys").css({
-			'overflow': 'scroll'
-		}).css({
-			'height': '30vh'
-		});
-		$("#logmotoboys").html(linhaBoy);
-	}else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
+//-------------------------------------------------------------------------------------
+function carregarMotoboy(){
+	logmotoboys = Dado.logMotoboy;
 	
+	//resumo
+	const todosNomes = logmotoboys.map(logmotoboys => logmotoboys.motoboy);
+	var objsMotoboys = [];
+	const nomes = Array.from(new Set(todosNomes))
+	for(let nome of nomes){
+		objsMotoboys.push({
+			nome,
+			taxa: 0
+		});
+	}
+
+	for(let boy of objsMotoboys){
+		for(let entrega of logmotoboys){
+			if(entrega.motoboy === boy.nome){
+				boy.taxa += Number(entrega.taxa);
+			}
+		}
+	}
+	
+	linhaBoy = '<div class="divMotoboys"><table>'
+				+'<thead>'
+					+'<tr>'
+						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
+						+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
+					+'</tr>'
+				+'</thead>'
+				
+				+'<tbody>';
+					
+	
+	for(boy of objsMotoboys) {
+		linhaBoy += '<tr>'
+				+ '<td>' + boy.nome.substring(0, 20) + '</td>'
+				+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+			+ '</tr>' + linhaCinza;
+	}
+	
+	linhaBoy += '</tbody>'
+			+'</table></div>';
+			
+	$("#logResumo").html(linhaBoy);
+			
+			
+	//completo-------------------------------------------------------------------------
+	linhaBoy = '<div class="divMotoboys"><table>'
+				+'<thead>'
+					+'<tr>'
+						+'<th class="text-center col-md-1"><h4>Comanda</h4></th>'
+						+'<th class="text-center col-md-1"><h4>Pedido</h4></th>'
+						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
+						+'<th class="text-center col-md-1"><h4>Taxa</h4></th>'
+					+'</tr>'
+				+'</thead>'
+				
+				+'<tbody>';
+					
+	
+	for(boy of logmotoboys) {
+		linhaBoy += '<tr>'
+				+ '<td>' + boy.comanda + '</td>'
+				+ '<td>' + boy.nome.substring(0, 13) + '</td>'
+				+ '<td>' + boy.motoboy.substring(0, 13) + '</td>'
+				+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+			+ '</tr>' + linhaCinza;
+	}
+	
+	linhaBoy += '</tbody>'
+			+'</table></div>';
+	
+	$("#logCompleto").html(linhaBoy);
+	$(".divmotoboys").css({
+		
+	}).css({
+		'height': '30vh'
+	});
+}
+
+
+//--------------------------------------------------------------------------------------
+$("#mostrarTaxasCompleto").click(() => {
+	$("#mostrarTaxasCompleto").hide("slow");
+	$("#mostrarTaxasResumo").show("slow");
+	$("#logCompleto").show("slow");
+	$("#logResumo").hide("slow");
+});
+
+
+//--------------------------------------------------------------------------------------
+$("#mostrarTaxasResumo").click(() => {
+	$("#mostrarTaxasCompleto").show("slow");
+	$("#mostrarTaxasResumo").hide("slow");
+	$("#logCompleto").hide("slow");
+	$("#logResumo").show("slow");
 });
 
 
@@ -234,12 +309,12 @@ function troco(){
 							}
 						});
 					}else {
-						
+						carregarLoading("block");
 						$.ajax({
 							url: '/adm/fechamento/finalizar/' + troco,
 							type: 'PUT'
 						}).done(function(){
-
+							carregarLoading("none");
 							$.alert({
 								type:'green',
 								title: 'Sucesso!',

@@ -2,6 +2,7 @@
 var compra = {};
 var compras = [];
 var Tcompras = '';
+var linhaCinza = '<tr><td colspan="2" class="fundoList" ></td></tr>';
 
 carregarLoading("block");
 
@@ -25,8 +26,9 @@ function aviso() {
 
 //----------------------------------------------------------------
 function salvar() {
-	carregarLoading("block");
 	if($("#produto").val() != '' && $("#preco").val() != '') {
+		$("#salvar").attr("disabled", true);
+		carregarLoading("block");
 		compra.produto = $("#produto").val();
 		compra.preco = $("#preco").val();
 		
@@ -41,6 +43,8 @@ function salvar() {
 			compras.unshift(compra);
 			e = JSON.stringify(compras);
 			
+			mostrarProdutos(e);
+			
 			$.ajax({
 				url: '/adm/compras/comprar',
 				type: 'PUT',
@@ -49,6 +53,9 @@ function salvar() {
 				data: e,
 			}).done(function(){
 				carregarLoading("none");
+				$("#produto").val("");
+				$("#preco").val("");
+				$("#salvar").attr("disabled", false);
 				$.alert({
 					type: 'green',
 					title: 'Sucesso',
@@ -58,9 +65,7 @@ function salvar() {
 							text: 'continuar',
 							btnClass: 'btn-success',
 							keys: ['esc', 'enter'],
-							action: function(){
-								document.location.reload(true);
-							}
+							action: () => $(".pula")[0].focus()
 						}
 					}
 				});
@@ -84,15 +89,22 @@ function salvar() {
 
 
 //---------------------------------------------------------------------------
-$(document).ready(function(){
+function dados(){
 
 	//buscar id da data
 	$.ajax({
 		url: '/adm/compras/dados',
 		type: 'GET'
 	}).done(function(e){
+		mostrarProdutos(e);
+	});
+}
+dados();
 
-		Tcompras = '';
+
+//----------------------------------------------------
+function mostrarProdutos(e){
+	Tcompras = '';
 		var total = 0;
 
 		//se existir algum produto
@@ -102,18 +114,15 @@ $(document).ready(function(){
 				Tcompras += '<tr>'
 							+ '<td>' + produto.produto + '</td>'
 							+ '<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
-						+ '</tr>';
+						+ '</tr>' + linhaCinza;
 				total += parseFloat(produto.preco);
 			}
-		}else {
-			Tcompras = '<tr><td colspan="2">Nenhuma compra feita nessa data</td></tr>';
 		}
 
-		$("#compras").html(Tcompras);
+		if(Tcompras !== "") $("#compras").html(Tcompras);
 		$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
 		carregarLoading("none");
-	});
-});
+}
 
 
 function carregarLoading(texto){

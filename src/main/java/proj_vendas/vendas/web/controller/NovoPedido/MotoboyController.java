@@ -45,7 +45,7 @@ public class MotoboyController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("motoboy");
-		mv.addObject("todosFun", funcionarios.findByCodEmpresa(user.getCodEmpresa()));
+		mv.addObject("todosFun", funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(), "MOTOBOY", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA"));
 		return mv;
 	}
 	

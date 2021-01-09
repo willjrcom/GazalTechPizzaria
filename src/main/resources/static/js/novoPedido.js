@@ -79,7 +79,7 @@ if(typeof id_edicao == "undefined") {
 		url: urlNumero,
 		type: 'GET'
 	}).done(function(e){
-		console.log(e)
+
 		$("#divBuscarCliente").hide();
 		$("#divBuscarProdutos").show();
 		$("#BotaoEnviarPedido").html('<span class="oi oi-cart"></span> Atualizar pedido');
@@ -174,7 +174,7 @@ $('#buscarCliente').on('click', function(){
 					cliente.taxa = parseFloat(e.endereco.taxa);
 					
 					$("#mostrarDadosCliente").show('slow'); //mostrar dados do cliente
-					$("#nomeCliente").text(cliente.nome).css('background-color', '#D3D3D3');
+					$("#nomeCliente").text(cliente.nome);
 					$("#celCliente").text(cliente.celular);
 					$("#enderecoCliente").text(cliente.endereco);
 					$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));
@@ -562,7 +562,7 @@ $(".removerPizza").click(function(){
 //------------------------------------------------------------------------------------------------------------------------
 $("#BotaoEnviarPedido").click(function() {
 		
-	if(cliente.envio !== "MESA" && cliente.envio === "") cliente.envio = $("#envioCliente").val();
+	if(cliente.envio !== "MESA" || cliente.envio == "") cliente.envio = $("#envioCliente").val();
 	
 	if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		$.alert({
@@ -665,6 +665,7 @@ $("#BotaoEnviarPedido").click(function() {
 							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
 							cliente.troco = troco;
 							
+							if(cliente.envio == null) cliente.envio = "ENTREGA";
 							if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
 							
 							//buscar pedido no sistema
@@ -717,7 +718,7 @@ $("#BotaoEnviarPedido").click(function() {
 										type: 'PUT'
 									});
 								}
-								console.log(cliente);
+
 								//salvar pedido
 								$.ajax({
 									url: "/novoPedido/salvarPedido",
@@ -923,17 +924,17 @@ ano = data.getFullYear();
 	
 //salvar troco inicial
 if(Number($("#trocoInicial").val()) == 0)
-	troco();
+	trocoInicial();
 	
 
 //-------------------------------------------------------
 function trocoRepeat(){
-	troco();
+	trocoInicial();
 }
 
 
 //-----------------------------------------------------
-function troco() {
+function trocoInicial() {
 	$.alert({
 		icon: 'oi oi-dollar',
 		type: 'blue',
@@ -941,7 +942,7 @@ function troco() {
 		content: 'Troco:'
 				+ '<div class="input-group mb-3">'
 					+ '<span class="input-group-text">R$</span>'
-					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>',
+					+ '<input class="form-control" id="trocoInicial" placeholder="Digite o valor do troco"/>',
 		buttons:{
 			confirm:{
 				text:'Alterar troco',
@@ -949,7 +950,7 @@ function troco() {
 				action: function(){	
 					carregarLoading("block");
 	
-					var troco = this.$content.find('#troco').val();
+					var troco = this.$content.find('#trocoInicial').val();
 
 					troco = parseFloat(troco.toString().replace(",","."));
 					
