@@ -1,5 +1,6 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -14,15 +15,25 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Service
 public class PedidoTemp extends AbstractEntity<Long> {
 
+	@Column(nullable=false)
 	private Long comanda;
+	
+	@Column(nullable=false)
 	private String nome;
 
 	@Lob
 	private String pizzas;
 	
+	@Column(nullable=false)
 	private String status;
+	
+	@Column(nullable=false)
 	private String envio;
+	
+	@Column(nullable=false)
 	private String data;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 
 	public String getPizzas() {

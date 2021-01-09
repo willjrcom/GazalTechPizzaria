@@ -16,11 +16,12 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Service
 public class Cliente extends AbstractEntity<Long> {
 
+	@Column(nullable=false)
 	private String nome;
 
 	private String cpf;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable=false)
 	private String celular;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -28,6 +29,8 @@ public class Cliente extends AbstractEntity<Long> {
 
 	private String dataCadastro;
 	private int contPedidos = 0;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 
 	public String getNome() {

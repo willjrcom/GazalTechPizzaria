@@ -1,5 +1,6 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -13,10 +14,19 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Service
 public class Cupom extends AbstractEntity<Long> {
 	
+	@Column(nullable=false)
 	private String nome;
+	
+	@Column(nullable=false)
 	private String tipo;
+	
+	@Column(nullable=false)
 	private String desconto;
+	
+	@Column(nullable=false)
 	private String validade;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 	
 	public String getNome() {

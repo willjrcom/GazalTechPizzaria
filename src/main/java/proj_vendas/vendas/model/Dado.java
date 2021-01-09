@@ -1,5 +1,6 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -14,6 +15,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Service
 public class Dado extends AbstractEntity<Long> {
 	
+	@Column(nullable=false)
 	private String data;
 	@Lob
 	private String logMotoboy;
@@ -30,6 +32,8 @@ public class Dado extends AbstractEntity<Long> {
 	private int mesa = 0;
 	private int drive = 0;
 	private int comanda = 0;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 	
 	@Lob

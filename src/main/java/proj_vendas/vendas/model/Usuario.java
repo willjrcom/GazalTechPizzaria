@@ -1,5 +1,6 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,10 +13,20 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Table(name = "USUARIOS")
 @Service
 public class Usuario extends AbstractEntity<Long> {
+	
+	@Column(nullable=false)
 	private String email;
+	
+	@Column(nullable=false)
 	private String senha;
+	
+	@Column(nullable=false)
 	private String perfil;
+	
+	@Column(nullable=false)
 	private boolean ativo;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 	
 	public String getEmail() {

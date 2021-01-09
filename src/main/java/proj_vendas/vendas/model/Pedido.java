@@ -1,5 +1,6 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -14,7 +15,10 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Service
 public class Pedido extends AbstractEntity<Long> {
 	
+	@Column(nullable=false)
 	private Long comanda;
+	
+	@Column(nullable=false)
 	private String nome;
 	private String celular;
 	private String endereco;
@@ -25,7 +29,11 @@ public class Pedido extends AbstractEntity<Long> {
 	
 	private String motoboy;
 	private String ac;
+	
+	@Column(nullable=false)
 	private String status;
+	
+	@Column(nullable=false)
 	private String envio;
 	private String pagamento;
 	private String taxa;
@@ -35,6 +43,8 @@ public class Pedido extends AbstractEntity<Long> {
 	private String obs;
 	private String horaPedido;
 	private String data;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 	
 	public String getPizzas() {

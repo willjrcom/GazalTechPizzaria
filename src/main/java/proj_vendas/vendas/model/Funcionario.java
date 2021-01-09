@@ -22,14 +22,21 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Service
 public class Funcionario extends AbstractEntity<Long>{
 	
+	@Column(nullable=false)
 	private String nome;
 
-	@Column(unique = true)
+	@Column(unique = true, nullable=false)
 	private String cpf;
 
 	private String email;
+	
+	@Column(nullable=false)
+	
 	private String celular;
+	@Column(nullable=false)
 	private String cargo;
+	
+	@Column(nullable=false)
 	private String sexo;
 	
 	@OneToOne(cascade = CascadeType.ALL)
@@ -43,9 +50,11 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Temporal(TemporalType.DATE)
 	private Date admissao;
 
-	private int diaPagamento;
+	private int diaPagamento = 10;
 	
 	private BigDecimal salario;
+	
+	@Column(nullable=false)
 	private int codEmpresa;
 
 	public String getNome() {
