@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Cupom</title></head>
+
+<body>
+	
+	<div class="divbase">
+		<h1 class="h1Logo">Cupom <button onclick="aviso()" class="btn btn-link"><span class="oi oi-question-mark"></span></button></h1>
+		
+		<hr>
+		<div class="row">
+			<div class="col-md-4">
+				<label><b>Nome:</b></label>
+				<input class="form-control pula" id="nome" placeholder="Digite o nome do cupom" autofocus/>
+			</div>
+			
+			<div class="col-md-4">
+				<label><b>Desconto:</b></label>
+				
+				<div class="input-group mb-3">
+				  <select class="form-control" id="tipo">
+						<option value="%">%</option>
+						<option value="R$">R$</option>
+					</select>
+				  
+					<input class="form-control preco pula" id="desconto" placeholder="Digite o desconto"/>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<label><b>Data de validade:</b></label>
+				<input type="datetime-local" class="form-control pula" id="validade" placeholder="Digite o nome do cupom" autofocus/>
+			</div>
+		</div>
+		<br>
+		
+		<button class="btn btn-success fRight pula" onclick="salvar()">Cadastrar cupom</button>
+	</div>
+	
+	<br>
+	<div class="divbase">
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center col-md-1"><h4>Cupom</h4></th>
+						<th class="text-center col-md-1"><h4>Desconto</h4></th>
+						<th class="text-center col-md-1"><h4>Validade</h4></th>
+						<th class="text-center col-md-1"></th>
+					</tr>
+				</thead>
+				
+				<tbody id="todosCupons"><tr><td colspan="4">Nenhum cupom cadastrado</td></tr></tbody>
+			</table>
+		</div>
+	</div>
+	
+	<br>
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
+	
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/cupom.js}"></script>
+	<script th:src="@{/js/pulaInput.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: empresa}"></div>
+</html>
