@@ -132,20 +132,18 @@ function verPedido() {
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width: 100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 					+ '</tr>';
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.borda + '</td>'
-						 +	'<td>' + pizza.sabor + '</td>'
+						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
 						 +	'<td>' + pizza.obs + '</td>'
-						 +	'<td>' + pizza.qtd + '</td>'
 						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+						 +	'<td>' + pizza.borda + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -156,15 +154,13 @@ function verPedido() {
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.sabor + '</td>'
+						 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
 						 +	'<td>' + produto.obs + '</td>'
-						 +	'<td>' + produto.qtd + '</td>'
 						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
@@ -201,7 +197,7 @@ function verPedido() {
 			},
 			produtos: {
 				text: '<span class="oi oi-print"></span> Produtos',
-		        btnClass: 'btn-info',
+		        btnClass: 'btn-primary',
 		        action: function(){
 					imprimirProdutos(pedidos[idBusca]);
 				}
@@ -233,7 +229,29 @@ function editarPedido() {
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){
-					window.location.href = "/novoPedido/editar/" + idProduto;
+					//verificar permissao adm
+					$.ajax({
+						url: "/verpedido/autenticado"
+					}).done(function(e){
+						if(e[0].authority === "ADM" || e[0].authority === "DEV") {
+							
+							window.location.href = "/novoPedido/editar/" + idProduto;
+						}else {
+							//se nao for ADM
+							$.alert({
+								type: 'red',
+							    title: 'Permissão de usuário!',
+							    content: 'Você não tem permissão para cancelar um pedido<br>Utilize um usuário ADM!',
+							    buttons: {
+							        confirm: {
+										text: 'Voltar',
+							    		keys: ['enter'],
+							            btnClass: 'btn-red',
+									}
+								}
+							});
+						}
+					});
 				}
 			},
 	        cancel:{

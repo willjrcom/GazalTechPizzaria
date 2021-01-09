@@ -12,7 +12,6 @@ carregarLoading("block");
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
 
 function buscarPedidos() {
 	pedidos = [];
@@ -82,9 +81,9 @@ function mostrar(pedidos, filtro) {
 						linhaHtml += '<td colspan="2"></td>';
 					}
 					
-					linhaHtml += '<td>' + pizza.borda + '</td>'
-							+ '<td>' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
-							+ '<td>' + pizza.obs + '</td>';
+					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
+							+ (pizza.obs !== "" ? '<td class="fundoAlert">' + pizza.obs + '</td>' : '<td>' + pizza.obs + '</td>')
+							+ '<td>' + pizza.borda + '</td>'
 							
 					//verificar a situacao do pedido
 					if(pedidos[i].status == "PRONTO" && j == 0){
@@ -120,8 +119,6 @@ function mostrar(pedidos, filtro) {
 	}
 	if(linhaHtml != "") {
 		$("#todosPedidos").html(linhaHtml);
-	}else {
-		$("#todosPedidos").html(pedidoVazio);
 	}
 }
 

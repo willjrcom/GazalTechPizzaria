@@ -66,7 +66,14 @@ public class NovoPedidoController {
 
 	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
-		return new ModelAndView("novoPedido");
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
+		
+		ModelAndView mv = new ModelAndView("novoPedido");
+		mv.addObject("troco", dado.getTrocoInicio());
+		return mv;
 	}
 
 	@RequestMapping(value = "/numeroCliente/{celular}")

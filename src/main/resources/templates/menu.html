@@ -6,18 +6,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 <head>
 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
 	<title>Menu</title>
-	<script>
-	$(document).ready(function(){
-		$.ajax({
-			url: '/novoPedido/empresa',
-			type: 'PUT'
-		}).done(function(e){
-			if(e.length != 0) {
-				$("title").text($("title").text() + " - " + e.nomeEstabelecimento);
-			}
-		});
-	});
-	</script>
 </head>
 <head th:replace="~{layouts/frag :: head}" ></head>
 

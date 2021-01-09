@@ -7,11 +7,13 @@
 <head><title>Novo Pedido</title></head>
 
 <body>
+	<input type="hidden" id="trocoInicial" th:value="${troco}" />
+				
 	<div class="divbase">
 		<div id="divBuscarCliente">
 		
-			<div class=" col-md-2 fRight">
-				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success"><span class="oi oi-person"></span> Cadastrar Cliente</button></a>
+			<div class="col-md-2 fRight" id="botaoCadastrarNovoPedido">
+				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success btn-sm"><span class="oi oi-plus"></span> Cliente</button></a>
 			</div>
 			
 			<h1 class="h1Logo esconder1">Novo Pedido</h1>
@@ -23,7 +25,7 @@
 					autofocus="autofocus" class="form-control textIndent pula"
 					placeholder="Qual cliente você está procurando? (celular ou nome)"/>
 				</div>
-	
+				
 				<div class="form-group col-md-2">
 					<button name="buscarCliente" id="buscarCliente"
 						class="form-control btn btn-primary pula"><span class="oi oi-plus"></span> Criar</button>
@@ -32,35 +34,20 @@
 			<br>
 		</div>
 		<div id="mostrarDadosCliente">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="table-responsive">
-						<table>
-							<tbody>
-								<tr>
-									<th class="text-center" colspan="2"><h5>Cliente</h5></th>
-								</tr>
-								<tr>
-									<td class="text-center col-md-1 sombra" id="nomeCliente"></td>
-									<td class="text-center col-md-1" id="celCliente"></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="table-responsive">
-						<table>
-							<tbody>
-								<tr><th class="text-center" colspan="2"><h5>Endereço</h5></th></tr>
-								<tr>
-									<td id="enderecoCliente" class="text-center col-md-1 sombra">Rua:</td>
-									<td id="taxaCliente" class="text-center col-md-1">Taxa:</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
+			<div class="table-responsive">
+				<table>
+					<tbody>
+						<tr>
+							<th class="text-center" colspan="4"><h5>Cliente</h5></th>
+						</tr>
+						<tr>
+							<td class="text-center col-md-1"><i class="fas fa-user-circle"></i> <span id="nomeCliente"></span></td>
+							<td class="text-center col-md-1"><i class="fas fa-phone-alt"></i> <span id="celCliente"></span></td>
+							<td class="text-center col-md-1"><i class="fas fa-motorcycle"></i> <span id="enderecoCliente"></span></td>
+							<td class="text-center col-md-1"><i class="fas fa-money-bill-wave-alt"></i> <span id="taxaCliente"></span></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 		
@@ -84,8 +71,8 @@
 					</div>
 			
 					<div class="form-group col-md-4">
-						<input type="button" name="buscarProduto" id="buscarProduto" onclick="buscarProdutos()" value="Buscar" 
-						class="form-control btn btn-primary pula"/>
+						<button name="buscarProduto" id="buscarProduto" onclick="buscarProdutos()"
+						class="form-control btn btn-primary pula"><i class='fas fa-search-plus'></i> Buscar</button>
 					</div>
 				</div>
 			</div>
@@ -106,11 +93,10 @@
 						<table>
 							<thead>
 								<tr>
-									<th class="col-md-1"><h5>Borda Recheada</h5></th>
 									<th class="col-md-1"><h5>Produto</h5></th>
 									<th class="col-md-1"><h5>Observação</h5></th>
-									<th class="col-md-1"><h5>Qtd</h5></th>
 									<th class="col-md-1"><h5>R$</h5></th>
+									<th class="col-md-1"><h5>Borda Recheada</h5></th>
 								</tr>
 							</thead>
 				
@@ -135,7 +121,6 @@
 								<tr>
 									<th class="col-md-1"><h5>Produto</h5></th>
 									<th class="col-md-1"><h5>Observação</h5></th>
-									<th class="col-md-1"><h5>Qtd</h5></th>
 									<th class="col-md-1"><h5>R$</h5></th>
 								</tr>
 							</thead>

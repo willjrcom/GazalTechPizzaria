@@ -51,6 +51,19 @@ public class MenuController {
 		
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
+		
+		//troco
+		mv.addObject("troco", dado.getTrocoInicio());
+		
+		if(empresa != null) {
+			mv.addObject("empresa", empresa.getNomeEstabelecimento());
+			mv.addObject("contato", empresa.getCelular());
+		}else {
+			mv.addObject("empresa", "Pizzaria Web");
+			mv.addObject("contato", "Cadastre sua empresa");
+		}
 		/*
 		//pedidos
 		int totalAberto = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "FINALIZADO", "EXCLUIDO");
@@ -59,15 +72,7 @@ public class MenuController {
 		//pizzas
 		int cozinha = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "COZINHA");
 		int pronto = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO");
-		*/
-		if(empresa != null) {
-			mv.addObject("empresa", empresa.getNomeEstabelecimento());
-			mv.addObject("contato", "Contato: " + empresa.getCelular());
-		}else {
-			mv.addObject("empresa", "GazalTech");
-			mv.addObject("contato", "Acesse: EMPRESA -> OPÇÕES -> Cadastre-se");
-		}
-		/*
+		
 		//pizzas
 		mv.addObject("cozinha", cozinha);
 		mv.addObject("pronto", pronto);
@@ -152,13 +157,13 @@ public class MenuController {
 		}
 	}
 	
-	@RequestMapping(value = "/troco/{data}/{trocoInicial}")
+	@RequestMapping(value = "/troco/{trocoInicial}")
 	@ResponseBody
-	public int buscarId(@PathVariable String data, @PathVariable double trocoInicial) {
+	public int buscarId(@PathVariable double trocoInicial) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);
+		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 		dado.setTrocoInicio(trocoInicial);
 		dados.save(dado);
 		

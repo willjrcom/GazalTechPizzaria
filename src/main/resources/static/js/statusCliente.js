@@ -1,15 +1,13 @@
 var pedidos = [];
 var linhaHtml= "";
-var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList" ></td></tr>';
-var pedidoVazio = '<tr><td colspan="6">Nenhum pedido disponível!</td></tr>';
-var pedidoSemPizza = '<tr><td colspan="6">Nenhum pedido com pizza disponível!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="2" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="2">Nenhum pedido disponível!</td></tr>';
+var pedidoSemPizza = '<tr><td colspan="2">Nenhum pedido com pizza disponível!</td></tr>';
 
 carregarLoading("block");
 
-//Ao carregar a tela
-//-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
 
+//-------------------------------------------------------------------------------------------------------------------
 function buscarPedidos() {
 	pedidos = [];
 	
@@ -29,7 +27,8 @@ function buscarPedidos() {
 		prontoHtml = "";
 		
 		if(pedidos.length == 0){
-			$("#todosPedidos").html(pedidoVazio);
+			$("#andamento").html(pedidoVazio);
+			$("#pronto").html(pedidoVazio);
 		}else{
 			for(var i = pedidos.length-1; i>=0; i--){//cada pedido
 			
@@ -46,8 +45,9 @@ function buscarPedidos() {
 								+ '</tr>' + linhaCinza + linhaCinza;
 				}
 			}
-			$("#andamento").html(andamentoHtml);
-			$("#pronto").html(prontoHtml);
+			
+			if(andamentoHtml !== '') $("#andamento").html(andamentoHtml);
+			if(prontoHtml !== '') $("#pronto").html(prontoHtml);
 		}
 		carregarLoading("none");
 	});

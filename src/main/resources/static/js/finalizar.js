@@ -80,20 +80,18 @@ function finalizarPedido() {
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width:100%">'
 					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 					+ '</tr>';
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.borda + '</td>'
-						 +	'<td>' + pizza.sabor + '</td>'
+						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
 						 +	'<td>' + pizza.obs + '</td>'
-						 +	'<td>' + pizza.qtd + '</td>'
 						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+						 +	'<td>' + pizza.borda + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -103,15 +101,13 @@ function finalizarPedido() {
 		linhaHtml += '<table style="width:100%">'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.sabor + '</td>'
+						 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
 						 +	'<td>' + produto.obs + '</td>'
-						 +	'<td>' + produto.qtd + '</td>'
 						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}

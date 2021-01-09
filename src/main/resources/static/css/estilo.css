@@ -55,12 +55,22 @@ a:link{
 li a{
   	text-align: center;
 }
+
+li a:hover{
+	 color:white;
+	 transition: all 0.3s linear;
+}
+
 /*table*/
 table{
 	border-collapse: separate;
 	width: 100%;
 }
 
+footer{
+	display: none;
+}
+	
 thead, tr th{
 	background-color: #253b80;	
 }
@@ -97,30 +107,6 @@ table tbody tr td{
 	height: 70vh;
 	transform: translate(-50%, -50%);
 }
-/*celular*/
-@media (max-width:768px){
-		
-	.mercadoPago{
-	    max-width:100%;
-	    max-height:20%;
-	    width: auto;
-	    height: auto;
-	}
-	
-	footer{
-		display: none;
-	}
-}
-
-/*computador*/
-@media ( min-width: 769px ){
-	.mercadoPago{
-	    max-width:40%;
-	    max-height:20%;
-	    width: auto;
-	    height: auto;
-	}
-}
 
 /*menu inicial*/
 .menu1 li{
@@ -137,7 +123,9 @@ table tbody tr td{
 .menu1 li a:hover {
   	background-color: #107b11; /*cor verde do menu*/
   	color: white;
-	text-shadow:0px 0px 5px #fff; 
+  	font-size: 1.07rem;
+	text-shadow:0px 0px 5px #fff;
+	transition: all 0.3s linear;
 }
 
 .menu1 .row{
@@ -193,6 +181,11 @@ table tbody tr td{
 
 .fLeft{
 	float: left;
+}
+
+.fundoAlert{
+	background: rgba(220, 20, 60, 0.3);
+	color: black;	
 }
 
 .w100{
@@ -272,6 +265,15 @@ table tbody tr td{
 	display: none;
 }
 
+.cabecalho{
+	 text-decoration: none;	
+}
+
+.cabecalho:hover{
+	color:white;
+	transition: all 0.3s linear;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;
@@ -292,62 +294,36 @@ table tbody tr td{
 
 #login{
 	padding: 2vh 10vh 2vh 10vh;	
+	min-width: 68vh;
 }
-/*
-#Tmenu{
-	width: 50vh;
-}*/
+
+#tituloEmpresa{
+	border: outset;
+	padding: 5px;
+	
+}
+
+#botaoCadastrarNovoPedido{
+	position: absolute;
+}
 
 #mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, .divListaGeral{
 	display: none;
 }
 
-/*WIDTH---------------------------------*/
-/*.img {
-    max-width:50px;
-    max-height:30px;
-    width: auto;
-    height: auto;
-    padding: 2px;
+/*celular*/
+@media (max-width:768px){
+	#botaoCadastrarNovoPedido{
+		display: none;
+	}
 }
 
-.logo {
-    max-width:60%;
-    max-height:40%;
-    width: auto;
-    height: auto;
+/*computador*/
+@media ( min-width: 769px ){
+	
 }
 
-
-.logoTitulo {
-    max-width:10%;
-    width: auto;
-    margin-left: 10vh
-}
-
-
-img{
-	width: 35px;
-}
-
-
-.sobre{
-	text-align: left; 
-}
-
-
-
-.cw{
-	color: white;
-}
-
-
-
-tr td:last-child{
-    width:1%;
-    white-space:nowrap;
-}
-
+/*
 footer{
     margin-top: auto;
 	width: 100%;
@@ -365,16 +341,5 @@ a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
 label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
     margin-left: 0.3em;
     content: "[" attr(accesskey) "]";
-}
-
-
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    min-width: 160px;
-}
-.Dropdown:hover .dropdown-content {
-    display: block;
 }
 */

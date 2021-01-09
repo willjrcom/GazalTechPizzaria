@@ -15,7 +15,6 @@ carregarLoading("block");
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
-$("#todosPedidos").html(linhaCinza);
 
 function buscarPedido() {
 	pedidos = [];
@@ -106,13 +105,13 @@ function mostrar(pedidos, filtro) {
 					}
 					
 					//mostrar pizza
-					linhaHtml += '<td>' + pizza.borda + '</td>' + '<td>' + pizza.qtd + ' x ' + pizza.sabor 
+					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor 
 							+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
 							+ pizza.descricao 
 							+ '" title="Ingredientes: ' + pizza.descricao 
 							+ '"><span class="oi oi-question-mark"></span></button></td>'
-							+ '<td>' + pizza.obs + '</td>';
-					
+							+ (pizza.obs !== "" ? '<td class="fundoAlert">' + pizza.obs + '</td>' : '<td>' + pizza.obs + '</td>')
+							+ '<td>' + pizza.borda + '</td>';
 					if(j == 0)
 						linhaHtml += '<td>' 
 								+ '<a class="enviarPedido">'

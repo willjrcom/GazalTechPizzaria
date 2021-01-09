@@ -12,6 +12,11 @@ if(document.referrer.split("/")[3] == "index") {//acessar pagina anterior
 }
 
 
+//salvar troco inicial
+if(Number($("#trocoInicial").val()) == 0)
+	troco();
+	
+
 //-----------------------------------------------------
 function verData() {
 	$.ajax({
@@ -90,15 +95,9 @@ $("#data").click(function(){
 									          + dados.data.split('-')[0] + ' acessado',
 							buttons:{
 								confirm:{
-									text:'Alterar troco',
-									btnClass: 'btn-green',
-									action: function(){
-										troco();
-									}
-								},
-								cancel:{
 									text:'Continuar',
-									btnClass: 'btn-primary'
+									btnClass: 'btn-primary',
+									keys: ['enter', 'esc']
 								}
 							}
 						});
@@ -130,12 +129,22 @@ $("#data").click(function(){
 });
 
 
+//-------------------------------------------------------
+function trocoRepeat(){
+	troco();
+}
+
+
 //-----------------------------------------------------
 function troco() {
 	$.alert({
+		icon: 'oi oi-dollar',
 		type: 'blue',
-		title: '<span class="oi oi-dollar"></span>Alterar troco',
-		content: '<input type="text" class="form-control" id="troco"/>',
+		title: 'Troco inicial do caixa',
+		content: 'Troco:'
+				+ '<div class="input-group mb-3">'
+					+ '<span class="input-group-text">R$</span>'
+					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>',
 		buttons:{
 			confirm:{
 				text:'Alterar troco',
@@ -158,14 +167,15 @@ function troco() {
 								confirm:{
 									text: 'Voltar',
 									btnClass: 'btn-danger',
-									keys: ['esc', 'enter']
+									keys: ['esc', 'enter'],
+									action: () => trocoRepeat()
 								}
 							}
 						});
 					}else {
 						//alterar troco inicial						
 						$.ajax({
-							url: '/menu/troco/' + dados.data + "/" + troco,
+							url: '/menu/troco/' + troco,
 							type: 'GET'
 						}).done(function(){
 							carregarLoading("none");

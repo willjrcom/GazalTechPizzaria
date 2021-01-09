@@ -22,6 +22,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<!-- icones -->
 	<link th:href="@{/img/open-iconic-master/font/css/open-iconic-bootstrap.css}" rel="stylesheet"/>
+	<script src="https://kit.fontawesome.com/99986af71e.js"></script>
 	
 	<!-- bootstrap v5 -->
 	<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet"/>
@@ -38,16 +39,21 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
 				
-				<h1 th:text="${empresa}"></h1>
-				<p th:text="${contato}"></p>
+				<h1 id="tituloEmpresa" th:text="${empresa}"></h1>
+				<input type="hidden" id="trocoInicial" th:value="${troco}" />
+				
+				<div class="row">
+					<div class="col-md-2 "><i class="fab fa-whatsapp fRight" style="color: green"></i></div>
+					<div class="col-md-10"><p th:text="${contato}" class="fLeft"></p></div>
+				</div>
 				<hr>
 				
 				<nav>
-					<ul class="menu1">
-						<li><a th:href="@{/novoPedido}"><span class="oi oi-cart"></span> NOVO PEDIDO</a></li>
+					<ul class="menu1" style="padding-left:0;">
+						<li><a th:href="@{/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
 						<li><a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> ADM</a></li>
-						<li><a th:href="@{/cadastroCliente}"><span class="oi oi-people"></span> CADASTROS</a></li>
-						<li><a th:href="@{/adm/estatistica}"><span class="oi oi-clipboard"></span> EMPRESA</a></li>
+						<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
+						<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
 						<!-- <li><a onclick="tablet()"><span class="oi oi-tablet"></span> TABLET</a></li>  -->
 						<li><a th:href="@{/logout}"><span class="oi oi-account-logout"></span> SAIR</a></li>
 					</ul>
@@ -61,11 +67,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="dadosMenu" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
-			<li><a style="text-decoration: none"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
-			<li><a style="text-decoration: none"><span class="oi oi-key"></span> <label th:text="${permissao}"></label></a></li>
-			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
-						<li><a th:href="@{/tutorial}"><span class="oi oi-clipboard"></span> Tutorial</a></li>
-			<li><a style="text-decoration: none" id="data"><span class="oi oi-calendar"></span> Data de acesso</a></li>
+			<li><a class="cabecalho"><span class="bolaGreen">&nbsp;&nbsp;&nbsp;</span> <label th:text="${usuario}"></label></a></li>
+			<li><a class="cabecalho"><span class="oi oi-key"></span> <label th:text="${permissao}"></label></a></li>
+			<li><a class="cabecalho" onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+			<li><a th:href="@{/tutorial}"><span class="oi oi-clipboard"></span> Tutorial</a></li>
+			<li><a class="cabecalho" id="data"><span class="oi oi-calendar"></span> Data de acesso</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
@@ -100,14 +106,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a><label id="usuario"></label></a>
+								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
 			<li><a th:href="@{/verpedido}" accesskey="V"><span class="oi oi-grid-two-up"></span> Ver Pedidos</a></li>
-			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+			<li><a class="cabecalho" onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -134,14 +140,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a><label id="usuario"></label></a>
+								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
-			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+			<li><a onclick="calendario()" class="cabecalho"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"      class="cabecalho"><span class="oi oi-shield"></span> Suporte</a></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -167,20 +173,20 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							</li>
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Produtos</b></p>
-								<a th:href="@{/produtosCadastrados}"><span class="oi oi-spreadsheet"></span> Cadastrados</a>
+								<a th:href="@{/produtosCadastrados}"><i class="fas fa-utensils"></i> Cadastrados</a>
 								<a th:href="@{/cadastroProduto}"><span class="oi oi-plus"></span> Cadastrar</a>
 							</li>
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a><label id="usuario"></label></a>
+								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
-			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+			<li><a onclick="calendario()" class="cabecalho"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"      class="cabecalho"><span class="oi oi-shield"></span> Suporte</a></li>
 			<li><label id="usuario"></label></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
@@ -203,33 +209,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
 								<a th:href="@{/adm/estatistica}"><span class="oi oi-graph"></span> Estatística</a>
-								<a th:href="@{/adm/cadastros}"><span class="oi oi-people"></span> Cadastros</a>
+								<a th:href="@{/adm/cadastros}"><i class="fas fa-trophy"></i> Cadastros</a>
 							</li>
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
 								<a th:href="@{/adm/pagamento}"><span class="oi oi-credit-card"></span> Pagamentos</a>
-								<a th:href="@{/adm/funcionariosCadastrados}"><span class="oi oi-people"></span> Cadastrados</a>
+								<a th:href="@{/adm/funcionariosCadastrados}"><i class="fas fa-user-tie"></i> Cadastrados</a>
 								<a th:href="@{/adm/cadastroFuncionario}"><span class="oi oi-plus"></span> Cadastrar</a>
 							</li>
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
 								<a th:href="@{/adm/compras}"><span class="oi oi-cart"></span> Compras</a>
+								<a th:href="@{/adm/cupom}"><span class="oi oi-tags"></span> Cupom</a>
 								<a th:href="@{/adm/diaAberto}"><span class="oi oi-warning"></span> Dias Abertos</a>
 								<a th:href="@{/adm/empresa}"><span class="oi oi-wrench"></span> Avançado</a>
 							</li>
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a><label id="usuario"></label></a>
+								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
-			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+			<li><a onclick="calendario()" class="cabecalho"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"      class="cabecalho"><span class="oi oi-shield"></span> Suporte</a></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -256,19 +263,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
-								<a th:href="@{/dev/dev}"><span class="oi oi-cog"></span> Desenvolvedor</a>
+								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
 							</li>
 							
 							<li>
 								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a><label id="usuario"></label></a>
+								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a onclick="calendario()"><span class="oi oi-calendar"></span> Calendário</a></li>
-			<li><a onclick="ajuda()"><span class="oi oi-shield"></span> Suporte</a></li>
+			<li><a onclick="calendario()" class="cabecalho"><span class="oi oi-calendar"></span> Calendário</a></li>
+			<li><a onclick="ajuda()"      class="cabecalho"><span class="oi oi-shield"></span> Suporte</a></li>
 			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>

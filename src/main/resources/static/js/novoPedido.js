@@ -21,6 +21,7 @@ var linhaHtml = "", imprimirTxt = '';
 var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
 var buttonRemove = '<a class="removerProduto"><button type="button" class="btn btn-danger">Remover</button></a>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
+var linhaCinzaBusca = '<tr><td colspan="3" class="fundoList" ></td></tr>';
 var qtdHtml = '<label>Quantidade:</label><br>'
 			+ '<input type="text" placeholder="Quantidade" class="form-control" id="qtd" value="1"/>'
 			
@@ -59,7 +60,9 @@ var bordasHtml;
 function salvarBordas(bordas){
 	bordasHtml = bordas;
 }
-
+	
+	
+//setInterval(() => console.log(cliente), 1000)
 
 //------------------------------------------------------------------------------------------------------------
 if(celular % 2 == 1 || celular % 2 == 0) $("#numeroCliente").val(celular);
@@ -76,7 +79,7 @@ if(typeof id_edicao == "undefined") {
 		url: urlNumero,
 		type: 'GET'
 	}).done(function(e){
-		
+		console.log(e)
 		$("#divBuscarCliente").hide();
 		$("#divBuscarProdutos").show();
 		$("#BotaoEnviarPedido").html('<span class="oi oi-cart"></span> Atualizar pedido');
@@ -154,8 +157,8 @@ $('#buscarCliente').on('click', function(){
 		});
 		
 	}else{
-		carregarLoading("block");
 		if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
+			carregarLoading("block");
 		
 			var numero = $("#numeroCliente").val();
 	
@@ -254,8 +257,8 @@ function atualizarDados() {
 //-----------------------------------------------------------------------------------------------------------------
 function buscarProdutos() {
 	
-	carregarLoading("block");
 	if($.trim($("#nomeProduto").val()) != ""){
+		carregarLoading("block");
 
 		var produto = $("#nomeProduto").val();
 		$("#nomeProduto").val('');
@@ -316,9 +319,9 @@ function buscarProdutos() {
 				linhaHtml = '<table class="h-100">'
 							+ '<thead>'
 								+ '<tr>'
+									+ '<th class="col-md-1"></th>'
 									+ '<th class="col-md-1"><h5>Produto</h5></th>'
 									+ '<th class="col-md-1"><h5>Preço</h5></th>'
-									+ '<th class="col-md-1"><h5>Adicionar</h5></th>'
 								+ '</tr>'
 							+ '</thead>'
 							+ '<tbody>';
@@ -328,17 +331,17 @@ function buscarProdutos() {
 					//abrir modal de produtos encontrados
 					for(produto of buscaProdutos){
 						linhaHtml += '<tr>'
-									+ '<td align="center">' + produto.nomeProduto + '</td>'
-									+ '<td align="center">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 									+ '<td align="center">'
 										+ '<div>'
 											+ '<button onclick="enviarProduto()"'
 											+ 'title="Adicionar" onclick="enviarProduto()" class="botao" value="' + produto.id + '">'
-												+ '<span class="oi oi-plus"></span>'
+												+ '<i class="fas fa-plus"></i>'
 											+ '</button>'
 										+ '</div>'
 									+ '</td>'
-								+ '</tr>';
+									+ '<td align="left">' + produto.nomeProduto + '</td>'
+									+ '<td align="center">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+								+ '</tr>' + linhaCinzaBusca;
 					}
 						
 				}else {
@@ -389,7 +392,7 @@ function enviarProduto(idUnico) {
 		Custo = parseFloat(e.custo);
 		Setor = e.setor;
 		Descricao = e.descricao;
-		console.log(bordasHtml, qtdHtml);
+
 		//pizza
 		if(Setor == 'PIZZA') {
 			
@@ -406,6 +409,9 @@ function enviarProduto(idUnico) {
 						action: function(){
 							
 							Qtd = parseFloat($("#qtd").val().toString().replace(",","."));
+							if(isNaN(Qtd)){
+								Qtd = 1;
+							}
 							Obs = $("#obs").val();
 							
 							//multiplica o preco da pizza
@@ -487,6 +493,9 @@ function enviarProduto(idUnico) {
 						action: function(){
 							
 							Qtd = parseFloat($("#qtd").val().toString().replace(",","."));
+							if(isNaN(Qtd)){
+								Qtd = 1;
+							}
 							Obs = $("#obs").val();
 							
 							Preco *= Qtd;
@@ -553,7 +562,7 @@ $(".removerPizza").click(function(){
 //------------------------------------------------------------------------------------------------------------------------
 $("#BotaoEnviarPedido").click(function() {
 		
-	if(cliente.envio !== "MESA")cliente.envio = $("#envioCliente").val();
+	if(cliente.envio !== "MESA" && cliente.envio === "") cliente.envio = $("#envioCliente").val();
 	
 	if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		$.alert({
@@ -569,9 +578,9 @@ $("#BotaoEnviarPedido").click(function() {
 			}
 		});	
 	}else{
-		mostrarTabela(pizzas, produtos);
+		//mostrarTabela(pizzas, produtos);
 		
-		linhaHtml += '<hr>';
+		linhaHtml = "";
 		
 		if(cliente.envio == 'ENTREGA') {
 			linhaHtml += '<b>Qtd Produtos:</b> ' + tPizzas 
@@ -600,7 +609,7 @@ $("#BotaoEnviarPedido").click(function() {
 					
 					+ '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
-					+ '<br><br><hr><b class="fRight">Deseja enviar o pedido?</b>';
+					+ '<div>&nbsp;</div><b class="fRight">Deseja enviar o pedido?</b>';
 
 		//modal jquery confirmar
 		$.confirm({
@@ -656,7 +665,7 @@ $("#BotaoEnviarPedido").click(function() {
 							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
 							cliente.troco = troco;
 							
-							if(cliente.envio != "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
+							if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
 							
 							//buscar pedido no sistema
 							$.ajax({
@@ -769,54 +778,6 @@ $("#BotaoEnviarPedido").click(function() {
 });
 
 
-//----------------------------------------------------------------------------
-function mostrarTabela(pizzas, produtos) {
-	
-	linhaHtml = '';
-	if(pizzas.length != 0) {
-		linhaHtml += '<table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-					+ '</tr>';
-		
-		for(pizza of pizzas){
-			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizza.borda + '</td>'
-						 +	'<td align="center">' + pizza.sabor + '</td>'
-						 +	'<td align="center">' + pizza.obs + '</td>'
-						 +	'<td align="center">' + pizza.qtd + '</td>'
-						 +  '<td align="center">R$ ' + pizza.preco.toFixed(2) + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
-
-	if(produtos.length != 0) {
-		linhaHtml += '<hr><table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-					+ '</tr>';
-		
-		for(produto of produtos){
-			linhaHtml += '<tr>'
-						 +	'<td align="center">' + produto.sabor + '</td>'
-						 +	'<td align="center">' + produto.obs + '</td>'
-						 +	'<td align="center">' + produto.qtd + '</td>'
-						 +  '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
-}
-
-
 //---------------------------------------------------------------------------------------------------------------------
 function mostrarProdutos() {//todos
 
@@ -828,20 +789,18 @@ function mostrarProdutos() {//todos
 	
 	for(pizza of pizzas){
 		linhaHtml = '<tr>'
-					 +	'<td>' + pizza.borda + '</td>'
-					 +	'<td>' + pizza.sabor + '</td>'
+					 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
 					 +	'<td>' + pizza.obs + '</td>'
-					 +	'<td>' + pizza.qtd + '</td>'
 					 +	'<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+					 +	'<td>' + pizza.borda + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
 		$("#listaPizza").append(linhaHtml);
 	}
 	for(produto of produtos){
 		linhaHtml = '<tr>'
-				 +	'<td>' + produto.sabor + '</td>'
+				 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
 				 +	'<td>' + produto.obs + '</td>'
-				 +	'<td>' + produto.qtd + '</td>'
 				 +	'<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 			 + '</tr>'
 			 + linhaCinza;
@@ -945,18 +904,113 @@ function carregarLoading(texto){
 }
 
 //salvar hora atual
-	var data = new Date();
-	hora = data.getHours();
-	hora = (hora.length == 0) ? '00' : hora;
-	hora = (hora <= 9) ? '0'+hora : hora;
-	minuto = data.getMinutes();
-	minuto = (minuto.length == 0) ? '00' : minuto;
-	minuto = (minuto <= 9) ? '0'+minuto : minuto;
-	segundo = data.getSeconds();
-	segundo = (segundo.length == 0) ? '00' : segundo;
-	segundo = (segundo <= 9) ? '0'+segundo : segundo;
-	dia  = data.getDate().toString();
-	dia = (dia.length == 1) ? '0'+dia : dia;
-	mes  = (data.getMonth()+1).toString();
-	mes = (mes.length == 1) ? '0'+mes : mes;
-	ano = data.getFullYear();
+var data = new Date();
+hora = data.getHours();
+hora = (hora.length == 0) ? '00' : hora;
+hora = (hora <= 9) ? '0'+hora : hora;
+minuto = data.getMinutes();
+minuto = (minuto.length == 0) ? '00' : minuto;
+minuto = (minuto <= 9) ? '0'+minuto : minuto;
+segundo = data.getSeconds();
+segundo = (segundo.length == 0) ? '00' : segundo;
+segundo = (segundo <= 9) ? '0'+segundo : segundo;
+dia  = data.getDate().toString();
+dia = (dia.length == 1) ? '0'+dia : dia;
+mes  = (data.getMonth()+1).toString();
+mes = (mes.length == 1) ? '0'+mes : mes;
+ano = data.getFullYear();
+	
+	
+//salvar troco inicial
+if(Number($("#trocoInicial").val()) == 0)
+	troco();
+	
+
+//-------------------------------------------------------
+function trocoRepeat(){
+	troco();
+}
+
+
+//-----------------------------------------------------
+function troco() {
+	$.alert({
+		icon: 'oi oi-dollar',
+		type: 'blue',
+		title: 'Troco inicial do caixa',
+		content: 'Troco:'
+				+ '<div class="input-group mb-3">'
+					+ '<span class="input-group-text">R$</span>'
+					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>',
+		buttons:{
+			confirm:{
+				text:'Alterar troco',
+				btnClass: 'btn-green',
+				action: function(){	
+					carregarLoading("block");
+	
+					var troco = this.$content.find('#troco').val();
+
+					troco = parseFloat(troco.toString().replace(",","."));
+					
+					if(Number.isFinite(troco) == false) {
+						carregarLoading("none");
+						
+						$.alert({
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter'],
+									action: () => trocoRepeat()
+								}
+							}
+						});
+					}else {
+						//alterar troco inicial						
+						$.ajax({
+							url: '/menu/troco/' + troco,
+							type: 'GET'
+						}).done(function(){
+							carregarLoading("none");
+							
+							$.alert({
+								type:'green',
+								title: 'Troco alterado',
+								content:'Boas vendas!',
+								buttons:{
+									confirm:{
+										text:'Obrigado',
+										btnClass: 'btn-success',
+										keys: ['esc', 'enter'],
+										action: function(){
+											window.location.href= "/menu";
+										}
+									}
+								}
+							});
+						}).fail(function(){
+							carregarLoading("none");
+							
+							$.alert({
+								type: 'red',
+								title: 'Alerta',
+								content: "Digite um valor válido!",
+								buttons: {
+									confirm: {
+										text: 'Tentar novamente',
+										btnClass: 'btn-danger',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
+						});
+					}
+				}
+			}
+		}
+	});
+}
