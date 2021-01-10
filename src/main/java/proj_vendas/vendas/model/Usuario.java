@@ -59,6 +59,4 @@ public class Usuario extends AbstractEntity<Long> {
 	public void setCodEmpresa(int codEmpresa) {
 		this.codEmpresa = codEmpresa;
 	}
-	
-	
 }
