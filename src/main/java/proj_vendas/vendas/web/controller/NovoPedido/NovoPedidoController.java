@@ -93,7 +93,7 @@ public class NovoPedidoController {
 		
 		//buscar apenas codigo
 		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);// busca apenas 1 item
-																		
+																	
 		if (produto.size() >= 1) {
 			return produto;
 		} else {// buscar se esta indisponivel
@@ -103,7 +103,7 @@ public class NovoPedidoController {
 				return produtoIndisponivel;
 			}
 		}
-		return produtos.findByCodEmpresaAndNomeProdutoContainingAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);
+		return produtos.findByCodEmpresaAndNomeProdutoContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
 	}
 
 	@RequestMapping(value = "/addProduto/{id}")
