@@ -5,14 +5,16 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Service;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import proj_vendas.vendas.domain.AbstractEntity;
 
+@Data
+@EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "SALARIOS")
-@Service
 public class Salario extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
@@ -32,57 +34,6 @@ public class Salario extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private int codEmpresa;
-	
-	public Long getIdFuncionario() {
-		return idFuncionario;
-	}
-	public void setIdFuncionario(Long idFuncionario) {
-		this.idFuncionario = idFuncionario;
-	}
-	public int getHoras() {
-		return horas;
-	}
-	public void setHoras(int horas) {
-		this.horas = horas;
-	}
-	public double getGastos() {
-		return gastos;
-	}
-	public void setGastos(double gastos) {
-		this.gastos = gastos;
-	}
-	public String getData() {
-		return data;
-	}
-	public void setData(String data) {
-		this.data = data;
-	}
-	public double getPago() {
-		return pago;
-	}
-	public void setPago(double pago) {
-		this.pago = pago;
-	}
-	public String getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-	public String getLogData() {
-		return logData;
-	}
-	public void setLogData(String logData) {
-		this.logData = logData;
-	}
-	public int getCodEmpresa() {
-		return codEmpresa;
-	}
-	public void setCodEmpresa(int codEmpresa) {
-		this.codEmpresa = codEmpresa;
-	}
-	
-	
 }
 
 

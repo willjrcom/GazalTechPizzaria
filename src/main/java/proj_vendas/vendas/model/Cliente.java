@@ -6,14 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Service;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import proj_vendas.vendas.domain.AbstractEntity;
 
+@Data
+@EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "CLIENTES")
-@Service
 public class Cliente extends AbstractEntity<Long> {
 
 	@Column(nullable=false)
@@ -33,61 +34,6 @@ public class Cliente extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private int codEmpresa;
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
-	public String getDataCadastro() {
-		return dataCadastro;
-	}
-
-	public void setDataCadastro(String dataCadastro) {
-		this.dataCadastro = dataCadastro;
-	}
-
-	public int getContPedidos() {
-		return contPedidos;
-	}
-
-	public void setContPedidos(int contPedidos) {
-		this.contPedidos = contPedidos;
-	}
-
-	public int getCodEmpresa() {
-		return codEmpresa;
-	}
-
-	public void setCodEmpresa(int codEmpresa) {
-		this.codEmpresa = codEmpresa;
-	}
 }
 
 

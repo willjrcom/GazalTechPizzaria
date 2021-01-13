@@ -12,14 +12,16 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.stereotype.Service;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import proj_vendas.vendas.domain.AbstractEntity;
 
+@Data
+@EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "FUNCIONARIOS")
-@Service
 public class Funcionario extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)
@@ -56,102 +58,4 @@ public class Funcionario extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)
 	private int codEmpresa;
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getNascimento() {
-		return nascimento;
-	}
-
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
-	}
-
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-	public String getCargo() {
-		return cargo;
-	}
-
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
-
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
-	public Date getAdmissao() {
-		return admissao;
-	}
-
-	public void setAdmissao(Date admissao) {
-		this.admissao = admissao;
-	}
-
-	public int getDiaPagamento() {
-		return diaPagamento;
-	}
-
-	public void setDiaPagamento(int diaPagamento) {
-		this.diaPagamento = diaPagamento;
-	}
-
-	public BigDecimal getSalario() {
-		return salario;
-	}
-
-	public void setSalario(BigDecimal salario) {
-		this.salario = salario;
-	}
-
-	public int getCodEmpresa() {
-		return codEmpresa;
-	}
-
-	public void setCodEmpresa(int codEmpresa) {
-		this.codEmpresa = codEmpresa;
-	}
-	
-	
 }

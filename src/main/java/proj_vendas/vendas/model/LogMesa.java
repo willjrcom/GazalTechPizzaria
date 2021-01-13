@@ -4,14 +4,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Service;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import proj_vendas.vendas.domain.AbstractEntity;
 
+@Data
+@EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "LOGMESA")
-@Service
 public class LogMesa extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
@@ -19,21 +20,6 @@ public class LogMesa extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private int codEmpresa;
-	
-	public String getMesa() {
-		return mesa;
-	}
-	public void setMesa(String mesa) {
-		this.mesa = mesa;
-	}
-	public int getCodEmpresa() {
-		return codEmpresa;
-	}
-	public void setCodEmpresa(int codEmpresa) {
-		this.codEmpresa = codEmpresa;
-	}
-	
-	
 }
 
 
