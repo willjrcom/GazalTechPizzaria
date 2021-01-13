@@ -42,9 +42,9 @@ $.ajax({
 		$("#n").val(empresa.endereco.n);
 		$("#bairro").val(empresa.endereco.bairro);
 		$("#cidade").val(empresa.endereco.cidade);
-		$("#referencia").val(empresa.endereco.referencia);
-		carregarLoading("none");	
+		$("#referencia").val(empresa.endereco.referencia);	
 	}
+	carregarLoading("none");
 }).fail(() => carregarLoading("none"));
 
 
@@ -157,6 +157,12 @@ $("#atualizar").click(function() {
 		            keys: ['esc'],
 		        },
 			}
+		});
+	}else{
+		$.alert({
+			type: 'red',
+			title: 'Aviso',
+			content: "Preencha os campos corretamente!"
 		});
 	}
 });

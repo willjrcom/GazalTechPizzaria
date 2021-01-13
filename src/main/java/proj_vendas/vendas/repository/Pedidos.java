@@ -13,6 +13,8 @@ import proj_vendas.vendas.model.Pedido;
 public interface Pedidos extends JpaRepository<Pedido, Long>{
 	
 	public Pedido findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(int codEmpresa, String data, String nome, String statusNot, String statusNot2);
+
+	public Pedido findByIdAndCodEmpresa(long id, int codEmpresa);
 	
 	public List<Pedido> findByCodEmpresaAndDataAndStatus(int codEmpresa, String data, String status);
 
@@ -24,4 +26,5 @@ public interface Pedidos extends JpaRepository<Pedido, Long>{
 
 	@Query("SELECT COUNT(u) FROM Pedido u WHERE u.codEmpresa=:cod AND u.data=:dia AND NOT u.status=:status1 AND NOT u.status=:status2")
     public int totalPedidos(@Param("cod") int codEmpresa, @Param("dia") String dia, @Param("status1") String status1, @Param("status2") String status2);
+
 }

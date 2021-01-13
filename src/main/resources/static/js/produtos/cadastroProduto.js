@@ -111,6 +111,12 @@ $("#enviar").click(function() {
 		        },
 			}
 		});
+	}else{
+		$.alert({
+			type: 'red',
+			title: 'Aviso',
+			content: "Preencha os campos corretamente!"
+		});
 	}
 });
 

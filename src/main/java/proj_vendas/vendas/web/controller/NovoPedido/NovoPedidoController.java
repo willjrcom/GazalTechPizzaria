@@ -157,8 +157,10 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/editarPedido/{id}")
 	@ResponseBody
-	public Optional<Pedido> buscarPedido(@PathVariable long id) {
-		return pedidos.findById(id);
+	public Pedido buscarPedido(@PathVariable long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
 	}
 
 	@RequestMapping(value = "/atualizar")

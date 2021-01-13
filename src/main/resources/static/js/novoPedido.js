@@ -115,7 +115,23 @@ if(typeof id_edicao == "undefined") {
 		url: urlNumero,
 		type: 'GET'
 	}).done(function(e){
-
+		
+		if(e == ""){
+			carregarLoading("none");
+			$.alert({
+				type: 'red',
+				title: 'OPS...',
+				content: 'Este pedido não existe!',
+				buttons: {
+					confirm: {
+						text: 'Recarregar',
+						btnClass: 'btn-success',
+						keys: ['enter', 'esc'],
+						action: () => window.location.href = "/novoPedido"
+					}
+				}
+			})
+		}
 		$("#divBuscarCliente").hide();
 		$("#divBuscarProdutos").show();
 		$("#BotaoEnviarPedido").html('<span class="oi oi-cart"></span> Atualizar pedido');
