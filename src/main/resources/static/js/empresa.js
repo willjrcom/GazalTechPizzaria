@@ -11,6 +11,7 @@ $.ajax({
 	if(e.length != 0) {
 
 		empresa = e;
+		console.log(e)
 		
 		//empresa
 		$("#estabelecimento").val(empresa.nomeEstabelecimento);
@@ -24,10 +25,10 @@ $.ajax({
 		$("#taxaEntrega").val(empresa.taxaEntrega);
 		
 		//impressao
-		if(empresa.impressoraOnline == 1) $("#impressoraOnline").prop("checked", true);
+		if(empresa.imprimir == 1) $(".imprimir").prop("checked", true);
 		else $("#impressoraOnline").prop("checked", false);
 		
-		if(empresa.impressoraOnline == 1) $("#impressoraOnline").prop("checked", true);
+		if(empresa.impressoraOnline == 1) $(".impressoraOnline").prop("checked", true);
 		else $("#impressoraOnline").prop("checked", false);
 		
 		$("#texto1").val(empresa.texto1);
@@ -65,10 +66,10 @@ function setEmpresa() {
 	empresa.texto2 = $("#texto2").val();
 	empresa.promocao = $("#promocao").val();
 	
-	if($("#imprimir:checked").val() == 'on') empresa.imprimir = true;
+	if($(".imprimir").prop("checked")) empresa.imprimir = true;
 	else empresa.imprimir = false;
 	
-	if($("#impressoraOnline:checked").val() == 'on') empresa.impressoraOnline = true;
+	if($(".impressoraOnline").prop("checked")) empresa.impressoraOnline = true;
 	else empresa.impressoraOnline = false;
 	
 	//endereco

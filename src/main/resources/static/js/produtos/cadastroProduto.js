@@ -21,8 +21,8 @@ if(typeof url_atual != "undefined") {
 		$("#custo").val(produto.custo);
 		$("#setor").val(produto.setor);
 		$("#descricao").val(produto.descricao);
-		if(produto.disponivel == 1) $("#disponivel").prop("checked", true);
-		else $("#disponivel").prop("checked", false);
+		if(produto.disponivel == 1) $(".form-check-input").prop('checked', true);
+		else $(".form-check-input").prop('checked', false);
 		
 		carregarLoading("none");
 	}).fail(function(){
@@ -42,7 +42,7 @@ function setProduto() {
 	produto.setor = $("#setor").val();
 	produto.descricao = $("#descricao").val();
 	
-	if($("#disponivel:checked").val() == 'on') produto.disponivel = true;
+	if($(".form-check-input").prop("checked")) produto.disponivel = true;
 	else produto.disponivel = false;
 }
 
@@ -50,7 +50,6 @@ function setProduto() {
 //---------------------------------------------------------------
 $("#enviar").click(function() {
 	produto = {};
-	
 	if($("#codigoBusca").val() != '' 
 	&& $("#nomeProduto").val() != ''
 	&& $("#preco").val() != ''
