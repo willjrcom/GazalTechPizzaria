@@ -29,18 +29,16 @@ $.ajax({
 		$("#todosPedidos").html(pedidoVazio);
 	}else{
 		for(pedido of pedidos){
-			linhaHtml += '<tr>'
-						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nome + '</td>'
-						+ '<td>' + pedido.endereco + '</td>';
-			
 			Tpizzas = 0;
 			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
 			
 			for(produto of pedido.produtos) Tpizzas += produto.qtd;
-			
-			linhaHtml += '<td>' + Tpizzas + '</td>'
-						+ '<td>R$ ' + (pedido.troco - pedido.total - Number(pedido.taxa)).toFixed(2) + '</td>'	
+			linhaHtml += '<tr>'
+						+ '<td>' + pedido.comanda + '</td>'
+						+ '<td>' + pedido.nome + '</td>'
+						+ '<td>' + pedido.endereco + '</td>'
+						+ '<td>' + Tpizzas.toFixed(2) + '</td>'
+						+ '<td>R$ ' + (Number(pedido.troco) - Number(pedido.total) - Number(pedido.taxa)).toFixed(2) + '</td>'	
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'

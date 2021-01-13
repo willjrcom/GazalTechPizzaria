@@ -65,7 +65,7 @@ function mostrar(pedidos, filtro) {
 					
 			for(pizza of pedido.pizzas) tPizzas += pizza.qtd;//total de pizzas
 
-			linhaHtml += '<td>' + tPizzas + '</td>'
+			linhaHtml += '<td>' + tPizzas.toFixed(2) + '</td>'
 						+ '<td>R$ ' + ((isNaN(pedido.taxa)) ? pedido.total.toFixed(2) : (pedido.total + pedido.taxa).toFixed(2)) + '</td>'
 						+ '<td>' + pedido.envio + '</td>'
 						+ '<td><div class="row">'
@@ -167,7 +167,7 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas + '<br>' 
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Number(Tpizzas).toFixed(2) + '<br>' 
 				+ '<br><b>Total do Pedido:</b> R$' + ((isNaN(pedidos[idBusca].taxa)) ? pedidos[idBusca].total.toFixed(2) : (pedidos[idBusca].total + pedidos[idBusca].taxa).toFixed(2))
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
 				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;

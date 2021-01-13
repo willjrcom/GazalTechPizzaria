@@ -74,8 +74,8 @@ function mostrar(pedidos, filtro) {
 						Tpizzas = 0;
 						for(contPizza of pedidos[i].pizzas) Tpizzas += contPizza.qtd; //contar pizzas
 						
-						if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizza</td>';
-						else linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+						if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizza</td>';
+						else linhaHtml += '<td colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizzas</td>';
 						
 					}else {
 						linhaHtml += '<td colspan="2"></td>';

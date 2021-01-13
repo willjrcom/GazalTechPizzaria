@@ -32,7 +32,7 @@ $(document).ready(function(){
 				linhaHtml += '<tr>'
 							+ '<td>' + pedido.comanda + '</td>'
 							+ '<td>' + pedido.nome + '</td>'
-							+ '<td>R$ ' + (pedido.total + ((pedido.taxa == null)
+							+ '<td>R$ ' + (Number(pedido.total) + ((pedido.taxa == null)
 									? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
 							+ '<td>' + pedido.pagamento + '</td>'
 							+ '<td>' + pedido.envio + '</td>'
@@ -80,7 +80,6 @@ function finalizarPedido() {
 		linhaHtml = '<table style="width:100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 					+ '</tr>';
@@ -88,7 +87,6 @@ function finalizarPedido() {
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
 						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +	'<td>' + pizza.obs + '</td>'
 						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
 						 +	'<td>' + pizza.borda + '</td>'
 					 +  '</tr>';
@@ -99,30 +97,31 @@ function finalizarPedido() {
 	if(pedidos[idBusca].produtos.length != 0) {
 		linhaHtml += '<table style="width:100%">'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
 						 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
-						 +	'<td>' + produto.obs + '</td>'
 						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas
-				+ '<br><b>Total do Pedido:</b> R$' 
-				+ (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
-						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2);	
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas.toFixed(2);	
 	
-	if(pedidos[idBusca].envio == "ENTREGA")
-		linhaHtml += '<br><b>Taxa de entrega:</b> ' + Number(pedidos[idBusca].taxa).toFixed(2)
+	if(pedidos[idBusca].envio == "ENTREGA"){
+		linhaHtml += '<br><b>Total do Pedido com taxa:</b> R$ ' 
+						+ (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
+						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2)
 					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco
 					+ '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy;
-	
+	} else{
+		linhaHtml += '<br><b>Total do Pedido:</b> R$' 
+				+ (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
+						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2)
+	}
 	if(pedidos[idBusca].pagamento == "Não") 
 		linhaHtml += '<br><b>Receber:</b>'
 					+'<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
