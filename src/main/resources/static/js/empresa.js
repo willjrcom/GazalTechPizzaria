@@ -11,7 +11,6 @@ $.ajax({
 	if(e.length != 0) {
 
 		empresa = e;
-		console.log(e)
 		
 		//empresa
 		$("#estabelecimento").val(empresa.nomeEstabelecimento);

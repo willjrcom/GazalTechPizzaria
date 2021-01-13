@@ -81,7 +81,6 @@ function mostrarCupons(){
 		url: '/adm/cupom/todosCupons',
 		type: 'GET'
 	}).done(function(cupons){
-		console.log(cupons)
 		Tcupons = '';
 
 		//se existir algum produto

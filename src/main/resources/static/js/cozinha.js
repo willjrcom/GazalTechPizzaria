@@ -166,7 +166,6 @@ function enviarPedido() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
-			console.log(pedidos[idBusca]);
 	imprimir(pedidos[idBusca]);
 			
 	$.confirm({

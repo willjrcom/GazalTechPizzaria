@@ -5,10 +5,13 @@ var cliente = {};
 var pizzas = [], produtos = [], buscaProdutos = [], buscaBordas = [];
 
 //produto------------------------------------------------------------------------------------------------------
-var Sabor, Preco, Descricao, Custo, Obs, Qtd, divisor = 1, divisorAnterior = 1;
+var Sabor = "", Preco = 0, Custo = 0, Qtd = 0, Descricao = "", Obs = "";
+
+//divisores de qtd
+var divisor = 1, divisorAnterior = 1;
 
 //borda------------------------------------------------------------------------------------------------------
-var Borda, BordaPreco, BordaCusto;
+var Borda = "", BordaPreco = 0, BordaCusto = 0;
 
 //pedido------------------------------------------------------------------------------------------------------
 var tPizzas = 0, tPedido = 0;
@@ -24,11 +27,12 @@ var pedidoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
 var linhaCinzaBusca = '<tr><td colspan="3" class="fundoList" ></td></tr>';
 
 function qtdHtml() {
-	let htmlQtd;
-	let qtdDivisor;
+	let htmlDisabled = "";
+	let qtdDivisor = 0;
+	let htmlChecked = "";
 	
 	if(divisor < 1 && divisor != 0){
-		htmlQtd = "disabled";
+		htmlDisabled = "disabled";
 		//para outros
 		qtdDivisor = divisor;
 		
@@ -46,21 +50,27 @@ function qtdHtml() {
 		}
 	}else{
 		qtdDivisor = divisor;
+		htmlChecked = "checked";
+		htmlDisabled = "";
 	}
 
-	if(divisor == 0 || divisor < 0.1){
+	if(divisor == 0 || divisor < 0.09){
 		qtdDivisor = divisor = 1;
-		htmlQtd = "";
+		htmlDisabled = "";
 	}
 	
 	return ('<label>Quantidade:</label><br>'
-			+ '<input type="text" placeholder="Quantidade" class="form-control" id="qtd" value="' + qtdDivisor.toFixed(2) + '" ' + htmlQtd + '/>'
+			+ '<div class="input-group mb-3">'
+				+ '<div class="input-group-text">'
+			    	+ '<input class="form-check-input liberarqtd" type="radio" aria-label="radio button for following text input" ' + htmlChecked + '>'
+				+ '</div>'
+				+ '<input type="text" placeholder="Quantidade" class="form-control" id="qtd"'
+				+ 'value="' + Number(qtdDivisor.toFixed(2)) + '" ' + htmlDisabled + ' aria-label="Text input with radio button"/>'
+			+ '</div>'
 			+ '<br>'
 			+ '<label>Observação:</label>'
 			+ '<input type="text" class="form-control" name="obs" id="obs" placeholder="Observação" />');
 }
-
-
 
 //url------------------------------------------------------------------------------------------------------
 var url_atual = window.location.href;
@@ -373,6 +383,7 @@ function buscarProdutos() {
 				if(buscaProdutos.length != 0) {
 					//abrir modal de produtos encontrados
 					for(produto of buscaProdutos){
+						
 						linhaHtml += '<tr>'
 									+ '<td align="center">'
 										+ '<div>'
@@ -383,7 +394,7 @@ function buscarProdutos() {
 										+ '</div>'
 									+ '</td>'
 									+ '<td align="left">' + produto.nomeProduto + '</td>'
-									+ '<td align="center">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+									+ '<td align="center">R$ ' + Number(produto.preco).toFixed(2) + '</td>'
 								+ '</tr>' + linhaCinzaBusca;
 					}
 						
@@ -411,7 +422,6 @@ function buscarProdutos() {
 		});
 	}
 }
-
 
 //------------------------------------------------------------------------------------------------------------------------
 function enviarProduto(idUnico) {
@@ -455,8 +465,8 @@ function enviarProduto(idUnico) {
 	}
 	
 	Sabor = produto.nomeProduto;
-	Preco = produto.preco;
-	Custo = parseFloat(produto.custo);
+	Preco = Number(produto.preco);
+	Custo = Number(produto.custo);
 	Setor = produto.setor;
 	Descricao = produto.descricao;
 
@@ -468,6 +478,13 @@ function enviarProduto(idUnico) {
 			title: Setor + ': ' + Sabor,
 			content: bordasHtml + qtdHtml(),
 		    closeIcon: true,
+			onContentReady: () => {
+				$(".liberarqtd").change(() => {
+					$(".liberarqtd").prop("checked") == 'on' 
+					? $("#qtd").prop("disabled", true)
+					: $("#qtd").prop("disabled", false);
+				})
+			},
 			buttons: {
 				confirm: {
 					text: 'adicionar',
@@ -475,7 +492,7 @@ function enviarProduto(idUnico) {
 					keys: ['enter'],
 					action: function(){
 						
-						Qtd = parseFloat($("#qtd").val().toString().replace(",","."));
+						Qtd = Number(Number($("#qtd").val().toString().replace(",",".")).toFixed(2));
 						if(isNaN(Qtd) || Qtd == 0){
 							Qtd = 1;
 						}
@@ -498,27 +515,26 @@ function enviarProduto(idUnico) {
 								
 							//setar valores da borda escolhida
 							Borda = borda.nomeProduto;
-							BordaPreco = parseFloat(borda.preco);
-							BordaCusto = parseFloat(borda.custo);
-							Preco += parseFloat(BordaPreco * Qtd);
-							Custo += parseFloat(BordaCusto * Qtd);
-							
-							tPizzas += Qtd;
-							tPedido += Preco;
+							BordaPreco = Number(borda.preco);
+							BordaCusto = Number(borda.custo);
+							Preco += (BordaPreco * Qtd);
+							Custo += (BordaCusto * Qtd);
+							tPizzas += Number(Qtd.toFixed(2));
+							tPedido += Number(Preco.toFixed(2));
 							
 							pizzas.unshift({
 								'sabor' : Sabor,
-								'qtd': (Qtd < 1 ? Number(Qtd.toFixed(2)) : Number(Qtd)),
+								'qtd': Qtd,
 								'borda': Borda,
 								'obs': Obs,
 								'preco': Preco,
-								'custo': parseFloat(Custo),
+								'custo': Custo,
 								'setor': Setor,
 								'descricao': Descricao,
 							});
 							
 							//controlar qtd do produto
-							divisorAnterior = divisor.toFixed(2);
+							divisorAnterior = Number(divisor.toFixed(2));
 							divisor -= Qtd;
 							
 							mostrarProdutos();
@@ -526,22 +542,22 @@ function enviarProduto(idUnico) {
 							
 						//sem borda
 						}else {
-							tPizzas += Qtd;
-							tPedido += parseFloat(Preco);
+							tPizzas += Number(Qtd.toFixed(2));
+							tPedido += Number(Preco.toFixed(2));
 							
 							pizzas.unshift({
 								'sabor' : Sabor,
-								'qtd': (Qtd < 1 ? Number(Qtd.toFixed(2)) : Number(Qtd)),
+								'qtd': Qtd,
 								'borda': Borda,
 								'obs': Obs,
 								'preco': Preco,
-								'custo': parseFloat(Custo),
+								'custo': Custo,
 								'setor': Setor,
 								'descricao': Descricao,
 							});
 
 							//controlar qtd do produto
-							divisorAnterior = divisor.toFixed(2);
+							divisorAnterior = Number(divisor.toFixed(2));
 							divisor -= Qtd;
 							
 							if(divisor <= 0) divisor = 1;
@@ -572,28 +588,29 @@ function enviarProduto(idUnico) {
 					keys: ['enter'],
 					action: function(){
 						
-						Qtd = parseFloat($("#qtd").val().toString().replace(",","."));
+						Qtd = Number(Number($("#qtd").val().toString().replace(",",".")).toFixed(2));
 						if(isNaN(Qtd) || Qtd == 0){
 							Qtd = 1;
 						}
 						Obs = $("#obs").val();
 						
 						Preco *= Qtd;
-						tPizzas += Qtd;
-						tPedido += Preco;
+						
+						tPizzas += Number(Qtd.toFixed(2));
+						tPedido += Number(Preco.toFixed(2));
 
 						produtos.unshift({
 							'sabor' : Sabor,
-							'qtd': (Qtd < 1 ? Number(Qtd.toFixed(2)) : Number(Qtd)),
+							'qtd': Qtd,
 							'obs': Obs,
 							'preco': Preco,
-							'custo': parseFloat(Custo),
+							'custo': Custo,
 							'setor': Setor,
 							'descricao': Descricao,
 						});
 
 						//controlar qtd do produto
-						divisorAnterior = divisor.toFixed(2);
+						divisorAnterior = Number(divisor.toFixed(2));
 						divisor -= Qtd;
 					
 						if(divisor <= 0) divisor = 1;
@@ -615,11 +632,11 @@ function enviarProduto(idUnico) {
 //------------------------------------------------------------------------------------------------------------------------
 $(".removerProduto").click(function(){
 	
-	tPizzas -= produtos[0].qtd;
-	tPedido -= produtos[0].preco;
+	tPizzas -= Number(Number(produtos[0].qtd).toFixed(2));
+	tPedido -= Number(Number(produtos[0].preco).toFixed(2));
 	
 	let divAnt = divisor;
-	divisor = divisorAnterior;
+	divisor = Number(divisorAnterior.toFixed(2));
 	
 	if(divisor != 1)
 		divisorAnterior += divAnt;
@@ -632,18 +649,18 @@ $(".removerProduto").click(function(){
 	
 	else mostrarProdutos();
 
-	$("#Ttotal").html('Total de Produtos: ' + tPizzas.toFixed(2) + '<br><br>Total do Pedido: R$ ' + tPedido);	
+	$("#Ttotal").html('Total de Produtos: ' + tPizzas.toFixed(2) + '<br><br>Total do Pedido: R$ ' + tPedido.toFixed(2));	
 });
 
 
 //------------------------------------------------------------------------------------------------------------------------
 $(".removerPizza").click(function(){
 	
-	tPizzas -= pizzas[0].qtd;
-	tPedido -= pizzas[0].preco;
+	tPizzas -= Number(Number(pizzas[0].qtd).toFixed(2));
+	tPedido -= Number(Number(pizzas[0].preco).toFixed(2));
 	
 	let divAnt = divisor;
-	divisor = divisorAnterior;
+	divisor = Number(divisorAnterior.toFixed(2));
 	
 	if(divisor != 1)
 		divisorAnterior += divAnt;
@@ -686,11 +703,11 @@ $("#BotaoEnviarPedido").click(function() {
 			linhaHtml += '<b>Qtd Produtos:</b> ' + tPizzas.toFixed(2)
 						+ '<br><b>Total sem Taxa:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><b>Taxa de Entrega:</b> R$ ' + cliente.taxa.toFixed(2)
-						+ '<br><b>Total do Pedido:</b> R$ ' + (parseFloat(tPedido) + cliente.taxa).toFixed(2)
+						+ '<br><b>Total do Pedido:</b> R$ ' + (parseFloat(tPedido) + Number(cliente.taxa)).toFixed(2)
 						+ '<br><div class="row"><div class="col-md-6">'
 						+ '<b>Receber:</b>'
 						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
-						+ (parseFloat(tPedido) + cliente.taxa).toFixed(2) + '"/></div>';
+						+ (parseFloat(tPedido) + Number(cliente.taxa)).toFixed(2) + '"/></div>';
 		}else {
 			linhaHtml += '<b>Qtd Produtos:</b> ' + tPizzas.toFixed(2) 
 						+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2)
@@ -761,9 +778,9 @@ $("#BotaoEnviarPedido").click(function() {
 							temp.status = "COZINHA";
 							
 							cliente.produtos = JSON.stringify(produtos);
-							cliente.total = tPedido;
+							cliente.total = Number(tPedido.toFixed(2));
 							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
-							cliente.troco = troco;
+							cliente.troco = Number(troco);
 							
 							if(cliente.envio == null) cliente.envio = "ENTREGA";
 							if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
@@ -892,7 +909,7 @@ function mostrarProdutos() {//todos
 		linhaHtml = '<tr>'
 					 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
 					 +	'<td>' + pizza.obs + '</td>'
-					 +	'<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+					 +	'<td>R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
 					 +	'<td>' + pizza.borda + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
@@ -902,13 +919,13 @@ function mostrarProdutos() {//todos
 		linhaHtml = '<tr>'
 				 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
 				 +	'<td>' + produto.obs + '</td>'
-				 +	'<td>R$ ' + produto.preco.toFixed(2) + '</td>'
+				 +	'<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 			 + '</tr>'
 			 + linhaCinza;
 		$("#listaProduto").append(linhaHtml);
 	}
 	
-	$("#Ttotal").html('Total de Produtos: ' + tPizzas.toFixed(2) + '<br><hr>Total do Pedido: R$ ' + tPedido.toFixed(2));
+	$("#Ttotal").html('Total de Produtos: ' + parseFloat(tPizzas).toFixed(2) + '<br><hr>Total do Pedido: R$ ' + parseFloat(tPedido).toFixed(2));
 }
 
 

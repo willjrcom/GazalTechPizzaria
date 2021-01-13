@@ -647,7 +647,7 @@ function imprimirResumo() {
 						    		keys: ['enter'],
 						            btnClass: 'btn-green',
 						            action: function(){
-										console.log(e);
+
 										//imprimir pagamento
 										$.ajax({
 											url: "/imprimir/imprimirGeralFuncionario",
