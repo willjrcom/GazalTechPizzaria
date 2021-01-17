@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Projeto Programa de Vendas</name>
 	<description>Programa de Vendas</description>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	
 	<properties>
 		<java.version>11</java.version>
@@ -55,12 +55,13 @@
 	        <artifactId>hibernate-validator</artifactId>
 	        <version>6.0.13.Final</version>
 	    </dependency> 
-    
+    <!-- 
 	    <dependency>
 		 <groupId>org.springframework.boot</groupId>
 		 <artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
-
+	 -->
+	 
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
 		    <artifactId>spring-boot-starter-security</artifactId>
