@@ -28,5 +28,5 @@ jobs:
       with:
         app-name: 'gazaltechpizzaria'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ea1e51eec1934908bdd67d3e21e1dff0 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_22d2574a0bbc426183fceff40e5d5974 }}
         package: '${{ github.workspace }}/target/*.jar'
