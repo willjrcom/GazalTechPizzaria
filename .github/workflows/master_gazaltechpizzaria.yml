@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@master
@@ -28,5 +28,5 @@ jobs:
       with:
         app-name: 'gazaltechpizzaria'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ea1e51eec1934908bdd67d3e21e1dff0 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_2aebdc7ec4084ee2bc6d67f2c44d7579 }}
         package: '${{ github.workspace }}/target/*.jar'
