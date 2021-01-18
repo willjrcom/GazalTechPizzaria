@@ -39,12 +39,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
 				
-				<h1 id="tituloEmpresa" th:text="${empresa}"></h1>
+				<button type="button" class="btn btn-primary form-control"><h3 th:text="${empresa}"></h3></button>
 				<input type="hidden" id="trocoInicial" th:value="${troco}" />
 				
-				<div class="row">
-					<div class="col-md-2 "><i class="fab fa-whatsapp fRight" style="color: green"></i></div>
-					<div class="col-md-10"><p th:text="${contato}" class="fLeft"></p></div>
+				<div th:if="${contato} != ''">
+					<p th:text="${contato}"></p>
+				</div>
+				
+				<div th:unless="${contato} != ''">
+					<a th:href="@{/adm/empresa}"><button class="form-control btn btn-warning">Cadastre-se</button></a>
 				</div>
 				<hr>
 				

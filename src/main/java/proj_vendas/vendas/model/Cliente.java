@@ -22,7 +22,7 @@ public class Cliente extends AbstractEntity<Long> {
 
 	private String cpf;
 
-	@Column(unique = true, nullable=false)
+	@Column(nullable=false)
 	private String celular;
 	
 	@OneToOne(cascade = CascadeType.ALL)

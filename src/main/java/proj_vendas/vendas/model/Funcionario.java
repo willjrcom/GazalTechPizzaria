@@ -27,7 +27,7 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String nome;
 
-	@Column(unique = true, nullable=false)
+	@Column(nullable=false)
 	private String cpf;
 
 	private String email;

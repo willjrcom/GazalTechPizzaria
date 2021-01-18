@@ -1,6 +1,8 @@
 package proj_vendas.vendas.web.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.Endereco;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
@@ -35,52 +38,57 @@ public class MenuController {
 	
 	@Autowired
 	private Usuarios usuarios;
-
-	/*
-	@Autowired
-	private Pedidos pedidos;
-	
-	@Autowired
-	private PedidoTemps temps;
-	*/
 	
 	@RequestMapping
 	public ModelAndView tela() {
+		SimpleDateFormat format = new SimpleDateFormat ("yyy-MM-dd");
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		ModelAndView mv = new ModelAndView("menu");
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
-		
-		//troco
-		mv.addObject("troco", dado.getTrocoInicio());
-		
-		if(empresa != null) {
+		try {
+			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+			String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
+			
+			mv.addObject("troco", dado.getTrocoInicio());
 			mv.addObject("empresa", empresa.getNomeEstabelecimento());
 			mv.addObject("contato", empresa.getCelular());
-		}else {
-			mv.addObject("empresa", "Pizzaria Web");
-			mv.addObject("contato", "Cadastre sua empresa");
+			
+		}catch(Exception e) {
+			Empresa empresa = new Empresa();
+			empresa.setCodEmpresa(user.getCodEmpresa());
+			empresa.setNomeEstabelecimento("Pizzaria");
+			empresa.setNomeEmpresa("Pizzaria");
+			empresa.setCnpj("");
+			empresa.setEmail("");
+			empresa.setCelular("");
+			
+			Endereco endereco = new Endereco();
+			endereco.setBairro("");
+			endereco.setCidade("");
+			endereco.setN("");
+			endereco.setRua("");
+			endereco.setTaxa("");
+
+			empresa.setEndereco(endereco);
+			empresas.save(empresa);
+			
+			Dia dia = new Dia();
+			dia.setCodEmpresa(user.getCodEmpresa());
+			dia.setDia(format.format(new Date()));
+			dias.save(dia);
+			
+			Dado dado = new Dado();
+			dado.setCodEmpresa(user.getCodEmpresa());
+			dado.setData(format.format(new Date()));
+			dado.setTrocoInicio(0);
+			dados.save(dado);
+
+			mv.addObject("troco", dado.getTrocoInicio());
+			mv.addObject("empresa", empresa.getNomeEstabelecimento());
+			mv.addObject("contato", empresa.getCelular());
 		}
-		/*
-		//pedidos
-		int totalAberto = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "FINALIZADO", "EXCLUIDO");
-		int totalFinalizado = pedidos.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO", "EXCLUIDO");
-		
-		//pizzas
-		int cozinha = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "COZINHA");
-		int pronto = temps.totalPedidos(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia(), "PRONTO");
-		
-		//pizzas
-		mv.addObject("cozinha", cozinha);
-		mv.addObject("pronto", pronto);
-	
-		//pedidos
-		mv.addObject("totalFinalizado", totalFinalizado);
-		mv.addObject("totalAberto", totalAberto);
-		*/
 		
 		//empresa
 		mv.addObject("usuario", user.getEmail());
