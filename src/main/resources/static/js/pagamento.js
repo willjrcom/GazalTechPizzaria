@@ -261,8 +261,14 @@ function addGastos() {
 	$.alert({
 		type: 'blue',
 		title: 'Data',
-		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
-		+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+		content: '<label>Mês:</label>'
+				+ '<input type="number" id="mes" min="1" value="' 
+					+ (mesAtual.getMonth() + 1)  
+					+ '" max="12" class="form-control" />'
+				+ '<label>Ano:</label>'
+				+ '<input type="number" id="ano" min="2015" value="' 
+					+ mesAtual.getFullYear() 
+					+ '" max="2050" class="form-control" />',
 		buttons: {
 			confirm: {
 				text: 'Acessar',
@@ -296,8 +302,14 @@ function addGastos() {
 									+ '<tr><td>R$ ' + gastos.toFixed(2) + '</td></tr>'
 								+'</table>'
 						
-						+ '<hr><label>Total de gastos: <button class="btn btn-link" onclick="aviso2()"><span class="oi oi-question-mark"></span></button></label><br>'
-						+'<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>';
+						+ '<hr><label>Total de gastos: '
+							+ '<button class="btn btn-link" onclick="aviso2()">'
+								+ '<span class="oi oi-question-mark"></span></button></label><br>'
+								
+						+ '<div class="input-group mb-3">'
+							+ '<span class="input-group-text">R$</span>'
+							+ '<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>'
+						+ '</div>';
 						
 						carregarLoading("none");
 						$.alert({
@@ -416,8 +428,14 @@ function pagarSalario() {
 	$.alert({
 		type: 'blue',
 		title: 'Data',
-		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
-		+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+		content: '<label>Mês: </label>'
+				+ '<input type="number" id="mes" min="1" value="' 
+					+ (mesAtual.getMonth() + 1)  
+					+ '" max="12" class="form-control" />'
+				+ '<label>Ano:</label>'
+				+ '<input type="number" id="ano" min="2015" value="' 
+					+ mesAtual.getFullYear() 
+					+ '" max="2050" class="form-control" />',
 		buttons: {
 			confirm: {
 				text: 'Acessar',
@@ -471,8 +489,15 @@ function pagarSalario() {
 									+ '</tr>'
 								+'</table>'
 					
-						+ '<hr><label>Total pago: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label><br>'
-						+'<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>';
+						+ '<hr><label>Total a pagar: '
+							+ '<button class="btn btn-link" onclick="aviso()">'
+							+ '<span class="oi oi-question-mark"></span></button></label><br>'
+						
+						+ '<div class="input-group mb-3">'
+							+ '<span class="input-group-text">R$</span>'
+							+ '<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>'
+						+ '</div>';
+						
 						carregarLoading("none");
 						$.alert({
 							type: 'blue',
@@ -593,8 +618,14 @@ function imprimirResumo() {
 	$.alert({
 		type: 'blue',
 		title: 'Data',
-		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' + (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
-		+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' + mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+		content: '<label>Mês:</label>'
+				+ '<input type="number" id="mes" min="1" value="' 
+					+ (mesAtual.getMonth() + 1)  
+					+ '" max="12" class="form-control" />'
+				+ '<label>Ano:</label>'
+				+ '<input type="number" id="ano" min="2015" value="' 
+					+ mesAtual.getFullYear() 
+					+ '" max="2050" class="form-control" />',
 		buttons: {
 			confirm: {
 				text: 'Acessar',
@@ -620,7 +651,7 @@ function imprimirResumo() {
 						
 						linhaHtml = '<table>'
 									+ '<tr>'
-										+'<td>Mês</td>'
+										+'<td>Data</td>'
 										+'<td>Ação</td>'
 										+'<td>Total</td>';
 						

@@ -16,6 +16,8 @@ if(typeof url_atual != "undefined") {
 		
 		cliente = e;
 		
+		$("#enviar").text("Atualizar");
+		
 		//cliente
 		$("#id").val(cliente.id);
 		$("#nome").val(cliente.nome);

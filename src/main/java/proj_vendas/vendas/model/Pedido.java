@@ -37,13 +37,15 @@ public class Pedido extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String envio;
 	private String pagamento;
-	private String taxa;
-	private double total;
-	private double troco;
+	private double taxa = 0;
+	private double total = 0;
+	private double troco = 0;
+	private double servico = 0;
 
 	private String obs;
 	private String horaPedido;
 	private String data;
+	private String cupom;
 	
 	@Column(nullable=false)
 	private int codEmpresa;

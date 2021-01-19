@@ -45,7 +45,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="row">
 				<div class="col-md-8">
 					<label>E-mail:</label><br>
-					<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
+					<div class="input-group mb-3">
+						<span class="input-group-text">@</span>
+						<input type="email" class="form-control preco pula" id="email" name="email" placeholder="nome@exemplo.com"/>
+					</div>
 				</div>
 				
 				<div class="col-md-4">
@@ -56,19 +59,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<br>
 			<div class="row">
-				<div class="col-md-4">
-					<label>Valor da Hora Extra:</label><br>
-					<input type="text" class="form-control pula preco" id="horaExtra" name="horaExtra" placeholder="R$ 0.00"/>
+				<div class="col-md-6">
+					<label>Preço da Hora Extra:</label><br>
+					<div class="input-group mb-3">
+						<span class="input-group-text">R$</span>
+						<input class="form-control preco pula" id="horaExtra" name="horaExtra" placeholder="R$ 0.00"/>
+					</div>
 				</div>
 				
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<label>Total de mesas:</label><br>
 					<input type="number" class="form-control pula" id="mesa" name="mesa" placeholder="Total de mesas"/>
-				</div>
-				
-				<div class="col-md-4">
-					<label>Taxa de serviço para mesa:</label><br>
-					<input type="text" class="form-control pula taxa" id="taxaMesa" name="taxaMesa" placeholder="10%" value="0.00 %"/>
 				</div>
 			</div>
 			

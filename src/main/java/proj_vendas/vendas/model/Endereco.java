@@ -30,6 +30,5 @@ public class Endereco extends AbstractEntity<Long>{
 	private String cidade;
 	private String referencia;
 	
-	@Column(nullable=false)
-	private String taxa;
+	private float taxa = 0;
 }

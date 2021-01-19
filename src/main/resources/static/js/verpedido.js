@@ -432,7 +432,7 @@ function imprimirTudo(cliente) {
 			//salvar hora
 			impressaoPedido.hora = cliente.horaPedido;
 			impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-			
+			console.log(impressaoPedido);
 			$.ajax({
 				url: "/imprimir/imprimirPedido",
 				type: 'POST',
@@ -457,6 +457,7 @@ function imprimirPizzas(cliente) {
 			impressaoPedido = {};
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
+			impressaoPedido.setor = "C";
 					
 			//numero da comanda e nome
 			impressaoPedido.comanda = cliente.comanda;

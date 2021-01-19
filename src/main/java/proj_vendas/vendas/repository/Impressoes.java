@@ -9,7 +9,7 @@ import proj_vendas.vendas.model.ImpressaoMatricial;
 
 @Transactional(readOnly = true)
 public interface Impressoes extends JpaRepository<ImpressaoMatricial, Long>{
-	
-	public List<ImpressaoMatricial> findByCodEmpresa(int codEmpresa);
+
+	public List<ImpressaoMatricial> findByCodEmpresaAndSetor(int codEmpresa, String setor);
 
 }

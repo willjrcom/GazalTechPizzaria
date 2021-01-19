@@ -3,6 +3,7 @@ var dados = {}, Dado, pedidos;
 var Tpedidos;
 var Tvendas = 0, Tfaturamento = 0;
 var Tpizza = 0, Tproduto = 0;
+var totalMotoboys;
 
 //formas de envio
 var envioHtml;
@@ -17,7 +18,7 @@ var dinheiro = 0, cartao = 0;
 var linhaPizzas = '', linhaProdutos = '', linhaBoy = '';
 var cont1 = 0, cont2 = 0;
 
-var linhaCinza = '<tr><td colspan="4" class="fundoList" ></td></tr>';
+var linhaCinza = '<tr><td colspan="4" class="fundoList"></td></tr>';
 
 $("#relatorio").attr("disabled", true);
 
@@ -31,8 +32,10 @@ function todosDados(e){
 	}
 	else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
 	setTimeout(() => $("#mostrarTaxasCompleto").show('slow'), 1000);
+	$("#logmotoboys").show();
+	$("#relatorio").attr("disabled", false)
 }
-	
+
 
 //-------------------------------------------------------------------------------
 $.ajax({
@@ -41,18 +44,16 @@ $.ajax({
 }).done(function(e){
 	todosDados(e);
 	
-	$("#relatorio").attr("disabled", false);
 	//--------------------------------------------------------------------------------
 	$("#relatorio").click(function(){
 		
 		carregarLoading("block");
-		$(this).attr("disabled", true);
 		
 		var relatorio = $.alert({type: "blue", title: "Carregando", content: "Carregando relatorio..."});
 		relatorio.open();
 		
 		$.ajax({
-			url: '/adm/fechamento/relatorio/' + e.totalLucro,
+			url: '/adm/fechamento/relatorio/' + e.totalLucro + '/' + totalMotoboys.taxa,
 			type: 'GET'
 		}).done(function(){
 			carregarLoading("none");
@@ -90,10 +91,6 @@ $.ajax({
 	}else{
 		$("#compras").text("Nenhuma compra feita hoje!");
 	}
-	
-	
-	
-	
 	
 		
 	//----------------------------------------------------------------------------
@@ -176,6 +173,9 @@ function carregarMotoboy(){
 		}
 	}
 	
+	totalMotoboys = objsMotoboys.reduce((a, b) => a.taxa + b.taxa);
+	console.log(totalMotoboys);
+	
 	linhaBoy = '<div class="divMotoboys"><table>'
 				+'<thead>'
 					+'<tr>'
@@ -185,7 +185,6 @@ function carregarMotoboy(){
 				+'</thead>'
 				
 				+'<tbody>';
-					
 	
 	for(boy of objsMotoboys) {
 		linhaBoy += '<tr>'
@@ -283,7 +282,11 @@ function troco(){
 	$.confirm({
 		type: 'blue',
 		title: 'Troco final do caixa',
-		content: '<input type="text" placeholder="Digite o troco final do caixa" class="form-control preco" id="troco"/>',
+		content: 'Troco:'
+				+ '<div class="input-group mb-3">'
+					+ '<span class="input-group-text">R$</span>'
+					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>'
+				+ '</div>',
 		buttons:{
 			confirm:{
 				text:'Salvar',

@@ -144,7 +144,8 @@ function troco() {
 		content: 'Troco:'
 				+ '<div class="input-group mb-3">'
 					+ '<span class="input-group-text">R$</span>'
-					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>',
+					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>'
+				+ '</div>',
 		buttons:{
 			confirm:{
 				text:'Alterar troco',

@@ -230,6 +230,7 @@ function imprimirPizzas(cliente) {
 			impressaoPedido = {};
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
+			impressaoPedido.setor = "C";
 					
 			//numero da comanda e nome
 			impressaoPedido.comanda = cliente.comanda;

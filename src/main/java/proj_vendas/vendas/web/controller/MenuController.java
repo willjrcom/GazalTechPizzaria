@@ -69,7 +69,7 @@ public class MenuController {
 			endereco.setCidade("");
 			endereco.setN("");
 			endereco.setRua("");
-			endereco.setTaxa("");
+			endereco.setTaxa(0);
 
 			empresa.setEndereco(endereco);
 			empresas.save(empresa);

@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -83,31 +84,33 @@ public class FechamentoController {
 		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 	}
 	
+	
 	@RequestMapping(value = "/fechamento/finalizar/{trocoFinal}")
 	@ResponseBody
 	public Dado finalizarCaixa(@PathVariable double trocoFinal) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-				
+		
 		//temp
 		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "PRONTO");
 		temps.deleteInBatch(temp);
-
+		/*
 		//pedidos
 		List<Pedido> finalizados = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 		List<Pedido> excluidos = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "EXCLUIDO");
 		pedidos.deleteInBatch(finalizados);
 		pedidos.deleteInBatch(excluidos);
-		
+		*/
 		//buscar dado do dia
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 		dado.setTrocoFinal(trocoFinal);
 		return dados.save(dado);
 	}
 	
-	@RequestMapping("/fechamento/relatorio/{lucro}")
-	public ModelAndView imprimirTudo(@PathVariable float lucro) {
+	
+	@RequestMapping("/fechamento/relatorio/{lucro}/{taxas}")
+	public ModelAndView imprimirTudo(@PathVariable double lucro, @PathVariable double taxas) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -115,19 +118,21 @@ public class FechamentoController {
 
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
+		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
 		int entrega = 0, balcao = 0, mesa = 0, drive = 0;
 		float total = 0, tEntrega = 0, tBalcao = 0, tMesa = 0, tDrive = 0;
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
-		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "\r"
-							+      cortaString(endereco) +                         "\r"
-							+ "CNPJ: " + empresa.getCnpj() +          "\r"
-							+ "----------------------------------------\r"
-							+ "               RELATORIO                \r"
-							+ "Data: " + new Date() +                 "\r";
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "#$"
+							+      cortaString(endereco) +                         "#$"
+							+ "CNPJ: " + empresa.getCnpj() +          "#$"
+							+ "----------------------------------------#$"
+							+ "               RELATORIO                #$"
+							+ "Data: " + format.format(new Date()) +  "#$";
 
 		for(int i = 0; i<pedido.size(); i++) {
 			total += pedido.get(i).getTotal();
@@ -154,16 +159,16 @@ public class FechamentoController {
 			for(int i = 0; i<pedido.size(); i++) {
 				if(pedido.get(i).getEnvio().equals("ENTREGA") == true){
 					if(cont == 0) {
-						impressaoCompleta += "----------------------------------------\r"
-										   + "\t\tENTREGA             \r"
-								   		   + "CLIENTE         \tTOTAL \r";
+						impressaoCompleta += "----------------------------------------#$"
+										   + "\t\tENTREGA             #$"
+								   		   + "CLIENTE         \tTOTAL #$";
 						cont++;
 					}
 					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15) 
-										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "\r\t\tTotal: " + entrega + "\r";
+					impressaoCompleta += "#$\t\tTotal: " + entrega + "#$";
 				}
 			}
 			
@@ -172,16 +177,16 @@ public class FechamentoController {
 			for(int i = 0; i<pedido.size(); i++) {
 				if(pedido.get(i).getEnvio().equals("BALCAO") == true){
 					if(cont == 0) {
-						impressaoCompleta += "----------------------------------------\r"
-										   + "\t\tBALCAO            \r"
-								   		   + "CLIENTE         \tTOTAL \r";
+						impressaoCompleta += "----------------------------------------#$"
+										   + "\t\tBALCAO            #$"
+								   		   + "CLIENTE         \tTOTAL #$";
 						cont++;
 					}
 					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15)
-										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "\r\t\tTotal: " + balcao + "\r";
+					impressaoCompleta += "#$\t\tTotal: " + balcao + "#$";
 				}
 			}
 
@@ -190,16 +195,16 @@ public class FechamentoController {
 			for(int i = 0; i<pedido.size(); i++) {
 				if(pedido.get(i).getEnvio().equals("MESA") == true){
 					if(cont == 0) {
-						impressaoCompleta += "----------------------------------------\r"
-								   		   + "\t\tMESA              \r"
-								   		   + "MESA            \tTOTAL \r";
+						impressaoCompleta += "----------------------------------------#$"
+								   		   + "\t\tMESA              #$"
+								   		   + "MESA            \tTOTAL #$";
 						cont++;
 					}
 					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15)
-										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "\r\t\tTotal: " + mesa + "\r";
+					impressaoCompleta += "#$\t\tTotal: " + mesa + "#$";
 				}
 			}
 			
@@ -208,39 +213,45 @@ public class FechamentoController {
 			for(int i = 0; i<pedido.size(); i++) {
 				if(pedido.get(i).getEnvio().equals("DRIVE") == true){
 					if(cont == 0) {
-						impressaoCompleta += "----------------------------------------\r"
-								   		   + "\t\tDRIVE THRU        \r"
-								   		   + "CLIENTE         \tTOTAL \r";
+						impressaoCompleta += "----------------------------------------#$"
+								   		   + "\t\tDRIVE THRU        #$"
+								   		   + "CLIENTE         \tTOTAL #$";
 						cont++;
 					}
 					impressaoCompleta += limitaString(pedido.get(i).getNome(), 15)
-										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "\r";
+										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "\r\t\tTotal: " + drive + "\r";
+					impressaoCompleta += "#$\t\tTotal: " + drive + "#$";
 				}
 			}
 		}
 		
-		impressaoCompleta += "----------------------------------------\r"
-						   + "            TOTAL DE VENDAS             \r"
-						   + "ENTREGAS:     \t\tR$ " + decimal.format(tEntrega) + "\r"
-						   + "BALCOES:      \t\tR$ " + decimal.format(tBalcao) +   "\r"
-						   + "MESAS:        \t\tR$ " + decimal.format(tMesa) +       "\r"
-						   + "DRIVES:       \t\tR$ " + decimal.format(tDrive) +   "\r\r"
-						   + "LUCRO BRUTO:  \t\tR$ " + decimal.format(total) + "\r"
-						   + "LUCRO LIQUIDO:\t\tR$ " + decimal.format(lucro) + "\r";
+		impressaoCompleta += "----------------------------------------#$"
+						   + "            TOTAL DE VENDAS             #$"
+						   + "TROCO INICIAL \t\tR$ " + decimal.format(dado.getTrocoInicio()) + "#$"
+						   + "TROCO FINAL   \t\tR$ " + decimal.format(dado.getTrocoFinal()) + "#$"
+						   + "TAXAS PAGAS   \t\tR$ " + decimal.format(taxas) + "#$"
+						   + "#$"
+						   + "ENTREGAS:     \t\tR$ " + decimal.format(tEntrega) + "#$"
+						   + "BALCOES:      \t\tR$ " + decimal.format(tBalcao) + "#$"
+						   + "MESAS:        \t\tR$ " + decimal.format(tMesa) +  "#$"
+						   + "DRIVES:       \t\tR$ " + decimal.format(tDrive) + "#$"
+						   + "#$"
+						   + "TOTAL EM TAXA:\t\tR$ " + decimal.format(tDrive) + "#$"
+						   + "LUCRO BRUTO:  \t\tR$ " + decimal.format(total) +  "#$"
+						   + "LUCRO LIQUIDO:\t\tR$ " + decimal.format(lucro) +  "#$";
 			
-		imprimirLocal(impressaoCompleta);
+		imprimirLocal(impressaoCompleta, "A");
 		
 		return new ModelAndView("fechamento");
 	}
 	
-	public void imprimirLocal(String impressaoCompleta) {
+	public void imprimirLocal(String impressaoCompleta, String setor) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa()); //validar modo de impressao
 		
 		impressaoCompleta = impressaoCompleta
                 .replace("ç", "c")
@@ -257,18 +268,18 @@ public class FechamentoController {
                 .replace("ê", "e")
                 .replace("è", "e")
                 .replace("í", "i")
+                .replace("ú", "u")
                 .replace("ì", "i");
-		
+		System.out.println(impressaoCompleta);
 		if(empresa.isImpressoraOnline() == false) {
-			System.out.println("\n\n\n");
-			System.out.println(impressaoCompleta);
+
 			//System.out.println("Modo offline");
 			try {
                 FileOutputStream fos1 = new FileOutputStream("LPT1");
                 // Imprime o texto
                 try (PrintStream ps1 = new PrintStream(fos1)) {
                     // Imprime o texto
-                    ps1.print(impressaoCompleta + "\n\n\n\n\n\n\n\n");
+                    ps1.print(impressaoCompleta );
                     // Fecha o Stream da impressora
                     ps1.close();
                 }
@@ -278,20 +289,32 @@ public class FechamentoController {
                     // Imprime o texto
                     try (PrintStream ps2 = new PrintStream(fos2)) {
                         // Imprime o texto
-                        ps2.print(impressaoCompleta + "\n\n\n\n\n\n\n\n");
+                        ps2.print(impressaoCompleta);
                         // Fecha o Stream da impressora
                         ps2.close();
                     }
                 }catch(FileNotFoundException e2) {
-                	//e2.printStackTrace();
+                	try {
+                        FileOutputStream fos2 = new FileOutputStream("USB001");
+                        // Imprime o texto
+                        try (PrintStream ps2 = new PrintStream(fos2)) {
+                            // Imprime o texto
+                            ps2.print(impressaoCompleta);
+                            // Fecha o Stream da impressora
+                            ps2.close();
+                        }
+                    }catch(FileNotFoundException e3) {
+                    	e3.printStackTrace();
+                    }
+                	e2.printStackTrace();
                 }
-                //e.printStackTrace();
+                e.printStackTrace();
             }
 		}else {
-			System.out.println("Modo online");
 			ImpressaoMatricial im = new ImpressaoMatricial();
 			im.setImpressao(impressaoCompleta);
 			im.setCodEmpresa(user.getCodEmpresa());
+			im.setSetor(setor);
 			impressoes.save(im);
 		}
 	}
@@ -305,6 +328,6 @@ public class FechamentoController {
 	
 	public String cortaString(String texto) {
 		int limite = 40;
-		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "\r" + cortaString(texto.substring(limite));
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "#$" + cortaString(texto.substring(limite));
 	}
 }

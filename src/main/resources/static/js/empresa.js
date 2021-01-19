@@ -20,8 +20,6 @@ $.ajax({
 		$("#cel").val(empresa.celular);
 		$("#cnpj").val(empresa.cnpj);
 		$("#mesa").val(empresa.mesa);
-		$("#taxaMesa").val(empresa.taxaMesa);
-		$("#taxaEntrega").val(empresa.taxaEntrega);
 		
 		//impressao
 		if(empresa.imprimir == 1) $(".imprimir").prop("checked", true);
@@ -57,8 +55,6 @@ function setEmpresa() {
 	empresa.cnpj = $("#cnpj").val();
 	empresa.mesa = $("#mesa").val();
 	empresa.funcionamento = $("#dia1").val() + $("#dia2").val()
-	empresa.taxaEntrega = $("#taxaEntrega").val();
-	empresa.taxaMesa = $("#taxaMesa").val();
 	
 	//impressao
 	empresa.texto1 = $("#texto1").val();

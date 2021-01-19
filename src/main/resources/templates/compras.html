@@ -20,7 +20,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<div class="col-md-6">
 				<label><b>Preço:</b></label>
-				<input class="form-control preco pula" id="preco" placeholder="Digite o preco do produto"/>
+				<div class="input-group mb-3">
+					<span class="input-group-text">R$</span>
+					<input class="form-control preco pula" id="preco" name="preco" placeholder="Digite o preco do produto"/>
+				</div>
 			</div>
 		</div><hr>
 		<br>

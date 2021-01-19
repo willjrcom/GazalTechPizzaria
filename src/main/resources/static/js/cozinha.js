@@ -235,32 +235,12 @@ function imprimir(cliente) {
 		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0 && e.imprimir == 1) {
-			/*
-			//dados da empresa
-			imprimirTxt = '<h1 align="center">' + e.nomeEstabelecimento + '</h1>'
-						+ '<h2 align="center"><b>' + cliente.envio + '</b></h2>'
-						
-						//numero da comanda e nome
-						+ '<label>Comanda: ' + cliente.comanda + '</label><br>'
-						+ '<label>Cliente: ' + cliente.nome + '</label><br>';
-	
-			//gerar tabela de produtos e pizzas
-			mostrarTabela(cliente.pizzas);
-			
-			imprimirTxt += '<hr>' + linhaHtml + '<hr>'
-					+ 'Pronto às: ' + hora + ':' + minuto + ':' + segundo
-					+ '<br>Data: ' + dia + '/' + mes + '/' + ano;
-			
-			tela_impressao = window.open('about:blank');
-			tela_impressao.document.write(imprimirTxt);
-			tela_impressao.window.print();
-			tela_impressao.window.close();
-			*/
 			
 			var impressaoPedido = {};
 			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
 			impressaoPedido.envio = cliente.envio; //forma de envio
-					
+			impressaoPedido.setor = "C";
+			
 			//numero da comanda e nome
 			impressaoPedido.comanda = cliente.comanda;
 			impressaoPedido.nome = cliente.nome;

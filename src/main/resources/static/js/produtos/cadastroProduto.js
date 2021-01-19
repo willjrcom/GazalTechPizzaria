@@ -12,6 +12,7 @@ if(typeof url_atual != "undefined") {
 	}).done(function(e){
 		
 		produto = e;
+		$("#enviar").text("Atualizar");
 		
 		//cliente
 		$("#id").val(produto.id);

@@ -123,12 +123,16 @@ function finalizarPedido() {
 						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2)
 	}
 	if(pedidos[idBusca].pagamento == "Não") 
+				
 		linhaHtml += '<br><b>Receber:</b>'
-					+'<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
-					+ (pedidos[idBusca].total + ((pedidos[idBusca].taxa == null) 
-							? Number(0) : Number(pedidos[idBusca].taxa))) + '"/>';
+					+ '<div class="input-group mb-3">'
+					+ '<span class="input-group-text">R$</span>'
+					+ '<input class="form-control" id="troco" placeholder="Precisa de troco?" value="'
+						+ (pedidos[idBusca].total + ((pedidos[idBusca].taxa == null) 
+								? Number(0) : Number(pedidos[idBusca].taxa))) + '"/>'
+				+ '</div>';
 	
-	linhaHtml += '<br>Deseja enviar o pedido?';
+	linhaHtml += '<br>Deseja finalizar o pedido?';
 
 
 	//modal jquery confirmar
@@ -154,7 +158,7 @@ function finalizarPedido() {
 		    columnClass: 'col-md-8',
 		    buttons: {
 		        confirm: {
-		            text: 'Enviar',
+		            text: 'finalizar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){

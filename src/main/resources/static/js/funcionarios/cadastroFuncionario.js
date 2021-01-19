@@ -13,6 +13,8 @@ if(typeof url_atual != "undefined") {
 		//receber valores do servidor
 		funcionario = e;
 		
+		$("#enviar").text("Atualizar");
+		
 		//madar os valores para o front
 		$("#id").val(funcionario.id);
 		$("#nome").val(funcionario.nome);

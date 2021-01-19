@@ -35,7 +35,6 @@ public class Empresa extends AbstractEntity<Long>{
 	private double horaExtra = 1;
 	private int mesa;
 	private String funcionamento;
-	private double taxaMesa;
 	
 	//impressao
 	private String promocao;

@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,12 +42,11 @@ public class ImprimirController {
 	@Autowired
 	private Usuarios usuarios;
 
-	@RequestMapping("/online")
-	public String impressaoNetBeans() {//modo online
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+	@RequestMapping("/online/{codEmpresa}/{setor}")
+	@ResponseBody
+	public String impressaoNetBeans(@PathVariable int codEmpresa, @PathVariable String setor) {//modo online
 		
-		List<ImpressaoMatricial> todosIm = impressoes.findByCodEmpresa(user.getCodEmpresa());
+		List<ImpressaoMatricial> todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
 		if(todosIm.size() != 0) {
 			ImpressaoMatricial im = todosIm.get(0);
 			impressoes.deleteById(im.getId());
@@ -59,33 +59,38 @@ public class ImprimirController {
 	@RequestMapping("/imprimirPedido")
 	@ResponseBody
 	public void imprimirTudo(@RequestBody ImpressaoPedido pedido) {
-		
+
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		DecimalFormat decimal = new DecimalFormat("0.00");
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		String impressaoCompleta;
-		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) + "\r"
-							+ cortaString(pedido.getEnderecoEmpresa()) +          "\r"
-							+ "CNPJ: " + pedido.getCnpj() +           "\r"
-							+ "----------------------------------------\r"
-							+ "            CUPOM NAO FISCAL            \r"
-							+ "----------------------------------------\r"
-							+ "\t\t" + pedido.getEnvio() +          "\r\r"
-							+ "----------- DADOS DO CLIENTE -----------\r"
-							+ "Comanda: " + pedido.getComanda() +     "\r"
-							+ "Cliente:\r" + cortaString(pedido.getNome()) + "\r";
+		
+		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) + "#$"
+							+ cortaString(endereco) +                 "#$"
+							+ "CNPJ: " + pedido.getCnpj() +           "#$"
+							+ "----------------------------------------#$"
+							+ "            CUPOM NAO FISCAL            #$"
+							+ "----------------------------------------#$"
+							+ "\t\t" + pedido.getEnvio() +          "#$#$"
+							+ "----------- DADOS DO CLIENTE -----------#$"
+							+ "Comanda: " + pedido.getComanda() +     "#$"
+							+ "Cliente:#$" + cortaString(pedido.getNome()) + "#$";
 		
 		if(pedido.getEnvio().equals("ENTREGA"))
-			impressaoCompleta += "Celular: " + pedido.getCelular() + "\r"
-							+ cortaString(pedido.getEndereco()) + "\r"
-							+ "Taxa de entrega: \tR$ " + decimal.format(pedido.getTaxa()) + "\r";
+			impressaoCompleta += "Celular: " + pedido.getCelular() + "#$"
+							+ cortaString(pedido.getEndereco()) + "#$"
+							+ "Taxa de entrega: \tR$ " + decimal.format(pedido.getTaxa()) + "#$";
 					
-		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r\r"
-							+ cortaString(pedido.getTexto1()) + "\r";
+		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$#$"
+							+ cortaString(pedido.getTexto1()) + "#$";
 
 		//pizzas------------------------------------------------------------------------------------------
 		if (pedido.getPizzas().length != 0) {
-			impressaoCompleta += "----------------------------------------\r" 
-							   + "\t\tPIZZAS\r"
-								+ "QTD    PRODUTO         V.UNI    V.TOTAL\r\r";
+			impressaoCompleta += "----------------------------------------#$" 
+							   + "\t\tPIZZAS#$"
+								+ "QTD    PRODUTO         V.UNI    V.TOTAL#$#$";
 			
 			for (int i = 0; i < pedido.getPizzas().length; i++) {
 				impressaoCompleta += limitaString(pedido.getPizzas()[i].getQtd(), 5) 
@@ -96,16 +101,16 @@ public class ImprimirController {
 									+ "  "
 									+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco()) 
 											/ Float.parseFloat(pedido.getPizzas()[i].getQtd())), 7)
-									+ "\r";
+									+ "#$";
 				
-				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "\r";
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "#$";
 			}
 		}
 
 		if (pedido.getProdutos().length != 0) {
-			impressaoCompleta += "----------------------------------------\r"
-								+ "\t\tPRODUTOS\r"
-								+ "QTD    PRODUTO         V.UNI    V.TOTAL\r\r";
+			impressaoCompleta += "----------------------------------------#$"
+								+ "\t\tPRODUTOS#$"
+								+ "QTD    PRODUTO         V.UNI    V.TOTAL#$#$";
 			
 			for (int i = 0; i < pedido.getProdutos().length; i++) {
 				impressaoCompleta += limitaString(pedido.getProdutos()[i].getQtd(), 5)
@@ -116,35 +121,35 @@ public class ImprimirController {
 									+ "  "
 									+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco()) 
 										/ Float.parseFloat(pedido.getProdutos()[i].getQtd())), 7)
-									+ "\r";
+									+ "#$";
 			}
 		}
 
-		impressaoCompleta += "----------------------------------------\r"
-							+ "\t\tTOTAL\r";
+		impressaoCompleta += "----------------------------------------#$"
+							+ "\t\tTOTAL#$";
 				
 		if(pedido.getEnvio().equals("ENTREGA")) {
-			impressaoCompleta += "Total:          \tR$ " + decimal.format(pedido.getTotal()) + "\r"
-							   + "Total com taxa: \tR$ " + decimal.format(pedido.getTotal() + pedido.getTaxa()) + "\r"
-							   + "Levar:          \tR$ " + decimal.format(pedido.getTroco() - pedido.getTotal() - pedido.getTaxa()) + "\r";
+			impressaoCompleta += "Total:          \tR$ " + decimal.format(pedido.getTotal()) + "#$"
+							   + "Total com taxa: \tR$ " + decimal.format(pedido.getTotal() + pedido.getTaxa()) + "#$"
+							   + "Levar:          \tR$ " + decimal.format(pedido.getTroco() - pedido.getTotal() - pedido.getTaxa()) + "#$";
 		}else {
-			impressaoCompleta += "Total:          \tR$ " + decimal.format(pedido.getTotal()) + "\r"
-							   + "Levar:          \tR$ " + decimal.format(pedido.getTroco() - pedido.getTotal()) + "\r";
+			impressaoCompleta += "Total:          \tR$ " + decimal.format(pedido.getTotal()) + "#$"
+							   + "Levar:          \tR$ " + decimal.format(pedido.getTroco() - pedido.getTotal()) + "#$";
 		}
 
-		if(pedido.getTexto2() != "") impressaoCompleta += "----------------------------------------\r"
-														+ "\tHORARIO DE FUNCIONAMENTO\r" 
-														+ cortaString(pedido.getTexto2()) + "\r";
+		if(pedido.getTexto2() != "") impressaoCompleta += "----------------------------------------#$"
+														+ "\tHORARIO DE FUNCIONAMENTO#$" 
+														+ cortaString(pedido.getTexto2()) + "#$";
 		
-		if(pedido.getPromocao() != "") impressaoCompleta += "----------------------------------------\r"
-														+ "\t\tPROMOCAO\r" 
-														+ cortaString(pedido.getPromocao()) + "\r";
+		if(pedido.getPromocao() != "") impressaoCompleta += "----------------------------------------#$"
+														+ "\t\tPROMOCAO#$" 
+														+ cortaString(pedido.getPromocao()) + "#$";
 		
-		if(pedido.getObs() != null) impressaoCompleta += "----------------------------------------\r"
-														+ "\t\tOBSERVACAO\r" 
-														+ cortaString(pedido.getObs()) + "\r";
+		if(pedido.getObs() != null) impressaoCompleta += "----------------------------------------#$"
+														+ "\t\tOBSERVACAO#$" 
+														+ cortaString(pedido.getObs()) + "#$";
 		
-		imprimirLocal(impressaoCompleta);
+		imprimirLocal(impressaoCompleta, "A");
 	}
 	
 	@RequestMapping("/imprimirPizza")
@@ -153,33 +158,33 @@ public class ImprimirController {
 
 		String impressaoCompleta;
 		
-		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) +  "\r"
-							+ "----------------------------------------\r"
-							+ "\t\t" + pedido.getEnvio() +            "\r"
-							+ "Comanda: " + pedido.getComanda() +     "\r"
-							+ "Cliente:\r"
-							+ cortaString(pedido.getNome()) +         "\r";
+		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) +  "#$"
+							+ "----------------------------------------#$"
+							+ "\t\t" + pedido.getEnvio() +            "#$"
+							+ "Comanda: " + pedido.getComanda() +     "#$"
+							+ "Cliente:#$"
+							+ cortaString(pedido.getNome()) +         "#$";
 		
 		if (pedido.getPizzas().length != 0) {
-			impressaoCompleta += "----------------------------------------\r"
-								+ "\t\tPIZZAS\r"
-								+ "QTD   PRODUTO\r\r";
+			impressaoCompleta += "----------------------------------------#$"
+								+ "\t\tPIZZAS#$"
+								+ "QTD   PRODUTO#$#$";
 			
 			for (int i = 0; i < pedido.getPizzas().length; i++) {
 				impressaoCompleta += limitaString(pedido.getPizzas()[i].getQtd(), 4)
 									+ "  " 
 									+ cortaString(pedido.getPizzas()[i].getSabor()) 
-									+ "\r";
-				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "\r";
-				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas()[i].getObs(), 30) + "\r";
-				impressaoCompleta += "\r";
+									+ "#$";
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "#$";
+				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas()[i].getObs(), 30) + "#$";
+				impressaoCompleta += "#$";
 			}
 		}
 		
-		impressaoCompleta += "----------------------------------------\r"
-							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r";
+		impressaoCompleta += "----------------------------------------#$"
+							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
 
-		imprimirLocal(impressaoCompleta);
+		imprimirLocal(impressaoCompleta, pedido.getSetor());
 	}
 	
 	@RequestMapping("/imprimirProduto")
@@ -188,35 +193,35 @@ public class ImprimirController {
 
 		String impressaoCompleta;
 		
-		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) +  "\r"
-							+ "----------------------------------------\r"
-							+ "\t\t" + pedido.getEnvio() +            "\r"
-							+ "Comanda: " + pedido.getComanda() +     "\r"
-							+ "Cliente:\r"
-							+ cortaString(pedido.getNome()) +         "\r";
+		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) +  "#$"
+							+ "----------------------------------------#$"
+							+ "\t\t" + pedido.getEnvio() +            "#$"
+							+ "Comanda: " + pedido.getComanda() +     "#$"
+							+ "Cliente:#$"
+							+ cortaString(pedido.getNome()) +         "#$";
 		
 		if (pedido.getProdutos().length != 0) {
-			impressaoCompleta += "----------------------------------------\r"
-								+ "\t\tPRODUTOS\r"
-								+ "QTD   PRODUTO\r\r";
+			impressaoCompleta += "----------------------------------------#$"
+								+ "\t\tPRODUTOS#$"
+								+ "QTD   PRODUTO#$#$";
 			
 			for (int i = 0; i < pedido.getProdutos().length; i++) {
 				impressaoCompleta += limitaString(pedido.getProdutos()[i].getQtd(), 4)
 									+ "  " 
 									+ cortaString(pedido.getProdutos()[i].getSabor()) 
-									+ "\r";
-				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos()[i].getObs(), 30) + "\r";
-				impressaoCompleta += "\r";
+									+ "#$";
+				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos()[i].getObs(), 30) + "#$";
+				impressaoCompleta += "#$";
 			}
 		}
 		
-		impressaoCompleta += "----------------------------------------\r"
-							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "\r";
+		impressaoCompleta += "----------------------------------------#$"
+							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
 		
-		imprimirLocal(impressaoCompleta);
+		imprimirLocal(impressaoCompleta, "A");
 	}
 	
-	public void imprimirLocal(String impressaoCompleta) {
+	public void imprimirLocal(String impressaoCompleta, String setor) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -237,18 +242,18 @@ public class ImprimirController {
                 .replace("ê", "e")
                 .replace("è", "e")
                 .replace("í", "i")
+                .replace("ú", "u")
                 .replace("ì", "i");
-		
+		System.out.println(impressaoCompleta);
 		if(empresa.isImpressoraOnline() == false) {
-			System.out.println("\n\n\n");
-			System.out.println(impressaoCompleta);
+
 			//System.out.println("Modo offline");
 			try {
                 FileOutputStream fos1 = new FileOutputStream("LPT1");
                 // Imprime o texto
                 try (PrintStream ps1 = new PrintStream(fos1)) {
                     // Imprime o texto
-                    ps1.print(impressaoCompleta + "\r\r\r\r\r\r\r");
+                    ps1.print(impressaoCompleta );
                     // Fecha o Stream da impressora
                     ps1.close();
                 }
@@ -258,19 +263,32 @@ public class ImprimirController {
                     // Imprime o texto
                     try (PrintStream ps2 = new PrintStream(fos2)) {
                         // Imprime o texto
-                        ps2.print(impressaoCompleta + "\r\r\r\r\r\r\r");
+                        ps2.print(impressaoCompleta);
                         // Fecha o Stream da impressora
                         ps2.close();
                     }
                 }catch(FileNotFoundException e2) {
-                	//e2.printStackTrace();
+                	try {
+                        FileOutputStream fos2 = new FileOutputStream("USB001");
+                        // Imprime o texto
+                        try (PrintStream ps2 = new PrintStream(fos2)) {
+                            // Imprime o texto
+                            ps2.print(impressaoCompleta);
+                            // Fecha o Stream da impressora
+                            ps2.close();
+                        }
+                    }catch(FileNotFoundException e3) {
+                    	e3.printStackTrace();
+                    }
+                	e2.printStackTrace();
                 }
-                //e.printStackTrace();
+                e.printStackTrace();
             }
 		}else {
 			ImpressaoMatricial im = new ImpressaoMatricial();
 			im.setImpressao(impressaoCompleta);
 			im.setCodEmpresa(user.getCodEmpresa());
+			im.setSetor(setor);
 			impressoes.save(im);
 		}
 	}
@@ -293,25 +311,25 @@ public class ImprimirController {
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
-		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "\r"
-						  + cortaString(endereco) +                  "\r"
-						  + "CNPJ: " + empresa.getCnpj() +           "\r"
-						  + "----------------------------------------\r"
-						  + "         REGISTRO DE PAGAMENTO          \r"
-						  + "----------------------------------------\r"
-						  + "Usuario logado: " + cortaString(salario.getUsuario()) + "\r"
-						  + "Data: " + salario.getLogData() + "\r"
-						  + "----------------------------------------\r"
-						  + "Funcionario: " + cortaString(funcionario.getNome()) + "\r"
-						  + "Cpf: " + funcionario.getCpf() + "\r"
-						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "\r";
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "#$"
+						  + cortaString(endereco) +                  "#$"
+						  + "CNPJ: " + empresa.getCnpj() +           "#$"
+						  + "----------------------------------------#$"
+						  + "         REGISTRO DE PAGAMENTO          #$"
+						  + "----------------------------------------#$"
+						  + "Usuario logado: " + cortaString(salario.getUsuario()) + "#$"
+						  + "Data: " + salario.getLogData() + "#$"
+						  + "----------------------------------------#$"
+						  + "Funcionario: " + cortaString(funcionario.getNome()) + "#$"
+						  + "Cpf: " + funcionario.getCpf() + "#$"
+						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "#$";
 		
-		if(salario.getGastos() != 0) impressaoCompleta	+= "Gerou gastou de: R$ " + decimal.format(salario.getGastos()) + "\r";
-		if(salario.getPago() != 0) impressaoCompleta	+= "Recebeu o vale de: R$ " + decimal.format(salario.getPago()) + "\r";
-		if(salario.getHoras() != 0) impressaoCompleta	+= "Acrescentou em hora extra: R$ " + decimal.format(salario.getHoras()) + "\r";
+		if(salario.getGastos() != 0) impressaoCompleta	+= "Gerou gastou de: R$ " + decimal.format(salario.getGastos()) + "#$";
+		if(salario.getPago() != 0) impressaoCompleta	+= "Recebeu o vale de: R$ " + decimal.format(salario.getPago()) + "#$";
+		if(salario.getHoras() != 0) impressaoCompleta	+= "Acrescentou em hora extra: R$ " + decimal.format(salario.getHoras()) + "#$";
 		
-		impressaoCompleta += "----------------------------------------\r";
-		imprimirLocal(impressaoCompleta);
+		impressaoCompleta += "----------------------------------------#$";
+		imprimirLocal(impressaoCompleta, "A");
 	}
 	
 	@RequestMapping("/imprimirGeralFuncionario")
@@ -330,45 +348,45 @@ public class ImprimirController {
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
-		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "\r"
-						  + cortaString(endereco) +                  "\r"
-						  + "CNPJ: " + empresa.getCnpj() +           "\r"
-						  + "----------------------------------------\r"
-						  + "         REGISTRO DE PAGAMENTO          \r"
-						  + "----------------------------------------\r"
-						  + "Usuario logado: " + cortaString(user.getEmail()) + "\r"
-						  + "Data: " + salario.get(0).getLogData() + "\r"
-						  + "----------------------------------------\r"
-						  + "Funcionario: " + cortaString(funcionario.getNome()) + "\r"
-						  + "Cpf: " + funcionario.getCpf() + "\r"
-						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "\r"
-						  + "----------------------------------------\r";
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "#$"
+						  + cortaString(endereco) +                  "#$"
+						  + "CNPJ: " + empresa.getCnpj() +           "#$"
+						  + "----------------------------------------#$"
+						  + "         REGISTRO DE PAGAMENTO          #$"
+						  + "----------------------------------------#$"
+						  + "Usuario logado: " + cortaString(user.getEmail()) + "#$"
+						  + "Data: " + salario.get(0).getLogData() + "#$"
+						  + "----------------------------------------#$"
+						  + "Funcionario: " + cortaString(funcionario.getNome()) + "#$"
+						  + "Cpf: " + funcionario.getCpf() + "#$"
+						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "#$"
+						  + "----------------------------------------#$";
 		
 		for(int i = 0; i<salario.size(); i++) {
 			if(salario.get(i).getGastos() != 0) {
-				impressaoCompleta += "Gerou gastou de: R$ " + decimal.format(salario.get(i).getGastos()) + "\r";
+				impressaoCompleta += "Gerou gastou de: R$ " + decimal.format(salario.get(i).getGastos()) + "#$";
 				gasto += salario.get(i).getGastos();
 				total -= gasto;
 			}
 			if(salario.get(i).getPago() != 0) {
-				impressaoCompleta += "Recebeu o vale de: R$ " + decimal.format(salario.get(i).getPago()) + "\r";
+				impressaoCompleta += "Recebeu o vale de: R$ " + decimal.format(salario.get(i).getPago()) + "#$";
 				pago += salario.get(i).getPago();
 				total -= pago;
 			}
 			if(salario.get(i).getHoras() != 0) {
-				impressaoCompleta += "Acrescentou em hora extra: R$ " + decimal.format(salario.get(i).getHoras()) + "\r";
+				impressaoCompleta += "Acrescentou em hora extra: R$ " + decimal.format(salario.get(i).getHoras()) + "#$";
 				hora += salario.get(i).getHoras();
 				total += hora;
 			}
 		}
-		impressaoCompleta += "----------------------------------------\r"
-						   + "                 TOTAL                  \r"
-						   + "Gastos:     \t\tR$ " + decimal.format(gasto) + "\r"
-						   + "Hora extra: \t\tR$ " + decimal.format(hora) +  "\r"
-						   + "Pago:       \t\tR$ " + decimal.format(pago) +  "\r"
-						   + "Total:      \t\tR$ " + decimal.format(total + funcionario.getSalario().floatValue()) + "\r"
-						   + "----------------------------------------\r";
-		imprimirLocal(impressaoCompleta);
+		impressaoCompleta += "----------------------------------------#$"
+						   + "                 TOTAL                  #$"
+						   + "Gastos:     \t\tR$ " + decimal.format(gasto) + "#$"
+						   + "Hora extra: \t\tR$ " + decimal.format(hora) +  "#$"
+						   + "Pago:       \t\tR$ " + decimal.format(pago) +  "#$"
+						   + "Total:      \t\tR$ " + decimal.format(total + funcionario.getSalario().floatValue()) + "#$"
+						   + "----------------------------------------#$";
+		imprimirLocal(impressaoCompleta, "A");
 	}
 	
 	public String limitaString(String texto, int limite) {
@@ -380,6 +398,6 @@ public class ImprimirController {
 	
 	public String cortaString(String texto) {
 		int limite = 40;
-		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "\r" + cortaString(texto.substring(limite));
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "#$" + cortaString(texto.substring(limite));
 	}
 }

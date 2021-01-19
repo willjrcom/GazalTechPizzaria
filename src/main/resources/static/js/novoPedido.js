@@ -200,6 +200,7 @@ if(typeof id_edicao == "undefined") {
 //------------------------------------------------------------------------------------------------------------------------
 $('#buscarCliente').on('click', function(){
 
+	//se for nulo
 	if($("#numeroCliente").val() == ''){
 		//voltar campo para digitar numero
 		var campo = $(".pula");
@@ -220,6 +221,7 @@ $('#buscarCliente').on('click', function(){
 		});
 		
 	}else{
+		//se for numero
 		if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
 			carregarLoading("block");
 		
@@ -234,7 +236,7 @@ $('#buscarCliente').on('click', function(){
 					cliente.nome = e.nome;
 					cliente.celular = e.celular;
 					cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
-					cliente.taxa = parseFloat(e.endereco.taxa);
+					cliente.taxa = e.endereco.taxa;
 					
 					$("#mostrarDadosCliente").show('slow'); //mostrar dados do cliente
 					$("#nomeCliente").text(cliente.nome);
@@ -278,8 +280,6 @@ $('#buscarCliente').on('click', function(){
 			}else if((cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 1)){
 				cliente.envio = "MESA";
 			}else if(cliente.envio == '' || cliente.envio == null) {//se for nulo o campo
-				cliente.envio = $("#envioCliente").val();
-			}else{
 				$("#divEnvio").html('<label>Envio:</label>'
 									+'<select name="opcao" class="form-control" id="envioCliente">'
 										+'<option value="BALCAO">Balcão</option>'
@@ -312,6 +312,8 @@ function atualizarDados() {
 			cliente.id = e.id;
 			cliente.comanda = e.comanda;
 			cliente.horaPedido = e.horaPedido;
+			
+			$("#alertPedidoAberto").show("slow");
 		}
 	});
 }
@@ -704,30 +706,54 @@ $("#BotaoEnviarPedido").click(function() {
 						+ '<br><b>Total sem Taxa:</b> R$ ' + tPedido.toFixed(2)
 						+ '<br><b>Taxa de Entrega:</b> R$ ' + cliente.taxa.toFixed(2)
 						+ '<br><b>Total do Pedido:</b> R$ ' + (parseFloat(tPedido) + Number(cliente.taxa)).toFixed(2)
-						+ '<br><div class="row"><div class="col-md-6">'
-						+ '<b>Receber:</b>'
-						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
-						+ (parseFloat(tPedido) + Number(cliente.taxa)).toFixed(2) + '"/></div>';
+						+ '<br>'
+						+ '<div class="row">' //row
+							+ '<div class="col-md-6">'
+								+ '<b>Receber:</b>'
+								+ '<div class="input-group mb-3">'
+									+ '<span class="input-group-text">R$</span>'
+									+ '<input class="form-control" id="troco" placeholder="Precisa de troco?" value="'
+										+ (parseFloat(tPedido) + Number(cliente.taxa)).toFixed(2) + '"/>'
+								+ '</div>'
+							+ '</div>';
 		}else {
 			linhaHtml += '<b>Qtd Produtos:</b> ' + tPizzas.toFixed(2) 
 						+ '<br><b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2)
-						+ '<br><div class="row"><div class="col-md-6">'
-						+ '<b>Receber:</b>'
-						+ '<input type="text" placeholder="Precisa de troco?" class="form-control" id="troco" value="' 
-						+ tPedido.toFixed(2) + '"/></div>';
+						+ '<br>'
+						+ '<div class="row">' //row
+							+ '<div class="col-md-6">'
+								+ '<b>Receber:</b>'
+								+ '<div class="input-group mb-3">'
+									+ '<span class="input-group-text">R$</span>'
+									+ '<input class="form-control" id="troco" placeholder="Precisa de troco?" value="'
+										+ tPedido.toFixed(2) + '"/>'
+								+ '</div>'
+							+ '</div>';
 		}
-		
+						
 		linhaHtml += '<div class="col-md-6">'
-					+'<label><b>O pedido foi pago:</b></label>'
-					+'<select name="pagamento" class="form-control" id="pagamentoCliente">'
-						+'<option value="Não">Não</option>'
-						+'<option value="Sim">Sim</option>'
-					+ '</select></div>'
+						+'<label><b>O pedido foi pago:</b></label>'
+						+'<select name="pagamento" class="form-control" id="pagamentoCliente">'
+							+'<option value="Não">Não</option>'
+							+'<option value="Sim">Sim</option>'
+						+ '</select>'
+					+ '</div>'
+				+ '</div>'; //row
 					
-					+ '<label><b>Observação do Pedido:</b></label>'
+					
+		if(cliente.envio == 'MESA') 
+			linhaHtml += '<b>Serviços:</b>'
+						+ '<div class="input-group mb-3">'
+							+ '<span class="input-group-text">%</span>'
+							+ '<input class="form-control" id="servico" value="10.00"/></div>'
+						+ '</div>';
+						
+		linhaHtml += '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
-					+ '<div>&nbsp;</div><b class="fRight">Deseja enviar o pedido?</b>';
+					+ '<div>&nbsp;</div>'
+					+ '<b class="fRight">Deseja enviar o pedido?</b>';
 
+						
 		//modal jquery confirmar
 		$.confirm({
 			type: 'green',
@@ -745,6 +771,7 @@ $("#BotaoEnviarPedido").click(function() {
 						carregarLoading("block");
 						
 						var troco = this.$content.find('#troco').val();
+						var servico = this.$content.find('#servico').val();
 						var obs = this.$content.find('#obs').val();
 						
 						if(obs != '') cliente.obs = obs;
@@ -752,6 +779,7 @@ $("#BotaoEnviarPedido").click(function() {
 						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						troco = parseFloat(troco.toString().replace(",","."));
+						servico = parseFloat(servico.toString().replace(",","."));
 						
 						if(Number.isFinite(troco) == false) {
 							
@@ -769,6 +797,17 @@ $("#BotaoEnviarPedido").click(function() {
 								}
 							});
 						}else {
+							
+							cliente.produtos = JSON.stringify(produtos);
+							cliente.total = Number(tPedido.toFixed(2));
+							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
+							cliente.troco = Number(troco);
+							cliente.servico = Number(servico);
+							
+							if(cliente.envio == null) cliente.envio = $("#envioCliente").val();
+							if(cliente.envio == null) cliente.envio = "ENTREGA";
+							if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
+							
 							var temp = {};
 							
 							temp.data = cliente.data;
@@ -776,14 +815,6 @@ $("#BotaoEnviarPedido").click(function() {
 							temp.nome = cliente.nome;
 							temp.envio = cliente.envio;
 							temp.status = "COZINHA";
-							
-							cliente.produtos = JSON.stringify(produtos);
-							cliente.total = Number(tPedido.toFixed(2));
-							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
-							cliente.troco = Number(troco);
-							
-							if(cliente.envio == null) cliente.envio = "ENTREGA";
-							if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
 							
 							//buscar pedido no sistema
 							$.ajax({
@@ -1059,7 +1090,8 @@ function trocoInicial() {
 		content: 'Troco:'
 				+ '<div class="input-group mb-3">'
 					+ '<span class="input-group-text">R$</span>'
-					+ '<input class="form-control" id="trocoInicial" placeholder="Digite o valor do troco"/>',
+					+ '<input class="form-control" id="trocoInicial" placeholder="Digite o valor do troco"/>'
+				+ '</div>',
 		buttons:{
 			confirm:{
 				text:'Alterar troco',

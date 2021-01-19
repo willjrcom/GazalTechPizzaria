@@ -131,7 +131,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<div class="col-md-4">
 				<label>Salário:</label><br>
-				<input type="text" class="form-control pula preco" id="salario" name="salario" placeholder="Salário"/>
+				<div class="input-group mb-3">
+					<span class="input-group-text">R$</span>
+					<input class="form-control preco pula" id="salario" name="salario" placeholder="Salário"/>
+				</div>
 			</div>	
 		</div>
 		

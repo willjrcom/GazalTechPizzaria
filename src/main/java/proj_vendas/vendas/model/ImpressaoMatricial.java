@@ -22,4 +22,9 @@ public class ImpressaoMatricial extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)
 	private int codEmpresa;
+
+	//A - atendimento
+	//C - cozinha
+	@Column(nullable=false)
+	private String setor;
 }
