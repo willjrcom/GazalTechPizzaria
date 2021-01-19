@@ -1,27 +1,12 @@
 package proj_vendas.vendas.web.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import proj_vendas.vendas.model.Email;
 
 @RestController
 @RequestMapping("/email")
 public class EmailController {
-
+/*
 	 @Autowired
 	 private JavaMailSender javaMailSender;
 
@@ -76,6 +61,6 @@ public class EmailController {
         helper.setText(email.getTexto(), true);
         
         javaMailSender.send(msg);
-    }
+    }*/
 }
 
