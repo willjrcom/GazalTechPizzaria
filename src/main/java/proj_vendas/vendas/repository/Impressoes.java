@@ -12,4 +12,6 @@ public interface Impressoes extends JpaRepository<ImpressaoMatricial, Long>{
 
 	public List<ImpressaoMatricial> findByCodEmpresaAndSetor(int codEmpresa, String setor);
 
+	public List<ImpressaoMatricial> findByCodEmpresa(int codEmpresa);
+
 }

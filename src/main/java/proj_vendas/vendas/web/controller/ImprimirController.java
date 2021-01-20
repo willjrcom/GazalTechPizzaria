@@ -46,7 +46,15 @@ public class ImprimirController {
 	@ResponseBody
 	public String impressaoNetBeans(@PathVariable int codEmpresa, @PathVariable String setor) {//modo online
 		
-		List<ImpressaoMatricial> todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
+		List<ImpressaoMatricial> todosIm = null;
+		
+		
+		if(setor.equals("A") == true || setor.equals("C") == true) {
+			todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
+		}else {
+			todosIm = impressoes.findByCodEmpresa(codEmpresa);
+		}
+		
 		if(todosIm.size() != 0) {
 			ImpressaoMatricial im = todosIm.get(0);
 			impressoes.deleteById(im.getId());
@@ -55,7 +63,22 @@ public class ImprimirController {
 		return null;
 	}
 	
+	
+	public ImpressaoPedido receberEmpresa(ImpressaoPedido pedido, int codEmpresa) {
+		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
+		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
+		
+		pedido.setCnpj(empresa.getCnpj());
+		pedido.setEnderecoEmpresa(endereco);
+		pedido.setNomeEstabelecimento(empresa.getNomeEstabelecimento().length() != 0 ? empresa.getNomeEstabelecimento() : "");
+		pedido.setTexto1(empresa.getTexto1().length() != 0 ? empresa.getTexto1() : "");
+		pedido.setTexto2(empresa.getTexto2().length() != 0 ? empresa.getTexto2() : "");
+		pedido.setPromocao(empresa.getPromocao().length() != 0 ? empresa.getPromocao() : "");
+		
+		return pedido;
+	}
 
+	
 	@RequestMapping("/imprimirPedido")
 	@ResponseBody
 	public void imprimirTudo(@RequestBody ImpressaoPedido pedido) {
@@ -63,12 +86,11 @@ public class ImprimirController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		DecimalFormat decimal = new DecimalFormat("0.00");
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		String impressaoCompleta;
+		receberEmpresa(pedido, user.getCodEmpresa());
 		
 		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) + "#$"
-							+ cortaString(endereco) +                 "#$"
+							+ cortaString(pedido.getEnderecoEmpresa()) +                 "#$"
 							+ "CNPJ: " + pedido.getCnpj() +           "#$"
 							+ "----------------------------------------#$"
 							+ "            CUPOM NAO FISCAL            #$"
@@ -83,7 +105,7 @@ public class ImprimirController {
 							+ cortaString(pedido.getEndereco()) + "#$"
 							+ "Taxa de entrega: \tR$ " + decimal.format(pedido.getTaxa()) + "#$";
 					
-		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$#$"
+		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$"
 							+ cortaString(pedido.getTexto1()) + "#$";
 
 		//pizzas------------------------------------------------------------------------------------------

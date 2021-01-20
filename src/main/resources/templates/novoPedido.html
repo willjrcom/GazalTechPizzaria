@@ -27,7 +27,7 @@
 				</div>
 				
 				<div class="form-group col-md-2">
-					<button name="buscarCliente" id="buscarCliente"
+					<button name="buscarCliente" id="buscarCliente" onclick="buscarCliente()"
 						class="form-control btn btn-primary pula"><span class="oi oi-plus"></span> Criar</button>
 				</div>
 			</div>
@@ -42,24 +42,22 @@
 						</tr>
 						<tr>
 							<td class="text-center col-md-1"><i class="fas fa-user-circle"></i> <span id="nomeCliente"></span></td>
-							<td class="text-center col-md-1"><i class="fas fa-phone-alt"></i> <span id="celCliente"></span></td>
-							<td class="text-center col-md-1"><i class="fas fa-motorcycle"></i> <span id="enderecoCliente"></span></td>
-							<td class="text-center col-md-1"><i class="fas fa-money-bill-wave-alt"></i> <span id="taxaCliente"></span></td>
+							<td class="text-center col-md-1 iconesEntrega"><i class="fas fa-phone-alt"></i> <span id="celCliente"></span></td>
+							<td class="text-center col-md-1 iconesEntrega"><i class="fas fa-motorcycle"></i> <span id="enderecoCliente"></span></td>
+							<td class="text-center col-md-1 iconesEntrega"><i class="fas fa-money-bill-wave-alt"></i> <span id="taxaCliente"></span></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
-		</div>
-		
-		<!-- balcão------------------------------------------------------------------------------------------------- -->
-		<div align="center">
-			<p id="nomeBalcao"></p>
 		</div>
 	</div>
 
 	<!-------------------------------------------------------------------------------------------------------------------------->
 	
 	<br>
+	
+	<div class="alert alert-warning hidden" role="alert" id="alertPedidoAberto">Esse pedido ja existe!</div>
+	
 	<div class="row">
 		<div class="col-md-6">
 			<div class="divbase" id="divBuscarProdutos">
@@ -78,7 +76,6 @@
 			</div>
 	
 	<!-- ------------------------------------------------------------------------------------------------- -->
-			
 			<div class="divbase divListaGeral">
 				<div>
 					<h3>Pizzas</h3>
@@ -100,7 +97,7 @@
 								</tr>
 							</thead>
 				
-							<tbody id="listaPizza"></tbody>
+							<tbody id="listaPizza"><tr><td colspan="7">Nenhuma pizza adicionada!</td></tr></tbody>
 						</table>
 					</div>
 				</div>
@@ -125,7 +122,7 @@
 								</tr>
 							</thead>
 				
-							<tbody id="listaProduto"></tbody>
+							<tbody id="listaProduto"><tr><td colspan="7">Nenhum produto adicionado!</td></tr></tbody>
 						</table>
 					</div>
 				</div>
@@ -138,7 +135,7 @@
 				<hr>
 				<div id="divEnvio"></div>
 				<br>
-				<h3 id="Ttotal">Total</h3><br>
+				<h3 id="Ttotal">Total de Produtos: 0.00<br><br>Total do Pedido: R$0,00</h3><br>
 				
 				<div class="btn-group" role="group" aria-label="Basic example">
 					<button type="button" id="cancelar" onclick="recarregar()" class="btn btn-secondary btn-danger">

@@ -227,27 +227,42 @@ function imprimirPizzas(cliente) {
 		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
-			impressaoPedido = {};
-			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
-			impressaoPedido.envio = cliente.envio; //forma de envio
-			impressaoPedido.setor = "C";
-					
-			//numero da comanda e nome
-			impressaoPedido.comanda = cliente.comanda;
-			impressaoPedido.nome = cliente.nome;
-			impressaoPedido.pizzas = cliente.pizzas;
-			
-			//salvar hora
-			impressaoPedido.hora = cliente.horaPedido;
-			impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-
-			$.ajax({
-				url: "/imprimir/imprimirPizza",
-				type: 'POST',
-				dataType : 'json',
-				contentType: "application/json",
-				data: JSON.stringify(impressaoPedido)
-			});
+			if(cliente.pizzas != 0){
+				impressaoPedido = {};
+				impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
+				impressaoPedido.envio = cliente.envio; //forma de envio
+				impressaoPedido.setor = "A";
+						
+				//numero da comanda e nome
+				impressaoPedido.comanda = cliente.comanda;
+				impressaoPedido.nome = cliente.nome;
+				impressaoPedido.pizzas = cliente.pizzas;
+				
+				//salvar hora
+				impressaoPedido.hora = cliente.horaPedido;
+				impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	
+				$.ajax({
+					url: "/imprimir/imprimirPizza",
+					type: 'POST',
+					dataType : 'json',
+					contentType: "application/json",
+					data: JSON.stringify(impressaoPedido)
+				});
+			}else{
+				$.alert({
+					type: 'red',
+					title: 'OPS...',
+					content: 'O pedido não contem pizzas!',
+					buttons:{
+						confirm:{
+							text: 'Voltar',
+							btnClass: 'btn-success',
+							keys: ['enter', 'esc']
+						}
+					}
+				});
+			}
 		}
 	});
 }
@@ -260,26 +275,41 @@ function imprimirProdutos(cliente) {
 		type: 'GET'
 	}).done(function(e){
 		if(e.length != 0) {
-			impressaoPedido = {};
-			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
-			impressaoPedido.envio = cliente.envio; //forma de envio
-					
-			//numero da comanda e nome
-			impressaoPedido.comanda = cliente.comanda;
-			impressaoPedido.nome = cliente.nome;
-			impressaoPedido.produtos = cliente.produtos;
-
-			//salvar hora
-			impressaoPedido.hora = cliente.horaPedido;
-			impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-
-			$.ajax({
-				url: "/imprimir/imprimirProduto",
-				type: 'POST',
-				dataType : 'json',
-				contentType: "application/json",
-				data: JSON.stringify(impressaoPedido)
-			});
+			if(cliente.produtos != 0){
+				impressaoPedido = {};
+				impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
+				impressaoPedido.envio = cliente.envio; //forma de envio
+						
+				//numero da comanda e nome
+				impressaoPedido.comanda = cliente.comanda;
+				impressaoPedido.nome = cliente.nome;
+				impressaoPedido.produtos = cliente.produtos;
+	
+				//salvar hora
+				impressaoPedido.hora = cliente.horaPedido;
+				impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	
+				$.ajax({
+					url: "/imprimir/imprimirProduto",
+					type: 'POST',
+					dataType : 'json',
+					contentType: "application/json",
+					data: JSON.stringify(impressaoPedido)
+				});
+			}else{
+				$.alert({
+					type: 'red',
+					title: 'OPS...',
+					content: 'O pedido não contem produtos!',
+					buttons:{
+						confirm:{
+							text: 'Voltar',
+							btnClass: 'btn-success',
+							keys: ['enter', 'esc']
+						}
+					}
+				});
+			}
 		}
 	});
 }
