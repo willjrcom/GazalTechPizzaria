@@ -408,6 +408,7 @@ function imprimirTudo(cliente) {
 				impressaoPedido.celular = cliente.celular
 				impressaoPedido.endereco =  cliente.endereco;
 			}
+
 			impressaoPedido.pizzas = cliente.pizzas;
 			impressaoPedido.produtos = cliente.produtos;
 	

@@ -741,12 +741,14 @@ $("#BotaoEnviarPedido").click(function() {
 				+ '</div>'; //row
 					
 					
-		if(cliente.envio == 'MESA') 
+		if(cliente.envio == 'MESA'){
 			linhaHtml += '<b>Serviços:</b>'
 						+ '<div class="input-group mb-3">'
 							+ '<span class="input-group-text">%</span>'
 							+ '<input class="form-control" id="servico" value="10.00"/></div>'
 						+ '</div>';
+			
+		}
 						
 		linhaHtml += '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
@@ -779,7 +781,9 @@ $("#BotaoEnviarPedido").click(function() {
 						cliente.pagamento = this.$content.find("#pagamentoCliente").val();
 
 						troco = parseFloat(troco.toString().replace(",","."));
-						servico = parseFloat(servico.toString().replace(",","."));
+						
+						if(cliente.envio == "MESA")
+							servico = parseFloat(servico.toString().replace(",","."));
 						
 						if(Number.isFinite(troco) == false) {
 							
@@ -986,8 +990,9 @@ function imprimir() {
 				impressaoPedido.celular = cliente.celular
 				impressaoPedido.endereco =  cliente.endereco;
 			}
-			impressaoPedido.pizzas = cliente.pizzas;
-			impressaoPedido.produtos = cliente.produtos;
+
+			impressaoPedido.pizzas = JSON.parse(cliente.pizzas);
+			impressaoPedido.produtos = JSON.parse(cliente.produtos);
 	
 			
 			//pagamento em entrega
@@ -1137,7 +1142,7 @@ function trocoInicial() {
 										btnClass: 'btn-success',
 										keys: ['esc', 'enter'],
 										action: function(){
-											window.location.href= "/menu";
+											window.location.href= "/novoPedido";
 										}
 									}
 								}
