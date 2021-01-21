@@ -207,7 +207,8 @@ function troco() {
 									confirm: {
 										text: 'Tentar novamente',
 										btnClass: 'btn-danger',
-										keys: ['esc', 'enter']
+										keys: ['esc', 'enter'],
+										action: () => trocoRepeat()
 									}
 								}
 							});

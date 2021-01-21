@@ -99,7 +99,7 @@ $("#enviar").click(function() {
 		            action: function(){
 						
 						carregarLoading("block");
-						console.log(cliente)
+
 						$.ajax({
 							url: "/cadastroCliente/cadastrar",
 							type: 'PUT',

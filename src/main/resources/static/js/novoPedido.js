@@ -243,6 +243,7 @@ function buscarCliente(){
 					cliente.taxa = e.endereco.taxa;
 					cliente.envio = "ENTREGA";
 					
+					$("#nomeCliente").text(cliente.nome);
 					$("#celCliente").text(cliente.celular);
 					$("#enderecoCliente").text(cliente.endereco);
 					$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));

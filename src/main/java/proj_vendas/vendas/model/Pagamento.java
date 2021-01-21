@@ -12,7 +12,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "DADOS")
+@Table(name = "PAGAMENTOS")
 public class Pagamento extends AbstractEntity<Long>{
 
 	@Column(nullable=false)
