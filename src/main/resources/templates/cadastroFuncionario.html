@@ -17,19 +17,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<input type="hidden" id="validCel" name="validCel" value="1"/>
 		
 		<div class="form-group">
-			<label>Nome Completo:</label><br>
+			<label>Nome Completo: <span class="alertOpcional">*</span></label><br>
 			<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo"  autofocus="autofocus"/>  
 		</div>
 		
 		<br>
 		<div class="row">
 			<div class="col-md-8">
-				<label>E-mail:</label><br>
+				<label>E-mail: <span class="alertOpcional">*</span></label><br>
 				<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
 			</div>
 			
 			<div class="col-md-4">
-				<label >Data de nascimento:</label><br>
+				<label >Data de nascimento: <span class="alertOpcional">*</span></label><br>
 				<input type="date" class="form-control pula" id="nascimento" name="nascimento" placeholder="dd/mm/aaaa"/>
 			</div>
 		</div>
@@ -37,13 +37,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 			<div class="col-md-6" id="divCpf">
-				<label>CPF:</label><br>
+				<label>CPF: <span class="alertOpcional">*</span></label><br>
 				<p id="avisoCpf">Cpf já cadastrado, tente outro!</p>
 				<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
 			</div>
 			
 			<div class="col-md-6">
-				<label>Celular:</label><br>
+				<label>Celular: <span class="alertOpcional">*</span></label><br>
 				<p id="avisoCel">Celular já cadastrado, tente outro!</p>
 				<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular xx-xxxxx-xxxx "/> 
 			</div>
@@ -52,8 +52,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 			<div class="col-md-6">
-				<label for="cargo">Cargo:</label><br>
+				<label for="cargo">Cargo: <span class="alertOpcional">*</span></label><br>
 				<select class="form-control pula" id="cargo" name="cargo">
+					<option value="">---</option>
 					<option value="ATENDIMENTO">Atendimento</option>
 					<option value="MOTOBOY">Motoboy</option>
 					<option value="COZINHA">Cozinha</option>
@@ -70,8 +71,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			
 			<div class="col-md-6">
-				<label>Sexo:</label><br>
+				<label>Sexo: <span class="alertOpcional">*</span></label><br>
 				<select class="form-control pula" id="sexo" name="sexo">
+					<option value="">---</option>
 					<option value="MASCULINO">Masculino</option>
 					<option value="FEMINIMO">Feminino</option>
 				</select>
@@ -88,11 +90,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	  		</div>
 	  		
 	  		<div class="col-md-8">
-		       <label>Rua</label><br>
+		       <label>Rua <span class="alertOpcional">*</span></label><br>
       		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua">
 	  		</div>
 	  		<div class="col-md-2">
-		       <label>Nº</label><br>
+		       <label>Nº <span class="alertOpcional">*</span></label><br>
       		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número">
 	  		</div>
 		</div>
@@ -100,13 +102,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 			<div class="col-md-6">
-				<label>Bairro:</label><br>
+				<label>Bairro: <span class="alertOpcional">*</span></label><br>
 				<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro"/>  
 			</div>
 			
 			<div class="col-md-6">
-				<label>Cidade:</label><br>
-				<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade" value="Sorocaba"/> 
+				<label>Cidade: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade"/> 
 			</div>
 		</div>
 		
@@ -120,17 +122,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="row">
 			<div class="col-md-4">
-				<label>Data de admissão:</label><br>
+				<label>Data de admissão: <span class="alertOpcional">*</span></label><br>
 				<input type="date" class="form-control pula" id="admissao" name="admissao" placeholder="dd/mm/aaaa"/>
 			</div>
 			
 			<div class="col-md-4">
-				<label>Dia pagamento:</label><br>
+				<label>Dia pagamento: <span class="alertOpcional">*</span></label><br>
 				<input type="number" class="form-control pula" id="diaPagamento" name="diaPagamento" placeholder="Dia pagamento" min="1" max="31"/>
 			</div>
 			
 			<div class="col-md-4">
-				<label>Salário:</label><br>
+				<label>Salário: <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
 					<input class="form-control preco pula" id="salario" name="salario" placeholder="Salário"/>

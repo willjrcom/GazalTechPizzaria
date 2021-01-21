@@ -63,10 +63,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</div>
 				<div>&nbsp;</div>
 				
-				<div>
-					<button class="btn btn-primary" onclick="mostrarClientes()" id="btnClientes">Mostrar Top 10 Clientes</button>
-					<button class="btn btn-primary" onclick="mostrarMesas()" id="btnMesas">Mostrar Top 10 Mesas</button>
+				<div class="row">
+					<div class="col-md-4"><button class="btn btn-primary" onclick="mostrarClientes()" id="btnClientes">Mostrar Top 10 Clientes</button></div>
+					<div class="col-md-4"><button class="btn btn-primary" onclick="mostrarMesas()" id="btnMesas">Mostrar Top 10 Mesas</button></div>
 				</div>
+				<br><hr><br>
 				
 				<div class="col-md-4 table-responsive hidden" id="topClientes">
 					<table>
@@ -81,7 +82,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	 		 				</tr>
 						</thead>
 						
-						<tbody>
+						<tbody id="nenhumaMesa">
 							<tr>
 								<td id="top10Rank" class="text-center col-md-1 sombra">Top 1</td>
 								<td id="top10Cliente" class="text-center col-md-1 sombra">...</td>

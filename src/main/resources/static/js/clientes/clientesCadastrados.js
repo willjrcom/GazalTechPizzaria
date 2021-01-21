@@ -12,7 +12,7 @@ $("#buscar").click(function(){
 	var nome = $("#nomeBusca").val();
 	
 	$.ajax({
-		url: '/clientesCadastrados/buscar/' + nome,
+		url: '/clientesCadastrados/buscar/' + nome + '/' + (isNaN(Number(nome)) ? "0" : Number(nome)),
 		type: 'GET'
 	}).done(function(e){
 		

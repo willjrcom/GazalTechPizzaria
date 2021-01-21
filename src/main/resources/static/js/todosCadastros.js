@@ -18,6 +18,10 @@ function mostrarClientes(){
 					i++;
 				}
 			}
+
+			if(rankHtml == ""){
+				$("#nenhumaMesa").html('<tr><td colspan="3" class="sombra" align="center"><label>Nenhum cliente encontrado!</label></td><tr>');
+			}
 			
 			carregarLoading("none");
 			$("#topClientes").show("slow");

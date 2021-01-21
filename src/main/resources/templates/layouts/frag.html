@@ -39,7 +39,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
 				
-				<button type="button" class="btn btn-primary form-control"><h3 th:text="${empresa}"></h3></button>
+				<a type="button" class="btn btn-primary form-control" aria-disabled="true"><span style="font-size: 20px" th:text="${empresa}"></span></a>
 				<input type="hidden" id="trocoInicial" th:value="${troco}" />
 				
 				<div th:if="${contato} != ''">

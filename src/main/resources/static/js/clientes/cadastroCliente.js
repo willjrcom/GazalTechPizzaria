@@ -35,11 +35,16 @@ if(typeof url_atual != "undefined") {
 		$("#referencia").val(cliente.endereco.referencia);
 		$("#taxa").val(cliente.endereco.taxa);
 		
-		$("#dados").html("Total de pedidos: " + cliente.contPedidos
-						+ "<br>Data de cadastro: "  + cliente.dataCadastro.split("-")[2] + "/"
-													+ cliente.dataCadastro.split("-")[1] + "/"
-													+ cliente.dataCadastro.split("-")[0]
-					).css({"float":"right"});
+		$("#dados").html('<div class="row">'
+							+ '<div class="col-md-6">'
+								+ '<input class="form-control" value="Total de pedidos: ' + cliente.contPedidos + '" readonly/>'
+							+ '</div>'
+							+ '<div class="col-md-6">'
+								+ '<input class="form-control" value="Data de cadastro: '  
+															+ cliente.dataCadastro.split("-")[2] + "/"
+															+ cliente.dataCadastro.split("-")[1] + "/"
+															+ cliente.dataCadastro.split("-")[0] + '" readonly/>'
+							+ '</div></div>');
 		
 	}).fail(function(){
 		$.alert("Erro, Cliente não encontrado!");

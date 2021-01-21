@@ -31,13 +31,13 @@ public class ClientesCadastradosController {
 		return new ModelAndView("clientesCadastrados");
 	}
 	
-	@RequestMapping(value = "/buscar/{nome}")
+	@RequestMapping(value = "/buscar/{nome}/{celular}")
 	@ResponseBody
-	public List<Cliente> buscar(@PathVariable String nome) {
+	public List<Cliente> buscar(@PathVariable String nome, @PathVariable Long celular) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		return clientes.findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(user.getCodEmpresa(), nome, user.getCodEmpresa(), Long.parseLong(nome));
+
+		return clientes.findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(user.getCodEmpresa(), nome, user.getCodEmpresa(), celular);
 	}
 	
 	@RequestMapping(value = "/excluirCliente/{id}")

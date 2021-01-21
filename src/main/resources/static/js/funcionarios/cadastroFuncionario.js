@@ -81,12 +81,13 @@ function setFuncionario() {
 //---------------------------------------------------------------
 $("#enviar").click(function() {
 	funcionario = {};
-	
+
 	if($("#nome").val() != '' 
 	&& $("#email").val() != ''
 	&& $("#cpf").val() != ''
 	&& $("#cel").val() != ''
-	
+	&& $("#cargo").val() !== ''
+	&& $("#sexo").val() !== ''
 	&& $("#rua").val() != ''
 	&& $("#n").val() != ''
 	&& $("#bairro").val() != ''

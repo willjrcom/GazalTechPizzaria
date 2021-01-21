@@ -19,12 +19,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 			<div class="col-md-6">
-				<label>Nome do produto:</label><br>
+				<label>Nome do produto: <span class="alertOpcional">*</span></label><br>
 				<input type="text" class="form-control pula" id="nomeProduto" name="nomeProduto" placeholder="Nome do produto" autofocus="autofocus" />
 			</div>
 			
 			<div class="col-md-6">
-				<label>Código de busca: <button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
+				<label>Código de busca: <span class="alertOpcional">*</span><button class="btn btn-link" onclick="aviso()"><span class="oi oi-question-mark"></span></button></label>
 				<p id="avisoCod">Código já cadastrado, tente outro!</p>
 				<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca"/>
 			</div>
@@ -32,14 +32,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="row">
 			<div class="col-md-6">
-				<label>Preço:</label><br>
+				<label>Preço: <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
 					<input class="form-control preco pula" id="preco" name="preco" placeholder="Preço do produto"/>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<label>Custo:</label><br>
+				<label>Custo: <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
 					<input class="form-control preco pula" id="custo" name="custo" placeholder="Total em custo"/>
@@ -48,7 +48,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		
 		<div class="form-group">
-			<label>Setor: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label>
+			<label>Setor: <span class="alertOpcional">*</span><button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label>
 			<select class="form-control" id="setor" name="setor" required>
 				<option value="PIZZA">Pizza</option>
 				<option value="BORDA">Borda</option>
