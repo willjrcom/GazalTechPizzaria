@@ -1,8 +1,5 @@
 package proj_vendas.vendas.web.controller;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -47,7 +44,6 @@ public class ImprimirController {
 	public String impressaoNetBeans(@PathVariable int codEmpresa, @PathVariable String setor) {//modo online
 		
 		List<ImpressaoMatricial> todosIm = null;
-		
 		
 		if(setor.equals("A") == true || setor.equals("C") == true) {
 			todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
@@ -177,6 +173,9 @@ public class ImprimirController {
 	@RequestMapping("/imprimirPizza")
 	@ResponseBody
 	public void imprimirPizza(@RequestBody ImpressaoPedido pedido) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		receberEmpresa(pedido, user.getCodEmpresa());
 
 		String impressaoCompleta;
 		
@@ -209,9 +208,13 @@ public class ImprimirController {
 		imprimirLocal(impressaoCompleta, pedido.getSetor());
 	}
 	
+	
 	@RequestMapping("/imprimirProduto")
 	@ResponseBody
 	public void imprimirProduto(@RequestBody ImpressaoPedido pedido) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		receberEmpresa(pedido, user.getCodEmpresa());
 
 		String impressaoCompleta;
 		
@@ -243,11 +246,10 @@ public class ImprimirController {
 		imprimirLocal(impressaoCompleta, "A");
 	}
 	
+	
 	public void imprimirLocal(String impressaoCompleta, String setor) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa()); //validar modo de impressao
 		
 		impressaoCompleta = impressaoCompleta
                 .replace("ç", "c")
@@ -266,54 +268,16 @@ public class ImprimirController {
                 .replace("í", "i")
                 .replace("ú", "u")
                 .replace("ì", "i");
+		
 		System.out.println(impressaoCompleta);
-		if(empresa.isImpressoraOnline() == false) {
-
-			//System.out.println("Modo offline");
-			try {
-                FileOutputStream fos1 = new FileOutputStream("LPT1");
-                // Imprime o texto
-                try (PrintStream ps1 = new PrintStream(fos1)) {
-                    // Imprime o texto
-                    ps1.print(impressaoCompleta );
-                    // Fecha o Stream da impressora
-                    ps1.close();
-                }
-            }catch(FileNotFoundException e) {
-                try {
-                    FileOutputStream fos2 = new FileOutputStream("LPT2");
-                    // Imprime o texto
-                    try (PrintStream ps2 = new PrintStream(fos2)) {
-                        // Imprime o texto
-                        ps2.print(impressaoCompleta);
-                        // Fecha o Stream da impressora
-                        ps2.close();
-                    }
-                }catch(FileNotFoundException e2) {
-                	try {
-                        FileOutputStream fos2 = new FileOutputStream("USB001");
-                        // Imprime o texto
-                        try (PrintStream ps2 = new PrintStream(fos2)) {
-                            // Imprime o texto
-                            ps2.print(impressaoCompleta);
-                            // Fecha o Stream da impressora
-                            ps2.close();
-                        }
-                    }catch(FileNotFoundException e3) {
-                    	e3.printStackTrace();
-                    }
-                	e2.printStackTrace();
-                }
-                e.printStackTrace();
-            }
-		}else {
-			ImpressaoMatricial im = new ImpressaoMatricial();
-			im.setImpressao(impressaoCompleta);
-			im.setCodEmpresa(user.getCodEmpresa());
-			im.setSetor(setor);
-			impressoes.save(im);
-		}
+			
+		ImpressaoMatricial im = new ImpressaoMatricial();
+		im.setImpressao(impressaoCompleta);
+		im.setCodEmpresa(user.getCodEmpresa());
+		im.setSetor(setor);
+		impressoes.save(im);
 	}
+	
 	
 	@RequestMapping("/imprimirLogFuncionario")
 	@ResponseBody
@@ -321,7 +285,6 @@ public class ImprimirController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		
 		//log usuario
@@ -353,6 +316,7 @@ public class ImprimirController {
 		impressaoCompleta += "----------------------------------------#$";
 		imprimirLocal(impressaoCompleta, "A");
 	}
+	
 	
 	@RequestMapping("/imprimirGeralFuncionario")
 	@ResponseBody
@@ -411,12 +375,14 @@ public class ImprimirController {
 		imprimirLocal(impressaoCompleta, "A");
 	}
 	
+	
 	public String limitaString(String texto, int limite) {
 		
 		String vazio = "                              ";
 		if(texto.length() < limite) texto += vazio;
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
+	
 	
 	public String cortaString(String texto) {
 		int limite = 40;

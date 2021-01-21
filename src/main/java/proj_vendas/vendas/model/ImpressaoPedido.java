@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ImpressaoPedido {
-	private String comanda;
+	private Long comanda;
 	private String nome;
 	private String nomeEstabelecimento;
 	private String cnpj;
@@ -18,9 +18,9 @@ public class ImpressaoPedido {
 	private PizzaImpressao[] pizzas;
 	private ProdutoImpressao[] produtos;
 	
-	private double total;
-	private double taxa;
-	private double troco;
+	private float total;
+	private float taxa;
+	private float troco;
 	
 	private String texto1;
 	private String texto2;

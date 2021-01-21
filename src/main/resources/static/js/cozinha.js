@@ -229,64 +229,21 @@ function imprimir(cliente) {
     mes  = (data.getMonth()+1).toString();
     mes = (mes.length == 1) ? '0'+mes : mes;
     ano = data.getFullYear();
-    
-	$.ajax({
-		url: '/novoPedido/empresa',
-		type: 'GET'
-	}).done(function(e){
-		if(e.length != 0 && e.imprimir == 1) {
 			
-			var impressaoPedido = {};
-			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
-			impressaoPedido.envio = cliente.envio; //forma de envio
-			impressaoPedido.setor = "C";
-			
-			//numero da comanda e nome
-			impressaoPedido.comanda = cliente.comanda;
-			impressaoPedido.nome = cliente.nome;
-			impressaoPedido.pizzas = cliente.pizzas;
+	var impressaoPedido = e;
+	impressaoPedido.setor = "C";
 
-			//salvar hora
-			impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
-			impressaoPedido.data = dia + '/' + mes + '/' + ano;
-			
-			$.ajax({
-				url: "/imprimir/imprimirPizza",
-				type: 'POST',
-				dataType : 'json',
-				contentType: "application/json",
-				data: JSON.stringify(impressaoPedido)
-			});
-		}
-	});
-}
-
-
-//-----------------------------------------------------------------------
-function mostrarTabela(pizzas) {
+	//salvar hora
+	impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+	impressaoPedido.data = dia + '/' + mes + '/' + ano;
 	
-	linhaHtml = '';
-	if(pizzas.length != 0) {
-		linhaHtml += '<table style="width: 100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Qtd</h5></th>'
-						+ '<th class="col-md-1"><h5>V. Uni</h5></th>'
-						+ '<th class="col-md-1"><h5>V. Total</h5></th>'
-					+ '</tr>';
-		
-		for(pizza of pizzas){
-			linhaHtml += '<tr>'
-						 +	'<td align="center">' + pizza.borda + '</td>'
-						 +	'<td align="center">' + pizza.sabor + '</td>'
-						 +	'<td align="center">' + parseFloat(pizza.qtd).toFixed(2) + '</td>'
-						 +  '<td align="center">R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
-						 +  '<td align="center">R$ ' + (parseFloat(pizza.preco) * pizza.qtd).toFixed(2) + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
+	$.ajax({
+		url: "/imprimir/imprimirPizza",
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(impressaoPedido)
+	});
 }
 
 

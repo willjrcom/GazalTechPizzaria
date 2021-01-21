@@ -25,7 +25,7 @@ public class CozinhaController{
 	
 	@Autowired
 	private Usuarios usuarios;
-
+	
 	@RequestMapping
 	public ModelAndView Cozinha() {
 		return new ModelAndView("cozinha");
@@ -43,8 +43,10 @@ public class CozinhaController{
 	@RequestMapping(value = "/enviarPedido/{id}")
 	@ResponseBody
 	public PedidoTemp enviarPedido(@PathVariable long id) {//falta enviar as outras variaveis
-
+	
+		//pedido temp do cliente
 		PedidoTemp pedido = temps.findById((long)id).get();
+		
 		pedido.setStatus("PRONTO");
 		return temps.save(pedido);
 	}

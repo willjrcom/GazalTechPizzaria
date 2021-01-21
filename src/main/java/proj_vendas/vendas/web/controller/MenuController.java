@@ -67,7 +67,7 @@ public class MenuController {
 			Endereco endereco = new Endereco();
 			endereco.setBairro("");
 			endereco.setCidade("");
-			endereco.setN("");
+			endereco.setN(0);
 			endereco.setRua("");
 			endereco.setTaxa(0);
 
@@ -167,7 +167,7 @@ public class MenuController {
 	
 	@RequestMapping(value = "/troco/{trocoInicial}")
 	@ResponseBody
-	public int buscarId(@PathVariable double trocoInicial) {
+	public int buscarId(@PathVariable float trocoInicial) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();

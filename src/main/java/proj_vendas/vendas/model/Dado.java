@@ -20,11 +20,13 @@ public class Dado extends AbstractEntity<Long> {
 	private String data;
 	@Lob
 	private String logMotoboy;
+	@Lob
+	private String compras;
 	
-	private double totalVendas = 0;
-	private double totalLucro = 0;
-	private double trocoInicio = 0;
-	private double trocoFinal = 0;
+	private float totalVendas = 0;
+	private float totalLucro = 0;
+	private float trocoInicio = 0;
+	private float trocoFinal = 0;
 	private int totalPedidos = 0;
 	private int totalPizza = 0;
 	private int totalProduto = 0;
@@ -32,13 +34,14 @@ public class Dado extends AbstractEntity<Long> {
 	private int balcao = 0;
 	private int mesa = 0;
 	private int drive = 0;
+	private float venda_entrega = 0;
+	private float venda_balcao = 0;
+	private float venda_mesa = 0;
+	private float venda_drive = 0;
 	private int comanda = 0;
 	
 	@Column(nullable=false)
 	private int codEmpresa;
-	
-	@Lob
-	private String compras;
 }
 
 

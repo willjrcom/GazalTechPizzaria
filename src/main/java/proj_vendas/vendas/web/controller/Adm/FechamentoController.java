@@ -1,8 +1,5 @@
 package proj_vendas.vendas.web.controller.Adm;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,6 +59,7 @@ public class FechamentoController {
 		return new ModelAndView("fechamento");
 	}
 	
+	
 	@RequestMapping(value = "/fechamento/pedidos")
 	@ResponseBody
 	public List<Pedido> pedidos() {
@@ -72,6 +70,7 @@ public class FechamentoController {
 
 		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 	}
+	
 	
 	@RequestMapping(value = "/fechamento/dados")
 	@ResponseBody
@@ -87,7 +86,7 @@ public class FechamentoController {
 	
 	@RequestMapping(value = "/fechamento/finalizar/{trocoFinal}")
 	@ResponseBody
-	public Dado finalizarCaixa(@PathVariable double trocoFinal) {
+	public Dado finalizarCaixa(@PathVariable float trocoFinal) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
@@ -110,7 +109,7 @@ public class FechamentoController {
 	
 	
 	@RequestMapping("/fechamento/relatorio/{lucro}/{taxas}")
-	public ModelAndView imprimirTudo(@PathVariable double lucro, @PathVariable double taxas) {
+	public ModelAndView imprimirTudo(@PathVariable float lucro, @PathVariable float taxas) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -247,11 +246,10 @@ public class FechamentoController {
 		return new ModelAndView("fechamento");
 	}
 	
+	
 	public void imprimirLocal(String impressaoCompleta, String setor) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa()); //validar modo de impressao
 		
 		impressaoCompleta = impressaoCompleta
                 .replace("ç", "c")
@@ -270,54 +268,16 @@ public class FechamentoController {
                 .replace("í", "i")
                 .replace("ú", "u")
                 .replace("ì", "i");
+		
 		System.out.println(impressaoCompleta);
-		if(empresa.isImpressoraOnline() == false) {
-
-			//System.out.println("Modo offline");
-			try {
-                FileOutputStream fos1 = new FileOutputStream("LPT1");
-                // Imprime o texto
-                try (PrintStream ps1 = new PrintStream(fos1)) {
-                    // Imprime o texto
-                    ps1.print(impressaoCompleta );
-                    // Fecha o Stream da impressora
-                    ps1.close();
-                }
-            }catch(FileNotFoundException e) {
-                try {
-                    FileOutputStream fos2 = new FileOutputStream("LPT2");
-                    // Imprime o texto
-                    try (PrintStream ps2 = new PrintStream(fos2)) {
-                        // Imprime o texto
-                        ps2.print(impressaoCompleta);
-                        // Fecha o Stream da impressora
-                        ps2.close();
-                    }
-                }catch(FileNotFoundException e2) {
-                	try {
-                        FileOutputStream fos2 = new FileOutputStream("USB001");
-                        // Imprime o texto
-                        try (PrintStream ps2 = new PrintStream(fos2)) {
-                            // Imprime o texto
-                            ps2.print(impressaoCompleta);
-                            // Fecha o Stream da impressora
-                            ps2.close();
-                        }
-                    }catch(FileNotFoundException e3) {
-                    	e3.printStackTrace();
-                    }
-                	e2.printStackTrace();
-                }
-                e.printStackTrace();
-            }
-		}else {
-			ImpressaoMatricial im = new ImpressaoMatricial();
-			im.setImpressao(impressaoCompleta);
-			im.setCodEmpresa(user.getCodEmpresa());
-			im.setSetor(setor);
-			impressoes.save(im);
-		}
+		
+		ImpressaoMatricial im = new ImpressaoMatricial();
+		im.setImpressao(impressaoCompleta);
+		im.setCodEmpresa(user.getCodEmpresa());
+		im.setSetor(setor);
+		impressoes.save(im);
 	}
+	
 	
 	public String limitaString(String texto, int limite) {
 		
@@ -325,6 +285,7 @@ public class FechamentoController {
 		if(texto.length() < limite) texto += vazio;
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
+	
 	
 	public String cortaString(String texto) {
 		int limite = 40;

@@ -15,13 +15,13 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Table(name = "ENDERECOS")
 public class Endereco extends AbstractEntity<Long>{
 	
-	private String cep;
+	private int cep;
 	
 	@Column(nullable=false)
 	private String rua;
 	
 	@Column(nullable=false)
-	private String n;
+	private int n;
 	
 	@Column(nullable=false)
 	private String bairro;

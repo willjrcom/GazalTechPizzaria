@@ -14,15 +14,16 @@ public interface Clientes extends JpaRepository<Cliente, Long>{
 
 	public Cliente findByCodEmpresaAndCpf(int codEmpresa, String cpf);
 
-	public Cliente findByCodEmpresaAndCelular(int codEmpresa, String celular);
+	public Cliente findByCodEmpresaAndCelular(int codEmpresa, Long celular);
 
 	public List<Cliente> findByCodEmpresa(int codEmpresa);
 
-	public List<Cliente> findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(int codEmpresa, String nome, int codEmpresa2, String nome2);
+	public List<Cliente> findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(int codEmpresa, String nome, int codEmpresa2, Long celular);
 	
 	@Query("SELECT COUNT(u) FROM Cliente u WHERE u.codEmpresa=:cod")
     public int totalClientes(@Param("cod") int codEmpresa);
 	 
 	@Query("SELECT nome, contPedidos FROM Cliente u WHERE u.codEmpresa=:cod AND u.contPedidos != 0 ORDER BY u.contPedidos DESC")
 	public List<String> top10Clientes(@Param("cod") int codEmpresa);
+
 }

@@ -78,7 +78,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/numeroCliente/{celular}")
 	@ResponseBody
-	public Cliente buscarCliente(@PathVariable String celular) {
+	public Cliente buscarCliente(@PathVariable Long celular) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -137,7 +137,7 @@ public class NovoPedidoController {
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
 			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
 			
-			if(pedido.getCelular() != null) {//se for cliente cadastrado
+			if(pedido.getCelular() != 0) {//se for cliente cadastrado
 				Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
 				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
 			}

@@ -32,7 +32,7 @@ public class Empresa extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String celular;
 	
-	private double horaExtra = 1;
+	private float horaExtra = 1;
 	private int mesa;
 	private String funcionamento;
 	
@@ -41,7 +41,6 @@ public class Empresa extends AbstractEntity<Long>{
 	private String texto1;
 	private String texto2;
 	private boolean imprimir;
-	private boolean impressoraOnline;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;

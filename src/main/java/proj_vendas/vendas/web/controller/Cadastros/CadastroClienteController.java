@@ -59,11 +59,10 @@ public class CadastroClienteController {
 
 	@RequestMapping(value = "/buscarCelular/{celular}/{id}")
 	@ResponseBody
-	public Cliente buscarCelular(@PathVariable String celular, @PathVariable long id) {
+	public Cliente buscarCelular(@PathVariable Long celular, @PathVariable long id) {
 
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		Cliente busca = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 
 		if(busca != null && id != -2) {

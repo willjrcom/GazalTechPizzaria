@@ -29,8 +29,8 @@ public class Salario extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String logData;
 	private int horas = 0;
-	private double gastos = 0;
-	private double pago = 0;
+	private float gastos = 0;
+	private float pago = 0;
 	
 	@Column(nullable=false)
 	private int codEmpresa;

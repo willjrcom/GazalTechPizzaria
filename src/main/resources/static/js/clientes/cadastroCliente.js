@@ -1,8 +1,7 @@
 var cliente = {};
 var url_atual = window.location.href;
 
-var celular = url_atual.split("/")[4];
-celular = parseInt(celular);
+var celular = parseInt(url_atual.split("/")[4]);
 url_atual = url_atual.split("/")[5];
 
 if(celular % 2 == 1 || celular % 2 == 0) $("#cel").val(celular);
@@ -52,7 +51,7 @@ if(typeof url_atual != "undefined") {
 function setCliente() {
 	cliente.id = $("#id").val();
 	cliente.nome = $("#nome").val();
-	cliente.celular = $("#cel").cleanVal();
+	cliente.celular = Number($("#cel").cleanVal());
 	cliente.cpf = $("#cpf").val();
 	cliente.contPedidos = $("#contPedidos").val();
 	cliente.dataCadastro = $("#dataCadastro").val();
@@ -66,7 +65,7 @@ function setCliente() {
 	cliente.endereco.bairro = $("#bairro").val();
 	cliente.endereco.cidade = $("#cidade").val();
 	cliente.endereco.referencia = $("#referencia").val();
-	cliente.endereco.taxa = $("#taxa").val();
+	cliente.endereco.taxa = Number($("#taxa").val());
 	if(cliente.endereco.taxa == '') cliente.endereco.taxa = 0;
 }
 
@@ -100,7 +99,7 @@ $("#enviar").click(function() {
 		            action: function(){
 						
 						carregarLoading("block");
-						
+						console.log(cliente)
 						$.ajax({
 							url: "/cadastroCliente/cadastrar",
 							type: 'PUT',

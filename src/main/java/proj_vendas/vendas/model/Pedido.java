@@ -21,7 +21,7 @@ public class Pedido extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String nome;
-	private String celular;
+	private Long celular;
 	private String endereco;
 	@Lob
 	private String pizzas;
@@ -37,15 +37,16 @@ public class Pedido extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String envio;
 	private String pagamento;
-	private double taxa = 0;
-	private double total = 0;
-	private double troco = 0;
-	private double servico = 0;
-
 	private String obs;
 	private String horaPedido;
 	private String data;
 	private String cupom;
+	
+	private float taxa = 0;
+	private float total = 0;
+	private float troco = 0;
+	private float servico = 0;
+
 	
 	@Column(nullable=false)
 	private int codEmpresa;

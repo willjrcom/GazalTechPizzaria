@@ -46,7 +46,7 @@ public class PagamentoController {
 				.getAuthentication().getPrincipal()).getUsername());
 
 		DecimalFormat decimal = new DecimalFormat("0.00");
-		double horaExtra = empresas.findByCodEmpresa(user.getCodEmpresa()).getHoraExtra();
+		float horaExtra = empresas.findByCodEmpresa(user.getCodEmpresa()).getHoraExtra();
 		
 		ModelAndView mv = new ModelAndView("pagamento");
 		mv.addObject("horaExtra", decimal.format(horaExtra));

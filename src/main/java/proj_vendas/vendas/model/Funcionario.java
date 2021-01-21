@@ -35,6 +35,7 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	
 	private String celular;
+	
 	@Column(nullable=false)
 	private String cargo;
 	

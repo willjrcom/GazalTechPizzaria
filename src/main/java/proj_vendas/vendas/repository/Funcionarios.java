@@ -20,7 +20,7 @@ public interface Funcionarios extends JpaRepository<Funcionario, Long>{
 	
 	public List<Funcionario> findByCodEmpresa(int codEmpresa);
 
-	public List<Funcionario> findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(int codEmpresa, String nome, int codEmpresa2, String nome2);
+	public List<Funcionario> findByCodEmpresaAndNomeContainingOrCodEmpresaAndCelular(int codEmpresa, String nome, int codEmpresa2, String celular);
 
 	@Query("SELECT COUNT(u) FROM Funcionario u WHERE u.codEmpresa=:cod")
     public int totalFuncionarios(@Param("cod") int codEmpresa);
