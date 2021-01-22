@@ -32,20 +32,13 @@ public class EmpresaController {
 	
 	@RequestMapping(value = "/empresa/atualizar")
 	@ResponseBody
-	public Empresa salvar(@RequestBody Empresa empresa) {
+	public Usuario salvar(@RequestBody Empresa empresa) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-				
-		if(empresas.findByCodEmpresa(user.getCodEmpresa()) == null) {
-			empresa.setCodEmpresa(user.getCodEmpresa());
-			
-			return empresas.save(empresa);
-		}else {
-			Empresa e1 = empresas.findByCodEmpresa(user.getCodEmpresa());
-			empresa.setId(e1.getId());
-			
-			return empresas.save(empresa);
-		}
+		empresa.setCodEmpresa(user.getCodEmpresa());
+		user.setEmpresa(empresa);
+		return usuarios.save(user);
+	
 	}
 	
 	@RequestMapping(value = "/empresa/editar")

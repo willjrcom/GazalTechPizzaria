@@ -1,11 +1,11 @@
 var codigo;
-var dados = {}, usuarios = {};
+var [dados, usuarios] = [{}, {}];
 var email, senha, confirmar;
-var opSenha = 0; //-1 nao alterar, 0 alterar
+var [opSenha, confEmail] = [0, 0]; //-1 nao alterar, 0 alterar
 
 //linhas---------------------------------------------------------------------------
-var pedidoVazio = '<tr><td colspan="5">Nenhum usuário encontrado!</td></tr>';
-var linhaCinza = '<tr id="linhaCinza"><td colspan="5" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="6">Nenhum usuário encontrado!</td></tr>';
+var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList"></td></tr>';
 
 //---------------------------------------------------------------------------------
 carregarLoading("block");
@@ -23,6 +23,7 @@ $.ajax({
 		for(usuario of usuarios) {
 			usuarioHtml += '<tr>'
 							+'<td align="center">' + usuario.codEmpresa + '</td>'
+							+'<td align="center">' + (usuario.empresa == null ? '' : usuario.empresa.nomeEstabelecimento) + '</td>'
 							+'<td align="center">' + usuario.email + '</td>'
 							+'<td align="center">' + usuario.perfil + '</td>';
 			
@@ -57,6 +58,7 @@ $('#email').on('blur', function(){// Método para consultar o Usuario
 		}).done(function(event){
 	
 			if(event.length != 0 && event != '' && event.id != -1) {
+				confEmail = 1;
 				$("#avisoUsuario").show().css({
 					'color': 'red'
 				});
@@ -65,6 +67,7 @@ $('#email').on('blur', function(){// Método para consultar o Usuario
 				});
 				$("#criar").hide();
 			}else {
+				confEmail = 0;
 				$("#avisoUsuario").hide();
 				$("#criar").show();
 				$("#email").css({
@@ -136,6 +139,7 @@ $("#criar").click(function(){
 	dados.perfil = $("#perfil").val();
 	dados.ativo = $("#ativo").val();
 	dados.codEmpresa = $("#codEmpresa").val();
+	 
 	var textoEnviado;
 	
 	if(opSenha == 0) {
@@ -148,45 +152,65 @@ $("#criar").click(function(){
 		textoEnviado = 'Usuário atualizado!';
 	}
 
-if(dados.senha === confirmar && dados.senha != '' && dados.email != '') {
-	carregarLoading("block");
-	
-	$.ajax({
-		url:'/dev/dev/criar',
-		type:'POST',
-		dataType : 'json',
-		contentType: "application/json",
-		data: JSON.stringify(dados)
-	}).done(function(){
-		carregarLoading("none");
-		$.alert({
-			type: 'blue',
-			title: 'Sucesso',
-			content: textoEnviado,
-			buttons: {
+	if(dados.senha === confirmar && dados.senha != '' && dados.email != '' && confEmail == 0) {
+		
+		$.confirm({
+			type: 'green',
+			title: 'Salvar',
+			content: 'Continuar?',
+			buttons:{
 				confirm:{
-					text:'Dev',
+					text: 'Sim',
 					btnClass: 'btn-success',
-					keys: ['enter', 'esc'],
+					keys: ['enter'],
 					action: function(){
-						window.location.href = "/dev/dev";
+						carregarLoading("block");
+						
+						$.ajax({
+							url:'/dev/dev/criar',
+							type:'POST',
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(dados)
+						}).done(function(){
+							carregarLoading("none");
+							$.alert({
+								type: 'blue',
+								title: 'Sucesso',
+								content: textoEnviado,
+								buttons: {
+									confirm:{
+										text:'Dev',
+										btnClass: 'btn-success',
+										keys: ['enter', 'esc'],
+										action: function(){
+											window.location.href = "/dev/dev";
+										}
+									}
+								}
+							});
+						}).fail(function(){
+							$.alert("Falhou");
+						});
 					}
+				},
+				cancel:{
+					text: 'Não',
+					btnClass: 'btn-danger',
+					keys: ['esc']
 				}
 			}
 		});
-	}).fail(function(){
-		$.alert("Falhou");
-	})
-}else {
-	$.alert({
-		type:'red',
-		title:'Ops...',
-		content:'Digite os dados corretamente!',
-		buttons:{
-			confirm:{
-				text:'Voltar',
-				btnClass:'btn-danger',
-				keys:['esc','enter']
+	}else {
+		$.alert({
+			type:'red',
+			title:'Ops...',
+			content:'Digite os dados corretamente!',
+			buttons:{
+				confirm:{
+					text:'Voltar',
+					btnClass:'btn-danger',
+					keys:['esc','enter']
 				}
 			}
 		});

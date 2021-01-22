@@ -1,7 +1,9 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -29,4 +31,7 @@ public class Usuario extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private int codEmpresa;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Empresa empresa;
 }

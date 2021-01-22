@@ -1,12 +1,13 @@
 var dados = {};
 
 if(document.referrer.split("/")[3] == "index") {//acessar pagina anterior
-	var tela = $.alert({type: "blue", title: "Carregando", content: "Carregando data atual..."});
-	tela.open();
+	//var tela = $.alert({type: "blue", title: "Carregando", content: "Carregando data atual..."});
+	//tela.open();
+	carregarLoading("block");
 	$.ajax({
 		url: "/menu/login"
 	}).done(function(){
-		tela.close();
+		carregarLoading("none");
 		verData();
 	});
 }

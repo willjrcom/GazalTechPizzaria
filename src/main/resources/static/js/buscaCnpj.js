@@ -13,18 +13,35 @@ $('#buscarCnpj').on('click', function(){
 			contentType: "application/json",
 			
 		}).done(function(e){
-			//empresa
-			$("#empresa").val(e.nome);
-			$("#estabelecimento").val(e.fantasia);
-			$("#cel").val(e.telefone);
-			
-			//endereco
-			$("#cep").val(e.cep.replace("-","").replace(".",""));
-			$("#rua").val(e.logradouro);
-			$("#n").val(e.numero);
-			$("#bairro").val(e.bairro);
-			$("#cidade").val(e.municipio);
-			$("#email").val(e.email);
+			console.log(e)
+			if(e.status !== 'ERROR'){
+				//empresa
+				$("#empresa").val(e.nome);
+				$("#estabelecimento").val(e.fantasia);
+				$("#cel").val(e.telefone);
+				
+				//endereco
+				$("#cep").val(e.cep.replace("-","").replace(".",""));
+				$("#rua").val(e.logradouro);
+				$("#n").val(e.numero);
+				$("#bairro").val(e.bairro);
+				$("#cidade").val(e.municipio);
+				$("#email").val(e.email);
+			}else{
+				carregarLoading("none");
+				$.alert({
+					type: 'orange',
+					title: 'OPS...',
+					content: e.message,
+					buttons:{
+						confirm:{
+							text: 'Voltar',
+							btnClass: 'btn-warning',
+							keys: ['enter', 'esc']
+						}
+					}
+				});
+			}
 			
 			carregarLoading("none");
 		}).fail(function(){

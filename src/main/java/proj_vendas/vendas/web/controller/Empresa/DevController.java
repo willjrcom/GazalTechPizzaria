@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -21,6 +23,9 @@ public class DevController {
 	
 	@Autowired
 	private Usuarios usuarios;
+	
+	@Autowired
+	private Empresas empresas;
 	
 	@GetMapping("/dev")
 	public ModelAndView tela() {
@@ -35,6 +40,12 @@ public class DevController {
 		}else {
 			usuario.setSenha(new BCryptPasswordEncoder().encode(usuario.getSenha()));
 		}
+		
+		Empresa empresa = null;
+		try {
+			empresa = empresas.findByCodEmpresa(usuario.getCodEmpresa());
+			usuario.setEmpresa(empresa);
+		}catch(Exception e) {}
 		
 		return usuarios.save(usuario);
 	}

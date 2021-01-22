@@ -79,27 +79,45 @@ public class MenuController {
 		
 		try {
 			try {
+				//setar dia--------------------------------------------------------------------------------------------
 				dia = dias.findByCodEmpresa(user.getCodEmpresa());
-				
+				dia.setDia(format.format(new Date()));
+
+				//dados--------------------------------------------------------------------------------------------------
+				try {
+					dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia.getDia());//busca no banco de dados
+					mv.addObject("troco", dado.getTrocoInicio());
+					
+				}catch(Exception e) {
+					dado = new Dado();
+					dado.setCodEmpresa(user.getCodEmpresa());
+					dado.setData(format.format(new Date()));
+					dado.setTrocoInicio(0);
+					dados.save(dado);	
+
+					mv.addObject("troco", dado.getTrocoInicio());
+				}
 			}catch(Exception e) {
+				//criar e setar-----------------------------------------------------------------------------------------
 				dia = new Dia();
 				dia.setCodEmpresa(user.getCodEmpresa());
 				dia.setDia(format.format(new Date()));
 				dias.save(dia);
-			}
-			
-			try {
-				dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia.getDia());//busca no banco de dados
-				mv.addObject("troco", dado.getTrocoInicio());
 				
-			}catch(Exception e) {
-				dado = new Dado();
-				dado.setCodEmpresa(user.getCodEmpresa());
-				dado.setData(format.format(new Date()));
-				dado.setTrocoInicio(0);
-				dados.save(dado);	
+				//dados--------------------------------------------------------------------------------------------------
+				try {
+					dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia.getDia());//busca no banco de dados
+					mv.addObject("troco", dado.getTrocoInicio());
+					
+				}catch(Exception e1) {
+					dado = new Dado();
+					dado.setCodEmpresa(user.getCodEmpresa());
+					dado.setData(format.format(new Date()));
+					dado.setTrocoInicio(0);
+					dados.save(dado);	
 
-				mv.addObject("troco", dado.getTrocoInicio());
+					mv.addObject("troco", dado.getTrocoInicio());
+				}
 			}
 		}catch(Exception e) {
 			mv.addObject("troco", 0);
@@ -114,70 +132,87 @@ public class MenuController {
 	@RequestMapping("/login")
 	@ResponseBody
 	public void login() {
+		
+		//acessar o dia atual a cada login
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 
 		LocalDate diaAtual = LocalDate.now(); // Create a date object
 		String dia = diaAtual.toString();
 	    
-		//alterar a tabela dados
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
-		
-		if(dado == null) {//verifica se ja existe
+		Dado dado = null;
+		Dia data = null;
+
+		//cria e seleciona um novo dados
+		try{
+			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
+		}catch(Exception e) {
 			dado = new Dado();
+			dado.setCodEmpresa(user.getCodEmpresa());
+			dado.setData(dia);//seta a data atual
 		}
-		dado.setCodEmpresa(user.getCodEmpresa());
-		dado.setData(dia);//seta a data atual
 		
-		//alterar a tabela dia
-		Dia data = dias.findByCodEmpresa(user.getCodEmpresa());
-		
-		if(data == null) {//verifica se dia existe
-			data = new Dia();
-		}
-		data.setCodEmpresa(user.getCodEmpresa());
-		data.setDia(dia);//seta dia
+		//seta um novo dia
+		 try{
+			 data = dias.findByCodEmpresa(user.getCodEmpresa());
+		 }catch(Exception e) {
+			 data = new Dia();
+		 }
+		 data.setCodEmpresa(user.getCodEmpresa());
+		 data.setDia(dia);//seta dia
 		
 		//salvar dados
 		dias.save(data);//salva o dia
 		dados.save(dado);//salva a data
 	}
 	
+	
 	@RequestMapping(value = "/verificarData/{dia}")
 	@ResponseBody
 	public Dado alterarData(@PathVariable String dia) {
+		
+		//alterar data de acesso
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		Dado dado1 = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		Dado dado = null;
+		Dia data = null;
 		
-		if(dado1 != null) {//se ja existir
-			Dia data = dias.findByCodEmpresa(user.getCodEmpresa());
+		try {//se existir
+			
+			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+			
+			//setar a tabela dia
+			try{
+				data = dias.findByCodEmpresa(user.getCodEmpresa());
+			}catch(Exception e1) {
+				data = new Dia();
+			}
+			
 			data.setDia(dia);
 			data.setCodEmpresa(user.getCodEmpresa());
-			dias.save(data);
-			return dado1;
 			
-		}else {//se nao existir
-			//alterar a tabela dados
-			Dado dado = new Dado();
+		}catch(Exception e) {//se nao existir
+			
+			//criar a tabela dados
+			dado = new Dado();
 			dado.setCodEmpresa(user.getCodEmpresa());
 			dado.setData(dia);
 			
-			//alterar a tabela dia
-			Dia data = dias.findByCodEmpresa(user.getCodEmpresa());
-			
-			if(data == null) {
+			//setar a tabela dia
+			try{
+				data = dias.findByCodEmpresa(user.getCodEmpresa());
+			}catch(Exception e1) {
 				data = new Dia();
 			}
+			
 			data.setDia(dia);
 			data.setCodEmpresa(user.getCodEmpresa());
-			
-			//salvar dados
-			dias.save(data);
-			
-			return dados.save(dado);
 		}
+		
+		//salvar bancos
+		dias.save(data);
+		return dado;
 	}
 	
 	@RequestMapping(value = "/troco/{trocoInicial}")
@@ -185,8 +220,7 @@ public class MenuController {
 	public int buscarId(@PathVariable float trocoInicial) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
 		dado.setTrocoInicio(trocoInicial);
 		dados.save(dado);
 		

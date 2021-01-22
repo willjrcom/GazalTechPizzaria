@@ -25,9 +25,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="row">
 			<div class="col-md-8">
 				<label>E-mail: <span class="alertOpcional">*</span></label><br>
-				<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
+				<div class="input-group mb-3">
+					<span class="input-group-text">@</span>
+					<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
+				</div>
 			</div>
-			
 			<div class="col-md-4">
 				<label >Data de nascimento: <span class="alertOpcional">*</span></label><br>
 				<input type="date" class="form-control pula" id="nascimento" name="nascimento" placeholder="dd/mm/aaaa"/>
@@ -86,7 +88,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="row">
 			<div class="col-md-2">
 		        <label>CEP</label><br>
-      			<input type="text" class="form-control pula" id="cep" maxlength="12" name="endereco.cep" placeholder="Informe o CEP">
+      			<input type="text" class="form-control pula" id="cep" maxlength="12" name="endereco.cep" placeholder="00000000">
 	  		</div>
 	  		
 	  		<div class="col-md-8">
@@ -95,7 +97,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	  		</div>
 	  		<div class="col-md-2">
 		       <label>Nº <span class="alertOpcional">*</span></label><br>
-      		   <input type="text" class="form-control pula" id="n" name="n" placeholder="Informe o Número">
+      		   <input type="number" class="form-control pula" id="n" name="n" placeholder="123">
 	  		</div>
 		</div>
 		
