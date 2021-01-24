@@ -1,4 +1,53 @@
-var url1 = "https://ws.sandbox.pagseguro.uol.com.br/pre-approvals/request/"; //recorrente
+var linhaHtml = '';
+var linhaCinza = '<tr><td colspan="3" class="fundoList" ></td></tr>';
+var pedidoVazio = '<tr><td colspan="3">Nenhuma mensalidade disponível!</td></tr>';
+
+/*
+$.ajax({
+	url: '/adm/mensalidade/cadastrar',
+	type: 'POST',
+	dataType : 'json',
+	contentType: "application/json",
+	data: JSON.stringify(pagamento)
+}).done(pagamentos => {
+	console.log(pagamentos)
+});
+*/
+$.ajax({
+	url: '/adm/mensalidade/mensalidades',
+	type: 'GET'
+}).done(pagamentos => {
+	linhaHtml = '';
+	
+	for(pagamento of pagamentos){
+		linhaHtml += '<tr>'
+					+ '<td>' + pagamento.data.split("T")[0] + '</td>'
+					+ '<td>R$ ' + Number(pagamento.valor) + '</td>'
+					+ '<td>' + pagamento.log + '</td>'
+				+ '</tr>' + linhaCinza;
+	}
+	
+	$("#mensalidades").html(linhaHtml);
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*var url1 = "https://ws.sandbox.pagseguro.uol.com.br/pre-approvals/request/"; //recorrente
 var url2 = "https://ws.pagseguro.uol.com.br/recurring-payment/boletos"; //boleto
 var url3 = "https://ws.pagseguro.uol.com.br/v2/sessions"; //check transparente
 var email = "williamjunior67@gmail.com";
@@ -41,4 +90,4 @@ var dados = {
 	            "state": "SP"
 	        }
 	    }
-	}
+	}*/

@@ -14,29 +14,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Mensalidade</h1><br>
 		<br>
 		
-		<div class="row">
-			<div class="col-md-6">
-				<label>Pagamento recorrente</label><br>
-				<!-- INICIO FORMULARIO BOTAO PAGSEGURO: NAO EDITE OS COMANDOS DAS LINHAS ABAIXO -->
-				<form action="https://pagseguro.uol.com.br/pre-approvals/request.html" method="post">
-					<input type="hidden" name="code" value="CEF744F73838224334960FBE65D4777A" />
-					<input type="hidden" name="iot" value="button" />
-					<input type="image" src="https://stc.pagseguro.uol.com.br/public/img/botoes/assinaturas/209x48-assinar-assina.gif" name="submit" alt="Pague com PagSeguro - É rápido, grátis e seguro!" width="209" height="48" />
-				</form>
-				<!-- FINAL FORMULARIO BOTAO PAGSEGURO -->
-			</div>
-			
-			<div class="col-md-6">
-				<label>Pagamento mensal</label><br>
-				<!-- INICIO DO BOTAO PAGSEGURO -->
-				<a href="https://pag.ae/7WDiPgmGa/button" target="_blank" title="Pagar com PagSeguro">
-					<img src="//assets.pagseguro.com.br/ps-integration-assets/botoes/pagamentos/205x30-pagar.gif" alt="Pague com PagSeguro - é rápido, grátis e seguro!" />
-				</a><!-- FIM DO BOTAO PAGSEGURO -->
-			</div>
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center col-md-1"><h3>Data</h3></th>
+						<th class="text-center col-md-1"><h3>Mensalidade paga</h3></th>
+						<th class="text-center col-md-1"><h3>Registro</h3></th>
+					</tr>
+				</thead>
+				
+				<tbody id="mensalidades"><tr><td colspan="3">Nenhuma mensalidade disponível!</td></tr></tbody>
+			</table>
 		</div>
-		<!-- 
-		<button onclick="gerarBoleto()" class="btn btn-success">Gerar boleto</button>
-		<button onclick="gerarCartao()" class="btn btn-success">Gerar Cartao</button> -->
 	</div>
 	
 	<br>

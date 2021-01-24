@@ -22,7 +22,7 @@ public class Pagamento extends AbstractEntity<Long>{
 	private String log;
 
 	@Column(nullable=false)
-	private float mensalidade;
+	private float valor;
 	
 	@Column(nullable=false)
 	private String data;

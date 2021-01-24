@@ -1,8 +1,11 @@
 package proj_vendas.vendas.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -45,6 +48,9 @@ public class Empresa extends AbstractEntity<Long>{
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Pagamento> pagamento;
+	
 	@Column(nullable=false)
 	private int codEmpresa;
 }
