@@ -6,10 +6,9 @@ var dado = {};
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="7" class="fundoList"></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
-var Tpedido = 0;
-var Tpizzas = 0;
+var [Tpedido, Tpizzas] = [0, 0];
 var verificarTroco = 0;
-
+var valorCupom;
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");
@@ -75,6 +74,10 @@ function finalizarPedido() {
 	}
 	Tpizzas += dado.totalProduto;
 	
+	try{
+		 valorCupom = Number(pedidos[idBusca].cupom.replace(",", ".").replace("%", "").replace("R$",""));
+	}catch(Exception){}
+	
 	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
 		linhaHtml = '<table style="width:100%">'
@@ -113,14 +116,15 @@ function finalizarPedido() {
 	
 	if(pedidos[idBusca].envio == "ENTREGA"){
 		linhaHtml += '<br><b>Total do Pedido com taxa:</b> R$ ' 
-						+ (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
-						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2)
+						+ (Number(pedidos[idBusca].total) 
+							+ ((pedidos[idBusca].taxa == null) 
+								? Number(0) 
+								: Number(pedidos[idBusca].taxa))).toFixed(2)
 					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco
 					+ '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy;
 	} else{
 		linhaHtml += '<br><b>Total do Pedido:</b> R$' 
-				+ (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
-						? Number(0) : Number(pedidos[idBusca].taxa))).toFixed(2)
+				+ Number(pedidos[idBusca].total).toFixed(2)
 	}
 	if(pedidos[idBusca].pagamento == "Não") 
 				
