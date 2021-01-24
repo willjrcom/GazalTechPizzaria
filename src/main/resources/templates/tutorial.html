@@ -113,17 +113,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					
 					<div id="tabs-6">
 						<p class="lead">Ao fim do turno, você pode finalizar o caixa e receber o relatório de vendas do dia.</p>
-						<a th:href="@{/novoPedido}"><button class="btn btn-primary">Fechamento</button></a>
+						<a th:href="@{/adm/fechamento}"><button class="btn btn-primary">Fechamento</button></a>
 					</div>
 					
 					<div id="tabs-7">
 						<p class="lead">Veja todos pedidos finalizados com sucesso!</p>
-						<a th:href="@{/cozinha}"><button class="btn btn-primary">Relatório do dia</button></a>
+						<a th:href="@{/adm/relatoriodia}"><button class="btn btn-primary">Relatório do dia</button></a>
 					</div>
 					
 				  	<div id="tabs-8">
 						<p class="lead">Veja todos pedidos cancelados.</p>
-						<a th:href="@{/statusCliente}"><button class="btn btn-primary">Pedidos cancelados</button></a>
+						<a th:href="@{/adm/pedidosExcluidos}"><button class="btn btn-primary">Pedidos cancelados</button></a>
 					</div>
 				</div>
 			</div>
@@ -141,22 +141,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					
 					<div id="tabs-10">
 						<p class="lead">Liste todos funcionários cadastrados aqui.</p>
-						<a th:href="@{/cozinha}"><button class="btn btn-primary">Clientes cadastrados</button></a>
+						<a th:href="@{/clientesCadastrados}"><button class="btn btn-primary">Clientes cadastrados</button></a>
 					</div>
 					
 				  	<div id="tabs-11">
 				    	<p class="lead">Cadastre seus clientes.</p>
-						<a th:href="@{/statusCliente}"><button class="btn btn-primary">Cadastrar clientes</button></a>
+						<a th:href="@{/cadastroCliente}"><button class="btn btn-primary">Cadastrar clientes</button></a>
 					</div>
 					
 				  	<div id="tabs-12">
 				    	<p class="lead">Liste todos funcionários cadastrados aqui.</p>
-						<a th:href="@{/statusCliente}"><button class="btn btn-primary">Produtos cadastrados</button></a>
+						<a th:href="@{/produtosCadastrados}"><button class="btn btn-primary">Produtos cadastrados</button></a>
 					</div>
 					
 				  	<div id="tabs-13">
 				    	<p class="lead">Cadastre seus produtos.</p>
-						<a th:href="@{/statusCliente}"><button class="btn btn-primary">Cadastrar produtos</button></a>
+						<a th:href="@{/cadastroProduto}"><button class="btn btn-primary">Cadastrar produtos</button></a>
 					</div>
 				</div>
 			</div>
