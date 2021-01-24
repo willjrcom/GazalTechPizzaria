@@ -17,6 +17,9 @@ public class Cupom extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String nome;
+
+	@Column(nullable=false)
+	private String descricao;
 	
 	@Column(nullable=false)
 	private String tipo;

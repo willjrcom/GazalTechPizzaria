@@ -24,7 +24,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<label><b>Desconto:</b></label>
 				
 				<div class="input-group mb-3">
-				  <select class="form-control" id="tipo">
+				  <select class="form-control pula" id="tipo">
 						<option value="%">%</option>
 						<option value="R$">R$</option>
 					</select>
@@ -35,11 +35,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<div class="col-md-4">
 				<label><b>Data de validade:</b></label>
-				<input type="date" class="form-control pula" id="validade" placeholder="Digite o nome do cupom" autofocus/>
+				<input type="date" class="form-control pula" id="validade" placeholder="Digite o nome do cupom" />
 			</div>
 		</div>
-		<br>
+
+		<div class="col">
+			<label><b>Descrição:</b></label>
+			<input class="form-control pula" id="descricao" placeholder="Exemplo: Compre 2 pizzas e ganhe R$ 10,00 de desconto" />
+		</div>
 		
+		<br>
 		<button class="btn btn-success fRight pula" onclick="salvar()">Cadastrar cupom</button>
 	</div>
 	
@@ -50,6 +55,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<thead>
 					<tr>
 						<th class="text-center col-md-1"><h4>Cupom</h4></th>
+						<th class="text-center col-md-1"><h4>Descrição</h4></th>
 						<th class="text-center col-md-1"><h4>Desconto</h4></th>
 						<th class="text-center col-md-1"><h4>Validade</h4></th>
 						<th class="text-center col-md-1"></th>

@@ -2,6 +2,7 @@
 var cupom = {};
 var Tcupons = '';
 var todosCupons = [];
+var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
 
 carregarLoading("block");
 
@@ -24,7 +25,7 @@ function aviso() {
 
 //----------------------------------------------------------------
 function salvar() {
-	if($("#cupom").val() != '' && $("#desconto").val() != '' && $("#validade").val() != '') {
+	if($("#cupom").val() != '' && $("#desconto").val() != '' && $("#validade").val() != '' && $("#descricao").val() != '') {
 		
 		carregarLoading("block");
 		cupom.id = $("#id").val();
@@ -32,6 +33,7 @@ function salvar() {
 		cupom.tipo = $("#tipo").val();
 		cupom.desconto = $("#desconto").val();
 		cupom.validade = $("#validade").val();
+		cupom.descricao = $("#descricao").val();
 		
 		$.ajax({
 			url: '/adm/cupom/criar',
@@ -77,6 +79,8 @@ function salvar() {
 function salvarCupons(cupons){
 	todosCupons = cupons;
 }
+
+
 //---------------------------------------------------------------------------
 function mostrarCupons(){
 	//buscar id da data
@@ -92,13 +96,14 @@ function mostrarCupons(){
 			for(let cupom of cupons) {
 				Tcupons += '<tr>'
 							+ '<td>' + cupom.nome + '</td>'
+							+ '<td>' + cupom.descricao + '</td>'
 							+ '<td>' + ((cupom.tipo === "R$") ? cupom.tipo + " " + cupom.desconto : cupom.desconto + " " + cupom.tipo) + '</td>'
 							+ '<td>' + cupom.validade + '</td>'
 							+ '<td>'
-								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarUsuario()"><span class="oi oi-pencil"></span></button>'
+								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><span class="oi oi-pencil"></span></button>'
 								+ '&nbsp;'
 								+ '<button class="btn btn-danger" value="' + cupom.id + '" onclick="excluirCupom()"><span class="oi oi-trash"></span></button>'
-						+ '</tr>';
+						+ '</tr>' + linhaCinza;
 			}
 		}else {
 			Tcupons = '<tr><td colspan="4">Nenhum cupom cadastrado</td></tr>';
@@ -162,7 +167,7 @@ function excluirCupom() {
 
 
 //-----------------------------------------------------------------------------------------------------
-function editarUsuario() {
+function editarCupom() {
 	var botaoReceber = $(event.currentTarget);
 	var idCupom = botaoReceber.attr('value');
 
@@ -185,6 +190,7 @@ function editarUsuario() {
 							$("#tipo").val(cupom.tipo);
 							$("#desconto").val(cupom.desconto);
 							$("#validade").val(cupom.validade);
+							$("#descricao").val(cupom.descricao);
 							
 							break;
 						}
