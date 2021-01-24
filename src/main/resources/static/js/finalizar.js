@@ -207,7 +207,7 @@ function finalizarPedido() {
 						
 						//salvar dados
 						$.ajax({
-							url: "/finalizar/dados",
+							url: "/finalizar/dados/" + pedidos[idBusca].id,
 							type: "PUT",
 							dataType : 'json',
 							contentType: "application/json",

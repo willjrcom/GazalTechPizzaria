@@ -60,31 +60,51 @@ public class FinalizarController {
 
 	}
 	
-	@RequestMapping("/dados")
+	@RequestMapping("/dados/{id}")
 	@ResponseBody
-	public Dado salvarDados(@RequestBody Dado pedido) {
+	public Dado salvarDados(@RequestBody Dado pedidoDados, @PathVariable Long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
+		Pedido pedido = null;
+		try{
+			pedido = pedidos.findById(id).get();
+		}catch(Exception e) {}
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
 
-		if(pedido.getBalcao() == 1) {
+		if(pedidoDados.getBalcao() == 1) {
 			dado.setBalcao(dado.getBalcao() + 1);
-		}else if(pedido.getEntrega()== 1){
+			dado.setVenda_balcao(dado.getVenda_balcao() + pedido.getTotal());
+		}else if(pedidoDados.getEntrega() == 1){
 			dado.setEntrega(dado.getEntrega() + 1);
-		}else if(pedido.getMesa() == 1){
+			dado.setVenda_entrega(dado.getVenda_entrega() + pedido.getTotal());
+			dado.setTaxa_entrega(dado.getTaxa_entrega() + pedido.getTaxa());
+		}else if(pedidoDados.getMesa() == 1){
 			dado.setMesa(dado.getMesa() + 1);
-		}else if(pedido.getDrive() == 1){
+			dado.setVenda_mesa(dado.getVenda_mesa() + pedido.getTotal());
+		}else if(pedidoDados.getDrive() == 1){
 			dado.setDrive(dado.getDrive() + 1);
+			dado.setVenda_drive(dado.getVenda_drive() + pedido.getTotal());
 		}
 		
-		dado.setTotalLucro(dado.getTotalLucro() + pedido.getTotalLucro());
-		dado.setTotalVendas(dado.getTotalVendas() + pedido.getTotalVendas());
-		dado.setTotalPizza(dado.getTotalPizza() + pedido.getTotalPizza());
-		dado.setTotalProduto(dado.getTotalProduto() + pedido.getTotalProduto());
+		if(dado.getClientes() == null) {
+			dado.setClientes("");
+		}
+		
+		if(pedidoDados.getEntrega() == 1){
+			dado.setClientes(dado.getClientes() + "\n" + limitaString(pedido.getNome(), 20) + "     R$ " + (pedido.getTotal() + pedido.getTaxa()));
+		}else {
+			dado.setClientes(dado.getClientes() + "\n" + limitaString(pedido.getNome(), 20) + "     R$ " + pedido.getTotal());
+		}
+		
+		dado.setTotalLucro(dado.getTotalLucro() + pedidoDados.getTotalLucro());
+		dado.setTotalVendas(dado.getTotalVendas() + pedidoDados.getTotalVendas());
+		dado.setTotalPizza(dado.getTotalPizza() + pedidoDados.getTotalPizza());
+		dado.setTotalProduto(dado.getTotalProduto() + pedidoDados.getTotalProduto());
 		dado.setTotalPedidos(dado.getTotalPedidos() + 1);
 		
 		return dados.save(dado);
 	}
+	
 	
 	@RequestMapping(value = "/finalizarPedido/{id}/{ac}")
 	@ResponseBody
@@ -95,5 +115,13 @@ public class FinalizarController {
 		pedido.setAc(ac);
 		
 		return pedidos.save(pedido);
+	}
+	
+
+	public String limitaString(String texto, int limite) {
+		
+		String vazio = "                              ";
+		if(texto.length() < limite) texto += vazio;
+		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
 }
