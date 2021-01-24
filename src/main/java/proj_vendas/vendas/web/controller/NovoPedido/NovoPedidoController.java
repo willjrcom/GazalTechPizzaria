@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cliente;
+import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
@@ -24,6 +25,7 @@ import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
+import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
@@ -64,6 +66,9 @@ public class NovoPedidoController {
 	@Autowired
 	private Usuarios usuarios;
 
+	@Autowired
+	private Cupons cupons;
+	
 	@RequestMapping("/**")
 	public ModelAndView novoPedido() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -137,10 +142,13 @@ public class NovoPedidoController {
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
 			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
 			
-			if(pedido.getCelular() != 0) {//se for cliente cadastrado
-				Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
-				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
-			}
+			try {
+				if(pedido.getCelular() != 0) {//se for cliente cadastrado
+					Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
+					cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
+				}
+			}catch(Exception e) {}
+			
 			if(pedido.getEnvio().equals("MESA")) {
 				LogMesa mesa = new LogMesa();
 				mesa.setMesa(pedido.getNome());
@@ -216,5 +224,14 @@ public class NovoPedidoController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		return empresas.findByCodEmpresa(user.getCodEmpresa());
+	}
+	
+	
+	@RequestMapping("/mostrarCupons")
+	@ResponseBody
+	public List<Cupom> cupons(){
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return cupons.findByCodEmpresa(user.getCodEmpresa());
 	}
 }

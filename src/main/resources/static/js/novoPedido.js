@@ -819,8 +819,10 @@ $("#BotaoEnviarPedido").click(function() {
 
 						troco = parseFloat(troco.toString().replace(",","."));
 						
-						if(cliente.envio == "MESA")
-							servico = parseFloat(servico.toString().replace(",","."));
+						try{
+							if(cliente.envio == "MESA")
+								servico = parseFloat(servico.toString().replace(",","."));
+						}catch(e){}
 						
 						if(Number.isFinite(troco) == false) {
 							
@@ -1048,7 +1050,7 @@ function mostrarPedido(){
 					+ '</div>'
 				+ '</div>'; //row
 					
-					
+		/*
 		if(cliente.envio == 'MESA'){
 			linhaHtml += '<b>Serviços:</b>'
 						+ '<div class="input-group mb-3">'
@@ -1057,7 +1059,7 @@ function mostrarPedido(){
 						+ '</div>';
 			
 		}
-						
+		*/		
 		linhaHtml += '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea type="area" id="obs" name="obs" class="form-control" placeholder="Observação do pedido" />'
 					+ '<div>&nbsp;</div>'
