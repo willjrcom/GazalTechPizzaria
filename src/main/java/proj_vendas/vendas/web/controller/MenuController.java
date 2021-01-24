@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Endereco;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
@@ -38,6 +41,9 @@ public class MenuController {
 	
 	@Autowired
 	private Usuarios usuarios;
+	
+	@Autowired
+	private Cupons cupons;
 	
 	@RequestMapping
 	public ModelAndView tela() {
@@ -142,7 +148,8 @@ public class MenuController {
 	    
 		Dado dado = null;
 		Dia data = null;
-
+		List<Cupom> listCupom = null;
+		
 		//cria e seleciona um novo dados
 		try{
 			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
@@ -161,6 +168,22 @@ public class MenuController {
 		 data.setCodEmpresa(user.getCodEmpresa());
 		 data.setDia(dia);//seta dia
 		
+		 int cont = 0;
+		 //controlar cupons validados
+		 try {
+			 listCupom = cupons.findByCodEmpresa(user.getCodEmpresa());
+			 for(int i = 0; i < listCupom.size(); i++) {
+				 if(listCupom.get(i).getValidade().compareTo(dia) == -1) {
+					 listCupom.remove(i);
+					 cont++;
+				 }
+			 }
+			 if(cont != 0) {
+				 cupons.deleteAll();
+				 cupons.saveAll(listCupom);
+			 }
+		 }catch(Exception e) {}
+		 
 		//salvar dados
 		dias.save(data);//salva o dia
 		dados.save(dado);//salva a data

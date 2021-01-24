@@ -12,6 +12,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Cupom <button onclick="aviso()" class="btn btn-link"><span class="oi oi-question-mark"></span></button></h1>
 		
 		<hr>
+		<input type="hidden" id="id"/>
+		
 		<div class="row">
 			<div class="col-md-4">
 				<label><b>Nome:</b></label>
@@ -33,7 +35,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<div class="col-md-4">
 				<label><b>Data de validade:</b></label>
-				<input type="datetime-local" class="form-control pula" id="validade" placeholder="Digite o nome do cupom" autofocus/>
+				<input type="date" class="form-control pula" id="validade" placeholder="Digite o nome do cupom" autofocus/>
 			</div>
 		</div>
 		<br>

@@ -275,7 +275,7 @@ function editarUsuario() {
 				keys: ['esc'],
 			}
 		}
-	})
+	});
 }
 
 
