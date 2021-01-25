@@ -49,15 +49,12 @@ $.ajax({
 		
 		carregarLoading("block");
 		
-		var relatorio = $.alert({type: "blue", title: "Carregando", content: "Carregando relatorio..."});
-		relatorio.open();
-		
 		$.ajax({
 			url: '/adm/fechamento/relatorio/' + e.totalLucro + '/' + totalMotoboys.taxa,
 			type: 'GET'
 		}).done(function(){
 			carregarLoading("none");
-			relatorio.close();
+
 			$("#relatorio").attr("disabled", false);
 			relatorio = $.alert({type: "green", title: "Sucesso", content: "Sucesso!"});
 			relatorio.open();
@@ -174,7 +171,6 @@ function carregarMotoboy(){
 	}
 	
 	totalMotoboys = objsMotoboys.reduce((a, b) => a.taxa + b.taxa);
-	console.log(totalMotoboys);
 	
 	linhaBoy = '<div class="divMotoboys"><table>'
 				+'<thead>'

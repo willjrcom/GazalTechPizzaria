@@ -196,8 +196,8 @@ public class ImprimirController {
 									+ "  " 
 									+ cortaString(pedido.getPizzas()[i].getSabor()) 
 									+ "#$";
-				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "#$";
-				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas()[i].getObs(), 30) + "#$";
+				if (pedido.getPizzas()[i].getBorda() != "") impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 40) + "#$";
+				if (pedido.getPizzas()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas()[i].getObs(), 40) + "#$";
 				impressaoCompleta += "#$";
 			}
 		}
@@ -235,7 +235,7 @@ public class ImprimirController {
 									+ "  " 
 									+ cortaString(pedido.getProdutos()[i].getSabor()) 
 									+ "#$";
-				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos()[i].getObs(), 30) + "#$";
+				if (pedido.getProdutos()[i].getObs() != "") impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos()[i].getObs(), 40) + "#$";
 				impressaoCompleta += "#$";
 			}
 		}

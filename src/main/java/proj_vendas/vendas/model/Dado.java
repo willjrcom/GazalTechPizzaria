@@ -32,9 +32,12 @@ public class Dado extends AbstractEntity<Long> {
 	private float trocoFinal = 0;
 
 	private int comanda = 0;
+	
 	private int totalPedidos = 0;
 	private int totalPizza = 0;
 	private int totalProduto = 0;
+	
+	
 	private int entrega = 0;
 	private int balcao = 0;
 	private int mesa = 0;

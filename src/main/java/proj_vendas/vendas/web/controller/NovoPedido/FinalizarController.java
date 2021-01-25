@@ -87,13 +87,13 @@ public class FinalizarController {
 		}
 		
 		if(dado.getClientes() == null) {
-			dado.setClientes("");
+			dado.setClientes(limitaString("PEDIDO", 20) + "     TOTAL");
 		}
 		
 		if(pedidoDados.getEntrega() == 1){
-			dado.setClientes(dado.getClientes() + "\n" + limitaString(pedido.getNome(), 20) + "     R$ " + (pedido.getTotal() + pedido.getTaxa()));
+			dado.setClientes(dado.getClientes() + "#$" + limitaString(pedido.getNome(), 20) + "     R$ " + (pedido.getTotal() + pedido.getTaxa()));
 		}else {
-			dado.setClientes(dado.getClientes() + "\n" + limitaString(pedido.getNome(), 20) + "     R$ " + pedido.getTotal());
+			dado.setClientes(dado.getClientes() + "#$" + limitaString(pedido.getNome(), 20) + "     R$ " + pedido.getTotal());
 		}
 		
 		dado.setTotalLucro(dado.getTotalLucro() + pedidoDados.getTotalLucro());

@@ -166,7 +166,6 @@ function enviarPedido() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
-	imprimir(pedidos[idBusca]);
 			
 	$.confirm({
 		icon: 'fa fa-spinner fa-spin',
@@ -179,6 +178,7 @@ function enviarPedido() {
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
+					imprimir(pedidos[idBusca]);
 					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 
 					$.ajax({
@@ -230,7 +230,7 @@ function imprimir(cliente) {
     mes = (mes.length == 1) ? '0'+mes : mes;
     ano = data.getFullYear();
 			
-	var impressaoPedido = e;
+	var impressaoPedido = cliente;
 	impressaoPedido.setor = "C";
 
 	//salvar hora

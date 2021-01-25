@@ -283,6 +283,25 @@ table tbody tr td{
 	max-height: 30vh;
 }
 
+.raio20{
+	border-radius: 20px;
+}
+.raio20leftBottom{
+	border-bottom-left-radius: 20px;
+}
+
+.raio20RightBottom{
+	border-bottom-right-radius: 20px;
+}
+
+.raio20leftTop{
+	border-top-left-radius: 20px;
+}
+
+.raio20RightTop{
+	border-top-right-radius: 20px;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;

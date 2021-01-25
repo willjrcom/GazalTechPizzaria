@@ -121,8 +121,6 @@ public class FechamentoController {
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		int entrega = 0, balcao = 0, mesa = 0, drive = 0;
-		float total = 0, tEntrega = 0, tBalcao = 0, tMesa = 0, tDrive = 0;
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
@@ -131,28 +129,9 @@ public class FechamentoController {
 							+ "CNPJ: " + empresa.getCnpj() +          "#$"
 							+ "----------------------------------------#$"
 							+ "               RELATORIO                #$"
-							+ "Data: " + format.format(new Date()) +  "#$";
-
-		for(int i = 0; i<pedido.size(); i++) {
-			total += pedido.get(i).getTotal();
-			if(pedido.get(i).getEnvio().equals("ENTREGA")){
-				tEntrega += pedido.get(i).getTotal();
-				entrega++;
-			}
-			if(pedido.get(i).getEnvio().equals("MESA")){
-				tMesa += pedido.get(i).getTotal();
-				mesa++;
-			}
-			if(pedido.get(i).getEnvio().equals("BALCAO")){
-				tBalcao += pedido.get(i).getTotal();
-				balcao++;
-			}
-			if(pedido.get(i).getEnvio().equals("DRIVE")){
-				tDrive += pedido.get(i).getTotal();
-				drive++;
-			}
-		}
-		
+							+ "Data: " + format.format(new Date()) +  "#$"
+							+ "----------------------------------------#$"
+							+ dado.getClientes() + "#$";
 		if(pedido.size() != 0) {
 			int cont = 0;
 			for(int i = 0; i<pedido.size(); i++) {
@@ -167,7 +146,7 @@ public class FechamentoController {
 										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "#$\t\tTotal: " + entrega + "#$";
+					impressaoCompleta += "#$\t\tTotal: " + dado.getEntrega() + "#$";
 				}
 			}
 			
@@ -185,7 +164,7 @@ public class FechamentoController {
 										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "#$\t\tTotal: " + balcao + "#$";
+					impressaoCompleta += "#$\t\tTotal: " + dado.getBalcao() + "#$";
 				}
 			}
 
@@ -203,7 +182,7 @@ public class FechamentoController {
 										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "#$\t\tTotal: " + mesa + "#$";
+					impressaoCompleta += "#$\t\tTotal: " + dado.getMesa() + "#$";
 				}
 			}
 			
@@ -221,7 +200,7 @@ public class FechamentoController {
 										+ "\t\tR$ " + decimal.format(pedido.get(i).getTotal()) + "#$";
 				}
 				if(cont != 0 && i+1 == pedido.size()) {
-					impressaoCompleta += "#$\t\tTotal: " + drive + "#$";
+					impressaoCompleta += "#$\t\tTotal: " + dado.getDrive() + "#$";
 				}
 			}
 		}
@@ -232,14 +211,13 @@ public class FechamentoController {
 						   + "TROCO FINAL   \t\tR$ " + decimal.format(dado.getTrocoFinal()) + "#$"
 						   + "TAXAS PAGAS   \t\tR$ " + decimal.format(taxas) + "#$"
 						   + "#$"
-						   + "ENTREGAS:     \t\tR$ " + decimal.format(tEntrega) + "#$"
-						   + "BALCOES:      \t\tR$ " + decimal.format(tBalcao) + "#$"
-						   + "MESAS:        \t\tR$ " + decimal.format(tMesa) +  "#$"
-						   + "DRIVES:       \t\tR$ " + decimal.format(tDrive) + "#$"
+						   + "ENTREGAS:     \t\tR$ " + decimal.format(dado.getVenda_entrega()) + "#$"
+						   + "BALCOES:      \t\tR$ " + decimal.format(dado.getVenda_balcao()) + "#$"
+						   + "MESAS:        \t\tR$ " + decimal.format(dado.getVenda_mesa()) +  "#$"
+						   + "DRIVES:       \t\tR$ " + decimal.format(dado.getVenda_drive()) + "#$"
 						   + "#$"
-						   + "TOTAL EM TAXA:\t\tR$ " + decimal.format(tDrive) + "#$"
-						   + "LUCRO BRUTO:  \t\tR$ " + decimal.format(total) +  "#$"
-						   + "LUCRO LIQUIDO:\t\tR$ " + decimal.format(lucro) +  "#$";
+						   + "LUCRO BRUTO:  \t\tR$ " + decimal.format(dado.getTotalVendas()) +  "#$"
+						   + "LUCRO LIQUIDO:\t\tR$ " + decimal.format(dado.getTotalLucro()) +  "#$";
 			
 		imprimirLocal(impressaoCompleta, "A");
 		
@@ -268,8 +246,6 @@ public class FechamentoController {
                 .replace("í", "i")
                 .replace("ú", "u")
                 .replace("ì", "i");
-		
-		System.out.println(impressaoCompleta);
 		
 		ImpressaoMatricial im = new ImpressaoMatricial();
 		im.setImpressao(impressaoCompleta);
