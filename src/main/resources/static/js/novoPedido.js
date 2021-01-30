@@ -253,7 +253,7 @@ function buscarCliente(){
 					mostrarDivsPedido();
 					$(".pula")[2].focus();//focar no campo de buscar pedido
 				}else {
-					window.location.href = "/cadastroCliente/" + numero;
+					window.location.href = "/cadastroCliente/" + $("#numeroCliente").val();
 				}
 				carregarLoading("none");
 			});
