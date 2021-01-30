@@ -50,13 +50,13 @@ $.ajax({
 		carregarLoading("block");
 		
 		$.ajax({
-			url: '/adm/fechamento/relatorio/' + e.totalLucro + '/' + totalMotoboys.taxa,
+			url: '/adm/fechamento/relatorio/' + e.totalLucro + '/' + (typeof totalMotoboys == 'undefined' ? 0 : totalMotoboys.taxa),
 			type: 'GET'
 		}).done(function(){
 			carregarLoading("none");
 
 			$("#relatorio").attr("disabled", false);
-			relatorio = $.alert({type: "green", title: "Sucesso", content: "Sucesso!"});
+			relatorio = $.alert({type: "green", title: "Relatório", content: "Gerado com sucesso!"});
 			relatorio.open();
 			setTimeout(function(){
 				relatorio.close();
