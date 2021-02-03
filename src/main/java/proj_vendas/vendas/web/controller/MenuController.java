@@ -82,10 +82,7 @@ public class MenuController {
 			mv.addObject("contato", empresa.getCelular());
 		}
 
-		setData(format.format(new Date()));
-		
-		Dia dia = dias.findByCodEmpresa(user.getCodEmpresa());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia.getDia());//busca no banco de dados
+		Dado dado = acessarDados(format.format(new Date()));
 		
 		//dados
 		mv.addObject("troco", dado.getTrocoInicio());
@@ -106,8 +103,8 @@ public class MenuController {
 				.getAuthentication().getPrincipal()).getUsername());
 
 		String dia = LocalDate.now().toString(); // criar data atual
-	    setData(dia);
-	    
+		setDados(dia);
+		
 		List<Cupom> listCupom = null;
 		
 		 int cont = 0;
@@ -131,19 +128,8 @@ public class MenuController {
 	@RequestMapping(value = "/verificarData/{dia}")
 	@ResponseBody
 	public Dado alterarData(@PathVariable String dia) {
-		
-		//alterar data de acesso
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		setData(dia);
-		Dia data = null;
-		Dado dado = null;
-		
-		try {
-			data = dias.findByCodEmpresa(user.getCodEmpresa());
-			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data.getDia());//busca no banco de dados
-		}catch(Exception e) {}
+
+		Dado dado = setDados(dia);
 		
 		return dado;
 	}
@@ -181,7 +167,7 @@ public class MenuController {
 	
 	
 	//criar dia e dado no banco
-	public int setData(String data) {
+	public Dado setDados(String data) {
 
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
@@ -189,29 +175,73 @@ public class MenuController {
 		Dado dado = null;
 		Dia dia = null;
 		
-		//dia--------------------------------------------------------------------------------------------------
 		try {
 			dia = dias.findByCodEmpresa(user.getCodEmpresa());
+			
+			if(dia == null) {
+				dia = new Dia();
+			}
+			dia.setDia(data);
+			dia.setCodEmpresa(user.getCodEmpresa());
+			dias.save(dia);
 		}catch(Exception e) {
-			dia = new Dia();
+			System.out.println(e);
 		}
 		
-		dia.setDia(data);
-		dia.setCodEmpresa(user.getCodEmpresa());
-		dias.save(dia);
-
-		//dados--------------------------------------------------------------------------------------------------
 		try {
 			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);//busca no banco de dados
-			dados.save(dado);
+			if(dado == null) {
+				dado = new Dado();
+				dado.setCodEmpresa(user.getCodEmpresa());
+				dado.setData(data);
+				dado.setTrocoInicio(0);
+				dados.save(dado);
+			}
 		}catch(Exception e) {
-			dado = new Dado();
-			dado.setCodEmpresa(user.getCodEmpresa());
-			dado.setData(data);
-			dado.setTrocoInicio(0);
-			dados.save(dado);
+			System.out.println(e);
 		}
 		
-		return 200;
+		return dado;
+	}
+	
+	
+	//acessar dia e dado no banco
+	public Dado acessarDados(String data) {
+
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Dado dado = null;
+		Dia dia = null;
+		
+		try {
+			dia = dias.findByCodEmpresa(user.getCodEmpresa());
+			
+			if(dia == null) {
+				dia = new Dia();
+			}else {
+				data = dia.getDia();
+			}
+			dia.setDia(data);
+			dia.setCodEmpresa(user.getCodEmpresa());
+			dias.save(dia);
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		try {
+			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);//busca no banco de dados
+			if(dado == null) {
+				dado = new Dado();
+				dado.setCodEmpresa(user.getCodEmpresa());
+				dado.setData(data);
+				dado.setTrocoInicio(0);
+				dados.save(dado);
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return dado;
 	}
 }
