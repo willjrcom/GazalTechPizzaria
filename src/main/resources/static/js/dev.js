@@ -78,21 +78,8 @@ $('#email').on('blur', function(){// Método para consultar o Usuario
 	}			
 });
 
-
-//---------------------------------------------------------------------------
-$('#confirmar').on('blur', function(){//comparar senhas
-	if($(this).val() !== $("#senha").val()) {
-		$("#avisoSenha").show().css({
-			'color': 'red'
-		});
-		$("#senha").css({
-			'border':'1px solid red'
-		});
-		$("#confirmar").css({
-			'border':'1px solid red'
-		});
-		$("#criar").hide();
-	}else if($(this).val() === $("#senha").val()) {
+$(".pass").keyup(() => {
+	if($("#senha").val() === $("#confirmar").val()){
 		$("#avisoSenha").hide();
 		$("#criar").show();
 		$("#senha").css({
@@ -101,15 +88,9 @@ $('#confirmar').on('blur', function(){//comparar senhas
 		$("#confirmar").css({
 			'border':'1px solid #ccc'
 		});
-	}
-});
-
-
-//-----------------------------------------------------------------
-$("#senha").on('blur', function(){ //comparar senhas
-	if($(this).val() !== $("#confirmar").val()) {
+	}else{
 		$("#avisoSenha").show().css({
-			'color': 'red'
+		'color': 'red'
 		});
 		$("#senha").css({
 			'border':'1px solid red'
@@ -118,15 +99,6 @@ $("#senha").on('blur', function(){ //comparar senhas
 			'border':'1px solid red'
 		});
 		$("#criar").hide();
-	}else if($(this).val() === $("#confirmar").val()) {
-		$("#avisoSenha").hide();
-		$("#criar").show();
-		$("#senha").css({
-			'border':'1px solid #ccc'
-		});
-		$("#confirmar").css({
-			'border':'1px solid #ccc'
-		});
 	}
 });
 

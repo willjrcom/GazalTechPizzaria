@@ -64,17 +64,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-				
+
+			.and()
+				.sessionManagement()
+				.maximumSessions(1)
+				.maxSessionsPreventsLogin(true)
+				.expiredUrl("/permissao")
+			
+			.and()
+				.sessionFixation().migrateSession() //migrar sessao para novo pc que acessar
 				//desabilitar verificacao
 			.and()
 				.csrf().disable();
 	}
-	/*
-	.and()
-		.sessionManagement()
-		.sessionFixation().migrateSession() //migrar sessao para novo pc que acessar
 	
-	*/
+	
+
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
