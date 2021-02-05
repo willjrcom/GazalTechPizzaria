@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+
+<head>
+	<link th:href="@{/css/login.css}" rel="stylesheet"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
+	<title>Redefinir senha</title>
+</head>
+
+<body>
+	<div id="esconderLogin">
+		<div class="elemento1">
+			<div class="corFundo centralizar" id="login">
+				
+				<img th:src="@{/img/logo.png}" width="50%"/>
+				<hr>
+				<div>
+					<label>Email:</label>
+					<input type="text" class="form-control pula" id="email" name="email" placeholder="nome@email.com" readonly/> 
+				</div>
+				<br>
+				
+				<div class="row" id="senhas">
+					<p id="avisoSenha">As senhas não conferem!</p>
+					<div class="col-md-6">
+						<label>Senha: <span class="alertOpcional">*</span></label><br>
+						<input type="password" class="form-control pula pass" id="senha" name="senha" placeholder="Senha" /> 
+					</div>
+		
+					<div class="col-md-6">
+						<label>Confirmar Senha: <span class="alertOpcional">*</span></label><br>
+						<input type="password" class="form-control pula pass" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
+					</div>
+				</div>
+				<br>
+				
+				<button class="btn btn-success">Enviar</button>
+				<hr>
+				<nav class="nav nav-pills flex-column flex-sm-row">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">Voltar ao login</a>
+				</nav>
+				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+</body>
+</html>
