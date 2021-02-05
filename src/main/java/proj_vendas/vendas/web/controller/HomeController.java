@@ -33,4 +33,13 @@ public class HomeController {
 		model.addAttribute("texto", "Login e/ou senha incorretos, tente novamente!");
 		return "index";
 	}
+	
+
+	@GetMapping("/expired")
+	public String expired(ModelMap model) {
+		model.addAttribute("titulo", "Acesso recusado");
+		model.addAttribute("texto", "Sua sessão expirou, Você acessou em outro dispositivo!");
+		model.addAttribute("subtexto", "!");
+		return "index";
+	}
 }

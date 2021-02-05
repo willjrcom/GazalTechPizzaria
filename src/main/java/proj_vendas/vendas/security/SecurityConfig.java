@@ -14,6 +14,8 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -31,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		
 			//liberar acesso basico de scripts
-			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
+			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/expired", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
 			.antMatchers(HttpMethod.OPTIONS).permitAll()
 			  
 			//acesso dev
@@ -73,11 +75,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		
 		http.sessionManagement()
 			.maximumSessions(1)
-			.maxSessionsPreventsLogin(true)
+			.expiredUrl("/expired")
+			.maxSessionsPreventsLogin(false)
 			.sessionRegistry(sessionRegistry());
+		
+		http.sessionManagement()
+			.sessionFixation().newSession()
+			.sessionAuthenticationStrategy(sessionAuthenticationStrategy());
 	}
 	
-	
+	//mover autenticacao
+	public SessionAuthenticationStrategy sessionAuthenticationStrategy() {
+		return new RegisterSessionAuthenticationStrategy(sessionRegistry());
+	}
 	@Bean
 	public SessionRegistry sessionRegistry() {
 		return new SessionRegistryImpl();

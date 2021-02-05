@@ -1,5 +1,5 @@
 
-if(window.location.href.split("/")[3] == "login-erro") {
+if(window.location.href.split("/")[3] == "login-erro" || window.location.href.split("/")[3] == "expired") {
 	$("#erro").show('slow');
 }
 
