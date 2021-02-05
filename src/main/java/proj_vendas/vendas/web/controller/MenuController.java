@@ -1,8 +1,6 @@
 package proj_vendas.vendas.web.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +45,7 @@ public class MenuController {
 	
 	@RequestMapping
 	public ModelAndView tela() {
-		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		//SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -82,7 +80,7 @@ public class MenuController {
 			mv.addObject("contato", empresa.getCelular());
 		}
 
-		Dado dado = acessarDados(format.format(new Date()));
+		Dado dado = acessarDados(LocalDate.now().toString());
 		
 		//dados
 		mv.addObject("troco", dado.getTrocoInicio());

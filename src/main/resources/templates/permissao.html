@@ -8,7 +8,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
-	<title>Erro</title>
+	<title>Acesso negado</title>
 </head>
 
 <body>
@@ -16,19 +16,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1">
 			<div class="corFundo centralizar" id="login">
 				
-				<a th:href="@{/gazaltech}"><button class="btn btn-primary"><h1>Gazal Tech</h1></button></a>
-				<br><br>
-				<p>Soluções para seu negócio <span class="oi oi-rss-alt"></span></p>
+				<img th:src="@{/img/logo.png}" width="50%"/>
 				<hr>
 				
-				<label>Voce não tem permissão para acessar essa pagina</label>
+				<h3 class="text-center" th:text="${status}"></h3>
+				<h2 class="text-center" style="color: #B22222" th:text="${tipo}"></h2>
 				<br>
-				<label>Utilize um usuário Administrador</label>
-				 <br>
-				 <label>Ou desenvolvedor</label>
+				<label>Voce não tem permissão para acessar essa pagina!</label>
+				<br>
+				<label>Utilize um usuário <span th:text="${perfil}"></span></label>
 				<hr>
 				<nav class="nav nav-pills flex-column flex-sm-row">
-					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}"><i class="fas fa-key"></i>&nbsp;Voltar ao menu</a>
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">&nbsp;Voltar ao menu</a>
 				</nav>
 				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
 			</div>

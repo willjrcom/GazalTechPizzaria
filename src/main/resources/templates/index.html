@@ -15,11 +15,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<div id="esconderLogin">
 		<div class="elemento1">
-			<div id="erro"></div>
 			<div class="corFundo centralizar" id="login">
 				
 				<img th:src="@{/img/logo.png}" width="50%"/>
-				<br>
+				<div id="erro" class="alert alert-danger hidden" role="alert">
+					<h4 th:text="${titulo}"></h4>
+					<p th:text="${texto}"></p>
+				</div>
 				
 				<form class="form-signin was-validated" method="post" th:action="@{/index}">
 				

@@ -3,17 +3,21 @@ package proj_vendas.vendas.security;
 import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import proj_vendas.vendas.service.UsuarioService;
 
 @EnableWebSecurity
@@ -47,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				.formLogin()
 				.loginPage("/index")
 				.defaultSuccessUrl("/menu", true)
-				.failureUrl("/index/erro")
+				.failureUrl("/login-erro")
 				.permitAll()
 				
 			//logout
@@ -61,25 +65,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 				.exceptionHandling()
 				.accessDeniedPage("/permissao")
-			.and()
+			/*.and()
 				.sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-
-			.and()
-				.sessionManagement()
-				.maximumSessions(1)
-				.maxSessionsPreventsLogin(true)
-				.expiredUrl("/permissao")
-			
-			.and()
-				.sessionFixation().migrateSession() //migrar sessao para novo pc que acessar
-				//desabilitar verificacao
+				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)*/
 			.and()
 				.csrf().disable();
+		
+		http.sessionManagement()
+			.maximumSessions(1)
+			.maxSessionsPreventsLogin(true)
+			.sessionRegistry(sessionRegistry());
 	}
 	
 	
-
+	@Bean
+	public SessionRegistry sessionRegistry() {
+		return new SessionRegistryImpl();
+	}
+	
+	@Bean
+	public ServletListenerRegistrationBean<?> servletListenerRegistrationBean(){
+		return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
+	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
