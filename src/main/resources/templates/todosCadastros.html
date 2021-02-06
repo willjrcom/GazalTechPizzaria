@@ -64,50 +64,56 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<div>&nbsp;</div>
 				
 				<div class="row">
-					<div class="col-md-4"><button class="btn btn-primary" onclick="mostrarClientes()" id="btnClientes">Mostrar Top 10 Clientes</button></div>
-					<div class="col-md-4"><button class="btn btn-primary" onclick="mostrarMesas()" id="btnMesas">Mostrar Top 10 Mesas</button></div>
-				</div>
-				<br><hr><br>
-				
-				<div class="col-md-4 table-responsive hidden" id="topClientes">
-					<table>
-						<thead>
-							<tr>
-								<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Clientes</h3></td>
-							</tr>
-							<tr>
-			 		 			<th class="col-md-1">Ranking</th>
-								<th class="col-md-1">Cliente</th>
-	 		 					<th class="col-md-1">Pedidos</th>
-	 		 				</tr>
-						</thead>
+					<div class="col-md-4">
+						<button class="btn btn-primary" onclick="mostrarClientes()" id="btnClientes">Mostrar Top 10 Clientes</button>
+						<div>&nbsp;</div>
+					
+						<div class="table-responsive hidden" id="topClientes">
+							<table>
+								<thead>
+									<tr>
+										<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Clientes</h3></td>
+									</tr>
+									<tr>
+					 		 			<th class="col-md-1">Ranking</th>
+										<th class="col-md-1">Cliente</th>
+			 		 					<th class="col-md-1">Pedidos</th>
+			 		 				</tr>
+								</thead>
+								
+								<tbody id="nenhumaMesa">
+									<tr>
+										<td id="top10Rank" class="text-center col-md-1 sombra">Top 1</td>
+										<td id="top10Cliente" class="text-center col-md-1 sombra">...</td>
+										<td id="top10Total" class="text-center col-md-1 sombra">0</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="col-md-4">
+						<button class="btn btn-primary" onclick="mostrarMesas()" id="btnMesas">Mostrar Top 10 Mesas</button>
+						<div>&nbsp;</div>
 						
-						<tbody id="nenhumaMesa">
-							<tr>
-								<td id="top10Rank" class="text-center col-md-1 sombra">Top 1</td>
-								<td id="top10Cliente" class="text-center col-md-1 sombra">...</td>
-								<td id="top10Total" class="text-center col-md-1 sombra">0</td>
-							</tr>
-						</tbody>
-					</table>
+						<div class="table-responsive hidden" id="topMesas">
+					 		<table>
+					 			<thead>
+					 				<tr>
+					 					<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Mesas</h3></td>
+					 				</tr>
+					 		 		<tr>
+					 		 			<th class="col-md-1">Ranking</th>
+					 		 			<th class="col-md-1">Mesa</th>
+					 		 			<th class="col-md-1">Utilizada</th>
+					 		 		</tr>
+					 		 	</thead>
+					 		 	<tbody id="mesasTop" class="text-center col-md-1 sombra"><tr><td colspan="3">........</td></tr></tbody>
+					 		</table>
+			 		 	</div>
+					</div>
 				</div>
-				
-				
-		 		<div class="col-md-4 table-responsive hidden" id="topMesas">
-			 		<table>
-			 			<thead>
-			 				<tr>
-			 					<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Mesas</h3></td>
-			 				</tr>
-			 		 		<tr>
-			 		 			<th class="col-md-1">Ranking</th>
-			 		 			<th class="col-md-1">Mesa</th>
-			 		 			<th class="col-md-1">Utilizada</th>
-			 		 		</tr>
-			 		 	</thead>
-			 		 	<tbody id="mesasTop" class="text-center col-md-1 sombra"><tr><td colspan="3">........</td></tr></tbody>
-			 		 </table>
-		 		 </div>
+				<br><br>
 			</div>
 		
 	<!-- ------------------------------------------------------------------------------------------------ -->

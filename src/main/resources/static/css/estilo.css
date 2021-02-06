@@ -302,6 +302,11 @@ table tbody tr td{
 	border-top-right-radius: 20px;
 }
 
+.tituloMenuLat{
+	background-color: #6495ED;
+	color: white;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;

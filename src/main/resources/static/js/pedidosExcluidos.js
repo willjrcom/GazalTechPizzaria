@@ -14,7 +14,7 @@ carregarLoading("block");
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
-	url: "/adm/pedidosExcluidos/todosPedidos",
+	url: "/pedidosExcluidos/todosPedidos",
 	type: 'GET'
 }).done(function(e){
 	pedidos = e;

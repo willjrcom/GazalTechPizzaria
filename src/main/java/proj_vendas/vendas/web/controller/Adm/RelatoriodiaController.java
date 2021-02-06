@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +17,7 @@ import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("adm")
+@RequestMapping("relatoriodia")
 public class RelatoriodiaController {
 	
 	@Autowired
@@ -30,12 +29,12 @@ public class RelatoriodiaController {
 	@Autowired
 	private Usuarios usuarios;
 
-	@GetMapping("/relatoriodia")
+	@RequestMapping
 	public ModelAndView relatorioDia() {
 		return new ModelAndView("relatoriodia");
 	}
 	
-	@RequestMapping(value = "/relatoriodia/todosPedidos")
+	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()

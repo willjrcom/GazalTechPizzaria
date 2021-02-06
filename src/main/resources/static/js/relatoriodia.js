@@ -12,7 +12,7 @@ carregarLoading("block");
 $("#todosPedidos").html(linhaCinza);
 
 $.ajax({
-	url: "/adm/relatoriodia/todosPedidos",
+	url: "/relatoriodia/todosPedidos",
 	type: 'GET'
 }).done(function(e){
 	pedidos = e;

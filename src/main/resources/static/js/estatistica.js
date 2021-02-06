@@ -96,52 +96,6 @@ function drawBackgroundColor() {
 
 		      var chart = new google.visualization.LineChart(document.getElementById('entregaBalcao'));
 		      chart.draw(data1, options);
-  });
-
- 
-  //pizzas/produtos
-  //------------------------------------------------------------------------------------------------
-  var dados2 = [];
-  var data2 = new google.visualization.DataTable();
-  data2.addColumn('string', 'X');
-  data2.addColumn('number', 'Pizza');
-  data2.addColumn('number', 'Produto');
-
-  
-  $.ajax({
-	  url: '/adm/estatistica/todos',
-	  type: 'GET'
-  }).done(function(e){
-	  
-	  var objeto2 = e;
-	  objeto2.sort(function (a, b) {
-			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
-					? 1 
-					: ((b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2] > a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2]) ? -1 : 0);
-		  });
-	  
-	  for(obj2 of objeto2) {
-		  if(obj2.totalVendas != 0) {
-			  dados2.push([
-			              obj2.data.split('-')[2] + '/' + obj2.data.split('-')[1], 
-			              obj2.totalPizza, 
-			              obj2.totalProduto
-			  ]);
-		  }
-	  }
-	  data2.addRows(dados2);
-	  var options = {
-		        hAxis: {
-		          title: 'Dia'
-		        },
-		        vAxis: {
-		          title: 'Total de Produtos'
-		        },
-		        backgroundColor: 'white'
-		      };
-
-		      var chart = new google.visualization.LineChart(document.getElementById('pizzaProduto'));
-		      chart.draw(data2, options);
 	carregarLoading("none");
   });
 }

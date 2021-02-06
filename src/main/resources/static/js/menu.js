@@ -29,7 +29,7 @@ function verData() {
 		if(	(hoje.getDate() == e.dia.split('-')[2])
 		&&	((hoje.getMonth() + 1) == e.dia.split('-')[1])
 		&&	(hoje.getFullYear() == e.dia.split('-')[0])) {
-			$("#data").html('<span class="oi oi-calendar"></span> Hoje');
+			$("#data").html('<i class="fas fa-calendar-check"></i> Hoje');
 		}else {
 			$("#data").text(e.dia.split('-')[2] + '/' + e.dia.split('-')[1] + '/' + e.dia.split('-')[0]);
 		}
