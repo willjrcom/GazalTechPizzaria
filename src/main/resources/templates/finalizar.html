@@ -12,7 +12,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<h1 class="h1Logo">Finalizar</h1>
 		<hr>
 		
-		<div class="distMargin">
+		<input type="hidden" id="btnCadastrar" th:value="${btnCadastrar}"/>
+		
+		<div id="divCadastrar" class="hidden">
+			<a th:href="@{/adm/cadastroFuncionario/ATENDIMENTO}"><button class="btn btn-success">Cadastrar atendente para finalizar</button></a>
+		</div>
+		
+		<div class="distMargin" id="divFiltro">
 			<label>A/C</label>
 			<select autofocus="autofocus" name="filtro" id="filtro">
 				<option value="--">-----------</option>

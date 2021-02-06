@@ -8,6 +8,12 @@ var pedidoVazio = '<tr><td colspan="8">Nenhum pedido para entregar!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
 
+if($("#btnCadastrar").val() == 1){
+	$("#divCadastrar").show("slow");
+	$("#divFiltro").hide("slow");
+}
+
+
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");

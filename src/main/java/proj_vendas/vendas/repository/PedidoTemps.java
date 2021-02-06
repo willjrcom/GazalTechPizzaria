@@ -12,12 +12,13 @@ import proj_vendas.vendas.model.PedidoTemp;
 @Transactional(readOnly = true)
 public interface PedidoTemps extends JpaRepository<PedidoTemp, Long>{
 
-	public List<PedidoTemp> findByCodEmpresaAndDataAndStatus(int codEmpresa, String data, String status);
+	public List<PedidoTemp> findByCodEmpresa(int codEmpresa);
 
 	public List<PedidoTemp> findByCodEmpresaAndStatus(int codEmpresa, String status);
-
-
-	public List<PedidoTemp> findByCodEmpresa(int codEmpresa);
+	
+	public List<PedidoTemp> findByCodEmpresaAndEnvio(int codEmpresa, String envio);
+	
+	public List<PedidoTemp> findByCodEmpresaAndDataAndStatus(int codEmpresa, String data, String status);
 
 	public List<PedidoTemp> findByCodEmpresaAndDataAndComanda(int codEmpresa, String dia, Long comanda);
 	

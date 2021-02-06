@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
+import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
@@ -45,7 +46,16 @@ public class FinalizarController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("finalizar");
-		mv.addObject("todosFun", funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(), "ATENDIMENTO", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA"));
+		List<Funcionario> fun = funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(), "ATENDIMENTO", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
+
+		mv.addObject("todosFun", fun);
+		
+		if(fun.size() != 0) {
+			mv.addObject("btnCadastrar", 0);
+		}else {
+			mv.addObject("btnCadastrar", 1);
+		}
+		
 		return mv;
 	}
 

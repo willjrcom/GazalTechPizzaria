@@ -94,21 +94,21 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
 								<a th:href="@{/novoPedido}" accesskey="N"><span class="oi oi-plus"></span> Novo Pedido</a>
 								<a th:href="@{/motoboy}" accesskey="E"><span class="oi oi-timer"></span> Entregar</a>
 								<a th:href="@{/finalizar}" accesskey="F"><span class="oi oi-data-transfer-download"></span> Finalizar</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
 								<a th:href="@{/cozinha}" accesskey="C"><span class="oi oi-clock"></span> Cozinha</a>
-								<a th:href="@{/statusCliente}" accesskey="S"><span class="oi oi-eye"></span> Status Cliente</a>
-								<a th:href="@{/statusEmpresa}" accesskey="S"><span class="oi oi-eye"></span> Status Empresa</a>
+								<a th:href="@{/saidaForno}" accesskey="S"><i class="far fa-eye"></i> Saída forno</a>
+								<a th:href="@{/retirada}" accesskey="S"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
 								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
@@ -135,14 +135,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
-							<li><p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Administração</b></p>
+							<li><p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Administração</b></p>
 								<a th:href="@{/adm/fechamento}"><span class="oi oi-bar-chart"></span> Fechamento do Dia</a>
+								<a th:href="@{/adm/compras}"><span class="oi oi-cart"></span> Compras do dia</a>
 								<a th:href="@{/adm/relatoriodia}"><span class="oi oi-list"></span> Relatório dos Pedidos</a>
 								<a th:href="@{/adm/pedidosExcluidos}"><span class="oi oi-ban"></span> Pedidos Cancelados</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
 								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
@@ -170,18 +171,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
 								<a th:href="@{/clientesCadastrados}"><span class="oi oi-people"></span> Cadastrados</a>
 								<a th:href="@{/cadastroCliente}"><span class="oi oi-plus"></span> Cadastrar</a>
 							</li>
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Produtos</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Produtos</b></p>
 								<a th:href="@{/produtosCadastrados}"><i class="fas fa-utensils"></i> Cadastrados</a>
 								<a th:href="@{/cadastroProduto}"><span class="oi oi-plus"></span> Cadastrar</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
 								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
@@ -210,67 +211,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
 								<a th:href="@{/adm/estatistica}"><span class="oi oi-graph"></span> Estatística</a>
 								<a th:href="@{/adm/cadastros}"><i class="fas fa-trophy"></i> Cadastros</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
 								<a th:href="@{/adm/pagamento}"><span class="oi oi-credit-card"></span> Pagamentos</a>
 								<a th:href="@{/adm/funcionariosCadastrados}"><i class="fas fa-user-tie"></i> Cadastrados</a>
 								<a th:href="@{/adm/cadastroFuncionario}"><span class="oi oi-plus"></span> Cadastrar</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
-								<a th:href="@{/adm/compras}"><span class="oi oi-cart"></span> Compras</a>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
 								<!--<a th:href="@{/adm/cupom}"><span class="oi oi-tags"></span> Cupom</a> -->
 								<a th:href="@{/adm/diaAberto}"><span class="oi oi-warning"></span> Dias Abertos</a>
-								<a th:href="@{/adm/empresa}"><span class="oi oi-wrench"></span> Avançado</a>
-							</li>
-							
-							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a class="cabecalho"><label id="usuario"></label></a>
-							</li>
-						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li><a onclick="calendario()" class="cabecalho"><span class="oi oi-calendar"></span> Calendário</a></li>
-			<li><a onclick="ajuda()"      class="cabecalho"><span class="oi oi-shield"></span> Suporte</a></li>
-			<li><a th:href="@{/menu}"><span class="oi oi-home"></span> Menu</a></li>
-		</ul>
-		<script th:src="@{/js/menu/classie.js}"></script>
-		<script th:src="@{/js/menu/gnmenu.js}"></script>
-		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
-		</script>
-	</div><!-- /container -->
-	
-	
-	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="opcoes" class="container">
-		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
-							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
-								<a th:href="@{/adm/empresa}"><span class="oi oi-folder"></span> Dados</a>
+								<a th:href="@{/adm/empresa}"><span class="oi oi-wrench"></span> Dados</a>
 								<a th:href="@{/adm/mensalidade}"><span class="oi oi-credit-card"></span> Mensalidade</a>
 							</li>
 							
+							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
 								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
 							</li>
 							
 							<li>
-								<p style="background-color: #C0C0C0">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
+								<p style="background-color: #6495ED">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
 								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>

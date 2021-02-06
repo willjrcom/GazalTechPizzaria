@@ -12,7 +12,7 @@ function buscarPedidos() {
 	pedidos = [];
 	
 	$.ajax({
-		url: "/statusEmpresa/todosPedidos",
+		url: "/retirada/todosPedidos",
 		type: 'GET'
 	}).done(function(e){
 		

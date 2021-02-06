@@ -1,7 +1,7 @@
 var funcionario = {};
-var url_atual = window.location.href;
 
-url_atual = url_atual.split("/")[6];
+var url_atual = window.location.href.split("/")[6];
+var cargo = window.location.href.split("/")[5];
 
 if(typeof url_atual != "undefined") {
 	carregarLoading("block");
@@ -45,6 +45,8 @@ if(typeof url_atual != "undefined") {
 		carregarLoading("none");
 		$.alert("Erro, Funcionario não encontrado!");
 	});
+}else if(typeof cargo != "undefined"){
+	$("#cargo").val(cargo).attr("disabled", true);
 }
 
 

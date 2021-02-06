@@ -16,8 +16,8 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/statusEmpresa")
-public class StatusEmpresaController{
+@RequestMapping("/retirada")
+public class RetiradaController{
 	
 	@Autowired
 	private PedidoTemps temps;
@@ -27,7 +27,7 @@ public class StatusEmpresaController{
 
 	@RequestMapping
 	public ModelAndView pronto() {
-		return new ModelAndView("statusEmpresa");
+		return new ModelAndView("retirada");
 	}
 	
 	@RequestMapping(value = "/todosPedidos")
@@ -36,6 +36,6 @@ public class StatusEmpresaController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return temps.findByCodEmpresa(user.getCodEmpresa()); //mostrar todos
+		return temps.findByCodEmpresaAndEnvio(user.getCodEmpresa(),"BALCAO"); //mostrar todos
 	}
 }

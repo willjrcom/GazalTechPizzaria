@@ -9,6 +9,14 @@ var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
 var [Tpedido, Tpizzas] = [0, 0];
 var verificarTroco = 0;
 var valorCupom;
+
+
+if($("#btnCadastrar").val() == 1){
+	$("#divCadastrar").show("slow");
+	$("#divFiltro").hide("slow");
+}
+
+
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");

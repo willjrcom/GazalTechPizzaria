@@ -92,7 +92,7 @@ public class FechamentoController {
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		
 		//temp
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "PRONTO");
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndStatus(user.getCodEmpresa(), "PRONTO");
 		temps.deleteInBatch(temp);
 		/*
 		//pedidos

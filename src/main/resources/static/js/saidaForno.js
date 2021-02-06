@@ -19,7 +19,7 @@ function buscarPedidos() {
 	Tpizzas = 0;
 	
 	$.ajax({
-		url: "/statusEmpresa/todosPedidos",
+		url: "/saidaForno/todosPedidos",
 		type: 'GET'
 	}).done(function(e){
 		
