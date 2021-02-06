@@ -8,27 +8,35 @@ function mostrarClientes(){
 			type: "GET"
 		}).done(lista => {
 			const top10 = lista.replace("[", "").replace("]", "").split(",");
-			var rankHtml = "", clienteHtml = "", totalHtml = "";
+			var arrayClientes = [];
+			var Cliente = {};
+			var linhaClientesHtml = "";
 			
-			for(var i = 0, j = 0; i < (top10.length-2); i++, j++){
-				if(i <= 10){
-					rankHtml += '<tr><td class="text-center col-md-1" >Top ' + (j + 1) + '</td></tr>'
-					clienteHtml += '<tr><td class="text-center col-md-1" >' + top10[i].substring(0,15) + '</td></tr>'
-					totalHtml += '<tr><td class="text-center col-md-1" >' + top10[i+1] + '</td></tr>';
-					i++;
-				}
+			for(i = 0; i< top10.length; i++){
+				Cliente = {};
+				Cliente.nome = top10[i];
+				Cliente.total = top10[i+1];
+				arrayClientes.push(Cliente);
+				i++;	
 			}
 
-			if(rankHtml == ""){
-				$("#nenhumaMesa").html('<tr><td colspan="3" class="sombra" align="center"><label>Nenhum cliente encontrado!</label></td><tr>');
+			for(let [i, cliente] of arrayClientes.entries()){
+				linhaClientesHtml += '<tr>'
+									+ '<td class="sombra" align="center">Top ' + (i+1) + '</td>'
+									+ '<td class="sombra" align="center"><b>' + cliente.nome.substring(0,20) + '</b></td>'
+									+ '<td class="sombra" align="center">' + cliente.total + '</td>'
+								+ '</tr>';
+			}
+
+			if(linhaClientesHtml == ""){
+				$("#clientes").html('<tr><td colspan="3" class="sombra" align="center"><label>Nenhum cliente encontrado!</label></td><tr>');
+			}else{
+				$("#clientes").html(linhaClientesHtml);
 			}
 			
 			carregarLoading("none");
 			$("#topClientes").show("slow");
 			$("#btnClientes").text("Ocultar Top 10 Clientes");
-			$("#top10Rank").html(rankHtml);
-			$("#top10Cliente").html(clienteHtml);
-			$("#top10Total").html(totalHtml);
 		});
 	}else{
 		$("#topClientes").hide("slow");

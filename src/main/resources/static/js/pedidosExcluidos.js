@@ -11,7 +11,6 @@ var Tpizzas = 0;
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");
-$("#todosPedidos").html(linhaCinza);
 
 $.ajax({
 	url: "/pedidosExcluidos/todosPedidos",
@@ -46,7 +45,7 @@ $.ajax({
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" title="finalizar" class="botao" onclick="verPedido()"'
-							+ 'value="'+ pedido.id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>'			
+							+ 'value="'+ pedido.id + '"><i class="fas fa-search"></i></button></a></td>'			
 					+ '<tr>'
 				+ linhaCinza;
 		}
@@ -120,7 +119,7 @@ function verPedido() {
 	    columnClass: 'col-md-8',
 	    buttons: {
 			tudo: {
-			text: '<span class="oi oi-print"></span> Pedido',
+			text: '<i class="fas fa-print"></i> Pedido',
 	        btnClass: 'btn-success',
 	        	action: function(){
 					imprimirTudo(pedidos[idBusca]);

@@ -9,7 +9,6 @@ var Tpizzas = 0;
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");
-$("#todosPedidos").html(linhaCinza);
 
 $.ajax({
 	url: "/relatoriodia/todosPedidos",
@@ -43,7 +42,7 @@ $.ajax({
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" title="finalizar" onclick="verPedido()" class="botao"'
-							+ 'value="'+ pedido.id + '"><span class="oi oi-magnifying-glass"></span></button></a></td>'		
+							+ 'value="'+ pedido.id + '"><i class="fas fa-search"></i></button></a></td>'		
 					+ '</tr>'
 				+ linhaCinza;
 		}
@@ -128,21 +127,21 @@ function verPedido() {
 	    columnClass: 'col-md-8',
 	    buttons: {
 			tudo: {
-				text: '<span class="oi oi-print"></span> Pedido',
+				text: '<i class="fas fa-print"></i> Pedido',
 		        btnClass: 'btn-success',
 		        action: function(){
 					imprimirTudo(pedidos[idBusca]);
 				}
 			},
 			pizzas: {
-				text: '<span class="oi oi-print"></span> Pizzas',
+				text: '<i class="fas fa-print"></i> Pizzas',
 		        btnClass: 'btn-orange',
 		        action: function(){
 					imprimirPizzas(pedidos[idBusca]);
 				}
 			},
 			produtos: {
-				text: '<span class="oi oi-print"></span> Produtos',
+				text: '<i class="fas fa-print"></i> Produtos',
 		        btnClass: 'btn-info',
 		        action: function(){
 					imprimirProdutos(pedidos[idBusca]);

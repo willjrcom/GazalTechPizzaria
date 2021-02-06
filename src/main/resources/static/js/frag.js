@@ -43,7 +43,7 @@ $(document).ready(function(){
 	$.ajax({
 		url: "/menu/autenticado"
 	}).done(function(e){
-		$("#usuario").html('<span class="oi oi-person"></span> ' + e);
+		$("#usuario").html('<i class="fas fa-user-circle"></i> ' + e);
 	});
 	
 	$.ajax({

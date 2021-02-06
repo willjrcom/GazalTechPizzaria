@@ -100,9 +100,9 @@ function mostrarCupons(){
 							+ '<td>' + ((cupom.tipo === "R$") ? cupom.tipo + " " + cupom.desconto : cupom.desconto + " " + cupom.tipo) + '</td>'
 							+ '<td>' + cupom.validade + '</td>'
 							+ '<td>'
-								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><span class="oi oi-pencil"></span></button>'
+								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><i class="fas fa-edit"></i></button>'
 								+ '&nbsp;'
-								+ '<button class="btn btn-danger" value="' + cupom.id + '" onclick="excluirCupom()"><span class="oi oi-trash"></span></button>'
+								+ '<button class="btn btn-danger" value="' + cupom.id + '" onclick="excluirCupom()"><i class="fas fa-trash"></i></button>'
 						+ '</tr>' + linhaCinza;
 			}
 		}else {

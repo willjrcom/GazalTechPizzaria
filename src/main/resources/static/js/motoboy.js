@@ -48,7 +48,7 @@ $.ajax({
 						+ '<td>' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-							+ 'value="'+ pedido.id + '"><span class="oi oi-location"></span></button></a></td>'		
+							+ 'value="'+ pedido.id + '"><i class="fas fa-location-arrow"></i></button></a></td>'		
 					+ '<tr>'
 				+ linhaCinza;
 		}

@@ -7,10 +7,6 @@ var pedidoVazio = '<tr><td colspan="5">Nenhum dia em aberto!</td></tr>';
 carregarLoading("block");
 
 
-//Ao carregar a tela
-//-------------------------------------------------------------------------------------------------------------------
-$("#todosFuncionarios").html(linhaCinza);
-
 $.ajax({
 	url: "/adm/diaAberto/todosDias",
 	type: 'GET'

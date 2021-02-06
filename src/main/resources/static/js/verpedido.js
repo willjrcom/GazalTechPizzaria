@@ -72,7 +72,7 @@ function mostrar(pedidos, filtro) {
 						+ '<div class="col-md-1">'
 							+'<a title="Ver">'
 								+'<button class="botao" onclick="verPedido()" value="'+ pedido.id + '">'
-									+'<span class="oi oi-magnifying-glass"></span>'
+									+'<i class="fas fa-search"></i>'
 								+'</button>'
 							+'</a>'
 						+'</div>'
@@ -80,7 +80,7 @@ function mostrar(pedidos, filtro) {
 						+ '<div class="col-md-1">'
 							+'<a title="Editar">'
 								+'<button class="botao" onclick="editarPedido()" value="'+ pedido.id + '">'
-									+'<span class="oi oi-pencil"></span>'
+									+'<i class="fas fa-edit"></i>'
 								+'</button>'
 							+'</a>'
 						+'</div>'
@@ -88,7 +88,7 @@ function mostrar(pedidos, filtro) {
 						+ '<div class="col-md-1">'
 							+'<a title="Excluir">'
 								+'<button class="botao" onclick="excluirPedido()" value="'+ pedido.id + '">'
-									+'<span class="oi oi-trash"></span>'
+									+'<i class="fas fa-trash"></i>'
 								+'</button>'
 							+'</a>'
 						+'</div>'
@@ -182,21 +182,21 @@ function verPedido() {
 	    columnClass: 'col-md-8',
 	    buttons: {
 			tudo: {
-				text: '<span class="oi oi-print"></span> Pedido',
+				text: '<i class="fas fa-print"></i> Pedido',
 		        btnClass: 'btn-success',
 		        action: function(){
 					imprimirTudo(pedidos[idBusca]);
 				}
 			},
 			pizzas: {
-				text: '<span class="oi oi-print"></span> Pizzas',
+				text: '<i class="fas fa-print"></i> Pizzas',
 		        btnClass: 'btn-orange',
 		        action: function(){
 					imprimirPizzas(pedidos[idBusca]);
 				}
 			},
 			produtos: {
-				text: '<span class="oi oi-print"></span> Produtos',
+				text: '<i class="fas fa-print"></i> Produtos',
 		        btnClass: 'btn-primary',
 		        action: function(){
 					imprimirProdutos(pedidos[idBusca]);

@@ -106,17 +106,17 @@ function mostrar(pedidos, filtro) {
 					
 					//mostrar pizza
 					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor 
-							+ '&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+							+ (pizza.descricao != ''?'&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
 							+ pizza.descricao 
 							+ '" title="Ingredientes: ' + pizza.descricao 
-							+ '"><span class="oi oi-question-mark"></span></button></td>'
+							+ '"><i class="fas fa-question"></i></td>' : "")
 							+ (pizza.obs !== "" ? '<td class="fundoAlert">' + pizza.obs + '</td>' : '<td>' + pizza.obs + '</td>')
 							+ '<td>' + pizza.borda + '</td>';
 					if(j == 0)
 						linhaHtml += '<td>' 
 								+ '<a class="enviarPedido">'
 								+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
-								+ 'value="'+ pedido.id + '"><span class="oi oi-task"></span></button></a></td>'
+								+ 'value="'+ pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'
 							+'</tr>';
 
 					if(divisao - pizza.qtd <= 0) {

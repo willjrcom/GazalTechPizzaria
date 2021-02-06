@@ -78,7 +78,7 @@ $.ajax({
 			compras += parseFloat(produto.preco);
 		}
 		var comprasHtml = '<tr">'
-						+ '<th class="text-center"><h5><span class="oi oi-dollar"></span> Total compras da empresa</h5></th>'
+						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
 					+ '</tr>'
 					+ '<tr>'
 						+ '<td>R$ ' + compras.toFixed(2) + '</td>'

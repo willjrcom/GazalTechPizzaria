@@ -4,7 +4,6 @@ var linhaHtml;
 var pedidoVazio = '<tr><td colspan="4">Nenhum cliente encontrado!</td></tr>';
 var linhaCinza = '<tr id="linhaCinza"><td colspan="4" class="fundoList"></td></tr>';
 
-$("#todosClientes").html(pedidoVazio);
 
 $("#buscar").click(function(){
 	carregarLoading("block");
@@ -43,7 +42,7 @@ $("#buscar").click(function(){
 								+ '<div class="col-md-1">'
 									+'<a title="Ver">'
 										+'<button class="botao" onclick="verCliente()" value="'+ cliente.id + '">'
-											+'<span class="oi oi-magnifying-glass"></span>'
+											+'<i class="fas fa-search"></i>'
 										+'</button>'
 									+'</a>'
 								+'</div>'
@@ -51,7 +50,7 @@ $("#buscar").click(function(){
 								+ '<div class="col-md-1">'
 									+'<a title="Editar">'
 										+'<button class="botao" onclick="editarCliente()" value="'+ cliente.id + '">'
-											+'<span class="oi oi-pencil"></span>'
+											+'<i class="fas fa-edit"></i>'
 										+'</button>'
 									+'</a>'
 								+'</div>'
@@ -59,7 +58,7 @@ $("#buscar").click(function(){
 								+ '<div class="col-md-1">'
 									+'<a title="Excluir">'
 										+'<button class="botao" onclick="excluirCliente()" value="'+ cliente.id + '">'
-											+'<span class="oi oi-trash"></span>'
+											+'<i class="fas fa-trash"></i>'
 										+'</button>'
 									+'</a>'
 								+'</div>'

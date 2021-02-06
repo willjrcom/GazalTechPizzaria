@@ -31,8 +31,8 @@ $.ajax({
 			else usuarioHtml += '<td align="center">Não</td>';
 			
 			usuarioHtml += '<td align="center"><div class="row">'
-							+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-pencil"></span></button></div>'
-							+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><span class="oi oi-trash"></span></button></div>'
+							+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><i class="fas fa-edit"></i></button></div>'
+							+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><i class="fas fa-trash"></i></button></div>'
 						+'</div></td>'
 					+'</tr>'
 					+ linhaCinza + linhaCinza;

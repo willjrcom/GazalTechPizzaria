@@ -178,8 +178,8 @@ if(typeof id_edicao != "undefined") {
 			$("#divBuscarProdutos").show();
 			$(".divListaGeral").show();
 			$("#mostrarDadosCliente").show(); 
-			$("#BotaoEnviarPedido").html('<span class="oi oi-cart"></span> Atualizar pedido');
-			$("#cancelar").html('<span class="oi oi-ban"></span> Cancelar alteração');
+			$("#BotaoEnviarPedido").html('<i class="fas fa-check"></i> Atualizar pedido');
+			$("#cancelar").html('<i class="fas fa-ban"></i> Cancelar alteração');
 			
 			
 			for(pizza of cliente.pizzas) tPizzas += pizza.qtd;

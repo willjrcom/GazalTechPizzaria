@@ -28,7 +28,6 @@ $.ajax({
 	
 	//Ao carregar a tela
 	//-------------------------------------------------------------------------------------------------------------------
-	$("#todosFuncionarios").html(linhaCinza);
 	
 	$.ajax({
 		url: "/adm/pagamento/todosFuncionarios",
@@ -52,28 +51,28 @@ $.ajax({
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><span class="oi oi-clock"></span></button>'
+											+ 'value="'+ funcionario.id + '"><i class="far fa-clock"></i></button>'
 											+'</a>'
 										+'</div>'
 										
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Adicionar Gastos" onclick="addGastos()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><span class="oi oi-credit-card"></span></button>'
+											+ 'value="'+ funcionario.id + '"><i class="fas fa-credit-card"></i></button>'
 											+'</a>'
 										+'</div>'
 										
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Pagar" onclick="pagarSalario()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><span class="oi oi-task"></span></button>'
+											+ 'value="'+ funcionario.id + '"><i class="far fa-check-square"></i></button>'
 											+'</a>'
 										+'</div>'
 										
 										+'<div class="col-md-1">'
 											+'<a>'
 											+ '<button type="button" title="Imprimir" onclick="imprimirResumo()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><span class="oi oi-print"></span></button>'
+											+ 'value="'+ funcionario.id + '"><i class="fas fa-print"></i></button>'
 											+'</a>'
 										+'</div>'
 									+'</div>'
@@ -145,7 +144,7 @@ function addHoras() {
 									+ '</tr>'
 								+'</table>'
 						+ '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
-						+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><span class="oi oi-question-mark"></span></button></label><br>'
+						+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
 						+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
 						
 						carregarLoading("none");
@@ -242,6 +241,11 @@ function addHoras() {
 					});
 				}
 			}
+		},
+        cancel:{
+			text: 'Voltar',
+    		keys: ['esc'],
+            btnClass: 'btn-danger'
 		}
 	});
 };
@@ -304,7 +308,7 @@ function addGastos() {
 						
 						+ '<hr><label>Total de gastos: '
 							+ '<button class="btn btn-link" onclick="aviso2()">'
-								+ '<span class="oi oi-question-mark"></span></button></label><br>'
+								+ '<i class="fas fa-question"></i></button></label><br>'
 								
 						+ '<div class="input-group mb-3">'
 							+ '<span class="input-group-text">R$</span>'
@@ -408,6 +412,11 @@ function addGastos() {
 					});
 				}
 			}
+		},
+        cancel:{
+			text: 'Voltar',
+    		keys: ['esc'],
+            btnClass: 'btn-danger'
 		}
 	});
 };
@@ -491,7 +500,7 @@ function pagarSalario() {
 					
 						+ '<hr><label>Total a pagar: '
 							+ '<button class="btn btn-link" onclick="aviso()">'
-							+ '<span class="oi oi-question-mark"></span></button></label><br>'
+							+ '<i class="fas fa-question"></i></button></label><br>'
 						
 						+ '<div class="input-group mb-3">'
 							+ '<span class="input-group-text">R$</span>'
@@ -654,15 +663,20 @@ function imprimirResumo() {
 										+'<td>Data</td>'
 										+'<td>Ação</td>'
 										+'<td>Total</td>';
-						
-						for(log of e) {
-							linhaHtml += '<tr>'
-										+ '<td>' + log.logData + '</td>';
-							
-							if(log.gastos != 0) linhaHtml += '<td>gasto</td><td>R$ ' + log.gastos.toFixed(2) + '</td>';
-							if(log.horas != 0) linhaHtml += '<td>hora extra</td><td>R$ ' + log.horas.toFixed(2) + '</td>';
-							if(log.pago != 0) linhaHtml += '<td>pago</td><td>R$ ' + log.pago.toFixed(2) + '</td>';
+						if(e != 0){
+							for(log of e) {
+								linhaHtml += '<tr>'
+											+ '<td>' + log.logData + '</td>';
+								
+								if(log.gastos != 0) linhaHtml += '<td>gasto</td><td>R$ ' + log.gastos.toFixed(2) + '</td>';
+								if(log.horas != 0) linhaHtml += '<td>hora extra</td><td>R$ ' + log.horas.toFixed(2) + '</td>';
+								if(log.pago != 0) linhaHtml += '<td>pago</td><td>R$ ' + log.pago.toFixed(2) + '</td>';
+								linhaHtml += '</tr>';
+							}
+						}else{
+							linhaHtml += '<tr><td colspan="3">Nenhum registro adicionado</td></tr>';
 						}
+						
 
 						linhaHtml += '</table>';
 						
@@ -674,7 +688,7 @@ function imprimirResumo() {
 						    content: linhaHtml,
 						    buttons: {
 						        confirm: {
-									text: '<span class="oi oi-print"></span> Imprimir',
+									text: '<i class="fas fa-print"></i> Imprimir',
 						    		keys: ['enter'],
 						            btnClass: 'btn-green',
 						            action: function(){
