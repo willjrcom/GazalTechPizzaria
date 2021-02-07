@@ -9,9 +9,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	
 	<div class="divbase">
-		<h1 class="h1Logo">Finalizar</h1>
-		<hr>
-		
+		<br>
 		<input type="hidden" id="btnCadastrar" th:value="${btnCadastrar}"/>
 		
 		<div id="divCadastrar" class="hidden">
@@ -19,9 +17,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		
 		<div class="distMargin" id="divFiltro">
-			<label>A/C</label>
 			<select autofocus="autofocus" name="filtro" id="filtro">
-				<option value="--">-----------</option>
+				<option value="--">Selecione o atendente</option>
 				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
 			</select>
 		</div>

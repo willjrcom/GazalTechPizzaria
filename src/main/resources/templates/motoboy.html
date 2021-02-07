@@ -4,22 +4,19 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Entregar</title></head>
+<head><title>Entregas</title></head>
 
 <body>
 	
 	<div class="divbase">
-		<h1 class="h1Logo">Entregas</h1>
-		<hr>
-		
+		<br>
 		<input type="hidden" id="btnCadastrar" th:value="${btnCadastrar}"/>
 		<div id="divCadastrar" class="hidden">
 			<a th:href="@{/adm/cadastroFuncionario/MOTOBOY}"><button class="btn btn-success">Cadastrar Motoboy para entregar</button></a>
 		</div>
 		<div class="distMargin" id="divFiltro">
-			<label>Motoboy</label>
 			<select name="filtro" id="filtro" autofocus>
-				<option value="--">-----------</option>
+				<option value="--">Selecione o motoboy</option>
 				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
 			</select>
 		</div>
@@ -32,7 +29,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="text-center col-md-1"><h3>Comanda</h3></th>
 						<th class="text-center col-md-1"><h3>Cliente</h3></th>
 						<th class="text-center col-md-2"><h3>Endereço</h3></th>
-						<th class="text-center col-md-1"><h3>Tº produtos</h3></th>
+						<th class="text-center col-md-1"><h3>Qtd produtos</h3></th>
 						<th class="text-center col-md-1"><h3>Levar</h3></th>
 						<th class="text-center col-md-1"><h3>Entregar</h3></th>
 					</tr>
