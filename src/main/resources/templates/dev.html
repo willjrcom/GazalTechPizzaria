@@ -61,7 +61,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 		<br>
-		<button type="button" id="criar" class="form-contact-button" name="enviar">Criar Usuário</button>
+		<button type="button" id="criar" class="btn btn-success" name="enviar">Criar Usuário</button>
+		
+		 <br><hr>
+		 
+		 <div class="col-md-6 row">
+		 	<h3>Controle de acesso</h3>
+		 	<div class="col-md-6">
+		 		<input type="number" id="codAcess" class="form-control" value="0"/>
+		 	</div>
+		 	
+		 	<div class="col-md-6">
+		 		<select id="typeAcess" class="form-control">
+		 			<option value="0">Bloquear</option>
+		 			<option value="1">Permitir</option>
+		 		</select>
+		 	</div>
+		 	<div>&nbsp;</div>
+		 	<div><button class="btn btn-success" onclick="controlAcess()">Enviar</button></div>
+		 </div>
+		 
 		 <br><hr>
 		 <h3 align="center">Todos Usuários</h3>
 		 <table>

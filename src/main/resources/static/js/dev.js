@@ -18,6 +18,7 @@ $.ajax({
 		$("#todosUsuarios").html(pedidoVazio);
 	}else{
 		usuarios = e;
+		usuarios = usuarios.sort((a, b) => a.codEmpresa - b.codEmpresa);
 		var usuarioHtml = '';
 		
 		for(usuario of usuarios) {
@@ -346,6 +347,27 @@ function apagarUsuario() {
 			}
 		}
 	});
+}
+
+
+function controlAcess(){
+	carregarLoading("block");
+	fetch('/dev/dev/controlAcess/' + $("#codAcess").val() + '/' + $("#typeAcess").val())
+		.then(() => {
+			carregarLoading("none");
+			$.alert({
+				type: 'green',
+				title: 'sucesso',
+				content: 'Usuários alterados!',
+				buttons:{
+					confirm: {
+						text: 'Continuar',
+						btnClass: 'btn btn-success',
+						keys: ['esc', 'enter'] 
+					}
+				}
+			});
+		});
 }
 
 

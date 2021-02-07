@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller.Empresa;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -76,5 +77,25 @@ public class DevController {
 	public String excluirUsuario(@PathVariable long id) {
 		usuarios.deleteById(id);
 		return "200";
+	}
+	
+
+	@RequestMapping(value = "/dev/controlAcess/{codEmpresa}/{type}")
+	@ResponseBody
+	public ResponseEntity<?> controlAcess(@PathVariable int codEmpresa, @PathVariable int type) {
+		
+		List<Usuario> todosUsuarios = usuarios.findByCodEmpresa(codEmpresa);
+		
+		for(int i = 0; i< todosUsuarios.size(); i++) {
+			if(type == 0) {
+				todosUsuarios.get(i).setAtivo(false);
+			}else {
+				todosUsuarios.get(i).setAtivo(true);
+			}
+		}
+		
+		usuarios.saveAll(todosUsuarios);
+		
+		return ResponseEntity.ok("200");
 	}
 }
