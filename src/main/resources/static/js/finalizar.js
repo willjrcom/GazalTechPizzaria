@@ -231,7 +231,7 @@ function finalizarPedido() {
 							url: "/finalizar/finalizarPedido/" + idProduto + '/' + $("#filtro").val(),
 							type: 'PUT'
 						}).done(function(){
-							document.location.reload(true);
+							document.location.href="/finalizar";
 							
 						}).fail(function(){
 							carregarLoading("none");

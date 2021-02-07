@@ -25,6 +25,7 @@ if(typeof url_atual != "undefined") {
 		$("#cel").val(funcionario.celular);
 		$("#cargo").val(funcionario.cargo);
 		$("#sexo").val(funcionario.sexo);
+		$("#situacao").val(funcionario.situacao);
 		
 		//endereco
 		$("#idEnd").val(funcionario.endereco.id);
@@ -62,6 +63,7 @@ function setFuncionario() {
 	funcionario.cpf = $("#cpf").val();
 	funcionario.cargo = $("#cargo").val();
 	funcionario.sexo = $("#sexo").val();
+	funcionario.situacao = $("#situacao").val();
 	
 	//endereco
 	funcionario.endereco = {};

@@ -200,7 +200,7 @@ function enviarPedido() {
 						url: "/cozinha/enviarPedido/" + idProduto,
 						type: 'PUT'
 					}).done(function(){
-						document.location.reload(true);
+						document.location.href="/cozinha";
 					});
 			    },
 			},

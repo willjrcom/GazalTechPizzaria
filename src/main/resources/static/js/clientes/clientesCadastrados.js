@@ -16,24 +16,17 @@ $("#buscar").click(function(){
 		type: 'GET'
 	}).done(function(e){
 		
-		clientes = [];
+		clientes = e;
 		if(e.length == 0) {
 			$("#todosClientes").html(pedidoVazio);
 		}else{
-			for(cliente of e) {
-				clientes.unshift({
-					'id': cliente.id,
-					'nome': cliente.nome,
-					'cpf': cliente.cpf,
-					'celular': cliente.celular,
-					'endereco': cliente.endereco.rua + ' - ' + cliente.endereco.n  + ' - ' + cliente.endereco.bairro,
-					'referencia' : cliente.endereco.referencia,
-					'taxa' : cliente.endereco.taxa
-				});
-			}
 	
 			linhaHtml = "";
 			for(cliente of clientes){
+				cliente.referencia = cliente.endereco.referencia;
+				cliente.taxa = cliente.endereco.taxa;
+				cliente.endereco = cliente.endereco.rua + ' - ' + cliente.endereco.n  + ' - ' + cliente.endereco.bairro
+				
 				linhaHtml += '<tr>'
 							+ '<td>' + cliente.nome + '</td>'
 							+ '<td>' + cliente.celular + '</td>'
@@ -85,23 +78,61 @@ function verCliente() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in clientes) if(clientes[i].id == idCliente) var idBusca = i;
-
-	linhaHtml = '<table><tr>'
-					+ '<td><h4>Celular</h4></td>'
-					+ '<td><h4>Cpf</h4></td>'
-					+ '<td><h4>Endereco</h4></td>'
-					+ '<td><h4>Referência</h4></td>'
-					+ '<td><h4>Taxa</h4></td>'
-				+ '</tr>'
 	
-				+ '<tr>'
-					+ '<td>' + clientes[idBusca].celular + '</td>'
-					+ '<td>' + clientes[idBusca].cpf + '</td>'
-					+ '<td>' + clientes[idBusca].endereco + '</td>'
-					+ '<td>' + clientes[idBusca].referencia + '</td>'
-					+ '<td> R$ ' + parseFloat(clientes[idBusca].taxa).toFixed(2) + '</td>'
-				+ '</tr>'
-			+ '</table>';
+	linhaHtml = '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Celular</label>'
+						+ '<input class="form-control" value="' 
+							+ clientes[idBusca].celular
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-6">'
+						+ '<label>Cpf</label>'
+						+ '<input class="form-control" value="' 
+							+ clientes[idBusca].cpf
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div>'
+					+ '<label>Endereco</label>'
+					+ '<input class="form-control" value="' 
+						+ clientes[idBusca].endereco
+					+ '" readonly/>'
+				+ '</div>'
+			
+				+ '<div>'
+					+ '<label>Referência</label>'
+					+ '<input class="form-control" value="' 
+						+ clientes[idBusca].referencia
+					+ '" readonly/>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-4">'
+						+ '<label>Taxa de entrega</label>'
+						+ '<input class="form-control" value=" R$ ' 
+							+ clientes[idBusca].taxa.toFixed(2)
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-4">'
+						+ '<label>Data de cadastro</label>'
+						+ '<input class="form-control" value="' 
+							+ clientes[idBusca].dataCadastro.split('-')[2] + '/'
+							+ clientes[idBusca].dataCadastro.split('-')[1] + '/'
+							+ clientes[idBusca].dataCadastro.split('-')[0]
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-4">'
+						+ '<label>Total de pedidos</label>'
+						+ '<input class="form-control" value="' 
+							+ clientes[idBusca].contPedidos
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>';
 	
 	$.alert({
 		type: 'blue',

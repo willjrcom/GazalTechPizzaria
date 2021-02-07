@@ -12,11 +12,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 			<div class="col-md-10">
+				<label>Nome:</label>
 				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control textIndent pula" 
 					placeholder="Qual produto você está procurando?"/>
 			</div>
 	
 			<div class="col-md-2">
+			<div>&nbsp;</div>
 				<input type="button" name="buscarProduto" id="buscar" class="form-control btn btn-primary pula" value="Buscar"/>
 			</div>
 		</div>
@@ -30,10 +32,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="col-md-1"><h3>Produto</h3></th>
 						<th class="col-md-1"><h3>Preço</h3></th>
 						<th class="col-md-1"><h3>Custo</h3></th>
-						<th class="col-md-1"><h3>   </h3></th>
+						<th class="col-md-1"><h3></h3></th>
 					</tr>
 				</thead>
-				<tbody id="todosProdutos"></tbody>
+				<tbody id="todosProdutos"><tr><td colspan="5">Nenhum produto encontrado!</td></tr></tbody>
 			</table>
 		</div>
 	</div>

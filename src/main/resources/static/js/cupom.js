@@ -55,7 +55,7 @@ function salvar() {
 						btnClass: 'btn-success',
 						keys: ['esc', 'enter'],
 						action: function(){
-							document.location.reload(true);
+							document.location.href ="/adm/cupom";
 						}
 					}
 				}

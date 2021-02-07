@@ -74,27 +74,65 @@ function verProduto() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in produtos) if(produtos[i].id == idProduto) var idBusca = i;		
-		
-	linhaHtml = '<table><tr>'
-					+ '<td><h4>Codigo</h4></td>'
-					+ '<td><h4>Nome</h4></td>'
-					+ '<td><h4>Preço</h4></td>'
-					+ '<td><h4>Setor</h4></td>'
-					+ '<td><h4>Descrição</h4></td>'
-				+ '</tr>'
-	
-				+ '<tr>'
-					+ '<td>' + produtos[idBusca].codigoBusca + '</td>'
-					+ '<td>' + produtos[idBusca].nomeProduto + '</td>'
-					+ '<td>' + produtos[idBusca].preco + '</td>'
-					+ '<td>' + produtos[idBusca].setor + '</td>'
-					+ '<td>' + produtos[idBusca].descricao + '</td>'
-				+ '</tr>'
-			+ '</table>';
+
+	linhaHtml = '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Codigo de busca</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].codigoBusca
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-6">'
+						+ '<label>Nome do produto</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].nomeProduto
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Preço</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].preco
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-6">'
+						+ '<label>Custo</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].custo
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Setor</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].setor
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-6">'
+						+ '<label>Disponivel para venda?</label>'
+						+ '<input class="form-control" value="' 
+							+ (produtos[idBusca].disponivel == 1 ? "Sim" : "Não")
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div>'
+					+ '<label>Descrição</label>'
+					+ '<input class="form-control" value="' 
+						+ produtos[idBusca].descricao
+					+ '" readonly/>'
+				+ '</div>';
 	
 	$.alert({
 		type: 'blue',
-	    title: 'Produto:' + produtos[idBusca].nomeProduto,
+	    title: 'Produto: ' + produtos[idBusca].nomeProduto,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
 	    containerFluid: true,

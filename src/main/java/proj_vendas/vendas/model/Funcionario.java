@@ -43,7 +43,7 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String sexo;
 	
-	private String status;
+	private boolean situacao;
 	
 	@Lob
 	private String obs;

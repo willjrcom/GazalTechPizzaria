@@ -134,7 +134,7 @@ function finalizarPedido() {
 							url: "/motoboy/enviarMotoboy/" + idProduto + '/' + $("#filtro").val(),
 							type: 'PUT'
 						}).done(function(){
-							document.location.reload(true);
+							document.location.href="/motoboy";
 						});
 						
 					}

@@ -18,23 +18,13 @@ $("#buscar").click(function(){
 		if(e.length == 0) {
 			$("#todosFuncionarios").html(pedidoVazio);
 		}else {
-			funcionarios = [];
-		
-			for(funcionario of e) {
-				funcionarios.unshift({
-					'id': funcionario.id,
-					'nome': funcionario.nome,
-					'cpf': funcionario.cpf,
-					'celular': funcionario.celular,
-					'cargo': funcionario.cargo,
-					'endereco': funcionario.endereco.rua + ', ' + funcionario.endereco.n + ' - ' + funcionario.endereco.bairro,
-					'referencia': funcionario.endereco.referencia
-				});
-			}
-			
+			funcionarios = e;
 			linhaHtml = '';
 			
 			for(funcionario of funcionarios) {
+				funcionario.referencia = funcionario.endereco.referencia;
+				funcionario.endereco = funcionario.endereco.rua + ', ' + funcionario.endereco.n + ' - ' + funcionario.endereco.bairro;
+				
 				linhaHtml += '<tr>'
 							+ '<td>' + funcionario.nome + '</td>'
 							+ '<td>' + funcionario.celular + '</td>'
@@ -88,32 +78,159 @@ function verFuncionario() {
 	//buscar dados completos do pedido enviado
 	for(i in funcionarios) if(funcionarios[i].id == idFuncionario) var idBusca = i;	
 	
-	linhaHtml = '<table style="width:100%"><tr>'
-					+ '<td><h4>Celular</h4></td>'
-					+ '<td><h4>Cpf</h4></td>'
-					+ '<td><h4>Endereco</h4></td>'
-					+ '<td><h4>Referencia</h4></td>'
-				+'</tr>'
-	
-				+ '<tr>'
-					+ '<td>' + funcionarios[idBusca].celular + '</td>'
-					+ '<td>' + funcionarios[idBusca].cpf + '</td>'
-					+ '<td>' + funcionarios[idBusca].endereco + '</td>'
-					+ '<td>' + funcionarios[idBusca].referencia + '</td>'
-				+ '</tr>'
-			+ '</table>';
-	
+	linhaHtml = '<div class="row">'
+					+ '<div class="col-md-3">'
+						+ '<label>Celular</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].celular
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-3">'
+						+ '<label>Cpf</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].cpf
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-3">'
+						+ '<label>Cargo</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].cargo
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-3">'
+						+ '<label>Sexo</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].sexo
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-4">'
+						+ '<label>Email</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].email
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-4">'
+						+ '<label>Situação</label>'
+						+ '<input class="form-control" value="' 
+							+ (funcionarios[idBusca].situacao == 1 ? "Ativo" : "Inativo")
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-4">'
+						+ '<label>Data de nascimento</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].nascimento.split('-')[2] + '/'
+							+ funcionarios[idBusca].nascimento.split('-')[1] + '/'
+							+ funcionarios[idBusca].nascimento.split('-')[0]
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div>'
+					+ '<label>Endereco</label>'
+					+ '<input class="form-control" value="' 
+						+ funcionarios[idBusca].endereco
+					+ '" readonly/>'
+				+ '</div>'
+			
+				+ '<div>'
+					+ '<label>Referência</label>'
+					+ '<input class="form-control" value="' 
+						+ funcionarios[idBusca].referencia
+					+ '" readonly/>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-4">'
+						+ '<label>Dia de pagamento</label>'
+						+ '<input class="form-control" value=" R$ ' 
+							+ funcionarios[idBusca].diaPagamento.toFixed(2)
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-4">'
+						+ '<label>Salário</label>'
+						+ '<input class="form-control" value=" R$ ' 
+							+ funcionarios[idBusca].salario.toFixed(2)
+						+ '" readonly/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-4">'
+						+ '<label>Data de admissão</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].admissao.split('-')[2] + '/'
+							+ funcionarios[idBusca].admissao.split('-')[1] + '/'
+							+ funcionarios[idBusca].admissao.split('-')[0]
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>';
+				
 	$.alert({
 		type: 'blue',
-	    title: 'Funcionario: ' + funcionarios[idBusca].nome,
+	    title: 'Funcionário: ' + funcionarios[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
 	    containerFluid: true,
 	    buttons: {
+			situacao: {
+				text: (funcionarios[idBusca].situacao == 1 ? "Demitir" : "Contratar"),
+				btnClass: 'btn btn-warning',
+				action: () => {
+					$.confirm({
+						type: 'warning',
+						title: 'confirmar: '+ (funcionarios[idBusca].situacao == 1 ? "demissão" : "contratação"),
+						content: 'Deseja continuar?',
+						buttons: {
+							confirm: {
+								text: 'Confirmar',
+					    		keys: ['enter'],
+					            btnClass: 'btn-success',
+								action: () => {
+									if(funcionarios[idBusca].situacao == 1){
+										$.confirm({
+											type: 'warning',
+											title: 'Observação',
+											content: 'Digite o motivo da demissão'
+												+ '<textarea id="obs" class="form-control" />',
+											buttons: {
+												confirm:{
+													text: 'confirmar',
+													btnClass: 'btn btn-success',
+													keys: ['enter'],
+													action: () => {
+														
+													}
+												},
+												cancel: {
+													text: 'Voltar',
+													btnClass: 'btn btn-danger',
+													keys: ['esc']
+												}
+											}
+										});
+									}
+								}
+							},
+					        confirm: {
+								text: 'Voltar',
+					    		keys: ['esc'],
+					            btnClass: 'btn-danger',
+							}
+						}
+					})
+				}
+			},
 	        confirm: {
 				text: 'Voltar',
 	    		keys: ['enter'],
-	            btnClass: 'btn-green',
+	            btnClass: 'btn-sucess',
 			}
 		}
 	});
