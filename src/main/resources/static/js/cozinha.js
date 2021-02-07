@@ -1,20 +1,19 @@
 $("#filtro").selectmenu().addClass("overflow");
-var pedidos = [];
-var produtos = [];
-var pizzas = [];
+var [pedidos, produtos, pizzas] = [[], [], []];
 var linhaHtml =  "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>';
-var Tpedidos = 0, totalPedidos = 0;
-var Tpizzas = 0;
-var AllPizzas = 0;
+var [Tpedidos, totalPedidos, Tpizzas, AllPizzas] = [0, 0, 0, 0];
 var divisao;
 
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Cozinha"));
 
-
-//Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
+$("#ativarAudio").on('click',() => {
+	$("#ativarAudio").hide('slow');
+});
+
 
 function buscarPedido() {
 	pedidos = [];
@@ -43,10 +42,26 @@ function buscarPedido() {
 			}
 		}
 		
+		$("#totalPizzas").val(AllPizzas + ' Pizzas a fazer');
+		
 		if(pedidos.length == 0)
 			$("#todosPedidos").html(pedidoVazio);
 			
 		if(totalPedidos != Tpedidos) {
+			//ativar so de novos pedidos
+			let startPlayPromise = document.getElementById('audio').play();
+
+			if(startPlayPromise !== undefined) {
+				startPlayPromise.then(() => {
+			    	document.getElementById('audio').play();
+			  }).catch(error => {
+			    if(error.name === "NotAllowedError") {
+			    	$("#ativarAudio").show('show');
+			    }else {
+					$("#ativarAudio").show('show');
+			    }
+			  });
+			}
 			
 			if(totalPedidos == 0) {
 				mostrar(pedidos, "TODOS");

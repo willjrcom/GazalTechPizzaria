@@ -4,26 +4,36 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Cozinha</title></head>
+<head>
+	<title>Cozinha</title>
+</head>
 
 <body>
 	<div class="divbase">
+		<br>
+		<div class="alert alert-success hidden" role="alert" id="alertaPedidos">novos pedidos!</div>
 		
-		<h1 class="h1Logo">Cozinha</h1>
-		<hr>
+		<div class="row">
+			<div class="col-md-4">
+				<select name="filtro" id="filtro">
+					<option value="TODOS">Todos</option>
+					<option value="ENTREGA">Entrega</option>
+					<option value="BALCAO">Balcão</option>
+					<option value="MESA">Mesa</option>
+					<option value="DRIVE">Drive-thru</option>
+				</select>
+				
+				<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
+			</div>
 		
-		<div class="alert alert-success" role="alert" id="alertaPedidos" style="display:none">novos pedidos!</div>
-
-		<div>
-			<select name="filtro" id="filtro">
-				<option value="TODOS">Todos</option>
-				<option value="ENTREGA">Entrega</option>
-				<option value="BALCAO">Balcão</option>
-				<option value="MESA">Mesa</option>
-				<option value="DRIVE">Drive-thru</option>
-			</select>
+			<div class="col-md-4">
+				<input id="totalPizzas" class="form-control text-center" readonly />
+			</div>
 			
-			<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
+			<div class="col-md-4">
+				<audio id="audio" src="/audio/novoPedido.mp3"></audio>
+				<button class="btn btn-warning hidden" id="ativarAudio"><i class="fas fa-play"></i> Ativar som de pedidos novos</button>
+			</div>
 		</div>
 		
 		<br>
