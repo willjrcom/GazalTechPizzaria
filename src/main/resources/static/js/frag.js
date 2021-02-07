@@ -45,7 +45,7 @@ $(document).ready(function(){
 	}).done(function(e){
 		$("#usuario").html('<i class="fas fa-user-circle"></i> ' + e);
 	});
-	
+
 	$.ajax({
 		url: '/novoPedido/empresa',
 		type: 'GET'

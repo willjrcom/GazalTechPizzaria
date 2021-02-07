@@ -5,6 +5,7 @@ var todosCupons = [];
 var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
 
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Cupom"));
 
 //-------------------------------------------------------------------
 function aviso() {

@@ -1,4 +1,4 @@
-$("#filtro").selectmenu().addClass( "overflow" );
+$("#filtro").selectmenu().addClass("overflow");
 var pedidos = [];
 var funcionarios = [];
 var linhaHtml= "";
@@ -7,7 +7,7 @@ var pedidoVazio = '<tr><td colspan="6">Nenhum pedido em aberto!</td></tr>';
 var Tpedidos = 0, totalPedidos = 0;
 var tPizzas = 0;
 var imprimirTxt;
-
+$(document).ready(() => $("#nomePagina").html("Ver pedidos"));
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");

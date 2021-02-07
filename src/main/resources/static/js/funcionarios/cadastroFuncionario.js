@@ -1,4 +1,5 @@
 var funcionario = {};
+$(document).ready(() => $("#nomePagina").text("Cadastrar Funcionário"));
 
 var url_atual = window.location.href.split("/")[6];
 var cargo = window.location.href.split("/")[5];

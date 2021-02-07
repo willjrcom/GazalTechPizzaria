@@ -5,6 +5,7 @@ var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido finalizado!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
+$(document).ready(() => $("#nomePagina").text("Relatório do dia"));
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------

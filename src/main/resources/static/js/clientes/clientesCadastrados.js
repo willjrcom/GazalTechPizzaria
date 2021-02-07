@@ -1,3 +1,4 @@
+$(document).ready(() => $("#nomePagina").text("Clientes cadastrados"));
 
 var clientes = [];
 var linhaHtml;

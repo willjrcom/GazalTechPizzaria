@@ -9,139 +9,136 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 				
 	<div class="divbaseForm">
-			
-		<hr>
-		<h1 class="h1Logo">Dados da Empresa</h1><br>
-			
-			<input type="hidden" id="id" name="id"/>
-			<input type="hidden" id="idEnd" name="idEnd"/>
-			
-			<div class="row">
-				<div class="col-md-2">	
-					<label>CNPJ: <span class="alertOpcional">*</span></label><br>
-					<input type="text" class="form-control pula cnpj" id="cnpj" name="cnpj" placeholder="CNPJ"/>
-				</div>
-				
-				<div class="col-md-4">
-					<label>&nbsp;</label><br>
-					<button class="btn btn-primary pula" id="buscarCnpj">Busca automática</button>
-				</div>
-			</div>
-			
-			<br>
-			<div class="row">
-				<div class="col-md-6">
-					<label>Nome do Empresa: <span class="alertOpcional">*</span></label><br>
-					<input type="text" class="form-control pula" id="empresa" name="empresa" placeholder="Nome da empresa-ME"  autofocus="autofocus"/>  
-				</div>
-				
-				<div class="col-md-6">
-					<label>Nome fantasia: <span class="alertOpcional">*</span></label><br>
-					<input type="text" class="form-control pula" id="estabelecimento" name="estabelecimento" placeholder="Nome do Estabelecimento"/>  
-				</div>
-			</div>
-			
-			<br>
-			<div class="row">
-				<div class="col-md-8">
-					<label>E-mail: <span class="alertOpcional">*</span></label><br>
-					<div class="input-group mb-3">
-						<span class="input-group-text">@</span>
-						<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
-					</div>
-				</div>
-				
-				<div class="col-md-4">
-					<label>Telefone: <span class="alertOpcional">*</span></label><br>
-					<input type="text" class="form-control pula" id="cel" name="celular" placeholder="(11) 96384-9111 / (11) 98806-0638"/> 
-				</div>
-			</div>
-			
-			<br>
-			<div class="row">
-				<div class="col-md-6">
-					<label>Preço da Hora Extra: <span class="alertOpcional">*</span></label><br>
-					<div class="input-group mb-3">
-						<span class="input-group-text">R$</span>
-						<input class="form-control preco pula" id="horaExtra" name="horaExtra" placeholder="R$ 0.00"/>
-					</div>
-				</div>
-				
-				<div class="col-md-6">
-					<label>Total de mesas: <span class="alertOpcional">*</span></label><br>
-					<input type="number" class="form-control pula" id="mesa" name="mesa" placeholder="Total de mesas"/>
-				</div>
-			</div>
-			
-			<br><br><h3>Endereço:</h3>
-			
-			<div class="row">
-				<div class="col-md-2">
-				   	<div class="form-group">
-				        <label>CEP: </label><br>
-		      			<input type="text" class="form-control pula cep" id="cep" maxlength="12" name="endereco.cep" placeholder="00000000">
-				    </div>
-		  		</div>
-		  		
-		  		<div class="col-md-8">
-				       <label>Rua: <span class="alertOpcional">*</span></label><br>
-		      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua">
-		  		</div>
-		  		
-		  		<div class="col-md-2">
-				       <label>Nº: <span class="alertOpcional">*</span></label><br>
-		      		   <input type="number" class="form-control pula" id="n" name="n" placeholder="123">
-		  		</div>
-			</div>
-			
-			<br>
-			<div class="row">
-				<div class="col-md-6">
-					<label>Bairro: <span class="alertOpcional">*</span></label><br>
-					<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro"/>  
-				</div>
-				
-				<div class="col-md-6">
-					<label>Cidade: <span class="alertOpcional">*</span></label><br>
-					<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade"/> 
-				</div>
-			</div>
-			
-			<br>
-			<div class="form-group">
-				<label>Referência da Empresa:</label><br>
-				<textarea class="form-control pula" id="referencia" name="referencia" placeholder="Referência da Empresa"></textarea>  
-			</div>
-			
-			<br><h3>Impressão do Pedido:</h3>
+		<br>
+		<input type="hidden" id="id" name="id"/>
+		<input type="hidden" id="idEnd" name="idEnd"/>
 		
-			<br>		
-			<div class="form-check form-switch">
-			    <input class="form-check-input imprimir" type="checkbox" id="flexSwitchCheckChecked imprimir" checked />
-			    <label class="form-check-label" for="flexSwitchCheckChecked">
-			  		Deseja imprimir os pedidos? (Se sim, digite os texto a serem aplicados na impressão).</label>
+		<div class="row">
+			<div class="col-md-2">	
+				<label>CNPJ: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula cnpj" id="cnpj" name="cnpj" placeholder="CNPJ"/>
 			</div>
+			
+			<div class="col-md-4">
+				<label>&nbsp;</label><br>
+				<button class="btn btn-primary pula" id="buscarCnpj">Busca automática</button>
+			</div>
+		</div>
 		
-			<br>
-			<div class="form-group">
-				<label>Texto do cabeçalho: <span class="alertOpcional">*</span></label><br>
-				<textarea class="form-control pula" id="texto1" name="texto1" placeholder="Seja bem vindo a nossa pizzaria, a melhor pizza da cidade"></textarea>  
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<label>Nome do Empresa: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula" id="empresa" name="empresa" placeholder="Nome da empresa-ME"  autofocus="autofocus"/>  
 			</div>
 			
-			<br>
-			<div class="form-group">
-				<label>Horário de funcionamento: <span class="alertOpcional">*</span></label><br>
-				<textarea class="form-control pula" id="texto2" name="texto2" placeholder="Estamos abertos de segunda a sexta-feira, das 18h00 as 23h00"></textarea>  
+			<div class="col-md-6">
+				<label>Nome fantasia: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula" id="estabelecimento" name="estabelecimento" placeholder="Nome do Estabelecimento"/>  
+			</div>
+		</div>
+		
+		<br>
+		<div class="row">
+			<div class="col-md-8">
+				<label>E-mail: <span class="alertOpcional">*</span></label><br>
+				<div class="input-group mb-3">
+					<span class="input-group-text">@</span>
+					<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com"/>
+				</div>
 			</div>
 			
-			<br>
-			<div class="form-group">
-				<label>Texto da Promoção: <span class="alertOpcional">*</span></label><br>
-				<textarea class="form-control pula" id="promocao" name="promocao" placeholder="Compre 2 pizzas e ganhe um refigerante"></textarea>  
+			<div class="col-md-4">
+				<label>Telefone: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula" id="cel" name="celular" placeholder="(11) 96384-9111 / (11) 98806-0638"/> 
+			</div>
+		</div>
+		
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<label>Preço da Hora Extra: <span class="alertOpcional">*</span></label><br>
+				<div class="input-group mb-3">
+					<span class="input-group-text">R$</span>
+					<input class="form-control preco pula" id="horaExtra" name="horaExtra" placeholder="R$ 0.00"/>
+				</div>
 			</div>
 			
-			<br><br>
-			<button type="button" id="atualizar" class="form-contact-button" name="atualizar">Atualizar</button>  
+			<div class="col-md-6">
+				<label>Total de mesas: <span class="alertOpcional">*</span></label><br>
+				<input type="number" class="form-control pula" id="mesa" name="mesa" placeholder="Total de mesas"/>
+			</div>
+		</div>
+		
+		<br><br><h3>Endereço:</h3>
+		
+		<div class="row">
+			<div class="col-md-2">
+			   	<div class="form-group">
+			        <label>CEP: </label><br>
+	      			<input type="text" class="form-control pula cep" id="cep" maxlength="12" name="endereco.cep" placeholder="00000000">
+			    </div>
+	  		</div>
+	  		
+	  		<div class="col-md-8">
+			       <label>Rua: <span class="alertOpcional">*</span></label><br>
+	      		   <input type="text" class="form-control pula" id="rua" name="rua" placeholder="Informe a Rua">
+	  		</div>
+	  		
+	  		<div class="col-md-2">
+			       <label>Nº: <span class="alertOpcional">*</span></label><br>
+	      		   <input type="number" class="form-control pula" id="n" name="n" placeholder="123">
+	  		</div>
+		</div>
+		
+		<br>
+		<div class="row">
+			<div class="col-md-6">
+				<label>Bairro: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula" id="bairro" name="bairro" placeholder="Informe o bairro"/>  
+			</div>
+			
+			<div class="col-md-6">
+				<label>Cidade: <span class="alertOpcional">*</span></label><br>
+				<input type="text" class="form-control pula" id="cidade" name="cidade" placeholder="Informe a cidade"/> 
+			</div>
+		</div>
+		
+		<br>
+		<div class="form-group">
+			<label>Referência da Empresa:</label><br>
+			<textarea class="form-control pula" id="referencia" name="referencia" placeholder="Referência da Empresa"></textarea>  
+		</div>
+		
+		<br><h3>Impressão do Pedido:</h3>
+	
+		<br>		
+		<div class="form-check form-switch">
+		    <input class="form-check-input imprimir" type="checkbox" id="flexSwitchCheckChecked imprimir" checked />
+		    <label class="form-check-label" for="flexSwitchCheckChecked">
+		  		Deseja imprimir os pedidos? (Se sim, digite os texto a serem aplicados na impressão).</label>
+		</div>
+	
+		<br>
+		<div class="form-group">
+			<label>Texto do cabeçalho: <span class="alertOpcional">*</span></label><br>
+			<textarea class="form-control pula" id="texto1" name="texto1" placeholder="Seja bem vindo a nossa pizzaria, a melhor pizza da cidade"></textarea>  
+		</div>
+		
+		<br>
+		<div class="form-group">
+			<label>Horário de funcionamento: <span class="alertOpcional">*</span></label><br>
+			<textarea class="form-control pula" id="texto2" name="texto2" placeholder="Estamos abertos de segunda a sexta-feira, das 18h00 as 23h00"></textarea>  
+		</div>
+		
+		<br>
+		<div class="form-group">
+			<label>Texto da Promoção: <span class="alertOpcional">*</span></label><br>
+			<textarea class="form-control pula" id="promocao" name="promocao" placeholder="Compre 2 pizzas e ganhe um refigerante"></textarea>  
+		</div>
+		
+		<br><br>
+		<button type="button" id="atualizar" class="form-contact-button" name="atualizar">Atualizar</button>  
 	</div>
 	
 	<br>

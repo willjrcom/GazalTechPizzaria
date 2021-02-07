@@ -1,3 +1,5 @@
+$(document).ready(() => $("#nomePagina").text("Cadastrar produtos"));
+
 var produto = {};
 var url_atual = window.location.href;
 

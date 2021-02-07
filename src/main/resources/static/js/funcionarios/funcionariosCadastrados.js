@@ -1,7 +1,8 @@
 
+$(document).ready(() => $("#nomePagina").text("Funcionários cadastrados"));
 var funcionarios = [];
 var linhaHtml;
-var pedidoVazio = '<tr><td colspan="4">Nenhum funcionario encontrado!</td></tr>';
+var pedidoVazio = '<tr><td colspan="4">Nenhum funcionário encontrado!</td></tr>';
 var linhaCinza = '<tr id="linhaCinza"><td colspan="4" class="fundoList"></td></tr>';
 
 

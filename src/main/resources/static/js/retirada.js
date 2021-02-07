@@ -5,6 +5,7 @@ var pedidoVazio = '<tr><td colspan="2">Nenhum pedido disponível!</td></tr>';
 var pedidoSemPizza = '<tr><td colspan="2">Nenhum pedido com pizza disponível!</td></tr>';
 
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Retirada"));
 
 
 //-------------------------------------------------------------------------------------------------------------------

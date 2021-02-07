@@ -1,4 +1,5 @@
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Estatísticas"));
 
 //vendas/lucro
 //--------------------------------------------------------------------------------------------

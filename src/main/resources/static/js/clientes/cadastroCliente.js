@@ -1,3 +1,5 @@
+$(document).ready(() => $("#nomePagina").text("Cadastrar cliente"));
+
 var cliente = {};
 var url_atual = window.location.href;
 

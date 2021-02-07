@@ -9,16 +9,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	
 	<div class="divbase">
-		<h1 class="h1Logo">Buscar Funcionários</h1>
-		<hr>
-		
+		<br>
 		<div class="row">
 			<div class="col-md-10">
+				<Label>Nome:</Label>
 				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control pula" 
 					placeholder="Qual funcionário você está procurando?" style="text-indent: 10px"/>
 			</div>
 					
 			<div class="col-md-2">
+			<div>&nbsp;</div>
 				<button type="submit" name="buscarFunc" id="buscar" class="form-control btn btn-primary pula">Buscar</button>
 			</div>
 		</div>
@@ -31,10 +31,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="col-md-1"><h3>Funcionário</h3></th>
 						<th class="col-md-1"><h3>Celular</h3></th>
 						<th class="col-md-1"><h3>Cargo</h3></th>
-						<th class="col-md-1"><h3>   </h3></th>
+						<th class="col-md-1"><h3></h3></th>
 					</tr>
 				</thead>
-				<tbody id="todosFuncionarios"></tbody>
+				<tbody id="todosFuncionarios"><tr><td colspan="4">Nenhum funcionário encontrado!</td></tr></tbody>
 			</table>
 		</div>
 	

@@ -1,4 +1,4 @@
-
+$(document).ready(() => $("#nomePagina").text("Fechamento do dia"));
 var dados = {}, Dado, pedidos;
 var Tpedidos;
 var Tvendas = 0, Tfaturamento = 0;

@@ -1,4 +1,5 @@
 $("#filtro").selectmenu().addClass("overflow");
+$(document).ready(() => $("#nomePagina").text("Finalizar pedidos"));
 var pedidos = [];
 var funcionarios = [];
 var pizzas = [];

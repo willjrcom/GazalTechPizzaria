@@ -93,6 +93,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<ul class="gn-menu">
 							<li>
 								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
+								<a th:href="@{/verpedido}" accesskey="V"><i class="fas fa-list"></i> Ver Pedidos</a>
 								<a th:href="@{/novoPedido}" accesskey="N"><i class="fas fa-plus-circle"></i> Novo Pedido</a>
 								<a th:href="@{/motoboy}" accesskey="E"><i class="fas fa-location-arrow"></i> Entregar</a>
 								<a th:href="@{/finalizar}" accesskey="F"><i class="fas fa-hand-holding-usd"></i> Finalizar</a>
@@ -102,7 +103,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
 								<a th:href="@{/cozinha}" accesskey="C"><i class="far fa-clock"></i> Cozinha</a>
 								<a th:href="@{/saidaForno}" accesskey="S"><i class="far fa-eye"></i> Saída forno</a>
-								<a th:href="@{/retirada}" accesskey="S"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
+								<a th:href="@{/retirada}" accesskey="R"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
 							
 							<li>
@@ -113,7 +114,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a th:href="@{/verpedido}" accesskey="V"><i class="fas fa-list"></i> Ver Pedidos</a></li>
+			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -152,6 +153,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
+			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -195,7 +197,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><label id="usuario"></label></li>
+			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -247,6 +249,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
+			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>

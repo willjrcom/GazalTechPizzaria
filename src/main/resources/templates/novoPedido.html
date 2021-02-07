@@ -11,24 +11,24 @@
 				
 	<div class="divbase">
 		<div id="divBuscarCliente">
-		
-			<div class="col-md-2 fRight" id="botaoCadastrarNovoPedido">
-				<a th:href="@{/cadastroCliente}"><button class="form-control btn btn-success btn-sm"><i class="fas fa-plus" id="cadastroCliente"></i> Cliente</button></a>
+			<br>
+			<div class="col-md-2">
+				<a th:href="@{/cadastroCliente}">
+					<button class="form-control btn btn-success"><i class="fas fa-plus" id="cadastroCliente"></i> Cliente</button>
+				</a>
 			</div>
 			
-			<h1 class="h1Logo esconder1">Novo Pedido</h1>
-			<hr>
-			
+			<br>
 			<div class="row">
-				<div class="form-group col-md-10">
+				<div class="col-md-10">
 					<input type="search" name="celular" id="numeroCliente"
 					autofocus="autofocus" class="form-control textIndent pula"
 					placeholder="Qual cliente você está procurando? (celular ou nome)"/>
 				</div>
 				
-				<div class="form-group col-md-2">
+				<div class="col-md-2">
 					<button name="buscarCliente" id="buscarCliente" onclick="buscarCliente()"
-						class="form-control btn btn-primary pula"><i class="fas fa-plus"></i> Criar</button>
+						class="form-control btn btn-primary pula"><i class="fas fa-plus"></i> Iniciar pedido</button>
 				</div>
 			</div>
 			<br>

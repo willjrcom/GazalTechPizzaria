@@ -7,6 +7,7 @@ var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido cancelado!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
+$(document).ready(() => $("#nomePagina").text("Pedidos excluídos"));
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------

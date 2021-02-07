@@ -1,3 +1,5 @@
+$(document).ready(() => $("#nomePagina").text("Produtos cadastrados"));
+
 var produtos = [];
 var linhaHtml;
 var pedidoVazio = '<tr><td colspan="5">Nenhum produto encontrado!</td></tr>';

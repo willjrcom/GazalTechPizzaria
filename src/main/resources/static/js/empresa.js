@@ -1,5 +1,6 @@
 var empresa = {};
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Dados"));
 
 
 //---------------------------------------------------

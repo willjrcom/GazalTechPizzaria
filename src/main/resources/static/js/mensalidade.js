@@ -1,6 +1,7 @@
 var linhaHtml = '';
 var linhaCinza = '<tr><td colspan="3" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="3">Nenhuma mensalidade disponível!</td></tr>';
+$(document).ready(() => $("#nomePagina").text("Mensalidade"));
 
 /*
 $.ajax({

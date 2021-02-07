@@ -6,6 +6,7 @@ var [opSenha, confEmail] = [0, 0]; //-1 nao alterar, 0 alterar
 //linhas---------------------------------------------------------------------------
 var pedidoVazio = '<tr><td colspan="6">Nenhum usuário encontrado!</td></tr>';
 var linhaCinza = '<tr id="linhaCinza"><td colspan="6" class="fundoList"></td></tr>';
+$(document).ready(() => $("#nomePagina").text("Desenvolvedor"));
 
 //---------------------------------------------------------------------------------
 carregarLoading("block");

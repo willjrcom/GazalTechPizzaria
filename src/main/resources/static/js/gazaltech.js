@@ -1,4 +1,6 @@
 var url = window.location.href;
+$(document).ready(() => $("#nomePagina").text("Gazaltech"));
+
 if(url.split("/")[4] === "enviado"){
 	alert("Email enviado com sucesso!");
 }

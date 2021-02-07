@@ -5,6 +5,7 @@ var Tcompras = '';
 var linhaCinza = '<tr><td colspan="2" class="fundoList" ></td></tr>';
 
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Compras do dia"));
 
 
 //-------------------------------------------------------------------

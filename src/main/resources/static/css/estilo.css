@@ -336,19 +336,12 @@ table tbody tr td{
 	
 }
 
-#botaoCadastrarNovoPedido{
-	position: absolute;
-}
-
 #mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, .divListaGeral{
 	display: none;
 }
 
 /*celular*/
 @media (max-width:768px){
-	#botaoCadastrarNovoPedido{
-		display: none;
-	}
 }
 
 /*computador*/

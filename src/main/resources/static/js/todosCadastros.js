@@ -1,3 +1,5 @@
+$(document).ready(() => $("#nomePagina").text("Cadastros"));
+
 //cadastros------------------------------------------------------
 function mostrarClientes(){
 	if($("#topClientes").is(":visible") == false){

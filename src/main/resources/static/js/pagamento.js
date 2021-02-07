@@ -4,7 +4,7 @@ var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum Funcionário encontrado!</td></tr>';
 var horaExtra = 10;
-
+$(document).ready(() => $("#nomePagina").text("Pagamento de funcionários"));
 
 //-------------------------------------------------------
 function dataAtualFormatada(){

@@ -9,6 +9,7 @@ var Tpizzas = 0;
 var divisao;
 
 carregarLoading("block");
+$(document).ready(() => $("#nomePagina").text("Saída do forno"));
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
