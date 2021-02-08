@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller.Empresa;
+package proj_vendas.vendas.web.controller.Dev;
 
 import java.util.Optional;
 
@@ -31,7 +31,7 @@ public class DivulgarController {
 		return divulgacoes.save(divulgar);
 	}
 	
-	@RequestMapping(value = "/divulgar")
+	@RequestMapping(value = "/divulgar/mostrar")
 	@ResponseBody
 	public Optional<Divulgar> mostrar() {
 		return divulgacoes.findById((long)1);

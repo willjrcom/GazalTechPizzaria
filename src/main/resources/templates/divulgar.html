@@ -10,6 +10,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 	<div class="divbaseForm">
 		<br>
+		<input type="hidden" class="form-control" id="id"/>
+		
 		<div>
 			<label>Empresa 1</label>
 			<div class="row">
@@ -20,7 +22,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div class="col-md-6">
 					<label>Valor:</label>
-					<input class="form-control" id="valor1" />
+					<input class="form-control preco" id="valor1" />
 				</div>
 			</div>
 			
@@ -49,7 +51,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 		
-		<hr>
+		<hr><br>
 		<div>
 			<label>Empresa 2</label>
 			<div class="row">
@@ -60,7 +62,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div class="col-md-6">
 					<label>Valor:</label>
-					<input class="form-control" id="valor2" />
+					<input class="form-control preco" id="valor2" />
 				</div>
 			</div>
 			
@@ -89,7 +91,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 		
-		<hr>
+		<hr><br>
 		<div>
 			<label>Empresa 3</label>
 			<div class="row">
@@ -100,7 +102,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div class="col-md-6">
 					<label>Valor:</label>
-					<input class="form-control" id="valor3" />
+					<input class="form-control preco" id="valor3" />
 				</div>
 			</div>
 			
@@ -129,7 +131,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 		
-		<hr>
+		<hr><br>
 		<div>
 			<label>Empresa 4</label>
 			<div class="row">
@@ -140,7 +142,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div class="col-md-6">
 					<label>Valor:</label>
-					<input class="form-control" id="valor4" />
+					<input class="form-control preco" id="valor4" />
 				</div>
 			</div>
 			
@@ -169,7 +171,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 		
-		<hr>
+		<hr><br>
 		<div>
 			<label>Empresa 5</label>
 			<div class="row">
@@ -180,7 +182,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				
 				<div class="col-md-6">
 					<label>Valor:</label>
-					<input class="form-control" id="valor5" />
+					<input class="form-control preco" id="valor5" />
 				</div>
 			</div>
 			
@@ -228,5 +230,5 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<script th:src="@{/js/divulgar.js}"></script>
 	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
-	<div th:replace="~{layouts/frag :: empresa}"></div>
+	<div th:replace="~{layouts/frag :: dev}"></div>
 </html>
