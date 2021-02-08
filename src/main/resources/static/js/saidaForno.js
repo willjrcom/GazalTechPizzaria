@@ -129,7 +129,7 @@ buscarPedidos();
 
 setInterval(function (){
 	buscarPedidos();
-},20000); // recarregar a cada 20 segundos
+},10000); // recarregar a cada 10 segundos
 	
 
 

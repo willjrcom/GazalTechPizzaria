@@ -112,7 +112,7 @@ buscarPedido();
 
 setInterval(function(){
 	buscarPedido();
-},10000); // recarregar a cada 30 segundos
+},10000); // recarregar a cada 10 segundos
 
 
 //-----------------------------------------------------------------------------------------------------------
