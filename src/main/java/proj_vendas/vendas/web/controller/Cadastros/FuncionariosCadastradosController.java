@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller.Cadastros;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -46,5 +47,25 @@ public class FuncionariosCadastradosController {
 	public String excluirFuncionario(@PathVariable long id) {
 		funcionarios.deleteById(id);
 		return "ok";
+	}
+	
+
+	@RequestMapping(value = "/funcionariosCadastrados/situacao/{id}/{obs}")
+	@ResponseBody
+	public ResponseEntity<?> situacao(@PathVariable long id, @PathVariable String obs) {
+		Funcionario funcionario = funcionarios.findById(id).get();
+
+		if(funcionario.isSituacao() == true) {
+			funcionario.setSituacao(false);
+		}else {
+			funcionario.setSituacao(true);
+		}
+		
+		if(!obs.equals("contratar")) {
+			funcionario.setObs(obs);
+		}
+		
+		funcionarios.save(funcionario);
+		return ResponseEntity.ok("200");
 	}
 }

@@ -171,6 +171,15 @@ function verFuncionario() {
 						+ '" readonly/>'
 					+ '</div>'
 				+ '</div>';
+	
+	if(funcionarios[idBusca].obs != null){
+		linhaHtml += '<div>'
+						+ '<label style="color: red">Observação da demissão</label>'
+						+ '<input class="form-control" value="' 
+							+ funcionarios[idBusca].obs
+						+ '" readonly/>'
+					+ '</div>';
+	}
 				
 	$.alert({
 		type: 'blue',
@@ -184,28 +193,29 @@ function verFuncionario() {
 				btnClass: 'btn btn-warning',
 				action: () => {
 					$.confirm({
-						type: 'warning',
+						type: 'orange',
 						title: 'confirmar: '+ (funcionarios[idBusca].situacao == 1 ? "demissão" : "contratação"),
 						content: 'Deseja continuar?',
 						buttons: {
-							confirm: {
+							yes: {
 								text: 'Confirmar',
 					    		keys: ['enter'],
 					            btnClass: 'btn-success',
 								action: () => {
 									if(funcionarios[idBusca].situacao == 1){
 										$.confirm({
-											type: 'warning',
+											type: 'orange',
 											title: 'Observação',
-											content: 'Digite o motivo da demissão'
-												+ '<textarea id="obs" class="form-control" />',
+											content: '<label>Digite o motivo da demissão</label><input id="obs" class="form-control" />',
 											buttons: {
 												confirm:{
 													text: 'confirmar',
 													btnClass: 'btn btn-success',
 													keys: ['enter'],
-													action: () => {
-														
+													action: function() {
+														var obs = this.$content.find('#obs').val();
+														fetch("/adm/funcionariosCadastrados/situacao/" + funcionarios[idBusca].id + "/" + obs.replace("/", " - "))
+															.then(window.location.href="/adm/funcionariosCadastrados");
 													}
 												},
 												cancel: {
@@ -215,10 +225,13 @@ function verFuncionario() {
 												}
 											}
 										});
+									}else{
+										fetch("/adm/funcionariosCadastrados/situacao/" + funcionarios[idBusca].id + "/contratar")
+											.then(window.location.href="/adm/funcionariosCadastrados");
 									}
 								}
 							},
-					        confirm: {
+					        no: {
 								text: 'Voltar',
 					    		keys: ['esc'],
 					            btnClass: 'btn-danger',
@@ -229,8 +242,8 @@ function verFuncionario() {
 			},
 	        confirm: {
 				text: 'Voltar',
-	    		keys: ['enter'],
-	            btnClass: 'btn-sucess',
+	    		keys: ['esc', 'enter'],
+	            btnClass: 'btn-green',
 			}
 		}
 	});

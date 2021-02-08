@@ -63,7 +63,7 @@ function setFuncionario() {
 	funcionario.cpf = $("#cpf").val();
 	funcionario.cargo = $("#cargo").val();
 	funcionario.sexo = $("#sexo").val();
-	funcionario.situacao = $("#situacao").val();
+	funcionario.situacao = ($("#situacao").val() == 0 ? false : true);
 	
 	//endereco
 	funcionario.endereco = {};
