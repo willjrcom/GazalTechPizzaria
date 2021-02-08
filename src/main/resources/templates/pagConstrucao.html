@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+
+<head>
+	<link th:href="@{/css/login.css}" rel="stylesheet"/>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
+	<title>Página em construção</title>
+</head>
+
+<body>
+	<div id="esconderLogin">
+		<div class="elemento1">
+			<div class="corFundo centralizar" id="login">
+				
+				<img th:src="@{/img/logo.png}" width="50%"/>
+				<hr>
+				
+				<h3 class="text-center">500</h3>
+				<h2 class="text-center" style="color: #B22222">Página em desenvolvimento</h2>
+				<br>
+				<p>Aguarde novidades!</p>
+				<hr>
+				<nav class="nav nav-pills flex-column flex-sm-row">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">Voltar ao menu</a>
+				</nav>
+				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script th:src="@{/js/erro.js}"></script>
+</body>
+</html>
