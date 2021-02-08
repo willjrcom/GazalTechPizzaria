@@ -22,6 +22,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<!-- icones -->
 	<script src="https://kit.fontawesome.com/99986af71e.js"></script>
+	<link rel="sortcut icon" href="/img/iconePag.ico" type="image/x-icon" />
 	
 	<!-- bootstrap v5 -->
 	<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet"/>
@@ -56,6 +57,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
 						<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
 						<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
+						<li id="dev" class="hidden"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DEV</a></li>
 						<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
 					</ul>
 				</nav>
@@ -105,11 +107,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<a th:href="@{/saidaForno}" accesskey="S"><i class="far fa-eye"></i> Saída forno</a>
 								<a th:href="@{/retirada}" accesskey="R"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
-							
-							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a class="cabecalho"><label id="usuario"></label></a>
-							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
@@ -143,11 +140,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Administração</b></p>
 								<a th:href="@{/adm/fechamento}"><i class="fas fa-cash-register"></i> Fechamento do Dia</a>
 								<a th:href="@{/adm/compras}"><i class="fas fa-cart-plus"></i> Compras do dia</a>
-							</li>
-							
-							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a class="cabecalho"><label id="usuario"></label></a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
@@ -188,11 +180,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<a th:href="@{/adm/funcionariosCadastrados}"><i class="fas fa-user-tie"></i> Cadastrados</a>
 								<a th:href="@{/adm/cadastroFuncionario}"><i class="fas fa-plus"></i> Cadastrar</a>
 							</li>
-							
-							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a class="cabecalho"><label id="usuario"></label></a>
-							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
@@ -219,7 +206,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li>
 								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
 								<a th:href="@{/adm/estatistica}"><i class="fas fa-chart-bar"></i> Estatística</a>
-								<a th:href="@{/adm/cadastros}"><i class="fas fa-trophy"></i> Cadastros</a>
+								<a th:href="@{/adm/cadastros}"><i class="fas fa-trophy"></i> Top 10</a>
+								<a th:href="@{/adm/metas}"><i class="fas fa-award"></i> Metas</a>
 							</li>
 							
 							<li>
@@ -234,11 +222,34 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Dados</a>
 								<a th:href="@{/adm/mensalidade}"><i class="fas fa-receipt"></i> Mensalidade</a>
 							</li>
-							
-							
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
+			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
+			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
+		</ul>
+		<script th:src="@{/js/menu/classie.js}"></script>
+		<script th:src="@{/js/menu/gnmenu.js}"></script>
+		<script>
+			new gnMenu( document.getElementById( 'gn-menu' ) );
+		</script>
+	</div><!-- /container -->
+	
+	
+	
+	<!--------------------------------------------------------------------------------------------------------->
+	<div th:fragment="dev" class="container">
+		<ul id="gn-menu" class="gn-menu-main">
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
 							<li>
 								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
 								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
+								<a th:href="@{/dev/divulgar}"><i class="fab fa-dev"></i> Divulgar</a>
 							</li>
 							
 							<li>

@@ -244,6 +244,15 @@ function ajuda() {
 }
 
 
+$.ajax({
+	url: "/menu/autenticado"
+}).done(function(e){
+
+	if(e == 'DEV')
+		$("#dev").show('slow');
+});
+	
+
 function carregarLoading(texto){
 	$(".loading").css({
 		"display": texto

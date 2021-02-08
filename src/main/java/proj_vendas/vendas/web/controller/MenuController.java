@@ -159,8 +159,9 @@ public class MenuController {
 	@RequestMapping("/autenticado")
 	@ResponseBody
 	public String autenticado() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return ((UserDetails)principal).getUsername();
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return user.getPerfil();
 	}
 	
 	
