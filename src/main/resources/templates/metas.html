@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}" ></head>
+<head><title>Metas</title></head>
+
+<body>
+	
+	<div class="divbase">
+		<br>
+		
+		<div class="table-responsive">
+		<br>
+		</div>
+	</div>
+	
+	<br>
+	<div class="justify-content-center loading">
+  		<div class="spinner-border" role="status">
+    		<span class="visually-hidden">Loading...</span>
+  		</div>
+	</div>
+	
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/metas.js}"></script>
+</body>
+
+	<div th:replace="~{layouts/frag :: empresa}"></div>
+</html>
