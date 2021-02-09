@@ -70,9 +70,96 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="dadosMenu" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
-			<li><a class="cabecalho"><i class="far fa-user-circle"></i> <label th:text="${usuario}"></label></a></li>
-			<li><a class="cabecalho"><i class="fas fa-key"></i> <label th:text="${permissao}"></label></a></li>
-			<li><a class="cabecalho" onclick="ajuda()"><i class="fas fa-shield-alt"></i> Suporte</a></li>
+			<li class="gn-trigger">
+				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<nav class="gn-menu-wrapper">
+					<div class="gn-scroller">
+						<ul class="gn-menu">
+							<li>
+								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Novidades</b></p>
+								<div class="accordion" id="accordionExample">
+								  <div class="accordion-item" th:if="${empresa1} != ''">
+								    <h2 class="accordion-header" id="headingOne">
+								      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								        <p th:text="${empresa1}"></p>
+								      </button>
+								    </h2>
+								    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+								      <div class="accordion-body">
+								        	<p th:text="${texto1}"></p>
+								        	<a th:href="${link1}"><label th:text="${link1}"></label></a>
+								      </div>
+								    </div>
+								  </div>
+								  <div class="accordion-item" th:if="${empresa2} != ''">
+								    <h2 class="accordion-header" id="headingTwo">
+								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+								        <p th:text="${empresa2}"></p>
+								      </button>
+								    </h2>
+								    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+								      <div class="accordion-body">
+							        	<p th:text="${texto2}"></p>
+								        	<a th:href="${link2}"><label th:text="${link2}"></label></a>
+								      </div>
+								    </div>
+								  </div>
+								  
+								  <div class="accordion-item" th:if="${empresa3} != ''">
+								    <h2 class="accordion-header" id="headingThree">
+								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+								        <p th:text="${empresa3}"></p>
+								      </button>
+								    </h2>
+								    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+								      <div class="accordion-body">
+							        	<p th:text="${texto3}"></p>
+								        	<a th:href="${link3}"><label th:text="${link3}"></label></a>
+								      </div>
+								    </div>
+								  </div>
+								  
+								  <div class="accordion-item" th:if="${empresa4} != ''">
+								    <h2 class="accordion-header" id="headingFour">
+								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+								        <p th:text="${empresa4}"></p>
+								      </button>
+								    </h2>
+								    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+								      <div class="accordion-body">
+							        	<p th:text="${texto4}"></p>
+								        	<a th:href="${link4}"><label th:text="${link4}"></label></a>
+								      </div>
+								    </div>
+								  </div>
+								  
+								  <div class="accordion-item" th:if="${empresa5} != ''">
+								    <h2 class="accordion-header" id="headingFive">
+								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+								        <p th:text="${empresa5}"></p>
+								      </button>
+								    </h2>
+								    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+								      <div class="accordion-body">
+							        	<p th:text="${texto5}"></p>
+								        	<a th:href="${link5}"><label th:text="${link5}"></label></a>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+							</li>
+							
+							<li>
+								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Informações da conta</b></p>
+								<a class="cabecalho"><i class="far fa-user-circle"></i> <label th:text="${usuario}"></label></a>
+								<a class="cabecalho"><i class="fas fa-key"></i> <label>Perfil <span th:text="${permissao}"></span></label></a>
+								<a th:href="@{/redefinirSenha}"><i class="fas fa-recycle"></i> <label>Redefinir senha</label></a>
+								<a class="cabecalho" onclick="ajuda()"><i class="fas fa-shield-alt"></i> Suporte</a>
+							</li>
+						</ul>
+					</div><!-- /gn-scroller -->
+				</nav>
+			</li>
 			<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> Tutorial</a></li>
 			<li><a class="cabecalho" id="data"><i class="fas fa-calendar-check"></i> Data de acesso</a></li>
 		</ul>

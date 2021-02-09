@@ -18,11 +18,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     		<span class="visually-hidden">Loading...</span>
   		</div>
 	</div>
-</body>
-	<div th:replace="~{layouts/frag :: dadosMenu}"></div>
+	
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 	<script th:src="@{/js/menu.js}"></script>
+</body>
+	<div th:replace="~{layouts/frag :: dadosMenu}"></div>
 </html>
