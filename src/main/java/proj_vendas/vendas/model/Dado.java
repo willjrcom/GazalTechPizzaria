@@ -48,6 +48,7 @@ public class Dado extends AbstractEntity<Long> {
 	private float venda_mesa = 0;
 	private float venda_drive = 0;
 	private float taxa_entrega = 0;
+	private float sangria = 0;
 	
 	@Column(nullable=false)
 	private int codEmpresa;
