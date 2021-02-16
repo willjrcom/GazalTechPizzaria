@@ -65,7 +65,7 @@ function tablet() {
 
 
 //-----------------------------------------------------
-$("#data").click(function(){
+function escolherData(){
 	//alterar data
 	$.confirm({
 		type: 'blue',
@@ -127,7 +127,7 @@ $("#data").click(function(){
 			}
 		}
 	});
-});
+}
 
 
 //-------------------------------------------------------
