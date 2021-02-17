@@ -38,13 +38,13 @@ $(document).ready(function(){
 		}else{
 			for(pedido of pedidos){
 				linhaHtml += '<tr>'
-							+ '<td>' + pedido.comanda + '</td>'
-							+ '<td>' + pedido.nome + '</td>'
-							+ '<td>R$ ' + (Number(pedido.total) + ((pedido.taxa == null)
+							+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + (Number(pedido.total) + ((pedido.taxa == null)
 									? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
-							+ '<td>' + pedido.pagamento + '</td>'
-							+ '<td>' + pedido.envio + '</td>'
-							+ '<td>' 
+							+ '<td class="text-center col-md-1">' + pedido.pagamento + '</td>'
+							+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
+							+ '<td class="text-center col-md-1">' 
 								+ '<a class="enviarPedido">'
 								+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
 								+ 'value="'+ pedido.id + '"><i class="fas fa-cart-arrow-down"></i></button></a></td>'			
@@ -98,9 +98,9 @@ function finalizarPedido() {
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
-						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -114,8 +114,8 @@ function finalizarPedido() {
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
-						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';

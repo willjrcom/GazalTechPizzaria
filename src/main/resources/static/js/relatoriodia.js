@@ -36,11 +36,11 @@ $.ajax({
 			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
 			
 			linhaHtml += '<tr>'
-						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nome + '</td>'
-						+ '<td>' + Tpizzas.toFixed(2) + '</td>'
-						+ '<td>R$ ' + pedido.total.toFixed(2) + '</td>'
-						+ '<td>' 
+						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+						+ '<td class="text-center col-md-1">' + Tpizzas.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + pedido.total.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" title="finalizar" onclick="verPedido()" class="botao"'
 							+ 'value="'+ pedido.id + '"><i class="fas fa-search"></i></button></a></td>'		
@@ -81,10 +81,10 @@ function verPedido() {
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
-						 +	'<td>' + pizza.obs + '</td>'
-						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -100,9 +100,9 @@ function verPedido() {
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
-						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
-						 +	'<td>' + produto.obs + '</td>'
+						 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';

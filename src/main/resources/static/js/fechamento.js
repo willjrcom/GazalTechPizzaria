@@ -81,7 +81,7 @@ $.ajax({
 						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
 					+ '</tr>'
 					+ '<tr>'
-						+ '<td>R$ ' + compras.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + compras.toFixed(2) + '</td>'
 					+ '</tr>';
 					
 		$("#compras").html(comprasHtml);
@@ -188,8 +188,8 @@ function carregarMotoboy(){
 	
 	for(boy of objsMotoboys) {
 		linhaBoy += '<tr>'
-				+ '<td>' + boy.nome.substring(0, 20) + '</td>'
-				+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+				+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 20) + '</td>'
+				+ '<td class="text-center col-md-1">' + parseFloat(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>' + linhaCinza;
 	}
 	
@@ -218,10 +218,10 @@ function carregarMotoboy(){
 					
 	for(boy of logmotoboys) {
 		linhaBoy += '<tr>'
-				+ '<td>' + boy.comanda + '</td>'
-				+ '<td>' + boy.nome.substring(0, 13) + '</td>'
-				+ '<td>' + boy.motoboy.substring(0, 13) + '</td>'
-				+ '<td>R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+				+ '<td class="text-center col-md-1">' + boy.comanda + '</td>'
+				+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 13) + '</td>'
+				+ '<td class="text-center col-md-1">' + boy.motoboy.substring(0, 13) + '</td>'
+				+ '<td class="text-center col-md-1">R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>' + linhaCinza;
 	}
 	

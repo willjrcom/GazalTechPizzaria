@@ -113,8 +113,8 @@ function mostrarProdutos(e){
 			var produtos = JSON.parse(e);
 			for(produto of produtos) {
 				Tcompras += '<tr>'
-							+ '<td>' + produto.produto + '</td>'
-							+ '<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + produto.produto + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 						+ '</tr>' + linhaCinza;
 				total += parseFloat(produto.preco);
 			}

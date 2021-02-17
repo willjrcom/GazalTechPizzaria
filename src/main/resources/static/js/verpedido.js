@@ -58,17 +58,17 @@ function mostrar(pedidos, filtro) {
 			tPizzas = 0;
 			
 			linhaHtml += '<tr>'
-						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nome + '</td>';
+						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
 						
 			for(produto of pedido.produtos) tPizzas += produto.qtd;//total de produtos
 					
 			for(pizza of pedido.pizzas) tPizzas += pizza.qtd;//total de pizzas
 
-			linhaHtml += '<td>' + tPizzas.toFixed(2) + '</td>'
-						+ '<td>R$ ' + ((isNaN(pedido.taxa)) ? pedido.total.toFixed(2) : (pedido.total + pedido.taxa).toFixed(2)) + '</td>'
-						+ '<td>' + pedido.envio + '</td>'
-						+ '<td><div class="row">'
+			linhaHtml += '<td class="text-center col-md-1">' + tPizzas.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + ((isNaN(pedido.taxa)) ? pedido.total.toFixed(2) : (pedido.total + pedido.taxa).toFixed(2)) + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
+						+ '<td class="text-center col-md-1"><div class="row">'
 						+ '<div class="col-md-1">'
 							+'<a title="Ver">'
 								+'<button class="botao" onclick="verPedido()" value="'+ pedido.id + '">'
@@ -140,10 +140,10 @@ function verPedido() {
 		
 		for(pizza of pedidos[idBusca].pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +	'<td>' + pizza.obs + '</td>'
-						 +  '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
-						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -159,9 +159,9 @@ function verPedido() {
 		
 		for(produto of pedidos[idBusca].produtos){
 			linhaHtml += '<tr>'
-						 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
-						 +	'<td>' + produto.obs + '</td>'
-						 +  '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
+						 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
 					 +  '</tr>';
 		}
 		linhaHtml += '</table>';

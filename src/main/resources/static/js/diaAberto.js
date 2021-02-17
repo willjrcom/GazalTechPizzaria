@@ -21,9 +21,9 @@ $.ajax({
 	}else{
 		for(dia of dias){
 			linhaHtml += '<tr>'
-							+ '<td>' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
-							+ '<td>R$ ' + dia.trocoInicio.toFixed(2) + '</td>'
-							+ '<td>' + dia.trocoFinal.toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + dia.trocoInicio.toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + dia.trocoFinal.toFixed(2) + '</td>'
 						+ '</tr>'
 					+ linhaCinza;
 		}

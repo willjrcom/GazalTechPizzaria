@@ -23,12 +23,12 @@ $("#buscar").click(function(){
 		} else {
 			for(produto of produtos) {
 				linhaHtml += '<tr>'
-							+'<td>' + produto.codigoBusca + '</td>'
-							+'<td>' + produto.nomeProduto + '</td>'
-							+'<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
-							+'<td>R$ ' + parseFloat(produto.custo).toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + produto.codigoBusca + '</td>'
+							+ '<td class="text-center col-md-1">' + produto.nomeProduto + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.custo).toFixed(2) + '</td>'
 				
-							+ '<td><div class="row">'
+							+ '<td class="text-center col-md-1"><div class="row">'
 								+ '<div class="col-md-1">'
 									+'<a title="Ver">'
 										+'<button class="botao" onclick="verProduto()" value="'+ produto.id + '">'

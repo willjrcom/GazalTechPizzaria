@@ -42,11 +42,11 @@ $.ajax({
 		}else{
 			for(funcionario of funcionarios){
 				linhaHtml += '<tr>'
-								+ '<td>' + funcionario.nome + '</td>'
-								+ '<td>' + funcionario.celular + '</td>'
-								+ '<td>R$ ' + funcionario.salario.toFixed(2) + '</td>'
-								+ '<td>' + funcionario.cargo + '</td>'
-								+ '<td>'
+								+ '<td class="text-center col-md-1">' + funcionario.nome + '</td>'
+								+ '<td class="text-center col-md-1">' + funcionario.celular + '</td>'
+								+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
+								+ '<td class="text-center col-md-1">' + funcionario.cargo + '</td>'
+								+ '<td class="text-center col-md-1">'
 									+'<div class="row">'
 										+'<div class="col-md-1">'
 											+'<a>'
@@ -140,7 +140,7 @@ function addHoras() {
 									+ '</tr>'
 							
 									+ '<tr>'
-										+ '<td>R$ ' + horas.toFixed(2) +'</td>'
+										+ '<td class="text-center col-md-1">R$ ' + horas.toFixed(2) +'</td>'
 									+ '</tr>'
 								+'</table>'
 						+ '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
@@ -490,11 +490,11 @@ function pagarSalario() {
 									+ '</tr>'
 						
 									+ '<tr>'
-										+ '<td>R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
-										+ '<td>R$ ' + totalExtra.toFixed(2) + '</td>'
-										+ '<td>R$ ' + gastos.toFixed(2) + '</td>'
-										+ '<td>R$ ' + pago.toFixed(2) + '</td>'
-										+ '<td>R$ ' + (funcionarios[idBusca].salario + totalExtra - gastos - pago).toFixed(2) + '</td>'
+										+ '<td class="text-center col-md-1">R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
+										+ '<td class="text-center col-md-1">R$ ' + totalExtra.toFixed(2) + '</td>'
+										+ '<td class="text-center col-md-1">R$ ' + gastos.toFixed(2) + '</td>'
+										+ '<td class="text-center col-md-1">R$ ' + pago.toFixed(2) + '</td>'
+										+ '<td class="text-center col-md-1">R$ ' + (funcionarios[idBusca].salario + totalExtra - gastos - pago).toFixed(2) + '</td>'
 									+ '</tr>'
 								+'</table>'
 					
@@ -660,17 +660,20 @@ function imprimirResumo() {
 						
 						linhaHtml = '<table>'
 									+ '<tr>'
-										+'<td>Data</td>'
-										+'<td>Ação</td>'
-										+'<td>Total</td>';
+										+'<td class="text-center col-md-1">Data</td>'
+										+'<td class="text-center col-md-1">Ação</td>'
+										+'<td class="text-center col-md-1">Total</td>';
 						if(e != 0){
 							for(log of e) {
 								linhaHtml += '<tr>'
-											+ '<td>' + log.logData + '</td>';
+											+ '<td class="text-center col-md-1">' + log.logData + '</td>';
 								
-								if(log.gastos != 0) linhaHtml += '<td>gasto</td><td>R$ ' + log.gastos.toFixed(2) + '</td>';
-								if(log.horas != 0) linhaHtml += '<td>hora extra</td><td>R$ ' + log.horas.toFixed(2) + '</td>';
-								if(log.pago != 0) linhaHtml += '<td>pago</td><td>R$ ' + log.pago.toFixed(2) + '</td>';
+								if(log.gastos != 0) linhaHtml += '<td class="text-center col-md-1">gasto</td>'
+																+ '<td class="text-center col-md-1">R$ ' + log.gastos.toFixed(2) + '</td>';
+								if(log.horas != 0) linhaHtml += '<td class="text-center col-md-1">hora extra</td>'
+																+ '<td class="text-center col-md-1">R$ ' + log.horas.toFixed(2) + '</td>';
+								if(log.pago != 0) linhaHtml += '<td class="text-center col-md-1">pago</td>'
+																+ '<td class="text-center col-md-1">R$ ' + log.pago.toFixed(2) + '</td>';
 								linhaHtml += '</tr>';
 							}
 						}else{

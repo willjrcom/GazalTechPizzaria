@@ -28,11 +28,11 @@ $("#buscar").click(function(){
 				cliente.endereco = cliente.endereco.rua + ' - ' + cliente.endereco.n  + ' - ' + cliente.endereco.bairro
 				
 				linhaHtml += '<tr>'
-							+ '<td>' + cliente.nome + '</td>'
-							+ '<td>' + cliente.celular + '</td>'
-							+ '<td>' + cliente.endereco + '</td>'
+							+ '<td class="text-center col-md-1">' + cliente.nome + '</td>'
+							+ '<td class="text-center col-md-1">' + cliente.celular + '</td>'
+							+ '<td class="text-center col-md-1">' + cliente.endereco + '</td>'
 							
-							+ '<td><div class="row">'
+							+ '<td class="text-center col-md-1"><div class="row">'
 								+ '<div class="col-md-1">'
 									+'<a title="Ver">'
 										+'<button class="botao" onclick="verCliente()" value="'+ cliente.id + '">'

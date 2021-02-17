@@ -103,32 +103,32 @@ function mostrar(pedidos, filtro) {
 					linhaHtml += '<tr>';
 					
 					if(j == 0) {//se for a primeira linha de cada pedido
-						linhaHtml += '<td>' + pedido.comanda + '</td>'
-								+ '<td>' + pedido.nome + '</td>';
+						linhaHtml += '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+								+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
 					}else if(j == 1) {//se for a segunda linha de cada pedido
 						Tpizzas = 0;
 						for(contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
 						
 						//singular
-						if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizza</td>';
+						if(Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizza</td>';
 						//plural
-						else linhaHtml += '<td colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+						else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
 						
 						
 					}else {//se for 3 linha a frente
-						linhaHtml += '<td colspan="2"></td>';
+						linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
 					}
 					
 					//mostrar pizza
-					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor 
+					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor 
 							+ (pizza.descricao != ''?'&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
 							+ pizza.descricao 
 							+ '" title="Ingredientes: ' + pizza.descricao 
 							+ '"><i class="fas fa-question"></i></td>' : "")
-							+ (pizza.obs !== "" ? '<td class="fundoAlert">' + pizza.obs + '</td>' : '<td>' + pizza.obs + '</td>')
-							+ '<td>' + pizza.borda + '</td>';
+							+ (pizza.obs !== "" ? '<td class="text-center col-md-1" class="fundoAlert">' + pizza.obs + '</td>' : '<td class="text-center col-md-1">' + pizza.obs + '</td>')
+							+ '<td class="text-center col-md-1">' + pizza.borda + '</td>';
 					if(j == 0)
-						linhaHtml += '<td>' 
+						linhaHtml += '<td class="text-center col-md-1">' 
 								+ '<a class="enviarPedido">'
 								+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
 								+ 'value="'+ pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'

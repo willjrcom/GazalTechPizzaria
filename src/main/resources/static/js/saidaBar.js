@@ -68,36 +68,37 @@ function mostrar(pedidos, filtro) {
 					
 					//adicionar total de pizzas
 					if(j == 0) {
-						linhaHtml += '<td>' + pedidos[i].comanda + '</td>'
-									+ '<td>' + pedidos[i].nome + '</td>'
+						linhaHtml += '<td class="text-center col-md-1">' + pedidos[i].comanda + '</td>'
+									+ '<td class="text-center col-md-1">' + pedidos[i].nome + '</td>'
 						
 					}else if(j == 1) {
 						Tpizzas = 0;
 						for(contPizza of pedidos[i].pizzas) Tpizzas += contPizza.qtd; //contar pizzas
 						
-						if(Tpizzas == 1) linhaHtml += '<td colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizza</td>';
-						else linhaHtml += '<td colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizzas</td>';
+						if(Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizza</td>';
+						else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizzas</td>';
 						
 					}else {
-						linhaHtml += '<td colspan="2"></td>';
+						linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
 					}
 					
-					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
-							+ (pizza.obs !== "" ? '<td class="fundoAlert">' + pizza.obs + '</td>' : '<td>' + pizza.obs + '</td>');
+					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
+							+ (pizza.obs !== "" ? '<td class="text-center col-md-1" class="fundoAlert">' + pizza.obs + '</td>' 
+								: '<td class="text-center col-md-1">' + pizza.obs + '</td>');
 							
 					//verificar a situacao do pedido
 					if(pedidos[i].status == "PRONTO" && j == 0){
-						linhaHtml += '<td>' 
+						linhaHtml += '<td class="text-center col-md-1">'
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" class="btn btn-success"'
 									+ 'value="'+ pedidos[i].id + '">Pronto</button></a></td>';
 					}else if(pedidos[i].status == "COZINHA" && j == 0){
-						linhaHtml += '<td>' 
+						linhaHtml += '<td class="text-center col-md-1">'
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" class="btn btn-danger"'
 									+ 'value="'+ pedidos[i].id + '">Andamento</button></a></td>';
 					}else if(pedidos[i].status == "MOTOBOY" && j == 0){
-						linhaHtml += '<td>' 
+						linhaHtml += '<td class="text-center col-md-1">'
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" class="btn btn-primary"'
 									+ 'value="'+ pedidos[i].id + '">Na Rua</button></a></td>';

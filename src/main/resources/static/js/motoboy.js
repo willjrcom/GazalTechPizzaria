@@ -41,12 +41,12 @@ $.ajax({
 			
 			for(produto of pedido.produtos) Tpizzas += produto.qtd;
 			linhaHtml += '<tr>'
-						+ '<td>' + pedido.comanda + '</td>'
-						+ '<td>' + pedido.nome + '</td>'
-						+ '<td>' + pedido.endereco + '</td>'
-						+ '<td>' + Tpizzas.toFixed(2) + '</td>'
-						+ '<td>R$ ' + (Number(pedido.troco) - Number(pedido.total) - Number(pedido.taxa)).toFixed(2) + '</td>'	
-						+ '<td>' 
+						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+						+ '<td class="text-center col-md-2">' + pedido.endereco + '</td>'
+						+ '<td class="text-center col-md-1">' + Tpizzas.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + (Number(pedido.troco) - Number(pedido.total) - Number(pedido.taxa)).toFixed(2) + '</td>'	
+						+ '<td class="text-center col-md-1">'
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
 							+ 'value="'+ pedido.id + '"><i class="fas fa-location-arrow"></i></button></a></td>'		
