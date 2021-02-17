@@ -53,66 +53,65 @@ public class MenuController {
 		//SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		Divulgar divulgar = divulgacoes.findById((long)1).get();
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = null;
 		
 		//empresa----------------------------------------------------------------------------------------------
 		try {
 			empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+			if(empresa == null) {
+				empresa = new Empresa();
+				empresa.setCodEmpresa(user.getCodEmpresa());
+				empresa.setNomeEstabelecimento("Pizzaria");
+				empresa.setNomeEmpresa("Pizzaria");
+				empresa.setCnpj("");
+				empresa.setEmail("");
+				empresa.setCelular("");
+				
+				Endereco endereco = new Endereco();
+				endereco.setBairro("");
+				endereco.setCidade("");
+				endereco.setN(0);
+				endereco.setRua("");
+				endereco.setTaxa(0);
+				empresa.setEndereco(endereco);
+				empresas.save(empresa);
+			}
 			mv.addObject("empresa", empresa.getNomeEstabelecimento());
 			mv.addObject("contato", empresa.getCelular());
 			
-		}catch(Exception e) {
-			empresa = new Empresa();
-			empresa.setCodEmpresa(user.getCodEmpresa());
-			empresa.setNomeEstabelecimento("Pizzaria");
-			empresa.setNomeEmpresa("Pizzaria");
-			empresa.setCnpj("");
-			empresa.setEmail("");
-			empresa.setCelular("");
-			
-			Endereco endereco = new Endereco();
-			endereco.setBairro("");
-			endereco.setCidade("");
-			endereco.setN(0);
-			endereco.setRua("");
-			endereco.setTaxa(0);
-			empresa.setEndereco(endereco);
-			empresas.save(empresa);
+		}catch(Exception e) {}
 
-			mv.addObject("empresa", empresa.getNomeEstabelecimento());
-			mv.addObject("contato", empresa.getCelular());
-		}
-
-		Dado dado = acessarDados(LocalDate.now().toString());
 		
 		//dados
-		mv.addObject("troco", dado.getTrocoInicio());
+		mv.addObject("troco", acessarDados(LocalDate.now().toString()).getTrocoInicio());
 		
 		//empresa
 		mv.addObject("usuario", user.getEmail());
 		mv.addObject("permissao", user.getPerfil());
-		
-		//divulgações
-		mv.addObject("empresa1", divulgar.getEmpresa1());
-		mv.addObject("empresa2", divulgar.getEmpresa2());
-		mv.addObject("empresa3", divulgar.getEmpresa3());
-		mv.addObject("empresa4", divulgar.getEmpresa4());
-		mv.addObject("empresa5", divulgar.getEmpresa5());
 
-		mv.addObject("texto1", divulgar.getTexto1());
-		mv.addObject("texto2", divulgar.getTexto2());
-		mv.addObject("texto3", divulgar.getTexto3());
-		mv.addObject("texto4", divulgar.getTexto4());
-		mv.addObject("texto5", divulgar.getTexto5());
+		try {
+		Divulgar divulgar = divulgacoes.findById((long)1).get();
+			//divulgações
+			mv.addObject("empresa1", divulgar.getEmpresa1());
+			mv.addObject("empresa2", divulgar.getEmpresa2());
+			mv.addObject("empresa3", divulgar.getEmpresa3());
+			mv.addObject("empresa4", divulgar.getEmpresa4());
+			mv.addObject("empresa5", divulgar.getEmpresa5());
+	
+			mv.addObject("texto1", divulgar.getTexto1());
+			mv.addObject("texto2", divulgar.getTexto2());
+			mv.addObject("texto3", divulgar.getTexto3());
+			mv.addObject("texto4", divulgar.getTexto4());
+			mv.addObject("texto5", divulgar.getTexto5());
+	
+			mv.addObject("link1", divulgar.getLink1());
+			mv.addObject("link2", divulgar.getLink2());
+			mv.addObject("link3", divulgar.getLink3());
+			mv.addObject("link4", divulgar.getLink4());
+			mv.addObject("link5", divulgar.getLink5());
+		}catch(Exception e) {}
 
-		mv.addObject("link1", divulgar.getLink1());
-		mv.addObject("link2", divulgar.getLink2());
-		mv.addObject("link3", divulgar.getLink3());
-		mv.addObject("link4", divulgar.getLink4());
-		mv.addObject("link5", divulgar.getLink5());
-		
 		return mv;
 	}
 	
