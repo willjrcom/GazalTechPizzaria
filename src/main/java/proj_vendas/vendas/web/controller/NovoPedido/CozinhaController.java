@@ -37,7 +37,7 @@ public class CozinhaController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return temps.findByCodEmpresaAndStatus(user.getCodEmpresa(), "COZINHA"); //mostrar todos temporarios
+		return temps.findByCodEmpresaAndSetorAndStatus(user.getCodEmpresa(), 1, "COZINHA"); //mostrar todos temporarios
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}")
