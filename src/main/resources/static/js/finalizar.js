@@ -222,6 +222,10 @@ function finalizarPedido() {
 						$.ajax({
 							url: "/finalizar/dados/" + pedidos[idBusca].id,
 							type: "PUT",
+							beforeSend: function(){
+								if(pedidos[idBusca].envio !== "ENTREGA")
+									imprimir(pedidos[idBusca]);
+							},
 							dataType : 'json',
 							contentType: "application/json",
 							data: JSON.stringify(dado)
@@ -250,6 +254,30 @@ function finalizarPedido() {
 		});
 	}
 };
+
+
+//----------------------------------------------------------------------------
+function imprimir(cliente) {
+	
+	impressaoPedido = cliente;
+
+	impressaoPedido.pizzas = JSON.parse(cliente.pizzas);
+	impressaoPedido.produtos = JSON.parse(cliente.produtos);
+
+	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
+				
+	//salvar hora
+	impressaoPedido.hora = cliente.horaPedido;
+	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	
+	$.ajax({
+		url: "/imprimir/imprimirPedido",
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(impressaoPedido)
+	});
+}
 
 
 function carregarLoading(texto){

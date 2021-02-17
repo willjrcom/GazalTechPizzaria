@@ -742,9 +742,9 @@ function mostrarProdutos() {//todos
 		
 		for(produto of produtos){
 			linhaHtml += '<tr>'
-					 +	'<td>' + produto.qtd + " x " + produto.sabor + '</td>'
-					 +	'<td>' + produto.obs + '</td>'
-					 +	'<td>R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+					 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
+					 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
+					 +	'<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
 		}
@@ -757,10 +757,10 @@ function mostrarProdutos() {//todos
 		
 		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +	'<td>' + pizza.obs + '</td>'
-						 +	'<td>R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
-						 +	'<td>' + pizza.borda + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
+						 +	'<td class="text-center col-md-1">R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
 					 + '</tr>'
 					 + linhaCinza;
 		}
@@ -973,7 +973,6 @@ function salvarPedido(){
 			criarTemp(2, e.comanda);
 		}
 		
-		imprimir();
 		carregarLoading("none");
 		
 		$.alert({
@@ -994,30 +993,6 @@ function salvarPedido(){
 	}).fail(function(){
 		$.alert("Erro, Pedido não enviado!");
 		carregarLoading("none");
-	});
-}
-
-
-//----------------------------------------------------------------------------
-function imprimir() {
-	
-	impressaoPedido = cliente;
-
-	impressaoPedido.pizzas = JSON.parse(cliente.pizzas);
-	impressaoPedido.produtos = JSON.parse(cliente.produtos);
-
-	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
-				
-	//salvar hora
-	impressaoPedido.hora = cliente.horaPedido;
-	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-	
-	$.ajax({
-		url: "/imprimir/imprimirPedido",
-		type: 'POST',
-		dataType : 'json',
-		contentType: "application/json",
-		data: JSON.stringify(impressaoPedido)
 	});
 }
 

@@ -132,6 +132,9 @@ function finalizarPedido() {
 						//ENVIAR PEDIDO
 						$.ajax({
 							url: "/motoboy/enviarMotoboy/" + idProduto + '/' + $("#filtro").val(),
+							beforeSend: function(){
+								imprimir(pedidos[idBusca]);
+							},
 							type: 'PUT'
 						}).done(function(){
 							document.location.href="/motoboy";
@@ -148,6 +151,30 @@ function finalizarPedido() {
 		});
 	}
 };
+
+
+//----------------------------------------------------------------------------
+function imprimir(cliente) {
+	
+	impressaoPedido = cliente;
+
+	impressaoPedido.pizzas = JSON.parse(cliente.pizzas);
+	impressaoPedido.produtos = JSON.parse(cliente.produtos);
+
+	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
+				
+	//salvar hora
+	impressaoPedido.hora = cliente.horaPedido;
+	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	
+	$.ajax({
+		url: "/imprimir/imprimirPedido",
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(impressaoPedido)
+	});
+}
 
 
 function carregarLoading(texto){

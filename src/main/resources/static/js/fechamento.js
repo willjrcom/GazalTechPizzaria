@@ -172,15 +172,19 @@ function carregarMotoboy(){
 	
 	totalMotoboys = objsMotoboys.reduce((a, b) => a.taxa + b.taxa);
 	
-	linhaBoy = '<div class="divMotoboys"><table>'
-				+'<thead>'
-					+'<tr>'
-						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
-						+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
-					+'</tr>'
-				+'</thead>'
+	linhaBoy = '<div class="divMotoboys">'
+				+ '<table>'
+					+ '<thead>'
+						+'<tr>'
+							+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
+							+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
+						+'</tr>'
+					+'</thead>'
+				+ '</table>'
 				
-				+'<tbody>';
+				+ '<div style="overflow-y: scroll; max-height: 40vh">'
+					+ '<table>'
+						+ '<tbody>';
 	
 	for(boy of objsMotoboys) {
 		linhaBoy += '<tr>'
@@ -190,25 +194,28 @@ function carregarMotoboy(){
 	}
 	
 	linhaBoy += '</tbody>'
-			+'</table></div>';
+			+'</table></div></div>';
 			
 	$("#logResumo").html(linhaBoy);
 			
 			
 	//completo-------------------------------------------------------------------------
-	linhaBoy = '<div class="divMotoboys"><table>'
-				+'<thead>'
-					+'<tr>'
-						+'<th class="text-center col-md-1"><h4>Comanda</h4></th>'
-						+'<th class="text-center col-md-1"><h4>Pedido</h4></th>'
-						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
-						+'<th class="text-center col-md-1"><h4>Taxa</h4></th>'
-					+'</tr>'
-				+'</thead>'
+	linhaBoy = '<div class="divMotoboys">'
+				+ '<table>'
+					+ '<thead>'
+						+'<tr>'
+							+'<th class="text-center col-md-1"><h4>Comanda</h4></th>'
+							+'<th class="text-center col-md-1"><h4>Pedido</h4></th>'
+							+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
+							+'<th class="text-center col-md-1"><h4>Taxa</h4></th>'
+						+'</tr>'
+					+'</thead>'
+				+ '</table>'
 				
-				+'<tbody>';
+				+ '<div style="overflow-y: scroll; max-height: 40vh">'
+					+ '<table>'
+						+ '<tbody>';
 					
-	
 	for(boy of logmotoboys) {
 		linhaBoy += '<tr>'
 				+ '<td>' + boy.comanda + '</td>'
@@ -219,7 +226,7 @@ function carregarMotoboy(){
 	}
 	
 	linhaBoy += '</tbody>'
-			+'</table></div>';
+			+'</table></div></div>';
 	
 	$("#logCompleto").html(linhaBoy);
 	$(".divmotoboys").css({

@@ -172,7 +172,7 @@ function verFuncionario() {
 					+ '</div>'
 				+ '</div>';
 	
-	if(funcionarios[idBusca].obs != null){
+	if(funcionarios[idBusca].obs != ""){
 		linhaHtml += '<div>'
 						+ '<label style="color: red">Observação da demissão</label>'
 						+ '<input class="form-control" value="' 
