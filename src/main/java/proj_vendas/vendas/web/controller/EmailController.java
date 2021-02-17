@@ -1,12 +1,27 @@
 package proj_vendas.vendas.web.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import proj_vendas.vendas.model.Email;
 
 @RestController
 @RequestMapping("/email")
 public class EmailController {
-/*
+
 	 @Autowired
 	 private JavaMailSender javaMailSender;
 
@@ -32,7 +47,7 @@ public class EmailController {
 	    	
 	    	//enviar mensagem a empresa
 	        empresa(email);
-       }catch(Exception e) {}
+       }catch(Exception e) {System.out.println(e);}
         return ResponseEntity.ok("200");
     }
 
@@ -42,14 +57,14 @@ public class EmailController {
 			MimeMessage msg = javaMailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 	
-	        helper.setFrom("mestrespizzaacrobatica@gmail.com");
+	        helper.setFrom("gazaltechsuporte@outlook.com");
 	        helper.setTo(email.getEmail());
 	        helper.setSubject(email.getAssunto());
 	        helper.setText(email.getTexto(), true);
 	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logo.png"));
 	        
 	        javaMailSender.send(msg);
-		}catch(Exception e) {}
+		}catch(Exception e) {System.out.println(e);}
 	}
 
     
@@ -59,13 +74,14 @@ public class EmailController {
 			MimeMessage msg = javaMailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 	        
-	        helper.setFrom("mestrespizzaacrobatica@gmail.com");
-	        helper.setTo("williamjunior67@gmail.com");
+	        helper.setFrom("gazaltechsuporte@outlook.com");
+	        helper.setTo("gazaltech@outlook.com");
 	        helper.setSubject(email.getAssunto());
 	        helper.setText(email.getTexto(), true);
 	        
 	        javaMailSender.send(msg);
-    	}catch(Exception e) {}
-    }*/
+    	}catch(Exception e) {System.out.println(e);}
+    }
+    
 }
 
