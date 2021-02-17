@@ -773,9 +773,10 @@ function mostrarProdutos() {//todos
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#BotaoEnviarPedido").click(function() {
-		
+	console.log(pizzas);
+	console.log(produtos.length);
 	cliente.envio = $("#envioCliente").val();
-	if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null;//apagar variaveis para evitar erros
+	if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null; //apagar variaveis para evitar erros
 	
 	if(tPizzas % 2 != 0 && tPizzas % 2 != 1){
 		$.alert({
@@ -792,7 +793,6 @@ $("#BotaoEnviarPedido").click(function() {
 		});	
 		
 	}else{
-		
 		mostrarPedido();
 	
 		//modal jquery confirmar
@@ -843,13 +843,12 @@ $("#BotaoEnviarPedido").click(function() {
 							});
 						}else {
 							
+							cliente.pizzas = JSON.stringify(pizzas);
 							cliente.produtos = JSON.stringify(produtos);
 							cliente.total = Number(tPedido.toFixed(2));
 							cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
 							cliente.troco = Number(troco);
 							cliente.servico = Number(servico);
-							
-							criarTemp();
 							
 							//buscar pedido no sistema
 							$.ajax({
@@ -875,17 +874,6 @@ $("#BotaoEnviarPedido").click(function() {
 		});
 	}
 });
-
-
-//-------------------------------------------------------------------------------------------------------------------
-function criarTemp(){
-	
-	temp.data = cliente.data;
-	temp.pizzas = cliente.pizzas = JSON.stringify(pizzas);
-	temp.nome = cliente.nome;
-	temp.envio = cliente.envio;
-	temp.status = "COZINHA";
-}
 
 
 //--------------------------------------------------------------------------------------------------------------------
@@ -936,6 +924,34 @@ function estruturarPedido(e, troco){
 }
 
 
+//-------------------------------------------------------------------------------------------------------------------
+function criarTemp(setor, comanda){
+	
+	temp = {};
+	temp.comanda = comanda;
+	temp.data = cliente.data;
+	temp.nome = cliente.nome;
+	temp.envio = cliente.envio;
+	temp.status = "COZINHA";
+	temp.setor = setor;
+
+	if(setor == 1){
+		temp.pizzas = cliente.pizzas;
+	}
+	if(setor == 2){
+		temp.pizzas = cliente.produtos;
+	}
+	//salvar pedido no temp
+	$.ajax({
+		url: '/novoPedido/salvarTemp',
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(temp)
+	});
+}
+
+
 //--------------------------------------------------------------------------------------------------------------------
 function salvarPedido(){
 	//salvar pedido
@@ -948,16 +964,14 @@ function salvarPedido(){
 		
 	}).done(function(e){
 
-		cliente.comanda = temp.comanda = e.comanda; //recebe numero do servidor
+		cliente.comanda = e.comanda; //recebe numero do servidor
 		
-		//salvar pedido no temp
-		$.ajax({
-			url: '/novoPedido/salvarTemp',
-			type: 'POST',
-			dataType : 'json',
-			contentType: "application/json",
-			data: JSON.stringify(temp)
-		});
+		if(pizzas.length != 0){
+			criarTemp(1, e.comanda);
+		}
+		if(produtos.length != 0){
+			criarTemp(2, e.comanda);
+		}
 		
 		imprimir();
 		carregarLoading("none");
