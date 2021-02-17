@@ -84,7 +84,7 @@ function mostrar(pedidos, filtro) {
 					
 					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
 							+ (pizza.obs !== "" ? '<td class="fundoAlert">' + pizza.obs + '</td>' : '<td>' + pizza.obs + '</td>')
-							+ '<td>' + pizza.borda + '</td>'
+							+ '<td>' + pizza.borda + '</td>';
 							
 					//verificar a situacao do pedido
 					if(pedidos[i].status == "PRONTO" && j == 0){

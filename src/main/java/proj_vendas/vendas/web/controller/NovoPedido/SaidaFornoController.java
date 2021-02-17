@@ -35,7 +35,7 @@ public class SaidaFornoController{
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		return temps.findByCodEmpresa(user.getCodEmpresa()); //mostrar todos
+
+		return temps.findByCodEmpresaAndSetor(user.getCodEmpresa(), 1); //mostrar todos
 	}
 }
