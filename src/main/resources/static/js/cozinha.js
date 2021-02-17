@@ -69,14 +69,6 @@ function buscarPedido() {
 				mostrar(pedidos, $("#filtro").val());
 			}
 		}
-			
-		if(Tpedidos == 0) $("#Tpedidos").text('0');
-		
-		else $("#Tpedidos").text(pedidos.length);
-		
-		if(AllPizzas == 0) $("#Tpizzas").text('0');
-		
-		else $("#Tpizzas").text(AllPizzas);
 
 		try {$("#enviar")[0].focus();}catch{}
 

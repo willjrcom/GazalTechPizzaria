@@ -22,7 +22,7 @@ var totalUnico; // valor fixo mesmo depois do sistema atualizar o pedido antigo 
 var modo = "CRIAR";
 
 //html------------------------------------------------------------------------------------------------------
-var [linhaHtml, bordasHtml, imprimirTxt] = ['', '', ''];
+var [linhaHtml, bordasHtml] = ['', ''];
 
 //botoes------------------------------------------------------------------------------------------------------
 var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
@@ -773,8 +773,7 @@ function mostrarProdutos() {//todos
 
 //------------------------------------------------------------------------------------------------------------------------
 $("#BotaoEnviarPedido").click(function() {
-	console.log(pizzas);
-	console.log(produtos.length);
+
 	cliente.envio = $("#envioCliente").val();
 	if(cliente.envio !== "ENTREGA") cliente.taxa = cliente.endereco = null; //apagar variaveis para evitar erros
 	
@@ -936,10 +935,10 @@ function criarTemp(setor, comanda){
 	temp.setor = setor;
 
 	if(setor == 1){
-		temp.pizzas = cliente.pizzas;
+		temp.pizzas = JSON.stringify(pizzas);
 	}
 	if(setor == 2){
-		temp.pizzas = cliente.produtos;
+		temp.pizzas = JSON.stringify(produtos);
 	}
 	//salvar pedido no temp
 	$.ajax({

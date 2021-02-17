@@ -439,6 +439,8 @@ function imprimirPizzas(cliente) {
 function imprimirProdutos(cliente) {
 	    
 	if(cliente.produtos != 0){
+		cliente.setor = "A";
+	
 		//salvar hora
 		cliente.hora = cliente.horaPedido;
 		cliente.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];

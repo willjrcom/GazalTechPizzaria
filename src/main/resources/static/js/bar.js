@@ -30,7 +30,7 @@ function buscarPedido() {
 			$("#alertaPedidos").hide();
 		}
 	}).done(function(e){
-
+		console.log(e)
 		pedidos = e;
 		for(pedido of pedidos){
 			Tpedidos++;
@@ -78,9 +78,9 @@ function buscarPedido() {
 							for(contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
 							
 							//singular
-							if(Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizza</td>';
+							if(Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' bebida</td>';
 							//plural
-							else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+							else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' bebidas</td>';
 							
 							
 						}else {//se for 3 linha a frente
@@ -156,7 +156,6 @@ function enviarPedido() {
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 			
 	$.confirm({
-		icon: 'fa fa-spinner fa-spin',
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: 'Enviar pedido?',
@@ -166,8 +165,8 @@ function enviarPedido() {
 	            btnClass: 'btn-green',
 	            keys: ['enter'],
 	            action: function(){
+					pedidos[idBusca].produtos = pedidos[idBusca].pizzas;
 					imprimir(pedidos[idBusca]);
-					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 
 					$.ajax({
 						url: "/bar/enviarPedido/" + idProduto,
@@ -202,5 +201,41 @@ $("#alertaPedidos").on("click",function(){
 function carregarLoading(texto){
 	$(".loading").css({
 		"display": texto
+	});
+}
+
+
+//----------------------------------------------------------------------------
+function imprimir(cliente) {
+	//salvar hora atual
+	var data = new Date();
+	hora = data.getHours();
+	hora = (hora.length == 0) ? '00' : hora;
+	hora = (hora <= 9) ? '0'+hora : hora;
+	minuto = data.getMinutes();
+	minuto = (minuto.length == 0) ? '00' : minuto;
+	minuto = (minuto <= 9) ? '0'+minuto : minuto;
+	segundo = data.getSeconds();
+	segundo = (segundo.length == 0) ? '00' : segundo;
+	segundo = (segundo <= 9) ? '0'+segundo : segundo;
+    dia  = data.getDate().toString();
+    dia = (dia.length == 1) ? '0'+dia : dia;
+    mes  = (data.getMonth()+1).toString();
+    mes = (mes.length == 1) ? '0'+mes : mes;
+    ano = data.getFullYear();
+			
+	var impressaoPedido = cliente;
+	impressaoPedido.setor = "B";
+
+	//salvar hora
+	impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
+	impressaoPedido.data = dia + '/' + mes + '/' + ano;
+	
+	$.ajax({
+		url: "/imprimir/imprimirProduto",
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(impressaoPedido)
 	});
 }

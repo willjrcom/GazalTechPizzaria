@@ -45,7 +45,7 @@ public class ImprimirController {
 		
 		List<ImpressaoMatricial> todosIm = null;
 		
-		if(setor.equals("A") == true || setor.equals("C") == true) {
+		if(setor.equals("A") == true || setor.equals("C") == true || setor.equals("B") == true || setor.equals("M") == true) {
 			todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
 		}else {
 			todosIm = impressoes.findByCodEmpresa(codEmpresa);
@@ -243,7 +243,7 @@ public class ImprimirController {
 		impressaoCompleta += "----------------------------------------#$"
 							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
 		
-		imprimirLocal(impressaoCompleta, "A");
+		imprimirLocal(impressaoCompleta, pedido.getSetor());
 	}
 	
 	

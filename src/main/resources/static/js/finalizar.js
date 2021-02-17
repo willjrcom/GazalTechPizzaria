@@ -163,6 +163,9 @@ function finalizarPedido() {
 			}
 		});
 	}else {
+		pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
+		pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
+		
 		$.confirm({
 			type: 'green',
 		    title: 'Pedido: ' + pedidos[idBusca].nome,
@@ -170,15 +173,17 @@ function finalizarPedido() {
 		    closeIcon: true,
 		    columnClass: 'col-md-8',
 		    buttons: {
+				imprimir: {
+					text: 'Imprimir',
+					btnClass: 'btn btn-warning',
+					action: () => imprimir(pedidos[idBusca])
+				},
 		        confirm: {
-		            text: 'finalizar',
+		            text: 'Finalizar',
 		            btnClass: 'btn-green',
 		            keys: ['enter'],
 		            action: function(){
 						carregarLoading("block");
-						//pedidos[idBusca].ac = $("#filtro").val();
-						pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
-						pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 
 						if(pedidos[idBusca].pagamento == "Não") {
 							var troco = this.$content.find('#troco').val();
@@ -222,10 +227,6 @@ function finalizarPedido() {
 						$.ajax({
 							url: "/finalizar/dados/" + pedidos[idBusca].id,
 							type: "PUT",
-							beforeSend: function(){
-								if(pedidos[idBusca].envio !== "ENTREGA")
-									imprimir(pedidos[idBusca]);
-							},
 							dataType : 'json',
 							contentType: "application/json",
 							data: JSON.stringify(dado)
@@ -244,11 +245,6 @@ function finalizarPedido() {
 							else $.alert("Pedido não enviado!<br>Digite um valor válido.");
 						});
 					}
-		        },
-		        cancel: {
-		        	text: 'Voltar',
-		            btnClass: 'btn-red',
-		            keys: ['esc'],
 		        },
 			}
 		});

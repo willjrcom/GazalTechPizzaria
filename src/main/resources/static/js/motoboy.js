@@ -157,6 +157,7 @@ function finalizarPedido() {
 function imprimir(cliente) {
 	
 	impressaoPedido = cliente;
+	impressaoPedido.setor = "M";
 
 	impressaoPedido.pizzas = JSON.parse(cliente.pizzas);
 	impressaoPedido.produtos = JSON.parse(cliente.produtos);

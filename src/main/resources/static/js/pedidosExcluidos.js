@@ -138,63 +138,47 @@ function verPedido() {
 
 //-------------------------------------------------
 function imprimirTudo(cliente) {
-
-	//buscar dados da empresa
-	$.ajax({
-		url: '/novoPedido/empresa',
-		type: 'GET'
-	}).done(function(e){
-		if(e.length != 0) {
 			
-			impressaoPedido = {};
-			impressaoPedido.nomeEstabelecimento = e.nomeEstabelecimento;//nome do estabelecimento
-			impressaoPedido.envio = cliente.envio; //forma de envio
-			impressaoPedido.texto1 = e.texto1;//texto1 gerado pela empresa
-			impressaoPedido.cnpj = e.cnpj;
-			impressaoPedido.enderecoEmpresa = e.endereco.rua + " " + e.endereco.n + "\n" + e.endereco.bairro;
-					
-					//numero da comanda e nome
-			impressaoPedido.comanda = cliente.comanda;
-			impressaoPedido.nome = cliente.nome;
+	impressaoPedido = {};
+	impressaoPedido.envio = cliente.envio;
+	impressaoPedido.setor = "A";
+	
+	//numero da comanda e nome
+	impressaoPedido.comanda = cliente.comanda;
+	impressaoPedido.nome = cliente.nome;
+
+	//mostrar endereco do cliente
+	if(cliente.envio == 'ENTREGA') {
+		impressaoPedido.celular = cliente.celular
+		impressaoPedido.endereco =  cliente.endereco;
+	}
+	impressaoPedido.pizzas = cliente.pizzas;
+	impressaoPedido.produtos = cliente.produtos;
+
+	
+	//pagamento em entrega
+	if(cliente.envio == 'ENTREGA') {//total com taxa
+		impressaoPedido.total = cliente.total;
+		impressaoPedido.taxa = cliente.taxa;
 		
-			//mostrar endereco do cliente
-			if(cliente.envio == 'ENTREGA') {
-				impressaoPedido.celular = cliente.celular
-				impressaoPedido.endereco =  cliente.endereco;
-			}
-			impressaoPedido.pizzas = cliente.pizzas;
-			impressaoPedido.produtos = cliente.produtos;
-	
-			
-			//pagamento em entrega
-			if(cliente.envio == 'ENTREGA') {//total com taxa
-				impressaoPedido.total = cliente.total;
-				impressaoPedido.taxa = cliente.taxa;
-				
-				//total sem taxa
-			}else impressaoPedido.total = cliente.total;
-	
-			//total a levar de troco
-			impressaoPedido.troco = cliente.troco;
+		//total sem taxa
+	}else impressaoPedido.total = cliente.total;
 
-			if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
-						
-			//texto2 e promocao
-			impressaoPedido.texto2 = e.texto2;
-			impressaoPedido.promocao = e.promocao;
-						
-			//salvar hora
-			impressaoPedido.hora = cliente.horaPedido;
-			impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-			
-			$.ajax({
-				url: "/imprimir/imprimirPedido",
-				type: 'POST',
-				dataType : 'json',
-				contentType: "application/json",
-				data: JSON.stringify(impressaoPedido)
-			});
-		}
+	//total a levar de troco
+	impressaoPedido.troco = cliente.troco;
+
+	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
+				
+	//salvar hora
+	impressaoPedido.hora = cliente.horaPedido;
+	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	
+	$.ajax({
+		url: "/imprimir/imprimirPedido",
+		type: 'POST',
+		dataType : 'json',
+		contentType: "application/json",
+		data: JSON.stringify(impressaoPedido)
 	});
 }
 
