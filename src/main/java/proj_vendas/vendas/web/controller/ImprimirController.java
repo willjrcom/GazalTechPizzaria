@@ -251,31 +251,35 @@ public class ImprimirController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		impressaoCompleta = impressaoCompleta
-                .replace("ç", "c")
-                .replace("á", "a")
-                .replace("ã", "a")
-                .replace("à", "a")
-                .replace("Á", "A")
-                .replace("À", "A")
-                .replace("ó", "o")
-                .replace("õ", "o")
-                .replace("ô", "o")
-                .replace("ò", "o")
-                .replace("é", "e")
-                .replace("ê", "e")
-                .replace("è", "e")
-                .replace("í", "i")
-                .replace("ú", "u")
-                .replace("ì", "i");
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		
-		System.out.println(impressaoCompleta);
+		if(empresa.isImprimir() == true) {
+			impressaoCompleta = impressaoCompleta
+	                .replace("ç", "c")
+	                .replace("á", "a")
+	                .replace("ã", "a")
+	                .replace("à", "a")
+	                .replace("Á", "A")
+	                .replace("À", "A")
+	                .replace("ó", "o")
+	                .replace("õ", "o")
+	                .replace("ô", "o")
+	                .replace("ò", "o")
+	                .replace("é", "e")
+	                .replace("ê", "e")
+	                .replace("è", "e")
+	                .replace("í", "i")
+	                .replace("ú", "u")
+	                .replace("ì", "i");
 			
-		ImpressaoMatricial im = new ImpressaoMatricial();
-		im.setImpressao(impressaoCompleta);
-		im.setCodEmpresa(user.getCodEmpresa());
-		im.setSetor(setor);
-		impressoes.save(im);
+			System.out.println(impressaoCompleta);
+				
+			ImpressaoMatricial im = new ImpressaoMatricial();
+			im.setImpressao(impressaoCompleta);
+			im.setCodEmpresa(user.getCodEmpresa());
+			im.setSetor(setor);
+			impressoes.save(im);
+		}
 	}
 	
 	
