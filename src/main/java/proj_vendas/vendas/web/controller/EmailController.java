@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import proj_vendas.vendas.model.Email;
+import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Usuarios;
 
 @RestController
 @RequestMapping("/email")
@@ -26,6 +28,9 @@ public class EmailController {
 	 @Autowired
 	 private JavaMailSender javaMailSender;
 
+	 @Autowired
+	 private Usuarios usuarios;
+	 
     @RequestMapping(path = "/enviar")
     @ResponseBody
     public ResponseEntity<String> sendMail(@RequestBody Email email) throws MessagingException {
@@ -87,8 +92,13 @@ public class EmailController {
     
     @RequestMapping(path = "/novaSenha/{email}")
     @ResponseBody
-    public ResponseEntity<String> novaSenha(@PathVariable String email) throws MessagingException {
-
+    public int novaSenha(@PathVariable String email) throws MessagingException {
+    	
+    	Usuario usuario = usuarios.findByEmail(email);
+    	
+    	if(usuario == null) {
+    		return 500;
+    	}
     	//enviar email de recuperação
     	try {
 			MimeMessage msg = javaMailSender.createMimeMessage();
@@ -110,9 +120,13 @@ public class EmailController {
 	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logo.png"));
 	        
 	        javaMailSender.send(msg);
-		}catch(Exception e) {System.out.println(e);}
- 
-        return ResponseEntity.ok("200");
+	        return 200;
+	        
+		}catch(Exception e) {
+			System.out.println(e);
+
+	        return 404;
+		}
     }
 }
 

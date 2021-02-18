@@ -23,15 +23,7 @@ public class NovaSenhaController {
 	@Autowired
 	private Usuarios usuarios;
 	
-	@RequestMapping
-	@ResponseBody
-	public ModelAndView tela(@RequestBody String email) {
-		ModelAndView mv = new ModelAndView("novaSenha");
-		mv.addObject("email", email);
-		return mv;
-	}
-	
-	@RequestMapping("/novaSenha/auth/6sf465sd4f5d4g6v8d5f4gv6dx5f4g6rt4h6/8tygh4rt8d5t4r68ft4g68rrft4ge9r5gh43tf/f435t4h24gg55xd5f4g5ft4ert54/{email}")
+	@RequestMapping("/auth/6sf465sd4f5d4g6v8d5f4gv6dx5f4g6rt4h6/8tygh4rt8d5t4r68ft4g68rrft4ge9r5gh43tf/f435t4h24gg55xd5f4g5ft4ert54/{email}")
     @ResponseBody
     public ModelAndView telaNovaSenha(@PathVariable String email) throws MessagingException {
     	ModelAndView mv = new ModelAndView("novaSenha");
