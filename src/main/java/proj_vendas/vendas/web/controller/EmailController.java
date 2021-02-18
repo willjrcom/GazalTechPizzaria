@@ -94,13 +94,16 @@ public class EmailController {
 			MimeMessage msg = javaMailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 
-	        helper.setText("<script>"
-	        		+ "fetch(\"http://gazaltechpizzaria.azurewebsites.net/novaSenha\", " + email + ")"
-	        		+ "</script>"
-	        		+ "Não responda esse email!"
+	        helper.setText(
+	        		"Não responda esse email!"
 	    			+ "<br><br>"
 	    			+ "<label>Clique abaixo para redefinir sua senha</label>"
-	    			+ "<a href=\"http://gazaltechpizzaria.azurewebsites.net/novaSenha\" style=\"background-color: green; padding: 5px\"><p>Redefinir senha</p></a>", true);
+	    			+ "<a href=\"http://gazaltechpizzaria.azurewebsites.net"
+	    				+ "/novaSenha/auth/6sf465sd4f5d4g6v8d5f4gv6dx5f4g6rt4h6/8tygh4rt8d5t4r68ft4g68rrft4ge9r5gh43tf/f435t4h24gg55xd5f4g5ft4ert54/" 
+	    				+ email + "/d53y54grd5fy4gr35tf4ygrt54fyg6rt54yh68rt5yfg\">"
+	    				+ "<p>Redefinir senha</p>"
+	    			+ "</a>", true
+	    	);
 	        helper.setFrom("gazaltechsuporte@outlook.com");
 	        helper.setTo(email);
 	        helper.setSubject("Recuperação de senha - Gazaltech Pizzaria");
