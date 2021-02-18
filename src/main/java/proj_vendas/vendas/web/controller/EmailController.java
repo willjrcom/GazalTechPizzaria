@@ -11,6 +11,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -83,5 +84,32 @@ public class EmailController {
     	}catch(Exception e) {System.out.println(e);}
     }
     
+    
+    @RequestMapping(path = "/novaSenha/{email}")
+    @ResponseBody
+    public ResponseEntity<String> novaSenha(@PathVariable String email) throws MessagingException {
+
+    	//enviar email de recuperação
+    	try {
+			MimeMessage msg = javaMailSender.createMimeMessage();
+	        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+
+	        helper.setText("<script>"
+	        		+ "fetch(\"http://gazaltechpizzaria.azurewebsites.net/novaSenha\", " + email + ")"
+	        		+ "</script>"
+	        		+ "Não responda esse email!"
+	    			+ "<br><br>"
+	    			+ "<label>Clique abaixo para redefinir sua senha</label>"
+	    			+ "<a href=\"http://gazaltechpizzaria.azurewebsites.net/novaSenha\" style=\"background-color: green; padding: 5px\"><p>Redefinir senha</p></a>", true);
+	        helper.setFrom("gazaltechsuporte@outlook.com");
+	        helper.setTo(email);
+	        helper.setSubject("Recuperação de senha - Gazaltech Pizzaria");
+	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logo.png"));
+	        
+	        javaMailSender.send(msg);
+		}catch(Exception e) {System.out.println(e);}
+ 
+        return ResponseEntity.ok("200");
+    }
 }
 
