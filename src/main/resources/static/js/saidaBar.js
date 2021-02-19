@@ -120,6 +120,8 @@ function mostrar(pedidos, filtro) {
 	}
 	if(linhaHtml != "") {
 		$("#todosPedidos").html(linhaHtml);
+	}else{
+		$("#todosPedidos").text(pedidoVazio);
 	}
 }
 
