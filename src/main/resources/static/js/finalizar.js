@@ -61,93 +61,39 @@ $(document).ready(function(){
 //---------------------------------------------------------------------------------
 function finalizarPedido() {
 	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
+	var idPedido = botaoReceber.attr('value');
 	
 	//buscar dados completos do pedido enviado
-	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;	
+	for(i in pedidos) if(pedidos[i].id == idPedido) var idBusca = i;	
 	
+	//setar valores
 	Tpizzas = 0;
 	dado.totalPizza = 0;
 	dado.totalProduto = 0;
 	dado.totalLucro = 0;
 	
+	//contar total do lucro e de pizzas
 	for(pizza of pedidos[idBusca].pizzas) {
 		dado.totalLucro += pizza.custo;
 		dado.totalPizza += pizza.qtd;
 	}
 	Tpizzas = dado.totalPizza;
 	
+	//contar total do lucro e de produtos
 	for(produto of pedidos[idBusca].produtos) {
 		dado.totalLucro += produto.custo;
 		dado.totalProduto += produto.qtd;
 	}
 	Tpizzas += dado.totalProduto;
 	
+	//teste para cupom desativado
+	/*
 	try{
 		 valorCupom = Number(pedidos[idBusca].cupom.replace(",", ".").replace("%", "").replace("R$",""));
 	}catch(Exception){}
-	
-	linhaHtml = '';
-	if(pedidos[idBusca].pizzas.length != 0) {
-		linhaHtml = '<table style="width:100%">'
-					+ '<tr>'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-						+ '<th class="col-md-1"><h5>Borda</h5></th>'
-					+ '</tr>';
-		
-		for(pizza of pedidos[idBusca].pizzas){
-			linhaHtml += '<tr>'
-						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +  '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
-						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
-	
-	if(pedidos[idBusca].produtos.length != 0) {
-		linhaHtml += '<table style="width:100%">'
-						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
-						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-					+ '</tr>';
-		
-		for(produto of pedidos[idBusca].produtos){
-			linhaHtml += '<tr>'
-						 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
-						 +  '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
-					 +  '</tr>';
-		}
-		linhaHtml += '</table>';
-	}
-	
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas.toFixed(2);	
-	
-	if(pedidos[idBusca].envio == "ENTREGA"){
-		linhaHtml += '<br><b>Total do Pedido com taxa:</b> R$ ' 
-						+ (Number(pedidos[idBusca].total) 
-							+ ((pedidos[idBusca].taxa == null) 
-								? Number(0) 
-								: Number(pedidos[idBusca].taxa))).toFixed(2)
-					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco
-					+ '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy;
-	} else{
-		linhaHtml += '<br><b>Total do Pedido:</b> R$' 
-				+ Number(pedidos[idBusca].total).toFixed(2)
-	}
-	if(pedidos[idBusca].pagamento == "Não") 
-				
-		linhaHtml += '<br><b>Receber:</b>'
-					+ '<div class="input-group mb-3">'
-					+ '<span class="input-group-text">R$</span>'
-					+ '<input class="form-control" id="troco" placeholder="Precisa de troco?" value="'
-						+ (pedidos[idBusca].total + ((pedidos[idBusca].taxa == null) 
-								? Number(0) : Number(pedidos[idBusca].taxa))) + '"/>'
-				+ '</div>';
-	
-	linhaHtml += '<br>Deseja finalizar o pedido?';
+	*/
 
-
+	
 	//modal jquery confirmar
 	if($("#filtro").val() == "--"){
 		$.alert({
@@ -163,13 +109,11 @@ function finalizarPedido() {
 			}
 		});
 	}else {
-		pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
-		pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
 		
 		$.confirm({
 			type: 'green',
 		    title: 'Pedido: ' + pedidos[idBusca].nome,
-		    content: linhaHtml,
+		    content: mostrarTabela(pedidos[idBusca]),
 		    closeIcon: true,
 		    columnClass: 'col-md-8',
 		    buttons: {
@@ -210,8 +154,8 @@ function finalizarPedido() {
 							verificarTroco = 1;
 						}
 						
-						dado.totalVendas = (Number(pedidos[idBusca].total) + ((pedidos[idBusca].taxa == null) 
-								? Number(0) : Number(pedidos[idBusca].taxa)));
+						//total do pedido OBS: sem a taxa
+						dado.totalVendas = pedidos[idBusca].total;
 						
 						if(pedidos[idBusca].envio == "ENTREGA") {
 							dado.entrega = 1;
@@ -226,15 +170,15 @@ function finalizarPedido() {
 						//salvar dados
 						$.ajax({
 							url: "/finalizar/dados/" + pedidos[idBusca].id,
-							type: "PUT",
+							type: "POST",
 							dataType : 'json',
 							contentType: "application/json",
 							data: JSON.stringify(dado)
 						});
 						
 						$.ajax({
-							url: "/finalizar/finalizarPedido/" + idProduto + '/' + $("#filtro").val(),
-							type: 'PUT'
+							url: "/finalizar/finalizarPedido/" + idPedido + '/' + $("#filtro").val(),
+							type: 'POST'
 						}).done(function(){
 							document.location.href="/finalizar";
 							
@@ -273,6 +217,72 @@ function imprimir(cliente) {
 		contentType: "application/json",
 		data: JSON.stringify(impressaoPedido)
 	});
+}
+
+
+//----------------------------------------------------------------------
+function mostrarTabela(pedido){
+	linhaHtml = '';
+	if(pedido.pizzas.length != 0) {
+		linhaHtml = '<table style="width:100%">'
+					+ '<tr>'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+						+ '<th class="col-md-1"><h5>Borda</h5></th>'
+					+ '</tr>';
+		
+		for(pizza of pedido.pizzas){
+			linhaHtml += '<tr>'
+						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
+						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
+	}
+	
+	if(pedido.produtos.length != 0) {
+		linhaHtml += '<table style="width:100%">'
+						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+					+ '</tr>';
+		
+		for(produto of pedido.produtos){
+			linhaHtml += '<tr>'
+						 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
+						 +  '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
+					 +  '</tr>';
+		}
+		linhaHtml += '</table>';
+	}
+	
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas.toFixed(2);	
+	
+	if(pedido.envio == "ENTREGA"){
+		linhaHtml += '<br><b>Total do Pedido com taxa:</b> R$ ' 
+						+ (Number(pedido.total) 
+							+ ((pedido.taxa == null) 
+								? Number(0) 
+								: Number(pedido.taxa))).toFixed(2)
+					+ '<br><b>Endereço:</b> ' + pedido.endereco
+					+ '<br><b>Motoboy:</b> ' + pedido.motoboy;
+	} else{
+		linhaHtml += '<br><b>Total do Pedido:</b> R$' 
+				+ Number(pedido.total).toFixed(2)
+	}
+	if(pedido.pagamento == "Não") 
+				
+		linhaHtml += '<br><b>Receber:</b>'
+					+ '<div class="input-group mb-3">'
+					+ '<span class="input-group-text">R$</span>'
+					+ '<input class="form-control" id="troco" placeholder="Precisa de troco?" value="'
+						+ (pedido.total + ((pedido.taxa == null) 
+								? Number(0) : Number(pedido.taxa))) + '"/>'
+				+ '</div>';
+	
+	linhaHtml += '<br>Deseja finalizar o pedido?';
+	
+	return linhaHtml;
 }
 
 
