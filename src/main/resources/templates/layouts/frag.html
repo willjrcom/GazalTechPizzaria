@@ -39,17 +39,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="elemento1" >
 			<div class="corFundo centralizar" id="login">
 				
-				<a type="button" class="btn btn-primary form-control" aria-disabled="true"><span style="font-size: 20px" th:text="${empresa}"></span></a>
 				<input type="hidden" id="trocoInicial" th:value="${troco}" />
-				
-				<div th:if="${contato} != ''">
-					<p th:text="${contato}"></p>
-				</div>
-				
-				<div th:unless="${contato} != ''">
-					<a th:href="@{/adm/empresa}"><button class="form-control btn btn-warning">Cadastre-se</button></a>
-				</div>
-				<hr>
 				
 				<nav>
 					<ul class="menu1" style="padding-left:0;">
@@ -57,8 +47,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
 						<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
 						<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
-						<li id="dev" class="hidden"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DEV</a></li>
+						<li id="dev" class="hidden"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DESENVOLVEDOR</a></li>
 						<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
+						<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> TUTORIAL</a></li>
 					</ul>
 				</nav>
 			</div>
@@ -160,7 +151,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> Tutorial</a></li>
+			<li><a class="cabecalho"><label th:text="${empresa}"></label></a>
+			<li>
+				<a th:if="${contato} != ''" class="cabecalho"><label th:text="${contato}"></label></a>
+				<a th:href="@{/adm/empresa}" th:unless="${contato} != ''">
+					<button class="form-control btn btn-warning">Cadastre-se</button>
+				</a>
+			</li>
 			<li><a class="cabecalho" id="data" onclick="escolherData()"><i class="fas fa-calendar-check"></i> Data de acesso</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
