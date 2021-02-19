@@ -110,7 +110,7 @@ public class EmailController {
 	    			+ "<label>Clique abaixo para redefinir sua senha</label>"
 	    			+ "<a href=\"http://gazaltechpizzaria.azurewebsites.net"
 	    				+ "/novaSenha/auth/6sf465sd4f5d4g6v8d5f4gv6dx5f4g6rt4h6/8tygh4rt8d5t4r68ft4g68rrft4ge9r5gh43tf/f435t4h24gg55xd5f4g5ft4ert54/" 
-	    				+ email + "/d53y54grd5fy4gr35tf4ygrt54fyg6rt54yh68rt5yfg\">"
+	    				+ email + "/" + usuario.getCodEmpresa() + "/d53y54grd5fy4gr35tf4ygrt54fyg6rt54yh68rt5yfg\">"
 	    				+ "<p>Redefinir senha</p>"
 	    			+ "</a>", true
 	    	);

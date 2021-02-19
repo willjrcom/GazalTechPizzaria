@@ -1,6 +1,13 @@
 var confirmacao = 1;
 var dados = {};
 
+
+if(window.location.href.split("/")[3] === "novaSenha" 
+	&& window.location.href.split("/")[10] === "d53y54grd5fy4gr35tf4ygrt54fyg6rt54yh68rt5yfg"){
+	$("#senhas").show("slow");	
+}
+
+
 $(".pass").keyup(() => {
 	if($("#senha").val() === $("#confirmar").val()){
 		$("#avisoSenha").hide();
@@ -26,28 +33,10 @@ $(".pass").keyup(() => {
 	}
 });
 
-
-verificar = () => {
-	if($("#senhaAntiga").val().length != 0){
-		$.ajax({
-			url: "/redefinirSenha/verificar/" + $("#senhaAntiga").val(),
-			type: 'GET'
-		}).done(function(e){
-			if(e == true){
-				$("#divSenhaAntiga").hide('slow');
-				$("#senhas").show("slow");
-			}else{
-				$("#senhas").hide("slow");
-				
-			}
-		});
-	}
-};
-
-
 //-----------------------------------------------------------
 $("#criar").click(function(){
 	dados = {};
+	dados.email = $("#email").text();
 	dados.senha = $("#senha").val();
 
 	if(confirmacao == 1 && dados.senha.length >= 4) {
@@ -65,7 +54,7 @@ $("#criar").click(function(){
 						carregarLoading("block");
 						
 						$.ajax({
-							url:'/redefinirSenha/criar',
+							url:'/novaSenha/criar',
 							type: 'POST',
 							dataType : 'json',
 							contentType: "application/json",
