@@ -166,7 +166,7 @@ public class ImprimirController {
 		if(pedido.getObs() != null) impressaoCompleta += "----------------------------------------#$"
 														+ "\t\tOBSERVACAO#$" 
 														+ cortaString(pedido.getObs()) + "#$";
-		
+		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, "A");
 	}
 	
@@ -205,6 +205,7 @@ public class ImprimirController {
 		impressaoCompleta += "----------------------------------------#$"
 							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
 
+		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, pedido.getSetor());
 	}
 	
@@ -242,7 +243,8 @@ public class ImprimirController {
 		
 		impressaoCompleta += "----------------------------------------#$"
 							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
-		
+
+		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, pedido.getSetor());
 	}
 	
@@ -376,6 +378,8 @@ public class ImprimirController {
 						   + "Pago:       \t\tR$ " + decimal.format(pago) +  "#$"
 						   + "Total:      \t\tR$ " + decimal.format(total + funcionario.getSalario().floatValue()) + "#$"
 						   + "----------------------------------------#$";
+
+		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, "A");
 	}
 	

@@ -77,7 +77,7 @@ $.ajax({
 		for(produto of produtos) {
 			compras += parseFloat(produto.preco);
 		}
-		var comprasHtml = '<tr">'
+		var comprasHtml = '<tr>'
 						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
 					+ '</tr>'
 					+ '<tr>'
@@ -87,6 +87,39 @@ $.ajax({
 		$("#compras").html(comprasHtml);
 	}else{
 		$("#compras").text("Nenhuma compra feita hoje!");
+	}
+	
+	
+	//sangrias---------------------------------------------------------------------
+	if(typeof e.sangria != "undefined") {
+		let totalSangria = 0, sangriaHtml = '';
+		
+		sangriaHtml = '<tr>'
+						+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
+					+ '</tr>';
+					
+		for(let sangria of e.sangria) {
+			totalSangria += parseFloat(sangria.valor);
+			
+			sangriaHtml += '<tr>'
+						+ '<td class="text-center col-md-1">' + sangria.nome + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + sangria.valor.toFixed(2) + '</td>'
+					+ '</tr>';
+		}
+			
+		sangriaHtml += '<tr><td>&nbsp;</td></tr>' 
+					+ '<tr>'
+						+ '<th class="text-center col-md-1" colspan="2">Total retirado do caixa</th>'
+					+ '</tr>'
+					
+					+ '<tr>'
+						+ '<td class="text-center col-md-1" colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
+					+ '</tr>';
+		
+					
+		$("#todasSangrias").html(sangriaHtml);
+	}else{
+		$("#todasSangrias").text("Nenhuma sangria feita hoje!");
 	}
 	
 		
@@ -280,6 +313,80 @@ $("#finalizar_caixa").click(function(){
 });
 
 
+$("#sangria").click(function(){
+	$.confirm({
+		type: 'blue',
+		title: 'Sangria',
+		columnClass: 'col-md-8',
+		content: '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Nome:</label>'
+						+ '<input class="form-control pula" id="nomeSangria" placeholder="Digite o nome"/>'
+					+ '</div>'
+					
+					+ '<div class="col-md-6">'
+						+ '<label>Valor:</label>'
+						+ '<input class="form-control pula" id="valorSangria" placeholder="Digite o valor"/>'
+					+ '</div>'
+				+ '</div>',
+		buttons:{
+			confirm:{
+				text: 'Salvar',
+				btnClass: 'btn-success',
+				keys:['enter'],
+				action: function(){
+					var nomeSangria = this.$content.find('#nomeSangria').val();
+					var valorSangria = this.$content.find('#valorSangria').val();
+					
+					valorSangria = parseFloat(valorSangria.toString().replace(",","."));
+					console.log(nomeSangria, valorSangria)
+					if(Number.isFinite(valorSangria) == false || nomeSangria == '') {
+						$.alert({
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
+					}else {
+						carregarLoading("block");
+						$.ajax({
+							url: '/adm/fechamento/sangria/' + nomeSangria + '/' + valorSangria,
+							type: 'POST'
+						}).done(function(){
+							carregarLoading("none");
+							$.alert({
+								type:'green',
+								title: 'Sucesso!',
+								content: 'Sangria adicionada com sucesso!',
+								buttons:{
+									confirm:{
+										text:'Continuar',
+										btnClass: 'btn-success',
+										keys:['enter', 'esc'],
+										action: () => window.location.href = '/adm/fechamento'
+									}
+								}
+							});
+						});
+					}
+				}
+			},
+			cancel:{
+				text: 'Voltar',
+				btnClass: 'btn-danger',
+				keys:['esc'],
+			}
+		}
+	});
+});
+
+
 //-------------------------------------------------------------------
 function troco(){
 	$.confirm({
@@ -318,7 +425,7 @@ function troco(){
 						carregarLoading("block");
 						$.ajax({
 							url: '/adm/fechamento/finalizar/' + troco,
-							type: 'PUT'
+							type: 'POST'
 						}).done(function(){
 							carregarLoading("none");
 							$.alert({

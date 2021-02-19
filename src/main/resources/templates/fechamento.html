@@ -28,10 +28,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 			
-			<hr>
-			
+		<hr>
+		
 		<div class="row">
-			<div class="col-md-6 table-responsive">
+			<div class="col-md-4" align="center"><button name="relatorio" id="relatorio" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir Relatório</button></div>
+			<div class="col-md-4" align="center"><button name="sangria" id="sangria" class="btn btn-warning">Fazer Sangria</button></div>
+			<div class="col-md-4" align="center"><button name="finalizar_caixa" id="finalizar_caixa" class="btn btn-success">Finalizar Caixa</button></div>
+		</div>
+			
+		<hr>
+		<div class="row">
+			<div class="col-md-4 table-responsive">
 				<div id="logmotoboys" class="hidden">
 					<h3>Taxas de entrega</h3>
 					<div id="logCompleto" class="hidden"></div>
@@ -41,18 +48,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<button id="mostrarTaxasResumo" class="btn btn-warning hidden">Mostrar resumo</button>
 				</div>
 			</div>
-			<div class="col-md-6"><table id="compras"></table></div>
+			
+			<div class="col-md-4 table-responsive"><table id="todasSangrias"></table></div>
+			
+			<div class="col-md-4 table-responsive"><table id="compras"></table></div>
 		</div>
 		
-		<br><br>
-
-		<div class="fLeft">
-			<a><button name="relatorio" id="relatorio" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir Relatório</button></a>
-		</div>
-		
-		<div class="fRight">
-			<a><button name="finalizar_caixa" id="finalizar_caixa" class="btn btn-success">Finalizar Caixa</button></a>
-		</div>
+		<br>
 	</div>
 	
 	<br>

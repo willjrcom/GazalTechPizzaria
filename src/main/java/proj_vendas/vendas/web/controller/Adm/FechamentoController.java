@@ -20,6 +20,7 @@ import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
+import proj_vendas.vendas.model.Sangria;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
@@ -108,6 +109,32 @@ public class FechamentoController {
 	}
 	
 	
+	@RequestMapping(value = "/fechamento/sangria/{nome}/{valor}")
+	@ResponseBody
+	public Dado sangria(@PathVariable String nome, @PathVariable float valor) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+
+		//buscar dado do dia
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+		
+		//gerar nova sangria
+		Sangria sangria = new Sangria();
+		sangria.setCodEmpresa(user.getCodEmpresa());
+		sangria.setNome(nome);
+		sangria.setValor(valor);
+		
+		//pegar todas sangrias do dia
+		List<Sangria> sangrias = dado.getSangria();
+		sangrias.add(sangria);
+		
+		//salvar sangrias
+		dado.setSangria(sangrias);
+		
+		return dados.save(dado);
+	}
+	
+	
 	@RequestMapping("/fechamento/relatorio/{lucro}/{taxas}")
 	public ModelAndView imprimirTudo(@PathVariable float lucro, @PathVariable float taxas) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -116,12 +143,12 @@ public class FechamentoController {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		//List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
-		String impressaoCompleta;
+		String impressaoCompleta = "";
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
 		
 		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "#$"
@@ -132,6 +159,8 @@ public class FechamentoController {
 							+ "Data: " + format.format(new Date()) +  "#$"
 							+ "----------------------------------------#$"
 							+ dado.getClientes() + "#$";
+		
+		/*
 		if(pedido.size() != 0) {
 			int cont = 0;
 			for(int i = 0; i<pedido.size(); i++) {
@@ -204,21 +233,31 @@ public class FechamentoController {
 				}
 			}
 		}
+		*/
+		
+		float totalSangria = sangria(dado.getSangria());
 		
 		impressaoCompleta += "----------------------------------------#$"
-						   + "            TOTAL DE VENDAS             #$"
-						   + "TROCO INICIAL \t\tR$ " + decimal.format(dado.getTrocoInicio()) + "#$"
-						   + "TROCO FINAL   \t\tR$ " + decimal.format(dado.getTrocoFinal()) + "#$"
-						   + "TAXAS PAGAS   \t\tR$ " + decimal.format(taxas) + "#$"
-						   + "#$"
-						   + "ENTREGAS:     \t\tR$ " + decimal.format(dado.getVenda_entrega()) + "#$"
-						   + "BALCOES:      \t\tR$ " + decimal.format(dado.getVenda_balcao()) + "#$"
-						   + "MESAS:        \t\tR$ " + decimal.format(dado.getVenda_mesa()) +  "#$"
-						   + "DRIVES:       \t\tR$ " + decimal.format(dado.getVenda_drive()) + "#$"
-						   + "#$"
-						   + "LUCRO BRUTO:  \t\tR$ " + decimal.format(dado.getTotalVendas()) +  "#$"
-						   + "LUCRO LIQUIDO:\t\tR$ " + decimal.format(dado.getTotalLucro()) +  "#$";
-			
+						  	+ "            TOTAL DE VENDAS             #$"
+						  	+ "TROCO INICIAL \t\tR$ " + decimal.format(dado.getTrocoInicio()) 		+ "#$"
+						  	+ "TROCO FINAL   \t\tR$ " + decimal.format(dado.getTrocoFinal()) 		+ "#$"
+						  	+ "#$"
+						  	+ "TAXAS PAGAS   \t\tR$ " + decimal.format(taxas) 						+ "#$"
+						  	+ "#$"
+						  	+ "ENTREGAS:     \t\tR$ " + decimal.format(dado.getVenda_entrega()) 	+ "#$"
+						  	+ "BALCOES:      \t\tR$ " + decimal.format(dado.getVenda_balcao()) 		+ "#$"
+						  	+ "MESAS:        \t\tR$ " + decimal.format(dado.getVenda_mesa()) 		+ "#$"
+						  	+ "DRIVES:       \t\tR$ " + decimal.format(dado.getVenda_drive()) 	  	+ "#$"
+						  	+ "#$"
+						  	+ "LUCRO BRUTO:  \t\tR$ " + decimal.format(dado.getTotalVendas())      	+ "#$"
+						  	+ "LUCRO LIQUIDO:\t\tR$ " + decimal.format(dado.getTotalLucro())       	+ "#$"
+						  	+ "#$"
+						  	+ "SANGRIA:      \t\tR$ " + decimal.format(totalSangria)				+ "#$"
+							+ "#$"
+							+ "TOTAL CAIXA:  \t\tR$ " 
+								+ decimal.format((dado.getTotalVendas() + dado.getTrocoInicio()) - totalSangria)
+							+ "#$";
+		
 		imprimirLocal(impressaoCompleta, "A");
 		
 		return new ModelAndView("fechamento");
@@ -266,5 +305,15 @@ public class FechamentoController {
 	public String cortaString(String texto) {
 		int limite = 40;
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "#$" + cortaString(texto.substring(limite));
+	}
+	
+	public float sangria(List<Sangria> sangria) {
+		int i;
+		float total = 0;
+		
+		for(i = 0; i< sangria.size(); i++) {
+			total += sangria.get(i).getValor();
+		}
+		return total;
 	}
 }
