@@ -25,6 +25,7 @@ $("#novaSenha").click(event => {
 		title: 'Enviar email de recuperação',
 		content: 'Digite seu email:<br>'
 				+ '<input type="email" class="form-control" id="novoEmail" />',
+		closeIcon: true,
 		buttons: {
 			confirm:{
 				text: 'Enviar email',
