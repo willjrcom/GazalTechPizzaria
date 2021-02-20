@@ -13,10 +13,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "SANGRIAS")
-public class Sangria  extends AbstractEntity<Long>{
-
-	@Column(nullable=false)
-	private int codEmpresa;
+public class Sangria extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)
 	private String nome;
