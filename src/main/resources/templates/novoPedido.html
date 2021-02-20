@@ -142,23 +142,29 @@
 				<h4 class="h1Logo" align="center">Finalizar Pedido</h4>
 				<hr>
 				<div class="row">
-					<div class="col-md-6" id="TotalProdutos"><label>Total de Produtos: 0.00</label></div>
-					<div class="col-md-6" id="TotalPedido"><label>Total do Pedido: R$ 0,00</label></div>
+					<div class="col-md-6" id="TotalProdutos"><label><b>Total de Produtos:</b> 0.00</label></div>
+					<div class="col-md-6" id="TotalPedido"><label><b>Total do Pedido:</b> R$ 0,00</label></div>
 				</div>
 				
 				<div class="row">
-					<div id="divEnvio">
+					<div class="col-md-6" id="divEnvio">
 						<label><b>Envio:</b></label>
 						<select name="opcao" class="form-control" id="envioCliente">
 						</select>
 					</div>
-					<div class="col-md-6 hidden" id="divGarcon"></div>
+					
+					<div class="col-md-6 hidden" id="divGarcon">
+						<label><b>Garçon:</b></label>
+						<select class="form-control" name="garcon" id="garcon">
+							<option value="--">---</option>
+						</select>
+					</div>
 				</div>
 				
 				<br>
 				<div class="row">
 					<div class="col-md-6" id="divModoPagamento">
-					<label><b>Modo de pagamento:</b></label>
+						<label><b>Modo de pagamento:</b></label>
 						<select class="form-control" id="modoPagamento">
 							<option value="0">Dinheiro</option>
 							<option value="1">Cartão</option>
@@ -187,6 +193,7 @@
 							<option value="Ticket">Ticket</option>
 							<option value="Sodexo">Sodexo</option>
 						</select>
+						<span>&nbsp;</span>
 					</div>
 					
 					<div class="col-md-6" id="divModoPagamentoDinheiro">
@@ -196,7 +203,6 @@
 							<input class="form-control" id="troco" placeholder="Precisa de troco?"/>
 						</div>
 					</div>
-					<br>
 				</div>
 				
 				<div id="divCupom"></div>

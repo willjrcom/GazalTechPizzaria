@@ -107,19 +107,6 @@ function qtdHtml() {
 			
 		}
 	});
-})();
-
-
-//---------------------------------------------------------------------------------------------------------
-function salvarBordas(html, todasBordas){
-	bordasHtml = html;
-	buscaBordas = todasBordas;
-}
-
-
-//buscar garcons---------------------------------------------------------------------------
-(() => {
-	let html = "";
 	
 	$.ajax({
 		url: '/novoPedido/garcons',
@@ -130,24 +117,17 @@ function salvarBordas(html, todasBordas){
 			var garconsHtml = '';
 			if(todosGarcons.length != 0){
 				for(garcon of todosGarcons) garconsHtml += `<option value="${garcon.nome}">${garcon.nome}</option>`;
-			
-				 html = '<label>Garçons:</label>'
-								+ '<select class="form-control" name="garcon" id="garcon">'
-									+ '<option value="--">---</option>'
-									+ garconsHtml
-								+ '</select>';
-				salvarGarcons(html, todosGarcons);
+				
+				$("#garcon").append(garconsHtml);
 			}
-			
 		}
 	});
 })();
 
 
 //---------------------------------------------------------------------------------------------------------
-function salvarGarcons(html, todosGarcons){
+function salvarBordas(html){
 	garconsHtml = html;
-	buscaGarcons = todosGarcons;
 }
 	
 	
@@ -186,65 +166,71 @@ if(typeof id_edicao != "undefined") {
 					}
 				}
 			});
-		}else{
-			
-			cliente = e;
-			cliente.pizzas = JSON.parse(e.pizzas);
-			cliente.produtos = JSON.parse(e.produtos);
-			cliente.taxa = parseFloat(cliente.taxa);
-
-			//liberar opcao de envio
-			mostrarDivEnvio();
-			
-			//adicionar cliente
-			$("#idCliente").text(cliente.id);
-			$("#nomeCliente").text(cliente.nome);
-			$("#obs").text(cliente.obs);
-			
-;			//mostrar entrega
-			if(e.envio == 'ENTREGA') {
-				$("#celCliente").text(cliente.celular);
-				$("#enderecoCliente").text(cliente.endereco);
-				$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));
-			}
-			
-			//mostrar entrega
-			if(e.envio == 'BALCAO' || e.envio == 'MESA' || e.envio == 'DRIVE') {
-				$(".iconesEntrega").hide();
-			}
-			
-			//opcoes de pagamento
-			if(cliente.modoPagamento.split(" ")[0] == "Cartão"){
-				$("#modoPagamento").val(1);
-				$("#modoPagamentoCartao").val(cliente.modoPagamento.split("-")[1]);
-			}else{
-				$("#modoPagamento").val(0);
-			}
-
-			selecionaModoPagamento();
-			
-			$("#divBuscarCliente").hide();
-			$("#divBuscarProdutos").show();
-			$(".divListaGeral").show();
-			$("#mostrarDadosCliente").show(); 
-			$("#BotaoEnviarPedido").html('<i class="fas fa-check"></i> Atualizar pedido');
-			$("#cancelar").html('<i class="fas fa-ban"></i> Cancelar alteração');
-			
-			
-			for(pizza of cliente.pizzas) tPizzas += pizza.qtd;
-		
-			for(produto of cliente.produtos) tPizzas += produto.qtd;
-			
-			pizzas = cliente.pizzas;
-			produtos = cliente.produtos;
-			tPedido = cliente.total;
-			
-			mostrarProdutos();
-			mostrarTotal();
-			$(".pula")[2].focus();//focar no campo de buscar pedido
-			
-			carregarLoading("none");	
+			return 300;
 		}
+			
+		cliente = e;
+		cliente.pizzas = JSON.parse(e.pizzas);
+		cliente.produtos = JSON.parse(e.produtos);
+		cliente.taxa = parseFloat(cliente.taxa);
+
+		//liberar opcao de envio
+		mostrarDivEnvio();
+		
+		//adicionar cliente
+		$("#idCliente").text(cliente.id);
+		$("#nomeCliente").text(cliente.nome);
+		$("#obs").text(cliente.obs);
+			
+		//mostrar entrega
+		if(e.envio == 'ENTREGA') {
+			$("#celCliente").text(cliente.celular);
+			$("#enderecoCliente").text(cliente.endereco);
+			$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));
+		}
+			
+		//mostrar entrega
+		if(e.envio == 'BALCAO' || e.envio == 'MESA' || e.envio == 'DRIVE') {
+			$(".iconesEntrega").hide();
+		}
+
+		//verificar garcon
+		if(e.envio === 'MESA'){
+			$("#garcon").val(e.garcon);
+			$("#divGarcon").show('slow');
+		}
+			
+		//opcoes de pagamento
+		if(cliente.modoPagamento.split(" ")[0] == "Cartão"){
+			$("#modoPagamento").val(1);
+			$("#modoPagamentoCartao").val(cliente.modoPagamento.split("-")[1]);
+		}else{
+			$("#modoPagamento").val(0);
+		}
+
+		selecionaModoPagamento();
+			
+		$("#divBuscarCliente").hide();
+		$("#divBuscarProdutos").show();
+		$(".divListaGeral").show();
+		$("#mostrarDadosCliente").show(); 
+		$("#BotaoEnviarPedido").html('<i class="fas fa-check"></i> Atualizar pedido');
+		$("#cancelar").html('<i class="fas fa-ban"></i> Cancelar alteração');
+		
+		
+		for(pizza of cliente.pizzas) tPizzas += pizza.qtd;
+	
+		for(produto of cliente.produtos) tPizzas += produto.qtd;
+		
+		pizzas = cliente.pizzas;
+		produtos = cliente.produtos;
+		tPedido = cliente.total;
+		
+		mostrarProdutos();
+		mostrarTotal();
+		$(".pula")[2].focus();//focar no campo de buscar pedido
+		
+		carregarLoading("none");	
 	}).fail(function(){
 		$.alert("Erro, cliente não encontrado!");
 	});	
@@ -373,7 +359,6 @@ function mostrarDivEnvio(){
 }
 
 
-//------------------------------------------------------------------------------------
 //verificar se o pedido ja existe
 function atualizarDados() {
 	//buscar pedido no sistema
@@ -819,6 +804,25 @@ $("#BotaoEnviarPedido").click(function() {
 		cliente.taxa = cliente.endereco = cliente.celular = null; //apagar variaveis para evitar erros
 	}
 	
+	if(cliente.envio === 'MESA'){
+		if($("#garcon").val() == '--'){
+			$.alert({
+				type: 'red',
+				title: 'OPS...',
+				content: "Escolha um garçon",
+				buttons: {
+					confirm:{
+						text: 'Voltar',
+						btnClass: 'btn-danger',
+						keys: ['esc', 'enter']
+					}
+				}
+			});
+			return 300;
+		}
+		cliente.garcon = $("#garcon").val();
+	}
+	
 	//verificar se for dinheiro
 	if($("#modoPagamento").val() == 0){
 		troco = Number($('#troco').val().replace(",", "."));
@@ -1255,14 +1259,16 @@ $("#modoPagamento").change(() => {
 function selecionaModoPagamento(){
 	//dinheiro
 	if($("#modoPagamento").val() == 0){
-		$("#divModoPagamentoCartao").hide('show');	
-		$("#divModoPagamentoDinheiro").show('show');
+		$("#divModoPagamentoCartao").hide('show', () => {
+			$("#divModoPagamentoDinheiro").show('show');
+		});	
 	}
 	
 	//cartao
 	if($("#modoPagamento").val() == 1){
-		$("#divModoPagamentoDinheiro").hide('show');
-		$("#divModoPagamentoCartao").show('show');	
+		$("#divModoPagamentoDinheiro").hide('show', () => {
+			$("#divModoPagamentoCartao").show('show');
+		});
 	}
 }
 
@@ -1284,10 +1290,9 @@ function selecionarCartao(){
 
 
 $("#envioCliente").change(function(){
-	console.log($("#envioCliente").val())
 	if($("#envioCliente").val() == 'MESA'){
-		$("#envioCliente").addClass("col-md-6");
-		console.log(garconsHtml)
-		$("#divGarcon").html(garconsHtml);
+		$("#divGarcon").show('slow');
+	}else{
+		$("#divGarcon").hide('slow');
 	}
 });

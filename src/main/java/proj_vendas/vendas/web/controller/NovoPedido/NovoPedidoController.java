@@ -19,6 +19,7 @@ import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
@@ -29,6 +30,7 @@ import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
+import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.LogMesas;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
@@ -68,6 +70,9 @@ public class NovoPedidoController {
 
 	@Autowired
 	private Cupons cupons;
+	
+	@Autowired
+	private Funcionarios funcionarios;
 	
 	@RequestMapping("/**")
 	public ModelAndView tela() {
@@ -233,5 +238,14 @@ public class NovoPedidoController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		return cupons.findByCodEmpresa(user.getCodEmpresa());
+	}
+	
+	
+	@RequestMapping("/garcons")
+	@ResponseBody
+	public List<Funcionario> garcons(){
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(), "GARCON", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
 	}
 }

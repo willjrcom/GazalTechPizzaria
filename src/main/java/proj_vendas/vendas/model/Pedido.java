@@ -42,6 +42,7 @@ public class Pedido extends AbstractEntity<Long> {
 	private String data;
 	private String cupom;
 	private String modoPagamento;
+	private String garcon;
 	
 	private float taxa = 0;
 	private float total = 0;
