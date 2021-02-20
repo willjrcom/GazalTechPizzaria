@@ -26,8 +26,8 @@ carregarLoading("block");
 
 function todosDados(e){
 	Dado = e;
-	if(typeof Dado.logMotoboy != "undefined"){	
-		Dado.logMotoboy = JSON.parse(Dado.logMotoboy);
+	if(Dado.logMotoboy.length != 0){	
+		console.log(Dado.logMotoboy)
 		carregarMotoboy();
 	}
 	else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
@@ -72,10 +72,10 @@ $.ajax({
 	var compras = 0;
 
 	//compras---------------------------------------------------------------------
-	if(typeof e.compras != "undefined") {
-		var produtos = JSON.parse(e.compras);
+	if(e.compras.length != 0) {
+		var produtos = e.compras;
 		for(produto of produtos) {
-			compras += parseFloat(produto.preco);
+			compras += parseFloat(produto.valor);
 		}
 		var comprasHtml = '<tr>'
 						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'

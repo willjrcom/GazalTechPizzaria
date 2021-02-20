@@ -159,7 +159,7 @@ public class MenuController {
 	
 	@RequestMapping(value = "/troco/{trocoInicial}")
 	@ResponseBody
-	public int buscarId(@PathVariable float trocoInicial) {
+	public int salvarTrocoInicial(@PathVariable float trocoInicial) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());

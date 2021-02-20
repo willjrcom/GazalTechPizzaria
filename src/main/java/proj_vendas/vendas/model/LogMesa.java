@@ -17,7 +17,7 @@ public class LogMesa extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String mesa;
-	
+
 	@Column(nullable=false)
 	private int codEmpresa;
 }

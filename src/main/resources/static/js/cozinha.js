@@ -175,10 +175,10 @@ function enviarPedido() {
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 			
 	$.confirm({
-		icon: 'fa fa-spinner fa-spin',
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: 'Enviar pedido?',
+		closeIcon: true,
 	    buttons: {
 	        confirm: {
 	            text: 'Enviar',
@@ -192,14 +192,13 @@ function enviarPedido() {
 						url: "/cozinha/enviarPedido/" + idProduto,
 						type: 'PUT'
 					}).done(function(){
-						document.location.href="/cozinha";
+						document.location.href = "/cozinha";
 					});
 			    },
 			},
 			cancel: {
-	        	text: 'Voltar',
-	            btnClass: 'btn-red',
-	            keys: ['esc'],
+				isHidden: true,
+	            keys: ['esc']
 	        },
 		}
 	});

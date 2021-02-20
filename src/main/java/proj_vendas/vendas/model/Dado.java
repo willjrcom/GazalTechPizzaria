@@ -22,10 +22,7 @@ public class Dado extends AbstractEntity<Long> {
 		
 	@Column(nullable=false)
 	private String data;
-	@Lob
-	private String logMotoboy;
-	@Lob
-	private String compras;
+	
 	@Lob
 	private String clientes = "";
 	
@@ -55,6 +52,12 @@ public class Dado extends AbstractEntity<Long> {
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Sangria> sangria;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<LogMotoboy> logMotoboy;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Compra> compras;
 	
 	@Column(nullable=false)
 	private int codEmpresa;

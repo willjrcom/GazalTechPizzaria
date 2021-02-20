@@ -40,9 +40,8 @@ $(document).ready(function(){
 				linhaHtml += '<tr>'
 							+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + (Number(pedido.total) + ((pedido.taxa == null)
-									? Number(0) : Number(pedido.taxa))).toFixed(2) + '</td>'
-							+ '<td class="text-center col-md-1">' + pedido.pagamento + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + (pedido.pago == 0 ? 'A Pagar' : 'Paga') + '</td>'
 							+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 							+ '<td class="text-center col-md-1">' 
 								+ '<a class="enviarPedido">'
@@ -108,91 +107,91 @@ function finalizarPedido() {
 				}
 			}
 		});
-	}else {
-		
-		$.confirm({
-			type: 'green',
-		    title: 'Pedido: ' + pedidos[idBusca].nome,
-		    content: mostrarTabela(pedidos[idBusca]),
-		    closeIcon: true,
-		    columnClass: 'col-md-8',
-		    buttons: {
-				imprimir: {
-					text: 'Imprimir',
-					btnClass: 'btn btn-warning',
-					action: () => imprimir(pedidos[idBusca])
-				},
-		        confirm: {
-		            text: 'Finalizar',
-		            btnClass: 'btn-green',
-		            keys: ['enter'],
-		            action: function(){
-						carregarLoading("block");
-
-						if(pedidos[idBusca].pagamento == "Não") {
-							var troco = this.$content.find('#troco').val();
-
-							troco = parseFloat(troco.toString().replace(",","."));
-							
-							if(Number.isFinite(troco) == false) {
-								carregarLoading("none");
-								
-								$.alert({
-									type: 'red',
-									title: 'OPS...',
-									content: "Digite um valor válido",
-									buttons: {
-										confirm:{
-											text: 'Voltar',
-											btnClass: 'btn-danger',
-											keys: ['esc', 'enter']
-										}
-									}
-								});
-							}
-							
-							verificarTroco = 1;
-						}
-						
-						//total do pedido OBS: sem a taxa
-						dado.totalVendas = pedidos[idBusca].total;
-						
-						if(pedidos[idBusca].envio == "ENTREGA") {
-							dado.entrega = 1;
-						}else if(pedidos[idBusca].envio == "BALCAO"){
-							dado.balcao = 1;
-						}else if(pedidos[idBusca].envio == "MESA"){
-							dado.mesa = 1;
-						}else if(pedidos[idBusca].envio == "DRIVE"){
-							dado.drive = 1;
-						}
-						
-						//salvar dados
-						$.ajax({
-							url: "/finalizar/dados/" + pedidos[idBusca].id,
-							type: "POST",
-							dataType : 'json',
-							contentType: "application/json",
-							data: JSON.stringify(dado)
-						});
-						
-						$.ajax({
-							url: "/finalizar/finalizarPedido/" + idPedido + '/' + $("#filtro").val(),
-							type: 'POST'
-						}).done(function(){
-							document.location.href="/finalizar";
-							
-						}).fail(function(){
-							carregarLoading("none");
-							if(verificarTroco == 0) $.alert("Pedido não enviado!");
-							
-							else $.alert("Pedido não enviado!<br>Digite um valor válido.");
-						});
-					}
-		        },
-			}
-		});
+		return 0;
 	}
+		
+	$.confirm({
+		type: 'green',
+	    title: 'Pedido: ' + pedidos[idBusca].nome,
+	    content: mostrarTabela(pedidos[idBusca]),
+	    closeIcon: true,
+	    columnClass: 'col-md-8',
+	    buttons: {
+			imprimir: {
+				text: 'Imprimir',
+				btnClass: 'btn btn-warning',
+				action: () => imprimir(pedidos[idBusca])
+			},
+	        confirm: {
+	            text: 'Finalizar',
+	            btnClass: 'btn-green',
+	            keys: ['enter'],
+	            action: function(){
+					carregarLoading("block");
+
+					if(pedidos[idBusca].pago == false) {
+						var troco = this.$content.find('#troco').val();
+
+						troco = parseFloat(troco.toString().replace(",","."));
+						
+						if(Number.isFinite(troco) == false) {
+							carregarLoading("none");
+							
+							$.alert({
+								type: 'red',
+								title: 'OPS...',
+								content: "Digite um valor válido",
+								buttons: {
+									confirm:{
+										text: 'Voltar',
+										btnClass: 'btn-danger',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
+						}
+						
+						verificarTroco = 1;
+					}
+					
+					//total do pedido OBS: sem a taxa
+					dado.totalVendas = pedidos[idBusca].total;
+					
+					if(pedidos[idBusca].envio == "ENTREGA") {
+						dado.entrega = 1;
+					}else if(pedidos[idBusca].envio == "BALCAO"){
+						dado.balcao = 1;
+					}else if(pedidos[idBusca].envio == "MESA"){
+						dado.mesa = 1;
+					}else if(pedidos[idBusca].envio == "DRIVE"){
+						dado.drive = 1;
+					}
+					
+					//salvar dados
+					$.ajax({
+						url: "/finalizar/dados/" + pedidos[idBusca].id,
+						type: "POST",
+						dataType : 'json',
+						contentType: "application/json",
+						data: JSON.stringify(dado)
+					});
+					
+					$.ajax({
+						url: "/finalizar/finalizarPedido/" + idPedido + '/' + $("#filtro").val(),
+						type: 'POST'
+					}).done(function(){
+						window.location.href = "/finalizar";
+						
+					}).fail(function(){
+						carregarLoading("none");
+						if(verificarTroco == 0) $.alert("Pedido não enviado!");
+						
+						else $.alert("Pedido não enviado!<br>Digite um valor válido.");
+					});
+				}
+	        },
+		}
+	});
 };
 
 
@@ -201,8 +200,8 @@ function imprimir(cliente) {
 	
 	impressaoPedido = cliente;
 
-	impressaoPedido.pizzas = JSON.parse(cliente.pizzas);
-	impressaoPedido.produtos = JSON.parse(cliente.produtos);
+	impressaoPedido.pizzas = cliente.pizzas;
+	impressaoPedido.produtos = cliente.produtos;
 
 	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
 				
@@ -224,7 +223,7 @@ function imprimir(cliente) {
 function mostrarTabela(pedido){
 	linhaHtml = '';
 	if(pedido.pizzas.length != 0) {
-		linhaHtml = '<table style="width:100%">'
+		linhaHtml += '<table style="width:100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
@@ -256,31 +255,24 @@ function mostrarTabela(pedido){
 		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas.toFixed(2);	
+	linhaHtml += '<hr>';
 	
 	if(pedido.envio == "ENTREGA"){
-		linhaHtml += '<br><b>Total do Pedido com taxa:</b> R$ ' 
-						+ (Number(pedido.total) 
-							+ ((pedido.taxa == null) 
-								? Number(0) 
-								: Number(pedido.taxa))).toFixed(2)
-					+ '<br><b>Endereço:</b> ' + pedido.endereco
+		linhaHtml += '<br><b>Endereço:</b> ' + pedido.endereco
 					+ '<br><b>Motoboy:</b> ' + pedido.motoboy;
-	} else{
-		linhaHtml += '<br><b>Total do Pedido:</b> R$' 
-				+ Number(pedido.total).toFixed(2)
 	}
-	if(pedido.pagamento == "Não") 
-				
+	
+	if(pedido.pago == 0) 
 		linhaHtml += '<br><b>Receber:</b>'
 					+ '<div class="input-group mb-3">'
 					+ '<span class="input-group-text">R$</span>'
 					+ '<input class="form-control" id="troco" placeholder="Precisa de troco?" value="'
-						+ (pedido.total + ((pedido.taxa == null) 
-								? Number(0) : Number(pedido.taxa))) + '"/>'
+						+ mostrarTotalComTaxa(pedido) + '"/>'
 				+ '</div>';
 	
-	linhaHtml += '<br>Deseja finalizar o pedido?';
+	linhaHtml += '<b>Total de Produtos:</b> ' + Tpizzas	
+				+ '<br><b>Total do Pedido:</b> R$' + mostrarTotalComTaxa(pedido).toFixed(2)
+				+ '<br><b class="fRight">Deseja finalizar o pedido?</b>';
 	
 	return linhaHtml;
 }
@@ -290,4 +282,17 @@ function carregarLoading(texto){
 	$(".loading").css({
 		"display": texto
 	});
+}
+
+
+function isNumber(str) {
+    return !isNaN(parseFloat(str))
+}
+
+
+function mostrarTotalComTaxa(cliente){
+	if(isNumber(cliente.taxa) == true)
+		return (cliente.total + cliente.taxa);
+	else
+		return cliente.total;
 }

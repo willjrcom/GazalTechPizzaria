@@ -120,7 +120,6 @@ public class FechamentoController {
 		
 		//gerar nova sangria
 		Sangria sangria = new Sangria();
-		sangria.setCodEmpresa(user.getCodEmpresa());
 		sangria.setNome(nome);
 		sangria.setValor(valor);
 		

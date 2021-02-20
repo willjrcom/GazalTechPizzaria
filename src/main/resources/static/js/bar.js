@@ -30,7 +30,6 @@ function buscarPedido() {
 			$("#alertaPedidos").hide();
 		}
 	}).done(function(e){
-		console.log(e)
 		pedidos = e;
 		for(pedido of pedidos){
 			Tpedidos++;
@@ -159,6 +158,7 @@ function enviarPedido() {
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
 	    content: 'Enviar pedido?',
+		closeIcon: true,
 	    buttons: {
 	        confirm: {
 	            text: 'Enviar',
@@ -177,9 +177,8 @@ function enviarPedido() {
 			    },
 			},
 			cancel: {
-	        	text: 'Voltar',
-	            btnClass: 'btn-red',
-	            keys: ['esc'],
+				isHidden: true,
+	            keys: ['esc']
 	        },
 		}
 	});

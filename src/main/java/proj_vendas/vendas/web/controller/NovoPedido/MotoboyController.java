@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Funcionario;
+import proj_vendas.vendas.model.LogMotoboy;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
@@ -69,24 +70,18 @@ public class MotoboyController{
 		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO");
 	}
 	
-	@RequestMapping(value = "/logMotoboys")
-	@ResponseBody
-	public String logMotoboys() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()).getLogMotoboy();
-	}
 	
-	@RequestMapping(value = "/salvarMotoboys")
+	@RequestMapping(value = "/salvarLogMotoboy")
 	@ResponseBody
-	public void salvarMotoboys(@RequestBody Pedido motoboys) {
+	public LogMotoboy salvarLogMotoboys(@RequestBody LogMotoboy logMotoboy) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()); // buscar dia nos dados
-		dado.setLogMotoboy(motoboys.getPizzas());
+		List<LogMotoboy> logs = dado.getLogMotoboy();
+		logs.add(logMotoboy);
+		dado.setLogMotoboy(logs);
 		dados.save(dado);
+		return logMotoboy;
 	}
 	
 	@RequestMapping(value = "/enviarMotoboy/{id}/{motoboy}")

@@ -70,7 +70,7 @@ public class NovoPedidoController {
 	private Cupons cupons;
 	
 	@RequestMapping("/**")
-	public ModelAndView novoPedido() {
+	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
@@ -83,7 +83,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/numeroCliente/{celular}")
 	@ResponseBody
-	public Cliente buscarCliente(@PathVariable Long celular) {
+	public Cliente buscarNumeroCliente(@PathVariable Long celular) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -128,7 +128,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
-	public ResponseEntity<Pedido> novoPedido(@RequestBody Pedido pedido) {
+	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 
@@ -165,7 +165,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/editarPedido/{id}")
 	@ResponseBody
-	public Pedido buscarPedido(@PathVariable long id) {
+	public Pedido editarPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		return pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
@@ -173,7 +173,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/atualizar")
 	@ResponseBody
-	public Pedido atualizar(@RequestBody Pedido pedido) {
+	public Pedido atualizarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -201,7 +201,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
 	@ResponseBody
-	public void excluirPedido(@PathVariable long comanda) {
+	public void excluirPedidoTemp(@PathVariable long comanda) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
@@ -219,7 +219,7 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/empresa")
 	@ResponseBody
-	public Empresa editar() {
+	public Empresa empresa() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		

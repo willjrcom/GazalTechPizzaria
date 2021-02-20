@@ -139,21 +139,84 @@
 	
 		<div class="col-md-6">
 			<div class="divbase divListaGeral">
-				<h2 class="h1Logo" align="center">Finalizar Pedido</h2>
+				<h4 class="h1Logo" align="center">Finalizar Pedido</h4>
 				<hr>
-				<div id="divEnvio"></div>
+				<div class="row">
+					<div class="col-md-6" id="TotalProdutos"><label>Total de Produtos: 0.00</label></div>
+					<div class="col-md-6" id="TotalPedido"><label>Total do Pedido: R$ 0,00</label></div>
+				</div>
+				
+				<div class="row">
+					<div id="divEnvio">
+						<label><b>Envio:</b></label>
+						<select name="opcao" class="form-control" id="envioCliente">
+						</select>
+					</div>
+					<div class="col-md-6 hidden" id="divGarcon"></div>
+				</div>
+				
 				<br>
+				<div class="row">
+					<div class="col-md-6" id="divModoPagamento">
+					<label><b>Modo de pagamento:</b></label>
+						<select class="form-control" id="modoPagamento">
+							<option value="0">Dinheiro</option>
+							<option value="1">Cartão</option>
+						</select>
+					</div>
+					
+					<div class="col-md-6 hidden" id="divModoPagamentoCartao">
+						<label><b>Bandeira:</b></label>
+						<select class="form-control" id="modoPagamentoCartao">
+							<option value="--">---</option>
+							<option value="Mastercard">Mastercard</option>
+							<option value="Visa">Visa</option>
+							<option value="Pix">Pix</option>
+							<option value="American Express">American Express</option>
+							<option value="Hipercard">Hipercard</option>
+							<option value="Elo">Elo</option>
+							<option value="Alelo">Alelo</option>
+							<option value="Amex">Amex</option>
+							<option value="Diners Club">Diners Club</option>
+							<option value="VR Benefícios">VR Benefícios</option>
+							<option value="Cirrus">Cirrus</option>
+							<option value="Cielo">Cielo</option>
+							<option value="Eletron">Eletron</option>
+							<option value="Sorocred">Sorocred</option>
+							<option value="Maestro">Maestro</option>
+							<option value="Ticket">Ticket</option>
+							<option value="Sodexo">Sodexo</option>
+						</select>
+					</div>
+					
+					<div class="col-md-6" id="divModoPagamentoDinheiro">
+						<label><b>Receber:</b></label>
+						<div class="input-group mb-3">
+							<span class="input-group-text">R$</span>
+							<input class="form-control" id="troco" placeholder="Precisa de troco?"/>
+						</div>
+					</div>
+					<br>
+				</div>
+				
 				<div id="divCupom"></div>
 				<br>
-				<h3 id="Ttotal">Total de Produtos: 0.00<br><br>Total do Pedido: R$0,00</h3><br>
-				
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" id="cancelar" onclick="recarregar()" class="btn btn-secondary btn-danger">
-					<i class="fas fa-ban"></i> Cancelar pedido</button>
+				<div>
+					<label><b>Observação do Pedido:</b></label>
+					<textarea id="obs" name="obs" class="form-control" placeholder="Observação do pedido"></textarea>
 				</div>
-		
-				<div class="btn-group fRight" role="group" aria-label="Second group">
-					<button class="btn btn-secondary btn-success pula" id="BotaoEnviarPedido"><i class="fas fa-check"></i> Salvar pedido</button>
+				<br>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<button class="btn btn-danger" id="cancelar" onclick="recarregar()">
+						<i class="fas fa-ban"></i> Cancelar pedido</button>
+					</div>
+					
+					<div class="col-md-6">
+						<button class="btn btn-success fRight" id="BotaoEnviarPedido">
+						<i class="fas fa-check"></i> Salvar pedido</button>
+					</div>
 				</div>
 			</div>
 		</div>

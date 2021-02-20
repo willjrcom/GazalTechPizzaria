@@ -24,7 +24,7 @@ function buscarPedidos() {
 		type: 'GET'
 	}).done(function(e){
 		
-		pedidos = e;
+		pedidos = e.reverse();
 		for(var i = 0; i< e.length; i++){
 			if(pedidos[i].pizzas != null) {
 				Tpedidos++;
@@ -58,25 +58,25 @@ function filtrar() {
 //-----------------------------------------------
 function mostrar(pedidos, filtro) {
 	linhaHtml = "";
-	for(var i = pedidos.length-1; i>=0; i--){//cada pedido
+	for([i, pedido] of pedidos.entries()){//cada pedido
 		
-		if(filtro == pedidos[i].status || filtro == "TODOS"){//filtrar pedidos
-			if(pedidos[i].pizzas != null) {
+		if(filtro == pedido.status || filtro == "TODOS"){//filtrar pedidos
+			if(pedido.pizzas != null) {
 				divisao = 1;
-				for([j, pizza] of pedidos[i].pizzas.entries()) {//cada pizza
+				for([j, pizza] of pedido.pizzas.entries()) {//cada pizza
 					linhaHtml += '<tr>';
 					
 					//adicionar total de pizzas
 					if(j == 0) {
-						linhaHtml += '<td class="text-center col-md-1">' + pedidos[i].comanda + '</td>'
-									+ '<td class="text-center col-md-1">' + pedidos[i].nome + '</td>'
+						linhaHtml += '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+									+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
 						
 					}else if(j == 1) {
 						Tpizzas = 0;
-						for(contPizza of pedidos[i].pizzas) Tpizzas += contPizza.qtd; //contar pizzas
+						for(contPizza of pedido.pizzas) Tpizzas += contPizza.qtd; //contar pizzas
 						
-						if(Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizza</td>';
-						else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Number(Tpizzas).toFixed(2) + ' pizzas</td>';
+						if(Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizza</td>';
+						else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
 						
 					}else {
 						linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
@@ -87,22 +87,17 @@ function mostrar(pedidos, filtro) {
 								: '<td class="text-center col-md-1">' + pizza.obs + '</td>');
 							
 					//verificar a situacao do pedido
-					if(pedidos[i].status == "PRONTO" && j == 0){
+					if(pedido.status == "PRONTO" && j == 0){
 						linhaHtml += '<td class="text-center col-md-1">'
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" class="btn btn-success"'
-									+ 'value="'+ pedidos[i].id + '">Pronto</button></a></td>';
-					}else if(pedidos[i].status == "COZINHA" && j == 0){
+									+ 'value="'+ pedido.id + '">Pronto</button></a></td>';
+					}else if(pedido.status == "COZINHA" && j == 0){
 						linhaHtml += '<td class="text-center col-md-1">'
 									+ '<a class="enviarPedido">'
 									+ '<button type="button" class="btn btn-danger"'
-									+ 'value="'+ pedidos[i].id + '">Andamento</button></a></td>';
-					}else if(pedidos[i].status == "MOTOBOY" && j == 0){
-						linhaHtml += '<td class="text-center col-md-1">'
-									+ '<a class="enviarPedido">'
-									+ '<button type="button" class="btn btn-primary"'
-									+ 'value="'+ pedidos[i].id + '">Na Rua</button></a></td>';
-					}				
+									+ 'value="'+ pedido.id + '">Andamento</button></a></td>';
+					}			
 					
 					linhaHtml += '</tr>';
 					
