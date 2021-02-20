@@ -13,7 +13,6 @@ $('#buscarCnpj').on('click', function(){
 			contentType: "application/json",
 			
 		}).done(function(e){
-			console.log(e)
 			if(e.status !== 'ERROR'){
 				//empresa
 				$("#empresa").val(e.nome);
