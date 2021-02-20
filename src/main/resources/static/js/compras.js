@@ -30,48 +30,38 @@ function salvar() {
 	if($("#produto").val() != '' && $("#preco").val() != '') {
 		$("#salvar").attr("disabled", true);
 		carregarLoading("block");
-		compra.produto = $("#produto").val();
-		compra.preco = $("#preco").val();
+		compra.nome = $("#produto").val();
+		compra.valor = $("#preco").val();
 		
-			
-		//buscar id da data
 		$.ajax({
-			url: '/adm/compras/dados',
-			type: 'GET'
-		}).done(function(e){
-			
-			if(e != "") compras = JSON.parse(e);
-			compras.unshift(compra);
-			e = JSON.stringify(compras);
-			
-			mostrarProdutos(e);
-			
-			$.ajax({
-				url: '/adm/compras/comprar',
-				type: 'PUT',
-				dataType : 'json',
-				contentType: "application/json",
-				data: e,
-			}).done(function(){
-				carregarLoading("none");
-				$("#produto").val("");
-				$("#preco").val("");
-				$("#salvar").attr("disabled", false);
-				$.alert({
-					type: 'green',
-					title: 'Sucesso',
-					content: "Salvo com sucesso!",
-					buttons: {
-						confirm: {
-							text: 'continuar',
-							btnClass: 'btn-success',
-							keys: ['esc', 'enter'],
-							action: () => $(".pula")[0].focus()
+			url: '/adm/compras/comprar',
+			type: 'POST',
+			dataType : 'json',
+			contentType: "application/json",
+			data: JSON.stringify(compra)
+		}).done(function(){
+			dados();
+			carregarLoading("none");
+			$("#produto").val("");
+			$("#preco").val("");
+			$("#salvar").attr("disabled", false);
+			$.alert({
+				type: 'green',
+				title: 'Sucesso',
+				content: "Salvo com sucesso!",
+				buttons: {
+					confirm: {
+						text: 'continuar',
+						btnClass: 'btn-success',
+						keys: ['esc', 'enter'],
+						action: () => {
+							$(".pula")[0].focus();
 						}
 					}
-				});
+				}
 			});
 		});
+			
 	}else {
 		$.alert({
 			type: 'red',
@@ -91,7 +81,6 @@ function salvar() {
 
 //---------------------------------------------------------------------------
 function dados(){
-
 	//buscar id da data
 	$.ajax({
 		url: '/adm/compras/dados',
@@ -106,23 +95,22 @@ dados();
 //----------------------------------------------------
 function mostrarProdutos(e){
 	Tcompras = '';
-		var total = 0;
-
-		//se existir algum produto
-		if(e != "") {
-			var produtos = JSON.parse(e);
-			for(produto of produtos) {
-				Tcompras += '<tr>'
-							+ '<td class="text-center col-md-1">' + produto.produto + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
-						+ '</tr>' + linhaCinza;
-				total += parseFloat(produto.preco);
-			}
+	let total = 0;
+	produtos = e;
+	//se existir algum produto
+	if(produtos.length != 0) {
+		for(produto of produtos) {
+			Tcompras += '<tr>'
+						+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + produto.valor.toFixed(2) + '</td>'
+					+ '</tr>' + linhaCinza;
+			total += produto.valor;
 		}
+	}
 
-		if(Tcompras !== "") $("#compras").html(Tcompras);
-		$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
-		carregarLoading("none");
+	if(Tcompras !== "") $("#compras").html(Tcompras);
+	$("#total").html('<p class="text-center">R$ ' + total.toFixed(2) + '</p>');
+	carregarLoading("none");
 }
 
 
