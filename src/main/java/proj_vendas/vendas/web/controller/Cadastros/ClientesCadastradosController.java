@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller.Cadastros;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class ClientesCadastradosController {
 	private Usuarios usuarios;
 	
 	@RequestMapping
-	public ModelAndView lerCadastros() {
+	public ModelAndView tela() {
 		return new ModelAndView("clientesCadastrados");
 	}
 	
@@ -42,8 +43,14 @@ public class ClientesCadastradosController {
 	
 	@RequestMapping(value = "/excluirCliente/{id}")
 	@ResponseBody
-	public String excluirCliente(@PathVariable long id) {
-		clientes.deleteById(id);
-		return "ok";
+	public ResponseEntity<Integer> excluirCliente(@PathVariable long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Cliente cliente = clientes.findById(id).get();
+		if(cliente.getCodEmpresa() == user.getCodEmpresa()) {
+			clientes.deleteById(id);
+			return ResponseEntity.ok(200);
+		}
+		return ResponseEntity.noContent().build();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,35 +39,39 @@ public class VerpedidoController{
 	private Usuarios usuarios;
 
 	@RequestMapping
-	public ModelAndView verPedido() {
+	public ModelAndView tela() {
 		return new ModelAndView("verpedido");
 	}
 	
+	
 	@RequestMapping(value = "/excluirPedido/{id}")
 	@ResponseBody
-	public Pedido excluirPedido(@PathVariable long id) {
+	public ResponseEntity<Pedido> excluirPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		Pedido pedido = pedidos.findById((long)id).get();
-				
-		pedido.setStatus("EXCLUIDO");
-		
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, pedido.getComanda());
-		temps.deleteInBatch(temp);
-		
-		return pedidos.save(pedido);
+		if(pedido.getCodEmpresa() == user.getCodEmpresa()) {
+			String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
+			pedido.setStatus("EXCLUIDO");
+			
+			List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, pedido.getComanda());
+			temps.deleteInBatch(temp);
+			
+			return ResponseEntity.ok(pedidos.save(pedido));
+		}
+		return ResponseEntity.noContent().build();
 	}
+	
 	
 	@RequestMapping(value = "/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		return pedidos.findByCodEmpresaAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, "FINALIZADO", "EXCLUIDO");
 	}
+	
 	
 	@RequestMapping("/autenticado")
 	@ResponseBody

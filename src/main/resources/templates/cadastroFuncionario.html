@@ -13,12 +13,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<input type="hidden" id="idEnd" name="idEnd"/>
 		<input type="hidden" id="validCpf" name="validCpf" value="1"/>
 		<input type="hidden" id="validCel" name="validCel" value="1"/>
-		<input type="hidden" id="situacao" name="validSituacao" value="1"/>
+		<input type="hidden" id="situacao" name="validSituacao" value="true"/>
 		<input type="hidden" id="obs" name="obs" value=""/>
 		
 		<div class="form-group">
 			<label>Nome Completo: <span class="alertOpcional">*</span></label><br>
-			<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome Completo"  autofocus="autofocus"/>  
+			<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Informe o Nome Completo"  autofocus="autofocus"/>  
 		</div>
 		
 		<br>
@@ -41,13 +41,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="col-md-6" id="divCpf">
 				<label>CPF: <span class="alertOpcional">*</span></label><br>
 				<p id="avisoCpf">Cpf já cadastrado, tente outro!</p>
-				<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="CPF"/>
+				<input type="text" class="form-control pula cpf" id="cpf" name="cpf" placeholder="Informe o CPF"/>
 			</div>
 			
 			<div class="col-md-6">
 				<label>Celular: <span class="alertOpcional">*</span></label><br>
 				<p id="avisoCel">Celular já cadastrado, tente outro!</p>
-				<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Celular xx-xxxxx-xxxx "/> 
+				<input type="tel" class="form-control pula cel" id="cel" name="celular" placeholder="Informe o celular"/> 
 			</div>
 		</div>
 		
@@ -58,6 +58,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<select class="form-control pula" id="cargo" name="cargo">
 					<option value="">---</option>
 					<option value="ATENDIMENTO">Atendimento</option>
+					<option value="GARCON">Garçon</option>
 					<option value="MOTOBOY">Motoboy</option>
 					<option value="COZINHA">Cozinha</option>
 					<option value="PIZZAIOLO">Pizzaiolo</option>
@@ -97,7 +98,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	  		</div>
 	  		<div class="col-md-2">
 		       <label>Nº <span class="alertOpcional">*</span></label><br>
-      		   <input type="number" class="form-control pula" id="n" name="n" placeholder="123">
+      		   <input type="number" class="form-control pula" id="n" name="n" placeholder="Informe o número">
 	  		</div>
 		</div>
 		
@@ -117,7 +118,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="form-group">
 			<label>Referência da casa:<br></label>
-			<textarea class="form-control" id="referencia" name="referencia" placeholder="Referência da casa"></textarea>  
+			<textarea class="form-control" id="referencia" name="referencia" placeholder="Informe a Referência da casa"></textarea>  
 		</div>
 		
 		<br><br><h3>Pagamento:</h3>
@@ -130,14 +131,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<div class="col-md-4">
 				<label>Dia pagamento: <span class="alertOpcional">*</span></label><br>
-				<input type="number" class="form-control pula" id="diaPagamento" name="diaPagamento" placeholder="Dia pagamento" min="1" max="31"/>
+				<input type="number" class="form-control pula" id="diaPagamento" name="diaPagamento" placeholder="Dia de pagamento" min="1" max="31"/>
 			</div>
 			
 			<div class="col-md-4">
 				<label>Salário: <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
-					<input class="form-control preco pula" id="salario" name="salario" placeholder="Salário"/>
+					<input class="form-control preco pula" id="salario" name="salario" placeholder="Informe o  Salário"/>
 				</div>
 			</div>	
 		</div>

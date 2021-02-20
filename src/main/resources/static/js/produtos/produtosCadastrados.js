@@ -218,7 +218,7 @@ function excluirProduto() {
 											if(apagarSim === 'sim' || apagarSim === 'SIM') {
 												
 												$.ajax({
-													url: "/produtosCadastrados/excluirProduto/" + idProduto.toString(),
+													url: "/produtosCadastrados/excluirProduto/" + idProduto,
 													type: 'PUT'
 													
 												}).done(function(){		

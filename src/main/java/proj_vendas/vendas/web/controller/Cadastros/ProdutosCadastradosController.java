@@ -3,6 +3,7 @@ package proj_vendas.vendas.web.controller.Cadastros;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class ProdutosCadastradosController {
 	private Usuarios usuarios;
 
 	@RequestMapping
-	public ModelAndView lerCadastros() {
+	public ModelAndView tela() {
 		return new ModelAndView("produtosCadastrados");
 	}
 	
@@ -40,10 +41,16 @@ public class ProdutosCadastradosController {
 		return produtos.findByCodEmpresaAndNomeProdutoContainingOrCodEmpresaAndDescricaoContaining(user.getCodEmpresa(), nome, user.getCodEmpresa(), nome);
 	}
 	
-	@RequestMapping(value = "/excluirProdutos/{id}")
+	@RequestMapping(value = "/excluirProduto/{id}")
 	@ResponseBody
-	public String excluirProdutos(@PathVariable long id) {
-		produtos.deleteById(id);
-		return "ok";
+	public ResponseEntity<Integer> excluirProdutos(@PathVariable long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Produto produto = produtos.findById(id).get();
+		if(produto.getCodEmpresa() == user.getCodEmpresa()) {
+			produtos.deleteById(id);
+			return ResponseEntity.ok(200);
+		}
+		return ResponseEntity.noContent().build();
 	}
 }

@@ -25,7 +25,6 @@ function buscarPedido() {
 			Tpedidos++;
 			pedido.pizzas = JSON.parse(pedido.pizzas);
 			pedido.produtos = JSON.parse(pedido.produtos);
-			pedido.taxa = parseFloat(pedido.taxa);
 		}
 		
 		if(pedidos.length == 0)	
@@ -66,7 +65,7 @@ function mostrar(pedidos, filtro) {
 			for(pizza of pedido.pizzas) tPizzas += pizza.qtd;//total de pizzas
 
 			linhaHtml += '<td class="text-center col-md-1">' + tPizzas.toFixed(2) + '</td>'
-						+ '<td class="text-center col-md-1">R$ ' + ((isNaN(pedido.taxa)) ? pedido.total.toFixed(2) : (pedido.total + pedido.taxa).toFixed(2)) + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 						+ '<td class="text-center col-md-1"><div class="row">'
 						+ '<div class="col-md-1">'
@@ -167,10 +166,12 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Number(Tpizzas).toFixed(2) + '<br>' 
-				+ '<br><b>Total do Pedido:</b> R$' + ((isNaN(pedidos[idBusca].taxa)) ? pedidos[idBusca].total.toFixed(2) : (pedidos[idBusca].total + pedidos[idBusca].taxa).toFixed(2))
+	linhaHtml += '<hr>'
+				+ '<b>Total de Produtos:</b> ' + Tpizzas
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
-				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
+				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido
+				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2)
+				+ '<br><b>Forma de pagamento:</b> ' + pedidos[idBusca].modoPagamento;
 	
 	if(pedidos[idBusca].obs != null) linhaHtml += '<br><b>Observação:</b> ' + pedidos[idBusca].obs;
 	
@@ -303,14 +304,11 @@ function excluirPedido() {
 									}).done(function(e){
 										if(e[0].authority === "ADM" || e[0].authority === "DEV") {
 											
-											if(apagarSim === 'sim' || apagarSim === 'SIM') {
-
-												pedidos[idBusca].produtos = JSON.stringify(pedidos[idBusca].produtos);
-												pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
+											if(apagarSim === 'sim' || apagarSim === 'SIM' || apagarSim === 'Sim') {
 												
 												$.ajax({
 													url: "/verpedido/excluirPedido/" + idProduto,
-													type: 'PUT'
+													type: 'POST'
 												}).done(function(){		
 													$.alert({
 														type: 'red',
@@ -473,4 +471,17 @@ function carregarLoading(texto){
 	$(".loading").css({
 		"display": texto
 	});
+}
+
+
+function isNumber(str) {
+    return !isNaN(parseFloat(str))
+}
+
+
+function mostrarTotalComTaxa(cliente){
+	if(isNumber(cliente.taxa) == true)
+		return (cliente.total + cliente.taxa);
+	else
+		return cliente.total;
 }

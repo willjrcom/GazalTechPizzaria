@@ -29,7 +29,7 @@ public class FuncionariosCadastradosController {
 	private Usuarios usuarios;
 
 	@GetMapping("/funcionariosCadastrados")
-	public ModelAndView lerCadastros() {
+	public ModelAndView tela() {
 		return new ModelAndView("funcionariosCadastrados");
 	}
 	
@@ -44,9 +44,15 @@ public class FuncionariosCadastradosController {
 	
 	@RequestMapping(value = "/funcionariosCadastrados/excluirFuncionario/{id}")
 	@ResponseBody
-	public String excluirFuncionario(@PathVariable long id) {
-		funcionarios.deleteById(id);
-		return "ok";
+	public ResponseEntity<Integer> excluirFuncionario(@PathVariable long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Funcionario funcionario = funcionarios.findById(id).get();
+		if(funcionario.getCodEmpresa() == user.getCodEmpresa()) {
+			funcionarios.deleteById(id);
+			return ResponseEntity.ok(200);
+		}
+		return ResponseEntity.noContent().build();
 	}
 	
 
