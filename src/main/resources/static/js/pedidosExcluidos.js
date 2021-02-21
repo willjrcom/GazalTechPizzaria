@@ -25,7 +25,6 @@ $.ajax({
 		pedido.produtos = JSON.parse(pedido.produtos);
 	}
 	
-	$("#todosPedidos").html("");
 	linhaHtml = "";
 	
 	if(pedidos.length == 0){
@@ -41,8 +40,8 @@ $.ajax({
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-						+ '<td class="text-center col-md-1">' + Tpizzas.toFixed(2) + '</td>'
-						+ '<td class="text-center col-md-1">R$ ' + pedido.total.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">' + Tpizzas + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
 						+ '<td class="text-center col-md-1">'
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" title="finalizar" class="botao" onclick="verPedido()"'
@@ -106,12 +105,20 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas
+				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2)
+				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
+				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
 	
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas.toFixed(2) + '<br><br>'
-			+ '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
-			+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
-			+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
-
+	if(pedidos[idBusca].envio === 'ENTREGA') {
+		linhaHtml += '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy
+					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco;
+	}
+	
+	if(pedidos[idBusca].envio === 'MESA') {
+		linhaHtml += '<br><b>Garçon:</b> ' + pedidos[idBusca].garcon;
+	}
+	
 	$.alert({
 		type: 'red',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
@@ -188,3 +195,17 @@ function carregarLoading(texto){
 		"display": texto
 	});
 }
+
+
+function isNumber(str) {
+    return !isNaN(parseFloat(str))
+}
+
+
+function mostrarTotalComTaxa(cliente){
+	if(isNumber(cliente.taxa) == true)
+		return (cliente.total + cliente.taxa);
+	else
+		return cliente.total;
+}
+

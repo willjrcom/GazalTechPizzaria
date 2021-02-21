@@ -1,5 +1,4 @@
 var pedidos = [];
-var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido finalizado!</td></tr>';
@@ -39,7 +38,7 @@ $.ajax({
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
 						+ '<td class="text-center col-md-1">' + Tpizzas.toFixed(2) + '</td>'
-						+ '<td class="text-center col-md-1">R$ ' + pedido.total.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
 						+ '<td class="text-center col-md-1">' 
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" title="finalizar" onclick="verPedido()" class="botao"'
@@ -49,7 +48,6 @@ $.ajax({
 		}
 		
 		$("#todosPedidos").html(linhaHtml);
-		$("#Tpedidos").html(Tpedidos);
 	}
 	carregarLoading("none");
 });	
@@ -108,18 +106,21 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas.toFixed(2) + '<br><br>' 
-				+ '<b>Total do Pedido:</b> R$' + pedidos[idBusca].total.toFixed(2)
-				+ (pedidos[idBusca].taxa == "" ? "" 
-					: "<br><b>Taxa de entrega:</b> R$ " + Number(pedidos[idBusca].taxa).toFixed(2))
-				+ '<br><b>A/C:</b> ' + pedidos[idBusca].ac
+	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas 
+				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2)
 				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
-				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
+				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido
+				+ '<br><b>Atendente:</b> ' + pedidos[idBusca].ac;
 	
-	if(pedidos[idBusca].motoboy != null) {
+	if(pedidos[idBusca].envio === 'ENTREGA') {
 		linhaHtml += '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy
 					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco;
 	}
+	
+	if(pedidos[idBusca].envio === 'MESA') {
+		linhaHtml += '<br><b>Garçon:</b> ' + pedidos[idBusca].garcon;
+	}
+	
 	$.alert({
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
@@ -290,4 +291,17 @@ function carregarLoading(texto){
 	$(".loading").css({
 		"display": texto
 	});
+}
+
+
+function isNumber(str) {
+    return !isNaN(parseFloat(str))
+}
+
+
+function mostrarTotalComTaxa(cliente){
+	if(isNumber(cliente.taxa) == true)
+		return (cliente.total + cliente.taxa);
+	else
+		return cliente.total;
 }

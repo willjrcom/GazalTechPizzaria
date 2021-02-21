@@ -40,7 +40,7 @@ $(document).ready(function(){
 				linhaHtml += '<tr>'
 							+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
 							+ '<td class="text-center col-md-1">' + (pedido.pago == 0 ? 'A Pagar' : 'Paga') + '</td>'
 							+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 							+ '<td class="text-center col-md-1">' 

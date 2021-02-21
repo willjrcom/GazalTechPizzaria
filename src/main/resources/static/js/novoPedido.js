@@ -91,7 +91,7 @@ function qtdHtml() {
 		url: '/novoPedido/bordas',
 		type: 'GET',
 		success: todasBordas => {
-			console.log(todasBordas)
+
 			//buscar bordas
 			var bordas = '';
 			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco}</option>`;
@@ -345,11 +345,13 @@ function mostrarDivEnvio(){
 									+'<option value="MESA">Mesa</option>'
 									+'<option value="DRIVE">Drive-Thru</option>'
 								);
+		$("#divCobrarTaxa").show('slow');
 	}else if(cliente.envio == "MESA"){
 		$("#envioCliente").append('<option value="MESA">Mesa</option>'
 									+'<option value="BALCAO">Balcão</option>'
 									+'<option value="DRIVE">Drive-Thru</option>'
 								);
+		$("#divGarcon").show('slow');
 	}else if(cliente.envio == "BALCAO"){
 		$("#envioCliente").append('<option value="BALCAO">Balcão</option>'
 									+'<option value="MESA">Mesa</option>'
@@ -887,7 +889,6 @@ $("#BotaoEnviarPedido").click(function() {
 	    title: 'Pedido: ' + cliente.nome,
 	    content: mostrarPedido(),
 	    closeIcon: true,
-	    columnClass: 'col-md-12',
 	    buttons: {
 	        confirm: {
 	            text: 'Enviar',
@@ -1063,17 +1064,13 @@ function mostrarPedido(){
 	return linhaHtml = '<b>Qtd Produtos:</b> ' + tPizzas 
 				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa().toFixed(2)
 				+ '<br>'
-				+ '<div class="row">' //row
-	
-					+ '<div class="col-md-6">'//col-md-6
+				+ '<div>'//col-md-6
 						+'<label><b>O pedido foi pago:</b></label>'
 						+'<select name="pagamento" class="form-control" id="pagoCliente">'
 							+'<option value="0">Não</option>'
 							+'<option value="1">Sim</option>'
 						+ '</select>'
 					+ '</div>'
-					
-				+ '</div>' //row
 				
 				+ '<div>&nbsp;</div>'
 				+ '<b class="fRight">Deseja enviar o pedido?</b>';
