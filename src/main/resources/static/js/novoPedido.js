@@ -91,20 +91,17 @@ function qtdHtml() {
 		url: '/novoPedido/bordas',
 		type: 'GET',
 		success: todasBordas => {
-
+			console.log(todasBordas)
 			//buscar bordas
 			var bordas = '';
-			if(todasBordas.length != 0){
-				for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco}</option>`;
-			
-				 html = '<label>Borda Recheada:</label>'
-								+ '<select class="form-control" name="borda" id="borda">'
-									+ '<option value="0"></option>'
-									+ bordas
-								+ '</select><br>';
-				salvarBordas(html, todasBordas);
-			}
-			
+			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco}</option>`;
+		
+			 html = '<label>Borda Recheada:</label>'
+							+ '<select class="form-control" name="borda" id="borda">'
+								+ '<option value="0"></option>'
+								+ bordas
+							+ '</select><br>';
+			salvarBordas(html, todasBordas);
 		}
 	});
 	
@@ -126,8 +123,9 @@ function qtdHtml() {
 
 
 //---------------------------------------------------------------------------------------------------------
-function salvarBordas(html){
-	garconsHtml = html;
+function salvarBordas(html, todasBordas){
+	bordasHtml = html;
+	buscaBordas = todasBordas;
 }
 	
 	
