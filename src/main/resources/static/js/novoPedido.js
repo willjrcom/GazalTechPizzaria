@@ -185,6 +185,13 @@ if(typeof id_edicao != "undefined") {
 			$("#celCliente").text(cliente.celular);
 			$("#enderecoCliente").text(cliente.endereco);
 			$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));
+			$("#divCobrarTaxa").show('slow');
+			
+			//apagar div de cobrar taxa	
+			if(cliente.taxa === 0){
+				$("#cobrarTaxa").val(1);
+			}
+			$("#cobrarTaxa").attr("disabled", true);
 		}
 			
 		//mostrar entrega
@@ -207,7 +214,7 @@ if(typeof id_edicao != "undefined") {
 		}
 
 		selecionaModoPagamento();
-			
+		
 		$("#divBuscarCliente").hide();
 		$("#divBuscarProdutos").show();
 		$(".divListaGeral").show();
@@ -798,9 +805,6 @@ $("#BotaoEnviarPedido").click(function() {
 
 	//receber modo de envio e verificar opcao de envio
 	cliente.envio = $("#envioCliente").val();
-	if(cliente.envio !== "ENTREGA"){
-		cliente.taxa = cliente.endereco = cliente.celular = null; //apagar variaveis para evitar erros
-	}
 	
 	if(cliente.envio === 'MESA'){
 		if($("#garcon").val() == '--'){
@@ -900,6 +904,14 @@ $("#BotaoEnviarPedido").click(function() {
 					}catch(e){}
 					*/
 					
+					if(cliente.envio === 'ENTREGA' && $("#cobrarTaxa").val() == 1){
+						cliente.taxa = 0;
+					}
+					
+					if(cliente.envio !== "ENTREGA"){
+						cliente.taxa = cliente.endereco = cliente.celular = null; //apagar variaveis para evitar erros
+					}
+					
 					if($('#obs').val() != '') cliente.obs = $('#obs').val();
 					
 					cliente.pago = (this.$content.find("#pagoCliente").val() == 0 ? false : true);
@@ -963,7 +975,7 @@ function estruturarPedido(e, troco){
 		//excluir temporarios para nao duplicar
 		$.ajax({
 			url: "/novoPedido/excluirPedidosTemp/" + cliente.comanda,
-			type: 'PUT'
+			type: 'POST'
 		});
 	}
 	
@@ -1048,7 +1060,7 @@ function salvarPedido(){
 
 //mostrar pedido no jquery confirm final
 function mostrarPedido(){
-	return linhaHtml = '<b>Qtd Produtos:</b> ' + tPizzas.toFixed(2) 
+	return linhaHtml = '<b>Qtd Produtos:</b> ' + tPizzas 
 				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa().toFixed(2)
 				+ '<br>'
 				+ '<div class="row">' //row
@@ -1228,9 +1240,16 @@ function isNumber(str) {
 
 
 function mostrarTotal(){
-	$("#TotalProdutos").html('<b>Total de Produtos:</b> ' + tPizzas.toFixed(2));
+	$("#TotalProdutos").html('<b>Total de Produtos:</b> ' + tPizzas);
 	
-	if(isNumber(cliente.taxa) == true){
+	if($("#cobrarTaxa").val() == 1
+	|| $("#envioCliente").val() === 'MESA'
+	|| $("#envioCliente").val() === 'BALCAO'
+	|| $("#envioCliente").val() === 'DRIVE'){
+			
+		$("#TotalPedido").html('<b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2));
+		$("#troco").val(tPedido);
+	}else if(isNumber(cliente.taxa) == true){
 		$("#TotalPedido").html('<b>Total do Pedido:</b> R$ ' + (tPedido + cliente.taxa).toFixed(2));
 		$("#troco").val((tPedido + cliente.taxa));
 	}
@@ -1243,6 +1262,11 @@ function mostrarTotal(){
 
 
 function mostrarTotalComTaxa(){
+	if($("#cobrarTaxa").val() == 1
+	|| $("#envioCliente").val() === 'MESA'
+	|| $("#envioCliente").val() === 'BALCAO'
+	|| $("#envioCliente").val() === 'DRIVE')
+		return tPedido;
 	if(isNumber(cliente.taxa) == true)
 		return (tPedido + cliente.taxa);
 	else
@@ -1253,6 +1277,7 @@ function mostrarTotalComTaxa(){
 $("#modoPagamento").change(() => {
 	selecionaModoPagamento();
 });
+
 
 function selecionaModoPagamento(){
 	//dinheiro
@@ -1288,9 +1313,23 @@ function selecionarCartao(){
 
 
 $("#envioCliente").change(function(){
-	if($("#envioCliente").val() == 'MESA'){
-		$("#divGarcon").show('slow');
+	mostrarTotal();
+	if($("#envioCliente").val() === 'MESA'){
+		$("#divCobrarTaxa").hide('slow', () => {
+			$("#divGarcon").show('slow');
+		});
+		
+	}else if($("#envioCliente").val() == 'ENTREGA'){
+		$("#divGarcon").hide('slow', () => {
+			$("#divCobrarTaxa").show('slow');
+		});
 	}else{
 		$("#divGarcon").hide('slow');
+		$("#divCobrarTaxa").hide('slow');
 	}
+});
+
+
+$("#cobrarTaxa").change(() => {
+	mostrarTotal();
 });
