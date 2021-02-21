@@ -215,7 +215,7 @@ function carregarMotoboy(){
 					+'</thead>'
 				+ '</table>'
 				
-				+ '<div style="overflow-y: scroll; max-height: 40vh">'
+				+ '<div class="table-min-scroll">'
 					+ '<table>'
 						+ '<tbody>';
 	
@@ -245,7 +245,7 @@ function carregarMotoboy(){
 					+'</thead>'
 				+ '</table>'
 				
-				+ '<div style="overflow-y: scroll; max-height: 40vh">'
+				+ '<div class="table-min-scroll">'
 					+ '<table>'
 						+ '<tbody>';
 					

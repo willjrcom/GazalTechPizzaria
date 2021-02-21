@@ -307,6 +307,15 @@ table tbody tr td{
 	color: white;
 }
 
+.table-scroll{
+	overflow-y: scroll;
+	max-height: 100vh;
+}
+
+.table-min-scroll{
+	overflow-y: scroll;
+	max-height: 40vh;
+}
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;
