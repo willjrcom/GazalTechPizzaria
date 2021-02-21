@@ -316,6 +316,12 @@ table tbody tr td{
 	overflow-y: scroll;
 	max-height: 40vh;
 }
+
+.table-min-novoPedido-scroll{
+	overflow-y: scroll;
+	max-height: 25vh;
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;
