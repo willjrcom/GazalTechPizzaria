@@ -42,7 +42,7 @@ $.ajax({
 						+ '<td class="text-center col-md-2">' + pedido.endereco + '</td>'
 						+ '<td class="text-center col-md-1">' + Tpizzas + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'	
-						+ '<td class="text-center col-md-1">' + (pedido.total - pedido.troco).toFixed(2) + '</td>'	
+						+ '<td class="text-center col-md-1">' + (pedido.total + pedido.taxa - pedido.troco).toFixed(2) + '</td>'	
 						+ '<td class="text-center col-md-1">'
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
@@ -79,12 +79,20 @@ function finalizarPedido() {
 		});
 		return 0;
 	}
+	linhaHtml = '';
+	if(typeof pedidos[idBusca].obs !== 'undefined'){
+		linhaHtml = '<label><b>Observação do Pedido:</b></label>'
+					+ '<textarea class="form-control" id="obs" style="border: 1px solid red" readonly></textarea><br>';
+	}
 	
 	$.confirm({
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
-	    content: 'Deseja entregar?',
+	    content: linhaHtml + '<b>Deseja entregar?</b>',
 		closeIcon: true,
+		onContentReady: function(){
+			$("#obs").val(pedidos[idBusca].obs);
+		},
 	    buttons: {
 	        confirm: {
 	            text: 'Enviar',
