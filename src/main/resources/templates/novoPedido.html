@@ -98,7 +98,7 @@
 							</thead>
 						</table>
 						
-						<div class="table-min-scroll">
+						<div class="table-min-novoPedido-scroll">
 							<table>
 								<tbody id="listaPizza"><tr><td colspan="7">Nenhuma pizza adicionada!</td></tr></tbody>
 							</table>
@@ -127,7 +127,7 @@
 							</thead>
 						</table>
 						
-						<div class="table-min-scroll">
+						<div class="table-min-novoPedido-scroll">
 							<table>
 								<tbody id="listaProduto"><tr><td colspan="7">Nenhum produto adicionado!</td></tr></tbody>
 							</table>
@@ -170,7 +170,7 @@
 				</div>
 				
 				<br>
-				<div class="row">
+				<div class="row" id="divPagamentoGeral">
 					<div class="col-md-6" id="divModoPagamento">
 						<label><b>Modo de pagamento:</b></label>
 						<select class="form-control" id="modoPagamento">
@@ -217,7 +217,7 @@
 				<br>
 				<div>
 					<label><b>Observação do Pedido:</b></label>
-					<textarea id="obs" name="obs" class="form-control" placeholder="Observação do pedido"></textarea>
+					<textarea id="obsPedido" name="obsPedido" class="form-control" placeholder="Observação do pedido"></textarea>
 				</div>
 				<br>
 				
@@ -228,7 +228,7 @@
 					</div>
 					
 					<div class="col-md-6">
-						<button class="btn btn-success fRight" id="BotaoEnviarPedido">
+						<button class="btn btn-success pula fRight" id="BotaoEnviarPedido">
 						<i class="fas fa-check"></i> Salvar pedido</button>
 					</div>
 				</div>
