@@ -41,8 +41,12 @@ function buscarPedido() {
 				}
 			}
 		}
+		if(AllPizzas == 1){
+			$("#totalPizzas").val(AllPizzas + ' Pizza a fazer');
+		}else{
+			$("#totalPizzas").val(AllPizzas + ' Pizzas a fazer');
+		}
 		
-		$("#totalPizzas").val(AllPizzas + ' Pizzas a fazer');
 		
 		if(pedidos.length == 0)
 			$("#todosPedidos").html(pedidoVazio);

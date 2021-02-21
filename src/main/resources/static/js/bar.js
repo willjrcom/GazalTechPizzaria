@@ -40,8 +40,11 @@ function buscarPedido() {
 				}
 			}
 		}
-		
-		$("#totalPizzas").val(AllPizzas + ' Bebidas a fazer');
+		if(AllPizzas == 1){
+			$("#totalPizzas").val(AllPizzas + ' Bebida a fazer');
+		} else{
+			$("#totalPizzas").val(AllPizzas + ' Bebidas a fazer');
+		}
 		
 		if(pedidos.length == 0)
 			$("#todosPedidos").html(pedidoVazio);
