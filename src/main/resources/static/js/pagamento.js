@@ -1,4 +1,4 @@
-
+$("#filtro").selectmenu().addClass("overflow");
 var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
@@ -34,58 +34,241 @@ $.ajax({
 		type: 'GET'
 	}).done(function(e){
 		funcionarios = e;
-		$("#todosFuncionarios").html("");
-		linhaHtml = "";
-		
-		if(funcionarios.length == 0){
-			$("#todosFuncionarios").html(pedidoVazio);
-		}else{
-			for(funcionario of funcionarios){
-				linhaHtml += '<tr>'
-								+ '<td class="text-center col-md-1">' + funcionario.nome + '</td>'
-								+ '<td class="text-center col-md-1">' + funcionario.celular + '</td>'
-								+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
-								+ '<td class="text-center col-md-1">' + funcionario.cargo + '</td>'
-								+ '<td class="text-center col-md-1">'
-									+'<div class="row">'
-										+'<div class="col-md-1">'
-											+'<a>'
-											+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><i class="far fa-clock"></i></button>'
-											+'</a>'
-										+'</div>'
-										
-										+'<div class="col-md-1">'
-											+'<a>'
-											+ '<button type="button" title="Adicionar Gastos" onclick="addGastos()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><i class="fas fa-credit-card"></i></button>'
-											+'</a>'
-										+'</div>'
-										
-										+'<div class="col-md-1">'
-											+'<a>'
-											+ '<button type="button" title="Pagar" onclick="pagarSalario()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><i class="far fa-check-square"></i></button>'
-											+'</a>'
-										+'</div>'
-										
-										+'<div class="col-md-1">'
-											+'<a>'
-											+ '<button type="button" title="Imprimir" onclick="imprimirResumo()" class="botao"'
-											+ 'value="'+ funcionario.id + '"><i class="fas fa-print"></i></button>'
-											+'</a>'
-										+'</div>'
-									+'</div>'
-								+'</td>'
-							+ '</tr>'
-						+ linhaCinza;
-			}
-			
-			$("#todosFuncionarios").html(linhaHtml);
-		}
-		carregarLoading("none");
+
+		mostrar(funcionarios, 1);
 	});	
 });
+
+
+//--------------------------------------------------------------------------
+function filtrar() {
+	mostrar(funcionarios, $("#filtro").val());
+}
+
+
+function mostrar(funcionarios, filtro){
+	linhaHtml = "";
+		
+	for(funcionario of funcionarios){
+		if(filtro == funcionario.situacao || filtro == 2){
+			linhaHtml += '<tr>'
+					+ '<td class="text-center col-md-1">' + funcionario.nome + '</td>'
+					+ '<td class="text-center col-md-1">' + funcionario.celular + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
+					+ '<td class="text-center col-md-1">' + funcionario.diaPagamento + '</td>'
+					+ '<td class="text-center col-md-1">' + funcionario.cargo + '</td>'
+					+ '<td class="text-center col-md-1">'
+						+'<div class="row">'
+							+'<div class="col-md-1">'
+								+'<a>'
+								+ '<button type="button" title="Adicionar Diária" onclick="addDiaria()" class="botao"'
+								+ 'value="'+ funcionario.id + '"><i class="fas fa-plus"></i></button>'
+								+'</a>'
+							+'</div>'
+							
+							+'<div class="col-md-1">'
+								+'<a>'
+								+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
+								+ 'value="'+ funcionario.id + '"><i class="far fa-clock"></i></button>'
+								+'</a>'
+							+'</div>'
+							
+							+'<div class="col-md-1">'
+								+'<a>'
+								+ '<button type="button" title="Adicionar Gastos" onclick="addGastos()" class="botao"'
+								+ 'value="'+ funcionario.id + '"><i class="fas fa-credit-card"></i></button>'
+								+'</a>'
+							+'</div>'
+							
+							+'<div class="col-md-1">'
+								+'<a>'
+								+ '<button type="button" title="Pagar" onclick="pagarSalario()" class="botao"'
+								+ 'value="'+ funcionario.id + '"><i class="far fa-check-square"></i></button>'
+								+'</a>'
+							+'</div>'
+							
+							+'<div class="col-md-1">'
+								+'<a>'
+								+ '<button type="button" title="Imprimir" onclick="imprimirResumo()" class="botao"'
+								+ 'value="'+ funcionario.id + '"><i class="fas fa-print"></i></button>'
+								+'</a>'
+							+'</div>'
+						+'</div>'
+					+'</td>'
+				+ '</tr>'
+			+ linhaCinza;
+		}
+	}
+	if(linhaHtml !== '')
+		$("#todosFuncionarios").html(linhaHtml);
+	else
+		$("#todosFuncionarios").html(pedidoVazio);
+		
+	carregarLoading("none");
+}
+
+
+//-------------------------------------------------------------------------
+function addDiaria() {
+	
+	var botaoReceber = $(event.currentTarget);
+	var idProduto = botaoReceber.attr('value');
+	
+	//buscar dados completos do pedido enviado
+	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+		
+	mesAtual = new Date();
+			
+	$.alert({
+		type: 'blue',
+		title: 'Adicionar diária',
+		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' 
+			+ (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
+			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' 
+			+ mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+		buttons: {
+			confirm: {
+				text: 'Acessar',
+				btnClass: 'btn-primary',
+				keys: ['enter'],
+				action: function(){
+					carregarLoading("block");
+					
+					var mes = this.$content.find('#mes').val();
+					mes = (mes.length == 1) ? '0'+mes : mes;
+
+					var ano = this.$content.find('#ano').val();
+					ano = (ano.length == 1) ? '0'+ano : ano;
+					
+					var salario = {};
+					salario.id = funcionarios[idBusca].id;
+					salario.mes = mes + '-' + ano;
+
+					//buscar o mes de gastos do funcionario
+					$.ajax({
+						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+						type: 'GET'
+					}).done(function(e){
+						
+						var diaria = 0;
+						
+						for(j = 0; j<e.length; j++) horas += e[j].horas;
+						
+						linhaHtml = '<table>'
+									+ '<tr>'
+										+ '<th class="col-md-1"><h5>Diárias já adicionadas</h5></th>'
+									+ '</tr>'
+							
+									+ '<tr>'
+										+ '<td class="text-center col-md-1">R$ ' + horas.toFixed(2) +'</td>'
+									+ '</tr>'
+								+'</table>'
+						+ '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
+						+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
+						+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
+						
+						carregarLoading("none");
+						
+						$.alert({
+							type: 'blue',
+						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
+						    content: linhaHtml,
+						    buttons: {
+						        confirm: {
+									text: 'Adicionar Horas',
+						    		keys: ['enter'],
+						            btnClass: 'btn-green',
+						            action: function(){
+										
+										carregarLoading("block");
+										var horas = this.$content.find('#horas').val();
+										
+										if(horas == 0) {
+											carregarLoading("none");
+											$.alert({
+												type: 'red',
+												title: 'OPS...',
+												content: "Digite um valor válido",
+												buttons: {
+													confirm:{
+														text: 'Voltar',
+														btnClass: 'btn-danger',
+														keys: ['esc', 'enter']
+													}
+												}
+											});
+										}else {
+											var funcionario = {};
+											funcionario.idFuncionario = funcionarios[idBusca].id;
+											funcionario.horas = horas * horaExtra;
+											funcionario.data = dataAtualFormatada();
+											
+											$.ajax({
+												url: '/adm/pagamento/salvar',
+												type: 'POST',
+												dataType : 'json',
+												contentType: "application/json",
+												data: JSON.stringify(funcionario)
+											}).done(function(){
+
+												//imprimir pagamento
+												$.ajax({
+													url: "/imprimir/imprimirLogFuncionario",
+													type: 'POST',
+													dataType : 'json',
+													contentType: "application/json",
+													data: JSON.stringify(funcionario)
+												});
+												
+												carregarLoading("none");
+												$.alert({
+													type: 'green',
+													title: "Sucesso",
+													content: "Hora extra registrada!",
+													buttons:{
+														confirm:{
+															text: "Continuar",
+															btnClass: 'btn-success',
+															keys: ['enter', 'esc']
+														}
+													}
+												});
+											}).fail(function(){
+												carregarLoading("none");
+												$.alert({
+													type: 'red',
+													title: 'OPS..',
+													content: 'Digite um valor valido',
+													buttons: {
+														confirm: {
+															text: 'Voltar',
+															btnClass: 'btn-success',
+															keys: ['esc', 'enter']
+														}
+													}
+												});
+											});
+										}
+									}
+								},
+						        cancel:{
+									text: 'Voltar',
+						    		keys: ['esc'],
+						            btnClass: 'btn-danger'
+								}
+							}
+						});
+					});
+				}
+			}
+		},
+        cancel:{
+			text: 'Voltar',
+    		keys: ['esc'],
+            btnClass: 'btn-danger'
+		}
+	});
+};
 
 
 //-------------------------------------------------------------------------
@@ -101,7 +284,7 @@ function addHoras() {
 			
 	$.alert({
 		type: 'blue',
-		title: 'Data',
+		title: 'Adicionar hora extra',
 		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' 
 			+ (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
 			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' 
@@ -264,7 +447,7 @@ function addGastos() {
 			
 	$.alert({
 		type: 'blue',
-		title: 'Data',
+		title: 'Adicionar gastos',
 		content: '<label>Mês:</label>'
 				+ '<input type="number" id="mes" min="1" value="' 
 					+ (mesAtual.getMonth() + 1)  
@@ -436,7 +619,7 @@ function pagarSalario() {
 			
 	$.alert({
 		type: 'blue',
-		title: 'Data',
+		title: 'Pagar salário',
 		content: '<label>Mês: </label>'
 				+ '<input type="number" id="mes" min="1" value="' 
 					+ (mesAtual.getMonth() + 1)  
@@ -626,7 +809,7 @@ function imprimirResumo() {
 			
 	$.alert({
 		type: 'blue',
-		title: 'Data',
+		title: 'Imprimir relatório',
 		content: '<label>Mês:</label>'
 				+ '<input type="number" id="mes" min="1" value="' 
 					+ (mesAtual.getMonth() + 1)  
@@ -660,7 +843,7 @@ function imprimirResumo() {
 						
 						linhaHtml = '<table>'
 									+ '<tr>'
-										+'<td class="text-center col-md-1">Data</td>'
+										+'<td class="text-center col-md-1">Data registrado</td>'
 										+'<td class="text-center col-md-1">Ação</td>'
 										+'<td class="text-center col-md-1">Total</td>';
 						if(e != 0){

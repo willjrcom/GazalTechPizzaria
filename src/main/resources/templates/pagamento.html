@@ -10,6 +10,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<div class="divbase">
 		<br>
+		<div class="col-md-4">
+			<select name="filtro" id="filtro">
+				<option value="1">Contratado</option>
+				<option value="0">Demitido</option>
+				<option value="2">Todos</option>
+			</select>
+			
+			<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
+		</div>
+		<br>
 		<div class="table-responsive">
 			<table>
 				<thead>
@@ -17,6 +27,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="text-center col-md-1"><h3>Funcionário</h3></th>
 						<th class="text-center col-md-1"><h3>Celular</h3></th>
 						<th class="text-center col-md-1"><h3>Salário</h3></th>
+						<th class="text-center col-md-1"><h3>Dia</h3></th>
 						<th class="text-center col-md-1"><h3>Cargo</h3></th>
 						<th class="text-center col-md-1"><h3></h3></th>
 					</tr>
