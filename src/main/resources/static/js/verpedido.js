@@ -5,7 +5,7 @@ var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido em aberto!</td></tr>';
 var Tpedidos = 0, totalPedidos = 0;
-var tPizzas = 0;
+var totalTodosProdutos = 0;
 var imprimirTxt;
 $(document).ready(() => $("#nomePagina").html("Ver pedidos"));
 //Ao carregar a tela
@@ -54,17 +54,17 @@ function mostrar(pedidos, filtro) {
 	linhaHtml = "";
 	for(pedido of pedidos){
 		if(filtro == pedido.pagamento || filtro == "TODOS"){
-			tPizzas = 0;
+			totalTodosProdutos = 0;
 			
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
 						
-			for(produto of pedido.produtos) tPizzas += produto.qtd;//total de produtos
+			for(produto of pedido.produtos) totalTodosProdutos += produto.qtd;//total de produtos
 					
-			for(pizza of pedido.pizzas) tPizzas += pizza.qtd;//total de pizzas
+			for(pizza of pedido.pizzas) totalTodosProdutos += pizza.qtd;//total de pizzas
 
-			linhaHtml += '<td class="text-center col-md-1">' + tPizzas.toFixed(2) + '</td>'
+			linhaHtml += '<td class="text-center col-md-1">' + totalTodosProdutos.toFixed(2) + '</td>'
 						+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 						+ '<td class="text-center col-md-1"><div class="row">'
