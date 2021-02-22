@@ -53,7 +53,7 @@ function filtrar() {
 function mostrar(pedidos, filtro) {
 	linhaHtml = "";
 	for(pedido of pedidos){
-		if(filtro == pedido.pagamento || filtro == "TODOS"){
+		if(filtro == pedido.pago || filtro == "TODOS"){
 			totalTodosProdutos = 0;
 			
 			linhaHtml += '<tr>'

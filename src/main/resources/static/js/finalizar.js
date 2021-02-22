@@ -204,7 +204,7 @@ function jqueryFinalizar(cliente){
 					});
 					
 					$.ajax({
-						url: "/finalizar/finalizarPedido/" + idPedido + '/' + $("#filtro").val(),
+						url: "/finalizar/finalizarPedido/" + cliente.id + '/' + $("#filtro").val(),
 						type: 'POST'
 					}).done(function(){
 						window.location.href = "/finalizar";

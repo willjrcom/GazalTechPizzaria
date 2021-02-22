@@ -105,20 +105,25 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 
-	linhaHtml += '<hr><b>Total de Produtos:</b> ' + Tpizzas
-				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2)
-				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
-				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido;
+	linhaHtml += '<hr>'
+				+ '<div class="row">'
+				+ '<div class="col-md-6"><b>Total de Produtos:</b><br>' + Tpizzas + '</div>'
+				+ '<div class="col-md-6"><b>Total do Pedido:</b> R$<br>' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2) + '</div>'
+				+ '<div class="col-md-6"><b>Modo de pagamento:</b><br>' + pedidos[idBusca].modoPagamento + '</div>'
+				+ '<div class="col-md-6"><b>Modo de Envio:</b><br>' + pedidos[idBusca].envio + '</div>'
+				+ '<div class="col-md-6"><b>Hora do pedido:</b><br>' + pedidos[idBusca].horaPedido + '</div>';
 	
 	if(pedidos[idBusca].envio === 'ENTREGA') {
-		linhaHtml += '<br><b>Motoboy:</b> ' + pedidos[idBusca].motoboy
-					+ '<br><b>Endereço:</b> ' + pedidos[idBusca].endereco;
+		linhaHtml += '<div class="col-md-6"><b>Motoboy:</b><br>' + pedidos[idBusca].motoboy + '</div>'
+					+ '<div class="col-md-6"><b>Endereço:</b><br>' + pedidos[idBusca].endereco + '</div>';
 	}
 	
 	if(pedidos[idBusca].envio === 'MESA') {
-		linhaHtml += '<br><b>Garçon:</b> ' + pedidos[idBusca].garcon;
+		linhaHtml += '<div class="col-md-6"><b>Garçon:</b><br>' + pedidos[idBusca].garcon + '</div>'
+					+ '<div class="col-md-6"><b>Serviços:</b><br>' + pedidos[idBusca].servico + ' %</div>';
 	}
-	
+	linhaHtml += '</div>';
+		
 	$.alert({
 		type: 'red',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
