@@ -123,13 +123,76 @@ function verPedido() {
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
 	
+	linhaHtml = '<div class="row">'
+				+ '<div class="col-md-6"><b>Total de Produtos:</b><br>' + totalTodosProdutos + '</div>'
+				+ '<div class="col-md-6"><b>Modo de Envio:</b><br>' + pedidos[idBusca].envio + '</div>'
+				+ '<div class="col-md-6"><b>Hora do pedido:</b><br>' + pedidos[idBusca].horaPedido + '</div>'
+				+ '<div class="col-md-6"><b>Total do Pedido:</b><br>R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2) + '</div>'
+				+ '<div class="col-md-6"><b>Forma de pagamento:</b><br>' + pedidos[idBusca].modoPagamento + '</div>'
+				
+	
+	if(pedidos[idBusca].obs != null) linhaHtml += '<div class="col-md-6"><b>Observação:</b> ' + pedidos[idBusca].obs + '</div>';
+	
+	linhaHtml += '</div>';
+	
+	jqueryFinalizar(pedidos[idBusca]);
+};
+
+
+function jqueryFinalizar(cliente){
+	$.confirm({
+		type: 'green',
+	    title: 'Pedido: ' + cliente.nome,
+	    content: linhaHtml,
+	    closeIcon: true,
+	    columnClass: 'col-md-8',
+	    buttons: {
+			mostrarPedido:{
+				text: 'ver pedido',
+		        btnClass: 'btn btn-primary',
+		        action: function(){
+					mostrarProdutosPedido(cliente);
+				}
+			},
+			tudo: {
+				text: '<i class="fas fa-print"></i> Pedido',
+		        btnClass: 'btn-success',
+		        action: function(){
+					imprimirTudo(cliente);
+				}
+			},
+			pizzas: {
+				text: '<i class="fas fa-print"></i> Pizzas',
+		        btnClass: 'btn-orange',
+		        action: function(){
+					imprimirPizzas(cliente);
+				}
+			},
+			produtos: {
+				text: '<i class="fas fa-print"></i> Produtos',
+		        btnClass: 'btn-primary',
+		        action: function(){
+					imprimirProdutos(cliente);
+				}
+			},
+			cancel: {
+	            isHidden: true, // hide the button
+	            keys: ['esc']
+			}
+		}
+	});
+}
+
+
+function mostrarProdutosPedido(cliente){
 	Tpizzas = 0;
-	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
+	let linhaHtml = '';
+	for(produto of cliente.produtos) Tpizzas += produto.qtd;
 	
-	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;
+	for(pizza of cliente.pizzas) Tpizzas += pizza.qtd;
 	
-	if(pedidos[idBusca].pizzas.length != 0) {
-		linhaHtml = '<table style="width: 100%">'
+	if(cliente.pizzas.length != 0) {
+		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
@@ -137,7 +200,7 @@ function verPedido() {
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
 					+ '</tr>';
 		
-		for(pizza of pedidos[idBusca].pizzas){
+		for(pizza of cliente.pizzas){
 			linhaHtml += '<tr>'
 						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
 						 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
@@ -148,7 +211,7 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 	
-	if(pedidos[idBusca].produtos.length != 0) {
+	if(cliente.produtos.length != 0) {
 		linhaHtml += '<table style="width: 100%">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
@@ -156,7 +219,7 @@ function verPedido() {
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';
 		
-		for(produto of pedidos[idBusca].produtos){
+		for(produto of cliente.produtos){
 			linhaHtml += '<tr>'
 						 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
 						 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
@@ -166,52 +229,21 @@ function verPedido() {
 		linhaHtml += '</table>';
 	}
 	
-	linhaHtml += '<hr>'
-				+ '<b>Total de Produtos:</b> ' + Tpizzas
-				+ '<br><b>Modo de Envio:</b> ' + pedidos[idBusca].envio
-				+ '<br><b>Hora do pedido:</b> ' + pedidos[idBusca].horaPedido
-				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2)
-				+ '<br><b>Forma de pagamento:</b> ' + pedidos[idBusca].modoPagamento;
-	
-	if(pedidos[idBusca].obs != null) linhaHtml += '<br><b>Observação:</b> ' + pedidos[idBusca].obs;
-	
-	$.confirm({
-		type: 'green',
-	    title: 'Pedido: ' + pedidos[idBusca].nome,
-	    content: linhaHtml,
-	    closeIcon: true,
+	$.alert({
+		type: 'blue',
+		title: 'Pedido',
+		content: linhaHtml,
 	    columnClass: 'col-md-8',
-	    buttons: {
-			tudo: {
-				text: '<i class="fas fa-print"></i> Pedido',
-		        btnClass: 'btn-success',
-		        action: function(){
-					imprimirTudo(pedidos[idBusca]);
-				}
-			},
-			pizzas: {
-				text: '<i class="fas fa-print"></i> Pizzas',
-		        btnClass: 'btn-orange',
-		        action: function(){
-					imprimirPizzas(pedidos[idBusca]);
-				}
-			},
-			produtos: {
-				text: '<i class="fas fa-print"></i> Produtos',
-		        btnClass: 'btn-primary',
-		        action: function(){
-					imprimirProdutos(pedidos[idBusca]);
-				}
-			},
-			cancel: {
-	            isHidden: true, // hide the button
-	            keys: ['esc']
+		buttons: {
+			confirm: {
+				text: 'Voltar',
+				btnClass: 'btn btn-success',
+				keys: ['esc', 'enter'],
+				action: () => jqueryFinalizar(cliente)
 			}
 		}
 	});
-};
-
-
+}
 //-----------------------------------------------------------------------------------------------------------
 function editarPedido() {
 	var botaoReceber = $(event.currentTarget);

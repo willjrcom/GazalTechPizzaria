@@ -9,4 +9,6 @@ $('.cnpj').mask('00.000.000/0000-00');
 
 $(".preco").mask('0000.00', { reverse: true });
 
+$(".porcentagem").mask('000.00', { reverse: true });
+
 $('.taxa').mask('000.00', { reverse: true });

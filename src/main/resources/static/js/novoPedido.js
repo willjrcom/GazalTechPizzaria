@@ -9,7 +9,7 @@ var [pizzas, produtos, buscaProdutos, buscaBordas, buscaGarcon] = [[], [], [], [
 var [divisor, divisorAnterior] = [1, 1];
 
 //borda------------------------------------------------------------------------------------------------------
-var borda = "";
+var [borda, lastBorda] = ['', 0];
 
 //pedido------------------------------------------------------------------------------------------------------
 var [totalTodosProdutos, tPedido, troco] = [0, 0, 0];
@@ -90,7 +90,7 @@ function qtdHtml() {
 
 			//buscar bordas
 			var bordas = '';
-			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco}</option>`;
+			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco.toFixed(2)}</option>`;
 		
 			 html = '<label>Borda Recheada:</label>'
 							+ '<select class="form-control" name="borda" id="borda">'
@@ -164,10 +164,11 @@ if(typeof id_edicao != "undefined") {
 		}
 			
 		cliente = e;
+		cliente.taxa = parseFloat(cliente.taxa);
 		cliente.pizzas = JSON.parse(e.pizzas);
 		cliente.produtos = JSON.parse(e.produtos);
-		cliente.taxa = parseFloat(cliente.taxa);
 
+		mostrarDivPizzasProdutos();
 		//liberar opcao de envio
 		mostrarDivEnvio();
 		
@@ -349,6 +350,7 @@ function mostrarDivEnvio(){
 									+'<option value="DRIVE">Drive-Thru</option>'
 								);
 		$("#divGarcon").show('slow');
+		$("#divPagamentoGeral").hide('slow');
 	}else if(cliente.envio == "BALCAO"){
 		$("#envioCliente").append('<option value="BALCAO">Balcão</option>'
 									+'<option value="MESA">Mesa</option>'
@@ -562,9 +564,10 @@ function enviarProduto(idUnico) {
 				});
 
 				if(divisor != 1){
-					$("#borda").prop("disabled", true);
+					//$("#borda").prop("disabled", true)
+					$("#borda").val(lastBorda);
 				}else{
-					$("#borda").prop("disabled", false);
+					//$("#borda").prop("disabled", false);
 				}
 			}
 			
@@ -582,11 +585,14 @@ function enviarProduto(idUnico) {
 				action: function(){
 					
 					//adiciona o id da borda
-					bordaId = $("#borda").val();
+					lastBorda = bordaId = $("#borda").val();
 					
 					//adiciona quantidade do produto
-					qtd = Number(Number($("#qtd").val().toString().replace(",",".")).toPrecision(2));
+					qtd = Number($("#qtd").val().toString().replace(",","."));
 					if(isNaN(qtd) || qtd == 0) qtd = 1;
+					
+					//setar ultima borda adicionada
+					if(qtd == 1) lastBorda = 0;
 					
 					//adiciona observacao do produto
 					obs = $("#obs").val();
@@ -636,14 +642,13 @@ function enviarProduto(idUnico) {
 					tPedido += produto.preco;
 					
 					//controlar qtd do produto
-					divisorAnterior = Number(divisor);
+					divisorAnterior = divisor;
 					divisor -= qtd;
 					
 					//setar divisor
 					if(divisor <= 0) divisor = 1;
 					
 					mostrarProdutos();
-					$(".divListaGeral").show('slow');
 				}
 			},
 			cancel: {
@@ -658,21 +663,16 @@ function enviarProduto(idUnico) {
 //------------------------------------------------------------------------------------------------------------------------
 $(".removerProduto").click(function(){
 	try{
-		totalTodosProdutos -= Number(Number(produtos[0].qtd).toFixed(2));
-		tPedido -= Number(Number(produtos[0].preco).toFixed(2));
+		totalTodosProdutos -= produtos[0].qtd;
+		tPedido -= produtos[0].preco;
 		
 		let divAnt = divisor;
-		divisor = Number(divisorAnterior.toFixed(2));
+		divisor = divisorAnterior;
 		
-		if(divisor != 1)
-			divisorAnterior += divAnt;
+		if(divisor != 1) divisorAnterior += divAnt;
 		
 		produtos.shift();
-	
-		if(produtos.length == 0) $("#listaProduto").html(produtoVazio);
 		mostrarProdutos();
-	
-		mostrarTotal();
 	}catch(exception){}
 });
 
@@ -680,65 +680,67 @@ $(".removerProduto").click(function(){
 //------------------------------------------------------------------------------------------------------------------------
 $(".removerPizza").click(function(){
 	try{
-		totalTodosProdutos -= Number(Number(pizzas[0].qtd).toFixed(2));
-		tPedido -= Number(Number(pizzas[0].preco).toFixed(2));
+		totalTodosProdutos -= pizzas[0].qtd;
+		tPedido -= pizzas[0].preco;
 		
 		let divAnt = divisor;
-		divisor = Number(divisorAnterior.toFixed(2));
+		divisor = divisorAnterior;
 		
-		if(divisor != 1)
-			divisorAnterior += divAnt;
+		if(divisor != 1) divisorAnterior += divAnt;
 		
 		pizzas.shift();
-		
-		if(pizzas.length == 0) $("#listaPizza").html(pizzaVazio);
 		mostrarProdutos();
-	
-		mostrarTotal();
 	}catch(exception){}	
 });
 
 
 //---------------------------------------------------------------------------------------------------------------------
 function mostrarProdutos() {//todos
+	mostrarTotal();
 	
 	if(pizzas.length == 0 && produtos.length == 0){
 		$(".divListaGeral").hide('slow');
-		return;
+		return 300;
+	}else{
+		$(".divListaGeral").show('slow');
 	}
 
-	if(produtos.length == 0) $("#listaProduto").html(produtoVazio);
-	else{
+	if(produtos.length != 0){
 		linhaHtml = "";
 		
 		for(produto of produtos){
 			linhaHtml += '<tr>'
 					 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
 					 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
-					 +	'<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
+					 +	'<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
 				 + '</tr>'
 				 + linhaCinza;
 		}
 		$("#listaProduto").html(linhaHtml);
+		$("#divProdutos").show('slow');
+	}else{
+		$("#listaProduto").html(produtoVazio);
+		$("#divProdutos").hide('slow');
 	}
 	
-	if(pizzas.length == 0) $("#listaPizza").html(pizzaVazio);
-	else{
+	if(pizzas.length != 0){
 		linhaHtml = "";
 		
 		for(pizza of pizzas){
 			linhaHtml += '<tr>'
-						 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
-						 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
-						 +	'<td class="text-center col-md-1">R$ ' + parseFloat(pizza.preco).toFixed(2) + '</td>'
-						 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
-					 + '</tr>'
-					 + linhaCinza;
+					 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+					 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
+					 +	'<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
+					 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
+				 + '</tr>'
+				 + linhaCinza;
 		}
 		$("#listaPizza").html(linhaHtml);
+		$("#divPizzas").show('slow');
+	}else{
+		$("#listaPizza").html(pizzaVazio);
+		$("#divPizzas").hide('slow');
 	}
-	
-	mostrarTotal();
 }
 
 
@@ -858,9 +860,9 @@ $("#BotaoEnviarPedido").click(function() {
 					cliente.pago = (this.$content.find("#pagoCliente").val() == 0 ? false : true);
 					cliente.pizzas = JSON.stringify(pizzas);
 					cliente.produtos = JSON.stringify(produtos);
-					cliente.total = Number(tPedido);
+					cliente.total = tPedido;
 					cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
-					cliente.troco = Number(troco);
+					cliente.troco = troco;
 					//cliente.servico = Number(servico);
 					
 					//buscar pedido no sistema
@@ -1005,26 +1007,15 @@ function mostrarPedido(){
 				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa().toFixed(2)
 				+ '<br>'
 				+ '<div>'//col-md-6
-						+'<label><b>O pedido foi pago:</b></label>'
-						+'<select name="pagamento" class="form-control" id="pagoCliente">'
-							+'<option value="0">Não</option>'
-							+'<option value="1">Sim</option>'
-						+ '</select>'
-					+ '</div>'
-				
-				+ '<div>&nbsp;</div>'
-				+ '<b class="fRight">Deseja enviar o pedido?</b>';
-					
-		/*
-		if(cliente.envio == 'MESA'){
-			linhaHtml += '<b>Serviços:</b>'
-						+ '<div class="input-group mb-3">'
-							+ '<span class="input-group-text">%</span>'
-							+ '<input class="form-control" id="servico" value="10.00"/></div>'
-						+ '</div>';
+					+'<label><b>O pedido foi pago:</b></label>'
+					+'<select name="pagamento" class="form-control" id="pagoCliente">'
+						+'<option value="0">Não</option>'
+						+'<option value="1">Sim</option>'
+					+ '</select>'
+				+ '</div>'
 			
-		}
-		*/		
+			+ '<div>&nbsp;</div>'
+			+ '<b class="fRight">Deseja enviar o pedido?</b>';	
 }
 
 
@@ -1288,3 +1279,11 @@ $(document).keypress(function(e) {
 			$("#obs").focus();
 	}
 });
+
+
+function mostrarDivPizzasProdutos(){
+	if(cliente.pizzas != 0)
+		$("#divPizzas").show('slow');
+	if(cliente.produtos != 0)
+		$("#divProdutos").show('slow');
+}
