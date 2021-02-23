@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Dado;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Dias;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
@@ -41,8 +44,11 @@ public class FinalizarController {
 	@Autowired
 	private Funcionarios funcionarios;
 	
+	@Autowired
+	private Empresas empresas;
+	
 	@RequestMapping
-	public ModelAndView finalizar() {
+	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("finalizar");
@@ -111,6 +117,8 @@ public class FinalizarController {
 		dado.setTotalPizza(dado.getTotalPizza() + pedidoDados.getTotalPizza());
 		dado.setTotalProduto(dado.getTotalProduto() + pedidoDados.getTotalProduto());
 		dado.setTotalPedidos(dado.getTotalPedidos() + 1);
+
+		liberarConquistas(dado.getTotalVendas(), user);
 		
 		return dados.save(dado);
 	}
@@ -133,5 +141,29 @@ public class FinalizarController {
 		String vazio = "                              ";
 		if(texto.length() < limite) texto += vazio;
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
+	}
+	
+	
+	private void liberarConquistas(float totalVendas, Usuario user) {
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		Conquista conquista = empresa.getConquista();
+		boolean conquistou = false;
+		if(totalVendas >= 20000 && conquista.isV20000() == false) {
+			conquista.setV20000(true);
+			conquistou = true;
+		}else if(totalVendas >= 10000 && conquista.isV10000() == false) {
+			conquista.setV10000(true);
+			conquistou = true;
+		}else if(totalVendas >= 5000 && conquista.isV5000() == false) {
+			conquista.setV5000(true);
+			conquistou = true;
+		}else if(totalVendas >= 1000 && conquista.isV1000() == false) {
+			conquista.setV1000(true);
+			conquistou = true;
+		}
+		if(conquistou == true) {
+			empresa.setConquista(conquista);
+			empresas.save(empresa);
+		}
 	}
 }

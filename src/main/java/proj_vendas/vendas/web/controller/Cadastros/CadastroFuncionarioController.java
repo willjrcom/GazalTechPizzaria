@@ -1,8 +1,7 @@
 package proj_vendas.vendas.web.controller.Cadastros;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -13,8 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Conquista;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -28,6 +30,9 @@ public class CadastroFuncionarioController{
 	@Autowired
 	private Usuarios usuarios;
 	
+	@Autowired
+	private Empresas empresas;
+	
 	@GetMapping("/cadastroFuncionario/**")
 	public ModelAndView CadastroFuncionario() {
 		return new ModelAndView("cadastroFuncionario");
@@ -38,7 +43,14 @@ public class CadastroFuncionarioController{
 	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		try {
+			Conquista conquista = empresa.getConquista();
+			if(conquista.isCadFuncionario() == false) {
+				conquista.setCadFuncionario(true);
+				empresa.setConquista(conquista);
+			}
+		}catch(Exception e) {}
 		funcionario.setCodEmpresa(user.getCodEmpresa());
 		
 		return funcionarios.save(funcionario);
@@ -86,7 +98,13 @@ public class CadastroFuncionarioController{
 	
 	@RequestMapping(value = "/cadastroFuncionario/editarFuncionario/{id}")
 	@ResponseBody
-	public Optional<Funcionario> buscarFuncionario(@PathVariable Long id) {
-		return funcionarios.findById(id);
+	public ResponseEntity<Funcionario> buscarFuncionario(@PathVariable Long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Funcionario funcionario = funcionarios.findById(id).get();
+		if(funcionario.getCodEmpresa() == user.getCodEmpresa()) {
+			return ResponseEntity.ok(funcionario);
+		}
+		return ResponseEntity.noContent().build();
 	}
 }

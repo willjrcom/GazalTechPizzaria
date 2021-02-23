@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
@@ -126,7 +127,7 @@ public class MenuController {
 
 		String dia = LocalDate.now().toString(); // criar data atual
 		setDados(dia);
-		
+		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
 		List<Cupom> listCupom = null;
 		
 		 int cont = 0;
@@ -266,5 +267,29 @@ public class MenuController {
 		}
 		
 		return dado;
+	}
+	
+	
+	private void liberarConquistas(int totalDias, int codEmpresa) {
+		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
+		Conquista conquista = empresa.getConquista();
+		boolean conquistou = false;
+		if(totalDias >= 730 && conquista.isT730() == false) {
+			conquista.setT730(true);
+			conquistou = true;
+		}else if(totalDias >= 365 && conquista.isT365() == false) {
+			conquista.setT365(true);
+			conquistou = true;
+		}else if(totalDias >= 180 && conquista.isT180() == false) {
+			conquista.setT180(true);
+			conquistou = true;
+		}else if(totalDias >= 30 && conquista.isT30() == false) {
+			conquista.setT30(true);
+			conquistou = true;
+		}
+		if(conquistou == true) {
+			empresa.setConquista(conquista);
+			empresas.save(empresa);
+		}
 	}
 }

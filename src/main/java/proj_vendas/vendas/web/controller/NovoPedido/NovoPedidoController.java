@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cliente;
+import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Dia;
@@ -136,23 +137,21 @@ public class NovoPedidoController {
 	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-
-		Dia data = dias.findByCodEmpresa(user.getCodEmpresa()); // buscar tabela dia de acesso
 		
-		pedido.setStatus("PRONTO");
-		
-		if (pedido.getId() == null) {// se o pedido nao existir
-			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data.getDia()); // buscar dia nos dados
+		//se o pedido nao existir
+		if(pedido.getId() == null) {
+			// buscar dia nos dados
+			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()); 
 
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
-			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda
-			
-			try {
-				if(pedido.getCelular() != 0) {//se for cliente cadastrado
-					Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
-					cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
-				}
-			}catch(Exception e) {}
+			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda nos dados
+			dados.save(dado); // salva dados
+			System.out.println(pedido.getId());
+			if(pedido.getEnvio().equals("ENTREGA") && pedido.getId() == null) {//se for cliente cadastrado
+				Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
+				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
+				clientes.save(cliente);
+			}
 			
 			if(pedido.getEnvio().equals("MESA")) {
 				LogMesa mesa = new LogMesa();
@@ -160,10 +159,19 @@ public class NovoPedidoController {
 				mesa.setCodEmpresa(user.getCodEmpresa());
 				mesas.save(mesa);
 			}
-			dados.save(dado); // atualizar n da comanda
+			
+			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+			try {
+				Conquista conquista = empresa.getConquista();
+				if(conquista.isCadPedido() == false) {
+					conquista.setCadPedido(true);
+					empresa.setConquista(conquista);
+				}
+			}catch(Exception e) {}
 		}
 		
 		pedido.setCodEmpresa(user.getCodEmpresa());
+		pedido.setStatus("PRONTO");
 		
 		return ResponseEntity.ok(pedidos.save(pedido)); // salvar pedido
 	}
@@ -173,24 +181,30 @@ public class NovoPedidoController {
 	public Pedido editarPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		return pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
+		Pedido pedido = pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
+		
+		if(pedido.getCodEmpresa() == user.getCodEmpresa()) {
+			return pedido;
+		}
+		return null;
 	}
 
-	@RequestMapping(value = "/atualizar")
+	@RequestMapping(value = "/atualizar/{nome}")
 	@ResponseBody
-	public Pedido atualizarPedido(@RequestBody Pedido pedido) {
+	public Pedido atualizarPedido(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia(); // buscar tabela dia de acesso
-		Pedido antigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, pedido.getNome(), "FINALIZADO", "EXCLUIDO");
+		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, nome, "FINALIZADO", "EXCLUIDO");
 				
-		if (antigo == null) {
+		//necessario enviar a data
+		if(pedidoAntigo == null) {
 			Pedido vazio = new Pedido();
 			vazio.setData(dia);
 			return vazio;
 		}
-		return antigo;
+		return pedidoAntigo;
 	}
 	
 	@RequestMapping(value = "/salvarTemp")
@@ -198,8 +212,6 @@ public class NovoPedidoController {
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		temp.setStatus("COZINHA");
 		temp.setCodEmpresa(user.getCodEmpresa());
 		temps.save(temp);
 	}

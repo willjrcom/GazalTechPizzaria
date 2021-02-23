@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
@@ -24,7 +25,7 @@ public class EmpresaController {
 	
 	@Autowired
 	private Usuarios usuarios;
-
+	
 	@GetMapping("/empresa")
 	public ModelAndView tela() {
 		return new ModelAndView ("empresa");
@@ -36,9 +37,17 @@ public class EmpresaController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		empresa.setCodEmpresa(user.getCodEmpresa());
+		
+		try {
+			Conquista conquista = empresa.getConquista();
+			if(conquista.isCadEmpresa() == false) {
+				conquista.setCadEmpresa(true);
+				empresa.setConquista(conquista);
+			}
+		}catch(Exception e) {}
+		
 		user.setEmpresa(empresa);
 		return usuarios.save(user);
-	
 	}
 	
 	@RequestMapping(value = "/empresa/editar")

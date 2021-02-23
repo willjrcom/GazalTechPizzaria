@@ -1,8 +1,7 @@
 package proj_vendas.vendas.web.controller.Cadastros;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -12,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Conquista;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -27,6 +29,9 @@ public class CadastroProdutoController {
 	@Autowired
 	private Usuarios usuarios;
 	
+	@Autowired
+	private Empresas empresas;
+	
 	@RequestMapping("/**")
 	public ModelAndView cadastroProduto() {
 		return new ModelAndView("cadastroProduto");
@@ -37,7 +42,14 @@ public class CadastroProdutoController {
 	public Produto cadastrarProduto(@RequestBody Produto produto) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		try {
+			Conquista conquista = empresa.getConquista();
+			if(conquista.isCadProduto() == false) {
+				conquista.setCadProduto(true);
+				empresa.setConquista(conquista);
+			}
+		}catch(Exception e) {}
 		produto.setCodEmpresa(user.getCodEmpresa());
 		
 		return produtos.save(produto);
@@ -45,8 +57,14 @@ public class CadastroProdutoController {
 	
 	@RequestMapping(value = "/editarProduto/{id}")
 	@ResponseBody
-	public Optional<Produto> buscarProduto(@PathVariable Long id) {
-		return produtos.findById(id);
+	public ResponseEntity<Produto> buscarProduto(@PathVariable Long id) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Produto produto = produtos.findById(id).get();
+		if(produto.getCodEmpresa() == user.getCodEmpresa()) {
+			return ResponseEntity.ok(produto);
+		}
+		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/buscarCodigo/{codigo}/{id}")

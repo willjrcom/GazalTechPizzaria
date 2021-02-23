@@ -30,15 +30,15 @@ public class Conquista extends AbstractEntity<Long> {
 	
 	//Categoria: Entregas
 	private boolean E100; //Iniciante: Faça 100 entregas.
-	private boolean E5000; //Intermediário: Faça 5000 entregas.
+	private boolean E5000; //Intermediário: Faça 5.000 entregas.
 	private boolean E100000; //Pró: Faça 100.000 entregas.
 	private boolean E500000; //Expert: Faça 500.000 entregas.
 	
 	//Categoria: Cadastro
 	private boolean C100; //Iniciantes: Cadastre 100 clientes
-	private boolean C1000; //Intermediário: Cadastre 1000 clientes
-	private boolean C5000; //Pró: Cadastre 5000 clientes.
-	private boolean C10000; //Expert: Cadastre 10000 clientes.
+	private boolean C1000; //Intermediário: Cadastre 1.000 clientes
+	private boolean C5000; //Pró: Cadastre 5.000 clientes.
+	private boolean C10000; //Expert: Cadastre 10.000 clientes.
 	
 	//Categoria: Trabalho
 	private boolean T30; //Iniciante: Trabalhe 30 dias.

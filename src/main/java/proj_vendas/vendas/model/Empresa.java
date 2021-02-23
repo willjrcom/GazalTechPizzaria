@@ -35,7 +35,7 @@ public class Empresa extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String celular;
 	
-	private float horaExtra = 1;
+	private float horaExtra = 10;
 	private int mesa;
 	private String funcionamento;
 	
@@ -50,6 +50,9 @@ public class Empresa extends AbstractEntity<Long>{
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Pagamento> pagamento;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Conquista conquista;
 	
 	@Column(nullable=false)
 	private int codEmpresa;
