@@ -13,10 +13,11 @@ public class ImpressaoPedido {
 	private String envio;
 	private String celular;
 	private String endereco;
+	private String referencia;
 	private String obs;
 	
-	private PizzaImpressao[] pizzas;
-	private ProdutoImpressao[] produtos;
+	private ImpressaoPizza[] pizzas;
+	private ImpressaoProduto[] produtos;
 	
 	private float total;
 	private float taxa;

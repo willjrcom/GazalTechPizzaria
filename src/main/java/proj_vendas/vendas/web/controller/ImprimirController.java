@@ -98,7 +98,8 @@ public class ImprimirController {
 		
 		if(pedido.getEnvio().equals("ENTREGA"))
 			impressaoCompleta += "Celular: " + pedido.getCelular() + "#$"
-							+ cortaString(pedido.getEndereco()) + "#$"
+							+ cortaString(pedido.getEndereco())    + "#$"
+							+ cortaString(pedido.getReferencia())    + "#$"
 							+ "Taxa de entrega: \tR$ " + decimal.format(pedido.getTaxa()) + "#$";
 					
 		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$"
