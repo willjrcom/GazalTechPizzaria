@@ -23,7 +23,7 @@
 				<div class="col-md-10">
 					<input type="search" name="celular" id="numeroCliente"
 					autofocus="autofocus" class="form-control textIndent pula"
-					placeholder="Qual cliente você está procurando? (celular ou nome)"/>
+					placeholder="Digite o nome do pedido ou número do cliente"/>
 				</div>
 				
 				<div class="col-md-2">
@@ -65,7 +65,7 @@
 				<div class="row">
 					<div class="form-group col-md-8">
 						<input type="search" name="nomeProduto" class="form-control textIndent pula" id="nomeProduto"
-						placeholder="Qual produto está procurando? (Nome ou codigo de busca)"/>
+						placeholder="Digite o nome/codigo do produto"/>
 					</div>
 			
 					<div class="form-group col-md-4">
@@ -148,75 +148,87 @@
 				</div>
 				
 				<div class="row">
-					<div class="col-md-6" id="divEnvio">
-						<label><b>Envio:</b></label>
-						<select name="opcao" class="form-control" id="envioCliente">
-						</select>
+				<!-- ------------------------------------------------------------------------------------------- -->
+					<div class="col-md-6">
+						<div>
+							<label><b>O pedido foi pago:</b></label>
+							<select name="pagamento" class="form-control" id="pagoCliente">
+								<option value="0">Não</option>
+								<option value="1">Sim</option>
+							</select>
+						</div>
+						
+						<div class="row hidden" id="divPagamentoGeral">
+							<div id="divModoPagamento">
+								<label><b>Modo de pagamento:</b></label>
+								<select class="form-control" id="modoPagamento">
+									<option value="0">Dinheiro</option>
+									<option value="1">Cartão</option>
+								</select>
+							</div>
+							
+							<div id="divModoPagamentoDinheiro">
+								<label><b>Receber:</b></label>
+								<div class="input-group mb-3">
+									<span class="input-group-text">R$</span>
+									<input class="form-control" id="troco" placeholder="Precisa de troco?"/>
+								</div>
+							</div>
+							
+							<div class="hidden" id="divModoPagamentoCartao">
+								<label><b>Bandeira:</b></label>
+								<select class="form-control" id="modoPagamentoCartao">
+									<option value="--">---</option>
+									<option value="Mastercard">Mastercard</option>
+									<option value="Visa">Visa</option>
+									<option value="Pix">Pix</option>
+									<option value="American Express">American Express</option>
+									<option value="Hipercard">Hipercard</option>
+									<option value="Elo">Elo</option>
+									<option value="Alelo">Alelo</option>
+									<option value="Amex">Amex</option>
+									<option value="Diners Club">Diners Club</option>
+									<option value="VR Benefícios">VR Benefícios</option>
+									<option value="Cirrus">Cirrus</option>
+									<option value="Cielo">Cielo</option>
+									<option value="Eletron">Eletron</option>
+									<option value="Sorocred">Sorocred</option>
+									<option value="Maestro">Maestro</option>
+									<option value="Ticket">Ticket</option>
+									<option value="Sodexo">Sodexo</option>
+								</select>
+								<span>&nbsp;</span>
+							</div>
+						</div>
 					</div>
-					
-					<div class="col-md-6 hidden" id="divGarcon">
-						<label><b>Garçon:</b></label>
-						<select class="form-control" name="garcon" id="garcon">
-							<option value="--">---</option>
-						</select>
-					</div>
-					
-					<div class="col-md-6 hidden" id="divCobrarTaxa">
-						<label><b>Cobrar taxa?</b></label>
-						<select class="form-control" name="cobrarTaxa" id="cobrarTaxa">
-							<option value="0">Sim</option>
-							<option value="1">Não</option>
-						</select>
-					</div>
-				</div>
 				
-				<br>
-				<div class="row" id="divPagamentoGeral">
-					<div class="col-md-6" id="divModoPagamento">
-						<label><b>Modo de pagamento:</b></label>
-						<select class="form-control" id="modoPagamento">
-							<option value="0">Dinheiro</option>
-							<option value="1">Cartão</option>
-						</select>
-					</div>
-					
-					<div class="col-md-6 hidden" id="divModoPagamentoCartao">
-						<label><b>Bandeira:</b></label>
-						<select class="form-control" id="modoPagamentoCartao">
-							<option value="--">---</option>
-							<option value="Mastercard">Mastercard</option>
-							<option value="Visa">Visa</option>
-							<option value="Pix">Pix</option>
-							<option value="American Express">American Express</option>
-							<option value="Hipercard">Hipercard</option>
-							<option value="Elo">Elo</option>
-							<option value="Alelo">Alelo</option>
-							<option value="Amex">Amex</option>
-							<option value="Diners Club">Diners Club</option>
-							<option value="VR Benefícios">VR Benefícios</option>
-							<option value="Cirrus">Cirrus</option>
-							<option value="Cielo">Cielo</option>
-							<option value="Eletron">Eletron</option>
-							<option value="Sorocred">Sorocred</option>
-							<option value="Maestro">Maestro</option>
-							<option value="Ticket">Ticket</option>
-							<option value="Sodexo">Sodexo</option>
-						</select>
-						<span>&nbsp;</span>
-					</div>
-					
-					<div class="col-md-6" id="divModoPagamentoDinheiro">
-						<label><b>Receber:</b></label>
-						<div class="input-group mb-3">
-							<span class="input-group-text">R$</span>
-							<input class="form-control" id="troco" placeholder="Precisa de troco?"/>
+				<!-- ------------------------------------------------------------------------------------------- -->
+					<div class="row col-md-6">
+						<div id="divEnvio">
+							<label><b>Envio:</b></label>
+							<select class="form-control" name="envioCliente" id="envioCliente">
+							</select>
+						</div>
+						
+						<div class="hidden" id="divGarcon">
+							<label><b>Garçon:</b></label>
+							<select class="form-control" name="garcon" id="garcon">
+								<option value="--">---</option>
+							</select>
+						</div>
+						
+						<div class="hidden" id="divCobrarTaxa">
+							<label><b>Cobrar taxa?</b></label>
+							<select class="form-control" name="cobrarTaxa" id="cobrarTaxa">
+								<option value="0">Sim</option>
+								<option value="1">Não</option>
+							</select>
 						</div>
 					</div>
 				</div>
 				
-				
-				<div id="divCupom"></div>
 				<br>
+				<div id="divCupom"></div>
 				<div>
 					<label><b>Observação do Pedido:</b></label>
 					<textarea id="obsPedido" name="obsPedido" class="form-control" placeholder="Observação do pedido"></textarea>

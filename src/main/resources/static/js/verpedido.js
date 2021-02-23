@@ -132,6 +132,8 @@ function verPedido() {
 	if(pedidos[idBusca].envio != 'MESA')
 		linhaHtml += '<div class="col-md-6"><b>Forma de pagamento:</b><br>' + pedidos[idBusca].modoPagamento + '</div>';
 				
+	if(pedidos[idBusca].envio === 'ENTREGA')
+		linhaHtml += '<div class="col-md-6"><b>Endereço:</b><br>' + pedidos[idBusca].endereco + '</div>';
 	
 	if(pedidos[idBusca].obs != null) linhaHtml += '<div class="col-md-6"><b>Observação:</b> ' + pedidos[idBusca].obs + '</div>';
 	

@@ -177,7 +177,8 @@ if(typeof id_edicao != "undefined") {
 		$("#idCliente").text(cliente.id);
 		$("#nomeCliente").text(cliente.nome);
 		$("#obs").text(cliente.obs);
-			
+		$("#pagoCliente").val((cliente.pago == false ? 0 : 1));
+
 		//mostrar entrega
 		if(e.envio == 'ENTREGA') {
 			$("#celCliente").text(cliente.celular);
@@ -205,13 +206,14 @@ if(typeof id_edicao != "undefined") {
 		}
 			
 		//opcoes de pagamento
-		if(cliente.modoPagamento.split(" ")[0] == "Cartão"){
-			$("#modoPagamento").val(1);
+		if(cliente.modoPagamento.split(" ")[0] == "Cartão" && cliente.pago == 0){
+			$("#modoPagamento").val(1);//cartao
 			$("#modoPagamentoCartao").val(cliente.modoPagamento.split("-")[1]);
-		}else{
-			$("#modoPagamento").val(0);
+		}else if(cliente.pago == 0){
+			$("#modoPagamento").val(0);//dinheiro
 		}
 
+		selecionarPago();
 		selecionaModoPagamento();
 		
 		$("#divBuscarCliente").hide();
@@ -275,7 +277,7 @@ function buscarCliente(){
 		}).done(function(e){
 			//verificar se existe
 			if(e.length != 0) {
-				console.log(e)
+
 				cliente.nome = e.nome;
 				cliente.celular = e.celular;
 				cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
@@ -365,14 +367,11 @@ function mostrarDivsPedido(){
 function atualizarDados() {
 	//buscar pedido no sistema
 	$.ajax({
-		url: "/novoPedido/atualizar",
-		type: "PUT",
-		dataType : 'json',
-		contentType: "application/json",
-		data: JSON.stringify(cliente)
+		url: "/novoPedido/atualizar/" + cliente.nome,
+		type: 'PUT',
 	}).done(function(e){
 		cliente.data = e.data;
-		console.log(e)
+
 		if(e.id != null) {
 			modo = "ATUALIZAR";
 			tPedido = e.total;
@@ -703,13 +702,8 @@ $("#BotaoEnviarPedido").click(function() {
 			});
 			return 300;
 		}
-		
 		//verificar se for dinheiro
-		if(cliente.envio === 'ENTREGA'){
-			cliente.modoPagamento = "Dinheiro -R$ " + Number(cliente.total + cliente.taxa).toFixed(2); 
-		}else if(cliente.envio != 'MESA'){
-			cliente.modoPagamento = "Dinheiro -R$ " + Number(cliente.total).toFixed(2); 
-		}
+		cliente.modoPagamento = "Dinheiro -R$ " + mostrarTotalComTaxa().toFixed(2); 
 	}
 	
 	//verificar se for cartao
@@ -773,19 +767,16 @@ $("#BotaoEnviarPedido").click(function() {
 					cliente.total = tPedido;
 					cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
 					cliente.troco = troco;
-					/*
+					
 					//buscar pedido no sistema
 					$.ajax({
-						url: "/novoPedido/atualizar",
-						type: "PUT",
-						dataType : 'json',
-						contentType: "application/json",
-						data: JSON.stringify(cliente)
+						url: "/novoPedido/atualizar/" + cliente.nome,
+						type: 'PUT',
 					}).done(function(e){
 						estruturarPedido(e, troco);
 					}).fail(function(){
 						carregarLoading("none");
-					});*/
+					});
 				}
 	        },
 	        cancel: {
@@ -801,6 +792,7 @@ $("#BotaoEnviarPedido").click(function() {
 function estruturarPedido(e, troco){
 	//atualizar
 	if(e.id != null && modo == "ATUALIZAR") {
+		cliente.data = e.data;
 		cliente.horaPedido = e.horaPedido;
 		
 		//converter pedido atual para objeto
@@ -912,19 +904,11 @@ function salvarPedido(){
 
 //mostrar pedido no jquery confirm final
 function mostrarPedido(){
-	return linhaHtml = '<b>Qtd Produtos:</b> ' + totalTodosProdutos 
-				+ '<br><b>Total do Pedido:</b> R$ ' + mostrarTotalComTaxa().toFixed(2)
-				+ '<br>'
-				+ '<div>'//col-md-6
-					+'<label><b>O pedido foi pago:</b></label>'
-					+'<select name="pagamento" class="form-control" id="pagoCliente">'
-						+'<option value="0">Não</option>'
-						+'<option value="1">Sim</option>'
-					+ '</select>'
-				+ '</div>'
-			
-			+ '<div>&nbsp;</div>'
-			+ '<b class="fRight">Deseja enviar o pedido?</b>';	
+	return linhaHtml = '<div class="row">'
+				+ '<div class="col-md-6"><b>Qtd Produtos:</b><br>' + totalTodosProdutos + '</div>'
+				+ '<div class="col-md-6"><b>Total do Pedido:</b><br>R$ ' + mostrarTotalComTaxa().toFixed(2) + '</div>'
+				+ '<div>&nbsp;</div>'
+				+ '<b class="fRight">Deseja enviar o pedido?</b>';	
 }
 
 
@@ -1015,6 +999,18 @@ function mostrarTotalComTaxa(){
 }
 
 
+$("#pagoCliente").change(() => {
+	selecionarPago();
+});
+
+function selecionarPago(){
+	if($("#pagoCliente").val() == 0){
+		$("#divPagamentoGeral").hide('slow');
+	}else{
+		$("#divPagamentoGeral").show('slow');
+	}
+}
+
 $("#modoPagamento").change(() => {
 	selecionaModoPagamento();
 });
@@ -1058,20 +1054,23 @@ $("#envioCliente").change(function(){
 	if($("#envioCliente").val() === 'MESA'){
 		$("#divCobrarTaxa").hide('slow', () => {
 			$("#divGarcon").show('slow', () => {
-				$("#divPagamentoGeral").hide('slow');
+				if($("#pagoCliente").val() == 0)
+					$("#divPagamentoGeral").hide('slow');
 			});
 		});
 		
 	}else if($("#envioCliente").val() == 'ENTREGA'){
 		$("#divGarcon").hide('slow', () => {
 			$("#divCobrarTaxa").show('slow', () => {
-				$("#divPagamentoGeral").show('slow');
+				if($("#pagoCliente").val() == 1)
+					$("#divPagamentoGeral").show('slow');
 			});
 		});
 	}else{
 		$("#divGarcon").hide('slow',() =>{
 			$("#divCobrarTaxa").hide('slow', () => {
-				$("#divPagamentoGeral").show('slow');
+				if($("#pagoCliente").val() == 1)
+					$("#divPagamentoGeral").show('slow');
 			});
 		});
 	}
