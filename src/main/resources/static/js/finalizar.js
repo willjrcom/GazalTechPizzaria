@@ -8,7 +8,6 @@ var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="7" class="fundoList"></td></tr>';
 var pedidoVazio = '<tr><td colspan="7">Nenhum pedido para finalizar!</td></tr>';
 var [Tpedido, Tpizzas] = [0, 0];
-var verificarTroco = 0;
 var valorCupom;
 
 
@@ -156,11 +155,12 @@ function jqueryFinalizar(cliente){
 	            action: function(){
 					carregarLoading("block");
 
-					if(cliente.pago == false) {
-						var troco = this.$content.find('#troco').val();
-
-						troco = parseFloat(troco.toString().replace(",","."));
+					if(cliente.pago == false && cliente.envio != 'ENTREGA') {
+						var troco = Number(this.$content.find('#troco').val().toString().replace(",","."));
 						
+						if(cliente.envio === 'MESA')
+							cliente.servico =  Number((cliente.total / 100) * this.$content.find('#servico').val());
+							
 						if(Number.isFinite(troco) == false) {
 							carregarLoading("none");
 							
@@ -176,9 +176,10 @@ function jqueryFinalizar(cliente){
 									}
 								}
 							});
+							return 300;
 						}
 						
-						verificarTroco = 1;
+						if(verificarPagamento(cliente) == 300) return 300;
 					}
 					
 					//total do pedido OBS: sem a taxa
@@ -211,9 +212,7 @@ function jqueryFinalizar(cliente){
 						
 					}).fail(function(){
 						carregarLoading("none");
-						if(verificarTroco == 0) $.alert("Pedido não enviado!");
-						
-						else $.alert("Pedido não enviado!<br>Digite um valor válido.");
+						$.alert("Pedido não enviado!<br>Digite um valor válido.");
 					});
 				}
 	        }
@@ -260,7 +259,7 @@ function mostrarTabela(pedido){
 	if(pedido.pago == 0 && pedido.envio != 'ENTREGA'){
 		if(pedido.envio === 'MESA'){
 			linhaHtml += '<div class="row">'
-							+ '<div class="col-md-6">'
+							+ '<div class="col-md-4">'
 								+ '<b>Serviços:</b>'
 								+ '<div class="input-group mb-3">'
 									+ '<span class="input-group-text">%</span>'
@@ -268,8 +267,8 @@ function mostrarTabela(pedido){
 								+ '</div>'
 							+ '</div>'
 					
-							+ '<div class="col-md-6">'
-							+ modoPagamento(pedido)
+							+ '<div class="col-md-8">'
+								+ modoPagamento(pedido)
 							+ '</div></div>';
 		}else{
 			linhaHtml += modoPagamento(pedido);
@@ -433,5 +432,32 @@ function selecionarCartao(cliente){
 		$("#modoPagamentoCartao").val();
 		cliente.modoPagamento = "Cartão -" + $("#modoPagamentoCartao").val();
 		return 1;
+	}
+}
+
+
+function verificarPagamento(cliente){
+	//verificar se for dinheiro
+	if($("#modoPagamento").val() == 0 && cliente.envio != 'MESA'){
+		cliente.modoPagamento = "Dinheiro -R$ " + cliente.total.toFixed(2); 
+	}else if($("#modoPagamento").val() == 0 && cliente.envio === 'MESA'){
+		cliente.modoPagamento = "Dinheiro -R$ " + Number(cliente.total + cliente.servico).toFixed(2); 
+	}
+	
+	//verificar se for cartao
+	else if($("#modoPagamento").val() == 1 && selecionarCartao(cliente) == 0){
+		$.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: "Escolha uma bandeira de cartão!",
+			buttons: {
+				cancel: {
+					text: 'Voltar',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});	
+		return 300;
 	}
 }

@@ -64,7 +64,7 @@ function mostrar(pedidos, filtro) {
 					
 			for(pizza of pedido.pizzas) totalTodosProdutos += pizza.qtd;//total de pizzas
 
-			linhaHtml += '<td class="text-center col-md-1">' + totalTodosProdutos.toFixed(2) + '</td>'
+			linhaHtml += '<td class="text-center col-md-1">' + totalTodosProdutos + '</td>'
 						+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 						+ '<td class="text-center col-md-1"><div class="row">'
@@ -127,8 +127,10 @@ function verPedido() {
 				+ '<div class="col-md-6"><b>Total de Produtos:</b><br>' + totalTodosProdutos + '</div>'
 				+ '<div class="col-md-6"><b>Modo de Envio:</b><br>' + pedidos[idBusca].envio + '</div>'
 				+ '<div class="col-md-6"><b>Hora do pedido:</b><br>' + pedidos[idBusca].horaPedido + '</div>'
-				+ '<div class="col-md-6"><b>Total do Pedido:</b><br>R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2) + '</div>'
-				+ '<div class="col-md-6"><b>Forma de pagamento:</b><br>' + pedidos[idBusca].modoPagamento + '</div>'
+				+ '<div class="col-md-6"><b>Total do Pedido:</b><br>R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2) + '</div>';
+				
+	if(pedidos[idBusca].envio != 'MESA')
+		linhaHtml += '<div class="col-md-6"><b>Forma de pagamento:</b><br>' + pedidos[idBusca].modoPagamento + '</div>';
 				
 	
 	if(pedidos[idBusca].obs != null) linhaHtml += '<div class="col-md-6"><b>Observação:</b> ' + pedidos[idBusca].obs + '</div>';

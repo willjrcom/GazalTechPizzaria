@@ -12,7 +12,7 @@ var [divisor, divisorAnterior] = [1, 1];
 var [borda, lastBorda] = ['', 0];
 
 //pedido------------------------------------------------------------------------------------------------------
-var [totalTodosProdutos, tPedido, troco] = [0, 0, 0];
+var [totalTodosProdutos, totalTodosProdutosAnteriores, tPedido, troco] = [0, 0, 0, 0];
 var totalUnico; // valor fixo mesmo depois do sistema atualizar o pedido antigo com o novo
 var modo = "CRIAR";
 
@@ -169,8 +169,9 @@ if(typeof id_edicao != "undefined") {
 		cliente.produtos = JSON.parse(e.produtos);
 
 		mostrarDivPizzasProdutos();
+		
 		//liberar opcao de envio
-		mostrarDivEnvio();
+		mostrarDivsPedido();
 		
 		//adicionar cliente
 		$("#idCliente").text(cliente.id);
@@ -262,81 +263,69 @@ function buscarCliente(){
 				}
 			}
 		});
-		
-	}else{
-					
-		//se for numero
-		if($("#numeroCliente").val() % 2 == 1 || $("#numeroCliente").val() % 2 == 0){
-			carregarLoading("block");
-	
-			$.ajax({
-				url: "/novoPedido/numeroCliente/" + $("#numeroCliente").val(),
-				type: 'GET'
-			}).done(function(e){
-	
-				if(e.length != 0) {
-					cliente.nome = e.nome;
-					cliente.celular = e.celular;
-					cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
-					cliente.taxa = e.endereco.taxa;
-					cliente.envio = "ENTREGA";
-					
-					$("#nomeCliente").text(cliente.nome);
-					$("#celCliente").text(cliente.celular);
-					$("#enderecoCliente").text(cliente.endereco);
-					$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));
-	
-					mostrarDivEnvio();
-					atualizarDados();
-					mostrarDivsPedido();
-					$(".pula")[2].focus();//focar no campo de buscar pedido
-				}else {
-					window.location.href = "/cadastroCliente/" + $("#numeroCliente").val();
-				}
-				carregarLoading("none");
-			});
-			
-		}else if(typeof $("#numeroCliente").val() == 'string'){
-			cliente.nome = $("#numeroCliente").val();
-			$("#nomeCliente").text(cliente.nome);
-			$(".iconesEntrega").hide();
-			
-			//se for mesa
-			if(cliente.nome.indexOf("Mesa") > -1) {//se existir a palavra Mesa
-				cliente.envio = "MESA";
-			}else if(cliente.nome.indexOf("mesa") > -1){//se existir a palavra mesa
-				cliente.envio = "MESA";
-			}else if((cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 1)){
-				cliente.envio = "MESA";
-			}else if((cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 1)){
-				cliente.envio = "MESA";
-			}else if(cliente.nome.indexOf("drive") > -1){//se existir a palavra mesa
-				cliente.envio = "DRIVE";
-			}else if(cliente.nome.indexOf("Drive") > -1){//se existir a palavra mesa
-				cliente.envio = "DRIVE";
-			}else{
-				cliente.envio = "BALCAO";
+		return 300;
+	}
+	//se for numero
+	if(isNumber($("#numeroCliente").val())){
+		carregarLoading("block");
+
+		$.ajax({
+			url: "/novoPedido/numeroCliente/" + $("#numeroCliente").val(),
+			type: 'GET'
+		}).done(function(e){
+			//verificar se existe
+			if(e.length != 0) {
+				console.log(e)
+				cliente.nome = e.nome;
+				cliente.celular = e.celular;
+				cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
+				cliente.referencia = e.endereco.referencia;
+				cliente.taxa = e.endereco.taxa;
+				cliente.envio = "ENTREGA";
+				
+				$("#nomeCliente").text(cliente.nome);
+				$("#celCliente").text(cliente.celular);
+				$("#enderecoCliente").text(cliente.endereco);
+				$("#taxaCliente").text('Taxa: R$ ' + cliente.taxa.toFixed(2));
+
+				atualizarDados();
+				mostrarDivsPedido();
+			}else {
+				window.location.href = "/cadastroCliente/" + $("#numeroCliente").val();
 			}
-			
-			mostrarDivEnvio();
-			atualizarDados();
-			mostrarDivsPedido();
-			$(".pula")[2].focus();//focar no campo de buscar pedido
+			carregarLoading("none");
+		});
+		
+	}else if(typeof $("#numeroCliente").val() == 'string'){
+		cliente.nome = $("#numeroCliente").val();
+		$("#nomeCliente").text(cliente.nome);
+		$(".iconesEntrega").hide();
+		
+		//se for mesa
+		if(cliente.nome.indexOf("Mesa") > -1) {//se existir a palavra Mesa
+			cliente.envio = "MESA";
+		}else if(cliente.nome.indexOf("mesa") > -1){//se existir a palavra mesa
+			cliente.envio = "MESA";
+		}else if((cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'M' && cliente.nome[1] % 2 == 1)){
+			cliente.envio = "MESA";
+		}else if((cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 0) || (cliente.nome[0] == 'm' && cliente.nome[1] % 2 == 1)){
+			cliente.envio = "MESA";
+		}else if(cliente.nome.indexOf("drive") > -1){//se existir a palavra mesa
+			cliente.envio = "DRIVE";
+		}else if(cliente.nome.indexOf("Drive") > -1){//se existir a palavra mesa
+			cliente.envio = "DRIVE";
+		}else{
+			cliente.envio = "BALCAO";
 		}
+		
+		atualizarDados();
+		mostrarDivsPedido();
 	}
 };
 
 
 //------------------------------------------------------------------------------------
 function mostrarDivsPedido(){
-		$("#mostrarDadosCliente").show('slow'); //mostrar dados do cliente
-		$("#divBuscarCliente").hide('slow');
-		$("#divBuscarProdutos").show('slow');
-}
-
-
-//------------------------------------------------------------------------------------
-function mostrarDivEnvio(){
 	if(cliente.envio == "ENTREGA"){
 		$("#envioCliente").append('<option value="ENTREGA">Entrega</option>'
 									+'<option value="BALCAO">Balcão</option>'
@@ -362,6 +351,13 @@ function mostrarDivEnvio(){
 									+'<option value="MESA">Mesa</option>'
 								);
 	}
+	$("#divBuscarCliente").hide('slow', () => {
+		$("#mostrarDadosCliente").show('slow', () => {
+			$("#divBuscarProdutos").show('slow', () => {
+				$(".pula")[2].focus();//focar no campo de buscar pedido
+			});
+		});
+	});
 }
 
 
@@ -376,23 +372,24 @@ function atualizarDados() {
 		data: JSON.stringify(cliente)
 	}).done(function(e){
 		cliente.data = e.data;
-		
+		console.log(e)
 		if(e.id != null) {
 			modo = "ATUALIZAR";
 			tPedido = e.total;
 			cliente.id = e.id;
 			cliente.comanda = e.comanda;
 			cliente.horaPedido = e.horaPedido;
+			totalTodosProdutosAnteriores = 0;
 			
+			if(JSON.parse(e.pizzas).length != 0) for(let pizza of JSON.parse(e.pizzas)) totalTodosProdutosAnteriores += pizza.qtd;
 			
-			for(let pizza of JSON.parse(e.pizzas)) totalTodosProdutos += pizza.qtd;
+			if(JSON.parse(e.produtos).length != 0) for(let produto of JSON.parse(e.produtos)) totalTodosProdutosAnteriores += produto.qtd;
 			
-			for(let produto of JSON.parse(e.produtos)) totalTodosProdutos += produto.qtd;
-			
+			$("#totalTodosProdutosAnteriores").html('<b>Total de produtos anteriores:</b> ' + totalTodosProdutosAnteriores).show('slow');
 			mostrarTotal();
 			
 			$("#alertPedidoAberto").show("slow");
-			setInterval(() => $("#alertPedidoAberto").hide("slow"), 15000);
+			setInterval(() => $("#alertPedidoAberto").hide("slow"), 30000);
 		}
 	});
 }
@@ -431,7 +428,10 @@ function buscarProdutos() {
 						}
 					}
 				});
-			}else if(buscaProdutos[0].id == -1) {//se o produto estiver indisponivel
+				return 300;
+			}
+			
+			if(buscaProdutos[0].id == -1) {//se o produto estiver indisponivel
 				$.confirm({
 					type: 'red',
 					title: '<h4 align="center">Produto: ' + buscaProdutos[0].nomeProduto + '</h4>',
@@ -446,64 +446,28 @@ function buscarProdutos() {
 						}
 					}
 				});
-			}else if(buscaProdutos.length == 1) {//se existir apenas um resultado vai direto ao produto
-				enviarProduto(buscaProdutos[0].id);
-			}else{//senao vai para lista de produtos
-		
-				$("#listaProdutos").show('slow');
-				$("#todosProdutos").html("");
-				
-				
-				linhaHtml = '<table class="h-100">'
-							+ '<thead>'
-								+ '<tr>'
-									+ '<th class="col-md-1"></th>'
-									+ '<th class="col-md-1"><h5>Produto</h5></th>'
-									+ '<th class="col-md-1"><h5>Preço</h5></th>'
-								+ '</tr>'
-							+ '</thead>'
-							+ '<tbody>';
-				
-	
-				if(buscaProdutos.length != 0) {
-					//abrir modal de produtos encontrados
-					for(produto of buscaProdutos){
-						
-						linhaHtml += '<tr>'
-									+ '<td align="center">'
-										+ '<div>'
-											+ '<button onclick="enviarProduto()"'
-											+ 'title="Adicionar" onclick="enviarProduto()" class="botao" value="' + produto.id + '">'
-												+ ($("#cadastroCliente").attr("class", "fa-plus") == "" ? "<b>+</b>" : '<i class="fas fa-plus"></i>')
-											+ '</button>'
-										+ '</div>'
-									+ '</td>'
-									+ '<td align="left">' + produto.nomeProduto + '</td>'
-									+ '<td align="center">R$ ' + Number(produto.preco).toFixed(2) + '</td>'
-								+ '</tr>' + linhaCinzaBusca;
-					}
-						
-				}else {
-					linhaHtml += '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>';
-				}
-				linhaHtml += '</tbody>'
-							+ '<table>';
-				
-				$.confirm({
-					type: 'blue',
-					title: '<h4 align="center">Lista de Produtos</h4>',
-					content: linhaHtml,
-				    closeIcon: true,
-					buttons: {
-				        confirm: {
-							isHidden: true,
-				            text: 'Voltar',
-				            btnClass: 'btn-green',
-				            keys: ['enter','esc'],
-						}
-					}
-				});
+				return 300;
 			}
+			
+			if(buscaProdutos.length == 1) {//se existir apenas um resultado vai direto ao produto
+				enviarProduto(buscaProdutos[0].id);
+				return 300;
+			}
+			
+			$.confirm({
+				type: 'blue',
+				title: '<h4 align="center">Lista de Produtos</h4>',
+				content: mostrarListaBuscaProdutos(buscaProdutos),
+			    closeIcon: true,
+				buttons: {
+			        confirm: {
+						isHidden: true,
+			            text: 'Voltar',
+			            btnClass: 'btn-green',
+			            keys: ['enter','esc'],
+					}
+				}
+			});
 		});
 	}
 }
@@ -545,7 +509,6 @@ function enviarProduto(idUnico) {
 					}
 				}
 			});
-			
 		return 300;
 	}
 		
@@ -694,56 +657,6 @@ $(".removerPizza").click(function(){
 });
 
 
-//---------------------------------------------------------------------------------------------------------------------
-function mostrarProdutos() {//todos
-	mostrarTotal();
-	
-	if(pizzas.length == 0 && produtos.length == 0){
-		$(".divListaGeral").hide('slow');
-		return 300;
-	}else{
-		$(".divListaGeral").show('slow');
-	}
-
-	if(produtos.length != 0){
-		linhaHtml = "";
-		
-		for(produto of produtos){
-			linhaHtml += '<tr>'
-					 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
-					 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
-					 +	'<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
-				 + '</tr>'
-				 + linhaCinza;
-		}
-		$("#listaProduto").html(linhaHtml);
-		$("#divProdutos").show('slow');
-	}else{
-		$("#listaProduto").html(produtoVazio);
-		$("#divProdutos").hide('slow');
-	}
-	
-	if(pizzas.length != 0){
-		linhaHtml = "";
-		
-		for(pizza of pizzas){
-			linhaHtml += '<tr>'
-					 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
-					 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
-					 +	'<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
-					 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
-				 + '</tr>'
-				 + linhaCinza;
-		}
-		$("#listaPizza").html(linhaHtml);
-		$("#divPizzas").show('slow');
-	}else{
-		$("#listaPizza").html(pizzaVazio);
-		$("#divPizzas").hide('slow');
-	}
-}
-
-
 //------------------------------------------------------------------------------------------------------------------------
 $("#BotaoEnviarPedido").click(function() {
 
@@ -771,8 +684,10 @@ $("#BotaoEnviarPedido").click(function() {
 	
 	//verificar se for dinheiro
 	if($("#modoPagamento").val() == 0){
+		//receber troco
 		troco = Number($('#troco').val().replace(",", "."));
 		
+		//verificar troco
 		if(Number.isFinite(troco) == false) {
 			$.alert({
 				type: 'red',
@@ -789,7 +704,12 @@ $("#BotaoEnviarPedido").click(function() {
 			return 300;
 		}
 		
-		cliente.modoPagamento = "Dinheiro -R$ " + troco; 
+		//verificar se for dinheiro
+		if(cliente.envio === 'ENTREGA'){
+			cliente.modoPagamento = "Dinheiro -R$ " + Number(cliente.total + cliente.taxa).toFixed(2); 
+		}else if(cliente.envio != 'MESA'){
+			cliente.modoPagamento = "Dinheiro -R$ " + Number(cliente.total).toFixed(2); 
+		}
 	}
 	
 	//verificar se for cartao
@@ -839,11 +759,9 @@ $("#BotaoEnviarPedido").click(function() {
 	            action: function(){
 					carregarLoading("block");
 					
-					if(cliente.envio === 'ENTREGA' && $("#cobrarTaxa").val() == 1){
-						cliente.taxa = 0;
-					}
-					
-					if(cliente.envio !== "ENTREGA"){
+					if(cliente.envio === 'ENTREGA' && $("#cobrarTaxa").val() == 1) cliente.taxa = 0;
+
+					if(cliente.envio != "ENTREGA"){
 						cliente.taxa = cliente.endereco = cliente.celular = null; //apagar variaveis para evitar erros
 					}
 					
@@ -855,7 +773,7 @@ $("#BotaoEnviarPedido").click(function() {
 					cliente.total = tPedido;
 					cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
 					cliente.troco = troco;
-					
+					/*
 					//buscar pedido no sistema
 					$.ajax({
 						url: "/novoPedido/atualizar",
@@ -867,7 +785,7 @@ $("#BotaoEnviarPedido").click(function() {
 						estruturarPedido(e, troco);
 					}).fail(function(){
 						carregarLoading("none");
-					});
+					});*/
 				}
 	        },
 	        cancel: {
@@ -1070,15 +988,15 @@ function mostrarTotal(){
 	|| $("#envioCliente").val() === 'BALCAO'
 	|| $("#envioCliente").val() === 'DRIVE'){
 			
-		$("#TotalPedido").html('<b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2));
+		$("#TotalPedido").html('<b>Total do Pedido:</b><br>R$ ' + tPedido.toFixed(2));
 		$("#troco").val(tPedido);
 	}else if(isNumber(cliente.taxa) == true){
-		$("#TotalPedido").html('<b>Total do Pedido:</b> R$ ' + (tPedido + cliente.taxa).toFixed(2));
+		$("#TotalPedido").html('<b>Total do Pedido:</b><br>R$ ' + (tPedido + cliente.taxa).toFixed(2));
 		$("#troco").val((tPedido + cliente.taxa));
 	}
 		
 	else{
-		$("#TotalPedido").html('<b>Total do Pedido:</b> R$ ' + tPedido.toFixed(2));
+		$("#TotalPedido").html('<b>Total do Pedido:</b><br>R$ ' + tPedido.toFixed(2));
 		$("#troco").val(tPedido);
 	}
 }
@@ -1090,7 +1008,7 @@ function mostrarTotalComTaxa(){
 	|| $("#envioCliente").val() === 'BALCAO'
 	|| $("#envioCliente").val() === 'DRIVE')
 		return tPedido;
-	if(isNumber(cliente.taxa) == true)
+	else if(isNumber(cliente.taxa) == true)
 		return (tPedido + cliente.taxa);
 	else
 		return tPedido;
@@ -1181,4 +1099,92 @@ function mostrarDivPizzasProdutos(){
 		$("#divPizzas").show('slow');
 	if(cliente.produtos != 0)
 		$("#divProdutos").show('slow');
+}
+
+
+//---------------------------------------------------------------------------------------------------------------------
+function mostrarProdutos() {//todos
+	mostrarTotal();
+	
+	if(pizzas.length == 0 && produtos.length == 0){
+		$(".divListaGeral").hide('slow');
+		return 300;
+	}else{
+		$(".divListaGeral").show('slow');
+	}
+
+	if(produtos.length != 0){
+		linhaHtml = "";
+		
+		for(produto of produtos){
+			linhaHtml += '<tr>'
+					 +	'<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
+					 +	'<td class="text-center col-md-1">' + produto.obs + '</td>'
+					 +	'<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
+				 + '</tr>'
+				 + linhaCinza;
+		}
+		$("#listaProduto").html(linhaHtml);
+		$("#divProdutos").show('slow');
+	}else{
+		$("#listaProduto").html(produtoVazio);
+		$("#divProdutos").hide('slow');
+	}
+	
+	if(pizzas.length != 0){
+		linhaHtml = "";
+		
+		for(pizza of pizzas){
+			linhaHtml += '<tr>'
+					 +	'<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
+					 +	'<td class="text-center col-md-1">' + pizza.obs + '</td>'
+					 +	'<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
+					 +	'<td class="text-center col-md-1">' + pizza.borda + '</td>'
+				 + '</tr>'
+				 + linhaCinza;
+		}
+		$("#listaPizza").html(linhaHtml);
+		$("#divPizzas").show('slow');
+	}else{
+		$("#listaPizza").html(pizzaVazio);
+		$("#divPizzas").hide('slow');
+	}
+}
+
+
+function mostrarListaBuscaProdutos(buscaProdutos){
+	//lista de produtos
+	linhaHtml = '<table class="h-100">'
+				+ '<thead>'
+					+ '<tr>'
+						+ '<th class="col-md-1"></th>'
+						+ '<th class="col-md-1"><h5>Produto</h5></th>'
+						+ '<th class="col-md-1"><h5>Preço</h5></th>'
+					+ '</tr>'
+				+ '</thead>'
+				+ '<tbody>';
+	
+
+	if(buscaProdutos.length != 0) {
+		//abrir modal de produtos encontrados
+		for(produto of buscaProdutos){
+			linhaHtml += '<tr>'
+						+ '<td align="center">'
+							+ '<div>'
+								+ '<button onclick="enviarProduto()"'
+									+ 'title="Adicionar" onclick="enviarProduto()" class="botao" value="' + produto.id + '">'
+									+ '<i class="fas fa-plus"></i>'
+								+ '</button>'
+							+ '</div>'
+						+ '</td>'
+						+ '<td align="left">' + produto.nomeProduto + '</td>'
+						+ '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
+					+ '</tr>' + linhaCinzaBusca;
+		}
+			
+	}else {
+		linhaHtml += '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>';
+	}
+	linhaHtml += '</tbody>'
+				+ '<table>';
 }
