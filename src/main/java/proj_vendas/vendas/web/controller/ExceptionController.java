@@ -15,7 +15,7 @@ public class ExceptionController {
 	public ModelAndView notFound(NotFoundException user) {
 		ModelAndView mv = new ModelAndView("error");
 		mv.addObject("status", 404);
-		mv.addObject("error", "Operação não pode ser realizada!");
+		mv.addObject("error", "Página não encontrada!");
 		mv.addObject("message", user.getMessage());
 		return mv;
 	}

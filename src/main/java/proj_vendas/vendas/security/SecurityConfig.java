@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		
 			//liberar acesso basico de scripts
-			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/expired", "/novaSenha/**", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
+			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/naoEncontrado/**", "/expired", "/novaSenha/**", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
 			.antMatchers(HttpMethod.OPTIONS).permitAll()
 			  
 			//acesso dev
