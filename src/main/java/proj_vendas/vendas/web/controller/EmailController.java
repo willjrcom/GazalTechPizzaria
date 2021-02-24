@@ -42,11 +42,6 @@ public class EmailController {
 	    					+ email.getEmail()
 	        				+ "<br><p>Gazal Tech - " + format.format(new Date()).toString() + "</p>"
 	        				+ "<label>Sistema Pizzaria Web</label>");
-	    	}else {
-	    		email.setTexto("<h1>Email enviado com sucesso!</h1>"
-	        				+ "<br><p>Aguarde uma resposta da nossa equipe de suporte</p>"
-	        				+ "<br><p>Gazal Tech - " + format.format(new Date()).toString() + "</p>"
-	        				+ "<label>Sistema Pizzaria Web</label>");
 	    	}
 	    	//enviar email confirmacao
 	    	cliente(email);
@@ -59,6 +54,13 @@ public class EmailController {
 
 
     public void cliente(Email email) throws MessagingException {
+
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy");
+		
+    	email.setTexto("<h1>Email enviado com sucesso!</h1>"
+				+ "<br><p>Aguarde uma resposta da nossa equipe de suporte</p>"
+				+ "<br><p>GazalTech Pizzaria - " + format.format(new Date()).toString() + "</p>"
+				+ "<label>Sistema Pizzaria Web</label>");
 		try {
 			MimeMessage msg = javaMailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
@@ -67,8 +69,11 @@ public class EmailController {
 	        helper.setTo(email.getEmail());
 	        helper.setSubject(email.getAssunto());
 	        helper.setText(email.getTexto(), true);
-	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logo.png"));
-	        
+	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logoPizzaria.png"));
+	        email.setTexto("<h1>Email enviado com sucesso!</h1>"
+    				+ "<br><p>Aguarde uma resposta da nossa equipe de suporte</p>"
+    				+ "<br><p>GazalTech Pizzaria - " + format.format(new Date()).toString() + "</p>"
+    				+ "<label>Sistema Pizzaria Web</label>");
 	        javaMailSender.send(msg);
 		}catch(Exception e) {System.out.println(e);}
 	}
@@ -105,19 +110,17 @@ public class EmailController {
 	        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 
 	        helper.setText(
-	        		"Não responda esse email!"
-	    			+ "<br><br>"
-	    			+ "<label>Clique abaixo para redefinir sua senha</label>"
+	        		"<h4>Não responda esse email!</h4>"
+	    			+ "<br><label>Clique abaixo para redefinir a senha da sua conta:</label>"
 	    			+ "<a href=\"http://gazaltechpizzaria.azurewebsites.net"
-	    				+ "/novaSenha/auth/6sf465sd4f5d4g6v8d5f4gv6dx5f4g6rt4h6/8tygh4rt8d5t4r68ft4g68rrft4ge9r5gh43tf/f435t4h24gg55xd5f4g5ft4ert54/" 
-	    				+ email + "/" + usuario.getCodEmpresa() + "/d53y54grd5fy4gr35tf4ygrt54fyg6rt54yh68rt5yfg\">"
-	    				+ "<p>Redefinir senha</p>"
+	    				+ "/novaSenha/auth/" + usuario.getCodEmpresa() + "/" + email + "/" + usuario.getId() + "\">"
+	    				+ "<br><button>Redefinir senha</button>"
 	    			+ "</a>", true
 	    	);
 	        helper.setFrom("gazaltechsuporte@outlook.com");
 	        helper.setTo(email);
-	        helper.setSubject("Recuperação de senha - Gazaltech Pizzaria");
-	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logo.png"));
+	        helper.setSubject("Recuperação de senha - GazalTech Pizzaria");
+	        helper.addAttachment("GazalTechPizzaria.png", new ClassPathResource("/static/img/logoPizzaria.png"));
 	        
 	        javaMailSender.send(msg);
 	        return 200;

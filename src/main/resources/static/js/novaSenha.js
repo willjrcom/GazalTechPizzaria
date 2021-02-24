@@ -3,8 +3,14 @@ var dados = {};
 
 
 if(window.location.href.split("/")[3] === "novaSenha" 
-	&& window.location.href.split("/")[10] === "d53y54grd5fy4gr35tf4ygrt54fyg6rt54yh68rt5yfg"){
+	&& window.location.href.split("/")[4] === "auth"
+	&& isNumber(window.location.href.split("/")[5])){
 	$("#senhas").show("slow");	
+}
+
+
+function isNumber(str) {
+    return !isNaN(parseFloat(str))
 }
 
 
@@ -43,8 +49,8 @@ $("#criar").click(function(){
 		
 		$.confirm({
 			type: 'green',
-			title: 'Salvar',
-			content: 'Continuar?',
+			title: 'Alterar senha',
+			content: 'Deseja continuar?',
 			buttons:{
 				confirm:{
 					text: 'Sim',

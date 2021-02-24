@@ -2,7 +2,19 @@ var url = window.location.href;
 $(document).ready(() => $("#nomePagina").text("Gazaltech"));
 
 if(url.split("/")[4] === "enviado"){
-	alert("Email enviado com sucesso!");
+	$("#btnEnviar").attr('disabled', false);
+	$.alert({
+			type: 'green',
+			title: 'OPS...',
+			content: 'Email enviado com sucesso!',
+			buttons:{
+				confirm:{
+					text: 'Continuar',
+					btnClass: 'btn btn-success',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 }
 
 $("#opcao").change(function() {
@@ -37,16 +49,39 @@ $("#opcao").change(function() {
 	}
 });
 
+
 function enviarEmail(){
 	if($("#opcao").val() == null)
-		return alert("Escolha uma opção!");
+		return $.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: 'Escolha uma opção!',
+			buttons:{
+				confirm:{
+					text: 'voltar',
+					btnClass: 'btn btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	
 	if($("#campo").text() == "")
-		return alert("Texto em branco!");
+		return $.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: 'Texto em branco!',
+			buttons:{
+				confirm:{
+					text: 'voltar',
+					btnClass: 'btn btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	
 	const email = {
     	email : $("#email").val(),
-    	assunto : $("#opcao").val() + " - GazalTech",
+    	assunto : $("#opcao").val() + " - GazalTech Pizzaria",
     	texto : "Cliente: " + $("#nome").val()
 				+ "<br>Assunto: " + $("#opcao").val()
 				+ "<br>Mensagem: " + $("#conteudo").val()
@@ -57,10 +92,25 @@ function enviarEmail(){
 		type: "POST",
 		dataType : 'json',
 		contentType: "application/json",
-		data: JSON.stringify(email)
+		data: JSON.stringify(email),
+		onClose: () => {
+			$("#btnEnviar").attr('disabled', true);
+		}
 	}).done(function(){
 		window.location.href="/gazaltech/enviado";
 	}).fail(function(){
-		alert("Email não enviado!");
+		$.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: 'Email não enviado',
+			buttons:{
+				confirm:{
+					text: 'voltar',
+					btnClass: 'btn btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
+		$("#btnEnviar").attr('disabled', false);
 	});
 }
