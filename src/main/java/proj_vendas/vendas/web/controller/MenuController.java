@@ -76,6 +76,10 @@ public class MenuController {
 				endereco.setRua("");
 				endereco.setTaxa(0);
 				empresa.setEndereco(endereco);
+				
+				Conquista conquista = new Conquista();
+				empresa.setConquista(conquista);
+				empresa.setCodEmpresa(user.getCodEmpresa());
 				empresas.save(empresa);
 			}
 			mv.addObject("empresa", empresa.getNomeEstabelecimento());

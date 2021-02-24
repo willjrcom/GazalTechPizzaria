@@ -322,6 +322,14 @@ table tbody tr td{
 	max-height: 25vh;
 }
 
+.colorGreen{
+	color: green;	
+}
+
+.colorRed{
+	color: red;	
+}
+
 /*dev*/
 #avisoUsuario, #avisoSenha {
 	display: none;

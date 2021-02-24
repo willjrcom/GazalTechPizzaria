@@ -13,210 +13,162 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="row">
 		<!-- ----------------------------------------------------------------------------- -->
-			<div class="card col-md-4">
+			<div class="card col-md-4 border border-primary p-3 mb-2 bg-primary bg-gradient text-white">
 				<div class="card-body">
-			    	<h5 class="card-title">Vendas</h5>
-			    	<div>
-				    	<p class="card-text" id="v1000">Venda R$ 1.000 no dia</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-success" id="pv1000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<h5 class="card-title">Vendas concluídas</h5>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${v1000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${v1000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Venda R$ 1.000 no dia</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="v5000">Venda R$ 5.000 no dia</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-info" id="pv5000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${v5000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${v5000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Venda R$ 5.000 no dia</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="v10000">Venda R$ 10.000 no dia</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-danger" id="pv10000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${v10000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${v10000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Venda R$ 10.000 no dia</p>
 			    	</div>
 			    	
-			    	
-			    	<div>
-				    	<p class="card-text" id="v20000">Venda R$ 20.000 no dia</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-warning" id="pv20000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${v20000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${v20000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Venda R$ 20.000 no dia</p>
 			    	</div>
 			  	</div>
 			</div>
 		
 			<!-- ----------------------------------------------------------------------------- -->
-			<div class="card col-md-4">
+			<div class="card col-md-4 border border-success p-3 mb-2 bg-success text-white bg-gradient">
 				<div class="card-body">
-			    	<h5 class="card-title">Entregas</h5>
-			    	<div>
-				    	<p class="card-text" id="e100">Faça 100 entregas</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-success" id="pe100" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<h5 class="card-title">Entregas feitas</h5>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${e100} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${e100} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Faça 100 entregas</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="e100">Faça 5000 entregas</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-info" id="pe100" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${e5000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${e5000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Faça 5000 entregas</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="e100">Faça 100.000 entregas</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-danger" id="pe100" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${e100000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${e100000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Faça 100.000 entregas</p>
 			    	</div>
 			    	
-			    	
-			    	<div>
-				    	<p class="card-text" id="e100">Faça 500.000 entregas</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-warning" id="pe100" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${e500000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${e500000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Faça 500.000 entregas</p>
 			    	</div>
 			  	</div>
 			</div>
 			
 			<!-- ----------------------------------------------------------------------------- -->
-			<div class="card col-md-4">
+			<div class="card col-md-4 border border-warning p-3 mb-2 bg-warning text-dark bg-gradient">
 				<div class="card-body">
-			    	<h5 class="card-title">Dias</h5>
-			    	<div>
-				    	<p class="card-text" id="t30">Trabalhe 30 dias</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-success" id="pt30" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<h5 class="card-title">Dias trabalhados</h5>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${t30} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${t30} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Trabalhe 30 dias</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="t180">Trabalhe 180 dias</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-info" id="pt180" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${t180} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${t180} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Trabalhe 180 dias</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="t365">Trabalhe 365 dias</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-danger" id="pt365" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${t365} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${t365} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Trabalhe 365 dias</p>
 			    	</div>
 			    	
 			    	
-			    	<div>
-				    	<p class="card-text" id="t730">Trabalhe 730 dias</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-warning" id="pt730" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${t730} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${t730} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Trabalhe 730 dias</p>
 			    	</div>
 			  	</div>
 			</div>
 			
 			
 			<!-- ----------------------------------------------------------------------------- -->
-			<div class="card col-md-4">
+			<div class="card col-md-4 border border-secondary p-3 mb-2 bg-secondary text-white bg-gradient">
 				<div class="card-body">
-			    	<h5 class="card-title">Cadastro</h5>
-			    	<div>
-				    	<p class="card-text" id="c100">Cadastre 100 clientes</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-success" id="pc100" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<h5 class="card-title">Cadastros de cliente</h5>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${c100} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${c100} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre 100 clientes</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="c1000">Cadastre 1.000 clientes</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-info" id="pc1000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${c1000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${c1000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre 1.000 clientes</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="c5000">Cadastre 5.000 clientes</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-danger" id="pc5000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${c5000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${c5000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre 5.000 clientes</p>
 			    	</div>
 			    	
-			    	
-			    	<div>
-				    	<p class="card-text" id="c10000">Cadastre 10.000 clientes</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-warning" id="pc10000" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${c10000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${c10000} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre 10.000 clientes</p>
 			    	</div>
 			  	</div>
 			</div>
 			
 			
 			<!-- ----------------------------------------------------------------------------- -->
-			<div class="card col-md-4">
+			<div class="card col-md-4 border border-dark p-3 mb-2 bg-dark text-white bg-gradient">
 				<div class="card-body">
-			    	<h5 class="card-title">Sistema</h5>
-			    	<div>
-				    	<p class="card-text" id="cadEmpresa">Cadastre sua empresa</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-success" id="pcadEmpresa" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<h5 class="card-title">Sistema pronto</h5>
+			    	<div class="row">
+						<div class="col-md-2" th:if="${cadEmpresa} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${cadEmpresa} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre sua empresa</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id="cadProduto">Cadastre seu primeiro produto</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-info" id="pcadProduto" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+			    		<div class="col-md-2" th:if="${cadProduto} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${cadProduto} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre seu primeiro produto</p>
 			    	</div>
 			    	
-			    	<div>
-				    	<p class="card-text" id=cadFuncionario>Cadastre seu primeiro funcionário</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-danger" id="pcadFuncionario" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+			    		<div class="col-md-2" th:if="${cadFuncionario} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${cadFuncionario} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Cadastre seu primeiro funcionário</p>
 			    	</div>
 			    	
 			    	
-			    	<div>
-				    	<p class="card-text" id="cadPedido">Venda seu primeiro pedido</p>
-				   
-						<div class="progress">
-						  <div class="progress-bar progress-bar-striped bg-warning" id="pcadPedido" role="progressbar" style="width: 75%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-						</div>
+			    	<div class="row">
+				    	<div class="col-md-2" th:if="${cadPedido} == true"><i class="fas fa-check-circle colorGreen"></i></div>
+				    	<div class="col-md-2" th:if="${cadPedido} == false"><i class="fas fa-times-circle colorRed"></i></div>
+				    	<p class="col-md-10 card-text">Venda seu primeiro pedido</p>
 			    	</div>
 			  	</div>
 			</div>
 		</div>
+		<br>
 	</div>
 	
-	<br>
-	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
-	</div>
 	
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/metas.js}"></script>

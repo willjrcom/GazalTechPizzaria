@@ -12,7 +12,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "DIA")
+@Table(name = "DIAS")
 public class Dia extends AbstractEntity<Long> {
 
 	@Column(nullable=false)
