@@ -7,13 +7,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
 	<title>Menu</title>
 </head>
-<head th:replace="~{layouts/frag :: head}" ></head>
+<head th:replace="~{layouts/frag :: head}"></head>
 
 
 <body>
-	<div class="card col-md-4 border border-dark p-3 mb-2 bg-dark text-white bg-gradient">
+	<br>
+	<div class="card col-md-3 border border-danger bg-dark text-white bg-gradient" th:if="${mostrarConquistas} == true">
 		<div class="card-body">
-	    	<h5 class="card-title">Sistema pronto</h5>
+	    	<h5 class="card-title">Complete as tarefas</h5>
 	    	<div class="row">
 				<div class="col-md-2" th:if="${cadEmpresa} == true"><i class="fas fa-check-circle colorGreen"></i></div>
 		    	<div class="col-md-2" th:if="${cadEmpresa} == false"><i class="fas fa-times-circle colorRed"></i></div>
@@ -40,6 +41,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	    	</div>
 	  	</div>
 	</div>
+	
 	<header th:replace="~{layouts/frag :: menu}"></header>
 	
 	<div class="justify-content-center loading">

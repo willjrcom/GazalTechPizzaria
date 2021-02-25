@@ -14,6 +14,8 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Table(name = "DIVULGACOES")
 public class Divulgar extends AbstractEntity<Long> {
 
+	private boolean mostrarNovidades;
+	
 	private String texto1;
 	private String link1;
 	private String empresa1;

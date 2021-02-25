@@ -2,6 +2,7 @@ package proj_vendas.vendas.web.controller;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,6 +57,7 @@ public class MenuController {
 				.getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = null;
+		Conquista conquista = null;
 		
 		//empresa----------------------------------------------------------------------------------------------
 		try {
@@ -77,7 +79,7 @@ public class MenuController {
 				endereco.setTaxa(0);
 				empresa.setEndereco(endereco);
 				
-				Conquista conquista = new Conquista();
+				conquista = new Conquista();
 				empresa.setConquista(conquista);
 				empresa.setCodEmpresa(user.getCodEmpresa());
 				empresas.save(empresa);
@@ -86,7 +88,19 @@ public class MenuController {
 			mv.addObject("contato", empresa.getCelular());
 			
 		}catch(Exception e) {}
-
+		
+		//conquistas
+		conquista = empresa.getConquista();
+		if(!conquista.isCadEmpresa() || !conquista.isCadFuncionario() || !conquista.isCadPedido() || !conquista.isCadProduto()) {
+			mv.addObject("mostrarConquistas", true);
+			mv.addObject("cadPedido", conquista.isCadPedido());
+			mv.addObject("cadFuncionario", conquista.isCadFuncionario());
+			mv.addObject("cadEmpresa", conquista.isCadEmpresa());
+			mv.addObject("cadProduto", conquista.isCadProduto());
+		}else {
+			mv.addObject("mostrarConquistas", false);
+		}
+		
 		
 		//dados
 		mv.addObject("troco", acessarDados(LocalDate.now().toString()).getTrocoInicio());
@@ -96,25 +110,32 @@ public class MenuController {
 		mv.addObject("permissao", user.getPerfil());
 
 		try {
-		Divulgar divulgar = divulgacoes.findById((long)1).get();
-			//divulgações
-			mv.addObject("empresa1", divulgar.getEmpresa1());
-			mv.addObject("empresa2", divulgar.getEmpresa2());
-			mv.addObject("empresa3", divulgar.getEmpresa3());
-			mv.addObject("empresa4", divulgar.getEmpresa4());
-			mv.addObject("empresa5", divulgar.getEmpresa5());
-	
-			mv.addObject("texto1", divulgar.getTexto1());
-			mv.addObject("texto2", divulgar.getTexto2());
-			mv.addObject("texto3", divulgar.getTexto3());
-			mv.addObject("texto4", divulgar.getTexto4());
-			mv.addObject("texto5", divulgar.getTexto5());
-	
-			mv.addObject("link1", divulgar.getLink1());
-			mv.addObject("link2", divulgar.getLink2());
-			mv.addObject("link3", divulgar.getLink3());
-			mv.addObject("link4", divulgar.getLink4());
-			mv.addObject("link5", divulgar.getLink5());
+			Divulgar divulgar = divulgacoes.findById((long)1).get();
+			if(divulgar.isMostrarNovidades()) {
+				mv.addObject("mostrarNovidades", true);
+				
+				//divulgações
+				mv.addObject("empresa1", divulgar.getEmpresa1());
+				mv.addObject("empresa2", divulgar.getEmpresa2());
+				mv.addObject("empresa3", divulgar.getEmpresa3());
+				mv.addObject("empresa4", divulgar.getEmpresa4());
+				mv.addObject("empresa5", divulgar.getEmpresa5());
+		
+				mv.addObject("texto1", divulgar.getTexto1());
+				mv.addObject("texto2", divulgar.getTexto2());
+				mv.addObject("texto3", divulgar.getTexto3());
+				mv.addObject("texto4", divulgar.getTexto4());
+				mv.addObject("texto5", divulgar.getTexto5());
+		
+				mv.addObject("link1", divulgar.getLink1());
+				mv.addObject("link2", divulgar.getLink2());
+				mv.addObject("link3", divulgar.getLink3());
+				mv.addObject("link4", divulgar.getLink4());
+				mv.addObject("link5", divulgar.getLink5());
+			}else {
+				mv.addObject("mostrarNovidades", false);
+			}
+			
 		}catch(Exception e) {}
 
 		return mv;
@@ -292,5 +313,11 @@ public class MenuController {
 		}
 		empresa.setConquista(conquista);
 		empresas.save(empresa);
+	}
+	
+	@RequestMapping(value = "/mostrarDivulgacao")
+	@ResponseBody
+	public Optional<Divulgar> mostrarDivulgacao() {
+		return divulgacoes.findById((long)1);
 	}
 }

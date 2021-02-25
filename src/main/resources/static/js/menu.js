@@ -1,4 +1,4 @@
-var dados = {};
+var [dados, divulgar] = [{}, {}];
 
 if(document.referrer.split("/")[3] == "index") {//acessar pagina anterior
 	//var tela = $.alert({type: "blue", title: "Carregando", content: "Carregando data atual..."});
