@@ -107,24 +107,19 @@ public class MotoboyController{
 	private void liberarConquistas(int totalEntregas, Usuario user) {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Conquista conquista = empresa.getConquista();
-		boolean conquistou = false;
-		if(totalEntregas >= 500000 && conquista.isE500000() == false) {
-			conquista.setE500000(true);
-			conquistou = true;
-		}else if(totalEntregas >= 100000 && conquista.isE100000() == false) {
-			conquista.setE100000(true);
-			conquistou = true;
-		}else if(totalEntregas >= 5000 && conquista.isE5000() == false) {
-			conquista.setE5000(true);
-			conquistou = true;
-		}else if(totalEntregas >= 100 && conquista.isE100() == false) {
-			conquista.setE100(true);
-			conquistou = true;
-		}
 		
-		if(conquistou == true) {
-			empresa.setConquista(conquista);
-			empresas.save(empresa);
+		conquista.setTotalEntregas(conquista.getTotalEntregas() + 1);
+		
+		if(totalEntregas >= 500000 && conquista.isE4() == false) {
+			conquista.setE4(true);
+		}else if(totalEntregas >= 100000 && conquista.isE3() == false) {
+			conquista.setE3(true);
+		}else if(totalEntregas >= 5000 && conquista.isE2() == false) {
+			conquista.setE2(true);
+		}else if(totalEntregas >= 100 && conquista.isE1() == false) {
+			conquista.setE1(true);
 		}
+		empresa.setConquista(conquista);
+		empresas.save(empresa);
 	}
 }

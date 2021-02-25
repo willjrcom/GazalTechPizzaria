@@ -277,23 +277,20 @@ public class MenuController {
 	private void liberarConquistas(int totalDias, int codEmpresa) {
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
-		boolean conquistou = false;
-		if(totalDias >= 730 && conquista.isT730() == false) {
-			conquista.setT730(true);
-			conquistou = true;
-		}else if(totalDias >= 365 && conquista.isT365() == false) {
-			conquista.setT365(true);
-			conquistou = true;
-		}else if(totalDias >= 180 && conquista.isT180() == false) {
-			conquista.setT180(true);
-			conquistou = true;
-		}else if(totalDias >= 30 && conquista.isT30() == false) {
-			conquista.setT30(true);
-			conquistou = true;
+		
+		if(conquista.getTotalDias() < totalDias) {
+			conquista.setTotalDias(totalDias);
 		}
-		if(conquistou == true) {
-			empresa.setConquista(conquista);
-			empresas.save(empresa);
+		if(totalDias >= 730 && conquista.isT4() == false) {
+			conquista.setT4(true);
+		}else if(totalDias >= 365 && conquista.isT3() == false) {
+			conquista.setT3(true);
+		}else if(totalDias >= 180 && conquista.isT2() == false) {
+			conquista.setT2(true);
+		}else if(totalDias >= 30 && conquista.isT1() == false) {
+			conquista.setT1(true);
 		}
+		empresa.setConquista(conquista);
+		empresas.save(empresa);
 	}
 }

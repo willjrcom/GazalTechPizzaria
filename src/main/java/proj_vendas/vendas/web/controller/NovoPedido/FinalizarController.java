@@ -147,23 +147,20 @@ public class FinalizarController {
 	private void liberarConquistas(float totalVendas, Usuario user) {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Conquista conquista = empresa.getConquista();
-		boolean conquistou = false;
-		if(totalVendas >= 20000 && conquista.isV20000() == false) {
-			conquista.setV20000(true);
-			conquistou = true;
-		}else if(totalVendas >= 10000 && conquista.isV10000() == false) {
-			conquista.setV10000(true);
-			conquistou = true;
-		}else if(totalVendas >= 5000 && conquista.isV5000() == false) {
-			conquista.setV5000(true);
-			conquistou = true;
-		}else if(totalVendas >= 1000 && conquista.isV1000() == false) {
-			conquista.setV1000(true);
-			conquistou = true;
+		
+		if(conquista.getTotalVendas() < totalVendas) {
+			conquista.setTotalVendas(totalVendas);
 		}
-		if(conquistou == true) {
-			empresa.setConquista(conquista);
-			empresas.save(empresa);
+		if(totalVendas >= 20000 && conquista.isV4() == false) {
+			conquista.setV4(true);
+		}else if(totalVendas >= 10000 && conquista.isV3() == false) {
+			conquista.setV3(true);
+		}else if(totalVendas >= 5000 && conquista.isV2() == false) {
+			conquista.setV2(true);
+		}else if(totalVendas >= 1000 && conquista.isV1() == false) {
+			conquista.setV1(true);
 		}
+		empresa.setConquista(conquista);
+		empresas.save(empresa);
 	}
 }

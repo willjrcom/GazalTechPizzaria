@@ -16,6 +16,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="card col-md-4 border border-primary p-3 mb-2 bg-primary bg-gradient text-white">
 				<div class="card-body">
 			    	<h5 class="card-title">Vendas concluídas</h5>
+			    	<label>Recorde: R$ <span th:text="${maiorTotalVendas}"></span></label>
 			    	<div class="row">
 				    	<div class="col-md-2" th:if="${v1000} == true"><i class="fas fa-check-circle colorGreen"></i></div>
 				    	<div class="col-md-2" th:if="${v1000} == false"><i class="fas fa-times-circle colorRed"></i></div>
@@ -46,6 +47,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="card col-md-4 border border-success p-3 mb-2 bg-success text-white bg-gradient">
 				<div class="card-body">
 			    	<h5 class="card-title">Entregas feitas</h5>
+			    	<label>Recorde: <span th:text="${totalEntregas}"></span></label>
 			    	<div class="row">
 				    	<div class="col-md-2" th:if="${e100} == true"><i class="fas fa-check-circle colorGreen"></i></div>
 				    	<div class="col-md-2" th:if="${e100} == false"><i class="fas fa-times-circle colorRed"></i></div>
@@ -76,6 +78,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="card col-md-4 border border-warning p-3 mb-2 bg-warning text-dark bg-gradient">
 				<div class="card-body">
 			    	<h5 class="card-title">Dias trabalhados</h5>
+			    	<label>Recorde: <span th:text="${totalDias}"></span></label>
 			    	<div class="row">
 				    	<div class="col-md-2" th:if="${t30} == true"><i class="fas fa-check-circle colorGreen"></i></div>
 				    	<div class="col-md-2" th:if="${t30} == false"><i class="fas fa-times-circle colorRed"></i></div>
@@ -108,6 +111,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div class="card col-md-4 border border-secondary p-3 mb-2 bg-secondary text-white bg-gradient">
 				<div class="card-body">
 			    	<h5 class="card-title">Cadastros de cliente</h5>
+			    	<label>Recorde: <span th:text="${totalClientes}"></span></label>
 			    	<div class="row">
 				    	<div class="col-md-2" th:if="${c100} == true"><i class="fas fa-check-circle colorGreen"></i></div>
 				    	<div class="col-md-2" th:if="${c100} == false"><i class="fas fa-times-circle colorRed"></i></div>

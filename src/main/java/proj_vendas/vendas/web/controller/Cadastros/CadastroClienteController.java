@@ -113,23 +113,20 @@ public class CadastroClienteController {
 	private void liberarConquistas(int cadastros, int codEmpresa) {
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
-		boolean conquistou = false;
-		if(cadastros > 10000 && conquista.isC10000() == false) {
-			conquista.setC10000(true);
-			conquistou = true;
-		}else if(cadastros > 5000 && conquista.isC5000() == false) {
-			conquista.setC5000(true);
-			conquistou = true;
-		}else if(cadastros > 1000 && conquista.isC1000() == false) {
-			conquista.setC1000(true);
-			conquistou = true;
-		}else if(cadastros > 100 && conquista.isC100() == false) {
-			conquista.setC100(true);
-			conquistou = true;
+		
+		if(conquista.getTotalClientes() < clientes.findByCodEmpresa(codEmpresa).size()) {
+			conquista.setTotalClientes(clientes.findByCodEmpresa(codEmpresa).size());
 		}
-		if(conquistou == true) {
-			empresa.setConquista(conquista);
-			empresas.save(empresa);
+		if(cadastros > 10000 && conquista.isC4() == false) {
+			conquista.setC4(true);
+		}else if(cadastros > 5000 && conquista.isC3() == false) {
+			conquista.setC3(true);
+		}else if(cadastros > 1000 && conquista.isC2() == false) {
+			conquista.setC2(true);
+		}else if(cadastros > 100 && conquista.isC1() == false) {
+			conquista.setC1(true);
 		}
+		empresa.setConquista(conquista);
+		empresas.save(empresa);
 	}
 }
