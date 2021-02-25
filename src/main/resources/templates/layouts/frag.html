@@ -35,24 +35,21 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 
 	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="menu" id="esconderLogin">
-		<div class="elemento1" >
-			<div class="corFundo centralizar" id="login">
-				
-				<input type="hidden" id="trocoInicial" th:value="${troco}" />
-				
-				<nav>
-					<ul class="menu1" style="padding-left:0;">
-						<li><a th:href="@{/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
-						<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
-						<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
-						<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
-						<li id="dev" class="hidden"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DESENVOLVEDOR</a></li>
-						<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
-						<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> TUTORIAL</a></li>
-					</ul>
-				</nav>
-			</div>
+	<div th:fragment="menu" class="menuCentral">
+		<div class="corFundo centralizar border border-primary border-2">
+			<input type="hidden" id="trocoInicial" th:value="${troco}" />
+			
+			<nav>
+				<ul class="menu1" style="padding-left:0;">
+					<li><a th:href="@{/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
+					<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
+					<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
+					<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
+					<li id="dev" class="hidden"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DESENVOLVEDOR</a></li>
+					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
+					<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> TUTORIAL</a></li>
+				</ul>
+			</nav>
 		</div>
 		<br>
 	</div>
@@ -67,81 +64,83 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Novidades</b></p>
-								<div class="accordion" id="accordionExample">
-								  <div class="accordion-item" th:if="${empresa1} != ''">
-								    <h2 class="accordion-header" id="headingOne">
-								      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-								        <p th:text="${empresa1}"></p>
-								      </button>
-								    </h2>
-								    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-								      <div class="accordion-body">
-								        	<p th:text="${texto1}"></p>
-								        	<a th:href="${link1}"><label th:text="${link1}"></label></a>
-								      </div>
-								    </div>
-								  </div>
-								  <div class="accordion-item" th:if="${empresa2} != ''">
-								    <h2 class="accordion-header" id="headingTwo">
-								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-								        <p th:text="${empresa2}"></p>
-								      </button>
-								    </h2>
-								    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-								      <div class="accordion-body">
-							        	<p th:text="${texto2}"></p>
-								        	<a th:href="${link2}"><label th:text="${link2}"></label></a>
-								      </div>
-								    </div>
-								  </div>
-								  
-								  <div class="accordion-item" th:if="${empresa3} != ''">
-								    <h2 class="accordion-header" id="headingThree">
-								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-								        <p th:text="${empresa3}"></p>
-								      </button>
-								    </h2>
-								    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-								      <div class="accordion-body">
-							        	<p th:text="${texto3}"></p>
-								        	<a th:href="${link3}"><label th:text="${link3}"></label></a>
-								      </div>
-								    </div>
-								  </div>
-								  
-								  <div class="accordion-item" th:if="${empresa4} != ''">
-								    <h2 class="accordion-header" id="headingFour">
-								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-								        <p th:text="${empresa4}"></p>
-								      </button>
-								    </h2>
-								    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-								      <div class="accordion-body">
-							        	<p th:text="${texto4}"></p>
-								        	<a th:href="${link4}"><label th:text="${link4}"></label></a>
-								      </div>
-								    </div>
-								  </div>
-								  
-								  <div class="accordion-item" th:if="${empresa5} != ''">
-								    <h2 class="accordion-header" id="headingFive">
-								      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-								        <p th:text="${empresa5}"></p>
-								      </button>
-								    </h2>
-								    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-								      <div class="accordion-body">
-							        	<p th:text="${texto5}"></p>
-								        	<a th:href="${link5}"><label th:text="${link5}"></label></a>
-								      </div>
-								    </div>
-								  </div>
+								<div th:if="${mostrarNovidades} == true">
+									<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Novidades</b></p>
+									<div class="accordion" id="accordionExample">
+									  <div class="accordion-item" th:if="${empresa1} != ''">
+									    <h2 class="accordion-header" id="headingOne">
+									      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+									        <p th:text="${empresa1}"></p>
+									      </button>
+									    </h2>
+									    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+									      <div class="accordion-body">
+									        	<p th:text="${texto1}"></p>
+									        	<a th:href="@{${link1}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
+									      </div>
+									    </div>
+									  </div>
+									  <div class="accordion-item" th:if="${empresa2} != ''">
+									    <h2 class="accordion-header" id="headingTwo">
+									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+									        <p th:text="${empresa2}"></p>
+									      </button>
+									    </h2>
+									    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+									      <div class="accordion-body">
+								        	<p th:text="${texto2}"></p>
+									        	<a th:href="@{${link2}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
+									      </div>
+									    </div>
+									  </div>
+									  
+									  <div class="accordion-item" th:if="${empresa3} != ''">
+									    <h2 class="accordion-header" id="headingThree">
+									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+									        <p th:text="${empresa3}"></p>
+									      </button>
+									    </h2>
+									    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+									      <div class="accordion-body">
+								        	<p th:text="${texto3}"></p>
+									        	<a th:href="@{${link3}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
+									      </div>
+									    </div>
+									  </div>
+									  
+									  <div class="accordion-item" th:if="${empresa4} != ''">
+									    <h2 class="accordion-header" id="headingFour">
+									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+									        <p th:text="${empresa4}"></p>
+									      </button>
+									    </h2>
+									    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+									      <div class="accordion-body">
+								        	<p th:text="${texto4}"></p>
+									        	<a th:href="@{${link4}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
+									      </div>
+									    </div>
+									  </div>
+									  
+									  <div class="accordion-item" th:if="${empresa5} != ''">
+									    <h2 class="accordion-header" id="headingFive">
+									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+									        <p th:text="${empresa5}"></p>
+									      </button>
+									    </h2>
+									    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+									      <div class="accordion-body">
+								        	<p th:text="${texto5}"></p>
+									        	<a th:href="@{${link5}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
+									      </div>
+									    </div>
+									  </div>
+									</div>
 								</div>
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Informações da conta</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Informações da conta</b></p>
 								<a class="cabecalho"><i class="far fa-user-circle"></i> <label th:text="${usuario}"></label></a>
 								<a class="cabecalho"><i class="fas fa-key"></i> <label>Perfil <span th:text="${permissao}"></span></label></a>
 								<a th:href="@{/redefinirSenha}"><i class="fas fa-recycle"></i> <label>Redefinir senha</label></a>
@@ -154,7 +153,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<li><a class="cabecalho"><label th:text="${empresa}"></label></a>
 			<li>
 				<a th:if="${contato} != ''" class="cabecalho"><label th:text="${contato}"></label></a>
-				<a th:href="@{/adm/empresa}" th:unless="${contato} != ''">
+				<a th:href="@{/adm/empresa}" class="bg-warning" th:unless="${contato} != ''">
 					<button class="form-control btn btn-warning">Cadastre-se</button>
 				</a>
 			</li>
@@ -178,7 +177,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
 								<a th:href="@{/verpedido}" accesskey="V"><i class="fas fa-list"></i> Ver Pedidos</a>
 								<a th:href="@{/novoPedido}" accesskey="N"><i class="fas fa-plus-circle"></i> Novo Pedido</a>
 								<a th:href="@{/motoboy}" accesskey="E"><i class="fas fa-location-arrow"></i> Entregar</a>
@@ -186,14 +185,14 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Pizzas</b></p>
 								<a th:href="@{/cozinha}" accesskey="C"><i class="far fa-clock"></i> Cozinha</a>
 								<a th:href="@{/saidaForno}" accesskey="S"><i class="far fa-eye"></i> Saída forno</a>
 								<a th:href="@{/retirada}" accesskey="R"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Bebidas</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Bebidas</b></p>
 								<a th:href="@{/bar}" accesskey="C"><i class="far fa-clock"></i> Bar</a>
 								<a th:href="@{/saidaBar}" accesskey="S"><i class="far fa-eye"></i> Saída bar</a>
 							</li>
@@ -221,13 +220,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Resumo diário</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Resumo diário</b></p>
 								<a th:href="@{/relatoriodia}"><i class="fas fa-list"></i> Relatório do dia</a>
 								<a th:href="@{/pedidosExcluidos}"><i class="fas fa-ban"></i> Pedidos Cancelados</a>
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Administração</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Administração</b></p>
 								<a th:href="@{/adm/fechamento}"><i class="fas fa-cash-register"></i> Fechamento do Dia</a>
 								<a th:href="@{/adm/compras}"><i class="fas fa-cart-plus"></i> Compras do dia</a>
 							</li>
@@ -255,18 +254,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
 								<a th:href="@{/clientesCadastrados}"><i class="fas fa-user-friends"></i> Cadastrados</a>
 								<a th:href="@{/cadastroCliente}"><i class="fas fa-plus"></i> Cadastrar</a>
 							</li>
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Produtos</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Produtos</b></p>
 								<a th:href="@{/produtosCadastrados}"><i class="fas fa-utensils"></i> Cadastrados</a>
 								<a th:href="@{/cadastroProduto}"><i class="fas fa-plus"></i> Cadastrar</a>
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
 								<a th:href="@{/adm/funcionariosCadastrados}"><i class="fas fa-user-tie"></i> Cadastrados</a>
 								<a th:href="@{/adm/cadastroFuncionario}"><i class="fas fa-plus"></i> Cadastrar</a>
 							</li>
@@ -294,19 +293,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
 								<a th:href="@{/adm/estatistica}"><i class="fas fa-chart-bar"></i> Estatística</a>
 								<a th:href="@{/adm/cadastros}"><i class="fas fa-trophy"></i> Top 10</a>
 								<a th:href="@{/adm/metas}"><i class="fas fa-award"></i> Metas</a>
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
 								<a th:href="@{/adm/pagamento}"><i class="far fa-credit-card"></i> Pagamentos</a>
 							</li>
 							
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
 								<!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
 								<a th:href="@{/adm/diaAberto}"><i class="fas fa-exclamation-triangle"></i> Dias em aberto</a>
 								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Dados</a>
@@ -337,15 +336,15 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
 								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
 								<a th:href="@{/dev/divulgar}"><i class="fab fa-dev"></i> Divulgar</a>
 							</li>
-							
+							<!-- 
 							<li>
-								<p class="tituloMenuLat">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
 								<a class="cabecalho"><label id="usuario"></label></a>
-							</li>
+							</li> -->
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
