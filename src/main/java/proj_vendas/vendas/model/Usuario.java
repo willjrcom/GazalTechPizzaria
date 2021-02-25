@@ -27,8 +27,9 @@ public class Usuario extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String perfil;
+
+	private String dia;
 	
-	@Column(nullable=false)
 	private boolean ativo;
 	
 	@Column(nullable=false)

@@ -17,8 +17,11 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "EMPRESAS")
+@Table(name = "EMPRESA")
 public class Empresa extends AbstractEntity<Long>{
+	
+	@Column(nullable=false)
+	private int codEmpresa;
 	
 	@Column(nullable=false)
 	private String nomeEstabelecimento;
@@ -48,12 +51,16 @@ public class Empresa extends AbstractEntity<Long>{
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Pagamento> pagamento;
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Conquista conquista;
 	
-	@Column(nullable=false)
-	private int codEmpresa;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Mensalidade> mensalidade;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Cupom> cupom;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<LogMesa> logMesa;
+	
 }

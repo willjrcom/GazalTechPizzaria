@@ -16,14 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Divulgar;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Endereco;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Divulgacoes;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
@@ -34,9 +32,6 @@ public class MenuController {
 	
 	@Autowired
 	private Dados dados;
-	
-	@Autowired
-	private Dias dias;
 	
 	@Autowired
 	private Empresas empresas;
@@ -101,9 +96,8 @@ public class MenuController {
 			mv.addObject("mostrarConquistas", false);
 		}
 		
-		
 		//dados
-		mv.addObject("troco", acessarDados(LocalDate.now().toString()).getTrocoInicio());
+		mv.addObject("troco", acessarDados(LocalDate.now().toString(), 0).getTrocoInicio());
 		
 		//empresa
 		mv.addObject("usuario", user.getEmail());
@@ -150,17 +144,15 @@ public class MenuController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 
-		String dia = LocalDate.now().toString(); // criar data atual
-		setDados(dia);
+		acessarDados(LocalDate.now().toString(), 1);
 		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
-		List<Cupom> listCupom = null;
 		
 		 int cont = 0;
 		 //controlar cupons validados
 		 try {
-			 listCupom = cupons.findByCodEmpresa(user.getCodEmpresa());
+			 List<Cupom> listCupom = cupons.findByCodEmpresa(user.getCodEmpresa());
 			 for(int i = 0; i < listCupom.size(); i++) {
-				 if(listCupom.get(i).getValidade().compareTo(dia) == -1) {
+				 if(listCupom.get(i).getValidade().compareTo(LocalDate.now().toString()) == -1) {
 					 listCupom.remove(i);
 					 cont++;
 				 }
@@ -176,10 +168,7 @@ public class MenuController {
 	@RequestMapping(value = "/verificarData/{dia}")
 	@ResponseBody
 	public Dado alterarData(@PathVariable String dia) {
-
-		Dado dado = setDados(dia);
-		
-		return dado;
+		return acessarDados(dia, 1);
 	}
 	
 	
@@ -188,7 +177,7 @@ public class MenuController {
 	public int salvarTrocoInicial(@PathVariable float trocoInicial) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 		dado.setTrocoInicio(trocoInicial);
 		dados.save(dado);
 		
@@ -198,11 +187,10 @@ public class MenuController {
 	
 	@RequestMapping(value = "/mostrarDia")
 	@ResponseBody
-	public Dia MostrarDia() {
+	public String MostrarDia() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		return dias.findByCodEmpresa(user.getCodEmpresa());
+		return user.getDia();
 	}
 	
 	
@@ -215,67 +203,15 @@ public class MenuController {
 	}
 	
 	
-	//criar dia e dado no banco
-	public Dado setDados(String data) {
-
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		Dado dado = null;
-		Dia dia = null;
-		
-		try {
-			dia = dias.findByCodEmpresa(user.getCodEmpresa());
-			
-			if(dia == null) {
-				dia = new Dia();
-			}
-			dia.setDia(data);
-			dia.setCodEmpresa(user.getCodEmpresa());
-			dias.save(dia);
-		}catch(Exception e) {
-			System.out.println(e);
-		}
-		
-		try {
-			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);//busca no banco de dados
-			if(dado == null) {
-				dado = new Dado();
-				dado.setCodEmpresa(user.getCodEmpresa());
-				dado.setData(data);
-				dado.setTrocoInicio(0);
-				dados.save(dado);
-			}
-		}catch(Exception e) {
-			System.out.println(e);
-		}
-		
-		return dado;
-	}
-	
-	
 	//acessar dia e dado no banco
-	public Dado acessarDados(String data) {
-
+	public Dado acessarDados(String data, int tipo) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		Dado dado = null;
-		Dia dia = null;
 		
-		try {
-			dia = dias.findByCodEmpresa(user.getCodEmpresa());
-			
-			if(dia == null) {
-				dia = new Dia();
-			}else {
-				data = dia.getDia();
-			}
-			dia.setDia(data);
-			dia.setCodEmpresa(user.getCodEmpresa());
-			dias.save(dia);
-		}catch(Exception e) {
-			System.out.println(e);
+		if(tipo == 1) {
+			user.setDia(data);
+			usuarios.save(user);
 		}
 		
 		try {

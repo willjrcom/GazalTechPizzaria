@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.Salario;
+import proj_vendas.vendas.model.Pagamento;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
-import proj_vendas.vendas.repository.Salarios;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -32,13 +33,12 @@ public class PagamentoController {
 	private Funcionarios funcionarios;
 	
 	@Autowired
-	private Salarios salarios;
-	
-	@Autowired
 	private Usuarios usuarios;
 
 	@Autowired
 	private Empresas empresas;
+
+	private List<Pagamento> pagamentoEscolhido;
 	
 	@GetMapping("/pagamento")
 	public ModelAndView tela() {
@@ -52,7 +52,17 @@ public class PagamentoController {
 		mv.addObject("horaExtra", decimal.format(horaExtra));
 		return mv;
 	}
+	
 
+	@RequestMapping(value = "/empresa")
+	@ResponseBody
+	public Empresa empresa() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return empresas.findByCodEmpresa(user.getCodEmpresa());
+	}
+	
+	
 	@RequestMapping(value = "/pagamento/todosFuncionarios")
 	@ResponseBody
 	public List<Funcionario> todos() {
@@ -62,28 +72,51 @@ public class PagamentoController {
 		return funcionarios.findByCodEmpresa(user.getCodEmpresa());
 	}
 	
-	@RequestMapping(value = "/pagamento/salvar")
+	@RequestMapping(value = "/pagamento/salvar/{id}")
 	@ResponseBody
-	public Salario salvar(@RequestBody Salario salario) {
+	public ResponseEntity<Pagamento> salvar(@RequestBody Pagamento pagamento, @PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
 		
 		//log usuario	
-		salario.setUsuario(user.getEmail());
-		salario.setCodEmpresa(user.getCodEmpresa());
-		salario.setLogData(format.format(new Date()).toString());
+		pagamento.setUsuario(user.getEmail());
+		pagamento.setLogData(format.format(new Date()).toString());
 		
-		return salarios.save(salario);
+		List<Funcionario> funcionario = funcionarios.findByCodEmpresa(user.getCodEmpresa());
+		for(int i = 0; i < funcionario.size(); i++) {
+			if(funcionario.get(i).getId() == id) {
+				List<Pagamento> todosPagamentos = funcionario.get(i).getPagamento();
+				todosPagamentos.add(pagamento);
+				funcionario.get(i).setPagamento(todosPagamentos);
+				funcionarios.save(funcionario.get(i));
+				return ResponseEntity.ok(pagamento);
+			}
+		}
+		
+		return ResponseEntity.badRequest().build();
 	}
 	
 	@RequestMapping(value = "/pagamento/buscar/{id}/{data}")
 	@ResponseBody
-	public List<Salario> buscar(@PathVariable Long id, @PathVariable String data){
+	public List<Pagamento> buscar(@PathVariable Long id, @PathVariable String data){
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
+		pagamentoEscolhido = null;
 		
-		return salarios.findByCodEmpresaAndIdFuncionarioAndData(user.getCodEmpresa(), id, data);
+		List<Funcionario> funcionario = funcionarios.findByCodEmpresa(user.getCodEmpresa());
+		for(int i = 0; i < funcionario.size(); i++) {
+			if(funcionario.get(i).getId() == id) {
+				List<Pagamento> pagamento = funcionario.get(i).getPagamento();
+				
+				for(int j = 0; j < pagamento.size(); j++) {
+					if(pagamento.get(j).getData().equals(data)) {
+						pagamentoEscolhido.add(pagamento.get(j));
+					}
+				}
+			}
+		}
+		return pagamentoEscolhido;
 	}
 }

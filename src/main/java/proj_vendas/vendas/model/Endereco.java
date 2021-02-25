@@ -12,7 +12,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "ENDERECOS")
+@Table(name = "ENDERECO")
 public class Endereco extends AbstractEntity<Long>{
 	
 	private int cep;

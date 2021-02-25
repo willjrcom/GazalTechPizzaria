@@ -16,7 +16,6 @@ import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -26,9 +25,6 @@ public class CadastroClienteController {
 
 	@Autowired
 	private Clientes clientes;
-
-	@Autowired
-	private Dias dias;
 
 	@Autowired
 	private Usuarios usuarios;
@@ -89,7 +85,7 @@ public class CadastroClienteController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		if(cliente.getId() == null) {
-			cliente.setDataCadastro(dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+			cliente.setDataCadastro(user.getDia());
 			liberarConquistas(clientes.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
 		}
 		

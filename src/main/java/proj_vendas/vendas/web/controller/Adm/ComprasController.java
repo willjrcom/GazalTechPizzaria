@@ -16,7 +16,6 @@ import proj_vendas.vendas.model.Compra;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -28,9 +27,6 @@ public class ComprasController {
 	
 	@Autowired
 	private Usuarios usuarios;
-
-	@Autowired
-	private Dias dias;
 	
 	@GetMapping("/compras")
 	public ModelAndView tela() {
@@ -42,8 +38,8 @@ public class ComprasController {
 	public List<Compra> dados() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 			.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
-		return dado.getCompras();
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
+		return dado.getCompra();
 	}
 	
 	@RequestMapping("/compras/comprar")
@@ -51,10 +47,10 @@ public class ComprasController {
 	public Compra comprar(@RequestBody Compra compra) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 			.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
-		List<Compra> compras = dado.getCompras();
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
+		List<Compra> compras = dado.getCompra();
 		compras.add(compra);
-		dado.setCompras(compras);
+		dado.setCompra(compras);
 		dados.save(dado);
 		return compra;
 	}

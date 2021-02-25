@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Cupom;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Cupons;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -25,6 +27,9 @@ public class CupomController {
 
 	@Autowired
 	private Usuarios usuarios;
+	
+	@Autowired
+	private Empresas empresas;
 	
 	@Autowired
 	private Cupons cupons;
@@ -39,12 +44,12 @@ public class CupomController {
 	public List<Cupom> dados() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 			.getAuthentication().getPrincipal()).getUsername());
-		return cupons.findByCodEmpresa(user.getCodEmpresa());
+		return empresas.findByCodEmpresa(user.getCodEmpresa()).getCupom();
 	}
 	
 	@RequestMapping("/cupom/criar")
 	@ResponseBody
-	public Cupom criar(@RequestBody Cupom cupom) {
+	public Empresa criar(@RequestBody Cupom cupom) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 			.getAuthentication().getPrincipal()).getUsername());
 		try {
@@ -52,16 +57,25 @@ public class CupomController {
 		}catch(Exception e) {
 			cupom.setValidade(cupom.getValidade());
 		}
-		
 		cupom.setCodEmpresa(user.getCodEmpresa());
-		return cupons.save(cupom);
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		List<Cupom> cupons = empresa.getCupom();
+		cupons.add(cupom);
+		empresa.setCupom(cupons);
+		return empresas.save(empresa);
 	}
 	
 	
 	@RequestMapping("/cupom/excluir/{id}")
 	@ResponseBody
 	public ResponseEntity<?> excluir(@PathVariable Long id) {
-		cupons.deleteById(id);
-		return ResponseEntity.ok(200);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		if(user.getCodEmpresa() == cupons.findById(id).get().getCodEmpresa()) {
+			cupons.deleteById(id);
+			return ResponseEntity.ok(200);
+		}else {
+			return ResponseEntity.noContent().build();
+		}
 	}
 }

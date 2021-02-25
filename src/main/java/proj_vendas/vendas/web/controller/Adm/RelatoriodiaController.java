@@ -12,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -22,9 +21,6 @@ public class RelatoriodiaController {
 	
 	@Autowired
 	private Pedidos pedidos;
-
-	@Autowired
-	private Dias dias;
 	
 	@Autowired
 	private Usuarios usuarios;
@@ -39,8 +35,6 @@ public class RelatoriodiaController {
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), user.getDia(), "FINALIZADO");
 	}
 }

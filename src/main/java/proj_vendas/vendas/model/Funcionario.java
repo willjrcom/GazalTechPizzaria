@@ -2,11 +2,13 @@ package proj_vendas.vendas.model;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,8 +24,11 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "FUNCIONARIOS")
+@Table(name = "FUNCIONARIO")
 public class Funcionario extends AbstractEntity<Long>{
+	
+	@Column(nullable=false)
+	private int codEmpresa;
 	
 	@Column(nullable=false)
 	private String nome;
@@ -63,6 +68,6 @@ public class Funcionario extends AbstractEntity<Long>{
 	
 	private BigDecimal salario;
 	
-	@Column(nullable=false)
-	private int codEmpresa;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Pagamento> pagamento; 
 }

@@ -12,7 +12,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "LOGUSUARIOS")
+@Table(name = "LOGUSUARIO")
 public class LogUsuario extends AbstractEntity<Long> {
 
 	@Column(nullable=false)

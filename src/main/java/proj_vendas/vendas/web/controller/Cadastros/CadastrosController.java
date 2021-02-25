@@ -14,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
-import proj_vendas.vendas.repository.LogMesas;
 import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -36,7 +36,7 @@ public class CadastrosController {
 	private Usuarios usuarios;
 
 	@Autowired
-	private LogMesas mesas;
+	private Empresas empresas;
 	
 	@GetMapping("/cadastros")
 	public ModelAndView lerCadastros() {
@@ -65,6 +65,6 @@ public class CadastrosController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return mesas.findByCodEmpresa(user.getCodEmpresa());
+		return empresas.findByCodEmpresa(user.getCodEmpresa()).getLogMesa();
 	}
 }

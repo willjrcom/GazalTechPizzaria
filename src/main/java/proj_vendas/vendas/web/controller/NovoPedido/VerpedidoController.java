@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Usuario;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
@@ -28,9 +27,6 @@ public class VerpedidoController{
 	
 	@Autowired
 	private Pedidos pedidos;
-
-	@Autowired
-	private Dias dias;
 	
 	@Autowired
 	private PedidoTemps temps;
@@ -51,10 +47,9 @@ public class VerpedidoController{
 				.getAuthentication().getPrincipal()).getUsername());
 		Pedido pedido = pedidos.findById((long)id).get();
 		if(pedido.getCodEmpresa() == user.getCodEmpresa()) {
-			String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 			pedido.setStatus("EXCLUIDO");
 			
-			List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, pedido.getComanda());
+			List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), user.getDia(), pedido.getComanda());
 			temps.deleteInBatch(temp);
 			
 			return ResponseEntity.ok(pedidos.save(pedido));
@@ -68,8 +63,7 @@ public class VerpedidoController{
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, "FINALIZADO", "EXCLUIDO");
+		return pedidos.findByCodEmpresaAndDataAndStatusNotAndStatusNot(user.getCodEmpresa(), user.getDia(), "FINALIZADO", "EXCLUIDO");
 	}
 	
 	

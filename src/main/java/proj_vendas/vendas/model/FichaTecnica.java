@@ -16,7 +16,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "FICHASTECNICAS")
+@Table(name = "FICHATECNICA")
 public class FichaTecnica extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
@@ -27,5 +27,5 @@ public class FichaTecnica extends AbstractEntity<Long> {
 	private float preco;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<Ingrediente> ingredientes;
+	private List<Ingrediente> ingrediente;
 }

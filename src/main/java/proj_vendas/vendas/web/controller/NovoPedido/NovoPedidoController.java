@@ -1,7 +1,6 @@
 package proj_vendas.vendas.web.controller.NovoPedido;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Dia;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.LogMesa;
@@ -27,12 +25,9 @@ import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
-import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
-import proj_vendas.vendas.repository.LogMesas;
 import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Produtos;
@@ -52,9 +47,6 @@ public class NovoPedidoController {
 	private Clientes clientes;
 
 	@Autowired
-	private Dias dias;
-
-	@Autowired
 	private Dados dados;
 
 	@Autowired
@@ -62,15 +54,9 @@ public class NovoPedidoController {
 
 	@Autowired
 	private PedidoTemps temps;
-	
-	@Autowired
-	private LogMesas mesas;
 
 	@Autowired
 	private Usuarios usuarios;
-
-	@Autowired
-	private Cupons cupons;
 	
 	@Autowired
 	private Funcionarios funcionarios;
@@ -79,14 +65,14 @@ public class NovoPedidoController {
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);//busca no banco de dados
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());//busca no banco de dados
 		
 		ModelAndView mv = new ModelAndView("novoPedido");
 		mv.addObject("trocoInicial", dado.getTrocoInicio());
 		return mv;
 	}
 
+	
 	@RequestMapping(value = "/numeroCliente/{celular}")
 	@ResponseBody
 	public Cliente buscarNumeroCliente(@PathVariable Long celular) {
@@ -95,6 +81,7 @@ public class NovoPedidoController {
 		
 		return clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 	}
+	
 
 	@RequestMapping(value = "/nomeProduto/{nome}")
 	@ResponseBody
@@ -117,12 +104,7 @@ public class NovoPedidoController {
 		return produtos.findByCodEmpresaAndNomeProdutoContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
 	}
 
-	@RequestMapping(value = "/addProduto/{id}")
-	@ResponseBody
-	public Optional<Produto> adicionarProduto(@PathVariable long id) {
-		return produtos.findById(id);
-	}
-
+	
 	@RequestMapping(value = "/bordas")
 	@ResponseBody
 	public List<Produto> mostrarBordas() {
@@ -141,33 +123,34 @@ public class NovoPedidoController {
 		//se o pedido nao existir
 		if(pedido.getId() == null) {
 			// buscar dia nos dados
-			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()); 
+			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()); 
 
 			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
 			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda nos dados
 			dados.save(dado); // salva dados
-			System.out.println(pedido.getId());
+
 			if(pedido.getEnvio().equals("ENTREGA") && pedido.getId() == null) {//se for cliente cadastrado
 				Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
 				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
 				clientes.save(cliente);
 			}
-			
+
+			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 			if(pedido.getEnvio().equals("MESA")) {
 				LogMesa mesa = new LogMesa();
 				mesa.setMesa(pedido.getNome());
-				mesa.setCodEmpresa(user.getCodEmpresa());
-				mesas.save(mesa);
+				List<LogMesa> logsMesas = empresa.getLogMesa();
+				logsMesas.add(mesa);
+				empresa.setLogMesa(logsMesas);
+				empresas.save(empresa);
 			}
 			
-			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-			try {
-				Conquista conquista = empresa.getConquista();
-				if(conquista.isCadPedido() == false) {
-					conquista.setCadPedido(true);
-					empresa.setConquista(conquista);
-				}
-			}catch(Exception e) {}
+			Conquista conquista = empresa.getConquista();
+			if(conquista.isCadPedido() == false) {
+				conquista.setCadPedido(true);
+				empresa.setConquista(conquista);
+				empresas.save(empresa);
+			}
 		}
 		
 		pedido.setCodEmpresa(user.getCodEmpresa());
@@ -195,17 +178,17 @@ public class NovoPedidoController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia(); // buscar tabela dia de acesso
-		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), dia, nome, "FINALIZADO", "EXCLUIDO");
+		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), user.getDia(), nome, "FINALIZADO", "EXCLUIDO");
 				
 		//necessario enviar a data
 		if(pedidoAntigo == null) {
 			Pedido vazio = new Pedido();
-			vazio.setData(dia);
+			vazio.setData(user.getDia());
 			return vazio;
 		}
 		return pedidoAntigo;
 	}
+	
 	
 	@RequestMapping(value = "/salvarTemp")
 	@ResponseBody
@@ -215,32 +198,15 @@ public class NovoPedidoController {
 		temp.setCodEmpresa(user.getCodEmpresa());
 		temps.save(temp);
 	}
+	
 
 	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
 	@ResponseBody
 	public void excluirPedidoTemp(@PathVariable long comanda) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), dia, comanda);
+		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), user.getDia(), comanda);
 		temps.deleteInBatch(temp);
-	}
-
-	@RequestMapping(value = "/data")
-	@ResponseBody
-	public Dia data() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		return dias.findByCodEmpresa(user.getCodEmpresa());
-	}
-
-	@RequestMapping(value = "/empresa")
-	@ResponseBody
-	public Empresa empresa() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		return empresas.findByCodEmpresa(user.getCodEmpresa());
 	}
 	
 	
@@ -249,7 +215,7 @@ public class NovoPedidoController {
 	public List<Cupom> cupons(){
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		return cupons.findByCodEmpresa(user.getCodEmpresa());
+		return empresas.findByCodEmpresa(user.getCodEmpresa()).getCupom();
 	}
 	
 	

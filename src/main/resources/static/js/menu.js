@@ -18,15 +18,15 @@ function verData() {
 	$.ajax({
 		url: '/menu/mostrarDia',
 		type: 'GET'
-	}).done(function(e){
+	}).done(function(dia){
 		var hoje = new Date();
 		
-		if(	(hoje.getDate() == e.dia.split('-')[2])
-		&&	((hoje.getMonth() + 1) == e.dia.split('-')[1])
-		&&	(hoje.getFullYear() == e.dia.split('-')[0])) {
+		if(	(hoje.getDate() == dia.split('-')[2])
+		&&	((hoje.getMonth() + 1) == dia.split('-')[1])
+		&&	(hoje.getFullYear() == dia.split('-')[0])) {
 			$("#data").html('<i class="fas fa-calendar-check"></i> Hoje');
 		}else {
-			$("#data").text(e.dia.split('-')[2] + '/' + e.dia.split('-')[1] + '/' + e.dia.split('-')[0]);
+			$("#data").text(dia.split('-')[2] + '/' + dia.split('-')[1] + '/' + dia.split('-')[0]);
 		}
 	});
 }

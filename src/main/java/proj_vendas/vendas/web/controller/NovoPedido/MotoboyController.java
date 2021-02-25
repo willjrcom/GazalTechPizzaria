@@ -20,7 +20,6 @@ import proj_vendas.vendas.model.LogMotoboy;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
@@ -35,9 +34,6 @@ public class MotoboyController{
 	
 	@Autowired
 	private Pedidos pedidos;
-
-	@Autowired
-	private Dias dias;
 	
 	@Autowired
 	private Dados dados;
@@ -71,9 +67,7 @@ public class MotoboyController{
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO");
+		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), user.getDia(), "ENTREGA", "PRONTO");
 	}
 	
 	
@@ -82,7 +76,7 @@ public class MotoboyController{
 	public LogMotoboy salvarLogMotoboys(@RequestBody LogMotoboy logMotoboy) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia()); // buscar dia nos dados
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()); // buscar dia nos dados
 		liberarConquistas(dado.getEntrega(), user);
 		
 		List<LogMotoboy> logs = dado.getLogMotoboy();

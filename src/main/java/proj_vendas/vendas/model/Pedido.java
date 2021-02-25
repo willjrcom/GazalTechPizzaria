@@ -13,7 +13,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "PEDIDOS")
+@Table(name = "PEDIDO")
 public class Pedido extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
@@ -38,12 +38,12 @@ public class Pedido extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String envio;
-	private boolean pago;
 	private String obs;
 	private String horaPedido;
 	private String data;
 	private String cupom;
 	private String modoPagamento;
+	private boolean pago;
 	
 	private float taxa = 0;
 	private float total = 0;

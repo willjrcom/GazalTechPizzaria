@@ -23,7 +23,6 @@ import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Sangria;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Impressoes;
 import proj_vendas.vendas.repository.PedidoTemps;
@@ -36,9 +35,6 @@ public class FechamentoController {
 
 	@Autowired
 	private Pedidos pedidos;
-
-	@Autowired
-	private Dias dias;
 	
 	@Autowired
 	private Dados dados;
@@ -66,10 +62,8 @@ public class FechamentoController {
 	public List<Pedido> pedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 
-		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		return pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), user.getDia(), "FINALIZADO");
 	}
 	
 	
@@ -78,10 +72,8 @@ public class FechamentoController {
 	public Dado dados() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 
-		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		return dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 	}
 	
 	
@@ -90,7 +82,6 @@ public class FechamentoController {
 	public Dado finalizarCaixa(@PathVariable float trocoFinal) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		
 		//temp
 		List<PedidoTemp> temp = temps.findByCodEmpresaAndStatus(user.getCodEmpresa(), "PRONTO");
@@ -103,7 +94,7 @@ public class FechamentoController {
 		pedidos.deleteInBatch(excluidos);
 		*/
 		//buscar dado do dia
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 		dado.setTrocoFinal(trocoFinal);
 		return dados.save(dado);
 	}
@@ -116,7 +107,7 @@ public class FechamentoController {
 				.getAuthentication().getPrincipal()).getUsername());
 
 		//buscar dado do dia
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 		
 		//gerar nova sangria
 		Sangria sangria = new Sangria();
@@ -140,10 +131,8 @@ public class FechamentoController {
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
 		//List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dia);
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");

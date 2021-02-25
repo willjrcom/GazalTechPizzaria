@@ -16,7 +16,7 @@ import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.ImpressaoPedido;
-import proj_vendas.vendas.model.Salario;
+import proj_vendas.vendas.model.Pagamento;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
@@ -286,19 +286,19 @@ public class ImprimirController {
 	}
 	
 	
-	@RequestMapping("/imprimirLogFuncionario")
+	@RequestMapping("/imprimirLogFuncionario/{id}")
 	@ResponseBody
-	public void imprimirLogFuncionario(@RequestBody Salario salario) {
+	public void imprimirLogFuncionario(@RequestBody Pagamento pagamento, @PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		
 		//log usuario
-		salario.setUsuario(user.getEmail());
+		pagamento.setUsuario(user.getEmail());
 		
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		Funcionario funcionario = funcionarios.findById((long)salario.getIdFuncionario()).get();
+		Funcionario funcionario = funcionarios.findById(id).get();
 		
 		String impressaoCompleta;
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
@@ -309,25 +309,25 @@ public class ImprimirController {
 						  + "----------------------------------------#$"
 						  + "         REGISTRO DE PAGAMENTO          #$"
 						  + "----------------------------------------#$"
-						  + "Usuario logado: " + cortaString(salario.getUsuario()) + "#$"
-						  + "Data: " + salario.getLogData() + "#$"
+						  + "Usuario logado: " + cortaString(pagamento.getUsuario()) + "#$"
+						  + "Data: " + pagamento.getLogData() + "#$"
 						  + "----------------------------------------#$"
 						  + "Funcionario: " + cortaString(funcionario.getNome()) + "#$"
 						  + "Cpf: " + funcionario.getCpf() + "#$"
 						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "#$";
 		
-		if(salario.getGastos() != 0) impressaoCompleta	+= "Gerou gastou de: R$ " + decimal.format(salario.getGastos()) + "#$";
-		if(salario.getPago() != 0) impressaoCompleta	+= "Recebeu o vale de: R$ " + decimal.format(salario.getPago()) + "#$";
-		if(salario.getHoras() != 0) impressaoCompleta	+= "Acrescentou em hora extra: R$ " + decimal.format(salario.getHoras()) + "#$";
+		if(pagamento.getGastos() != 0) impressaoCompleta	+= "Gerou gastou de: R$ " + decimal.format(pagamento.getGastos()) + "#$";
+		if(pagamento.getPago() != 0) impressaoCompleta	+= "Recebeu o vale de: R$ " + decimal.format(pagamento.getPago()) + "#$";
+		if(pagamento.getHoras() != 0) impressaoCompleta	+= "Acrescentou em hora extra: R$ " + decimal.format(pagamento.getHoras()) + "#$";
 		
 		impressaoCompleta += "----------------------------------------#$";
 		imprimirLocal(impressaoCompleta, "A");
 	}
 	
 	
-	@RequestMapping("/imprimirGeralFuncionario")
+	@RequestMapping("/imprimirGeralFuncionario/{id}")
 	@ResponseBody
-	public void imprimirGeralFuncionario(@RequestBody List<Salario> salario) {
+	public void imprimirGeralFuncionario(@RequestBody List<Pagamento> pagamento, @PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
@@ -335,7 +335,7 @@ public class ImprimirController {
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		Funcionario funcionario = funcionarios.findById((long)salario.get(0).getIdFuncionario()).get();
+		Funcionario funcionario = funcionarios.findById(id).get();
 		
 		float total = 0, pago = 0, gasto = 0, hora = 0;
 		String impressaoCompleta;
@@ -348,27 +348,27 @@ public class ImprimirController {
 						  + "         REGISTRO DE PAGAMENTO          #$"
 						  + "----------------------------------------#$"
 						  + "Usuario logado: " + cortaString(user.getEmail()) + "#$"
-						  + "Data: " + salario.get(0).getLogData() + "#$"
+						  + "Data: " + pagamento.get(0).getLogData() + "#$"
 						  + "----------------------------------------#$"
 						  + "Funcionario: " + cortaString(funcionario.getNome()) + "#$"
 						  + "Cpf: " + funcionario.getCpf() + "#$"
 						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "#$"
 						  + "----------------------------------------#$";
 		
-		for(int i = 0; i<salario.size(); i++) {
-			if(salario.get(i).getGastos() != 0) {
-				impressaoCompleta += "Gerou gastou de: R$ " + decimal.format(salario.get(i).getGastos()) + "#$";
-				gasto += salario.get(i).getGastos();
+		for(int i = 0; i<pagamento.size(); i++) {
+			if(pagamento.get(i).getGastos() != 0) {
+				impressaoCompleta += "Gerou gastou de: R$ " + decimal.format(pagamento.get(i).getGastos()) + "#$";
+				gasto += pagamento.get(i).getGastos();
 				total -= gasto;
 			}
-			if(salario.get(i).getPago() != 0) {
-				impressaoCompleta += "Recebeu o vale de: R$ " + decimal.format(salario.get(i).getPago()) + "#$";
-				pago += salario.get(i).getPago();
+			if(pagamento.get(i).getPago() != 0) {
+				impressaoCompleta += "Recebeu o vale de: R$ " + decimal.format(pagamento.get(i).getPago()) + "#$";
+				pago += pagamento.get(i).getPago();
 				total -= pago;
 			}
-			if(salario.get(i).getHoras() != 0) {
-				impressaoCompleta += "Acrescentou em hora extra: R$ " + decimal.format(salario.get(i).getHoras()) + "#$";
-				hora += salario.get(i).getHoras();
+			if(pagamento.get(i).getHoras() != 0) {
+				impressaoCompleta += "Acrescentou em hora extra: R$ " + decimal.format(pagamento.get(i).getHoras()) + "#$";
+				hora += pagamento.get(i).getHoras();
 				total += hora;
 			}
 		}

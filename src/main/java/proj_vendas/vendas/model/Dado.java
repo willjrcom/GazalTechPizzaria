@@ -17,7 +17,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "DADOS")
+@Table(name = "DADO")
 public class Dado extends AbstractEntity<Long> {
 		
 	@Column(nullable=false)
@@ -38,7 +38,6 @@ public class Dado extends AbstractEntity<Long> {
 	private int totalPizza = 0;
 	private int totalProduto = 0;
 	
-	
 	private int entrega = 0;
 	private int balcao = 0;
 	private int mesa = 0;
@@ -57,12 +56,10 @@ public class Dado extends AbstractEntity<Long> {
 	private List<LogMotoboy> logMotoboy;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private List<Compra> compras;
+	private List<Compra> compra;
 	
 	@Column(nullable=false)
 	private int codEmpresa;
-	
-	
 }
 
 

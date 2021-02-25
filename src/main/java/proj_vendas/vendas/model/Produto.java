@@ -12,7 +12,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "PRODUTOS")
+@Table(name = "PRODUTO")
 public class Produto extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
@@ -29,7 +29,6 @@ public class Produto extends AbstractEntity<Long> {
 	private String setor;
 	private String descricao;
 	
-	@Column(nullable=false)
 	private boolean disponivel;
 	
 	@Column(nullable=false)

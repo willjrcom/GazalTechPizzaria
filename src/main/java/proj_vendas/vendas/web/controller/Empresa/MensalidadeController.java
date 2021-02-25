@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Pagamento;
+import proj_vendas.vendas.model.Mensalidade;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
@@ -34,26 +34,27 @@ public class MensalidadeController {
 		return new ModelAndView ("mensalidade");
 	}
 	
+	
 	@RequestMapping(value = "/mensalidade/mensalidades")
 	@ResponseBody
-	public List<Pagamento> todos() {
+	public List<Mensalidade> todos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return empresas.findByCodEmpresa(user.getCodEmpresa()).getPagamento();
+		return empresas.findByCodEmpresa(user.getCodEmpresa()).getMensalidade();
 	}
 	
-	@RequestMapping(value = "/mensalidade/cadastrar")
+	
+	@RequestMapping(value = "/mensalidade/pagar")
 	@ResponseBody
-	public Empresa cadastrar(@RequestBody Pagamento pagamento) {
+	public Empresa cadastrar(@RequestBody Mensalidade mensalidade) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		
-		List<Pagamento> mensalidades = empresa.getPagamento();
-		pagamento.setCodEmpresa(user.getCodEmpresa());
-		mensalidades.add(pagamento);
-		empresa.setPagamento(mensalidades);
+		List<Mensalidade> mensalidades = empresa.getMensalidade();
+		mensalidades.add(mensalidade);
+		empresa.setMensalidade(mensalidades);
 		return empresas.save(empresa);
 	}
 }

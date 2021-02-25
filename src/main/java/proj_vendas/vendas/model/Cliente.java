@@ -14,9 +14,12 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "CLIENTES")
+@Table(name = "CLIENTE")
 public class Cliente extends AbstractEntity<Long> {
 
+	@Column(nullable=false)
+	private int codEmpresa;
+	
 	@Column(nullable=false)
 	private String nome;
 
@@ -30,10 +33,6 @@ public class Cliente extends AbstractEntity<Long> {
 
 	private String dataCadastro;
 	private int contPedidos = 0;
-	
-	@Column(nullable=false)
-	private int codEmpresa;
-
 }
 
 

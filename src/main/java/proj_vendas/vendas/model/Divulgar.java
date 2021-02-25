@@ -11,7 +11,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "DIVULGACOES")
+@Table(name = "DIVULGACAO")
 public class Divulgar extends AbstractEntity<Long> {
 
 	private boolean mostrarNovidades;

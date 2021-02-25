@@ -19,7 +19,6 @@ import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
-import proj_vendas.vendas.repository.Dias;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Pedidos;
@@ -31,9 +30,6 @@ public class FinalizarController {
 	
 	@Autowired
 	private Pedidos pedidos;
-	
-	@Autowired
-	private Dias dias;
 	
 	@Autowired
 	private Dados dados;
@@ -70,9 +66,7 @@ public class FinalizarController {
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		String dia = dias.findByCodEmpresa(user.getCodEmpresa()).getDia();
-		return pedidos.findByCodEmpresaAndDataAndEnvioNotAndStatusOrCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), dia, "ENTREGA", "PRONTO", user.getCodEmpresa(), dia, "ENTREGA", "MOTOBOY");
+		return pedidos.findByCodEmpresaAndDataAndEnvioNotAndStatusOrCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), user.getDia(), "ENTREGA", "PRONTO", user.getCodEmpresa(), user.getDia(), "ENTREGA", "MOTOBOY");
 
 	}
 	
@@ -85,7 +79,7 @@ public class FinalizarController {
 		try{
 			pedido = pedidos.findById(id).get();
 		}catch(Exception e) {}
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), dias.findByCodEmpresa(user.getCodEmpresa()).getDia());
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 
 		if(pedidoDados.getBalcao() == 1) {
 			dado.setBalcao(dado.getBalcao() + 1);

@@ -21,7 +21,7 @@ function dataAtualFormatada(){
 //------------------------------------------------------------
 carregarLoading("block");
 $.ajax({
-	url: '/novoPedido/empresa',
+	url: '/adm/pagamento/empresa',
 	type: 'GET'
 }).done(function(e){
 	if(e.length != 0) horaExtra = e.horaExtra;
@@ -199,12 +199,11 @@ function addDiaria() {
 											});
 										}else {
 											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
 											funcionario.horas = horas * horaExtra;
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/adm/pagamento/salvar',
+												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
 												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
@@ -213,7 +212,7 @@ function addDiaria() {
 
 												//imprimir pagamento
 												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario",
+													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
 													type: 'POST',
 													dataType : 'json',
 													contentType: "application/json",
@@ -362,12 +361,11 @@ function addHoras() {
 											});
 										}else {
 											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
 											funcionario.horas = horas * horaExtra;
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/adm/pagamento/salvar',
+												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
 												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
@@ -376,7 +374,7 @@ function addHoras() {
 
 												//imprimir pagamento
 												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario",
+													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
 													type: 'POST',
 													dataType : 'json',
 													contentType: "application/json",
@@ -532,12 +530,11 @@ function addGastos() {
 											});
 										}else {
 											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
 											funcionario.gastos = gastos;
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/adm/pagamento/salvar',
+												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
 												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
@@ -546,7 +543,7 @@ function addGastos() {
 												
 												//imprimir pagamento
 												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario",
+													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
 													type: 'POST',
 													dataType : 'json',
 													contentType: "application/json",
@@ -723,12 +720,11 @@ function pagarSalario() {
 											});
 										}else {
 											var funcionario = {};
-											funcionario.idFuncionario = funcionarios[idBusca].id;
 											funcionario.pago = pagamento;
 											funcionario.data = dataAtualFormatada();
 											
 											$.ajax({
-												url: '/adm/pagamento/salvar',
+												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
 												type: 'POST',
 												dataType : 'json',
 												contentType: "application/json",
@@ -737,7 +733,7 @@ function pagarSalario() {
 												
 												//imprimir pagamento
 												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario",
+													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
 													type: 'POST',
 													dataType : 'json',
 													contentType: "application/json",
@@ -881,7 +877,7 @@ function imprimirResumo() {
 
 										//imprimir pagamento
 										$.ajax({
-											url: "/imprimir/imprimirGeralFuncionario",
+											url: "/imprimir/imprimirGeralFuncionario/" + funcionarios[idBusca].id,
 											type: 'POST',
 											dataType : 'json',
 											contentType: "application/json",

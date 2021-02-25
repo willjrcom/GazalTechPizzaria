@@ -35,16 +35,3 @@ function ajuda() {
 		}
 	});
 }
-
-
-//---------------------------------------------------------------
-$(document).ready(function(){
-	/*
-	$.ajax({
-		url: '/novoPedido/empresa',
-		type: 'GET'
-	}).done(function(e){
-		if(e.length != 0) $("title").text($("title").text() + " - " + e.nomeEstabelecimento);
-	});*/
-	
-});
