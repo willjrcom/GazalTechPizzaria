@@ -1,6 +1,7 @@
 package proj_vendas.vendas.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +12,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Data
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
+@Entity
 public class Pagamento extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)

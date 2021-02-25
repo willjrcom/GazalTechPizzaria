@@ -20,7 +20,6 @@ import proj_vendas.vendas.model.Divulgar;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Endereco;
 import proj_vendas.vendas.model.Usuario;
-import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Divulgacoes;
 import proj_vendas.vendas.repository.Empresas;
@@ -38,9 +37,6 @@ public class MenuController {
 	
 	@Autowired
 	private Usuarios usuarios;
-	
-	@Autowired
-	private Cupons cupons;
 	
 	@Autowired
 	private Divulgacoes divulgacoes;
@@ -139,18 +135,18 @@ public class MenuController {
 	@RequestMapping("/login")
 	@ResponseBody
 	public void login() {
-		
 		//acessar o dia atual a cada login
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		
 		acessarDados(LocalDate.now().toString(), 1);
 		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
 		
 		 int cont = 0;
 		 //controlar cupons validados
 		 try {
-			 List<Cupom> listCupom = cupons.findByCodEmpresa(user.getCodEmpresa());
+			 List<Cupom> listCupom = empresa.getCupom();
 			 for(int i = 0; i < listCupom.size(); i++) {
 				 if(listCupom.get(i).getValidade().compareTo(LocalDate.now().toString()) == -1) {
 					 listCupom.remove(i);
@@ -158,8 +154,8 @@ public class MenuController {
 				 }
 			 }
 			 if(cont != 0) {
-				 cupons.deleteAll();
-				 cupons.saveAll(listCupom);
+				 empresa.setCupom(listCupom);
+				 empresas.save(empresa);
 			 }
 		 }catch(Exception e) {}
 	}

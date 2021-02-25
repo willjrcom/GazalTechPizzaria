@@ -15,7 +15,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "USUARIOS",
+@Table(name = "USUARIO",
 		uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class Usuario extends AbstractEntity<Long> {
 	

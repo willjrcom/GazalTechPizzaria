@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Usuario;
-import proj_vendas.vendas.repository.Cupons;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -30,9 +29,6 @@ public class CupomController {
 	
 	@Autowired
 	private Empresas empresas;
-	
-	@Autowired
-	private Cupons cupons;
 	
 	@GetMapping("/cupom")
 	public ModelAndView tela() {
@@ -57,7 +53,6 @@ public class CupomController {
 		}catch(Exception e) {
 			cupom.setValidade(cupom.getValidade());
 		}
-		cupom.setCodEmpresa(user.getCodEmpresa());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		List<Cupom> cupons = empresa.getCupom();
 		cupons.add(cupom);
@@ -71,11 +66,14 @@ public class CupomController {
 	public ResponseEntity<?> excluir(@PathVariable Long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		if(user.getCodEmpresa() == cupons.findById(id).get().getCodEmpresa()) {
-			cupons.deleteById(id);
-			return ResponseEntity.ok(200);
-		}else {
-			return ResponseEntity.noContent().build();
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		List<Cupom> cupom = empresa.getCupom();
+		
+		for(int i = 0; i < cupom.size(); i++) {
+			if(cupom.get(i).getId() == id) {
+				return ResponseEntity.ok(200);
+			}
 		}
+		return ResponseEntity.noContent().build();
 	}
 }

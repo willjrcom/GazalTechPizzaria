@@ -10,5 +10,4 @@ import proj_vendas.vendas.model.Ingrediente;
 @Repository
 public interface Ingredientes extends JpaRepository<Ingrediente, Long>{
 
-	public Ingrediente findByCodEmpresa(int codEmpresa);
 }
