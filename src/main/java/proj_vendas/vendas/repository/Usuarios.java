@@ -6,11 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Usuario;
 
 @Transactional(readOnly = true)
+@Repository
 public interface Usuarios extends JpaRepository<Usuario, Long>{
 	
 	@Query("select u from Usuario u where u.email like :email")

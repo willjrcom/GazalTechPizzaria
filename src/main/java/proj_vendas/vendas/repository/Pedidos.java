@@ -5,11 +5,13 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import proj_vendas.vendas.model.Pedido;
 
 @Transactional(readOnly = true)
+@Repository
 public interface Pedidos extends JpaRepository<Pedido, Long>{
 	
 	public Pedido findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(int codEmpresa, String data, String nome, String statusNot, String statusNot2);
