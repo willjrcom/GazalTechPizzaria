@@ -12,53 +12,51 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 
 <body>
-	<div>
-		<div class="elemento1">
-			<div class="corFundo centralizar" id="login">
-				
-				<img th:src="@{/img/logoPizzaria.png}" width="40%"/>
-				<hr>
-				
-				<div>
-					<label>Email: <span class="form-control sombra" th:text="${email}"></span></label>
-				</div>
-				
-				<br>
-				<div class="row" id="divSenhaAntiga">
-					<label>Senha antiga: <span class="alertOpcional">*</span></label>
-					<div class="col-md-10">
-						<input type="password" class="form-control pula" id="senhaAntiga" name="senhaAntiga" placeholder="Senha antiga" />
-					</div> 
-					
-					<div class="col-md-2">
-						<button class="btn btn-primary" onclick="verificar()"><i class="fas fa-check-circle"></i></button>		
-					</div> 
-				</div>
-				
-				<br>
-				<div class="hidden" id="senhas">
-					<p id="avisoSenha">As senhas não conferem!</p>
-					<div>
-						<label>Senha: <span class="alertOpcional">*</span></label><br>
-						<input type="password" class="form-control pula pass" id="senha" name="senha" placeholder="Nova senha" /> 
-					</div>
-		
-					<br>
-					<div>
-						<label>Confirmar Senha: <span class="alertOpcional">*</span></label><br>
-						<input type="password" class="form-control pula pass" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
-					</div>
-					
-					<br>
-					<button class="btn btn-success pula" id="criar">Alterar senha</button>
-				</div>
-				
-				<hr>
-				<nav class="nav nav-pills flex-column flex-sm-row">
-					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">Voltar ao Menu</a>
-				</nav>
-				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
+	<div class="indexCentral">
+		<div class="corFundo centralizar col-md-8 border border-primary border-2">
+			
+			<img th:src="@{/img/logoPizzaria.png}" width="60%"/>
+			<hr>
+			
+			<div>
+				<label>Email: <span class="form-control sombra" th:text="${email}"></span></label>
 			</div>
+			
+			<br>
+			<div class="row" id="divSenhaAntiga">
+				<label>Senha antiga: <span class="alertOpcional">*</span></label>
+				<div class="col-md-10">
+					<input type="password" class="form-control pula" id="senhaAntiga" name="senhaAntiga" placeholder="Senha antiga" />
+				</div> 
+				
+				<div class="col-md-2">
+					<button class="btn btn-primary" onclick="verificar()"><i class="fas fa-check-circle"></i></button>		
+				</div> 
+			</div>
+			
+			<br>
+			<div class="hidden" id="senhas">
+				<p id="avisoSenha">As senhas não conferem!</p>
+				<div>
+					<label>Senha: <span class="alertOpcional">*</span></label><br>
+					<input type="password" class="form-control pula pass" id="senha" name="senha" placeholder="Nova senha" /> 
+				</div>
+	
+				<br>
+				<div>
+					<label>Confirmar Senha: <span class="alertOpcional">*</span></label><br>
+					<input type="password" class="form-control pula pass" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
+				</div>
+				
+				<br>
+				<button class="btn btn-success pula" id="criar">Alterar senha</button>
+			</div>
+			
+			<hr>
+			<nav class="nav nav-pills flex-column flex-sm-row">
+				<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">Voltar ao Menu</a>
+			</nav>
+			<p class="mt-5 mb-3 text-muted text-center">GazalTech &copy; 2021</p>
 		</div>
 	</div>
 	

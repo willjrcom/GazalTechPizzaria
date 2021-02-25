@@ -13,49 +13,47 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
 	
-	<div id="esconderLogin">
-		<div class="elemento1">
-			<div class="corFundo centralizar" id="login">
-				
-				<img th:src="@{/img/logoPizzaria.png}" width="40%"/>
-				<div id="erro" class="alert alert-danger hidden" role="alert">
-					<h4 th:text="${titulo}"></h4>
-					<p th:text="${texto}"></p>
+	<div class="indexCentral">
+		<div class="corFundo centralizar col-md-8" id="login">
+			
+			<img th:src="@{/img/logoPizzaria.png}" width="80%"/>
+			<div id="erro" class="alert alert-danger hidden" role="alert">
+				<h4 th:text="${titulo}"></h4>
+				<p th:text="${texto}"></p>
+			</div>
+			
+			<form class="form-signin was-validated" method="post" th:action="@{/index}">
+			
+				<div class="form-label-group form-floating">
+					<input type="text" id="floatingInput" class="form-control"
+						placeholder="Digite seu Email" name="username" required autofocus>
+					<label for=" floatingInput">Login</label>
 				</div>
 				
-				<form class="form-signin was-validated" method="post" th:action="@{/index}">
+				<br>
+				<div class="form-label-group form-floating">
+					<input type="password" class="form-control"
+						placeholder="Digite sua senha" name="password" required> 
+					<label for="floatingInput">Senha</label>
+				</div>
+				<!--
+				<div class="checkbox mb-3">
+					<label> <input type="checkbox" value="remember-me">Ficar conectado</label>
+				</div> -->
+				<br>
+				<button class="btn btn-lg btn-success btn-block" type="submit">Entrar</button>
 				
-					<div class="form-label-group form-floating">
-						<input type="text" id="floatingInput" class="form-control"
-							placeholder="Digite seu Email" name="username" required autofocus>
-						<label for=" floatingInput">Login</label>
-					</div>
-					
-					<br>
-					<div class="form-label-group form-floating">
-						<input type="password" class="form-control"
-							placeholder="Digite sua senha" name="password" required> 
-						<label for="floatingInput">Senha</label>
-					</div>
-					<!--
-					<div class="checkbox mb-3">
-						<label> <input type="checkbox" value="remember-me">Ficar conectado</label>
-					</div> -->
-					<br>
-					<button class="btn btn-lg btn-success btn-block" type="submit">Entrar</button>
-					
-					<br>
-					<nav class="nav nav-pills flex-column flex-sm-row">
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" href="" id="novaSenha"><i class="far fa-question-circle"></i>&nbsp;Esqueceu a senha</a>
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" href="https://www.gazal.com.br"><i class="fas fa-link"></i>&nbsp;Nosso site</a>
-					</nav>
-					
-					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{gazaltech}"><i class="fas fa-star"></i>&nbsp;Avaliar</a>
-					<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
-					
-				</form>
+				<br>
+				<nav class="nav nav-pills flex-column flex-sm-row">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" href="" id="novaSenha"><i class="far fa-question-circle"></i>&nbsp;Esqueceu a senha</a>
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" href="https://www.gazal.com.br"><i class="fas fa-link"></i>&nbsp;Nosso site</a>
+				</nav>
 				
-			</div>
+				<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{gazaltech}"><i class="fas fa-star"></i>&nbsp;Avaliar</a>
+				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
+				
+			</form>
+			
 		</div>
 	</div>
 	

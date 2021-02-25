@@ -12,25 +12,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 
 <body>
-	<div id="esconderLogin">
-		<div class="elemento1">
-			<div class="corFundo centralizar" id="login">
-				
-				<img th:src="@{/img/logoPizzaria.png}" width="40%"/>
-				<hr>
-				
-				<h3 class="text-center" th:text="${status}"></h3>
-				<h2 class="text-center" style="color: #B22222" th:text="${tipo}"></h2>
-				<br>
-				<label>Voce não tem permissão para acessar essa pagina!</label>
-				<br>
-				<label>Utilize um usuário <span th:text="${perfil}"></span></label>
-				<hr>
-				<nav class="nav nav-pills flex-column flex-sm-row">
-					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">&nbsp;Voltar ao menu</a>
-				</nav>
-				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
-			</div>
+	<div class="indexCentral">
+		<div class="corFundo centralizar col-md-6 border border-primary border-2">
+			<img th:src="@{/img/logoPizzaria.png}" width="80%"/>
+			<hr>
+			
+			<h3 class="text-center" th:text="${status}"></h3>
+			<h2 class="text-center" style="color: #B22222" th:text="${tipo}"></h2>
+			<br>
+			<label>Voce não tem permissão para acessar essa pagina!</label>
+			<br>
+			<label>Utilize um usuário <span th:text="${perfil}"></span></label>
+			<hr>
+			<nav class="nav nav-pills flex-column flex-sm-row">
+				<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/menu}">&nbsp;Voltar ao menu</a>
+			</nav>
+			<p class="mt-5 mb-3 text-muted text-center">GazalTech &copy; 2021</p>
 		</div>
 	</div>
 	
