@@ -37,7 +37,7 @@ $.ajax({
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-						+ '<td class="text-center col-md-1">' + Tpizzas.toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">' + Tpizzas + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
 						+ '<td class="text-center col-md-1">' 
 							+ '<a class="enviarPedido">'
