@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +15,8 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "USUARIOS")
+@Table(name = "USUARIOS",
+		uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class Usuario extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
