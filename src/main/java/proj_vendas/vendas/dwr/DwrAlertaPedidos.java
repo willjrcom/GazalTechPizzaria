@@ -1,10 +1,9 @@
 package proj_vendas.vendas.dwr;
 
-import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.stereotype.Component;
 
 @Component
-@RemoteProxy
+//@RemoteProxy
 public class DwrAlertaPedidos {
 	/*
 	@Autowired
