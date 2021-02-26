@@ -1,6 +1,7 @@
 package proj_vendas.vendas.web.controller;
 
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,7 @@ public class MenuController {
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = null;
 		Conquista conquista = null;
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		
 		//empresa----------------------------------------------------------------------------------------------
 		try {
@@ -93,7 +95,7 @@ public class MenuController {
 		}
 		
 		//dados
-		mv.addObject("troco", acessarDados(LocalDate.now().toString(), 0).getTrocoInicio());
+		mv.addObject("troco", acessarDados(format.format(new Date()), 0).getTrocoInicio());
 		
 		//empresa
 		mv.addObject("usuario", user.getEmail());
@@ -139,8 +141,9 @@ public class MenuController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		
-		acessarDados(LocalDate.now().toString(), 1);
+
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		acessarDados(format.format(new Date()), 1);
 		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
 		
 		 int cont = 0;
@@ -148,7 +151,7 @@ public class MenuController {
 		 try {
 			 List<Cupom> listCupom = empresa.getCupom();
 			 for(int i = 0; i < listCupom.size(); i++) {
-				 if(listCupom.get(i).getValidade().compareTo(LocalDate.now().toString()) == -1) {
+				 if(listCupom.get(i).getValidade().compareTo(format.format(new Date())) == -1) {
 					 listCupom.remove(i);
 					 cont++;
 				 }

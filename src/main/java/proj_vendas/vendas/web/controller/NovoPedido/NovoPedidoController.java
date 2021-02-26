@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.NovoPedido;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,38 +121,38 @@ public class NovoPedidoController {
 	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
+		SimpleDateFormat formatData = new SimpleDateFormat ("dd/MM/yyyy");
+		SimpleDateFormat formatHora = new SimpleDateFormat ("hh:mm");
 		
-		//se o pedido nao existir
+		//novo pedido
 		if(pedido.getId() == null) {
-			// buscar dia nos dados
+			//setar hora
+			pedido.setData(formatData.format(new Date()));
+			pedido.setHoraPedido(formatHora.format(new Date()));
+			
+			//buscar dia nos dados
 			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()); 
+			
+			//salvar o numero do pedido
+			pedido.setComanda((long)(dado.getComanda() + 1)); 
+			
+			//incrementar o n da comanda nos dados
+			dado.setComanda(dado.getComanda() + 1); 
+			dados.save(dado);
 
-			pedido.setComanda((long) (dado.getComanda() + 1)); // salvar o numero do pedido
-			dado.setComanda(dado.getComanda() + 1); // incrementar o n da comanda nos dados
-			dados.save(dado); // salva dados
-
-			if(pedido.getEnvio().equals("ENTREGA") && pedido.getId() == null) {//se for cliente cadastrado
-				Cliente cliente = clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), pedido.getCelular());//buscar cliente nos dados
-				cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
-				clientes.save(cliente);
-			}
-
-			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-			if(pedido.getEnvio().equals("MESA")) {
-				LogMesa mesa = new LogMesa();
-				mesa.setMesa(pedido.getNome());
-				List<LogMesa> logsMesas = empresa.getLogMesa();
-				logsMesas.add(mesa);
-				empresa.setLogMesa(logsMesas);
-				empresas.save(empresa);
+			//se for cliente cadastrado
+			if(pedido.getEnvio().equals("ENTREGA") && pedido.getId() == null) {
+				aumentarContPedidosCliente(user.getCodEmpresa(), pedido.getCelular());
 			}
 			
-			Conquista conquista = empresa.getConquista();
-			if(conquista.isCadPedido() == false) {
-				conquista.setCadPedido(true);
-				empresa.setConquista(conquista);
-				empresas.save(empresa);
+			//gerar LogMesa
+			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+			if(pedido.getEnvio().equals("MESA")) {
+				gerarLogMesa(pedido.getNome(), empresa);
 			}
+			//ativar conquista
+			Conquista conquista = empresa.getConquista();
+			liberarConquistas(conquista, empresa);
 		}
 		
 		pedido.setCodEmpresa(user.getCodEmpresa());
@@ -177,7 +179,6 @@ public class NovoPedidoController {
 	public Pedido atualizarPedido(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), user.getDia(), nome, "FINALIZADO", "EXCLUIDO");
 				
 		//necessario enviar a data
@@ -225,5 +226,31 @@ public class NovoPedidoController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		return funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(), "GARCON", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
+	}
+	
+	
+	private void liberarConquistas(Conquista conquista, Empresa empresa) {
+		if(conquista.isCadPedido() == false) {
+			conquista.setCadPedido(true);
+			empresa.setConquista(conquista);
+			empresas.save(empresa);
+		}
+	}
+	
+	
+	private void gerarLogMesa(String nome, Empresa empresa) {
+		LogMesa mesa = new LogMesa();
+		mesa.setMesa(nome);
+		List<LogMesa> logsMesas = empresa.getLogMesa();
+		logsMesas.add(mesa);
+		empresa.setLogMesa(logsMesas);
+		empresas.save(empresa);
+	}
+	
+	
+	private void aumentarContPedidosCliente(int codEmpresa, Long celular) {
+		Cliente cliente = clientes.findByCodEmpresaAndCelular(codEmpresa, celular);//buscar cliente nos dados
+		cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
+		clientes.save(cliente);
 	}
 }

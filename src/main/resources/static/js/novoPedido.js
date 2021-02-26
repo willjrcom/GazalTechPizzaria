@@ -60,7 +60,7 @@ function qtdHtml() {
 		htmlDisabled = "";
 	}
 
-	if(divisor == 0 || divisor < 0.09){
+	if(divisor == 0 || divisor < 0.09 || divisor > 1){
 		qtdDivisor = divisor = 1;
 		htmlDisabled = "";
 	}
@@ -217,7 +217,6 @@ if(typeof id_edicao != "undefined") {
 		selecionaModoPagamento();
 		
 		$("#divBuscarCliente").hide();
-		$("#divBuscarProdutos").show();
 		$(".divListaGeral").show();
 		$("#mostrarDadosCliente").show(); 
 		$("#BotaoEnviarPedido").html('<i class="fas fa-check"></i> Atualizar pedido');
@@ -231,6 +230,9 @@ if(typeof id_edicao != "undefined") {
 		pizzas = cliente.pizzas;
 		produtos = cliente.produtos;
 		tPedido = cliente.total;
+		
+		$("#alertPedidoAberto").text("Os pedidos a fazer serão enviados para fazer na cozinha novamente!").show("slow");
+		setInterval(() => $("#alertPedidoAberto").hide("slow"), 30000);
 		
 		mostrarProdutos();
 		mostrarTotal();
@@ -355,9 +357,11 @@ function mostrarDivsPedido(){
 	}
 	$("#divBuscarCliente").hide('slow', () => {
 		$("#mostrarDadosCliente").show('slow', () => {
-			$("#divBuscarProdutos").show('slow', () => {
-				$(".pula")[2].focus();//focar no campo de buscar pedido
-			});
+			if(modo != "EDITAR"){
+				$("#divBuscarProdutos").show('slow', () => {
+					$(".pula")[2].focus();//focar no campo de buscar pedido
+				});
+			}
 		});
 	});
 }
@@ -514,7 +518,8 @@ function enviarProduto(idUnico) {
 	$.confirm({
 		type: 'blue',
 		title: produto.setor + ': ' + produto.nomeProduto,
-		content: (produto.setor == 'PIZZA' ? bordasHtml : '') + qtdHtml(),
+		content: '<label><b>Total</b> R$ <span id="precoComQtd">' + Number(produto.preco).toFixed(2) + '</span></label><br>'
+			+ (produto.setor == 'PIZZA' ? bordasHtml : '') + qtdHtml(),
 	    closeIcon: true,
 		onContentReady: () => {
 			if(produto.setor == 'PIZZA'){
@@ -531,6 +536,10 @@ function enviarProduto(idUnico) {
 				}else{
 					//$("#borda").prop("disabled", false);
 				}
+				
+				$("#borda").change(() => {
+					mostrarPrecoProduto(produto.preco);
+				});
 			}
 			
 			//verificar o campo pula dentro do jquery confirm
@@ -538,6 +547,11 @@ function enviarProduto(idUnico) {
 				$("#qtd").focus().select();
 			else
 				$("#obs").focus();
+			
+			$("#qtd").keyup(() => {
+				mostrarPrecoProduto(produto.preco);
+			});
+			mostrarPrecoProduto(produto.preco);
 		},
 		buttons: {
 			confirm: {
@@ -550,7 +564,7 @@ function enviarProduto(idUnico) {
 					lastBorda = bordaId = $("#borda").val();
 					
 					//adiciona quantidade do produto
-					qtd = Number($("#qtd").val().toString().replace(",","."));
+					qtd = Number(Number($("#qtd").val().toString().replace(",",".")).toFixed(2));
 					if(isNaN(qtd) || qtd == 0) qtd = 1;
 					
 					//setar ultima borda adicionada
@@ -1186,4 +1200,20 @@ function mostrarListaBuscaProdutos(buscaProdutos){
 	}
 	linhaHtml += '</tbody>'
 				+ '<table>';
+}
+
+function mostrarPrecoProduto(precoProduto){
+	let precoCompleto =  0;
+	let qtd = (Number(Number($("#qtd").val().toString().replace(",",".")).toFixed(2))).toFixed(2);
+	
+	precoCompleto = qtd * precoProduto;
+	
+	if($("#borda").val() != 0){
+		for(let busca of buscaBordas) 
+			if(busca.id == $("#borda").val()){
+				precoCompleto += (busca.preco * qtd);
+			}
+	}
+		
+	$("#precoComQtd").text(isNumber(precoCompleto) ? precoCompleto.toFixed(2) : Number(precoProduto).toFixed(2));
 }
