@@ -4,11 +4,18 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
+    <meta charset="utf-8" lang="pt-br"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
 	<title>Login</title>
 	
+	<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet"/>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
 	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+	
+	<!-- icones -->
+	<script src="https://kit.fontawesome.com/99986af71e.js"></script>
+	<link rel="sortcut icon" href="/img/iconePag.ico" type="image/x-icon" />
 	
 	<!-- bootstrap v5 -->
 	<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet"/>
@@ -20,7 +27,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 
 <body>
-	
 	<div class="indexCentral">
 		<div class="corFundo centralizar col-md-8" id="login">
 			
@@ -58,7 +64,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</nav>
 				
 				<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{gazaltech}"><i class="fas fa-star"></i>&nbsp;Avaliar</a>
-				<p class="mt-5 mb-3 text-muted text-center">Gazal Tech &copy; 2021</p>
+				<p class="mt-5 mb-3 text-muted text-center">GazalTech &copy; 2021</p>
 				
 			</form>
 			
