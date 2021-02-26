@@ -112,7 +112,7 @@ function mostrarCupons(){
 				Tcupons += '<tr>'
 							+ '<td class="text-center col-md-1">' + cupom.nome + '</td>'
 							+ '<td class="text-center col-md-1">' + cupom.descricao + '</td>'
-							+ '<td class="text-center col-md-1">R$' +  cupom.desconto.toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">R$' +  cupom.desconto + '</td>'
 							+ '<td class="text-center col-md-1">' + cupom.validade + '</td>'
 							+ '<td class="text-center col-md-1">'
 								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><i class="fas fa-edit"></i></button>'
