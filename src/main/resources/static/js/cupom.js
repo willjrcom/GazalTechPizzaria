@@ -26,14 +26,12 @@ function aviso() {
 
 //----------------------------------------------------------------
 function salvar() {
-	console.log($("#nome").val(), $("#desconto").val(), $("#validade").val(), $("#descricao").val())
 	if($("#nome").val() != '' && $("#desconto").val() != '' && $("#validade").val() != '' && $("#descricao").val() != '') {
 		
 		carregarLoading("block");
 		cupom = {};
 		cupom.id = $("#id").val();
 		cupom.nome = $("#nome").val();
-		cupom.tipo = $("#tipo").val();
 		cupom.desconto = $("#desconto").val();
 		cupom.validade = $("#validade").val();
 		cupom.descricao = $("#descricao").val();
@@ -114,7 +112,7 @@ function mostrarCupons(){
 				Tcupons += '<tr>'
 							+ '<td class="text-center col-md-1">' + cupom.nome + '</td>'
 							+ '<td class="text-center col-md-1">' + cupom.descricao + '</td>'
-							+ '<td class="text-center col-md-1">' + ((cupom.tipo === "R$") ? cupom.tipo + " " + cupom.desconto : cupom.desconto + " " + cupom.tipo) + '</td>'
+							+ '<td class="text-center col-md-1">R$' +  cupom.desconto.toFixed(2) + '</td>'
 							+ '<td class="text-center col-md-1">' + cupom.validade + '</td>'
 							+ '<td class="text-center col-md-1">'
 								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><i class="fas fa-edit"></i></button>'

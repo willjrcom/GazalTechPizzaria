@@ -20,9 +20,6 @@ public class Cupom extends AbstractEntity<Long> {
 	private String descricao;
 	
 	@Column(nullable=false)
-	private String tipo;
-	
-	@Column(nullable=false)
 	private String desconto;
 	
 	@Column(nullable=false)
