@@ -37,8 +37,6 @@ public class PagamentoController {
 
 	@Autowired
 	private Empresas empresas;
-
-	private List<Pagamento> pagamentoEscolhido;
 	
 	@GetMapping("/pagamento")
 	public ModelAndView tela() {
@@ -54,7 +52,7 @@ public class PagamentoController {
 	}
 	
 
-	@RequestMapping(value = "/empresa")
+	@RequestMapping(value = "/pagamento/empresa")
 	@ResponseBody
 	public Empresa empresa() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -98,25 +96,22 @@ public class PagamentoController {
 		return ResponseEntity.badRequest().build();
 	}
 	
+	
 	@RequestMapping(value = "/pagamento/buscar/{id}/{data}")
 	@ResponseBody
 	public List<Pagamento> buscar(@PathVariable Long id, @PathVariable String data){
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		pagamentoEscolhido = null;
+		List<Pagamento> pagamento = funcionarios.findById(id).get().getPagamento();
 		
-		List<Funcionario> funcionario = funcionarios.findByCodEmpresa(user.getCodEmpresa());
-		for(int i = 0; i < funcionario.size(); i++) {
-			if(funcionario.get(i).getId() == id) {
-				List<Pagamento> pagamento = funcionario.get(i).getPagamento();
-				
-				for(int j = 0; j < pagamento.size(); j++) {
-					if(pagamento.get(j).getData().equals(data)) {
-						pagamentoEscolhido.add(pagamento.get(j));
-					}
+		if(pagamento != null) {
+			for(int j = 0; j < pagamento.size(); j++) {
+				if(!pagamento.get(j).getData().equals(data)) {
+					pagamento.remove(j);
 				}
 			}
+			return pagamento;
+		}else {
+			pagamento = null;
+			return pagamento;
 		}
-		return pagamentoEscolhido;
 	}
 }

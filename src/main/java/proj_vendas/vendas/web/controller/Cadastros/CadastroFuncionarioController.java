@@ -53,6 +53,10 @@ public class CadastroFuncionarioController{
 		}catch(Exception e) {}
 		funcionario.setCodEmpresa(user.getCodEmpresa());
 		
+		if(funcionario.getId() != null) {
+			Funcionario funcionarioCadastrado = funcionarios.findById(funcionario.getId()).get();
+			funcionario.setPagamento(funcionarioCadastrado.getPagamento());
+		}
 		return funcionarios.save(funcionario);
 	}
 		

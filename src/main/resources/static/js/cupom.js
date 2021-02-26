@@ -26,9 +26,11 @@ function aviso() {
 
 //----------------------------------------------------------------
 function salvar() {
-	if($("#cupom").val() != '' && $("#desconto").val() != '' && $("#validade").val() != '' && $("#descricao").val() != '') {
+	console.log($("#nome").val(), $("#desconto").val(), $("#validade").val(), $("#descricao").val())
+	if($("#nome").val() != '' && $("#desconto").val() != '' && $("#validade").val() != '' && $("#descricao").val() != '') {
 		
 		carregarLoading("block");
+		cupom = {};
 		cupom.id = $("#id").val();
 		cupom.nome = $("#nome").val();
 		cupom.tipo = $("#tipo").val();
@@ -60,6 +62,20 @@ function salvar() {
 					}
 				}
 			});
+		}).fail(() => {
+			carregarLoading("none");
+			$.alert({
+			type: 'red',
+			title: 'Atenção',
+			content: "Erro no processo, contacte o suporte!",
+			buttons: {
+				confirm: {
+					text: 'ok',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 		});
 	}else {
 		$.alert({
@@ -107,7 +123,7 @@ function mostrarCupons(){
 						+ '</tr>' + linhaCinza;
 			}
 		}else {
-			Tcupons = '<tr><td class="text-center col-md-1" colspan="4">Nenhum cupom cadastrado</td></tr>';
+			Tcupons = '<tr><td class="text-center col-md-1" colspan="5">Nenhum cupom cadastrado</td></tr>';
 		}
 
 		$("#todosCupons").html(Tcupons);
