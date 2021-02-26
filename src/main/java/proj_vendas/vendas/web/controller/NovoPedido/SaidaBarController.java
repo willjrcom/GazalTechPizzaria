@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.NovoPedido;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,17 @@ public class SaidaBarController{
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
-		return temps.findByCodEmpresaAndSetor(user.getCodEmpresa(), 2); //mostrar todos
+		List<PedidoTemp> pedidos = temps.findByCodEmpresaAndSetor(user.getCodEmpresa(), 2);
+		SimpleDateFormat format = new SimpleDateFormat ("dd/MM/yyyy hh:mm");
+
+		for(int i = 0; i < pedidos.size(); i++) {
+			if(pedidos.get(i).getStatus().equals("PRONTO")) {
+				if(pedidos.get(i).getValidade().compareTo(format.format(new Date()).toString()) < 0) {
+					temps.deleteById(pedidos.get(i).getId());
+					pedidos.remove(i);
+				}
+			}
+		}
+		return pedidos; //mostrar todos
 	}
 }

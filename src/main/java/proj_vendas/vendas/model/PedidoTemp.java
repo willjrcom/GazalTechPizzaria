@@ -38,4 +38,5 @@ public class PedidoTemp extends AbstractEntity<Long> {
 	
 	private int codEmpresa;
 	
+	private String validade;
 }

@@ -51,7 +51,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</thead>
 			</table>
 			<div class="table-scroll">
-				<table>
+				<table class=" table-striped">
 					<tbody id="todosPedidos"><tr><td colspan="6">Nenhum pedido a fazer!</td></tr></tbody>
 				</table>
 			</div>
@@ -68,10 +68,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/cozinha.js}"></script>
 	
-	<!-- dwr ajax -->
+	<!-- dwr ajax 
 	<script type='text/javascript' th:src="@{/dwr/engine.js}"></script>
   	<script type='text/javascript' th:src="@{/dwr/interface/DwrAlertaPedidos.js}"></script>
-  	<script type='text/javascript' th:src="@{/dwr/util.js}"></script>
+  	<script type='text/javascript' th:src="@{/dwr/util.js}"></script>-->
 </body>
 
 	<div th:replace="~{layouts/frag :: inicio}"></div>

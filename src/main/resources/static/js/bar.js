@@ -110,7 +110,7 @@ function buscarPedido() {
 							divisao -= pizza.qtd;
 						}
 					}
-					linhaHtml += linhaCinza + linhaCinza + linhaCinza;
+					linhaHtml += linhaCinza;
 				}
 			}
 			if(linhaHtml != "") {

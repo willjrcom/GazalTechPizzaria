@@ -109,14 +109,14 @@ function mostrar(pedidos, filtro) {
 						divisao -= pizza.qtd;
 					}
 				}
-				linhaHtml += linhaCinza + linhaCinza;
+				linhaHtml += linhaCinza;
 			}
 		}
 	}
 	if(linhaHtml != "") {
 		$("#todosPedidos").html(linhaHtml);
 	}else{
-		$("#todosPedidos").text(pedidoVazio);
+		$("#todosPedidos").html(pedidoVazio);
 	}
 }
 

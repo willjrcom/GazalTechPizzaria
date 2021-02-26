@@ -137,7 +137,7 @@ function mostrar(pedidos, filtro) {
 						divisao -= pizza.qtd;
 					}
 				}
-				linhaHtml += linhaCinza + linhaCinza + linhaCinza;
+				linhaHtml += linhaCinza;
 			}
 		}
 	}

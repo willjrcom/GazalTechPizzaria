@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.NovoPedido;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +45,17 @@ public class CozinhaController{
 	@RequestMapping(value = "/enviarPedido/{id}")
 	@ResponseBody
 	public PedidoTemp enviarPedido(@PathVariable long id) {//falta enviar as outras variaveis
-	
+		SimpleDateFormat data = new SimpleDateFormat ("dd/MM/yyyy hh");
+		SimpleDateFormat minutoString = new SimpleDateFormat ("mm");
+		int minutoInt = Integer.parseInt(minutoString.format(new Date()));
+		
 		//pedido temp do cliente
 		PedidoTemp pedido = temps.findById((long)id).get();
 		
+		//permite 4 minutos;
+		minutoInt += 4;
+		
+		pedido.setValidade(data.format(new Date()) + ":" + minutoInt);
 		pedido.setStatus("PRONTO");
 		return temps.save(pedido);
 	}
