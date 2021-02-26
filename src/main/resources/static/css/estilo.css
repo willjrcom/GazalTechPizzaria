@@ -377,11 +377,13 @@ table tbody tr td{
 
 /*celular*/
 @media (max-width:768px){
+	.mostrarConquistas{
+		display: none;
+	}
 }
 
 /*computador*/
 @media ( min-width: 769px ){
-	
 }
 
 /*
