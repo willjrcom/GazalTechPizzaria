@@ -1,6 +1,8 @@
 package proj_vendas.vendas.web.controller;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
 import proj_vendas.vendas.model.ImpressaoMatricial;
 import proj_vendas.vendas.model.ImpressaoPedido;
+import proj_vendas.vendas.model.LogMotoboy;
 import proj_vendas.vendas.model.Pagamento;
+import proj_vendas.vendas.model.Sangria;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Impressoes;
@@ -39,6 +46,9 @@ public class ImprimirController {
 	@Autowired
 	private Usuarios usuarios;
 
+	@Autowired
+	private Dados dados;
+	
 	@RequestMapping("/online/{codEmpresa}/{setor}")
 	@ResponseBody
 	public String impressaoNetBeans(@PathVariable int codEmpresa, @PathVariable String setor) {//modo online
@@ -171,6 +181,7 @@ public class ImprimirController {
 		imprimirLocal(impressaoCompleta, "A");
 	}
 	
+	
 	@RequestMapping("/imprimirPizza")
 	@ResponseBody
 	public void imprimirPizza(@RequestBody ImpressaoPedido pedido) {
@@ -247,42 +258,6 @@ public class ImprimirController {
 
 		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, pedido.getSetor());
-	}
-	
-	
-	public void imprimirLocal(String impressaoCompleta, String setor) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		
-		if(empresa.isImprimir() == true) {
-			impressaoCompleta = impressaoCompleta
-	                .replace("ç", "c")
-	                .replace("á", "a")
-	                .replace("ã", "a")
-	                .replace("à", "a")
-	                .replace("Á", "A")
-	                .replace("À", "A")
-	                .replace("ó", "o")
-	                .replace("õ", "o")
-	                .replace("ô", "o")
-	                .replace("ò", "o")
-	                .replace("é", "e")
-	                .replace("ê", "e")
-	                .replace("è", "e")
-	                .replace("í", "i")
-	                .replace("ú", "u")
-	                .replace("ì", "i");
-			
-			System.out.println(impressaoCompleta);
-				
-			ImpressaoMatricial im = new ImpressaoMatricial();
-			im.setImpressao(impressaoCompleta);
-			im.setCodEmpresa(user.getCodEmpresa());
-			im.setSetor(setor);
-			impressoes.save(im);
-		}
 	}
 	
 	
@@ -385,15 +360,121 @@ public class ImprimirController {
 	}
 	
 	
-	public String limitaString(String texto, int limite) {
+	@RequestMapping("/relatorioFechamento")
+	public ModelAndView imprimirTudo() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		//List<Pedido> pedido = pedidos.findByCodEmpresaAndDataAndStatus(user.getCodEmpresa(), dia, "FINALIZADO");
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
+		
+		DecimalFormat decimal = new DecimalFormat("0.00");
+		SimpleDateFormat format = new SimpleDateFormat ("kk:mm:ss dd/MM/yyyy");
+		String impressaoCompleta = "";
+		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", " + empresa.getEndereco().getBairro();
+		
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "#$"
+							+      cortaString(endereco) +                         "#$"
+							+ "CNPJ: " + empresa.getCnpj() +          "#$"
+							+ "----------------------------------------#$"
+							+ "               RELATORIO                #$"
+							+ "Data: " + format.format(new Date()) +  "#$"
+							+ "----------------------------------------#$"
+							+ dado.getClientes() + "#$";
+		
+		
+		impressaoCompleta += "----------------------------------------#$"
+						  	+ "            TOTAL DE VENDAS             #$"
+						  	+ "TROCO INICIAL \t\tR$ " + decimal.format(dado.getTrocoInicio()) 		+ "#$"
+						  	+ "TROCO FINAL   \t\tR$ " + decimal.format(dado.getTrocoFinal()) 		+ "#$"
+						  	+ "#$"
+						  	+ "TAXAS PAGAS   \t\tR$ " + decimal.format(calcularTaxaMotoboy(dado.getLogMotoboy())) 						+ "#$"
+						  	+ "#$"
+						  	+ "ENTREGAS:     \t\tR$ " + decimal.format(dado.getVenda_entrega()) 	+ "#$"
+						  	+ "BALCOES:      \t\tR$ " + decimal.format(dado.getVenda_balcao()) 		+ "#$"
+						  	+ "MESAS:        \t\tR$ " + decimal.format(dado.getVenda_mesa()) 		+ "#$"
+						  	+ "DRIVE-THRU:   \t\tR$ " + decimal.format(dado.getVenda_drive()) 	  	+ "#$"
+						  	+ "#$"
+						  	+ "LUCRO BRUTO:  \t\tR$ " + decimal.format(dado.getTotalVendas())      	+ "#$"
+						  	+ "LUCRO LIQUIDO:\t\tR$ " + decimal.format(dado.getTotalLucro())       	+ "#$"
+						  	+ "#$"
+						  	+ "SANGRIA:      \t\tR$ " + decimal.format(calcularSangria(dado.getSangria()))				+ "#$"
+							+ "#$"
+							+ "TOTAL CAIXA:  \t\tR$ " 
+								+ decimal.format((dado.getTotalVendas() + dado.getTrocoInicio()) - calcularSangria(dado.getSangria()))
+							+ "#$";
+		
+		imprimirLocal(impressaoCompleta, "A");
+		
+		return new ModelAndView("fechamento");
+	}
+	
+	
+	private float calcularSangria(List<Sangria> sangria) {
+		int i;
+		float total = 0;
+		
+		for(i = 0; i< sangria.size(); i++) {
+			total += sangria.get(i).getValor();
+		}
+		return total;
+	}
+	
+	
+	private float calcularTaxaMotoboy(List<LogMotoboy> logMotoboy) {
+		float totalTaxa = 0;
+		
+		if(logMotoboy.size() != 0)
+		for(int i = 0; i < logMotoboy.size(); i++) {
+			totalTaxa += logMotoboy.get(i).getTaxa();
+		}
+		return totalTaxa;
+	}
+	
+	
+	private void imprimirLocal(String impressaoCompleta, String setor) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		
+		if(empresa.isImprimir() == true) {
+			impressaoCompleta = impressaoCompleta
+	                .replace("ç", "c")
+	                .replace("á", "a")
+	                .replace("ã", "a")
+	                .replace("à", "a")
+	                .replace("Á", "A")
+	                .replace("À", "A")
+	                .replace("ó", "o")
+	                .replace("õ", "o")
+	                .replace("ô", "o")
+	                .replace("ò", "o")
+	                .replace("é", "e")
+	                .replace("ê", "e")
+	                .replace("è", "e")
+	                .replace("í", "i")
+	                .replace("ú", "u")
+	                .replace("ì", "i");
+				
+			ImpressaoMatricial im = new ImpressaoMatricial();
+			im.setImpressao(impressaoCompleta);
+			im.setCodEmpresa(user.getCodEmpresa());
+			im.setSetor(setor);
+			impressoes.save(im);
+		}
+	}
+	
+	
+	private String limitaString(String texto, int limite) {
 		String vazio = "                              ";
 		if(texto.length() < limite) texto += vazio;
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
 	
 	
-	public String cortaString(String texto) {
+	private String cortaString(String texto) {
 		int limite = 40;
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite) + "#$" + cortaString(texto.substring(limite));
 	}

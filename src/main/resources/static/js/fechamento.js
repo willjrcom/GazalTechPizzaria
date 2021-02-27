@@ -4,7 +4,7 @@ var Tpedidos;
 var Tvendas = 0, Tfaturamento = 0;
 var Tpizza = 0, Tproduto = 0;
 var totalMotoboys;
-
+var compras = 0;
 //formas de envio
 var envioHtml;
 var entrega = 0, balcao = 0, mesa = 0, drive = 0;
@@ -20,38 +20,17 @@ var cont1 = 0, cont2 = 0;
 
 var linhaCinza = '<tr><td colspan="4" class="fundoList"></td></tr>';
 
-$("#relatorio").attr("disabled", true);
-
 carregarLoading("block");
 
-function todosDados(e){
-	Dado = e;
-	if(Dado.logMotoboy.length != 0){	
-		console.log(Dado.logMotoboy)
-		carregarMotoboy();
-	}
-	else $("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
-	setTimeout(() => $("#mostrarTaxasCompleto").show('slow'), 1000);
-	$("#logmotoboys").show();
-	$("#relatorio").attr("disabled", false)
-}
 
+$("#relatorio").click(function(){
 
-//-------------------------------------------------------------------------------
-$.ajax({
-  	url: "/adm/fechamento/dados",
-  	type: "GET"
-}).done(function(e){
-	todosDados(e);
-	
-	//--------------------------------------------------------------------------------
-	$("#relatorio").click(function(){
+		$("#relatorio").attr("disabled", true);
 		
 		carregarLoading("block");
 		
 		$.ajax({
-			url: '/adm/fechamento/relatorio/' + e.totalLucro + '/' + (typeof totalMotoboys == 'undefined' ? 0 : totalMotoboys.taxa),
-			type: 'GET'
+			url: '/imprimir/relatorioFechamento'
 		}).done(function(){
 			carregarLoading("none");
 
@@ -60,70 +39,38 @@ $.ajax({
 			relatorio.open();
 			setTimeout(function(){
 				relatorio.close();
-			}, 3000);
+			}, 10000);
 		}).fail(function(){
 			carregarLoading("none");
-			relatorio.close();
 			$("#relatorio").attr("disabled", false);
 			$.alert("Erro, Pedidos não encontrados!");
 		});
 	});
+
+//-------------------------------------------------------------------------------
+$.ajax({
+  	url: "/adm/fechamento/dados",
+  	type: "GET"
+}).done(function(e){
+	console.log(e)
+	//motoboy-------------------------------------------------------------------
+	if(e.logMotoboy.length != 0)
+		carregarMotoboy(e.logMotoboy);
+	else
+		$("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
+		
+	setTimeout(() => $("#mostrarTaxasCompleto").show('slow'), 1000);
+	$("#logmotoboys").show();
 	
-	var compras = 0;
 
 	//compras---------------------------------------------------------------------
-	if(e.compras.length != 0) {
-		var produtos = e.compras;
-		for(produto of produtos) {
-			compras += parseFloat(produto.valor);
-		}
-		var comprasHtml = '<tr>'
-						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
-					+ '</tr>'
-					+ '<tr>'
-						+ '<td class="text-center col-md-1">R$ ' + compras.toFixed(2) + '</td>'
-					+ '</tr>';
-					
-		$("#compras").html(comprasHtml);
-	}else{
-		$("#compras").text("Nenhuma compra feita hoje!");
-	}
-	
+	calcularCompra(e.compra);
 	
 	//sangrias---------------------------------------------------------------------
-	if(typeof e.sangria != "undefined") {
-		let totalSangria = 0, sangriaHtml = '';
+	calcularSangria(e.sangria);
 		
-		sangriaHtml = '<tr>'
-						+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
-					+ '</tr>';
-					
-		for(let sangria of e.sangria) {
-			totalSangria += parseFloat(sangria.valor);
-			
-			sangriaHtml += '<tr>'
-						+ '<td class="text-center col-md-1">' + sangria.nome + '</td>'
-						+ '<td class="text-center col-md-1">R$ ' + sangria.valor.toFixed(2) + '</td>'
-					+ '</tr>';
-		}
-			
-		sangriaHtml += '<tr><td>&nbsp;</td></tr>' 
-					+ '<tr>'
-						+ '<th class="text-center col-md-1" colspan="2">Total retirado do caixa</th>'
-					+ '</tr>'
-					
-					+ '<tr>'
-						+ '<td class="text-center col-md-1" colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
-					+ '</tr>';
-		
-					
-		$("#todasSangrias").html(sangriaHtml);
-	}else{
-		$("#todasSangrias").text("Nenhuma sangria feita hoje!");
-	}
 	
-		
-	//----------------------------------------------------------------------------
+	//graficos---------------------------------------------------------------------
 	google.charts.load("current", {packages:['corechart']});
 	google.charts.setOnLoadCallback(drawChart);
 
@@ -181,9 +128,7 @@ $.ajax({
 
 
 //-------------------------------------------------------------------------------------
-function carregarMotoboy(){
-	logmotoboys = Dado.logMotoboy;
-	
+function carregarMotoboy(logmotoboys){
 	//resumo
 	const todosNomes = logmotoboys.map(logmotoboys => logmotoboys.motoboy);
 	var objsMotoboys = [];
@@ -252,8 +197,8 @@ function carregarMotoboy(){
 	for(boy of logmotoboys) {
 		linhaBoy += '<tr>'
 				+ '<td class="text-center col-md-1">' + boy.comanda + '</td>'
-				+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 13) + '</td>'
-				+ '<td class="text-center col-md-1">' + boy.motoboy.substring(0, 13) + '</td>'
+				+ '<td class="text-center col-md-1">' + boy.nome + '</td>'
+				+ '<td class="text-center col-md-1">' + boy.motoboy + '</td>'
 				+ '<td class="text-center col-md-1">R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>' + linhaCinza;
 	}
@@ -261,7 +206,6 @@ function carregarMotoboy(){
 	linhaBoy += '</tbody>'
 			+'</table></div></div>';
 	
-	$("#logCompleto").html(linhaBoy);
 	$(".divmotoboys").css({
 		
 	}).css({
@@ -270,21 +214,74 @@ function carregarMotoboy(){
 }
 
 
+function calcularCompra(compra){
+	if(compra.length != 0) {
+		var produtos = e.compras;
+		for(produto of produtos) {
+			compras += parseFloat(produto.valor);
+		}
+		var comprasHtml = '<tr>'
+						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
+					+ '</tr>'
+					+ '<tr>'
+						+ '<td class="text-center col-md-1">R$ ' + compras.toFixed(2) + '</td>'
+					+ '</tr>';
+					
+		$("#compras").html(comprasHtml);
+	}else{
+		$("#compras").text("Nenhuma compra feita hoje!");
+	}
+}
+
+
+function calcularSangria(sangrias){
+	if(typeof sangrias != "undefined") {
+		let totalSangria = 0, sangriaHtml = '';
+		
+		sangriaHtml = '<tr>'
+						+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
+					+ '</tr>';
+					
+		for(let sangria of sangrias) {
+			totalSangria += parseFloat(sangria.valor);
+			
+			sangriaHtml += '<tr>'
+						+ '<td class="text-center col-md-1">' + sangria.nome + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + sangria.valor.toFixed(2) + '</td>'
+					+ '</tr>';
+		}
+			
+		sangriaHtml += '<tr><td>&nbsp;</td></tr>' 
+					+ '<tr>'
+						+ '<th class="text-center col-md-1" colspan="2">Total retirado do caixa</th>'
+					+ '</tr>'
+					
+					+ '<tr>'
+						+ '<td class="text-center col-md-1" colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
+					+ '</tr>';
+		
+					
+		$("#todasSangrias").html(sangriaHtml);
+	}else{
+		$("#todasSangrias").text("Nenhuma sangria feita hoje!");
+	}
+}
+
 //--------------------------------------------------------------------------------------
 $("#mostrarTaxasCompleto").click(() => {
-	$("#mostrarTaxasCompleto").hide("slow");
-	$("#mostrarTaxasResumo").show("slow");
-	$("#logCompleto").show("slow");
-	$("#logResumo").hide("slow");
-});
-
-
-//--------------------------------------------------------------------------------------
-$("#mostrarTaxasResumo").click(() => {
-	$("#mostrarTaxasCompleto").show("slow");
-	$("#mostrarTaxasResumo").hide("slow");
-	$("#logCompleto").hide("slow");
-	$("#logResumo").show("slow");
+	$.alert({
+		type: 'blue',
+		title: 'Taxas de entrega completo',
+		content: linhaBoy,
+	    closeIcon: true,
+	    columnClass: 'col-md-12',
+		buttons:{
+			confirm:{
+				isHidden: true,
+				keys: ['esc', 'enter']
+			}
+		}
+	});
 });
 
 
