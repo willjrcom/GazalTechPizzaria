@@ -162,7 +162,7 @@ if(typeof id_edicao != "undefined") {
 			});
 			return 300;
 		}
-			
+		console.log(e)
 		cliente = e;
 		cliente.taxa = parseFloat(cliente.taxa);
 		cliente.pizzas = JSON.parse(e.pizzas);
@@ -191,18 +191,12 @@ if(typeof id_edicao != "undefined") {
 				$("#cobrarTaxa").val(1);
 			}
 			$("#cobrarTaxa").attr("disabled", true);
+			$("#divPagamentoGeral").show('slow');
 		}
 			
 		//mostrar entrega
 		if(e.envio == 'BALCAO' || e.envio == 'MESA' || e.envio == 'DRIVE') {
 			$(".iconesEntrega").hide();
-		}
-
-		//verificar garcon
-		if(e.envio === 'MESA'){
-			$("#garcon").val(e.garcon);
-			$("#divGarcon").show('slow');
-			$("#divPagamentoGeral").hide('slow');
 		}
 			
 		//opcoes de pagamento
@@ -222,6 +216,12 @@ if(typeof id_edicao != "undefined") {
 		$("#BotaoEnviarPedido").html('<i class="fas fa-check"></i> Atualizar pedido');
 		$("#cancelar").html('<i class="fas fa-ban"></i> Cancelar alteração');
 		
+		//verificar garcon
+		if(e.envio === 'MESA'){
+			$("#divGarcon").show('slow');
+			$("#garcon").text(cliente.garcon).attr("disabled", true);
+			$("#divPagamentoGeral").hide('slow');
+		}
 		
 		for(pizza of cliente.pizzas) totalTodosProdutos += pizza.qtd;
 	
@@ -279,7 +279,7 @@ function buscarCliente(){
 		}).done(function(e){
 			//verificar se existe
 			if(e.length != 0) {
-
+			
 				cliente.nome = e.nome;
 				cliente.celular = e.celular;
 				cliente.endereco = e.endereco.rua + ' - ' + e.endereco.n  + ' - ' + e.endereco.bairro;
@@ -382,6 +382,18 @@ function atualizarDados() {
 			cliente.id = e.id;
 			cliente.comanda = e.comanda;
 			cliente.horaPedido = e.horaPedido;
+			cliente.envio = e.envio;
+			
+			if(e.envio == 'ENTREGA'){
+				$("#divPagamentoGeral").show('slow');
+			}
+			
+			if(e.cupom != '' && e.cupom != null){
+				cliente.cupom = e.cupom;
+				$("#divCupom").show('slow');
+				$("#cupom").val(cliente.cupom);
+			}
+			
 			totalTodosProdutosAnteriores = 0;
 			
 			if(JSON.parse(e.pizzas).length != 0) for(let pizza of JSON.parse(e.pizzas)) totalTodosProdutosAnteriores += pizza.qtd;
@@ -518,7 +530,7 @@ function enviarProduto(idUnico) {
 	$.confirm({
 		type: 'blue',
 		title: produto.setor + ': ' + produto.nomeProduto,
-		content: '<label><b>Total</b> R$ <span id="precoComQtd">' + Number(produto.preco).toFixed(2) + '</span></label><br>'
+		content: '<label><b>Total:</b> R$ <span id="precoComQtd">' + Number(produto.preco).toFixed(2) + '</span></label><br>'
 			+ (produto.setor == 'PIZZA' ? bordasHtml : '') + qtdHtml(),
 	    closeIcon: true,
 		onContentReady: () => {
@@ -716,11 +728,10 @@ $("#BotaoEnviarPedido").click(function() {
 			});
 			return 300;
 		}
-		//verificar se for dinheiro
 		cliente.modoPagamento = "Dinheiro -R$ " + mostrarTotalComTaxa().toFixed(2); 
 	}
 	
-	//verificar se for cartao
+	//verificar se for cartao e escolheu uma opcao
 	if(selecionarCartao() == 0 && $("#modoPagamento").val() == 1){
 		$.alert({
 			type: 'red',
@@ -736,7 +747,8 @@ $("#BotaoEnviarPedido").click(function() {
 		});	
 		return 300;
 	}
-	
+	/*
+	//se o total de produtos for inteiro
 	if(totalTodosProdutos % 2 != 0 && totalTodosProdutos % 2 != 1){
 		$.alert({
 			type: 'red',
@@ -751,7 +763,7 @@ $("#BotaoEnviarPedido").click(function() {
 			}
 		});	
 		return 300;
-	}
+	}*/
 	
 	//modal jquery confirmar
 	$.confirm({
@@ -775,11 +787,11 @@ $("#BotaoEnviarPedido").click(function() {
 					
 					if($('#obsPedido').val() != '') cliente.obs = $('#obsPedido').val();
 					
+					//criar dados
 					cliente.pago = (this.$content.find("#pagoCliente").val() == 0 ? false : true);
 					cliente.pizzas = JSON.stringify(pizzas);
 					cliente.produtos = JSON.stringify(produtos);
 					cliente.total = tPedido;
-					cliente.horaPedido = hora + ':' + minuto + ':' + segundo;
 					cliente.troco = troco;
 					
 					//buscar pedido no sistema
@@ -804,7 +816,7 @@ $("#BotaoEnviarPedido").click(function() {
 
 //--------------------------------------------------------------------------------------------------------------------
 function estruturarPedido(e, troco){
-	//atualizar
+	//se atualizar
 	if(e.id != null && modo == "ATUALIZAR") {
 		cliente.data = e.data;
 		cliente.horaPedido = e.horaPedido;
@@ -848,10 +860,8 @@ function estruturarPedido(e, troco){
 function criarTemp(setor, comanda){
 	temp = {};
 	temp.comanda = comanda;
-	temp.data = cliente.data;
 	temp.nome = cliente.nome;
 	temp.envio = cliente.envio;
-	temp.status = "COZINHA";
 	temp.setor = setor;
 
 	if(setor == 1){
@@ -955,23 +965,6 @@ function carregarLoading(texto){
 	});
 }
 
-//salvar hora atual
-var data = new Date();
-hora = data.getHours();
-hora = (hora.length == 0) ? '00' : hora;
-hora = (hora <= 9) ? '0'+hora : hora;
-minuto = data.getMinutes();
-minuto = (minuto.length == 0) ? '00' : minuto;
-minuto = (minuto <= 9) ? '0'+minuto : minuto;
-segundo = data.getSeconds();
-segundo = (segundo.length == 0) ? '00' : segundo;
-segundo = (segundo <= 9) ? '0'+segundo : segundo;
-dia  = data.getDate().toString();
-dia = (dia.length == 1) ? '0'+dia : dia;
-mes  = (data.getMonth()+1).toString();
-mes = (mes.length == 1) ? '0'+mes : mes;
-ano = data.getFullYear();
-
 
 function isNumber(str) {
     return !isNaN(parseFloat(str))
@@ -1018,7 +1011,7 @@ $("#pagoCliente").change(() => {
 });
 
 function selecionarPago(){
-	if($("#pagoCliente").val() == 0){
+	if($("#pagoCliente").val() == 0 && $("#envioCliente").val() != 'ENTREGA'){
 		$("#divPagamentoGeral").hide('slow');
 	}else{
 		$("#divPagamentoGeral").show('slow');
@@ -1067,27 +1060,19 @@ $("#envioCliente").change(function(){
 	mostrarTotal();
 	if($("#envioCliente").val() === 'MESA'){
 		$("#divCobrarTaxa").hide('slow', () => {
-			$("#divGarcon").show('slow', () => {
-				if($("#pagoCliente").val() == 0)
-					$("#divPagamentoGeral").hide('slow');
-			});
+			$("#divGarcon").show('slow');
 		});
 		
 	}else if($("#envioCliente").val() == 'ENTREGA'){
 		$("#divGarcon").hide('slow', () => {
-			$("#divCobrarTaxa").show('slow', () => {
-				if($("#pagoCliente").val() == 1)
-					$("#divPagamentoGeral").show('slow');
-			});
+			$("#divCobrarTaxa").show('slow');
 		});
 	}else{
 		$("#divGarcon").hide('slow',() =>{
-			$("#divCobrarTaxa").hide('slow', () => {
-				if($("#pagoCliente").val() == 1)
-					$("#divPagamentoGeral").show('slow');
-			});
+			$("#divCobrarTaxa").hide('slow');
 		});
 	}
+	selecionarPago();
 });
 
 

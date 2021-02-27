@@ -67,10 +67,8 @@ public class NovoPedidoController {
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());//busca no banco de dados
-		
 		ModelAndView mv = new ModelAndView("novoPedido");
-		mv.addObject("trocoInicial", dado.getTrocoInicio());
+		mv.addObject("trocoInicial", dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()).getTrocoInicio());
 		return mv;
 	}
 
@@ -80,7 +78,6 @@ public class NovoPedidoController {
 	public Cliente buscarNumeroCliente(@PathVariable Long celular) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		return clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 	}
 	
@@ -112,17 +109,17 @@ public class NovoPedidoController {
 	public List<Produto> mostrarBordas() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		
 		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 	}
 
+	
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
 	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		SimpleDateFormat formatData = new SimpleDateFormat ("dd/MM/yyyy");
-		SimpleDateFormat formatHora = new SimpleDateFormat ("hh:mm");
+		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM-dd");
+		SimpleDateFormat formatHora = new SimpleDateFormat ("kk:mm");
 		
 		//novo pedido
 		if(pedido.getId() == null) {
@@ -163,15 +160,15 @@ public class NovoPedidoController {
 
 	@RequestMapping(value = "/editarPedido/{id}")
 	@ResponseBody
-	public Pedido editarPedido(@PathVariable long id) {
+	public ResponseEntity<Pedido> editarPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		Pedido pedido = pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
 		
 		if(pedido.getCodEmpresa() == user.getCodEmpresa()) {
-			return pedido;
+			return ResponseEntity.ok(pedido);
 		}
-		return null;
+		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/atualizar/{nome}")
@@ -179,12 +176,13 @@ public class NovoPedidoController {
 	public Pedido atualizarPedido(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
+		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM-dd");
 		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), user.getDia(), nome, "FINALIZADO", "EXCLUIDO");
 				
 		//necessario enviar a data
 		if(pedidoAntigo == null) {
 			Pedido vazio = new Pedido();
-			vazio.setData(user.getDia());
+			vazio.setData(formatData.format(new Date()));
 			return vazio;
 		}
 		return pedidoAntigo;
@@ -196,7 +194,18 @@ public class NovoPedidoController {
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
+		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM-dd");
+		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-");
+		SimpleDateFormat diaString = new SimpleDateFormat ("dd");
+		int diasInt = Integer.parseInt(diaString.format(new Date()));
+
+		//permite 4 dias;
+		diasInt += 2;
+		
+		temp.setValidade(data.format(new Date()) + ":" + diasInt);
 		temp.setCodEmpresa(user.getCodEmpresa());
+		temp.setData(formatData.format(new Date()));
+		temp.setStatus("COZINHA");
 		temps.save(temp);
 	}
 	
