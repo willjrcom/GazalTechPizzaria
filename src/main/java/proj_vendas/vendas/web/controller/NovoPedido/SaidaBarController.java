@@ -38,7 +38,7 @@ public class SaidaBarController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		List<PedidoTemp> pedidos = temps.findByCodEmpresaAndSetor(user.getCodEmpresa(), 2);
-		SimpleDateFormat format = new SimpleDateFormat ("dd/MM/yyyy hh:mm");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
 		for(int i = 0; i < pedidos.size(); i++) {
 			if(pedidos.get(i).getStatus().equals("PRONTO")) {

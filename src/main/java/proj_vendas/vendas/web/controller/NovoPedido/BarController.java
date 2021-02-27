@@ -45,13 +45,16 @@ public class BarController{
 	@RequestMapping(value = "/enviarPedido/{id}")
 	@ResponseBody
 	public PedidoTemp enviarPedido(@PathVariable long id) {//falta enviar as outras variaveis
-		SimpleDateFormat data = new SimpleDateFormat ("dd/MM/yyyy hh");
-		SimpleDateFormat minutoString = new SimpleDateFormat ("mm");
+		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd kk");
+		SimpleDateFormat minutoString = new SimpleDateFormat("mm");
 		int minutoInt = Integer.parseInt(minutoString.format(new Date()));
 		
 		//pedido temp do cliente
 		PedidoTemp pedido = temps.findById((long)id).get();
 
+		//permite 4 minutos;
+		minutoInt += 4;
+		
 		pedido.setValidade(data.format(new Date()) + ":" + minutoInt);
 		pedido.setStatus("PRONTO");
 		return temps.save(pedido);

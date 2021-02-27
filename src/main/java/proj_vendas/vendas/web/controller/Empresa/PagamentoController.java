@@ -76,7 +76,7 @@ public class PagamentoController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		SimpleDateFormat format = new SimpleDateFormat ("hh:mm:ss dd/MM/yyyy");
+		SimpleDateFormat format = new SimpleDateFormat ("kk:mm:ss dd/MM/yyyy");
 		
 		//log usuario	
 		pagamento.setUsuario(user.getEmail());
