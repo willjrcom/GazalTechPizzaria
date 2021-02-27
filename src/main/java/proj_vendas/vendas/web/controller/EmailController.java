@@ -40,7 +40,7 @@ public class EmailController {
 	    	if(email.getTexto().equals("-1")) {
 	    		email.setTexto("<h3>Seu email está com pendencias em nosso sistema, por favor contate o suporte!</h3>"
 	    					+ email.getEmail()
-	        				+ "<br><p>Gazal Tech - " + format.format(new Date()).toString() + "</p>"
+	        				+ "<br><p>GazalTech - " + format.format(new Date()).toString() + "</p>"
 	        				+ "<label>Sistema Pizzaria Web</label>");
 	    	}
 	    	//enviar email confirmacao
