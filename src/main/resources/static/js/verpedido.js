@@ -7,7 +7,7 @@ var pedidoVazio = '<tr><td colspan="6">Nenhum pedido em aberto!</td></tr>';
 var Tpedidos = 0, totalPedidos = 0;
 var totalTodosProdutos = 0;
 var imprimirTxt;
-$(document).ready(() => $("#nomePagina").html("Ver pedidos"));
+$(document).ready(() => $("#nomePagina").html("Pedidos em aberto"));
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");
@@ -423,7 +423,6 @@ function imprimirTudo(cliente) {
 				
 	//salvar hora
 	cliente.hora = cliente.horaPedido;
-	cliente.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 
 	$.ajax({
 		url: "/imprimir/imprimirPedido",
@@ -443,7 +442,6 @@ function imprimirPizzas(cliente) {
 		
 		//salvar hora
 		cliente.hora = cliente.horaPedido;
-		cliente.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 
 		$.ajax({
 			url: "/imprimir/imprimirPizza",
@@ -477,7 +475,6 @@ function imprimirProdutos(cliente) {
 	
 		//salvar hora
 		cliente.hora = cliente.horaPedido;
-		cliente.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 
 		$.ajax({
 			url: "/imprimir/imprimirProduto",
