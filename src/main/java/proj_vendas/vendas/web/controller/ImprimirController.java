@@ -112,7 +112,7 @@ public class ImprimirController {
 							+ cortaString(pedido.getReferencia())    + "#$"
 							+ "Taxa de entrega: \tR$ " + decimal.format(pedido.getTaxa()) + "#$";
 					
-		impressaoCompleta += "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$"
+		impressaoCompleta += "Data: " + pedido.getHora() + "#$"
 							+ cortaString(pedido.getTexto1()) + "#$";
 
 		//pizzas------------------------------------------------------------------------------------------
@@ -215,7 +215,7 @@ public class ImprimirController {
 		}
 		
 		impressaoCompleta += "----------------------------------------#$"
-							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
+							+ "Data: " + pedido.getHora() + "#$";
 
 		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, pedido.getSetor());
@@ -254,7 +254,7 @@ public class ImprimirController {
 		}
 		
 		impressaoCompleta += "----------------------------------------#$"
-							+ "Hora: " + pedido.getHora() + "\tData: " + pedido.getData() + "#$";
+							+ "Data: " + pedido.getHora() + "#$";
 
 		impressaoCompleta += "#$";
 		imprimirLocal(impressaoCompleta, pedido.getSetor());
@@ -291,7 +291,7 @@ public class ImprimirController {
 						  + "Cpf: " + funcionario.getCpf() + "#$"
 						  + "Sob o cargo: " + cortaString(funcionario.getCargo()) + "#$";
 		
-		if(pagamento.getGastos() != 0) impressaoCompleta	+= "Gerou gastou de: R$ " + decimal.format(pagamento.getGastos()) + "#$";
+		if(pagamento.getGastos() != 0) impressaoCompleta += "Gerou gastou de: R$ " + decimal.format(pagamento.getGastos()) + "#$";
 		if(pagamento.getPago() != 0) impressaoCompleta	+= "Recebeu o vale de: R$ " + decimal.format(pagamento.getPago()) + "#$";
 		if(pagamento.getHoras() != 0) impressaoCompleta	+= "Acrescentou em hora extra: R$ " + decimal.format(pagamento.getHoras()) + "#$";
 		

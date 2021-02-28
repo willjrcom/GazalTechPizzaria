@@ -25,8 +25,6 @@ public interface PedidoTemps extends JpaRepository<PedidoTemp, Long>{
 	public List<PedidoTemp> findByCodEmpresaAndSetorAndStatus(int codEmpresa, int i, String string);
 	
 	public List<PedidoTemp> findByCodEmpresaAndEnvio(int codEmpresa, String envio);
-	
-	public List<PedidoTemp> findByCodEmpresaAndDataAndStatus(int codEmpresa, String data, String status);
 
 	public List<PedidoTemp> findByCodEmpresaAndDataAndComanda(int codEmpresa, String dia, Long comanda);
 	

@@ -27,7 +27,6 @@ public class ImpressaoPedido {
 	private String texto2;
 	private String promocao;
 	
-	private String data;
 	private String hora;
 	private String setor;
 	private String cupom;

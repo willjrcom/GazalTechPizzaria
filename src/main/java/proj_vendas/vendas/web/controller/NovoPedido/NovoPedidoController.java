@@ -118,13 +118,12 @@ public class NovoPedidoController {
 	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM-dd");
-		SimpleDateFormat formatHora = new SimpleDateFormat ("kk:mm");
+		SimpleDateFormat formatHora = new SimpleDateFormat ("dd/MM/yyyy kk:mm");
 		
 		//novo pedido
 		if(pedido.getId() == null) {
 			//setar hora
-			pedido.setData(formatData.format(new Date()));
+			pedido.setData(user.getDia());
 			pedido.setHoraPedido(formatHora.format(new Date()));
 			
 			//buscar dia nos dados
@@ -194,7 +193,6 @@ public class NovoPedidoController {
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM-dd");
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-");
 		SimpleDateFormat diaString = new SimpleDateFormat ("dd");
 		int diasInt = Integer.parseInt(diaString.format(new Date()));
@@ -204,7 +202,7 @@ public class NovoPedidoController {
 		
 		temp.setValidade(data.format(new Date()) + ":" + diasInt);
 		temp.setCodEmpresa(user.getCodEmpresa());
-		temp.setData(formatData.format(new Date()));
+		temp.setData(user.getDia());
 		temp.setStatus("COZINHA");
 		temps.save(temp);
 	}
