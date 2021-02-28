@@ -5,18 +5,6 @@ var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum Funcionário encontrado!</td></tr>';
 var horaExtra = 10;
 $(document).ready(() => $("#nomePagina").text("Pagamento de funcionários"));
-
-//-------------------------------------------------------
-function dataAtualFormatada(){
-    var data = new Date(),
-        //dia  = data.getDate().toString(),
-        //diaF = (dia.length == 1) ? '0'+dia : dia,
-        mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
-        mesF = (mes.length == 1) ? '0'+mes : mes,
-        anoF = data.getFullYear();
-    return mesF+"-"+anoF;
-}
-	
 	
 //------------------------------------------------------------
 carregarLoading("block");
@@ -82,14 +70,14 @@ function mostrar(funcionarios, filtro){
 							
 							+'<div class="col-md-1">'
 								+'<a>'
-								+ '<button type="button" title="Pagar" onclick="pagarSalario()" class="botao"'
+								+ '<button type="button" title="Pagar" onclick="acessarData(1)" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="far fa-check-square"></i></button>'
 								+'</a>'
 							+'</div>'
 							
 							+'<div class="col-md-1">'
 								+'<a>'
-								+ '<button type="button" title="Imprimir" onclick="imprimirResumo()" class="botao"'
+								+ '<button type="button" title="Imprimir" onclick="acessarData(2)" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="fas fa-print"></i></button>'
 								+'</a>'
 							+'</div>'
@@ -109,19 +97,19 @@ function mostrar(funcionarios, filtro){
 
 
 //-------------------------------------------------------------------------
-function addDiaria() {
+function acessarData(op) {
 	
 	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
+	var idFuncionario = botaoReceber.attr('value');
 	
 	//buscar dados completos do pedido enviado
-	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+	for(i in funcionarios) if(funcionarios[i].id == idFuncionario) var idBusca = i;
 		
 	mesAtual = new Date();
 			
 	$.alert({
 		type: 'blue',
-		title: 'Adicionar diária',
+		title: 'Acessar data',
 		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' 
 			+ (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
 			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' 
@@ -134,129 +122,22 @@ function addDiaria() {
 				action: function(){
 					carregarLoading("block");
 					
-					var mes = this.$content.find('#mes').val();
+					let mes = this.$content.find('#mes').val();
 					mes = (mes.length == 1) ? '0'+mes : mes;
 
-					var ano = this.$content.find('#ano').val();
+					let ano = this.$content.find('#ano').val();
 					ano = (ano.length == 1) ? '0'+ano : ano;
 					
-					var salario = {};
-					salario.id = funcionarios[idBusca].id;
-					salario.mes = mes + '-' + ano;
-
+					let dataBusca = ano + '-' + mes;
+					
 					//buscar o mes de gastos do funcionario
 					$.ajax({
-						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
+						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + dataBusca,
 						type: 'GET'
 					}).done(function(e){
-						
-						var diaria = 0;
-						
-						for(j = 0; j<e.length; j++) horas += e[j].horas;
-						
-						linhaHtml = '<table>'
-									+ '<tr>'
-										+ '<th class="col-md-1"><h5>Diárias já adicionadas</h5></th>'
-									+ '</tr>'
-							
-									+ '<tr>'
-										+ '<td class="text-center col-md-1">R$ ' + horas.toFixed(2) +'</td>'
-									+ '</tr>'
-								+'</table>'
-						+ '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
-						+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
-						+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
-						
-						carregarLoading("none");
-						
-						$.alert({
-							type: 'blue',
-						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-						    content: linhaHtml,
-						    buttons: {
-						        confirm: {
-									text: 'Adicionar Horas',
-						    		keys: ['enter'],
-						            btnClass: 'btn-green',
-						            action: function(){
-										
-										carregarLoading("block");
-										var horas = this.$content.find('#horas').val();
-										
-										if(horas == 0) {
-											carregarLoading("none");
-											$.alert({
-												type: 'red',
-												title: 'OPS...',
-												content: "Digite um valor válido",
-												buttons: {
-													confirm:{
-														text: 'Voltar',
-														btnClass: 'btn-danger',
-														keys: ['esc', 'enter']
-													}
-												}
-											});
-										}else {
-											var funcionario = {};
-											funcionario.horas = horas * horaExtra;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).done(function(){
-
-												//imprimir pagamento
-												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
-													type: 'POST',
-													dataType : 'json',
-													contentType: "application/json",
-													data: JSON.stringify(funcionario)
-												});
-												
-												carregarLoading("none");
-												$.alert({
-													type: 'green',
-													title: "Sucesso",
-													content: "Hora extra registrada!",
-													buttons:{
-														confirm:{
-															text: "Continuar",
-															btnClass: 'btn-success',
-															keys: ['enter', 'esc']
-														}
-													}
-												});
-											}).fail(function(){
-												carregarLoading("none");
-												$.alert({
-													type: 'red',
-													title: 'OPS..',
-													content: 'Digite um valor valido',
-													buttons: {
-														confirm: {
-															text: 'Voltar',
-															btnClass: 'btn-success',
-															keys: ['esc', 'enter']
-														}
-													}
-												});
-											});
-										}
-									}
-								},
-						        cancel:{
-									text: 'Voltar',
-						    		keys: ['esc'],
-						            btnClass: 'btn-danger'
-								}
-							}
-						});
+						console.log(e)
+						if(op == 1) pagarSalario(e, funcionarios[idBusca], dataBusca);
+						if(op == 2) imprimirResumo(e, funcionarios[idBusca]);
 					});
 				}
 			}
@@ -269,334 +150,340 @@ function addDiaria() {
 	});
 };
 
+
+//--------------------------------------------------------------------------
+function addDiaria(){
+	var botaoReceber = $(event.currentTarget);
+	var idFuncionario = botaoReceber.attr('value');
+	
+	//buscar dados completos do pedido enviado
+	for(i in funcionarios) if(funcionarios[i].id == idFuncionario) var idBusca = i;
+	
+	funcionario = funcionarios[idBusca];
+	
+	linhaHtml = '<label>Total da diária:</label><br>'
+			
+	+ '<div class="input-group mb-3">'
+		+ '<span class="input-group-text">R$</span>'
+		+ '<input class="form-control" id="diaria" name="diaria" placeholder="Digite o total a ser adicionado"/>'
+	+ '</div>';
+	
+	$.alert({
+		type: 'blue',
+	    title: 'Funcionário: ' + funcionario.nome,
+	    content: linhaHtml,
+	    buttons: {
+	        confirm: {
+				text: 'Adicionar Diária',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green',
+	            action: function(){
+					
+					carregarLoading("block");
+					let diaria = this.$content.find('#diaria').val();
+					
+					if(diaria == 0) {
+						carregarLoading("none");
+						$.alert({
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
+									text: 'Voltar',
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
+								}
+							}
+						});
+					}else {
+						let salario = {};
+						salario.diarias = diaria;
+						
+						$.ajax({
+							url: '/adm/pagamento/salvar/' + idFuncionario + '/0',
+							type: 'POST',
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(salario)
+						}).done(function(e){
+							carregarLoading("none");
+							if(e.diarias == 1){
+								$.alert({
+									type: 'green',
+									title: "Sucesso",
+									content: "1 Diária registrada!",
+									buttons:{
+										confirm:{
+											text: "Continuar",
+											btnClass: 'btn-success',
+											keys: ['enter', 'esc']
+										}
+									}
+								});
+							}else if(e.diarias == 2){
+								$.alert({
+									type: 'warning',
+									title: "Sucesso",
+									content: "2 Diárias registradas!",
+									buttons:{
+										confirm:{
+											text: "Continuar",
+											btnClass: 'btn-success',
+											keys: ['enter', 'esc']
+										}
+									}
+								});
+							}else if(e.diarias >= 3){
+								$.alert({
+									type: 'red',
+									title: "OPS...",
+									content: "Você já adicionou 2 diárias hoje, limite alcançado!",
+									buttons:{
+										confirm:{
+											text: "Continuar",
+											btnClass: 'btn-success',
+											keys: ['enter', 'esc']
+										}
+									}
+								});
+							
+								return 300;
+							}
+							//imprimir pagamento
+							$.ajax({
+								url: "/imprimir/imprimirLogFuncionario/" + idFuncionario,
+								type: 'POST',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(salario)
+							});
+						});
+					}
+				}
+			},
+	        cancel:{
+				text: 'Voltar',
+	    		keys: ['esc'],
+	            btnClass: 'btn-danger'
+			}
+		}
+	});
+}
 
 //-------------------------------------------------------------------------
 function addHoras() {
-	
 	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
+	var idFuncionario = botaoReceber.attr('value');
 	
 	//buscar dados completos do pedido enviado
-	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
-		
-	mesAtual = new Date();
-			
+	for(i in funcionarios) if(funcionarios[i].id == idFuncionario) var idBusca = i;
+	
+	funcionario = funcionarios[idBusca];
+	
+	linhaHtml = '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
+	+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
+	+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
+	
+	carregarLoading("none");
+	
 	$.alert({
 		type: 'blue',
-		title: 'Adicionar hora extra',
-		content: '<label>Mês:</label><input type="number" id="mes" min="1" value="' 
-			+ (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
-			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' 
-			+ mesAtual.getFullYear() + '" max="2050" class="form-control" />',
-		buttons: {
-			confirm: {
-				text: 'Acessar',
-				btnClass: 'btn-primary',
-				keys: ['enter'],
-				action: function(){
+	    title: 'Funcionário: ' + funcionario.nome,
+	    content: linhaHtml,
+	    buttons: {
+	        confirm: {
+				text: 'Adicionar Horas',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green',
+	            action: function(){
+					
 					carregarLoading("block");
+					var horas = this.$content.find('#horas').val();
 					
-					var mes = this.$content.find('#mes').val();
-					mes = (mes.length == 1) ? '0'+mes : mes;
-
-					var ano = this.$content.find('#ano').val();
-					ano = (ano.length == 1) ? '0'+ano : ano;
-					
-					var salario = {};
-					salario.id = funcionarios[idBusca].id;
-					salario.mes = mes + '-' + ano;
-
-					//buscar o mes de gastos do funcionario
-					$.ajax({
-						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-						type: 'GET'
-					}).done(function(e){
-						
-						var horas = 0;
-						
-						for(j = 0; j<e.length; j++) horas += e[j].horas;
-						
-						linhaHtml = '<table>'
-									+ '<tr>'
-										+ '<th class="col-md-1"><h5>Total já adicionado</h5></th>'
-									+ '</tr>'
-							
-									+ '<tr>'
-										+ '<td class="text-center col-md-1">R$ ' + horas.toFixed(2) +'</td>'
-									+ '</tr>'
-								+'</table>'
-						+ '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
-						+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
-						+'<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
-						
+					if(horas == 0) {
 						carregarLoading("none");
-						
 						$.alert({
-							type: 'blue',
-						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-						    content: linhaHtml,
-						    buttons: {
-						        confirm: {
-									text: 'Adicionar Horas',
-						    		keys: ['enter'],
-						            btnClass: 'btn-green',
-						            action: function(){
-										
-										carregarLoading("block");
-										var horas = this.$content.find('#horas').val();
-										
-										if(horas == 0) {
-											carregarLoading("none");
-											$.alert({
-												type: 'red',
-												title: 'OPS...',
-												content: "Digite um valor válido",
-												buttons: {
-													confirm:{
-														text: 'Voltar',
-														btnClass: 'btn-danger',
-														keys: ['esc', 'enter']
-													}
-												}
-											});
-										}else {
-											var funcionario = {};
-											funcionario.horas = horas * horaExtra;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).done(function(){
-
-												//imprimir pagamento
-												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
-													type: 'POST',
-													dataType : 'json',
-													contentType: "application/json",
-													data: JSON.stringify(funcionario)
-												});
-												
-												carregarLoading("none");
-												$.alert({
-													type: 'green',
-													title: "Sucesso",
-													content: "Hora extra registrada!",
-													buttons:{
-														confirm:{
-															text: "Continuar",
-															btnClass: 'btn-success',
-															keys: ['enter', 'esc']
-														}
-													}
-												});
-											}).fail(function(){
-												carregarLoading("none");
-												$.alert({
-													type: 'red',
-													title: 'OPS..',
-													content: 'Digite um valor valido',
-													buttons: {
-														confirm: {
-															text: 'Voltar',
-															btnClass: 'btn-success',
-															keys: ['esc', 'enter']
-														}
-													}
-												});
-											});
-										}
-									}
-								},
-						        cancel:{
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
 									text: 'Voltar',
-						    		keys: ['esc'],
-						            btnClass: 'btn-danger'
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
 								}
 							}
 						});
-					});
+					}else {
+						let salario = {};
+						salario.horas = horas * horaExtra;
+						
+						$.ajax({
+							url: '/adm/pagamento/salvar/' + idFuncionario + '/0',
+							type: 'POST',
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(salario)
+						}).done(function(){
+
+							//imprimir pagamento
+							$.ajax({
+								url: "/imprimir/imprimirLogFuncionario/" + idFuncionario,
+								type: 'POST',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(salario)
+							});
+							
+							carregarLoading("none");
+							$.alert({
+								type: 'green',
+								title: "Sucesso",
+								content: "Hora extra registrada!",
+								buttons:{
+									confirm:{
+										text: "Continuar",
+										btnClass: 'btn-success',
+										keys: ['enter', 'esc']
+									}
+								}
+							});
+						}).fail(function(){
+							carregarLoading("none");
+							$.alert({
+								type: 'red',
+								title: 'OPS..',
+								content: 'Digite um valor valido',
+								buttons: {
+									confirm: {
+										text: 'Voltar',
+										btnClass: 'btn-success',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
+						});
+					}
 				}
+			},
+	        cancel:{
+				text: 'Voltar',
+	    		keys: ['esc'],
+	            btnClass: 'btn-danger'
 			}
-		},
-        cancel:{
-			text: 'Voltar',
-    		keys: ['esc'],
-            btnClass: 'btn-danger'
 		}
 	});
-};
+}
 
 
 //-------------------------------------------------------------------------
 function addGastos() {
-	
 	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
+	var idFuncionario = botaoReceber.attr('value');
 	
 	//buscar dados completos do pedido enviado
 	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+	
+	funcionario = funcionarios[idBusca];
+	
+	linhaHtml = '<label>Total de gastos: '
+		+ '<button class="btn btn-link" onclick="aviso2()">'
+			+ '<i class="fas fa-question"></i></button></label><br>'
 			
-	mesAtual = new Date()
-			
+	+ '<div class="input-group mb-3">'
+		+ '<span class="input-group-text">R$</span>'
+		+ '<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>'
+	+ '</div>';
+	
+	carregarLoading("none");
 	$.alert({
 		type: 'blue',
-		title: 'Adicionar gastos',
-		content: '<label>Mês:</label>'
-				+ '<input type="number" id="mes" min="1" value="' 
-					+ (mesAtual.getMonth() + 1)  
-					+ '" max="12" class="form-control" />'
-				+ '<label>Ano:</label>'
-				+ '<input type="number" id="ano" min="2015" value="' 
-					+ mesAtual.getFullYear() 
-					+ '" max="2050" class="form-control" />',
-		buttons: {
-			confirm: {
-				text: 'Acessar',
-				btnClass: 'btn-primary',
-				keys: ['enter'],
-				action: function(){
+	    title: 'Funcionário: ' + funcionario.nome,
+	    content: linhaHtml,
+	    buttons: {
+	        confirm: {
+				text: 'Adicionar Gastos',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green',
+	            action: function(){
 					carregarLoading("block");
 					
-					var mes = this.$content.find('#mes').val();
-					mes = (mes.length == 1) ? '0'+mes : mes;
+					let gastos = Number(this.$content.find('#gastos').val().replace(",","."));
 					
-					var ano = this.$content.find('#ano').val();
-					ano = (ano.length == 1) ? '0'+ano : ano;
-					
-					var salario = {};
-					salario.id = funcionarios[idBusca].id;
-					salario.mes = mes + '-' + ano;
-
-					//buscar o mes de gastos do funcionario
-					$.ajax({
-						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-						type: 'GET'
-					}).done(function(e){
-						
-						var gastos = 0;
-						
-						for(j = 0; j<e.length; j++) gastos += e[j].gastos;
-						
-						linhaHtml = '<table>'
-									+ '<tr><th class="col-md-1"><h5>Gastos totais</h5></th></tr>'
-									+ '<tr><td>R$ ' + gastos.toFixed(2) + '</td></tr>'
-								+'</table>'
-						
-						+ '<hr><label>Total de gastos: '
-							+ '<button class="btn btn-link" onclick="aviso2()">'
-								+ '<i class="fas fa-question"></i></button></label><br>'
-								
-						+ '<div class="input-group mb-3">'
-							+ '<span class="input-group-text">R$</span>'
-							+ '<input class="form-control" id="gastos" name="gasto" placeholder="Digite o total a ser gasto"/>'
-						+ '</div>';
-						
+					if(Number.isFinite(gastos) == false || gastos == 0) {
 						carregarLoading("none");
+						
 						$.alert({
-							type: 'blue',
-						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-						    content: linhaHtml,
-						    buttons: {
-						        confirm: {
-									text: 'Adicionar Gastos',
-						    		keys: ['enter'],
-						            btnClass: 'btn-green',
-						            action: function(){
-										carregarLoading("block");
-										
-										var gastos = this.$content.find('#gastos').val();
-										
-										gastos = parseFloat(gastos.toString().replace(",","."));
-										
-										if(Number.isFinite(gastos) == false || gastos == 0) {
-											carregarLoading("none");
-											
-											$.alert({
-												type: 'red',
-												title: 'OPS...',
-												content: "Digite um valor válido",
-												buttons: {
-													confirm:{
-														text: 'Voltar',
-														btnClass: 'btn-danger',
-														keys: ['esc', 'enter']
-													}
-												}
-											});
-										}else {
-											var funcionario = {};
-											funcionario.gastos = gastos;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).done(function(){
-												
-												//imprimir pagamento
-												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
-													type: 'POST',
-													dataType : 'json',
-													contentType: "application/json",
-													data: JSON.stringify(funcionario)
-												});
-												
-												carregarLoading("none");
-												
-												$.alert({
-													type: 'green',
-													title: "Sucesso",
-													content: "Gasto registrado!",
-													buttons:{
-														confirm:{
-															text: "Continuar",
-															btnClass: 'btn-success',
-															keys: ['enter', 'esc']
-														}
-													}
-												});
-											}).fail(function(){
-												carregarLoading("none");
-												$.alert({
-													type: 'red',
-													title: 'OPS..',
-													content: 'Digite um valor valido',
-													buttons: {
-														confirm: {
-															text: 'Voltar',
-															btnClass: 'btn-success',
-															keys: ['esc', 'enter']
-														}
-													}
-												});
-											});
-										}
-									}
-								},
-						        cancel:{
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
 									text: 'Voltar',
-						    		keys: ['esc'],
-						            btnClass: 'btn-danger'
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
 								}
 							}
 						});
-					});
+					}else {
+						let salario = {};
+						salario.gastos = gastos;
+						
+						$.ajax({
+							url: '/adm/pagamento/salvar/' + idFuncionario + '/0',
+							type: 'POST',
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(salario)
+						}).done(function(){
+							
+							//imprimir pagamento
+							$.ajax({
+								url: "/imprimir/imprimirLogFuncionario/" + idFuncionario,
+								type: 'POST',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(salario)
+							});
+							
+							carregarLoading("none");
+							
+							$.alert({
+								type: 'green',
+								title: "Sucesso",
+								content: "Gasto registrado!",
+								buttons:{
+									confirm:{
+										text: "Continuar",
+										btnClass: 'btn-success',
+										keys: ['enter', 'esc']
+									}
+								}
+							});
+						}).fail(function(){
+							carregarLoading("none");
+							$.alert({
+								type: 'red',
+								title: 'OPS..',
+								content: 'Digite um valor valido',
+								buttons: {
+									confirm: {
+										text: 'Voltar',
+										btnClass: 'btn-success',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
+						});
+					}
 				}
+			},
+	        cancel:{
+				text: 'Voltar',
+	    		keys: ['esc'],
+	            btnClass: 'btn-danger'
 			}
-		},
-        cancel:{
-			text: 'Voltar',
-    		keys: ['esc'],
-            btnClass: 'btn-danger'
 		}
 	});
 };
@@ -604,295 +491,189 @@ function addGastos() {
 
 
 //-------------------------------------------------------------------------
-function pagarSalario() {
+function pagarSalario(e, funcionario, dataBusca) {
+	let [diarias, horas, gastos, pago] = [0, 0, 0, 0];
 	
-	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
+	for(j = 0; j<e.length; j++) {
+		diarias += e[j].diarias;
+		gastos += e[j].gastos;
+		horas += e[j]. horas;
+		pago += e[j]. pago;
+	}
 	
-	//buscar dados completos do pedido enviado
-	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;			
+	var totalExtra = horas;
 	
-	mesAtual = new Date()
-			
+	linhaHtml = '<table>'
+				+ '<tr>'
+					+ '<th class="col-md-1"><h5>Salário</h5></th>'
+					+ '<th class="col-md-1"><h5>Diárias</h5></th>'
+					+ '<th class="col-md-1"><h5>Extras</h5></th>'
+					+ '<th class="col-md-1"><h5>Gastos</h5></th>'
+					+ '<th class="col-md-1"><h5>Pago</h5></th>'
+					+ '<th class="col-md-1"><h5>Total</h5></th>'
+				+ '</tr>'
+	
+				+ '<tr>'
+					+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + diarias.toFixed(2) + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + totalExtra.toFixed(2) + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + gastos.toFixed(2) + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + pago.toFixed(2) + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + (funcionario.salario + diarias + totalExtra - gastos - pago).toFixed(2) + '</td>'
+				+ '</tr>'
+			+'</table>'
+
+	+ '<hr><label>Total a pagar: '
+		+ '<button class="btn btn-link" onclick="aviso()">'
+		+ '<i class="fas fa-question"></i></button></label><br>'
+	
+	+ '<div class="input-group mb-3">'
+		+ '<span class="input-group-text">R$</span>'
+		+ '<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>'
+	+ '</div>';
+	
+	carregarLoading("none");
 	$.alert({
 		type: 'blue',
-		title: 'Pagar salário',
-		content: '<label>Mês: </label>'
-				+ '<input type="number" id="mes" min="1" value="' 
-					+ (mesAtual.getMonth() + 1)  
-					+ '" max="12" class="form-control" />'
-				+ '<label>Ano:</label>'
-				+ '<input type="number" id="ano" min="2015" value="' 
-					+ mesAtual.getFullYear() 
-					+ '" max="2050" class="form-control" />',
-		buttons: {
-			confirm: {
-				text: 'Acessar',
-				btnClass: 'btn-primary',
-				keys: ['enter'],
-				action: function(){
+	    title: 'Funcionário: ' + funcionario.nome,
+	    content: linhaHtml,
+	    columnClass: 'col-md-12',
+	    buttons: {
+	        confirm: {
+				text: 'Pagar funcionário',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green',
+	            action: function(){
 					carregarLoading("block");
-					var mes = this.$content.find('#mes').val();
-					mes = (mes.length == 1) ? '0'+mes : mes;
-							
-					var ano = this.$content.find('#ano').val();
-					ano = (ano.length == 1) ? '0'+ano : ano;
+					var pagamento = Number(this.$content.find('#pagamento').val().replace(",", "."));
 					
-					var salario = {};
-					salario.id = funcionarios[idBusca].id;
-					salario.mes = mes + '-' + ano;
-
-					//buscar o mes de gastos do funcionario
-					$.ajax({
-						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-						type: 'GET'
-					}).done(function(e){
-						
-						var gastos = 0;
-						var horas = 0;
-						var pago = 0;
-						
-						for(j = 0; j<e.length; j++) {
-							gastos += e[j].gastos;
-							horas += e[j]. horas;
-							pago += e[j]. pago;
-						}
-						
-						var totalExtra = horas;
-						
-						linhaHtml = '<table>'
-									+ '<tr>'
-										+ '<th class="col-md-1"><h5>Salário</h5></th>'
-										+ '<th class="col-md-1"><h5>Extra</h5></th>'
-										+ '<th class="col-md-1"><h5>Gastos</h5></th>'
-										+ '<th class="col-md-1"><h5>Pago</h5></th>'
-										+ '<th class="col-md-1"><h5>Total</h5></th>'
-									+ '</tr>'
-						
-									+ '<tr>'
-										+ '<td class="text-center col-md-1">R$ ' + funcionarios[idBusca].salario.toFixed(2) + '</td>'
-										+ '<td class="text-center col-md-1">R$ ' + totalExtra.toFixed(2) + '</td>'
-										+ '<td class="text-center col-md-1">R$ ' + gastos.toFixed(2) + '</td>'
-										+ '<td class="text-center col-md-1">R$ ' + pago.toFixed(2) + '</td>'
-										+ '<td class="text-center col-md-1">R$ ' + (funcionarios[idBusca].salario + totalExtra - gastos - pago).toFixed(2) + '</td>'
-									+ '</tr>'
-								+'</table>'
-					
-						+ '<hr><label>Total a pagar: '
-							+ '<button class="btn btn-link" onclick="aviso()">'
-							+ '<i class="fas fa-question"></i></button></label><br>'
-						
-						+ '<div class="input-group mb-3">'
-							+ '<span class="input-group-text">R$</span>'
-							+ '<input class="form-control" id="pagamento" name="pagamento" placeholder="Digite o total a ser pago"/>'
-						+ '</div>';
-						
+					if(Number.isFinite(pagamento) == false || pagamento == 0) {
 						carregarLoading("none");
 						$.alert({
-							type: 'blue',
-						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-						    content: linhaHtml,
-				    	    columnClass: 'col-md-12',
-						    buttons: {
-						        confirm: {
-									text: 'Pagar funcionário',
-						    		keys: ['enter'],
-						            btnClass: 'btn-green',
-						            action: function(){
-										carregarLoading("block");
-										var pagamento = this.$content.find('#pagamento').val();
-
-										pagamento = parseFloat(pagamento.toString().replace(",","."));
-										
-										if(Number.isFinite(pagamento) == false || pagamento == 0) {
-											carregarLoading("none");
-											$.alert({
-												type: 'red',
-												title: 'OPS...',
-												content: "Digite um valor válido",
-												buttons: {
-													confirm:{
-														text: 'Voltar',
-														btnClass: 'btn-danger',
-														keys: ['esc', 'enter']
-													}
-												}
-											});
-										}else {
-											var funcionario = {};
-											funcionario.pago = pagamento;
-											funcionario.data = dataAtualFormatada();
-											
-											$.ajax({
-												url: '/adm/pagamento/salvar/' + funcionarios[idBusca].id,
-												type: 'POST',
-												dataType : 'json',
-												contentType: "application/json",
-												data: JSON.stringify(funcionario)
-											}).done(function(){
-												
-												//imprimir pagamento
-												$.ajax({
-													url: "/imprimir/imprimirLogFuncionario/" + funcionarios[idBusca].id,
-													type: 'POST',
-													dataType : 'json',
-													contentType: "application/json",
-													data: JSON.stringify(funcionario)
-												});
-												
-												carregarLoading("none");
-												
-												$.alert({
-													type: 'green',
-													title: "Sucesso",
-													content: "Pagamento registrado!",
-													buttons:{
-														confirm:{
-															text: "Continuar",
-															btnClass: 'btn-success',
-															keys: ['enter', 'esc']
-														}
-													}
-												});
-											}).fail(function(){
-												carregarLoading("none");
-												
-												$.alert({
-													type: 'red',
-													title: 'OPS..',
-													content: 'Digite um valor valido',
-													buttons: {
-														confirm: {
-															text: 'Voltar',
-															btnClass: 'btn-success',
-															keys: ['esc', 'enter']
-														}
-													}
-												});
-											});
-										}
-									}
-								},
-						        cancel:{
+							type: 'red',
+							title: 'OPS...',
+							content: "Digite um valor válido",
+							buttons: {
+								confirm:{
 									text: 'Voltar',
-						    		keys: ['esc'],
-						            btnClass: 'btn-danger'
+									btnClass: 'btn-danger',
+									keys: ['esc', 'enter']
 								}
 							}
 						});
-					});
+					}else {
+						let salario = {};
+						salario.pago = pagamento;
+						
+						$.ajax({
+							url: '/adm/pagamento/salvar/' + funcionario.id + '/' + dataBusca,
+							type: 'POST',
+							dataType : 'json',
+							contentType: "application/json",
+							data: JSON.stringify(salario)
+						}).done(function(){
+							
+							//imprimir pagamento
+							$.ajax({
+								url: "/imprimir/imprimirLogFuncionario/" + funcionario.id,
+								type: 'POST',
+								dataType : 'json',
+								contentType: "application/json",
+								data: JSON.stringify(salario)
+							});
+							
+							carregarLoading("none");
+							
+							$.alert({
+								type: 'green',
+								title: "Sucesso",
+								content: "Pagamento registrado!",
+								buttons:{
+									confirm:{
+										text: "Continuar",
+										btnClass: 'btn-success',
+										keys: ['enter', 'esc']
+									}
+								}
+							});
+						}).fail(function(){
+							carregarLoading("none");
+							
+							$.alert({
+								type: 'red',
+								title: 'OPS..',
+								content: 'Digite um valor valido',
+								buttons: {
+									confirm: {
+										text: 'Voltar',
+										btnClass: 'btn-success',
+										keys: ['esc', 'enter']
+									}
+								}
+							});
+						});
+					}
 				}
 			},
-			cancel: {
+	        cancel:{
 				text: 'Voltar',
-				btnClass: 'btn-danger',
-				keys: ['esc']
+	    		keys: ['esc'],
+	            btnClass: 'btn-danger'
 			}
 		}
 	});
 };
 
 
-function imprimirResumo() {
-	
-	var botaoReceber = $(event.currentTarget);
-	var idProduto = botaoReceber.attr('value');
-	
-	//buscar dados completos do pedido enviado
-	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
-		
-	mesAtual = new Date();
+function imprimirResumo(e, funcionario) {
+	console.log(e)
+	linhaHtml = '<table>'
+				+ '<tr>'
+					+'<td class="text-center col-md-1">Data registro</td>'
+					+'<td class="text-center col-md-1">Ação</td>'
+					+'<td class="text-center col-md-1">Total</td>';
+	if(e != 0){
+		for(log of e) {
+			linhaHtml += '<tr>'
+						+ '<td class="text-center col-md-1">' + log.logData + '</td>';
 			
+			if(log.gastos != 0) linhaHtml += '<td class="text-center col-md-1">gasto</td>'
+											+ '<td class="text-center col-md-1">R$ ' + log.gastos.toFixed(2) + '</td>';
+			if(log.horas != 0) linhaHtml += '<td class="text-center col-md-1">hora extra</td>'
+											+ '<td class="text-center col-md-1">R$ ' + log.horas.toFixed(2) + '</td>';
+			if(log.pago != 0) linhaHtml += '<td class="text-center col-md-1">pago</td>'
+											+ '<td class="text-center col-md-1">R$ ' + log.pago.toFixed(2) + '</td>';
+			if(log.diarias != 0) linhaHtml += '<td class="text-center col-md-1">diária</td>'
+											+ '<td class="text-center col-md-1">R$ ' + log.diarias.toFixed(2) + '</td>';
+			linhaHtml += '</tr>';
+		}
+	}else{
+		linhaHtml += '<tr><td colspan="3">Nenhum registro adicionado</td></tr>';
+	}
+	
+	linhaHtml += '</table>';
+	
+	carregarLoading("none");
 	$.alert({
 		type: 'blue',
-		title: 'Imprimir relatório',
-		content: '<label>Mês:</label>'
-				+ '<input type="number" id="mes" min="1" value="' 
-					+ (mesAtual.getMonth() + 1)  
-					+ '" max="12" class="form-control" />'
-				+ '<label>Ano:</label>'
-				+ '<input type="number" id="ano" min="2015" value="' 
-					+ mesAtual.getFullYear() 
-					+ '" max="2050" class="form-control" />',
-		buttons: {
-			confirm: {
-				text: 'Acessar',
-				btnClass: 'btn-primary',
-				keys: ['enter'],
-				action: function(){
-					carregarLoading("block");
-					var mes = this.$content.find('#mes').val();
-					mes = (mes.length == 1) ? '0'+mes : mes;
+	    title: 'Funcionário: ' + funcionario.nome,
+	    content: linhaHtml,
+	    columnClass: 'col-md-8',
+	    buttons: {
+	        confirm: {
+				text: '<i class="fas fa-print"></i> Imprimir',
+	    		keys: ['enter'],
+	            btnClass: 'btn-green',
+	            action: function(){
 
-					var ano = this.$content.find('#ano').val();
-					ano = (ano.length == 1) ? '0'+ano : ano;
-					
-					var salario = {};
-					salario.id = funcionarios[idBusca].id;
-					salario.mes = mes + '-' + ano;
-
-					//buscar o mes de gastos do funcionario
+					//imprimir pagamento
 					$.ajax({
-						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + salario.mes,
-						type: 'GET'
-					}).done(function(e){
-						
-						linhaHtml = '<table>'
-									+ '<tr>'
-										+'<td class="text-center col-md-1">Data registrado</td>'
-										+'<td class="text-center col-md-1">Ação</td>'
-										+'<td class="text-center col-md-1">Total</td>';
-						if(e != 0){
-							for(log of e) {
-								linhaHtml += '<tr>'
-											+ '<td class="text-center col-md-1">' + log.logData + '</td>';
-								
-								if(log.gastos != 0) linhaHtml += '<td class="text-center col-md-1">gasto</td>'
-																+ '<td class="text-center col-md-1">R$ ' + log.gastos.toFixed(2) + '</td>';
-								if(log.horas != 0) linhaHtml += '<td class="text-center col-md-1">hora extra</td>'
-																+ '<td class="text-center col-md-1">R$ ' + log.horas.toFixed(2) + '</td>';
-								if(log.pago != 0) linhaHtml += '<td class="text-center col-md-1">pago</td>'
-																+ '<td class="text-center col-md-1">R$ ' + log.pago.toFixed(2) + '</td>';
-								linhaHtml += '</tr>';
-							}
-						}else{
-							linhaHtml += '<tr><td colspan="3">Nenhum registro adicionado</td></tr>';
-						}
-						
-
-						linhaHtml += '</table>';
-						
-						carregarLoading("none");
-						
-						$.alert({
-							type: 'blue',
-						    title: 'Funcionário: ' + funcionarios[idBusca].nome,
-						    content: linhaHtml,
-						    buttons: {
-						        confirm: {
-									text: '<i class="fas fa-print"></i> Imprimir',
-						    		keys: ['enter'],
-						            btnClass: 'btn-green',
-						            action: function(){
-
-										//imprimir pagamento
-										$.ajax({
-											url: "/imprimir/imprimirGeralFuncionario/" + funcionarios[idBusca].id,
-											type: 'POST',
-											dataType : 'json',
-											contentType: "application/json",
-											data: JSON.stringify(e)
-										});	
-									}
-								},
-						        cancel:{
-									text: 'Voltar',
-						    		keys: ['esc'],
-						            btnClass: 'btn-danger'
-								}
-							}
-						});
-					});
+						url: "/imprimir/imprimirGeralFuncionario/" + funcionario.id,
+						type: 'POST',
+						dataType : 'json',
+						contentType: "application/json",
+						data: JSON.stringify(e)
+					});	
 				}
 			},
 	        cancel:{

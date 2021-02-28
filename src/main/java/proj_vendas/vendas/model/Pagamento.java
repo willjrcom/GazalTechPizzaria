@@ -26,6 +26,7 @@ public class Pagamento extends AbstractEntity<Long> {
 	
 	private int horas = 0;
 	private float gastos = 0;
+	private float diarias = 0;
 	private float pago = 0;
 }
 

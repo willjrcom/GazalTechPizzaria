@@ -70,17 +70,26 @@ public class PagamentoController {
 		return funcionarios.findByCodEmpresa(user.getCodEmpresa());
 	}
 	
-	@RequestMapping(value = "/pagamento/salvar/{id}")
+	@RequestMapping(value = "/pagamento/salvar/{id}/{data}")
 	@ResponseBody
-	public ResponseEntity<Pagamento> salvar(@RequestBody Pagamento pagamento, @PathVariable long id) {
+	public ResponseEntity<Pagamento> salvar(@RequestBody Pagamento pagamento, @PathVariable long id, @PathVariable String data) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		SimpleDateFormat format = new SimpleDateFormat ("kk:mm:ss dd/MM/yyyy");
+		SimpleDateFormat formatLogData = new SimpleDateFormat ("kk:mm:ss dd/MM/yyyy");
+		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM");
+		
+		int cont = 0;
 		
 		//log usuario	
 		pagamento.setUsuario(user.getEmail());
-		pagamento.setLogData(format.format(new Date()).toString());
+		pagamento.setLogData(formatLogData.format(new Date()));
+		
+		if(data.equals("0")) {
+			pagamento.setData(formatData.format(new Date()));
+		}else {
+			pagamento.setData(data);
+		}
 		
 		List<Funcionario> funcionario = funcionarios.findByCodEmpresa(user.getCodEmpresa());
 		for(int i = 0; i < funcionario.size(); i++) {
@@ -88,11 +97,22 @@ public class PagamentoController {
 				List<Pagamento> todosPagamentos = funcionario.get(i).getPagamento();
 				todosPagamentos.add(pagamento);
 				funcionario.get(i).setPagamento(todosPagamentos);
-				funcionarios.save(funcionario.get(i));
+				
+				//contar total de diarias, maximo 3
+				if(pagamento.getDiarias() != 0) {
+					for(int j = 0; j < todosPagamentos.size(); j++) {
+						if(todosPagamentos.get(j).getData().equals(formatData.format(new Date())) && todosPagamentos.get(j).getDiarias() != 0) cont++;
+					}
+					if(cont < 3) {
+						funcionarios.save(funcionario.get(i));
+						pagamento.setDiarias(cont);
+					}
+				}else {
+					funcionarios.save(funcionario.get(i));
+				}
 				return ResponseEntity.ok(pagamento);
 			}
 		}
-		
 		return ResponseEntity.badRequest().build();
 	}
 	
@@ -101,17 +121,18 @@ public class PagamentoController {
 	@ResponseBody
 	public List<Pagamento> buscar(@PathVariable Long id, @PathVariable String data){
 		List<Pagamento> pagamento = funcionarios.findById(id).get().getPagamento();
+		System.out.println(data);
 		
 		if(pagamento != null) {
 			for(int j = 0; j < pagamento.size(); j++) {
+				System.out.println(pagamento.get(j).getData());
 				if(!pagamento.get(j).getData().equals(data)) {
 					pagamento.remove(j);
 				}
 			}
 			return pagamento;
 		}else {
-			pagamento = null;
-			return pagamento;
+			return null;
 		}
 	}
 }
