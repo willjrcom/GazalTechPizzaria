@@ -151,39 +151,8 @@ function verPedido() {
 //-------------------------------------------------
 function imprimirTudo(cliente) {
 			
-	impressaoPedido = {};
-	impressaoPedido.envio = cliente.envio;
+	impressaoPedido = cliente;
 	impressaoPedido.setor = "A";
-	
-	//numero da comanda e nome
-	impressaoPedido.comanda = cliente.comanda;
-	impressaoPedido.nome = cliente.nome;
-
-	//mostrar endereco do cliente
-	if(cliente.envio == 'ENTREGA') {
-		impressaoPedido.celular = cliente.celular
-		impressaoPedido.endereco =  cliente.endereco;
-	}
-	impressaoPedido.pizzas = cliente.pizzas;
-	impressaoPedido.produtos = cliente.produtos;
-
-	
-	//pagamento em entrega
-	if(cliente.envio == 'ENTREGA') {//total com taxa
-		impressaoPedido.total = cliente.total;
-		impressaoPedido.taxa = cliente.taxa;
-		
-		//total sem taxa
-	}else impressaoPedido.total = cliente.total;
-
-	//total a levar de troco
-	impressaoPedido.troco = cliente.troco;
-
-	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
-				
-	//salvar hora
-	impressaoPedido.hora = cliente.horaPedido;
-	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 	
 	$.ajax({
 		url: "/imprimir/imprimirPedido",

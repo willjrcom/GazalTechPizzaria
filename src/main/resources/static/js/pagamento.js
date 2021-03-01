@@ -48,36 +48,36 @@ function mostrar(funcionarios, filtro){
 					+ '<td class="text-center col-md-1">'
 						+'<div class="row">'
 							+'<div class="col-md-1">'
-								+'<a>'
-								+ '<button type="button" title="Adicionar Diária" onclick="addDiaria()" class="botao"'
+								+'<a title="Adicionar diaria" data-toggle="tooltip" data-html="true">'
+								+ '<button type="button" onclick="addDiaria()" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="fas fa-plus"></i></button>'
 								+'</a>'
 							+'</div>'
 							
 							+'<div class="col-md-1">'
-								+'<a>'
-								+ '<button type="button" title="Adicionar Horas" onclick="addHoras()" class="botao"'
+								+'<a title="Adicionar horas" data-toggle="tooltip" data-html="true">'
+								+ '<button type="button" onclick="addHoras()" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="far fa-clock"></i></button>'
 								+'</a>'
 							+'</div>'
 							
 							+'<div class="col-md-1">'
-								+'<a>'
-								+ '<button type="button" title="Adicionar Gastos" onclick="addGastos()" class="botao"'
+								+'<a title="Adicionar gastos" data-toggle="tooltip" data-html="true">'
+								+ '<button type="button" onclick="addGastos()" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="fas fa-credit-card"></i></button>'
 								+'</a>'
 							+'</div>'
 							
 							+'<div class="col-md-1">'
-								+'<a>'
-								+ '<button type="button" title="Pagar" onclick="acessarData(1)" class="botao"'
+								+'<a title="Pagar salario" data-toggle="tooltip" data-html="true">'
+								+ '<button type="button" onclick="acessarData(1)" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="far fa-check-square"></i></button>'
 								+'</a>'
 							+'</div>'
 							
 							+'<div class="col-md-1">'
-								+'<a>'
-								+ '<button type="button" title="Imprimir" onclick="acessarData(2)" class="botao"'
+								+'<a title="Imprimir relatorio" data-toggle="tooltip" data-html="true">'
+								+ '<button type="button" onclick="acessarData(2)" class="botao"'
 								+ 'value="'+ funcionario.id + '"><i class="fas fa-print"></i></button>'
 								+'</a>'
 							+'</div>'
@@ -87,8 +87,10 @@ function mostrar(funcionarios, filtro){
 			+ linhaCinza;
 		}
 	}
-	if(linhaHtml !== '')
+	if(linhaHtml !== ''){
 		$("#todosFuncionarios").html(linhaHtml);
+		$('[data-toggle="tooltip"]').tooltip();
+	}
 	else
 		$("#todosFuncionarios").html(pedidoVazio);
 		

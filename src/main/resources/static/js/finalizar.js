@@ -225,15 +225,8 @@ function jqueryFinalizar(cliente){
 function imprimir(cliente) {
 	
 	impressaoPedido = cliente;
-
-	impressaoPedido.pizzas = cliente.pizzas;
-	impressaoPedido.produtos = cliente.produtos;
-
-	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
-				
-	//salvar hora
-	impressaoPedido.hora = cliente.horaPedido;
-	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	impressaoPedido.ac = $("#filtro").val();
+	imressaoPedido.setor = "A";
 	
 	$.ajax({
 		url: "/imprimir/imprimirPedido",

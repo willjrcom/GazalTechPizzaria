@@ -126,18 +126,9 @@ function finalizarPedido() {
 
 //----------------------------------------------------------------------------
 function imprimir(cliente) {
-	
 	impressaoPedido = cliente;
 	impressaoPedido.setor = "M";
-
-	impressaoPedido.pizzas = cliente.pizzas;
-	impressaoPedido.produtos = cliente.produtos;
-
-	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
-				
-	//salvar hora
-	impressaoPedido.hora = cliente.horaPedido;
-	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
+	impressaoPedido.motoboy = $("#filtro").val();
 	
 	$.ajax({
 		url: "/imprimir/imprimirPedido",

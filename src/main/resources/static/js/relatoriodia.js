@@ -164,40 +164,8 @@ function verPedido() {
 
 //-------------------------------------------------
 function imprimirTudo(cliente) {
-			
-	impressaoPedido = {};
-	impressaoPedido.envio = cliente.envio; //forma de envio
-			
-			//numero da comanda e nome
-	impressaoPedido.comanda = cliente.comanda;
-	impressaoPedido.nome = cliente.nome;
+	impressaoPedido = cliente;
 	impressaoPedido.setor = "A";
-
-	//mostrar endereco do cliente
-	if(cliente.envio == 'ENTREGA') {
-		impressaoPedido.celular = cliente.celular
-		impressaoPedido.endereco =  cliente.endereco;
-	}
-	impressaoPedido.pizzas = cliente.pizzas;
-	impressaoPedido.produtos = cliente.produtos;
-
-	
-	//pagamento em entrega
-	if(cliente.envio == 'ENTREGA') {//total com taxa
-		impressaoPedido.total = cliente.total;
-		impressaoPedido.taxa = cliente.taxa;
-		
-		//total sem taxa
-	}else impressaoPedido.total = cliente.total;
-
-	//total a levar de troco
-	impressaoPedido.troco = cliente.troco;
-
-	if(cliente.obs != "") impressaoPedido.obs = cliente.obs;
-				
-	//salvar hora
-	impressaoPedido.hora = cliente.horaPedido;
-	impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
 	
 	$.ajax({
 		url: "/imprimir/imprimirPedido",
@@ -213,19 +181,8 @@ function imprimirTudo(cliente) {
 function imprimirPizzas(cliente) {
 	
 	if(cliente.pizzas != 0){
-		impressaoPedido = {};
-		impressaoPedido.envio = cliente.envio; //forma de envio
+		impressaoPedido = cliente;
 		impressaoPedido.setor = "A";
-				
-		//numero da comanda e nome
-		impressaoPedido.comanda = cliente.comanda;
-		impressaoPedido.nome = cliente.nome;
-		impressaoPedido.pizzas = cliente.pizzas;
-		
-		//salvar hora
-		impressaoPedido.hora = cliente.horaPedido;
-		impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-
 		$.ajax({
 			url: "/imprimir/imprimirPizza",
 			type: 'POST',
@@ -254,19 +211,8 @@ function imprimirPizzas(cliente) {
 function imprimirProdutos(cliente) {
 	
 	if(cliente.produtos != 0){
-		impressaoPedido = {};
-		impressaoPedido.envio = cliente.envio; //forma de envio
+		impressaoPedido = cliente;
 		impressaoPedido.setor = "A";
-		
-		//numero da comanda e nome
-		impressaoPedido.comanda = cliente.comanda;
-		impressaoPedido.nome = cliente.nome;
-		impressaoPedido.produtos = cliente.produtos;
-
-		//salvar hora
-		impressaoPedido.hora = cliente.horaPedido;
-		impressaoPedido.data = cliente.data.split("-")[2] + "/" + cliente.data.split("-")[1] + "/" + cliente.data.split("-")[0];
-
 		$.ajax({
 			url: "/imprimir/imprimirProduto",
 			type: 'POST',

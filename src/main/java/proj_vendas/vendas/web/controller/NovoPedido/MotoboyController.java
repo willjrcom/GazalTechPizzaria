@@ -93,7 +93,6 @@ public class MotoboyController{
 		Pedido pedido = pedidos.findById((long)id).get();
 		pedido.setStatus("MOTOBOY");
 		pedido.setMotoboy(motoboy);
-		
 		return pedidos.save(pedido);
 	}
 	

@@ -26,9 +26,9 @@ var produtoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
 var linhaCinzaBusca = '<tr><td colspan="3" class="fundoList" ></td></tr>';
 
 //url------------------------------------------------------------------------------------------------------
-var celular = parseInt(window.location.href.split("/")[4]);//pega o id de novo cadastro
-var id_edicao = window.location.href.split("/")[5]; //pega o id de edicao do pedido
-
+var modoPedido = window.location.href.split("/")[4];//pega o modo de pedido
+var nomePedido = window.location.href.split("/")[5]; //pega o pedido de edicao do pedido
+console.log(modoPedido, nomePedido)
 
 //-------------------------------------------------------------------------
 //controlar qauntidade do produto
@@ -129,19 +129,19 @@ function salvarBordas(html, todasBordas){
 
 //------------------------------------------------------------------------------------------------------------
 //retorno do cadastro cliente
-if(celular % 2 == 1 || celular % 2 == 0) {
-	$("#numeroCliente").val(celular);
+if(modoPedido === 'atualizar') {
+	$("#numeroCliente").val(nomePedido);
 	buscarCliente();
 }
 
 
 //------------------------------------------------------------------------------------------------------------
-if(typeof id_edicao != "undefined") {
+if(modoPedido === 'editar') {
 	modo = "EDITAR";
 	carregarLoading("block");
 	
 	$.ajax({
-		url: "/novoPedido/editarPedido/" + id_edicao,
+		url: "/novoPedido/editarPedido/" + nomePedido,
 		type: 'GET'
 	}).done(function(e){
 		
@@ -337,6 +337,7 @@ function mostrarDivsPedido(){
 									+'<option value="DRIVE">Drive-Thru</option>'
 								);
 		$("#divCobrarTaxa").show('slow');
+		$("#divPagamentoGeral").show('slow');
 	}else if(cliente.envio == "MESA"){
 		$("#envioCliente").append('<option value="MESA">Mesa</option>'
 									+'<option value="BALCAO">Balcão</option>'
@@ -371,7 +372,7 @@ function mostrarDivsPedido(){
 function atualizarDados() {
 	//buscar pedido no sistema
 	$.ajax({
-		url: "/novoPedido/atualizar/" + cliente.nome,
+		url: "/novoPedido/atualizarPedido/" + cliente.nome,
 		type: 'PUT',
 	}).done(function(e){
 		cliente.data = e.data;
@@ -383,10 +384,6 @@ function atualizarDados() {
 			cliente.comanda = e.comanda;
 			cliente.horaPedido = e.horaPedido;
 			cliente.envio = e.envio;
-			
-			if(e.envio == 'ENTREGA'){
-				$("#divPagamentoGeral").show('slow');
-			}
 			
 			if(e.cupom != '' && e.cupom != null){
 				cliente.cupom = e.cupom;
@@ -402,9 +399,10 @@ function atualizarDados() {
 			
 			$("#totalTodosProdutosAnteriores").html('<b>Total de produtos anteriores:</b> ' + totalTodosProdutosAnteriores).show('slow');
 			mostrarTotal();
-			
-			$("#alertPedidoAberto").show("slow");
-			setInterval(() => $("#alertPedidoAberto").hide("slow"), 30000);
+			if(modoPedido != 'atualizar') {
+				$("#alertPedidoAberto").show("slow");
+				setInterval(() => $("#alertPedidoAberto").hide("slow"), 30000);
+			}
 		}
 	});
 }
@@ -796,7 +794,7 @@ $("#BotaoEnviarPedido").click(function() {
 					
 					//buscar pedido no sistema
 					$.ajax({
-						url: "/novoPedido/atualizar/" + cliente.nome,
+						url: "/novoPedido/atualizarPedido/" + cliente.nome,
 						type: 'PUT',
 					}).done(function(e){
 						estruturarPedido(e, troco);

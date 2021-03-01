@@ -1,4 +1,5 @@
 $("#filtro").selectmenu().addClass("overflow");
+
 var pedidos = [];
 var funcionarios = [];
 var linhaHtml= "";
@@ -69,7 +70,7 @@ function mostrar(pedidos, filtro) {
 						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 						+ '<td class="text-center col-md-1"><div class="row">'
 						+ '<div class="col-md-1">'
-							+'<a title="Ver">'
+							+'<a title="Ver pedido" data-toggle="tooltip" data-html="true">'
 								+'<button class="botao" onclick="verPedido()" value="'+ pedido.id + '">'
 									+'<i class="fas fa-search"></i>'
 								+'</button>'
@@ -77,7 +78,15 @@ function mostrar(pedidos, filtro) {
 						+'</div>'
 					
 						+ '<div class="col-md-1">'
-							+'<a title="Editar">'
+							+'<a title="Adicionar ao pedido" href="/novoPedido/atualizar/'+ pedido.celular + '" data-toggle="tooltip" data-html="true">'
+								+'<button class="botao">'
+									+'<i class="fas fa-plus"></i>'
+								+'</button>'
+							+'</a>'
+						+'</div>'
+						
+						+ '<div class="col-md-1">'
+							+'<a title="Editar pedido" data-toggle="tooltip" data-html="true">'
 								+'<button class="botao" onclick="editarPedido()" value="'+ pedido.id + '">'
 									+'<i class="fas fa-edit"></i>'
 								+'</button>'
@@ -85,13 +94,12 @@ function mostrar(pedidos, filtro) {
 						+'</div>'
 			
 						+ '<div class="col-md-1">'
-							+'<a title="Excluir">'
+							+'<a title="Excluir pedido" data-toggle="tooltip" data-html="true">'
 								+'<button class="botao" onclick="excluirPedido()" value="'+ pedido.id + '">'
 									+'<i class="fas fa-trash"></i>'
 								+'</button>'
 							+'</a>'
 						+'</div>'
-			
 					+ '</td></tr>'
 				+ '<tr>'
 			+ linhaCinza;
@@ -100,6 +108,7 @@ function mostrar(pedidos, filtro) {
 
 	if(linhaHtml != "") {
 		$("#todosPedidos").html(linhaHtml);
+		$('[data-toggle="tooltip"]').tooltip();
 	}else {
 		$("#todosPedidos").html(pedidoVazio);
 	}

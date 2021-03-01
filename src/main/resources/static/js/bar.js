@@ -4,7 +4,7 @@ var linhaHtml =  "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>';
 var [Tpedidos, totalPedidos] = [0, 0];
-var divisao;
+var divisao, impressaoPedido;
 
 carregarLoading("block");
 $(document).ready(() => $("#nomePagina").text("Bar"));
@@ -209,29 +209,8 @@ function carregarLoading(texto){
 
 //----------------------------------------------------------------------------
 function imprimir(cliente) {
-	//salvar hora atual
-	var data = new Date();
-	hora = data.getHours();
-	hora = (hora.length == 0) ? '00' : hora;
-	hora = (hora <= 9) ? '0'+hora : hora;
-	minuto = data.getMinutes();
-	minuto = (minuto.length == 0) ? '00' : minuto;
-	minuto = (minuto <= 9) ? '0'+minuto : minuto;
-	segundo = data.getSeconds();
-	segundo = (segundo.length == 0) ? '00' : segundo;
-	segundo = (segundo <= 9) ? '0'+segundo : segundo;
-    dia  = data.getDate().toString();
-    dia = (dia.length == 1) ? '0'+dia : dia;
-    mes  = (data.getMonth()+1).toString();
-    mes = (mes.length == 1) ? '0'+mes : mes;
-    ano = data.getFullYear();
-			
-	var impressaoPedido = cliente;
+	impressaoPedido = cliente;
 	impressaoPedido.setor = "B";
-
-	//salvar hora
-	impressaoPedido.hora = hora + ':' + minuto + ':' + segundo;
-	impressaoPedido.data = dia + '/' + mes + '/' + ano;
 	
 	$.ajax({
 		url: "/imprimir/imprimirProduto",

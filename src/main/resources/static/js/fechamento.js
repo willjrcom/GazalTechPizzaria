@@ -1,22 +1,18 @@
 $(document).ready(() => $("#nomePagina").text("Fechamento do dia"));
-var dados = {}, Dado, pedidos;
-var Tpedidos;
-var Tvendas = 0, Tfaturamento = 0;
-var Tpizza = 0, Tproduto = 0;
+var [Tvendas, Tfaturamento] = [0, 0];
 var totalMotoboys;
 var compras = 0;
 //formas de envio
 var envioHtml;
-var entrega = 0, balcao = 0, mesa = 0, drive = 0;
-var tEntrega = 0, tBalcao = 0, tMesa = 0, tDrive = 0;
+var [entrega, balcao, mesa, drive] = [0, 0, 0, 0];
+var [tEntrega, tBalcao, tMesa, tDrive] = [0, 0, 0, 0];
 
 //formas de pagamento
 var pagHtml;
 var dinheiro = 0, cartao = 0;
 
 //impressao
-var linhaPizzas = '', linhaProdutos = '', linhaBoy = '';
-var cont1 = 0, cont2 = 0;
+var [linhaPizzas, linhaProdutos, linhaBoy] = ['', '', ''];
 
 var linhaCinza = '<tr><td colspan="4" class="fundoList"></td></tr>';
 
@@ -207,8 +203,6 @@ function carregarMotoboy(logmotoboys){
 			+'</table></div></div>';
 	
 	$(".divmotoboys").css({
-		
-	}).css({
 		'height': '30vh'
 	});
 }
@@ -220,14 +214,14 @@ function calcularCompra(compra){
 		for(produto of produtos) {
 			compras += parseFloat(produto.valor);
 		}
-		var comprasHtml = '<tr>'
-						+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
-					+ '</tr>'
-					+ '<tr>'
-						+ '<td class="text-center col-md-1">R$ ' + compras.toFixed(2) + '</td>'
-					+ '</tr>';
 					
-		$("#compras").html(comprasHtml);
+		$("#compras").html('<tr>'
+							+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
+						+ '</tr>'
+						+ '<tr>'
+							+ '<td class="text-center col-md-1">R$ ' + compras.toFixed(2) + '</td>'
+						+ '</tr>'
+					);
 	}else{
 		$("#compras").text("Nenhuma compra feita hoje!");
 	}

@@ -15,15 +15,19 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Entity
 @Table(name = "PEDIDO")
 public class Pedido extends AbstractEntity<Long> {
+
+	@Column(nullable=false)
+	private int codEmpresa;
 	
 	@Column(nullable=false)
 	private Long comanda;
+	private Long celular;
 	
 	@Column(nullable=false)
 	private String nome;
-	private Long celular;
 	private String endereco;
 	private String referencia;
+	
 	@Lob
 	private String pizzas;
 	@Lob
@@ -49,5 +53,4 @@ public class Pedido extends AbstractEntity<Long> {
 	private float total = 0;
 	private float troco = 0;
 	private float servico = 0;
-	private int codEmpresa;
 }
