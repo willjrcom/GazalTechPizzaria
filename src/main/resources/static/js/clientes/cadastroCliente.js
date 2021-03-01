@@ -127,7 +127,7 @@ $("#enviar").click(function() {
 							            btnClass: 'btn-green',
 							            keys: ['esc','enter'],
 							            action: function(){
-											window.location.href = "/novoPedido/" + $("#cel").cleanVal();
+											window.location.href = "/novoPedido/atualizar/" + $("#cel").cleanVal();
 										}
 									},
 								}

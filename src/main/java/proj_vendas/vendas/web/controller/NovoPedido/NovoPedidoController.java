@@ -170,7 +170,7 @@ public class NovoPedidoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/atualizar/{nome}")
+	@RequestMapping(value = "/atualizarPedido/{nome}")
 	@ResponseBody
 	public Pedido atualizarPedido(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -195,12 +195,13 @@ public class NovoPedidoController {
 				.getAuthentication().getPrincipal()).getUsername());
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-");
 		SimpleDateFormat diaString = new SimpleDateFormat ("dd");
+		SimpleDateFormat hora = new SimpleDateFormat ("kk:mm");
 		int diasInt = Integer.parseInt(diaString.format(new Date()));
 
 		//permite 4 dias;
 		diasInt += 2;
 		
-		temp.setValidade(data.format(new Date()) + ":" + diasInt);
+		temp.setValidade(data.format(new Date()) + "" + diasInt + "" + hora.format(new Date()));
 		temp.setCodEmpresa(user.getCodEmpresa());
 		temp.setData(user.getDia());
 		temp.setStatus("COZINHA");
