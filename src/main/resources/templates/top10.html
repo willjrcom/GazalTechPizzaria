@@ -106,6 +106,27 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					 		</table>
 			 		 	</div>
 					</div>
+					
+					<div class="col-md-4">
+						<button class="btn btn-primary" onclick="mostrarPizzas()" id="btnPizzas">Mostrar Top 10 Pizzas</button>
+						<div>&nbsp;</div>
+						
+						<div class="table-responsive hidden" id="topPizzas">
+					 		<table>
+					 			<thead>
+					 				<tr>
+					 					<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Pizzas</h3></td>
+					 				</tr>
+					 		 		<tr>
+					 		 			<th class="col-md-1">Ranking</th>
+					 		 			<th class="col-md-1">Pizza</th>
+					 		 			<th class="col-md-1">Vendida</th>
+					 		 		</tr>
+					 		 	</thead>
+					 		 	<tbody id="pizzasTop" class="text-center col-md-1 sombra"><tr><td colspan="3">........</td></tr></tbody>
+					 		</table>
+			 		 	</div>
+					</div>
 				</div>
 				<br><br>
 			</div>
@@ -155,7 +176,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   		</div>
 	</div>
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
-	<script th:src="@{/js/todosCadastros.js}"></script>
+	<script th:src="@{/js/top10.js}"></script>
 </body>
 
 	<div th:replace="~{layouts/frag :: empresa}"></div>

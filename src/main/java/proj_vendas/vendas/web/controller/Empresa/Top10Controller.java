@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller.Cadastros;
+package proj_vendas.vendas.web.controller.Empresa;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.LogMesa;
+import proj_vendas.vendas.model.LogPizza;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Empresas;
@@ -21,7 +22,7 @@ import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
-public class CadastrosController {
+public class Top10Controller {
 
 	@Autowired
 	private Clientes clientes;
@@ -38,19 +39,19 @@ public class CadastrosController {
 	@Autowired
 	private Empresas empresas;
 	
-	@GetMapping("/cadastros")
+	@GetMapping("/top10")
 	public ModelAndView lerCadastros() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		ModelAndView mv = new ModelAndView("todosCadastros");
+		ModelAndView mv = new ModelAndView("top10");
 		mv.addObject("clientes", clientes.totalClientes(user.getCodEmpresa()));
 		mv.addObject("funcionarios", funcionarios.totalFuncionarios(user.getCodEmpresa()));
 		mv.addObject("produtos", produtos.totalProdutos(user.getCodEmpresa()));
 		return mv;
 	}
 	
-	@RequestMapping("/cadastros/top10Clientes")
+	@RequestMapping("/top10/clientes")
 	@ResponseBody
 	public String top10() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -59,12 +60,22 @@ public class CadastrosController {
 		return clientes.top10Clientes(user.getCodEmpresa()).toString();
 	}
 	
-	@RequestMapping("/cadastros/mesas")
+	@RequestMapping("/top10/mesas")
 	@ResponseBody
 	public List<LogMesa> buscarMesas() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
 		return empresas.findByCodEmpresa(user.getCodEmpresa()).getLogMesa();
+	}
+	
+
+	@RequestMapping("/top10/pizzas")
+	@ResponseBody
+	public List<LogPizza> buscarPizzas() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return empresas.findByCodEmpresa(user.getCodEmpresa()).getLogPizza();
 	}
 }

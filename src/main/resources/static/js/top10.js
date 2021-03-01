@@ -1,4 +1,8 @@
-$(document).ready(() => $("#nomePagina").text("Cadastros"));
+$(document).ready(() => $("#nomePagina").text("Top 10"));
+
+var mesas = [], arrayClientes = [], top5 = [];
+var Cliente = {};
+var linhaClientesHtml = '';
 
 //cadastros------------------------------------------------------
 function mostrarClientes(){
@@ -6,14 +10,12 @@ function mostrarClientes(){
 		carregarLoading('block');
 		
 		$.ajax({
-			url: '/adm/cadastros/top10Clientes',
+			url: '/adm/top10/clientes',
 			type: "GET"
 		}).done(lista => {
 			const top10 = lista.replace("[", "").replace("]", "").split(",");
-			var arrayClientes = [];
-			var Cliente = {};
-			var linhaClientesHtml = "";
 			
+			arrayClientes = [];
 			for(i = 0; i< top10.length; i++){
 				Cliente = {};
 				Cliente.nome = top10[i];
@@ -21,7 +23,8 @@ function mostrarClientes(){
 				arrayClientes.push(Cliente);
 				i++;	
 			}
-
+			
+			linhaClientesHtml = "";
 			for(let [i, cliente] of arrayClientes.entries()){
 				linhaClientesHtml += '<tr>'
 									+ '<td class="sombra" align="center">Top ' + (i+1) + '</td>'
@@ -47,7 +50,6 @@ function mostrarClientes(){
 }
 
 
-var mesas = [];
 	
 //mesas------------------------------------------------------
 function mostrarMesas(){
@@ -55,9 +57,10 @@ function mostrarMesas(){
 		carregarLoading("block");
 		
 		$.ajax({
-			url: "/adm/cadastros/mesas",
+			url: "/adm/top10/mesas",
 			type: "GET"
 		}).done(function(e){
+			mesas = [];
 			
 			//remover caracteres
 			for(mesa of e) {
@@ -70,7 +73,7 @@ function mostrarMesas(){
 			    return unico.includes(item) ? unico : [...unico, item]
 			}, []);
 			
-			var top5 = [];
+			top5 = [];
 			
 			//adicionar objetos top 5
 			for(mesa of novaMesas) {
@@ -94,9 +97,7 @@ function mostrarMesas(){
 			}
 			
 			//ordenar vetor decrescente
-			top5.sort(function(a, b){
-				return (a.total < b.total) ? 1 : ((b.total < a.total) ? -1 : 0);
-			})
+			top5.sort((a, b) => (a.total < b.total) ? 1 : ((b.total < a.total) ? -1 : 0));
 			
 			//reduzir a 10 mesas
 			if(top5.length > 10){
@@ -125,6 +126,51 @@ function mostrarMesas(){
 	}else{
 		$("#topMesas").hide("slow");
 		$("#btnMesas").text("Mostrar Top 10 Mesas");
+	}
+}
+
+
+//mesas------------------------------------------------------
+function mostrarPizzas(){
+	if($("#topPizzas").is(":visible") == false){
+		carregarLoading("block");
+		
+		$.ajax({
+			url: "/adm/top10/pizzas",
+			type: "GET"
+		}).done(function(e){
+			top5Pizzas = e;
+			console.log(e)
+			//ordenar vetor decrescente
+			top5Pizzas = top5Pizzas.sort((a, b) => (a.contador < b.contador) ? 1 : ((b.contador < a.contador) ? -1 : 0));
+			
+			//reduzir a 10 mesas
+			if(top5Pizzas.length > 10){
+				top5Pizzas = top5Pizzas.slice(0, 10);	
+			}
+			
+			pizzasHtml = '';
+			if(top5Pizzas.length == 0){
+				pizzasHtml = '<tr><td colspan="3" align="center"><label>Nenhuma pizza encontrada!</label></td><tr>';
+				carregarLoading("none");
+			}else{
+				for([i, pizza] of top5Pizzas.entries()) {
+				pizzasHtml += '<tr>' 
+							+ `<td align="center">Top ${i+1}</td>`
+							+ `<td align="center"><b>${pizza.pizza}</b></td>`
+							+ `<td align="center">${pizza.contador} vezes</td>`
+						+ '</tr>';
+				}
+			}
+			
+			carregarLoading("none");
+			$("#topPizzas").show("slow");
+			$("#btnPizzas").text("Ocultar Top 10 Pizzas");
+			$("#pizzasTop").html(pizzasHtml);
+		});
+	}else{
+		$("#topPizzas").hide("slow");
+		$("#btnPizzas").text("Mostrar Top 10 Mesas");
 	}
 }
 
