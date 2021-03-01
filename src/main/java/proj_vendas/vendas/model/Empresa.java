@@ -62,5 +62,7 @@ public class Empresa extends AbstractEntity<Long>{
 	
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<LogMesa> logMesa;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<LogPizza> logPizza;
 }

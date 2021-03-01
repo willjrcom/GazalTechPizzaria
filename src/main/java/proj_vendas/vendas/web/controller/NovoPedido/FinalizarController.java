@@ -16,6 +16,7 @@ import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
+import proj_vendas.vendas.model.LogPizza;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Dados;
@@ -130,6 +131,37 @@ public class FinalizarController {
 	}
 	
 
+	@RequestMapping(value = "/top10Pizzas")
+	@ResponseBody
+	public void top10Pizzas(@RequestBody List<String> pizzas) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		List<LogPizza> top10Pizza = empresa.getLogPizza();
+		int cont = 0;
+		//para cada nova pizza
+		for(int j = 0; j < pizzas.size(); j++) {
+			cont = 0;
+			//para cada pizza salva
+			for(int i = 0; i < top10Pizza.size(); i++) {
+				if(top10Pizza.get(i).getPizza().equals(pizzas.get(j))) {
+					top10Pizza.get(i).setContador(top10Pizza.get(i).getContador() + 1);
+					cont = 1;
+				}
+			}
+			
+			//se nao encontrar a pizza
+			if(cont == 0) {
+				LogPizza pizza = new LogPizza();
+				pizza.setPizza(pizzas.get(j));
+				pizza.setContador(1);
+				top10Pizza.add(pizza);
+			}
+		}
+		empresas.save(empresa);
+	}
+	
+
 	public String limitaString(String texto, int limite) {
 		
 		String vazio = "                              ";
@@ -137,7 +169,7 @@ public class FinalizarController {
 		return (texto.length() <= limite) ? texto : texto.substring(0, limite);
 	}
 	
-	
+
 	private void liberarConquistas(float totalVendas, Usuario user) {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Conquista conquista = empresa.getConquista();

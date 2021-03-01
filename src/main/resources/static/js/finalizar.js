@@ -1,7 +1,7 @@
 $("#filtro").selectmenu().addClass("overflow");
 $(document).ready(() => $("#nomePagina").text("Finalizar pedidos"));
 var pedidos = [];
-var funcionarios = [];
+var [funcionarios, top10Pizzas] = [[], []];
 var pizzas = [];
 var dado = {};
 var linhaHtml= "";
@@ -69,9 +69,11 @@ function finalizarPedido() {
 	dado.totalPizza = 0;
 	dado.totalProduto = 0;
 	dado.totalLucro = 0;
+	top10Pizzas = [];
 	
 	//contar total do lucro e de pizzas
 	for(pizza of pedidos[idBusca].pizzas) {
+		top10Pizzas.push(pizza.sabor);
 		dado.totalLucro += pizza.custo;
 		dado.totalPizza += pizza.qtd;
 	}
@@ -202,6 +204,14 @@ function jqueryFinalizar(cliente){
 						dataType : 'json',
 						contentType: "application/json",
 						data: JSON.stringify(dado)
+					});
+					
+					$.ajax({
+						url: '/finalizar/top10Pizzas',
+						type: "POST",
+						dataType : 'json',
+						contentType: "application/json",
+						data: JSON.stringify(top10Pizzas)	
 					});
 					
 					$.ajax({
