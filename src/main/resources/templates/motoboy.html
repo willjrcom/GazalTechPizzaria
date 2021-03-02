@@ -11,14 +11,24 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<div class="divbase">
 		<br>
 		<input type="hidden" id="btnCadastrar" th:value="${btnCadastrar}"/>
-		<div id="divCadastrar" class="hidden">
-			<a th:href="@{/adm/cadastroFuncionario/MOTOBOY}"><button class="btn btn-success">Cadastrar Motoboy para entregar</button></a>
-		</div>
-		<div class="distMargin" id="divFiltro">
-			<select name="filtro" id="filtro" autofocus>
-				<option value="--">Selecione o motoboy</option>
-				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
-			</select>
+		
+		<div class="row">
+			<div class="col-md-4">
+				<div id="divCadastrar" class="hidden">
+					<a th:href="@{/adm/cadastroFuncionario/MOTOBOY}"><button class="btn btn-success">Cadastrar Motoboy para entregar</button></a>
+				</div>
+				<div class="distMargin" id="divFiltro">
+					<select name="filtro" id="filtro" autofocus>
+						<option value="--">Selecione o motoboy</option>
+						<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="col-md-6"></div>
+			<div class="col-md-2">
+				<button class="btn btn-primary" onclick="verEntregasNaRua()">Entregas na rua</button>
+			</div>
 		</div>
 		
 		<br>

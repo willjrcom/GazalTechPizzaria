@@ -25,7 +25,6 @@ $.ajax({
 		pedido.pizzas = JSON.parse(pedido.pizzas);
 		pedido.produtos = JSON.parse(pedido.produtos);
 	}
-	$("#todosPedidos").html("");
 	linhaHtml = "";
 	
 	if(pedidos.length == 0){
@@ -162,6 +161,69 @@ function gerarLogMotoboy(pedido){
 		dataType : 'json',
 		contentType: "application/json",
 		data: JSON.stringify(objeto)
+	});
+}
+
+
+function verEntregasNaRua(){
+	carregarLoading("block");
+	$.ajax({
+		url: '/motoboy/entregasNaRua',
+		type: 'GET'
+	}).done(pedidos => {
+		let linhaHtml = "";
+		
+		if(pedidos.length == 0){
+			linhaHtml = '<tr><td colspan="5">Nenhum pedido na rua!</td></tr>';
+		}else{
+			linhaHtml = '<table class="table table-striped table-hover">'
+						+ '<tr>'
+							+ '<td class="text-center col-md-1">Comanda</td>'
+							+ '<td class="text-center col-md-1">Cliente</td>'
+							+ '<td class="text-center col-md-2">Endereco</td>'
+							+ '<td class="text-center col-md-1">Pagamento</td>'	
+							+ '<td class="text-center col-md-1">Motoboy</td>'
+						+ '</tr>';
+							
+			for(pedido of pedidos){
+				linhaHtml += '<tr>'
+							+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+							+ '<td class="text-center col-md-2">' + pedido.endereco + '</td>'
+							+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'	
+							+ '<td class="text-center col-md-1">' + pedido.motoboy + '</td>'
+							+ '</tr>'	
+					+ linhaCinza;
+			}
+			linhaHtml += '</table>';
+		}
+		carregarLoading("none");
+		$.alert({
+			type: 'blue',
+			title: 'Entregas na rua',
+			content: linhaHtml,
+			closeIcon: true,
+	    	columnClass: 'col-md-12',
+			buttons: {
+				confirm: {
+					isHidden: true,
+					keys: ['esc', 'enter']
+				}
+			}
+		});
+	}).fail(() => {
+		$.alert({
+			type: 'red',
+			title: 'OPS...',
+			content: 'Erro, nenhuma entrega encontrada!',
+			buttons: {
+				confirm: {
+					text: 'voltar',
+					btnClass: 'btn btn-success',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
 	});
 }
 

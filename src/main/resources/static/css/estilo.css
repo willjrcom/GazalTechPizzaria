@@ -15,7 +15,6 @@ html {
     height: 100%;
     min-height: 100%;
     background-color: #0c2461;
-    /*background-image: url("/img/azul.jpg"); */
 	background-repeat: repeat-y;
 	background-size: cover;
 }
@@ -27,21 +26,6 @@ body{
     flex-direction: column;
     min-height: 90%;
     margin-top: 61px;
-}
-
-/*titulos*/
-th h3, td h3, th h5, th h4{
-  	text-align: center;
-	color: white;
-}
-
-.h1, .h2, .h3, h1, h2, h3 {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-h3{
-	text-align: center;
 }
 
 ul {
@@ -71,56 +55,36 @@ footer{
 	display: none;
 }
 	
-thead, tr th{
+thead{
 	background-color: #253b80;	
 }
 
-table thead tr th, table tr th{
-	text-align: center;
+thead tr th{
 	color: white;
 }
 
-table tbody tr td{
+th, td, h3, h4{
 	text-align: center;
 	padding: .5vh;
-}
-
-/*-------------------------------------*/
-.centralizar{
-	text-align: center;
 }
 
 .fundoList{
 	background-color: #D3D3D3;
 }
 
-/*TITULO---------------------------------*/
-
-.h1Logo{
-	text-align: center; 
-}
-
-.elemento{
-	position: absolute;
-	top: 70%;
-	left: 50%;
-	height: 70vh;
-	transform: translate(-50%, -50%);
-}
-
 /*menu inicial*/
-.menu1 li{
+.menuPrincipal li{
 	float: none;
 	list-style-type: none;
 }
 
-.menu1 li a {
+.menuPrincipal li a {
   	display: block;
   	text-decoration: none;
 	padding: 3vh;
 }
 
-.menu1 li a:hover {
+.menuPrincipal li a:hover {
   	background-color: #107b11; /*cor verde do menu*/
   	color: white;
   	font-size: 1.07rem;
@@ -128,10 +92,10 @@ table tbody tr td{
 	transition: all 0.3s linear;
 }
 
-.menu1 .row{
+.menuPrincipal .row{
 	background-color: white;
 }
-.menu1 a{
+.menuPrincipal a{
 	background-color: white;
 	color: black;
 }
@@ -140,7 +104,6 @@ table tbody tr td{
 	float: left;
 	position: absolute;
 }
-
 .active {
   	background-color: #107b11;
 }
@@ -165,11 +128,6 @@ table tbody tr td{
 	padding: 5vh;
 }
 
-.descricao{
-	border: none;
-	background-color: white;	
-}
-
 .botao{
 	background-color: white; 
 	border: none;
@@ -192,37 +150,12 @@ table tbody tr td{
 	color: black;	
 }
 
-.w100{
-	width: 100%;
-}
-
 .textIndent{
 	text-indent: 10px;
 }
 
 .sombra{
 	background-color: #D3D3D3;
-}
-
-.form-contact-button {
-  	width: 100%;
-  	font-size: 22px;
-  	border-radius: 4px;
-  	color: #fff;
-  	height: 40px;
-  	opacity: .8;
-  	margin-bottom: 20px;
-  	cursor: pointer;
-  	background: green;
-  	display: block;
-  	border: none;
-  	border-bottom: 1px solid #500707;
-  	border-right: 1px solid #500707;
-  	transition: 1s;
-}
-
-.form-contact-button:hover {
-  	opacity: 1;
 }
 
 .gazaltech{
@@ -290,11 +223,7 @@ table tbody tr td{
 	transition: all 0.3s linear;
 }
 
-.divMotoboys{
-	overflow-y: scroll;
-	max-height: 30vh;
-}
-
+/*tela de retirada*/
 .raio20{
 	border-radius: 20px;
 }
@@ -312,11 +241,6 @@ table tbody tr td{
 
 .raio20RightTop{
 	border-top-right-radius: 20px;
-}
-
-.tituloMenuLat{
-	background-color: #6495ED;
-	color: white;
 }
 
 .table-scroll{
@@ -342,20 +266,6 @@ table tbody tr td{
 	color: red;	
 }
 
-/*dev*/
-#avisoUsuario, #avisoSenha {
-	display: none;
-}
-
-#logoMenu{
-	background-color: white;
-	width: 100%;
-}
-
-#fb{
-	background-color: #333;
-}
-
 #dados{
     margin-bottom: 0px;
 }
@@ -365,13 +275,7 @@ table tbody tr td{
 	min-width: 68vh;
 }
 
-#tituloEmpresa{
-	border: outset;
-	padding: 5px;
-	
-}
-
-#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, .divListaGeral{
+#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, #avisoUsuario, #avisoSenha, .divListaGeral{
 	display: none;
 }
 
@@ -387,19 +291,6 @@ table tbody tr td{
 }
 
 /*
-footer{
-    margin-top: auto;
-	width: 100%;
-	background-color: #333;
-	border-top: 2px solid black;	
-	position: relative;
-	height: 150%;
-	left:0;
-	bottom:0;
-	margin-left: 0;
-}
-
-
 a[accesskey]:after, button[accesskey]:after, input[accesskey]:after,
 label[accesskey]:after, legend[accesskey]:after, textarea[accesskey]:after {
     margin-left: 0.3em;

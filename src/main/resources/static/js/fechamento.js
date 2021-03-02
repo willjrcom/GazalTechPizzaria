@@ -147,17 +147,15 @@ function carregarMotoboy(logmotoboys){
 	totalMotoboys = objsMotoboys.reduce((a, b) => a.taxa + b.taxa);
 	
 	linhaBoy = '<div class="divMotoboys">'
-				+ '<table>'
-					+ '<thead>'
-						+'<tr>'
-							+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
-							+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
-						+'</tr>'
-					+'</thead>'
+				+ '<table class="table table-striped table-hover">'
+					+'<thead><tr>'
+						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
+						+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
+					+'</tr></thead>'
 				+ '</table>'
 				
 				+ '<div class="table-min-scroll">'
-					+ '<table>'
+					+ '<table class="table table-striped table-hover">'
 						+ '<tbody>';
 	
 	for(boy of objsMotoboys) {
@@ -175,19 +173,17 @@ function carregarMotoboy(logmotoboys){
 			
 	//completo-------------------------------------------------------------------------
 	linhaBoy = '<div class="divMotoboys">'
-				+ '<table>'
-					+ '<thead>'
-						+'<tr>'
-							+'<th class="text-center col-md-1"><h4>Comanda</h4></th>'
-							+'<th class="text-center col-md-1"><h4>Pedido</h4></th>'
-							+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
-							+'<th class="text-center col-md-1"><h4>Taxa</h4></th>'
-						+'</tr>'
-					+'</thead>'
+				+ '<table class="table table-striped table-hover">'
+					+'<thead><tr>'
+						+'<th class="text-center col-md-1">Comanda</th>'
+						+'<th class="text-center col-md-1">Pedido</th>'
+						+'<th class="text-center col-md-1">Motoboy</th>'
+						+'<th class="text-center col-md-1">Taxa</th>'
+					+'</tr></thead>'
 				+ '</table>'
 				
 				+ '<div class="table-min-scroll">'
-					+ '<table>'
+					+ '<table class="table table-striped table-hover">'
 						+ '<tbody>';
 					
 	for(boy of logmotoboys) {
@@ -208,18 +204,18 @@ function carregarMotoboy(logmotoboys){
 }
 
 
-function calcularCompra(compra){
-	if(compra.length != 0) {
-		var produtos = e.compras;
-		for(produto of produtos) {
-			compras += parseFloat(produto.valor);
+function calcularCompra(compras){
+	Tcompras = 0;
+	if(compras.length != 0) {
+		for(produto of compras) {
+			Tcompras += parseFloat(produto.valor);
 		}
 					
-		$("#compras").html('<tr>'
+		$("#compras").html('<thead class="table table-striped table-hover"><tr>'
 							+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
-						+ '</tr>'
+						+ '</tr></thead>'
 						+ '<tr>'
-							+ '<td class="text-center col-md-1">R$ ' + compras.toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + Tcompras.toFixed(2) + '</td>'
 						+ '</tr>'
 					);
 	}else{
@@ -232,9 +228,9 @@ function calcularSangria(sangrias){
 	if(typeof sangrias != "undefined") {
 		let totalSangria = 0, sangriaHtml = '';
 		
-		sangriaHtml = '<tr>'
+		sangriaHtml = '<thead><tr class="table table-striped table-hover">'
 						+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
-					+ '</tr>';
+					+ '</tr></thead>';
 					
 		for(let sangria of sangrias) {
 			totalSangria += parseFloat(sangria.valor);
@@ -245,7 +241,7 @@ function calcularSangria(sangrias){
 					+ '</tr>';
 		}
 			
-		sangriaHtml += '<tr><td>&nbsp;</td></tr>' 
+		sangriaHtml += '<tr><td colspan="2">&nbsp;</td></tr>' 
 					+ '<tr>'
 						+ '<th class="text-center col-md-1" colspan="2">Total retirado do caixa</th>'
 					+ '</tr>'

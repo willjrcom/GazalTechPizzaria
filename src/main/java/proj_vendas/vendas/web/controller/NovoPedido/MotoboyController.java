@@ -97,6 +97,15 @@ public class MotoboyController{
 	}
 	
 	
+	@RequestMapping("/entregasNaRua")
+	@ResponseBody
+	public List<Pedido> entregasNaRua() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return pedidos.findByCodEmpresaAndDataAndEnvioAndStatus(user.getCodEmpresa(), user.getDia(), "ENTREGA", "MOTOBOY");
+	}
+	
+	
 	private void liberarConquistas(int totalEntregas, Usuario user) {
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Conquista conquista = empresa.getConquista();
