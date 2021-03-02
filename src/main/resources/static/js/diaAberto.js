@@ -9,35 +9,51 @@ $(document).ready(() => $("#nomePagina").text("Dias em aberto"));
 
 
 $.ajax({
-	url: "/adm/diaAberto/todosDias",
+	url: "/menu/diaAberto",
 	type: 'GET'
 }).done(function(e){
 	dias = e;
-	$("#todosFuncionarios").html("");
 	linhaHtml = "";
-	
-	if(dias.length == 0){
-		$("#todosFuncionarios").html(pedidoVazio);
-	}else{
-		for(dia of dias){
-			linhaHtml += '<tr>'
-							+ '<td class="text-center col-md-1">' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + dia.trocoFinal.toFixed(2) + '</td>'
-							+ '<td class="text-center col-md-1"><button class="btn btn-primary" onlick="escolherData()">Acessar</button></td>'
-						+ '</tr>'
-					+ linhaCinza;
-		}
-		
-		$("#todosFuncionarios").html(linhaHtml);
+
+	if(dias.length > 1){
+		$("#divAlertDias").show('slow');
 	}
 	carregarLoading("none");
 });	
 
 
+$("#mostrarDias").click(event =>{
+	event.preventDefault();
+	linhaHtml = 'Novo Pedido -> Finlizar: Finalize todos os pedidos.'
+				+ '<br>Resumo diário -> Fechamento: lance o troco final.<br>'
+				+ '<table class="table table-striped table-hover">';
+				
+	for(dia of dias){
+		linhaHtml += '<tr>'
+						+ '<td class="text-center col-md-1">' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
+						+ '<td class="text-center col-md-1"><button class="btn btn-primary" onclick="escolherData(\'' + dia.data + '\')">Acessar</button></td>'
+					+ '</tr>';
+	}
+	linhaHtml += '</table>';
+	
+	$.alert({
+		type: 'red',
+		title: 'Dias em aberto',
+		content: linhaHtml,
+		closeIcon: true,
+		buttons: {
+			confirm: {
+				isHidden: true,
+				keys: ['esc', 'enter']
+			}
+		}
+	});
+});
+
+
 //-----------------------------------------------------
-function escolherData(){
+function escolherData(data){
 	carregarLoading("block");
-	console.log("rodou")
 	//alterar data
 	$.ajax({
 		url: '/menu/verificarData/' + data,

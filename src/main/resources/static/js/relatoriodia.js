@@ -22,7 +22,6 @@ $.ajax({
 		pedido.produtos = JSON.parse(pedido.produtos);
 	}
 
-	$("#todosPedidos").html("");
 	linhaHtml = "";
 	
 	if(pedidos.length == 0){

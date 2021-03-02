@@ -34,6 +34,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="menu" class="menuCentral">
+		<div class="alert alert-danger hidden" role="alert" id="divAlertDias">
+			<label><i class="fas fa-exclamation-triangle"></i></label>
+			<a href="" id="mostrarDias">Existem dias em aberto, clique aqui para corrigir!</a>
+		</div>
+		
 		<div class="corFundo centralizar border border-primary border-2">
 			<input type="hidden" id="trocoInicial" th:value="${troco}" />
 			
@@ -305,7 +310,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							<li>
 								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
 								<!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
-								<a th:href="@{/adm/diaAberto}"><i class="fas fa-exclamation-triangle"></i> Dias em aberto</a>
 								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Dados</a>
 								<a th:href="@{/adm/mensalidade}"><i class="fas fa-receipt"></i> Mensalidade</a>
 							</li>

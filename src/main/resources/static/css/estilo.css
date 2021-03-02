@@ -32,6 +32,10 @@ ul {
   	overflow: hidden;
 }
 
+a{
+	color: black;	
+}
+
 a:link{
 	text-decoration: none;
 }

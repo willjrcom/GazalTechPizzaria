@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -250,9 +251,20 @@ public class MenuController {
 		empresas.save(empresa);
 	}
 	
+	
 	@RequestMapping(value = "/mostrarDivulgacao")
 	@ResponseBody
 	public Optional<Divulgar> mostrarDivulgacao() {
 		return divulgacoes.findById((long)1);
+	}
+	
+	
+	@RequestMapping(value = "/diaAberto")
+	@ResponseBody
+	public ResponseEntity<List<Dado>> todos() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return ResponseEntity.ok(dados.findByCodEmpresaAndTrocoFinal(user.getCodEmpresa(), 0));
 	}
 }
