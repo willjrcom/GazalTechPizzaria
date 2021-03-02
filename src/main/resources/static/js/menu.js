@@ -33,32 +33,6 @@ function verData() {
 verData();
 
 
-//----------------------------------------------------------------
-function tablet() {
-
-	$.confirm({
-		type: 'blue',
-		title: 'Acessar Tablet',
-		content: 'Tem certeza?',
-		buttons:{
-			confirm:{
-				text: 'Acessar',
-				btnClass: 'btn-success',
-				keys: ['enter'],
-				action: function(){
-					window.location.href = "/menuTablet";
-				}
-			},
-			cancel:{
-				text: 'Voltar',
-				btnClass: 'btn-danger',
-				keys: ['esc']
-			}
-		}
-	})
-}
-
-
 //-----------------------------------------------------
 function escolherData(){
 	//alterar data

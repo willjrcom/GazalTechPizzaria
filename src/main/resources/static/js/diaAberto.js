@@ -22,8 +22,8 @@ $.ajax({
 		for(dia of dias){
 			linhaHtml += '<tr>'
 							+ '<td class="text-center col-md-1">' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + dia.trocoInicio.toFixed(2) + '</td>'
-							+ '<td class="text-center col-md-1">' + dia.trocoFinal.toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">R$ ' + dia.trocoFinal.toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1"><button class="btn btn-primary" onlick="escolherData()">Acessar</button></td>'
 						+ '</tr>'
 					+ linhaCinza;
 		}
@@ -32,6 +32,35 @@ $.ajax({
 	}
 	carregarLoading("none");
 });	
+
+
+//-----------------------------------------------------
+function escolherData(){
+	carregarLoading("block");
+	console.log("rodou")
+	//alterar data
+	$.ajax({
+		url: '/menu/verificarData/' + data,
+		type: 'GET'
+	}).done(function(){
+		window.location.href = "/menu"
+	}).fail(function(){
+		carregarLoading("none");
+		
+		$.alert({
+			type: 'red',
+			title: 'Alerta',
+			content: "Escolha uma data!",
+			buttons: {
+				confirm: {
+					text: 'Tentar novamente',
+					btnClass: 'btn-danger',
+					keys: ['esc', 'enter']
+				}
+			}
+		});
+	});
+}
 
 
 //-------------------------------------------------------------------------

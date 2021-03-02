@@ -13,13 +13,13 @@ function mostrarClientes(){
 			url: '/adm/top10/clientes',
 			type: "GET"
 		}).done(lista => {
-			const top10 = lista.replace("[", "").replace("]", "").split(",");
+			const top10Clientes = lista.replace("[", "").replace("]", "").split(",");
 			
 			arrayClientes = [];
-			for(i = 0; i< top10.length; i++){
+			for(i = 0; i< top10Clientes.length; i++){
 				Cliente = {};
-				Cliente.nome = top10[i];
-				Cliente.total = top10[i+1];
+				Cliente.nome = top10Clientes[i];
+				Cliente.total = top10Clientes[i+1];
 				arrayClientes.push(Cliente);
 				i++;	
 			}
@@ -60,60 +60,33 @@ function mostrarMesas(){
 			url: "/adm/top10/mesas",
 			type: "GET"
 		}).done(function(e){
-			mesas = [];
+			mesas = e;
 			
 			//remover caracteres
-			for(mesa of e) {
-				mesa.mesa = mesa.mesa.replace(/[^\d]+/g,'');//remover letras
-				mesas.push(mesa.mesa);
-			}
-			
-			//filtrar array top 5
-			const novaMesas = mesas.reduce((unico, item) => {
-			    return unico.includes(item) ? unico : [...unico, item]
-			}, []);
-			
-			top5 = [];
-			
-			//adicionar objetos top 5
-			for(mesa of novaMesas) {
-				top5.unshift({
-					'mesa': mesa,
-					'total': 0
-				});
-			}
-		
-			//calcular total de mesas
-			for(mesa of mesas) {//todas mesas
-				for(nova of novaMesas) {//filtro das mesas
-					if(mesa == nova) {
-						for(i = 0; i<top5.length; i++) {
-							if(mesa == top5[i].mesa) {
-								top5[i].total++;
-							}
-						}
-					}
-				}
+			for(mesa of mesas) {
+				try{
+					mesa.mesa = mesa.mesa.replace(/[^\d]+/g,'');
+				}catch(e){}//remover letras
 			}
 			
 			//ordenar vetor decrescente
-			top5.sort((a, b) => (a.total < b.total) ? 1 : ((b.total < a.total) ? -1 : 0));
+			top5Mesas = mesas.sort((a, b) => (a.contador < b.contador) ? 1 : ((b.contador < a.contador) ? -1 : 0));
 			
 			//reduzir a 10 mesas
-			if(top5.length > 10){
-				top5 = top5.slice(0, 10);	
+			if(top5Mesas.length > 10){
+				top5Mesas = top5Mesas.slice(0, 10);	
 			}
 			
 			mesasHtml = '';
-			if(top5.length == 0){
+			if(top5Mesas.length == 0){
 				mesasHtml = '<tr><td colspan="3" align="center"><label>Nenhuma mesa encontrada!</label></td><tr>';
 				carregarLoading("none");
 			}else{
-				for([i, mesa] of top5.entries()) {
+				for([i, mesa] of top5Mesas.entries()) {
 				mesasHtml += '<tr>' 
 							+ `<td align="center">Top ${i+1}</td>`
 							+ `<td align="center"><b>Mesa ${mesa.mesa}</b></td>`
-							+ `<td align="center">${mesa.total} vezes</td>`
+							+ `<td align="center">${mesa.contador} vezes</td>`
 						+ '</tr>';
 				}
 			}

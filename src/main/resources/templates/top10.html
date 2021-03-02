@@ -4,7 +4,7 @@ xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Cadastros</title></head>
+<head><title>Top 10</title></head>
 
 <body>
 	
@@ -12,51 +12,24 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 				<div class="col-md-4 table-responsive">
-					<table>
-						<thead>
-							<tr>
-								<td colspan="2"><h3>Clientes</h3></td>
-							</tr>
-						</thead>
-	
-						<tbody>
-							<tr>
-								<td th:text="${clientes}" class="text-center col-md-1 sombra">0</td>
-							</tr>
-						</tbody>
+					<table class="table table-striped table-hover">
+						<tr><th class="text-white table-dark">Clientes cadastrados</th></tr>
+						<tr><td th:text="${clientes}" class="text-center col-md-1">0</td></tr>
 					</table>
 				</div>
 	
 	
 				<div class="col-md-4 table-responsive">
-					<table>
-						<thead>
-							<tr>
-								<td colspan="2"><h3>Funcionários</h3></td>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<tr>
-								<td th:text="${funcionarios}" class="text-center col-md-1 sombra">0</td>
-							</tr>
-						</tbody>
+					<table class="table table-striped table-hover">
+						<tr><th class="text-white table-dark">Funcionários cadastrados</th></tr>
+						<tr><td th:text="${funcionarios}" class="text-center col-md-1">0</td></tr>
 					</table>
 				</div>
 	
 				<div class="col-md-4 table-responsive">
-					<table>
-						<thead>
-							<tr>
-								<td colspan="2"><h3>Produtos</h3></td>
-							</tr>
-						</thead>
-						
-						<tbody>
-							<tr>
-								<td th:text="${produtos}" class="text-center col-md-1 sombra">0</td>
-							</tr>
-						</tbody>
+					<table class="table table-striped table-hover">
+						<tr><th class="text-white table-dark">Produtos cadastrados</th></tr>
+						<tr><td th:text="${produtos}" class="text-center col-md-1">0</td></tr>
 					</table>
 				</div>
 				<div>&nbsp;</div>
@@ -67,20 +40,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<div>&nbsp;</div>
 					
 						<div class="table-responsive hidden" id="topClientes">
-							<table>
-								<thead>
-									<tr>
-										<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Clientes</h3></td>
-									</tr>
-									<tr>
-					 		 			<th class="col-md-1">Ranking</th>
-										<th class="col-md-1">Cliente</th>
-			 		 					<th class="col-md-1">Pedidos</th>
-			 		 				</tr>
-								</thead>
+							<table class="table table-striped table-hover">
+								<tr>
+									<th colspan="3" class="text-white table-dark"><h3><i class="fas fa-trophy"></i> Top 10 Clientes</h3></th>
+								</tr>
+								<tr class="text-white table-dark">
+				 		 			<th class="col-md-1">Ranking</th>
+									<th class="col-md-1">Cliente</th>
+		 		 					<th class="col-md-1">Pedidos</th>
+		 		 				</tr>
 								
 								<tbody id="clientes">
-									<tr><td colspan="3" class="sombra" align="center"><label>Nenhum cliente encontrado!</label></td><tr>
+									<tr><td colspan="3" align="center"><label>Nenhum cliente encontrado!</label></td><tr>
 								</tbody>
 							</table>
 						</div>
@@ -91,18 +62,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<div>&nbsp;</div>
 						
 						<div class="table-responsive hidden" id="topMesas">
-					 		<table>
-					 			<thead>
-					 				<tr>
-					 					<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Mesas</h3></td>
-					 				</tr>
-					 		 		<tr>
-					 		 			<th class="col-md-1">Ranking</th>
-					 		 			<th class="col-md-1">Mesa</th>
-					 		 			<th class="col-md-1">Utilizada</th>
-					 		 		</tr>
-					 		 	</thead>
-					 		 	<tbody id="mesasTop" class="text-center col-md-1 sombra"><tr><td colspan="3">........</td></tr></tbody>
+					 		<table class="table table-striped table-hover">
+				 				<tr>
+				 					<th colspan="3" class="text-white table-dark"><h3><i class="fas fa-trophy"></i> Top 10 Mesas</h3></th>
+				 				</tr>
+				 		 		<tr class="text-white table-dark">
+				 		 			<th class="col-md-1">Ranking</th>
+				 		 			<th class="col-md-1">Mesa</th>
+				 		 			<th class="col-md-1">Utilizada</th>
+				 		 		</tr>
+					 		 	<tbody id="mesasTop" class="text-center col-md-1">
+					 		 		<tr><td colspan="3">Nenhuma mesa adicionada!</td></tr>
+					 		 	</tbody>
 					 		</table>
 			 		 	</div>
 					</div>
@@ -112,18 +83,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<div>&nbsp;</div>
 						
 						<div class="table-responsive hidden" id="topPizzas">
-					 		<table>
-					 			<thead>
-					 				<tr>
-					 					<td colspan="3"><h3><i class="fas fa-trophy"></i> Top 10 Pizzas</h3></td>
-					 				</tr>
-					 		 		<tr>
-					 		 			<th class="col-md-1">Ranking</th>
-					 		 			<th class="col-md-1">Pizza</th>
-					 		 			<th class="col-md-1">Vendida</th>
-					 		 		</tr>
-					 		 	</thead>
-					 		 	<tbody id="pizzasTop" class="text-center col-md-1 sombra"><tr><td colspan="3">........</td></tr></tbody>
+					 		<table class="table table-striped table-hover">
+				 				<tr>
+				 					<th colspan="3" class="text-white table-dark"><h3><i class="fas fa-trophy"></i> Top 10 Pizzas</h3></th>
+				 				</tr>
+				 		 		<tr class="text-white table-dark">
+				 		 			<th class="col-md-1">Ranking</th>
+				 		 			<th class="col-md-1">Pizza</th>
+				 		 			<th class="col-md-1">Vendida</th>
+				 		 		</tr>
+					 		 	<tbody id="pizzasTop" class="text-center col-md-1">
+					 		 		<tr><td colspan="3">Nenhuma pizza adicionada!</td></tr>
+					 		 	</tbody>
 					 		</table>
 			 		 	</div>
 					</div>
