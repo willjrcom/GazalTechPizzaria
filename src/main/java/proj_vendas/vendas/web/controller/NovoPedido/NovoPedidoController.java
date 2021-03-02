@@ -21,7 +21,6 @@ import proj_vendas.vendas.model.Cupom;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.LogMesa;
 import proj_vendas.vendas.model.Pedido;
 import proj_vendas.vendas.model.PedidoTemp;
 import proj_vendas.vendas.model.Produto;
@@ -59,43 +58,46 @@ public class NovoPedidoController {
 
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@Autowired
 	private Funcionarios funcionarios;
-	
+
 	@RequestMapping("/**")
 	public ModelAndView tela() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("novoPedido");
-		mv.addObject("trocoInicial", dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()).getTrocoInicio());
+		mv.addObject("trocoInicial",
+				dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()).getTrocoInicio());
 		return mv;
 	}
 
-	
 	@RequestMapping(value = "/numeroCliente/{celular}")
 	@ResponseBody
 	public Cliente buscarNumeroCliente(@PathVariable Long celular) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 	}
-	
 
 	@RequestMapping(value = "/nomeProduto/{nome}")
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		//buscar apenas codigo
-		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);// busca apenas 1 item
-																	
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+
+		// buscar apenas codigo
+		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(),
+				nome, "BORDA", true);// busca apenas 1 item
+
 		if (produto.size() >= 1) {
 			return produto;
 		} else {// buscar se esta indisponivel
-			List<Produto> produtoIndisponivel = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", false);// busca produto indisponivel
-			if(produtoIndisponivel.size() != 0) {
+			List<Produto> produtoIndisponivel = produtos
+					.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", false);// busca
+																														// produto
+																														// indisponivel
+			if (produtoIndisponivel.size() != 0) {
 				produtoIndisponivel.get(0).setId((long) -1);// codigo -1: nao disponivel
 				return produtoIndisponivel;
 			}
@@ -103,162 +105,134 @@ public class NovoPedidoController {
 		return produtos.findByCodEmpresaAndNomeProdutoContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
 	}
 
-	
 	@RequestMapping(value = "/bordas")
 	@ResponseBody
 	public List<Produto> mostrarBordas() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 	}
 
-	
 	@RequestMapping(value = "/salvarPedido")
 	@ResponseBody
 	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		SimpleDateFormat formatHora = new SimpleDateFormat ("dd/MM/yyyy kk:mm");
-		
-		//novo pedido
-		if(pedido.getId() == null) {
-			//setar hora
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		SimpleDateFormat formatHora = new SimpleDateFormat("dd/MM/yyyy kk:mm");
+
+		// novo pedido
+		if (pedido.getId() == null) {
+			// setar hora
 			pedido.setData(user.getDia());
 			pedido.setHoraPedido(formatHora.format(new Date()));
-			
-			//buscar dia nos dados
-			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()); 
-			
-			//salvar o numero do pedido
-			pedido.setComanda((long)(dado.getComanda() + 1)); 
-			
-			//incrementar o n da comanda nos dados
-			dado.setComanda(dado.getComanda() + 1); 
+
+			// buscar dia nos dados
+			Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
+
+			// salvar o numero do pedido
+			pedido.setComanda((long) (dado.getComanda() + 1));
+
+			// incrementar o n da comanda nos dados
+			dado.setComanda(dado.getComanda() + 1);
 			dados.save(dado);
 
-			//se for cliente cadastrado
-			if(pedido.getEnvio().equals("ENTREGA") && pedido.getId() == null) {
-				aumentarContPedidosCliente(user.getCodEmpresa(), pedido.getCelular());
-			}
-			
-			//gerar LogMesa
+			// buscar empresa
 			Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-			if(pedido.getEnvio().equals("MESA")) {
-				gerarLogMesa(pedido.getNome(), empresa);
-			}
-			//ativar conquista
+
+			// ativar conquista
 			Conquista conquista = empresa.getConquista();
 			liberarConquistas(conquista, empresa);
 		}
-		
+
 		pedido.setCodEmpresa(user.getCodEmpresa());
 		pedido.setStatus("PRONTO");
-		
+
 		return ResponseEntity.ok(pedidos.save(pedido)); // salvar pedido
 	}
 
 	@RequestMapping(value = "/editarPedido/{id}")
 	@ResponseBody
 	public ResponseEntity<Pedido> editarPedido(@PathVariable long id) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Pedido pedido = pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
-		
-		if(pedido.getCodEmpresa() == user.getCodEmpresa()) {
+
+		if (pedido.getCodEmpresa() == user.getCodEmpresa())
 			return ResponseEntity.ok(pedido);
-		}
+
 		return ResponseEntity.noContent().build();
 	}
 
 	@RequestMapping(value = "/atualizarPedido/{nome}")
 	@ResponseBody
 	public Pedido atualizarPedido(@PathVariable String nome) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM-dd");
-		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(), user.getDia(), nome, "FINALIZADO", "EXCLUIDO");
-				
-		//necessario enviar a data
-		if(pedidoAntigo == null) {
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		SimpleDateFormat formatData = new SimpleDateFormat("yyyy-MM-dd");
+		Pedido pedidoAntigo = pedidos.findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(user.getCodEmpresa(),
+				user.getDia(), nome, "FINALIZADO", "EXCLUIDO");
+
+		// necessario enviar a data
+		if (pedidoAntigo == null) {
 			Pedido vazio = new Pedido();
 			vazio.setData(formatData.format(new Date()));
 			return vazio;
 		}
 		return pedidoAntigo;
 	}
-	
-	
+
 	@RequestMapping(value = "/salvarTemp")
 	@ResponseBody
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-");
-		SimpleDateFormat diaString = new SimpleDateFormat ("dd");
-		SimpleDateFormat hora = new SimpleDateFormat ("kk:mm");
+		SimpleDateFormat diaString = new SimpleDateFormat("dd");
+		SimpleDateFormat hora = new SimpleDateFormat("kk:mm");
 		int diasInt = Integer.parseInt(diaString.format(new Date()));
 
-		//permite 4 dias;
+		// permite 4 dias;
 		diasInt += 2;
-		
+
 		temp.setValidade(data.format(new Date()) + "" + diasInt + "" + hora.format(new Date()));
 		temp.setCodEmpresa(user.getCodEmpresa());
 		temp.setData(user.getDia());
 		temp.setStatus("COZINHA");
 		temps.save(temp);
 	}
-	
 
 	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
 	@ResponseBody
 	public void excluirPedidoTemp(@PathVariable long comanda) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), user.getDia(), comanda);
 		temps.deleteInBatch(temp);
 	}
-	
-	
+
 	@RequestMapping("/mostrarCupons")
 	@ResponseBody
-	public List<Cupom> cupons(){
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+	public List<Cupom> cupons() {
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return empresas.findByCodEmpresa(user.getCodEmpresa()).getCupom();
 	}
-	
-	
+
 	@RequestMapping("/garcons")
 	@ResponseBody
-	public List<Funcionario> garcons(){
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		return funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(), "GARCON", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
+	public List<Funcionario> garcons() {
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		return funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(),
+				"GARCON", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
 	}
-	
-	
+
 	private void liberarConquistas(Conquista conquista, Empresa empresa) {
-		if(conquista.isCadPedido() == false) {
+		if (conquista.isCadPedido() == false) {
 			conquista.setCadPedido(true);
 			empresa.setConquista(conquista);
 			empresas.save(empresa);
 		}
 	}
-	
-	
-	private void gerarLogMesa(String nome, Empresa empresa) {
-		LogMesa mesa = new LogMesa();
-		mesa.setMesa(nome);
-		List<LogMesa> logsMesas = empresa.getLogMesa();
-		logsMesas.add(mesa);
-		empresa.setLogMesa(logsMesas);
-		empresas.save(empresa);
-	}
-	
-	
-	private void aumentarContPedidosCliente(int codEmpresa, Long celular) {
-		Cliente cliente = clientes.findByCodEmpresaAndCelular(codEmpresa, celular);//buscar cliente nos dados
-		cliente.setContPedidos(cliente.getContPedidos() + 1);//adicionar contador de pedidos
-		clientes.save(cliente);
-	}
+
 }

@@ -15,6 +15,8 @@ public class LogMesa extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String mesa;
+	
+	private int contador = 0;
 }
 
 
