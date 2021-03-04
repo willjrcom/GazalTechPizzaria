@@ -33,19 +33,19 @@ $.ajax({
 		for(pedido of pedidos){
 			Tpizzas = 0;
 			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
-			
 			for(produto of pedido.produtos) Tpizzas += produto.qtd;
+			
+			pedido.Tpizzas = Tpizzas;
+			
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
 						+ '<td class="text-center col-md-2">' + pedido.endereco + '</td>'
-						+ '<td class="text-center col-md-1">' + Tpizzas + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'	
-						+ '<td class="text-center col-md-1">' + (pedido.total + pedido.taxa - pedido.troco).toFixed(2) + '</td>'	
+						+ '<td class="text-center col-md-1">R$ ' + (pedido.troco -(pedido.total + pedido.taxa)).toFixed(2) + '</td>'	
 						+ '<td class="text-center col-md-1">'
-							+ '<a class="enviarPedido">'
-							+ '<button type="button" class="btn btn-success" onclick="finalizarPedido()"'
-							+ 'value="'+ pedido.id + '"><i class="fas fa-location-arrow"></i></button></a></td>'		
+							+ '<button type="button" class="btn btn-success" onclick="entregarPedido()"'
+							+ 'value="'+ pedido.id + '"><i class="fas fa-location-arrow"></i></button></td>'		
 					+ '<tr>'
 				+ linhaCinza;
 		}
@@ -56,7 +56,7 @@ $.ajax({
 
 
 //------------------------------------------------------------------
-function finalizarPedido() {
+function entregarPedido() {
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	
@@ -78,7 +78,7 @@ function finalizarPedido() {
 		});
 		return 0;
 	}
-	linhaHtml = '';
+	linhaHtml = '<b>Total de produtos:</b><br>' + pedidos[idBusca].Tpizzas + '<br>';
 	if(typeof pedidos[idBusca].obs !== 'undefined'){
 		linhaHtml = '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea class="form-control" id="obs" style="border: 1px solid red" readonly></textarea><br>';
@@ -87,12 +87,17 @@ function finalizarPedido() {
 	$.confirm({
 		type: 'green',
 	    title: 'Pedido: ' + pedidos[idBusca].nome,
-	    content: linhaHtml + '<b>Deseja entregar?</b>',
+	    content: linhaHtml + '<br><b>Deseja entregar?</b>',
 		closeIcon: true,
 		onContentReady: function(){
 			$("#obs").val(pedidos[idBusca].obs);
 		},
 	    buttons: {
+			imprimir: {
+				text: 'Imprimir pedido',
+				btnClass: 'btn btn-primary',
+				action: () => imprimir(pedidos[idBusca])
+			},
 	        confirm: {
 	            text: 'Enviar',
 	            btnClass: 'btn-green',
