@@ -1,5 +1,7 @@
 package proj_vendas.vendas.web.controller.Dev;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.Mensalidade;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
@@ -33,7 +36,7 @@ public class DevController {
 		return new ModelAndView("dev");
 	}
 
-	@RequestMapping(value = "/dev/criar")
+	@RequestMapping(value = "/dev/criarUsuario")
 	@ResponseBody
 	public Usuario criarUsuario(@RequestBody Usuario usuario) {
 		if(usuario.getSenha().equals("-1") == true) {
@@ -51,6 +54,7 @@ public class DevController {
 		return usuarios.save(usuario);
 	}
 	
+	
 	@RequestMapping(value = "/dev/validar/{email}/{id}")
 	@ResponseBody
 	public Usuario validar(@PathVariable String email, @PathVariable long id) {
@@ -66,11 +70,20 @@ public class DevController {
 		return busca;
 	}
 	
-	@RequestMapping(value = "/dev/todos")
+	
+	@RequestMapping(value = "/dev/todosUsuarios")
 	@ResponseBody
-	public List<Usuario> todos(){
+	public List<Usuario> todosUsuarios(){
 		return usuarios.findAll();
 	}
+	
+	
+	@RequestMapping(value = "/dev/todosEmpresas")
+	@ResponseBody
+	public List<Empresa> todosEmpresas(){
+		return empresas.findAll();
+	}
+	
 
 	@RequestMapping(value = "/dev/excluirUsuario/{id}")
 	@ResponseBody
@@ -97,5 +110,18 @@ public class DevController {
 		usuarios.saveAll(todosUsuarios);
 		
 		return ResponseEntity.ok("200");
+	}
+	
+	
+	@RequestMapping(value = "/dev/addMensalidade/{codEmpresa}")
+	@ResponseBody
+	public ResponseEntity<?> addMensalidade(@RequestBody Mensalidade mensalidade, @PathVariable int codEmpresa) {
+		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		mensalidade.setData(format.format(new Date()));
+		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
+		List<Mensalidade> mensalidades = empresa.getMensalidade();
+		mensalidades.add(mensalidade);
+		empresas.save(empresa);
+		return ResponseEntity.ok(200);
 	}
 }

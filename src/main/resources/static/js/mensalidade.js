@@ -11,7 +11,6 @@ $.ajax({
 	contentType: "application/json",
 	data: JSON.stringify(pagamento)
 }).done(pagamentos => {
-	console.log(pagamentos)
 });
 */
 $.ajax({
@@ -59,7 +58,6 @@ function gerarBoleto() {
 	$.ajax({
 		url: url3 + "?email=" + email + "&token=" + token
 	}).done(function(e){
-		console.log(e);
 	});
 }
 
