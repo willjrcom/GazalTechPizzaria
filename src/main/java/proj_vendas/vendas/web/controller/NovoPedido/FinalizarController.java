@@ -111,13 +111,7 @@ public class FinalizarController {
 			dado.setClientes(limitaString("PEDIDO", 20) + "     TOTAL");
 		}
 
-		if (pedidoDados.getEntrega() == 1) {
-			dado.setClientes(dado.getClientes() + "#$" + limitaString(pedido.getNome(), 20) + "     R$ "
-					+ (pedido.getTotal() + pedido.getTaxa()));
-		} else {
-			dado.setClientes(
-					dado.getClientes() + "#$" + limitaString(pedido.getNome(), 20) + "     R$ " + pedido.getTotal());
-		}
+		dado.setClientes(dado.getClientes() + "#$" + limitaString(pedido.getNome(), 20) + "     " + pedido.getModoPagamento());
 
 		dado.setTotalLucro(dado.getTotalLucro() + pedidoDados.getTotalLucro());
 		dado.setTotalVendas(dado.getTotalVendas() + pedidoDados.getTotalVendas());
