@@ -32,15 +32,27 @@ $.ajax({
 			if(usuario.ativo == 1) usuarioHtml += '<td class="col-md-1 text-center"><i style="color: green" class="fas fa-check-circle"></i></td>';
 			else usuarioHtml += '<td align="center"><i style="color: red" class="fa fa-times-circle"></i></td>';
 			
-			usuarioHtml += '<td class="col-md-1 text-center"><div class="row">'
-							+'<div class="col-md-1"><button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><i class="fas fa-edit"></i></button></div>'
-							+'<div class="col-md-1"><button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><i class="fas fa-trash"></i></button></div>'
-						+'</div></td>'
+			usuarioHtml += '<td class="col-md-1 text-center">'
+							+ '<div class="row">'
+								+'<div class="col-md-1">'
+									+ '<a title="Editar usuario" data-toggle="tooltip" data-html="true">'
+										+ '<button onclick="editarUsuario()" value="' + usuario.id + '" class="botao"><i class="fas fa-edit"></i></button>'
+									+ '</a>'		
+								+ '</div>'
+								
+								+'<div class="col-md-1">'
+									+ '<a title="Excluir usuario" data-toggle="tooltip" data-html="true">'
+										+ '<button onclick="apagarUsuario()" value="' + usuario.id + '" class="botao"><i class="fas fa-trash"></i></button>'
+									+ '</a>'		
+								+ '</div>'
+							+'</div>'
+						+ '</td>'
 					+'</tr>'
 					+ linhaCinza;
 							
 		}
 		$("#todosUsuarios").html(usuarioHtml);
+		$('[data-toggle="tooltip"]').tooltip();
 	}
 	carregarLoading("none");
 });
@@ -70,13 +82,18 @@ $.ajax({
 			empresaHtml	+= '<td class="col-md-1 text-center">' + empresa.nomeEstabelecimento + '</td>'
 							+ '<td class="col-md-1 text-center">' + empresa.celular + '</td>'
 							+ '<td class="col-md-1 text-center">' + empresa.email + '</td>'
-							+ '<td class="col-md-1 text-center"><button onclick="addMensalidade()" value="' 
-							+ empresa.codEmpresa + '" class="botao"><i class="fas fa-external-link-alt"></i></button></td>'
-					+'</tr>'
-					+ linhaCinza;
+							+ '<td class="col-md-1 text-center">'
+								+ '<a title="Adicionar mensalidade" data-toggle="tooltip" data-html="true">'
+									+ '<button onclick="addMensalidade()" value="' 
+									+ empresa.codEmpresa + '" class="botao"><i class="fas fa-external-link-alt"></i></button>'
+								+ '</a>'		
+							+ '</td>'
+						+ '</tr>'
+						+ linhaCinza;
 							
 		}
 		$("#todosEmpresas").html(empresaHtml);
+		$('[data-toggle="tooltip"]').tooltip();
 	}
 	carregarLoading("none");
 });
