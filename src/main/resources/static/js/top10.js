@@ -113,7 +113,6 @@ function mostrarPizzas(){
 			type: "GET"
 		}).done(function(e){
 			top5Pizzas = e;
-			console.log(e)
 			//ordenar vetor decrescente
 			top5Pizzas = top5Pizzas.sort((a, b) => (a.contador < b.contador) ? 1 : ((b.contador < a.contador) ? -1 : 0));
 			

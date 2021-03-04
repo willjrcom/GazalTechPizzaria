@@ -48,7 +48,6 @@ $.ajax({
   	url: "/adm/fechamento/dados",
   	type: "GET"
 }).done(function(e){
-	console.log(e)
 	//motoboy-------------------------------------------------------------------
 	if(e.logMotoboy.length != 0)
 		carregarMotoboy(e.logMotoboy);
@@ -326,7 +325,7 @@ $("#sangria").click(function(){
 					var valorSangria = this.$content.find('#valorSangria').val();
 					
 					valorSangria = parseFloat(valorSangria.toString().replace(",","."));
-					console.log(nomeSangria, valorSangria)
+					
 					if(Number.isFinite(valorSangria) == false || nomeSangria == '') {
 						$.alert({
 							type: 'red',

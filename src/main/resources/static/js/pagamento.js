@@ -137,7 +137,6 @@ function acessarData(op) {
 						url: '/adm/pagamento/buscar/' + funcionarios[idBusca].id + '/' + dataBusca,
 						type: 'GET'
 					}).done(function(e){
-						console.log(e)
 						if(op == 1) pagarSalario(e, funcionarios[idBusca], dataBusca);
 						if(op == 2) imprimirResumo(e, funcionarios[idBusca]);
 					});
@@ -628,7 +627,6 @@ function pagarSalario(e, funcionario, dataBusca) {
 
 
 function imprimirResumo(e, funcionario) {
-	console.log(e)
 	linhaHtml = '<table>'
 				+ '<tr>'
 					+'<td class="text-center col-md-1">Data registro</td>'

@@ -14,10 +14,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="form-group">
 			<label>E-mail: <span class="alertOpcional">*</span></label><br>
-			<p id="avisoUsuario">Usuário já cadastrado, tente outro!</p>
+			<p id="avisoUsuario">Email já cadastrado, tente outro!</p>
 			<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" />
 		</div>
-			
+		
 		<br>
 		<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button>
 		
@@ -59,7 +59,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 		</div>
 		<br>
-		<button type="button" id="criar" class="btn btn-success" name="enviar">Criar Usuário</button>
+		<button type="button" id="criarUsuario" class="btn btn-success" name="enviar">Criar Usuário</button>
 		
 		 <br><hr>
 		 
@@ -83,20 +83,50 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		 
 		 <br><hr>
 		 <h3 align="center">Todos Usuários</h3>
-		 <table>
-		 	<thead>
-		 		<tr>
-					<th class="col-md-1"><h5>Cod</h5></th>
-					<th class="col-md-1"><h5>Empresa</h5></th>
-					<th class="col-md-1"><h5>Email</h5></th>
-					<th class="col-md-1"><h5>Perfil</h5></th>
-					<th class="col-md-1"><h5>Ativo</h5></th>
-					<th class="col-md-1"><h5></h5></th>
-				</tr>
-			</thead>
-			
-			<tbody id="todosUsuarios"><tr><td colspan="6">Nenhum usuário encontrado!</td></tr></tbody>
-		 </table>
+		 <div class="table-responsive">
+			 <table>
+			 	<thead>
+			 		<tr>
+						<th class="col-md-1 text-center"><h5>Código</h5></th>
+						<th class="col-md-1 text-center"><h5>Dia</h5></th>
+						<th class="col-md-1 text-center"><h5>Empresa</h5></th>
+						<th class="col-md-1 text-center"><h5>Email</h5></th>
+						<th class="col-md-1 text-center"><h5>Perfil</h5></th>
+						<th class="col-md-1 text-center"><h5>Ativo</h5></th>
+						<th class="col-md-1 text-center"></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		
+		<div class="table-min-novoPedido-scroll">
+			<table class="table-responsive">
+				<tbody id="todosUsuarios"><tr><td colspan="7">Nenhum usuário encontrado!</td></tr></tbody>
+		 	</table>
+		 </div>
+		 
+		 <br><hr>
+		 <h3 align="center">Todas empresas</h3>
+		 <div class="table-responsive">
+			 <table class="table-responsive">
+			 	<thead>
+			 		<tr>
+						<th class="col-md-1 text-center"><h5>Código</h5></th>
+						<th class="col-md-1 text-center"><h5>Tutorial</h5></th>
+						<th class="col-md-1 text-center"><h5>Estabelecimento</h5></th>
+						<th class="col-md-1 text-center"><h5>celular</h5></th>
+						<th class="col-md-1 text-center"><h5>Email</h5></th>
+						<th class="col-md-1 text-center"><h5>Mensalidade</h5></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		
+		<div class="table-min-novoPedido-scroll">
+			<table class="table-responsive">
+				<tbody id="todosEmpresas"><tr><td colspan="6">Nenhuma empresa encontrada!</td></tr></tbody>
+		 	</table>
+		 </div>
 	</div>
 	
 	<br>

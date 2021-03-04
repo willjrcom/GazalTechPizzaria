@@ -4,7 +4,6 @@ var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="5" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="5">Nenhum dia em aberto!</td></tr>';
 
-carregarLoading("block");
 $(document).ready(() => $("#nomePagina").text("Dias em aberto"));
 
 
@@ -18,7 +17,6 @@ $.ajax({
 	if(dias.length > 1){
 		$("#divAlertDias").show('slow');
 	}
-	carregarLoading("none");
 });	
 
 
