@@ -47,6 +47,7 @@ public class Empresa extends AbstractEntity<Long>{
 	private String texto1;
 	private String texto2;
 	private boolean imprimir;
+	private boolean imprimirPizza;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
