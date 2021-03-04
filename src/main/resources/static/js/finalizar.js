@@ -1,4 +1,5 @@
 $("#filtro").selectmenu().addClass("overflow");
+$("#filtroEnvio").selectmenu().addClass("overflow");
 $(document).ready(() => $("#nomePagina").text("Finalizar pedidos"));
 var pedidos = [];
 var [funcionarios, top10Pizzas] = [[], []];
@@ -30,30 +31,47 @@ $(document).ready(function(){
 			pedido.pizzas = JSON.parse(pedido.pizzas);
 			pedido.produtos = JSON.parse(pedido.produtos);
 		}
-		linhaHtml = "";
 		
-		if(pedidos.length == 0){
-			$("#todosPedidos").html(pedidoVazio);
-		}else{
-			for(pedido of pedidos){
-				linhaHtml += '<tr>'
-							+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxaOurServico(pedido, 10).toFixed(2) + '</td>'
-							+ '<td class="text-center col-md-1">' + (pedido.pago == 0 ? 'A Pagar' : 'Paga') + '</td>'
-							+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
-							+ '<td class="text-center col-md-1">' 
-								+ '<a class="enviarPedido">'
-								+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
-								+ 'value="'+ pedido.id + '"><i class="fas fa-cart-arrow-down"></i></button></a></td>'			
-						+ '<tr>'
-					+ linhaCinza;
-			}
-			$("#todosPedidos").html(linhaHtml);
-		}
+		mostrar(pedidos, "TODOS");
 		carregarLoading("none");
 	});
 });	
+
+
+//--------------------------------------------------------------------------
+function filtrar() {
+	mostrar(pedidos, $("#filtroEnvio").val());
+}
+
+
+//----------------------------------------------------------------------------------------------------------
+function mostrar(pedidos, filtro) {
+	linhaHtml = "";
+	for(pedido of pedidos){
+		if(filtro == pedido.envio || filtro == "TODOS"){
+			linhaHtml += '<tr>'
+						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+						+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxaOurServico(pedido, 10).toFixed(2) + '</td>'
+						+ '<td class="text-center col-md-1">' 
+							+ (pedido.pago == 1 
+								? '<i style="color: green" class="fas fa-check-circle"></i>'
+								: '<i style="color: red" class="fa fa-times-circle"></i>')
+						+ '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
+						+ '<td class="text-center col-md-1">' 
+							+ '<a class="enviarPedido">'
+							+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
+							+ 'value="'+ pedido.id + '"><i class="fas fa-cart-arrow-down"></i></button></a></td>'			
+					+ '<tr>'
+				+ linhaCinza;
+		}
+	}
+	if(linhaHtml != '')
+		$("#todosPedidos").html(linhaHtml);
+	else
+		$("#todosPedidos").html(pedidoVazio);
+}
 
 
 //---------------------------------------------------------------------------------

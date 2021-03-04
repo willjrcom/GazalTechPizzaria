@@ -34,7 +34,7 @@ $("#buscar").click(function(){
 							
 							+ '<td class="text-center col-md-1"><div class="row">'
 								+ '<div class="col-md-1">'
-									+'<a title="Ver">'
+									+'<a title="Ver cliente" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="verCliente()" value="'+ cliente.id + '">'
 											+'<i class="fas fa-search"></i>'
 										+'</button>'
@@ -42,7 +42,7 @@ $("#buscar").click(function(){
 								+'</div>'
 						
 								+ '<div class="col-md-1">'
-									+'<a title="Editar">'
+									+'<a title="Editar cliente" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="editarCliente()" value="'+ cliente.id + '">'
 											+'<i class="fas fa-edit"></i>'
 										+'</button>'
@@ -50,7 +50,7 @@ $("#buscar").click(function(){
 								+'</div>'
 					
 								+ '<div class="col-md-1">'
-									+'<a title="Excluir">'
+									+'<a title="Excluir cliente" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="excluirCliente()" value="'+ cliente.id + '">'
 											+'<i class="fas fa-trash"></i>'
 										+'</button>'
@@ -61,6 +61,7 @@ $("#buscar").click(function(){
 						+ linhaCinza;
 			}
 			$("#todosClientes").html(linhaHtml);
+			$('[data-toggle="tooltip"]').tooltip();
 		}
 		carregarLoading("none");
 	}).fail(function(){

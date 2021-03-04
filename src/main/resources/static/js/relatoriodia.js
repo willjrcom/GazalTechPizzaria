@@ -30,8 +30,9 @@ $.ajax({
 		for(pedido of pedidos){
 			Tpizzas = 0;
 			for(produto of pedido.produtos) Tpizzas += produto.qtd;
-			
 			for(pizza of pedido.pizzas) Tpizzas += pizza.qtd;
+			
+			pedido.Tpizzas = Tpizzas;
 			
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
@@ -39,14 +40,15 @@ $.ajax({
 						+ '<td class="text-center col-md-1">' + Tpizzas + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
 						+ '<td class="text-center col-md-1">' 
-							+ '<a class="enviarPedido">'
-							+ '<button type="button" title="finalizar" onclick="verPedido()" class="botao"'
+							+ '<a title="Ver pedido" data-toggle="tooltip" data-html="true">'
+							+ '<button onclick="verPedido()" class="botao"'
 							+ 'value="'+ pedido.id + '"><i class="fas fa-search"></i></button></a></td>'		
 					+ '</tr>'
 				+ linhaCinza;
 		}
 		
 		$("#todosPedidos").html(linhaHtml);
+		$('[data-toggle="tooltip"]').tooltip();
 	}
 	carregarLoading("none");
 });	
@@ -60,11 +62,6 @@ function verPedido() {
 	
 	//buscar dados completos do pedido enviado
 	for(i in pedidos) if(pedidos[i].id == idProduto) var idBusca = i;
-
-	Tpizzas = 0;
-	for(produto of pedidos[idBusca].produtos) Tpizzas += produto.qtd;
-	
-	for(pizza of pedidos[idBusca].pizzas) Tpizzas += pizza.qtd;
 			
 	linhaHtml = '';
 	if(pedidos[idBusca].pizzas.length != 0) {
@@ -107,7 +104,7 @@ function verPedido() {
 
 	linhaHtml += '<hr>'
 				+ '<div class="row">'
-				+ '<div class="col-md-6"><b>Total de Produtos:</b><br>' + Tpizzas + '</div>'
+				+ '<div class="col-md-6"><b>Total de Produtos:</b><br>' + pedidos[idBusca].Tpizzas + '</div>'
 				+ '<div class="col-md-6"><b>Total do Pedido:</b><br>R$ ' + mostrarTotalComTaxa(pedidos[idBusca]).toFixed(2) + '</div>'
 				+ '<div class="col-md-6"><b>Modo de pagamento:</b><br>' + pedidos[idBusca].modoPagamento + '</div>'
 				+ '<div class="col-md-6"><b>Modo de Envio:</b><br>' + pedidos[idBusca].envio + '</div>'

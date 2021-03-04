@@ -12,16 +12,35 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<input type="hidden" id="btnCadastrar" th:value="${btnCadastrar}"/>
 		
-		<div id="divCadastrar" class="hidden">
-			<a th:href="@{/adm/cadastroFuncionario/ATENDIMENTO}"><button class="btn btn-success">Cadastrar atendente para finalizar</button></a>
+		<div class="row">
+			<div class="col-md-4">
+				<div id="divCadastrar" class="hidden">
+					<a th:href="@{/adm/cadastroFuncionario/ATENDIMENTO}"><button class="btn btn-success">Cadastrar atendente para finalizar</button></a>
+				</div>
+				
+				<div class="distMargin" id="divFiltro">
+					<select autofocus="autofocus" name="filtro" id="filtro">
+						<option value="--">Selecione o atendente</option>
+						<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
+					</select>
+				</div>
+			</div>
+			
+			<div class="col-md-4"></div>
+			
+			<div class="col-md-4">
+				<select name="filtro" id="filtroEnvio">
+					<option value="TODOS">Todos</option>
+					<option value="ENTREGA">Entrega</option>
+					<option value="BALCAO">Balcão</option>
+					<option value="MESA">Mesa</option>
+					<option value="DRIVE">Drive-thru</option>
+				</select>
+				
+				<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
+			</div>
 		</div>
 		
-		<div class="distMargin" id="divFiltro">
-			<select autofocus="autofocus" name="filtro" id="filtro">
-				<option value="--">Selecione o atendente</option>
-				<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
-			</select>
-		</div>
 		<br>
 		<div class="table-responsive">
 			<table>
@@ -30,7 +49,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="text-center col-md-1"><h3>Comanda</h3></th>
 						<th class="text-center col-md-1"><h3>Cliente</h3></th>
 						<th class="text-center col-md-1"><h3>Receber</h3></th>
-						<th class="text-center col-md-1"><h3>Conta</h3></th>
+						<th class="text-center col-md-1"><h3>Pago</h3></th>
 						<th class="text-center col-md-1"><h3>Tipo</h3></th>
 						<th class="text-center col-md-1"><h3></h3></th>
 					</tr>

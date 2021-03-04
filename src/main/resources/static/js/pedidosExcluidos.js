@@ -1,11 +1,7 @@
 var pedidos = [];
-var pizzas = [];
-var produtos = [];
-var funcionarios = [];
 var linhaHtml= "";
 var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido cancelado!</td></tr>';
-var Tpedidos = 0;
 var Tpizzas = 0;
 $(document).ready(() => $("#nomePagina").text("Pedidos excluídos"));
 
@@ -20,7 +16,6 @@ $.ajax({
 	pedidos = e;
 	
 	for(pedido of pedidos){
-		Tpedidos++;
 		pedido.pizzas = JSON.parse(pedido.pizzas);
 		pedido.produtos = JSON.parse(pedido.produtos);
 	}
@@ -43,14 +38,13 @@ $.ajax({
 						+ '<td class="text-center col-md-1">' + Tpizzas + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
 						+ '<td class="text-center col-md-1">'
-							+ '<a class="enviarPedido">'
-							+ '<button type="button" title="finalizar" class="botao" onclick="verPedido()"'
+							+ '<a title="Ver pedido" data-toggle="tooltip" data-html="true">'
+							+ '<button class="botao" onclick="verPedido()"'
 							+ 'value="'+ pedido.id + '"><i class="fas fa-search"></i></button></a></td>'			
 					+ '<tr>'
 				+ linhaCinza;
 		}
 		$("#todosPedidos").html(linhaHtml);
-		$("#Tpedidos").html(Tpedidos);
 	}
 	carregarLoading("none");
 });	
@@ -58,7 +52,6 @@ $.ajax({
 
 //-------------------------------------------------------------------------------------------------------
 function verPedido() {
-	
 	var botaoReceber = $(event.currentTarget);
 	var idProduto = botaoReceber.attr('value');
 	

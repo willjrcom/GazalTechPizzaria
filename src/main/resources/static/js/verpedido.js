@@ -59,13 +59,7 @@ function mostrar(pedidos, filtro) {
 			
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
-						
-			for(produto of pedido.produtos) totalTodosProdutos += produto.qtd;//total de produtos
-					
-			for(pizza of pedido.pizzas) totalTodosProdutos += pizza.qtd;//total de pizzas
-
-			linhaHtml += '<td class="text-center col-md-1">' + totalTodosProdutos + '</td>'
+						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
 						+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
 						+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
 						+ '<td class="text-center col-md-1"><div class="row">'

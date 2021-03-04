@@ -153,9 +153,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label th:text="${empresa}"></label></a>
+			<li><a class="cabecalho"><label class="hiddenAndroid" th:text="${empresa}"></label></a>
 			<li>
-				<a th:if="${contato} != ''" class="cabecalho"><label th:text="${contato}"></label></a>
+				<a th:if="${contato} != ''" class="cabecalho hiddenAndroid"><label class="hiddenAndroid" th:text="${contato}"></label></a>
 				<a th:href="@{/adm/empresa}" class="bg-warning" th:unless="${contato} != ''">
 					<button class="form-control btn btn-warning">Cadastre-se</button>
 				</a>
@@ -203,7 +203,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
+			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -237,7 +237,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
+			<li class="hiddenAndroid"><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -276,7 +276,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
+			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -308,16 +308,16 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							</li>
 							
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Empresa</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Dados</b></p>
 								<!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
-								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Dados</a>
+								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Empresa</a>
 								<a th:href="@{/adm/mensalidade}"><i class="fas fa-receipt"></i> Mensalidade</a>
 							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
+			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
@@ -351,7 +351,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label id="nomePagina">Página</label></a></li>
+			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
 			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>

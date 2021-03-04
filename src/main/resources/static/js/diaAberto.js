@@ -29,7 +29,7 @@ $("#mostrarDias").click(event =>{
 	for(dia of dias){
 		linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + dia.data.split('-')[2] + '/' + dia.data.split('-')[1] + '/' + dia.data.split('-')[0] + '</td>'
-						+ '<td class="text-center col-md-1"><button class="btn btn-primary" onclick="escolherData(\'' + dia.data + '\')">Acessar</button></td>'
+						+ '<td class="text-center col-md-1"><button class="btn btn-primary" onclick="acessarDiaAberto(\'' + dia.data + '\')">Acessar</button></td>'
 					+ '</tr>';
 	}
 	linhaHtml += '</table>';
@@ -50,7 +50,7 @@ $("#mostrarDias").click(event =>{
 
 
 //-----------------------------------------------------
-function escolherData(data){
+function acessarDiaAberto(data){
 	carregarLoading("block");
 	//alterar data
 	$.ajax({

@@ -78,9 +78,22 @@ function entregarPedido() {
 		});
 		return 0;
 	}
-	linhaHtml = '<b>Total de produtos:</b><br>' + pedidos[idBusca].Tpizzas + '<br>';
+	console.log(pedidos[idBusca].pago)
+	linhaHtml = '<div class="row">'
+				+ '<div class="col-md-6">'
+					+ '<b>Total de produtos:</b><br>' + pedidos[idBusca].Tpizzas
+				+ '</div>'
+				
+				+ '<div class="col-md-6">'
+					+ '<b>Taxa:</b><br>R$ ' + Number(pedidos[idBusca].taxa).toFixed(2)
+				+ '</div>'
+			+ '</div>'
+			
+			+ (pedidos[idBusca].pago == 1 ? '<i style="color: green" class="fas fa-check-circle"></i><b> Pago</b><br>'
+				: '<i style="color: red" class="fa fa-times-circle"></i><b> A pagar</b><br>');
+				
 	if(typeof pedidos[idBusca].obs !== 'undefined'){
-		linhaHtml = '<label><b>Observação do Pedido:</b></label>'
+		linhaHtml += '<label><b>Observação do Pedido:</b></label>'
 					+ '<textarea class="form-control" id="obs" style="border: 1px solid red" readonly></textarea><br>';
 	}
 	

@@ -30,7 +30,7 @@ $("#buscar").click(function(){
 				
 							+ '<td class="text-center col-md-1"><div class="row">'
 								+ '<div class="col-md-1">'
-									+'<a title="Ver">'
+									+'<a title="Ver produto" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="verProduto()" value="'+ produto.id + '">'
 											+'<i class="fas fa-search"></i>'
 										+'</button>'
@@ -38,7 +38,7 @@ $("#buscar").click(function(){
 								+'</div>'
 			
 								+ '<div class="col-md-1">'
-									+'<a title="Editar">'
+									+'<a title="Editar produto" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="editarProduto()" value="'+ produto.id + '">'
 											+'<i class="fas fa-edit"></i>'
 										+'</button>'
@@ -46,7 +46,7 @@ $("#buscar").click(function(){
 								+'</div>'
 				
 								+ '<div class="col-md-1">'
-									+'<a title="Excluir">'
+									+'<a title="Excluir produto" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="excluirProduto()" value="'+ produto.id + '">'
 											+'<i class="fas fa-trash"></i>'
 										+'</button>'
@@ -57,6 +57,7 @@ $("#buscar").click(function(){
 					+ linhaCinza;
 			}
 			$("#todosProdutos").html(linhaHtml);
+			$('[data-toggle="tooltip"]').tooltip();
 		}
 		carregarLoading("none");
 	}).fail(function(){

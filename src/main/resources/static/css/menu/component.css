@@ -34,7 +34,7 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 60px;
+		/*height: 60px;*/
 		font-size: 13px;
 }
 
@@ -81,7 +81,7 @@
 }
 
 .gn-menu-main > li > a {
-		padding: 0 30px;
+		padding: 0 15px;
 		text-transform: uppercase;
 		letter-spacing: 1px;
 		font-weight: bold;
@@ -115,6 +115,7 @@
 		overflow-y: scroll;
 		width: 370px;
 		height: 100%;
+		max-width: 100%;
 }
 
 .gn-menu {
