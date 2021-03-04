@@ -28,7 +28,6 @@ var linhaCinzaBusca = '<tr><td colspan="3" class="fundoList" ></td></tr>';
 //url------------------------------------------------------------------------------------------------------
 var modoPedido = window.location.href.split("/")[4];//pega o modo de pedido
 var nomePedido = window.location.href.split("/")[5]; //pega o pedido de edicao do pedido
-console.log(modoPedido, nomePedido)
 
 //-------------------------------------------------------------------------
 //controlar qauntidade do produto
@@ -162,7 +161,6 @@ if(modoPedido === 'editar') {
 			});
 			return 300;
 		}
-		console.log(e)
 		cliente = e;
 		cliente.taxa = parseFloat(cliente.taxa);
 		cliente.pizzas = JSON.parse(e.pizzas);
@@ -177,7 +175,6 @@ if(modoPedido === 'editar') {
 		$("#idCliente").text(cliente.id);
 		$("#nomeCliente").text(cliente.nome);
 		$("#obs").text(cliente.obs);
-		$("#pagoCliente").val((cliente.pago == false ? 0 : 1));
 
 		//mostrar entrega
 		if(e.envio == 'ENTREGA') {
@@ -191,13 +188,17 @@ if(modoPedido === 'editar') {
 				$("#cobrarTaxa").val(1);
 			}
 			$("#cobrarTaxa").attr("disabled", true);
-			$("#divPagamentoGeral").show('slow');
 		}
 			
 		//mostrar entrega
 		if(e.envio == 'BALCAO' || e.envio == 'MESA' || e.envio == 'DRIVE') {
 			$(".iconesEntrega").hide();
 		}
+			
+		if(cliente.pago == 1)//pago
+			$("#pagoCliente").val('1');
+		else//a pagar
+			$("#pagoCliente").val('0');
 			
 		//opcoes de pagamento
 		if(cliente.modoPagamento.split(" ")[0] == "Cartão" && cliente.pago == 0){
@@ -220,7 +221,6 @@ if(modoPedido === 'editar') {
 		if(e.envio === 'MESA'){
 			$("#divGarcon").show('slow');
 			$("#garcon").text(cliente.garcon).attr("disabled", true);
-			$("#divPagamentoGeral").hide('slow');
 		}
 		
 		for(pizza of cliente.pizzas) totalTodosProdutos += pizza.qtd;
@@ -231,7 +231,7 @@ if(modoPedido === 'editar') {
 		produtos = cliente.produtos;
 		tPedido = cliente.total;
 		
-		$("#alertPedidoAberto").text("Os pedidos a fazer serão enviados para fazer na cozinha novamente!").show("slow");
+		$("#alertPedidoAberto").text("Ao confirmar, os pedidos a fazer serão enviados para fazer na cozinha novamente!").show("slow");
 		setInterval(() => $("#alertPedidoAberto").hide("slow"), 30000);
 		
 		mostrarProdutos();
@@ -247,7 +247,6 @@ if(modoPedido === 'editar') {
 
 //------------------------------------------------------------------------------------------------------------------------
 function buscarCliente(){
-
 	//se for nulo
 	if($("#numeroCliente").val() == ''){
 		//voltar campo para digitar numero
@@ -762,7 +761,7 @@ $("#BotaoEnviarPedido").click(function() {
 		});	
 		return 300;
 	}*/
-	
+
 	//modal jquery confirmar
 	$.confirm({
 		type: 'green',
@@ -786,7 +785,6 @@ $("#BotaoEnviarPedido").click(function() {
 					if($('#obsPedido').val() != '') cliente.obs = $('#obsPedido').val();
 					
 					//criar dados
-					cliente.pago = (this.$content.find("#pagoCliente").val() == 0 ? false : true);
 					cliente.pizzas = JSON.stringify(pizzas);
 					cliente.produtos = JSON.stringify(produtos);
 					cliente.total = tPedido;
@@ -1010,8 +1008,10 @@ $("#pagoCliente").change(() => {
 
 function selecionarPago(){
 	if($("#pagoCliente").val() == 0 && $("#envioCliente").val() != 'ENTREGA'){
+		cliente.pago = false;
 		$("#divPagamentoGeral").hide('slow');
 	}else{
+		cliente.pago = true;
 		$("#divPagamentoGeral").show('slow');
 	}
 }
