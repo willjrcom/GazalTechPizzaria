@@ -102,7 +102,7 @@ public class NovoPedidoController {
 				return produtoIndisponivel;
 			}
 		}
-		return produtos.findByCodEmpresaAndNomeProdutoContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
+		return produtos.findByCodEmpresaAndNomeContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
 	}
 
 	@RequestMapping(value = "/bordas")

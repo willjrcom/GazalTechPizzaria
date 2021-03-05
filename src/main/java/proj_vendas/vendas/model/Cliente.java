@@ -22,7 +22,7 @@ public class Cliente extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String nome;
-
+	private String senha;
 	private String cpf;
 
 	@Column(nullable=false)

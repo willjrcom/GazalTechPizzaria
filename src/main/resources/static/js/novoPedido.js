@@ -89,7 +89,7 @@ function qtdHtml() {
 
 			//buscar bordas
 			var bordas = '';
-			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nomeProduto} R$ ${borda.preco.toFixed(2)}</option>`;
+			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nome} R$ ${borda.preco.toFixed(2)}</option>`;
 		
 			 html = '<label>Borda Recheada:</label>'
 							+ '<select class="form-control" name="borda" id="borda">'
@@ -414,15 +414,15 @@ $("#alertPedidoAberto").click(() => $("#alertPedidoAberto").hide("slow"))
 //-----------------------------------------------------------------------------------------------------------------
 function buscarProdutos() {
 	
-	if($.trim($("#nomeProduto").val()) != ""){
+	if($.trim($("#nome").val()) != ""){
 		carregarLoading("block");
 
 		$.ajax({
-			url: "/novoPedido/nomeProduto/" + $("#nomeProduto").val(),
+			url: "/novoPedido/nomeProduto/" + $("#nome").val(),
 			type: 'GET'
 		}).done(function(e){
 			buscaProdutos = e;
-			$("#nomeProduto").val('');
+			$("#nome").val('');
 				
 			carregarLoading("none");
 			if(buscaProdutos.length == 0) {//se nao encontrar nenhum produto
@@ -446,7 +446,7 @@ function buscarProdutos() {
 			if(buscaProdutos[0].id == -1) {//se o produto estiver indisponivel
 				$.confirm({
 					type: 'red',
-					title: '<h4 align="center">Produto: ' + buscaProdutos[0].nomeProduto + '</h4>',
+					title: '<h4 align="center">Produto: ' + buscaProdutos[0].nome + '</h4>',
 					content: '<tr><td colspan="3"><label>Não disponível em estoque!</label></td></tr>',
 				    closeIcon: true,
 					buttons: {
@@ -490,7 +490,7 @@ function enviarProduto(idUnico) {
 	
 	borda = '';
 	[produto, Borda] = [{}, {}];
-	Borda.nomeProduto = '';
+	Borda.nome = '';
 	
 	//caso o retorno seja apenas 1 item
 	if(idUnico == null) {
@@ -509,7 +509,7 @@ function enviarProduto(idUnico) {
 	if(produto.disponivel == false){
 		$.confirm({
 				type: 'red',
-				title: '<h4 align="center">Produto: ' + produto.nomeProduto + '</h4>',
+				title: '<h4 align="center">Produto: ' + produto.nome + '</h4>',
 				content: '<tr><td colspan="3"><label>Não disponível em estoque!</label></td></tr>',
 			    closeIcon: true,
 				buttons: {
@@ -526,7 +526,7 @@ function enviarProduto(idUnico) {
 		
 	$.confirm({
 		type: 'blue',
-		title: produto.setor + ': ' + produto.nomeProduto,
+		title: produto.setor + ': ' + produto.nome,
 		content: '<label><b>Total:</b> R$ <span id="precoComQtd">' + Number(produto.preco).toFixed(2) + '</span></label><br>'
 			+ (produto.setor == 'PIZZA' ? bordasHtml : '') + qtdHtml(),
 	    closeIcon: true,
@@ -593,7 +593,7 @@ function enviarProduto(idUnico) {
 							for(let busca of buscaBordas) if(busca.id == bordaId) Borda = busca;
 							
 							//setar valores da borda escolhida
-							borda = Borda.nomeProduto;
+							borda = Borda.nome;
 							
 							//multiplica o preco e custo da borda
 							produto.preco += (Borda.preco * qtd);
@@ -602,8 +602,8 @@ function enviarProduto(idUnico) {
 						pizzas.unshift({
 							qtd,
 							obs,
-							'sabor' : produto.nomeProduto,
-							'borda': Borda.nomeProduto,
+							'sabor' : produto.nome,
+							'borda': Borda.nome,
 							'preco': produto.preco,
 							'custo': produto.custo,
 							'setor': produto.setor,
@@ -613,7 +613,7 @@ function enviarProduto(idUnico) {
 						produtos.unshift({
 							qtd,
 							obs,
-							'sabor' : produto.nomeProduto,
+							'sabor' : produto.nome,
 							'preco': produto.preco,
 							'custo': produto.custo,
 							'setor': produto.setor,
@@ -1173,7 +1173,7 @@ function mostrarListaBuscaProdutos(buscaProdutos){
 								+ '</button>'
 							+ '</div>'
 						+ '</td>'
-						+ '<td align="left">' + produto.nomeProduto + '</td>'
+						+ '<td align="left">' + produto.nome + '</td>'
 						+ '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
 					+ '</tr>' + linhaCinzaBusca;
 		}

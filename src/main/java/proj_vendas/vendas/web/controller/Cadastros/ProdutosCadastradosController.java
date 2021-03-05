@@ -38,7 +38,7 @@ public class ProdutosCadastradosController {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return produtos.findByCodEmpresaAndNomeProdutoContainingOrCodEmpresaAndDescricaoContaining(user.getCodEmpresa(), nome, user.getCodEmpresa(), nome);
+		return produtos.findByCodEmpresaAndNomeContainingOrCodEmpresaAndDescricaoContaining(user.getCodEmpresa(), nome, user.getCodEmpresa(), nome);
 	}
 	
 	@RequestMapping(value = "/excluirProduto/{id}")

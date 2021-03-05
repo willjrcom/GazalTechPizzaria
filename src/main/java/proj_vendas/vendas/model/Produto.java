@@ -19,11 +19,16 @@ public class Produto extends AbstractEntity<Long> {
 	private String codigoBusca;
 	
 	@Column(nullable=false)
-	private String nomeProduto;
+	private String nome;
 	
-	@Column(nullable=false)
-	private float preco;
-	private float custo;
+	private float precoP;
+	private float custoP;
+
+	private float precoM;
+	private float custoM;
+
+	private float precoG;
+	private float custoG;
 	
 	@Column(nullable=false)
 	private String setor;

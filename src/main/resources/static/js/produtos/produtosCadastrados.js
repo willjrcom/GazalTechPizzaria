@@ -24,7 +24,7 @@ $("#buscar").click(function(){
 			for(produto of produtos) {
 				linhaHtml += '<tr>'
 							+ '<td class="text-center col-md-1">' + produto.codigoBusca + '</td>'
-							+ '<td class="text-center col-md-1">' + produto.nomeProduto + '</td>'
+							+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
 							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
 							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.custo).toFixed(2) + '</td>'
 				
@@ -87,7 +87,7 @@ function verProduto() {
 					+ '<div class="col-md-6">'
 						+ '<label>Nome do produto</label>'
 						+ '<input class="form-control" value="' 
-							+ produtos[idBusca].nomeProduto
+							+ produtos[idBusca].nome
 						+ '" readonly/>'
 					+ '</div>'
 				+ '</div>'
@@ -133,7 +133,7 @@ function verProduto() {
 	
 	$.alert({
 		type: 'blue',
-	    title: 'Produto: ' + produtos[idBusca].nomeProduto,
+	    title: 'Produto: ' + produtos[idBusca].nome,
 	    content: linhaHtml,
 	    columnClass: 'col-md-12',
 	    containerFluid: true,
@@ -158,7 +158,7 @@ function editarProduto() {
 	
 	$.confirm({
 		type: 'red',
-	    title: 'Produto: ' + produtos[idBusca].nomeProduto,
+	    title: 'Produto: ' + produtos[idBusca].nome,
 	    content: 'Tenha certeza do que você está fazendo!<br>',
 	    buttons: {
 	        confirm: {
@@ -191,7 +191,7 @@ function excluirProduto() {
 			
 	$.confirm({
 		type: 'red',
-	    title: 'Produto: ' + produtos[idBusca].nomeProduto,
+	    title: 'Produto: ' + produtos[idBusca].nome,
 	    content: 'Deseja apagar o produto?',
 	    buttons: {
 	        confirm: {

@@ -19,7 +19,7 @@ if(typeof url_atual != "undefined") {
 		//cliente
 		$("#id").val(produto.id);
 		$("#codigoBusca").val(produto.codigoBusca);
-		$("#nomeProduto").val(produto.nomeProduto);
+		$("#nome").val(produto.nome);
 		$("#preco").val(produto.preco);
 		$("#custo").val(produto.custo);
 		$("#setor").val(produto.setor);
@@ -39,7 +39,7 @@ if(typeof url_atual != "undefined") {
 function setProduto() {
 	produto.id = $("#id").val();
 	produto.codigoBusca = $("#codigoBusca").val();
-	produto.nomeProduto = 	$("#nomeProduto").val();
+	produto.nome = 	$("#nome").val();
 	produto.preco = $("#preco").val();
 	produto.custo = $("#custo").val();
 	produto.setor = $("#setor").val();
@@ -54,7 +54,7 @@ function setProduto() {
 $("#enviar").click(function() {
 	produto = {};
 	if($("#codigoBusca").val() != '' 
-	&& $("#nomeProduto").val() != ''
+	&& $("#nome").val() != ''
 	&& $("#preco").val() != ''
 	&& $("#custo").val() != ''
 	&& $("#validCod").val() == 1) {
@@ -63,7 +63,7 @@ $("#enviar").click(function() {
 		
 		$.confirm({
 			type: 'green',
-		    title: 'Produto: ' + produto.nomeProduto,
+		    title: 'Produto: ' + produto.nome,
 		    content: 'Cadastrar produto?',
 		    buttons: {
 		        confirm: {
