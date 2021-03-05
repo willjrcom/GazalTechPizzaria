@@ -12,13 +12,46 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	
 	<div class="divbase">
+		<h2 align="center">Painel</h2>
 		<br>
+		<div class="row">
+			<div class="col bloco border">
+		 		 <h2 align="center">Lucro Bruto/Líquido</h2>
+		 		 <div id="totalVendas"></div>
+			</div>
+			<div class="col bloco border">
+		 		 <h2 align="center">Vendas Externas/Internas</h2>
+		 		 <div id="entregaBalcao"></div>
+			</div>
+		</div>
 		
- 		 <h2 align="center">Lucro Bruto/Líquido</h2>
- 		 <div><div id="totalVendas"></div></div>
+		<div class="row">
+			<div class="col bloco border">
+		 		 <h2 align="center">Mensal</h2>
+		 		 <div class="table-responsive">
+		 		 	<table>
+		 		 		<thead>
+		 		 			<tr>
+		 		 				<th class="text-center col-md-1">Dia</th>
+		 		 				<th class="text-center col-md-1"></th>
+		 		 				<th class="text-center col-md-1"></th>
+		 		 				<th class="text-center col-md-1"></th>
+		 		 				<th class="text-center col-md-1"></th>
+		 		 			</tr>
+		 		 		</thead>
+		 		 	</table>
+		 		 	
+		 		 	<table>
+		 		 		<tr id="gerarDadosMensal"></tr>
+		 		 	</table>
+		 		 </div>
+			</div>
+			<div class="col bloco border">
+		 		 <h2 align="center">Compras</h2>
+		 		 <div id="totalCompras"></div>
+			</div>
+		</div>
  		 <hr>
- 		 <h2 align="center">Vendas Externas/Internas</h2>
- 		 <div id="entregaBalcao"></div>
 	</div>
 	
 	<br>

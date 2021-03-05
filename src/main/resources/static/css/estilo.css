@@ -270,6 +270,11 @@ th, td, h3, h4{
 	color: red;	
 }
 
+.bloco{
+	padding: 2vh;	
+	background-color: #B0C4DE;
+}
+
 #dados{
     margin-bottom: 0px;
 }
