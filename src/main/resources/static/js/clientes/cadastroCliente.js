@@ -22,6 +22,7 @@ if(typeof url_atual != "undefined") {
 		//cliente
 		$("#id").val(cliente.id);
 		$("#nome").val(cliente.nome);
+		$("#senha").val(cliente.senha);
 		$("#cel").val(cliente.celular);
 		$("#cpf").val(cliente.cpf);
 		$("#contPedidos").val(cliente.contPedidos);
@@ -58,6 +59,7 @@ if(typeof url_atual != "undefined") {
 function setCliente() {
 	cliente.id = $("#id").val();
 	cliente.nome = $("#nome").val();
+	cliente.senha = $("#senha").val();
 	cliente.celular = Number($("#cel").cleanVal());
 	cliente.cpf = $("#cpf").val();
 	cliente.contPedidos = $("#contPedidos").val();
