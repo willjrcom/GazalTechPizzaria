@@ -2,8 +2,8 @@ $(document).ready(() => $("#nomePagina").text("Produtos cadastrados"));
 
 var produtos = [];
 var linhaHtml;
-var pedidoVazio = '<tr><td colspan="5">Nenhum produto encontrado!</td></tr>';
-var linhaCinza = '<tr><td colspan="5" class="fundoList"></td></tr>';
+var pedidoVazio = '<tr><td colspan="4">Nenhum produto encontrado!</td></tr>';
+var linhaCinza = '<tr><td colspan="4" class="fundoList"></td></tr>';
 
 
 $("#buscar").click(function(){
@@ -25,8 +25,7 @@ $("#buscar").click(function(){
 				linhaHtml += '<tr>'
 							+ '<td class="text-center col-md-1">' + produto.codigoBusca + '</td>'
 							+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.preco).toFixed(2) + '</td>'
-							+ '<td class="text-center col-md-1">R$ ' + parseFloat(produto.custo).toFixed(2) + '</td>'
+							+ '<td class="text-center col-md-1">' + produto.setor + '</td>'
 				
 							+ '<td class="text-center col-md-1"><div class="row">'
 								+ '<div class="col-md-1">'
@@ -94,16 +93,48 @@ function verProduto() {
 				
 				+ '<div class="row">'
 					+ '<div class="col-md-6">'
-						+ '<label>Preço</label>'
+						+ '<label>Preço pequeno</label>'
 						+ '<input class="form-control" value="' 
-							+ produtos[idBusca].preco
+							+ produtos[idBusca].precoP
 						+ '" readonly/>'
 					+ '</div>'
 				
 					+ '<div class="col-md-6">'
-						+ '<label>Custo</label>'
+						+ '<label>Custo pequeno</label>'
 						+ '<input class="form-control" value="' 
-							+ produtos[idBusca].custo
+							+ produtos[idBusca].custoP
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Preço médio</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].precoM
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-6">'
+						+ '<label>Custo médio</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].custoM
+						+ '" readonly/>'
+					+ '</div>'
+				+ '</div>'
+				
+				+ '<div class="row">'
+					+ '<div class="col-md-6">'
+						+ '<label>Preço grande</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].precoG
+						+ '" readonly/>'
+					+ '</div>'
+				
+					+ '<div class="col-md-6">'
+						+ '<label>Custo grande</label>'
+						+ '<input class="form-control" value="' 
+							+ produtos[idBusca].custoG
 						+ '" readonly/>'
 					+ '</div>'
 				+ '</div>'

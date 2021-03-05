@@ -9,7 +9,7 @@ var [pizzas, produtos, buscaProdutos, buscaBordas, buscaGarcon] = [[], [], [], [
 var [divisor, divisorAnterior] = [1, 1];
 
 //borda------------------------------------------------------------------------------------------------------
-var [borda, lastBorda] = ['', 0];
+var [borda, lastBorda, tamanhoProduto] = ['', 0, 1];
 
 //pedido------------------------------------------------------------------------------------------------------
 var [totalTodosProdutos, totalTodosProdutosAnteriores, tPedido, troco] = [0, 0, 0, 0];
@@ -64,14 +64,28 @@ function qtdHtml() {
 		htmlDisabled = "";
 	}
 	
-	return ('<label>Quantidade:</label><br>'
-			+ '<div class="input-group mb-3">'
-				+ '<div class="input-group-text">'
-			    	+ '<input class="form-check-input liberarqtd" type="radio" aria-label="radio button for following text input" ' + htmlChecked + '>'
+	return ('<div class="row">'
+				+ '<div class="col-md-6">'
+					+ '<label>Quantidade:</label>'
+					+ '<div class="input-group mb-3">'
+						+ '<div class="input-group-text">'
+					    	+ '<input class="form-check-input liberarqtd" type="radio" aria-label="radio button for following text input" ' + htmlChecked + '>'
+						+ '</div>'
+						+ '<input type="text" placeholder="Quantidade" class="form-control pula" id="qtd"'
+						+ 'value="' + Number(qtdDivisor.toFixed(2)) + '" ' + htmlDisabled + ' aria-label="Text input with radio button"/>'
+					+ '</div>'
 				+ '</div>'
-				+ '<input type="text" placeholder="Quantidade" class="form-control pula" id="qtd"'
-				+ 'value="' + Number(qtdDivisor.toFixed(2)) + '" ' + htmlDisabled + ' aria-label="Text input with radio button"/>'
+				
+				+ '<div class="col-md-6">'
+					+ '<label>Tamanho:</label>'
+					+ '<select class="form-control" id="tamanhoProduto">'
+						+ '<option value="1">Normal</option>'
+						+ '<option value="0">Pequeno</option>'
+						+ '<option value="2">Grande</option>'
+					+'</select>'
+				+ '</div>'
 			+ '</div>'
+			
 			+ '<br>'
 			+ '<label>Observação:</label>'
 			+ '<input type="text" class="form-control pula" name="obs" id="obs" placeholder="Observação" />');
@@ -546,8 +560,11 @@ function enviarProduto(idUnico) {
 					//$("#borda").prop("disabled", false);
 				}
 				
+				$("#tamanhoProduto").val(tamanhoProduto);
+				$("#tamanhoProduto").change(() => confirmarTamanho());
+				
 				$("#borda").change(() => {
-					mostrarPrecoProduto(produto.preco);
+					confirmarTamanho();
 				});
 			}
 			
@@ -558,9 +575,9 @@ function enviarProduto(idUnico) {
 				$("#obs").focus();
 			
 			$("#qtd").keyup(() => {
-				mostrarPrecoProduto(produto.preco);
+				confirmarTamanho();
 			});
-			mostrarPrecoProduto(produto.preco);
+			confirmarTamanho();
 		},
 		buttons: {
 			confirm: {
@@ -571,6 +588,8 @@ function enviarProduto(idUnico) {
 					
 					//adiciona o id da borda
 					lastBorda = bordaId = $("#borda").val();
+					//pegar tamanho do produto
+					tamanhoProduto = $("#tamanhoProduto").val();
 					
 					//adiciona quantidade do produto
 					qtd = Number(Number($("#qtd").val().toString().replace(",",".")).toFixed(2));
@@ -582,7 +601,24 @@ function enviarProduto(idUnico) {
 					//adiciona observacao do produto
 					obs = $("#obs").val();
 					
-					//multiplica o preco e custo da pizza
+					//verifica o tamanho do produto
+					if(tamanhoProduto == 0){
+						if(produto.custoP == 0) return precoNulo('Pequeno');
+						produto.nome += ' - P';
+						produto.preco = produto.precoP;
+						produto.custo = produto.custoP;
+					}else if(tamanhoProduto == 1){
+						if(produto.custoM == 0) return precoNulo('Médio');
+						produto.nome += ' - M';
+						produto.preco = produto.precoM;
+						produto.custo = produto.custoM;
+					}else if(tamanhoProduto == 2){
+						if(produto.custoG == 0) return precoNulo('Grande');
+						produto.nome += ' - G';
+						produto.preco = produto.precoG;
+						produto.custo = produto.custoG;
+					}
+					//multiplica o preco e custo do produto
 					produto.preco *= qtd;
 					produto.custo *= qtd;
 					
@@ -1199,4 +1235,33 @@ function mostrarPrecoProduto(precoProduto){
 	}
 		
 	$("#precoComQtd").text(isNumber(precoCompleto) ? precoCompleto.toFixed(2) : Number(precoProduto).toFixed(2));
+}
+
+
+function precoNulo(tamanho){
+	$.alert({
+		type: 'red',
+		title: 'Preço não cadastrado!',
+		content: 'Acesse os cadastros e adicione um valor válido ao tamanho: ' + tamanho,
+		closeIcon: true,
+		buttons: {
+			confirm: {
+				isHidden: true,
+				keys: ['esc', 'enter']
+			}
+		}
+	})
+}
+
+
+function confirmarTamanho(){
+	tamanhoProduto = $("#tamanhoProduto").val();
+	
+	if(tamanhoProduto == 0){
+		mostrarPrecoProduto(produto.precoP);
+	}else if(tamanhoProduto == 1){
+		mostrarPrecoProduto(produto.precoM);
+	}else if(tamanhoProduto == 2){
+		mostrarPrecoProduto(produto.precoG);
+	}
 }

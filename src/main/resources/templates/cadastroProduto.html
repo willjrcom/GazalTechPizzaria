@@ -18,36 +18,36 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="row">
 			<div class="col-md-6">
 				<label>Nome do produto: <span class="alertOpcional">*</span></label><br>
-				<input type="text" class="form-control pula" id="nome" name="nome" placeholder="Nome do produto" autofocus="autofocus" />
+				<input type="text" class="form-control pula" id="nome" placeholder="Nome do produto" autofocus="autofocus" />
 			</div>
 			
 			<div class="col-md-6">
 				<label>Código de busca: <span class="alertOpcional">*</span><button class="btn btn-link" onclick="aviso()"><i class="fas fa-question"></i></button></label>
 				<p id="avisoCod">Código já cadastrado, tente outro!</p>
-				<input type="text" class="form-control pula" id="codigoBusca" name="codigoBusca" placeholder="Código de busca"/>
+				<input type="text" class="form-control pula" id="codigoBusca" placeholder="Código de busca"/>
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col-md-6">
-				<label>Preço: <span class="alertOpcional">*</span></label><br>
+				<label>Preço: (tam. médio - padrão) <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
-					<input class="form-control preco pula" id="preco" name="preco" placeholder="Preço do produto"/>
+					<input class="form-control preco pula" id="precoM" placeholder="Preço do produto normal"/>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<label>Custo: <span class="alertOpcional">*</span></label><br>
+				<label>Custo: (tam. médio - padrão) <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
-					<input class="form-control preco pula" id="custo" name="custo" placeholder="Total em custo"/>
+					<input class="form-control preco pula" id="custoM" placeholder="Total em custo normal"/>
 				</div>
 			</div>
 		</div>
 		
 		<div class="form-group">
 			<label>Setor: <span class="alertOpcional">*</span><button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label>
-			<select class="form-control" id="setor" name="setor" required>
+			<select class="form-control" id="setor" required>
 				<option value="PIZZA">Pizza</option>
 				<option value="BORDA">Borda</option>
 				<option value="BEBIDA">Bebida</option>
@@ -64,11 +64,49 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="form-group">
 			<label>Descrição do produto: <button class="btn btn-link" onclick="aviso3()"><i class="fas fa-question"></i></button></label>
-			<textarea class="form-control" id="descricao" name="descricao" rows="5" placeholder="Descrição do produto"></textarea>  
+			<textarea class="form-control" id="descricao" rows="5" placeholder="Descrição do produto"></textarea>  
 		</div>
 		
+		<hr>
+		<h3>Opcional</h3>
+		<div class="row">
+			<div class="row col-md-6">
+				<div class="col-md-6">
+					<label>Preço: (tam. pequeno)</label><br>
+					<div class="input-group mb-3">
+						<span class="input-group-text">R$</span>
+						<input class="form-control preco pula" id="precoP" placeholder="Preço do produto pequeno"/>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<label>Custo: (tam. pequeno)</label><br>
+					<div class="input-group mb-3">
+						<span class="input-group-text">R$</span>
+						<input class="form-control preco pula" id="custoP" placeholder="Total em custo pequeno"/>
+					</div>
+				</div>
+			</div>
+			<div class="row col-md-6">
+				<div class="col-md-6">
+					<label>Preço: (tam. grande)</label><br>
+					<div class="input-group mb-3">
+						<span class="input-group-text">R$</span>
+						<input class="form-control preco pula" id="precoG" placeholder="Preço do produto grande"/>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<label>Custo: (tam. grande)</label><br>
+					<div class="input-group mb-3">
+						<span class="input-group-text">R$</span>
+						<input class="form-control preco pula" id="custoG" placeholder="Total em custo grande"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		
 		<br>
-		<button type="button" class="btn btn-success pula" id="enviar" name="enviar">Cadastrar</button>
+		<button type="button" class="btn btn-success pula" id="enviar">Cadastrar</button>
 	</div>
 	
 	<br>

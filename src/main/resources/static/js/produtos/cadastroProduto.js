@@ -20,8 +20,16 @@ if(typeof url_atual != "undefined") {
 		$("#id").val(produto.id);
 		$("#codigoBusca").val(produto.codigoBusca);
 		$("#nome").val(produto.nome);
-		$("#preco").val(produto.preco);
-		$("#custo").val(produto.custo);
+		//tam pequeno
+		$("#precoP").val(produto.precoP);
+		$("#custoP").val(produto.custoP);
+		//tam normal
+		$("#precoM").val(produto.precoM);
+		$("#custoM").val(produto.custoM);
+		//tam grande
+		$("#precoG").val(produto.precoG);
+		$("#custoG").val(produto.custoG);
+		
 		$("#setor").val(produto.setor);
 		$("#descricao").val(produto.descricao);
 		if(produto.disponivel == 1) $(".form-check-input").prop('checked', true);
@@ -40,8 +48,16 @@ function setProduto() {
 	produto.id = $("#id").val();
 	produto.codigoBusca = $("#codigoBusca").val();
 	produto.nome = 	$("#nome").val();
-	produto.preco = $("#preco").val();
-	produto.custo = $("#custo").val();
+	//tam pequeno
+	produto.precoP = $("#precoP").val();
+	produto.custoP = $("#custoP").val();
+	//tam normal
+	produto.precoM = $("#precoM").val();
+	produto.custoM = $("#custoM").val();
+	//tam grande
+	produto.precoG = $("#precoG").val();
+	produto.custoG = $("#custoG").val();
+	
 	produto.setor = $("#setor").val();
 	produto.descricao = $("#descricao").val();
 	
