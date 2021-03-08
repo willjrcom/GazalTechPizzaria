@@ -48,7 +48,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
 					<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
 					<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
-					<li id="dev" class="hidden"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DESENVOLVEDOR</a></li>
+					<li th:if="${dev} == '1'"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DESENVOLVEDOR</a></li>
 					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
 					<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> TUTORIAL</a></li>
 				</ul>
@@ -160,7 +160,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<button class="form-control btn btn-warning">Cadastre-se</button>
 				</a>
 			</li>
-			<li><a class="cabecalho" id="data" onclick="escolherData()"><i class="fas fa-calendar-check"></i> Data de acesso</a></li>
+			<li><a class="cabecalho" onclick="escolherData()"><i class="fas fa-calendar-check"></i> <span th:text="${data}"></span></a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>

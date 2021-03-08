@@ -53,6 +53,9 @@ public class MenuController {
 		Conquista conquista = null;
 		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		
+		//dev
+		if(user.getPerfil().equals("DEV")) mv.addObject("dev", 1);
+		
 		//empresa----------------------------------------------------------------------------------------------
 		try {
 			empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
@@ -81,7 +84,9 @@ public class MenuController {
 			mv.addObject("empresa", empresa.getNomeEstabelecimento());
 			mv.addObject("contato", empresa.getCelular());
 			
-		}catch(Exception e) {}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
 		
 		//conquistas
 		conquista = empresa.getConquista();
@@ -97,6 +102,9 @@ public class MenuController {
 		
 		//dados
 		mv.addObject("troco", acessarDados(format.format(new Date()), 0).getTrocoInicio());
+		mv.addObject("data", user.getDia().split("-")[2] + "/"
+	 			+ user.getDia().split("-")[1] + "/"
+	 			+ user.getDia().split("-")[0]);
 		
 		//empresa
 		mv.addObject("usuario", user.getEmail());
@@ -128,8 +136,9 @@ public class MenuController {
 			}else {
 				mv.addObject("mostrarNovidades", false);
 			}
-			
-		}catch(Exception e) {}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
 
 		return mv;
 	}
@@ -137,13 +146,14 @@ public class MenuController {
 	
 	@RequestMapping("/login")
 	@ResponseBody
-	public void login() {
+	public ModelAndView login() {
 		//acessar o dia atual a cada login
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-
 		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		ModelAndView mv = new ModelAndView("redirect:");
+		
 		acessarDados(format.format(new Date()), 1);
 		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
 		
@@ -161,14 +171,22 @@ public class MenuController {
 				 empresa.setCupom(listCupom);
 				 empresas.save(empresa);
 			 }
-		 }catch(Exception e) {}
+		 }catch(Exception e) {
+			 System.out.println(e);
+		 }
+		 
+		 mv.addObject("data", user.getDia().split("-")[2] + "/"
+				 			+ user.getDia().split("-")[1] + "/"
+				 			+ user.getDia().split("-")[0]);
+		 return mv;
 	}
 	
 	
-	@RequestMapping(value = "/verificarData/{dia}")
+	@RequestMapping(value = "/acessarData/{dia}")
 	@ResponseBody
-	public Dado alterarData(@PathVariable String dia) {
-		return acessarDados(dia, 1);
+	public ModelAndView acessarData(@PathVariable String dia) {
+		acessarDados(dia, 1);
+		return new ModelAndView("menu");
 	}
 	
 	
@@ -182,15 +200,6 @@ public class MenuController {
 		dados.save(dado);
 		
 		return 200;
-	}
-	
-	
-	@RequestMapping(value = "/mostrarDia")
-	@ResponseBody
-	public String MostrarDia() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		return user.getDia();
 	}
 	
 	

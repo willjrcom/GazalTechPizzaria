@@ -1,38 +1,5 @@
 var [dados, divulgar] = [{}, {}];
 
-if(document.referrer.split("/")[3] == "index") {//acessar pagina anterior
-	//var tela = $.alert({type: "blue", title: "Carregando", content: "Carregando data atual..."});
-	//tela.open();
-	carregarLoading("block");
-	$.ajax({
-		url: "/menu/login"
-	}).done(function(){
-		carregarLoading("none");
-		verData();
-	});
-}
-
-
-//-----------------------------------------------------
-function verData() {
-	$.ajax({
-		url: '/menu/mostrarDia',
-		type: 'GET'
-	}).done(function(dia){
-		var hoje = new Date();
-		
-		if(	(hoje.getDate() == dia.split('-')[2])
-		&&	((hoje.getMonth() + 1) == dia.split('-')[1])
-		&&	(hoje.getFullYear() == dia.split('-')[0])) {
-			$("#data").html('<i class="fas fa-calendar-check"></i> Hoje');
-		}else {
-			$("#data").text(dia.split('-')[2] + '/' + dia.split('-')[1] + '/' + dia.split('-')[0]);
-		}
-	});
-}
-verData();
-
-
 //-----------------------------------------------------
 function escolherData(){
 	//alterar data
@@ -51,33 +18,17 @@ function escolherData(){
 					dados.data = this.$content.find('#dia').val();
 
 					$.ajax({
-						url: '/menu/verificarData/' + dados.data,
+						url: '/menu/acessarData/' + dados.data,
 						type: 'GET'
 					}).done(function(){
-						
-						verData();
-						carregarLoading("none");
-						$.alert({
-							type: 'green',
-							title: 'Sucesso!',
-							content: 'Data: ' + dados.data.split('-')[2] + '/'
-									          + dados.data.split('-')[1] + '/'
-									          + dados.data.split('-')[0] + ' acessado',
-							buttons:{
-								confirm:{
-									text:'Continuar',
-									btnClass: 'btn-primary',
-									keys: ['enter', 'esc']
-								}
-							}
-						});
+						window.location.href = '/menu';
 					}).fail(function(){
 						carregarLoading("none");
 						
 						$.alert({
 							type: 'red',
 							title: 'Alerta',
-							content: "Escolha uma data!",
+							content: "Erro, Escolha uma data!",
 							buttons: {
 								confirm: {
 									text: 'Tentar novamente',
@@ -119,15 +70,6 @@ function ajuda() {
 		}
 	});
 }
-
-
-$.ajax({
-	url: "/menu/autenticado"
-}).done(function(e){
-
-	if(e == 'DEV')
-		$("#dev").show('slow');
-});
 	
 
 function carregarLoading(texto){

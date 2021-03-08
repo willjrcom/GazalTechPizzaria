@@ -13,7 +13,6 @@ function trocoRepeat(){
 //-----------------------------------------------------
 function trocoInicial() {
 	$.alert({
-		icon: 'oi oi-dollar',
 		type: 'blue',
 		title: 'Troco inicial do caixa',
 		content: 'Troco:'
@@ -21,10 +20,19 @@ function trocoInicial() {
 					+ '<span class="input-group-text">R$</span>'
 					+ '<input class="form-control" id="trocoInicial" placeholder="Digite o valor do troco"/>'
 				+ '</div>',
+		onContentReady: e => {
+			$("#trocoInicial").focus();
+			
+			if(e.which == 13){
+				if($("#trocoInicial").is(":focus")){
+					$(".btnSalvarTrocoClass").focus();
+				}
+			}
+		},
 		buttons:{
 			confirm:{
 				text:'Alterar troco',
-				btnClass: 'btn-green',
+				btnClass: 'btn btn-green btnSalvarTrocoClass',
 				action: function(){	
 					carregarLoading("block");
 	
@@ -66,7 +74,7 @@ function trocoInicial() {
 										btnClass: 'btn-success',
 										keys: ['esc', 'enter'],
 										action: function(){
-											window.location.href= "/novoPedido";
+											window.location.href= "/menu";
 										}
 									}
 								}
@@ -76,8 +84,8 @@ function trocoInicial() {
 							
 							$.alert({
 								type: 'red',
-								title: 'Alerta',
-								content: "Digite um valor válido!",
+								title: 'OPS...',
+								content: "Erro, Digite um valor válido!",
 								buttons: {
 									confirm: {
 										text: 'Tentar novamente',

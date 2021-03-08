@@ -54,7 +54,7 @@ function acessarDiaAberto(data){
 	carregarLoading("block");
 	//alterar data
 	$.ajax({
-		url: '/menu/verificarData/' + data,
+		url: '/menu/acessarData/' + data,
 		type: 'GET'
 	}).done(function(){
 		window.location.href = "/menu"
