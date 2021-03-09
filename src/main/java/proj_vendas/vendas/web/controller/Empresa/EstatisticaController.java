@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -31,11 +32,11 @@ public class EstatisticaController {
 		return new ModelAndView("estatistica");
 	}
 	
-	@RequestMapping(value = "/estatistica/todos")
+	@RequestMapping(value = "/estatistica/filtrar/{inicio}/{fim}")
 	@ResponseBody
-	public List<Dado> buscarTodos() {
+	public List<Dado> buscarTodos(@PathVariable String inicio, @PathVariable String fim) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		return dados.findByCodEmpresa(user.getCodEmpresa());
+		return dados.findByCodEmpresaAndDataBetween(user.getCodEmpresa(), inicio, fim);
 	}
 }

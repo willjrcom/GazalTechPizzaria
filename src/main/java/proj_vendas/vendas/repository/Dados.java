@@ -20,4 +20,5 @@ public interface Dados extends JpaRepository<Dado, Long>{
 	
 	public List<Dado> findByCodEmpresaAndTrocoInicioNotLikeAndTrocoFinalNotLike(int codEmpresa, float trocoIN, float trocoFN);
 
+	public List<Dado> findByCodEmpresaAndDataBetween(int codEmpresa, String dataInicio, String dataFinal);
 }
