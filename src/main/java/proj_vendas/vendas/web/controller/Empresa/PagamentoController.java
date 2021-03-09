@@ -79,7 +79,7 @@ public class PagamentoController {
 		SimpleDateFormat formatLogData = new SimpleDateFormat ("kk:mm:ss dd/MM/yyyy");
 		SimpleDateFormat formatData = new SimpleDateFormat ("yyyy-MM");
 		
-		int cont = 0;
+		//int cont = 0;
 		
 		//log usuario	
 		pagamento.setUsuario(user.getEmail());
@@ -100,16 +100,19 @@ public class PagamentoController {
 				
 				//contar total de diarias, maximo 3
 				if(pagamento.getDiarias() != 0) {
+					/*
 					for(int j = 0; j < todosPagamentos.size(); j++) {
 						if(todosPagamentos.get(j).getData().equals(formatData.format(new Date())) && todosPagamentos.get(j).getDiarias() != 0) cont++;
 					}
 					if(cont < 3) {
 						funcionarios.save(funcionario.get(i));
 						pagamento.setDiarias(cont);
-					}
-				}else {
-					funcionarios.save(funcionario.get(i));
+					}*/
+					pagamento.setDiarias(1);
 				}
+					funcionarios.save(funcionario.get(i));
+				
+				
 				return ResponseEntity.ok(pagamento);
 			}
 		}

@@ -116,6 +116,7 @@ function acessarData(op) {
 			+ (mesAtual.getMonth() + 1)  + '" max="12" class="form-control" />'
 			+ '<label>Ano:</label><input type="number" id="ano" min="2015" value="' 
 			+ mesAtual.getFullYear() + '" max="2050" class="form-control" />',
+		closeIcon: true,
 		buttons: {
 			confirm: {
 				text: 'Acessar',
@@ -141,12 +142,11 @@ function acessarData(op) {
 						if(op == 2) imprimirResumo(e, funcionarios[idBusca]);
 					});
 				}
+			},
+	        cancel:{
+				isHidden: true,
+	    		keys: ['esc'],
 			}
-		},
-        cancel:{
-			text: 'Voltar',
-    		keys: ['esc'],
-            btnClass: 'btn-danger'
 		}
 	});
 };
@@ -384,7 +384,7 @@ function addGastos() {
 	var idFuncionario = botaoReceber.attr('value');
 	
 	//buscar dados completos do pedido enviado
-	for(i in funcionarios) if(funcionarios[i].id == idProduto) var idBusca = i;
+	for(i in funcionarios) if(funcionarios[i].id == idFuncionario) var idBusca = i;
 	
 	funcionario = funcionarios[idBusca];
 	

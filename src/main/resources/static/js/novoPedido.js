@@ -103,7 +103,7 @@ function qtdHtml() {
 
 			//buscar bordas
 			var bordas = '';
-			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nome} R$ ${borda.preco.toFixed(2)}</option>`;
+			for(borda of todasBordas) bordas += `<option value="${borda.id}">${borda.nome} R$ ${borda.precoM.toFixed(2)}</option>`;
 		
 			 html = '<label>Borda Recheada:</label>'
 							+ '<select class="form-control" name="borda" id="borda">'
@@ -1230,7 +1230,7 @@ function mostrarPrecoProduto(precoProduto){
 	if($("#borda").val() != 0){
 		for(let busca of buscaBordas) 
 			if(busca.id == $("#borda").val()){
-				precoCompleto += (busca.preco * qtd);
+				precoCompleto += (busca.precoM * qtd);
 			}
 	}
 		

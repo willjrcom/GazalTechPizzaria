@@ -45,23 +45,128 @@ public class MenuController {
 	
 	@RequestMapping
 	public ModelAndView tela() {
-		//SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		System.out.println("tela");
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("menu");
-		Empresa empresa = null;
-		Conquista conquista = null;
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+		estruturarTelaCompleta(empresa, mv, user);
+		mv.addObject("troco", acessarDados(user.getDia(), 0).getTrocoInicio());
+		System.out.println(acessarDados(user.getDia(), 0).getData());
+		mv.addObject("data", user.getDia().split("-")[2] + "/"
+	 			+ user.getDia().split("-")[1] + "/"
+	 			+ user.getDia().split("-")[0]);
+		return mv;
+	}
+	
+	
+	@RequestMapping("/login")
+	@ResponseBody
+	public ModelAndView login() {
+		System.out.println("login");
+		//acessar o dia atual a cada login
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
 		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
+		ModelAndView mv = new ModelAndView("menu");
+		Empresa empresa = gerarEmpresa(user.getCodEmpresa());
+		estruturarTelaCompleta(empresa, mv, user);
+
+		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
+		mv.addObject("troco", acessarDados(format.format(new Date()), 1).getTrocoInicio());
+		System.out.println(acessarDados(format.format(new Date()), 1).getData());
+		mv.addObject("data", user.getDia().split("-")[2] + "/"
+	 			+ user.getDia().split("-")[1] + "/"
+	 			+ user.getDia().split("-")[0]);
+		return mv;
+	}
+	
+	
+	@RequestMapping(value = "/troco/{trocoInicial}")
+	@ResponseBody
+	public int salvarTrocoInicial(@PathVariable float trocoInicial) {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
+		dado.setTrocoInicio(trocoInicial);
+		dados.save(dado);
 		
-		//dev
-		if(user.getPerfil().equals("DEV")) mv.addObject("dev", 1);
+		return 200;
+	}
+	
+	
+	@RequestMapping("/autenticado")
+	@ResponseBody
+	public String autenticado() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		return user.getPerfil();
+	}
+	
+
+	@RequestMapping(value = "/acessarData/{dia}")
+	@ResponseBody
+	public ModelAndView acessarData(@PathVariable String dia) {
+		acessarDados(dia, 1);
+		return new ModelAndView("menu");
+	}
+	
+	
+	//acessar dia e dado no banco
+	public Dado acessarDados(String data, int tipo) {
+		System.out.println("acessar dados: " + tipo);
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		Dado dado = null;
 		
-		//empresa----------------------------------------------------------------------------------------------
+		//altera no usuario
+		if(tipo == 1) {
+			user.setDia(data);
+			usuarios.save(user);
+		}
+		
 		try {
-			empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);//busca no banco de dados
+			if(dado == null) {
+				dado = new Dado();
+				dado.setCodEmpresa(user.getCodEmpresa());
+				dado.setData(data);
+				dado.setTrocoInicio(0);
+				dados.save(dado);
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return dado;
+	}
+	
+	
+	@RequestMapping(value = "/mostrarDivulgacao")
+	@ResponseBody
+	public Optional<Divulgar> mostrarDivulgacao() {
+		return divulgacoes.findById((long)1);
+	}
+	
+	
+	@RequestMapping(value = "/diaAberto")
+	@ResponseBody
+	public ResponseEntity<List<Dado>> todos() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return ResponseEntity.ok(dados.findByCodEmpresaAndTrocoFinal(user.getCodEmpresa(), 0));
+	}
+	
+	
+	private Empresa gerarEmpresa(int codEmpresa) {
+		System.out.println("gerar empresa");
+		Empresa empresa = null;
+		try {
+			empresa = empresas.findByCodEmpresa(codEmpresa);
 			if(empresa == null) {
 				empresa = new Empresa();
-				empresa.setCodEmpresa(user.getCodEmpresa());
+				empresa.setCodEmpresa(codEmpresa);
 				empresa.setNomeEstabelecimento("Pizzaria");
 				empresa.setNomeEmpresa("Pizzaria");
 				empresa.setCnpj("");
@@ -76,20 +181,32 @@ public class MenuController {
 				endereco.setTaxa(0);
 				empresa.setEndereco(endereco);
 				
-				conquista = new Conquista();
+				Conquista conquista = new Conquista();
 				empresa.setConquista(conquista);
-				empresa.setCodEmpresa(user.getCodEmpresa());
+				empresa.setCodEmpresa(codEmpresa);
 				empresas.save(empresa);
 			}
-			mv.addObject("empresa", empresa.getNomeEstabelecimento());
-			mv.addObject("contato", empresa.getCelular());
-			
 		}catch(Exception e) {
 			System.out.println(e);
 		}
 		
+		verificarCupom(empresa);
+		return empresa;
+	}
+	
+	
+	private ModelAndView estruturarTelaCompleta(Empresa empresa, ModelAndView mv, Usuario user) {
+		System.out.println("estrutura completa");
+		mostrarDivulgacoes(mv);
+		Conquista conquista = empresa.getConquista();
+		
+		mv.addObject("empresa", empresa.getNomeEstabelecimento());
+		mv.addObject("contato", empresa.getCelular());
+		
+		//dev
+		if(user.getPerfil().equals("DEV")) mv.addObject("dev", 1);
+		
 		//conquistas
-		conquista = empresa.getConquista();
 		if(!conquista.isCadEmpresa() || !conquista.isCadFuncionario() || !conquista.isCadPedido() || !conquista.isCadProduto()) {
 			mv.addObject("mostrarConquistas", true);
 			mv.addObject("cadPedido", conquista.isCadPedido());
@@ -101,15 +218,14 @@ public class MenuController {
 		}
 		
 		//dados
-		mv.addObject("troco", acessarDados(format.format(new Date()), 0).getTrocoInicio());
-		mv.addObject("data", user.getDia().split("-")[2] + "/"
-	 			+ user.getDia().split("-")[1] + "/"
-	 			+ user.getDia().split("-")[0]);
-		
-		//empresa
 		mv.addObject("usuario", user.getEmail());
 		mv.addObject("permissao", user.getPerfil());
-
+		return mv;
+	}
+	
+	
+	private ModelAndView mostrarDivulgacoes(ModelAndView mv) {
+		System.out.println("mostrar divulgacoes");
 		try {
 			Divulgar divulgar = divulgacoes.findById((long)1).get();
 			if(divulgar.isMostrarNovidades()) {
@@ -139,23 +255,13 @@ public class MenuController {
 		}catch(Exception e) {
 			System.out.println(e);
 		}
-
 		return mv;
 	}
 	
 	
-	@RequestMapping("/login")
-	@ResponseBody
-	public ModelAndView login() {
-		//acessar o dia atual a cada login
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+	private void verificarCupom(Empresa empresa) {
+		System.out.println("verificar cupom");
 		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
-		ModelAndView mv = new ModelAndView("redirect:");
-		
-		acessarDados(format.format(new Date()), 1);
-		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
 		
 		 int cont = 0;
 		 //controlar cupons validados
@@ -174,73 +280,11 @@ public class MenuController {
 		 }catch(Exception e) {
 			 System.out.println(e);
 		 }
-		 
-		 mv.addObject("data", user.getDia().split("-")[2] + "/"
-				 			+ user.getDia().split("-")[1] + "/"
-				 			+ user.getDia().split("-")[0]);
-		 return mv;
-	}
-	
-	
-	@RequestMapping(value = "/acessarData/{dia}")
-	@ResponseBody
-	public ModelAndView acessarData(@PathVariable String dia) {
-		acessarDados(dia, 1);
-		return new ModelAndView("menu");
-	}
-	
-	
-	@RequestMapping(value = "/troco/{trocoInicial}")
-	@ResponseBody
-	public int salvarTrocoInicial(@PathVariable float trocoInicial) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
-		dado.setTrocoInicio(trocoInicial);
-		dados.save(dado);
-		
-		return 200;
-	}
-	
-	
-	@RequestMapping("/autenticado")
-	@ResponseBody
-	public String autenticado() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		return user.getPerfil();
-	}
-	
-	
-	//acessar dia e dado no banco
-	public Dado acessarDados(String data, int tipo) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		Dado dado = null;
-		
-		if(tipo == 1) {
-			user.setDia(data);
-			usuarios.save(user);
-		}
-		
-		try {
-			dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), data);//busca no banco de dados
-			if(dado == null) {
-				dado = new Dado();
-				dado.setCodEmpresa(user.getCodEmpresa());
-				dado.setData(data);
-				dado.setTrocoInicio(0);
-				dados.save(dado);
-			}
-		}catch(Exception e) {
-			System.out.println(e);
-		}
-		
-		return dado;
 	}
 	
 	
 	private void liberarConquistas(int totalDias, int codEmpresa) {
+		System.out.println("liberar conquista");
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
 		
@@ -258,22 +302,5 @@ public class MenuController {
 		}
 		empresa.setConquista(conquista);
 		empresas.save(empresa);
-	}
-	
-	
-	@RequestMapping(value = "/mostrarDivulgacao")
-	@ResponseBody
-	public Optional<Divulgar> mostrarDivulgacao() {
-		return divulgacoes.findById((long)1);
-	}
-	
-	
-	@RequestMapping(value = "/diaAberto")
-	@ResponseBody
-	public ResponseEntity<List<Dado>> todos() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
-		return ResponseEntity.ok(dados.findByCodEmpresaAndTrocoFinal(user.getCodEmpresa(), 0));
 	}
 }

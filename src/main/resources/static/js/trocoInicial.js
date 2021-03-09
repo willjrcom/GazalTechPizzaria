@@ -1,8 +1,8 @@
 
 //salvar troco inicial
-if(Number($("#trocoInicial").val()) == 0)
+if(Number($("#trocoInicial").val()) == 0){
 	trocoInicial();
-	
+}
 
 //-------------------------------------------------------
 function trocoRepeat(){
@@ -20,15 +20,6 @@ function trocoInicial() {
 					+ '<span class="input-group-text">R$</span>'
 					+ '<input class="form-control" id="trocoInicial" placeholder="Digite o valor do troco"/>'
 				+ '</div>',
-		onContentReady: e => {
-			$("#trocoInicial").focus();
-			
-			if(e.which == 13){
-				if($("#trocoInicial").is(":focus")){
-					$(".btnSalvarTrocoClass").focus();
-				}
-			}
-		},
 		buttons:{
 			confirm:{
 				text:'Alterar troco',
