@@ -213,7 +213,7 @@ function mostrarProdutosPedido(cliente){
 	for(pizza of cliente.pizzas) Tpizzas += pizza.qtd;
 	
 	if(cliente.pizzas.length != 0) {
-		linhaHtml += '<table style="width: 100%">'
+		linhaHtml += '<table>'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
@@ -233,7 +233,7 @@ function mostrarProdutosPedido(cliente){
 	}
 	
 	if(cliente.produtos.length != 0) {
-		linhaHtml += '<table style="width: 100%">'
+		linhaHtml += '<table>'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'

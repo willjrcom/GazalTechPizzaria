@@ -1,121 +1,132 @@
-	/*overlay: hidden;
+/*overlay: hidden;
 	 cor do logo #00ffbb*/
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Helvetica, Arial, Verdana";
+	margin: 0;
+	padding: 0;
+	font-family: "Helvetica, Arial, Verdana";
 }
 
-.row{
+.row {
 	margin-right: 0px;
 	margin-left: 0px;
 }
 
 html {
-    height: 100%;
-    min-height: 100%;
-    background-color: #0c2461;
+	height: 100%;
+	min-height: 100%;
+	background-color: #0c2461;
 	background-repeat: repeat-y;
 	background-size: cover;
 }
 
-body{
+body {
 	/*background-color: #0069c1; /*cor de fundo*/
 	background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    min-height: 90%;
-    margin-top: 61px;
+	display: flex;
+	flex-direction: column;
+	min-height: 90%;
+	margin-top: 61px;
 }
 
 ul {
-  	overflow: hidden;
+	overflow: hidden;
 }
 
-a{
-	color: black;	
+a {
+	color: black;
 }
 
-a:link{
+a:link {
 	text-decoration: none;
 }
 
-li a{
-  	text-align: center;
+li a {
+	text-align: center;
 }
 
-li a:hover{
-	 color:white;
-	 transition: all 0.3s linear;
+li a:hover {
+	color: white;
+	transition: all 0.3s linear;
 }
 
 /*table*/
-table{
+table {
 	border-collapse: separate;
 	width: 100%;
 }
 
-footer{
+footer {
 	display: none;
 }
-	
-thead{
-	background-color: #253b80;	
+
+thead {
+	background-color: #253b80;
 }
 
-thead tr th{
+thead, tbody {
+	display: block;
+}
+
+tbody {
+	overflow-y: scroll;
+	max-height: 200px;
+}
+
+thead tr th {
 	color: white;
 }
 
-th, td, h3, h4{
+th, td, h3, h4 {
 	text-align: center;
 	padding: .5vh;
 }
 
-.fundoList{
+.fundoList {
 	background-color: #D3D3D3;
 }
 
 /*menu inicial*/
-.menuPrincipal li{
+.menuPrincipal li {
 	float: none;
 	list-style-type: none;
 }
 
 .menuPrincipal li a {
-  	display: block;
-  	text-decoration: none;
+	display: block;
+	text-decoration: none;
 	padding: 3vh;
 }
 
 .menuPrincipal li a:hover {
-  	background-color: #107b11; /*cor verde do menu*/
-  	color: white;
-  	font-size: 1.07rem;
-	text-shadow:0px 0px 5px #fff;
+	background-color: #107b11; /*cor verde do menu*/
+	color: white;
+	font-size: 1.07rem;
+	text-shadow: 0px 0px 5px #fff;
 	transition: all 0.3s linear;
 }
 
-.menuPrincipal .row{
+.menuPrincipal .row {
 	background-color: white;
 }
-.menuPrincipal a{
+
+.menuPrincipal a {
 	background-color: white;
 	color: black;
 }
 
-.posicaoMenu{
+.posicaoMenu {
 	float: left;
 	position: absolute;
 }
+
 .active {
-  	background-color: #107b11;
+	background-color: #107b11;
 }
 
 .divbase {
-	margin-left: 1vh; 
-	margin-right: 1vh; 
-	background-color: white; 
+	margin-left: 1vh;
+	margin-right: 1vh;
+	background-color: white;
 	border: 1px solid black;
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
@@ -123,46 +134,46 @@ th, td, h3, h4{
 }
 
 .divbaseForm {
-	margin-left: 2vh; 
-	margin-right: 2vh; 
-	background-color: #ececec; 
+	margin-left: 2vh;
+	margin-right: 2vh;
+	background-color: #ececec;
 	border: 1px solid black;
 	border-radius: 10px;
 	-webkit-border-radius: 10px;
 	padding: 5vh;
 }
 
-.botao{
-	background-color: white; 
+.botao {
+	background-color: white;
 	border: none;
 }
 
-.fRight{
+.fRight {
 	float: right;
 }
 
-.fLeft{
+.fLeft {
 	float: left;
 }
 
-.alertOpcional{
-	color: red;	
+.alertOpcional {
+	color: red;
 }
 
-.fundoAlert{
+.fundoAlert {
 	background: rgba(220, 20, 60, 0.3);
-	color: black;	
+	color: black;
 }
 
-.textIndent{
+.textIndent {
 	text-indent: 10px;
 }
 
-.sombra{
+.sombra {
 	background-color: #D3D3D3;
 }
 
-.gazaltech{
+.gazaltech {
 	background-color: white;
 	border-radius: 10px;
 	padding: 5px;
@@ -170,134 +181,135 @@ th, td, h3, h4{
 }
 
 .bolaGreen {
-    border-radius: 50%;
-    height: 30px;
-    width: 30px;
-    background-color: #00FF00;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	background-color: #00FF00;
 }
 
 .bolaRed {
-    border-radius: 50%;
-    height: 30px;
-    width: 30px;
-    background-color: red;
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+	background-color: red;
 }
 
-.indexCentral{
+.indexCentral {
 	position: absolute;
 	top: 40%;
 	left: 50%;
 	height: 70vh;
 	transform: translate(-50%, -50%);
-	padding: 4vh 10vh 4vh 10vh;	
+	padding: 4vh 10vh 4vh 10vh;
 	min-width: 90vh;
 }
 
-.menuCentral{
+.menuCentral {
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	height: 70vh;
 	transform: translate(-50%, -50%);
-	padding: 2vh 10vh 2vh 10vh;	
+	padding: 2vh 10vh 2vh 10vh;
 	min-width: 90vh;
 }
 
 .loading {
 	display: none;
-    position: fixed;
-    left: 48.5%;
-    top: 50%;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-    color: green;
+	position: fixed;
+	left: 48.5%;
+	top: 50%;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	color: green;
 }
 
-.hidden{
+.hidden {
 	display: none;
 }
 
-.cabecalho{
-	 text-decoration: none;	
+.cabecalho {
+	text-decoration: none;
 }
 
-.cabecalho:hover{
-	color:white;
+.cabecalho:hover {
+	color: white;
 	transition: all 0.3s linear;
 }
 
 /*tela de retirada*/
-.raio20{
+.raio20 {
 	border-radius: 20px;
 }
-.raio20leftBottom{
+
+.raio20leftBottom {
 	border-bottom-left-radius: 20px;
 }
 
-.raio20RightBottom{
+.raio20RightBottom {
 	border-bottom-right-radius: 20px;
 }
 
-.raio20leftTop{
+.raio20leftTop {
 	border-top-left-radius: 20px;
 }
 
-.raio20RightTop{
+.raio20RightTop {
 	border-top-right-radius: 20px;
 }
 
-.table-scroll{
+.table-scroll {
 	overflow-y: scroll;
 	max-height: 100vh;
 }
 
-.table-min-scroll{
+.table-min-scroll {
 	overflow-y: scroll;
 	max-height: 40vh;
 }
 
-.table-min-novoPedido-scroll{
+.table-min-novoPedido-scroll {
 	overflow-y: scroll;
 	max-height: 25vh;
 }
 
-.colorGreen{
-	color: green;	
+.colorGreen {
+	color: green;
 }
 
-.colorRed{
-	color: red;	
+.colorRed {
+	color: red;
 }
 
-.bloco{
-	padding: 2vh;	
+.bloco {
+	padding: 2vh;
 	background-color: #B0C4DE;
 }
 
-#dados{
-    margin-bottom: 0px;
+#dados {
+	margin-bottom: 0px;
 }
 
-#login{
-	padding: 2vh 10vh 2vh 10vh;	
+#login {
+	padding: 2vh 10vh 2vh 10vh;
 	min-width: 68vh;
 }
 
-#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido, #avisoUsuario, #avisoSenha, .divListaGeral{
+#mostrarDadosCliente, #divBuscarProdutos, #atualizarPedido,
+	#avisoUsuario, #avisoSenha, .divListaGeral {
 	display: none;
 }
 
 /*celular*/
-@media (max-width:768px){
-	.hiddenAndroid{
+@media ( max-width :768px) {
+	.hiddenAndroid {
 		display: none;
 	}
-	
 }
 
 /*computador*/
-@media ( min-width: 769px ){
+@media ( min-width : 769px ) {
 }
 
 /*

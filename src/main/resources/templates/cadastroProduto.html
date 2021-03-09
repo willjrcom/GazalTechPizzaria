@@ -30,17 +30,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		
 		<div class="row">
 			<div class="col-md-6">
-				<label>Preço: (tam. médio - padrão) <span class="alertOpcional">*</span></label><br>
+				<label>Preço: (tam. Grande - padrão) <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
-					<input class="form-control preco pula" id="precoM" placeholder="Preço do produto normal"/>
+					<input class="form-control preco pula" id="precoM" placeholder="Preço do produto grande"/>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<label>Custo: (tam. médio - padrão) <span class="alertOpcional">*</span></label><br>
+				<label>Custo: (tam. Grande - padrão) <span class="alertOpcional">*</span></label><br>
 				<div class="input-group mb-3">
 					<span class="input-group-text">R$</span>
-					<input class="form-control preco pula" id="custoM" placeholder="Total em custo normal"/>
+					<input class="form-control preco pula" id="custoM" placeholder="Total em custo grande"/>
 				</div>
 			</div>
 		</div>
@@ -51,6 +51,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<option value="PIZZA">Pizza</option>
 				<option value="BORDA">Borda</option>
 				<option value="BEBIDA">Bebida</option>
+				<option value="LANCHE">Lanche</option>
+				<option value="PORCAO">Porção</option>
 				<option value="OUTROS">Outros</option>
 			</select>
 		</div>
@@ -68,18 +70,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		
 		<hr>
-		<h3>Opcional</h3>
+		<h3>Tamanhos opcionais</h3>
 		<div class="row">
 			<div class="row col-md-6">
 				<div class="col-md-6">
-					<label>Preço: (tam. pequeno)</label><br>
+					<label>Preço: (tam. Pequeno)</label><br>
 					<div class="input-group mb-3">
 						<span class="input-group-text">R$</span>
 						<input class="form-control preco pula" id="precoP" placeholder="Preço do produto pequeno"/>
 					</div>
 				</div>
 				<div class="col-md-6">
-					<label>Custo: (tam. pequeno)</label><br>
+					<label>Custo: (tam. Pequeno)</label><br>
 					<div class="input-group mb-3">
 						<span class="input-group-text">R$</span>
 						<input class="form-control preco pula" id="custoP" placeholder="Total em custo pequeno"/>
@@ -88,17 +90,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			<div class="row col-md-6">
 				<div class="col-md-6">
-					<label>Preço: (tam. grande)</label><br>
+					<label>Preço: (tam. Gigante)</label><br>
 					<div class="input-group mb-3">
 						<span class="input-group-text">R$</span>
-						<input class="form-control preco pula" id="precoG" placeholder="Preço do produto grande"/>
+						<input class="form-control preco pula" id="precoG" placeholder="Preço do produto gigante"/>
 					</div>
 				</div>
 				<div class="col-md-6">
-					<label>Custo: (tam. grande)</label><br>
+					<label>Custo: (tam. Gigante)</label><br>
 					<div class="input-group mb-3">
 						<span class="input-group-text">R$</span>
-						<input class="form-control preco pula" id="custoG" placeholder="Total em custo grande"/>
+						<input class="form-control preco pula" id="custoG" placeholder="Total em custo gigante"/>
 					</div>
 				</div>
 			</div>

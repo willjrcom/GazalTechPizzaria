@@ -312,7 +312,7 @@ function mostrarProdutosPedido(pedido){
 	let linhaHtml = '';
 	
 	if(pedido.pizzas.length != 0) {
-		linhaHtml += '<table style="width:100%">'
+		linhaHtml += '<table">'
 					+ '<tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
@@ -330,7 +330,7 @@ function mostrarProdutosPedido(pedido){
 	}
 	
 	if(pedido.produtos.length != 0) {
-		linhaHtml += '<table style="width:100%">'
+		linhaHtml += '<table>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 					+ '</tr>';

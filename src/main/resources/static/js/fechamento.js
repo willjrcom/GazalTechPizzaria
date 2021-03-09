@@ -151,11 +151,7 @@ function carregarMotoboy(logmotoboys){
 						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
 						+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
 					+'</tr></thead>'
-				+ '</table>'
-				
-				+ '<div class="table-min-scroll">'
-					+ '<table class="table table-striped table-hover">'
-						+ '<tbody>';
+				+ '<tbody>';
 	
 	for(boy of objsMotoboys) {
 		linhaBoy += '<tr>'
@@ -179,11 +175,7 @@ function carregarMotoboy(logmotoboys){
 						+'<th class="text-center col-md-1">Motoboy</th>'
 						+'<th class="text-center col-md-1">Taxa</th>'
 					+'</tr></thead>'
-				+ '</table>'
-				
-				+ '<div class="table-min-scroll">'
-					+ '<table class="table table-striped table-hover">'
-						+ '<tbody>';
+				+ '<tbody>';
 					
 	for(boy of logmotoboys) {
 		linhaBoy += '<tr>'

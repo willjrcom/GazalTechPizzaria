@@ -1218,7 +1218,7 @@ function mostrarListaBuscaProdutos(buscaProdutos){
 		linhaHtml += '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>';
 	}
 	linhaHtml += '</tbody>'
-				+ '<table>';
+				+ '</table>';
 }
 
 function mostrarPrecoProduto(precoProduto){

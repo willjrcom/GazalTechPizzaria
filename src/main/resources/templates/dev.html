@@ -1,42 +1,47 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Desenvolvedor</title></head>
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+<title>Desenvolvedor</title>
+</head>
 
 <body>
-				
+
 	<div class="divbase">
-		<br>
-		<input type="hidden" id="id" name="id"/>
-		
+		<br> <input type="hidden" id="id" name="id" />
+
 		<div class="form-group">
 			<label>E-mail: <span class="alertOpcional">*</span></label><br>
 			<p id="avisoUsuario">Email já cadastrado, tente outro!</p>
-			<input type="email" class="form-control pula" id="email" name="email" placeholder="nome@exemplo.com" />
+			<input type="email" class="form-control pula" id="email" name="email"
+				placeholder="nome@exemplo.com" />
 		</div>
-		
+
 		<br>
-		<button class="btn btn-primary" onclick="alterarSenha()" style="display:none" id="alterar">Alterar senha</button>
-		
+		<button class="btn btn-primary" onclick="alterarSenha()"
+			style="display: none" id="alterar">Alterar senha</button>
+
 		<div class="row" id="senhas">
 			<p id="avisoSenha">As senhas não conferem!</p>
 			<div class="col-md-6">
 				<label>Senha: <span class="alertOpcional">*</span></label><br>
-				<input type="password" class="form-control pula pass" id="senha" name="senha" placeholder="Senha" /> 
+				<input type="password" class="form-control pula pass" id="senha"
+					name="senha" placeholder="Senha" />
 			</div>
 
 			<div class="col-md-6">
 				<label>Confirmar Senha: <span class="alertOpcional">*</span></label><br>
-				<input type="password" class="form-control pula pass" id="confirmar" name="confirmar" placeholder="Confimar senha" />  
+				<input type="password" class="form-control pula pass" id="confirmar"
+					name="confirmar" placeholder="Confimar senha" />
 			</div>
 		</div>
-			
+
 		<br>
 		<div class="row">
-			<div class="form-group col-md-4">
+			<div class="form-group col-md-3">
 				<label>Permissão: <span class="alertOpcional">*</span></label><br>
 				<select class="form-control" id="perfil">
 					<option value="USUARIO">Usuário</option>
@@ -44,51 +49,61 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<option value="DEV">Desenvolvedor</option>
 				</select>
 			</div>
-			
-			<div class="form-group col-md-4">
+
+			<div class="form-group col-md-3">
 				<label>Usuário Ativo: <span class="alertOpcional">*</span></label><br>
 				<select class="form-control" id="ativo">
 					<option value="true">Sim</option>
 					<option value="false">Não</option>
 				</select>
 			</div>
-			
-			<div class="form-group col-md-4">
+
+			<div class="form-group col-md-3">
 				<label>Codigo Empresa: <span class="alertOpcional">*</span></label><br>
-				<input type="number" class="form-control" id="codEmpresa" value="0"/>
+				<input type="number" class="form-control" id="codEmpresa" value="0" />
+			</div>
+
+			<div class="form-group col-md-3">
+				<label>Data limite: <span class="alertOpcional">*</span></label><br>
+				<input type="date" class="form-control" id="dataLimite" />
 			</div>
 		</div>
 		<br>
-		<button type="button" id="criarUsuario" class="btn btn-success" name="enviar">Criar Usuário</button>
-		
-		 <br><hr>
-		 
-		 <div class="col-md-6 row">
-		 	<h3>Controle de acesso</h3>
-		 	<div class="col-md-6">
-		 		<label>Código da empresa:</label>
-		 		<input type="number" id="codAcess" class="form-control" value="0"/>
-		 	</div>
-		 	
-		 	<div class="col-md-6">
-		 		<label>Tipo:</label>
-		 		<select id="typeAcess" class="form-control">
-		 			<option value="0">Bloquear</option>
-		 			<option value="1">Permitir</option>
-		 		</select>
-		 	</div>
-		 	<div>&nbsp;</div>
-		 	<div><button class="btn btn-success" onclick="controlAcess()">Enviar</button></div>
-		 </div>
-		 
-		 <br><hr>
-		 <h3 align="center">Todos Usuários</h3>
-		 <div class="table-responsive">
-			 <table>
-			 	<thead>
-			 		<tr>
+		<button type="button" id="criarUsuario" class="btn btn-success"
+			name="enviar">Criar Usuário</button>
+
+		<br>
+		<hr>
+
+		<div class="col-md-6 row">
+			<h3>Controle de acesso</h3>
+			<div class="col-md-6">
+				<label>Código da empresa:</label> <input type="number" id="codAcess"
+					class="form-control" value="0" />
+			</div>
+
+			<div class="col-md-6">
+				<label>Tipo:</label> <select id="typeAcess" class="form-control">
+					<option value="0">Bloquear</option>
+					<option value="1">Permitir</option>
+				</select>
+			</div>
+			<div>&nbsp;</div>
+			<div>
+				<button class="btn btn-success" onclick="controlAcess()">Enviar</button>
+			</div>
+		</div>
+
+		<br>
+		<hr>
+		<h3 align="center">Todos Usuários</h3>
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
 						<th class="col-md-1 text-center"><h5>Código</h5></th>
 						<th class="col-md-1 text-center"><h5>Dia</h5></th>
+						<th class="col-md-1 text-center"><h5>Data limite</h5></th>
 						<th class="col-md-1 text-center"><h5>Empresa</h5></th>
 						<th class="col-md-1 text-center"><h5>Email</h5></th>
 						<th class="col-md-1 text-center"><h5>Perfil</h5></th>
@@ -96,21 +111,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="col-md-1 text-center"></th>
 					</tr>
 				</thead>
+				<tbody id="todosUsuarios"><tr><td colspan="8">Nenhum usuário encontrado!</td></tr></tbody>
 			</table>
 		</div>
-		
-		<div class="table-min-novoPedido-scroll">
-			<table class="table-responsive">
-				<tbody id="todosUsuarios"><tr><td colspan="7">Nenhum usuário encontrado!</td></tr></tbody>
-		 	</table>
-		 </div>
-		 
-		 <br><hr>
-		 <h3 align="center">Todas empresas</h3>
-		 <div class="table-responsive">
-			 <table class="table-responsive">
-			 	<thead>
-			 		<tr>
+
+		<br>
+		<hr>
+		<h3 align="center">Todas empresas</h3>
+		<div class="table-responsive">
+			<table>
+				<thead>
+					<tr>
 						<th class="col-md-1 text-center"><h5>Código</h5></th>
 						<th class="col-md-1 text-center"><h5>Tutorial</h5></th>
 						<th class="col-md-1 text-center"><h5>Estabelecimento</h5></th>
@@ -119,30 +130,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="col-md-1 text-center"><h5>Mensalidade</h5></th>
 					</tr>
 				</thead>
+				<tbody id="todosEmpresas"><tr><td colspan="6">Nenhuma empresa encontrada!</td></tr></tbody>
 			</table>
 		</div>
-		
-		<div class="table-min-novoPedido-scroll">
-			<table class="table-responsive">
-				<tbody id="todosEmpresas"><tr><td colspan="6">Nenhuma empresa encontrada!</td></tr></tbody>
-		 	</table>
-		 </div>
 	</div>
-	
+
 	<br>
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
-	
+
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
-	<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+	<script
+		src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 	<script th:src="@{/js/dev.js}"></script>
 	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
-	<div th:replace="~{layouts/frag :: dev}"></div>
+<div th:replace="~{layouts/frag :: dev}"></div>
 </html>

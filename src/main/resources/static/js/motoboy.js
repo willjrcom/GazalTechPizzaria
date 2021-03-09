@@ -195,13 +195,13 @@ function verEntregasNaRua(){
 			linhaHtml = '<tr><td colspan="5">Nenhum pedido na rua!</td></tr>';
 		}else{
 			linhaHtml = '<table class="table table-striped table-hover">'
-						+ '<tr>'
+						+ '<thead><tr>'
 							+ '<td class="text-center col-md-1">Comanda</td>'
 							+ '<td class="text-center col-md-1">Cliente</td>'
 							+ '<td class="text-center col-md-2">Endereco</td>'
 							+ '<td class="text-center col-md-1">Pagamento</td>'	
 							+ '<td class="text-center col-md-1">Motoboy</td>'
-						+ '</tr>';
+						+ '</tr></thead>';
 							
 			for(pedido of pedidos){
 				linhaHtml += '<tr>'

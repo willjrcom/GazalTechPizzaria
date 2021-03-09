@@ -29,6 +29,7 @@ public class Usuario extends AbstractEntity<Long> {
 	private String perfil;
 
 	private String dia;
+	private String dataLimite;
 	
 	private boolean ativo;
 	
