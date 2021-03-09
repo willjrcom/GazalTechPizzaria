@@ -184,7 +184,7 @@ if(modoPedido === 'editar') {
 		
 		//liberar opcao de envio
 		mostrarDivsPedido();
-		
+
 		//adicionar cliente
 		$("#idCliente").text(cliente.id);
 		$("#nomeCliente").text(cliente.nome);
@@ -632,8 +632,8 @@ function enviarProduto(idUnico) {
 							borda = Borda.nome;
 							
 							//multiplica o preco e custo da borda
-							produto.preco += (Borda.preco * qtd);
-							produto.custo += (Borda.custo * qtd);
+							produto.preco += (Borda.precoM * qtd);
+							produto.custo += (Borda.custoM * qtd);
 						}							
 						pizzas.unshift({
 							qtd,

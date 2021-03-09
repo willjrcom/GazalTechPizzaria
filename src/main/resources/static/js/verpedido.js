@@ -56,6 +56,9 @@ function mostrar(pedidos, filtro) {
 	for(pedido of pedidos){
 		if(filtro == pedido.pago || filtro == "TODOS"){
 			totalTodosProdutos = 0;
+			for(pizza of pedido.pizzas) totalTodosProdutos += pizza.qtd;
+			for(produto of pedido.produtos) totalTodosProdutos += produto.qtd;
+			pedido.totalTodosProdutos = totalTodosProdutos;
 			
 			linhaHtml += '<tr>'
 						+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
@@ -69,17 +72,28 @@ function mostrar(pedidos, filtro) {
 									+'<i class="fas fa-search"></i>'
 								+'</button>'
 							+'</a>'
-						+'</div>'
+						+'</div>';
 					
-						+ '<div class="col-md-1">'
-							+'<a title="Adicionar ao pedido" href="/novoPedido/atualizar/'+ pedido.celular + '" data-toggle="tooltip" data-html="true">'
-								+'<button class="botao">'
-									+'<i class="fas fa-plus"></i>'
-								+'</button>'
-							+'</a>'
-						+'</div>'
+						if(pedido.envio == "ENTREGA"){
+							linhaHtml += '<div class="col-md-1">'
+										+'<a title="Adicionar ao pedido" href="/novoPedido/atualizar/'+ pedido.celular + '" data-toggle="tooltip" data-html="true">'
+											+'<button class="botao">'
+												+'<i class="fas fa-plus"></i>'
+											+'</button>'
+										+'</a>'
+									+'</div>';
+						}else{
+							linhaHtml += '<div class="col-md-1">'
+										+'<a title="Adicionar ao pedido" href="/novoPedido/atualizar/'+ pedido.nome + '" data-toggle="tooltip" data-html="true">'
+											+'<button class="botao">'
+												+'<i class="fas fa-plus"></i>'
+											+'</button>'
+										+'</a>'
+									+'</div>';
+						}
 						
-						+ '<div class="col-md-1">'
+						
+			linhaHtml += '<div class="col-md-1">'
 							+'<a title="Editar pedido" data-toggle="tooltip" data-html="true">'
 								+'<button class="botao" onclick="editarPedido()" value="'+ pedido.id + '">'
 									+'<i class="fas fa-edit"></i>'

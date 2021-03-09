@@ -117,7 +117,7 @@ function mostrar(pedidos, filtro) {
 					
 					//mostrar pizza
 					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor 
-							+ (pizza.descricao != ''?'&nbsp;&nbsp;<button class="descricao" onclick="descricao()" value="' 
+							+ (pizza.descricao != ''?'&nbsp;&nbsp;<button class="descricao botao" onclick="descricao()" value="' 
 							+ pizza.descricao 
 							+ '" title="Ingredientes: ' + pizza.descricao 
 							+ '"><i class="fas fa-question"></i></td>' : "")
