@@ -36,7 +36,6 @@ public class EstatisticaController {
 	public List<Dado> buscarTodos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		float zero = 0;
-		return dados.findByCodEmpresaAndTrocoInicioNotLikeAndTrocoFinalNotLike(user.getCodEmpresa(), zero, zero);
+		return dados.findByCodEmpresa(user.getCodEmpresa());
 	}
 }

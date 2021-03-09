@@ -12,41 +12,46 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <body>
 	
 	<div class="divbase">
-		<h2 align="center">Painel</h2>
+		<h2 align="center">Painel mensal</h2>
 		<br>
 		<div class="row">
-			<div class="col bloco border">
+			<div class="col-md-6 bloco border">
 		 		 <h2 align="center">Lucro Bruto/Líquido</h2>
 		 		 <div id="totalVendas"></div>
 			</div>
-			<div class="col bloco border">
+			<div class="col-md-6 bloco border">
 		 		 <h2 align="center">Vendas Externas/Internas</h2>
 		 		 <div id="entregaBalcao"></div>
 			</div>
 		</div>
 		
 		<div class="row">
-			<div class="col bloco border">
-		 		 <h2 align="center">Mensal</h2>
+			<div class="col-md-12 bloco border">
+		 		 <h2 align="center">Resumo</h2>
 		 		 <div class="table-responsive">
 		 		 	<table>
 		 		 		<thead>
 		 		 			<tr>
 		 		 				<th class="text-center col-md-1">Dia</th>
-		 		 				<th class="text-center col-md-1"></th>
-		 		 				<th class="text-center col-md-1"></th>
-		 		 				<th class="text-center col-md-1"></th>
-		 		 				<th class="text-center col-md-1"></th>
+		 		 				<th class="text-center col-md-1">Troco inicial</th>
+		 		 				<th class="text-center col-md-1">Troco final</th>
+		 		 				<th class="text-center col-md-1">Lucro bruto</th>
+		 		 				<th class="text-center col-md-1">Lucro liquído</th>
+		 		 				<th class="text-center col-md-1">Taxas pagas</th>
+		 		 				<th class="text-center col-md-1">Pizzas vendidas</th>
+		 		 				<th class="text-center col-md-1">Total pedidos</th>
+		 		 				<th class="text-center col-md-1">Total compras</th>
 		 		 			</tr>
 		 		 		</thead>
 		 		 	</table>
 		 		 	
 		 		 	<table>
-		 		 		<tr id="gerarDadosMensal"></tr>
+		 		 		<tbody id="gerarDadosMensal"><tr><td>Nenhum dado encontrado!</td></tr></tbody>
+		 		 		<tfoot id="geralDadosSoma"></tfoot>
 		 		 	</table>
 		 		 </div>
 			</div>
-			<div class="col bloco border">
+			<div class="col-md-6 bloco border">
 		 		 <h2 align="center">Compras</h2>
 		 		 <div id="totalCompras"></div>
 			</div>
