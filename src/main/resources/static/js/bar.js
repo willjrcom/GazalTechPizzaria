@@ -90,7 +90,7 @@ function buscarPedido() {
 						//mostrar pizza
 						linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor
 							//descricao
-							+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="descricao botao" onclick="descricao()" value="'
+							+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="btn-link botao p-0" onclick="descricao()" value="'
 								+ pizza.descricao + '"><i class="fas fa-question"></i></td>' : "")
 							//obs
 							+ (pizza.obs !== ""

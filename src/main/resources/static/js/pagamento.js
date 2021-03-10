@@ -281,7 +281,7 @@ function addHoras() {
 	funcionario = funcionarios[idBusca];
 
 	linhaHtml = '<b>Hora Extra:</b> R$' + horaExtra.toFixed(2)
-		+ '<hr><label>Total a adicionar: <button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
+		+ '<hr><label>Total a adicionar: <button class="botao p-0 btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label><br>'
 		+ '<input type="number" class="form-control" id="horas" name="horas" placeholder="Digite o total de horas a adicionar"/>';
 
 	carregarLoading("none");
@@ -387,7 +387,7 @@ function addGastos() {
 	funcionario = funcionarios[idBusca];
 
 	linhaHtml = '<label>Total de gastos: '
-		+ '<button class="btn btn-link" onclick="aviso2()">'
+		+ '<button class="btn-link p-0 botao" onclick="aviso2()">'
 		+ '<i class="fas fa-question"></i></button></label><br>'
 
 		+ '<div class="input-group mb-3">'
@@ -523,7 +523,7 @@ function pagarSalario(e, funcionario, dataBusca) {
 		+ '</table>'
 
 		+ '<hr><label>Total a pagar: '
-		+ '<button class="btn btn-link" onclick="aviso()">'
+		+ '<button class="btn-link p-0 botao" onclick="aviso()">'
 		+ '<i class="fas fa-question"></i></button></label><br>'
 
 		+ '<div class="input-group mb-3">'

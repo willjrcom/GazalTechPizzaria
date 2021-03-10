@@ -22,12 +22,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div>
 			
 			<div class="col-md-6">
-				<label>Código de busca: <span class="alertOpcional">*</span><button class="btn btn-link" onclick="aviso()"><i class="fas fa-question"></i></button></label>
+				<label>Código de busca: <span class="alertOpcional">*</span><button class="btn btn-link p-0" onclick="aviso()"><i class="fas fa-question"></i></button></label>
 				<p id="avisoCod">Código já cadastrado, tente outro!</p>
 				<input type="text" class="form-control pula" id="codigoBusca" placeholder="Código de busca"/>
 			</div>
 		</div>
 		
+		<br>
 		<div class="row">
 			<div class="col-md-6">
 				<label>Preço: (tam. Grande - padrão) G <span class="alertOpcional">*</span></label><br>
@@ -46,7 +47,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 		
 		<div class="form-group">
-			<label>Setor: <span class="alertOpcional">*</span><button class="btn btn-link" onclick="aviso1()"><i class="fas fa-question"></i></button></label>
+			<label>Setor: <span class="alertOpcional">*</span><button class="btn btn-link p-0" onclick="aviso1()"><i class="fas fa-question"></i></button></label>
 			<select class="form-control" id="setor" required>
 				<option value="PIZZA">Pizza</option>
 				<option value="BORDA">Borda</option>
@@ -61,11 +62,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<div class="form-check form-switch">
 		  <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked disponivel" checked>
 		  <label class="form-check-label" for="flexSwitchCheckChecked">Disponivel para venda? (Altere sempre que necessário).
-			 <button class="btn btn-link" onclick="aviso2()"><i class="fas fa-question"></i></button></label>
+			 <button class="btn btn-link p-0" onclick="aviso2()"><i class="fas fa-question"></i></button></label>
 		</div>
 		
 		<div class="form-group">
-			<label>Descrição do produto: <button class="btn btn-link" onclick="aviso3()"><i class="fas fa-question"></i></button></label>
+			<label>Descrição do produto: <button class="btn btn-link p-0" onclick="aviso3()"><i class="fas fa-question"></i></button></label>
 			<textarea class="form-control" id="descricao" rows="5" placeholder="Descrição do produto"></textarea>  
 		</div>
 		
