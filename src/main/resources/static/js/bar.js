@@ -3,7 +3,7 @@ var [pedidos, produtos, pizzas] = [[], [], []];
 var linhaHtml = "";
 var impressaoPedido;
 
-$(document).ready(() => $("#nomePagina").text("Bar"));
+$(document).ready(() => $("#nomePagina").text("Cozinha Geral"));
 $("#filtro").selectmenu().addClass("overflow");
 $("#setor").selectmenu().addClass("overflow");
 
