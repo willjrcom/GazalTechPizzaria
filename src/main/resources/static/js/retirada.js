@@ -1,8 +1,6 @@
 var pedidos = [];
 var linhaHtml= "";
-var linhaCinza = '<tr id="linhaCinza"><td colspan="2" class="fundoList"></td></tr>';
 var pedidoVazio = '<tr><td colspan="2">Nenhum pedido disponível!</td></tr>';
-var pedidoSemPizza = '<tr><td colspan="2">Nenhum pedido com pizza disponível!</td></tr>';
 
 carregarLoading("block");
 $(document).ready(() => $("#nomePagina").text("Retirada"));
@@ -37,13 +35,13 @@ function buscarPedidos() {
 					prontoHtml += '<tr>'
 									+ '<td class="text-center col-md-6"><h4>' + pedidos[i].comanda + '</h4></td>'
 									+ '<td class="text-center col-md-6"><h4>' + limit(pedidos[i].nome) + '</h4></td>'
-								+ '</tr>' + linhaCinza + linhaCinza;
+								+ '</tr>';
 					
 				}else if(pedidos[i].pizzas != null && pedidos[i].status == "COZINHA") {
 					andamentoHtml += '<tr>'
 									+ '<td class="text-center col-md-6"><h4>' + pedidos[i].comanda + '</h4></td>'
 									+ '<td class="text-center col-md-6"><h4>' + limit(pedidos[i].nome) + '</h4></td>'
-								+ '</tr>' + linhaCinza + linhaCinza;
+								+ '</tr>';
 				}
 			}
 			

@@ -59,10 +59,13 @@ footer {
 	display: none;
 }
 
-thead {
+thead, caption {
+	color: white;
+	text-align: center;
 	background-color: #253b80;
 }
 
+/*
 thead, tbody {
 	display: block;
 }
@@ -70,7 +73,7 @@ thead, tbody {
 tbody {
 	overflow-y: scroll;
 	max-height: 200px;
-}
+}*/
 
 thead tr th {
 	color: white;
@@ -144,7 +147,7 @@ th, td, h3, h4 {
 }
 
 .botao {
-	background-color: white;
+	background-color: white 0;
 	border: none;
 }
 
@@ -161,7 +164,7 @@ th, td, h3, h4 {
 }
 
 .fundoAlert {
-	background: rgba(220, 20, 60, 0.3);
+	background-color: red;
 	color: black;
 }
 
@@ -283,8 +286,8 @@ th, td, h3, h4 {
 }
 
 .bloco {
-	padding: 2vh;
-	background-color: #B0C4DE;
+	padding: 3vh;
+	background-color: #253b80;
 }
 
 #dados {

@@ -3,7 +3,6 @@ $(document).ready(() => $("#nomePagina").text("Produtos cadastrados"));
 var produtos = [];
 var linhaHtml;
 var pedidoVazio = '<tr><td colspan="4">Nenhum produto encontrado!</td></tr>';
-var linhaCinza = '<tr><td colspan="4" class="fundoList"></td></tr>';
 
 
 $("#buscar").click(function(){
@@ -52,8 +51,7 @@ $("#buscar").click(function(){
 									+'</a>'
 								+'</div>'
 							+ '</div>'
-						+ '</td></tr>'
-					+ linhaCinza;
+						+ '</td></tr>';
 			}
 			$("#todosProdutos").html(linhaHtml);
 			$('[data-toggle="tooltip"]').tooltip();

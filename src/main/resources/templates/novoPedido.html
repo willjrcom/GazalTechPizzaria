@@ -35,7 +35,7 @@
 		</div>
 		<div id="mostrarDadosCliente">
 			<div class="table-responsive">
-				<table class="table-hover table-striped">
+				<table class="table table-striped table-hover table-sm">
 					<thead>
 						<tr>
 							<th class="text-center" colspan="4"><h5>Cliente</h5></th>
@@ -79,41 +79,38 @@
 	<!-- ------------------------------------------------------------------------------------------------- -->
 			<div class="divbase divListaGeral">
 				<div id="divPizzas" class="hidden">
-					<h3>Pizzas</h3>
-					<hr>
-					
 					<div class="btn-group fRight" role="group" aria-label="Second group">
 						<button type="button"  class="removerPizza btn btn-danger"><i class="fas fa-ban"></i> Remover ultima pizza adicionado</button>
 					</div>
 					
 					<br><br>
 					<div class="table-responsive">
-						<table>
+						<table class="table table-striped table-hover table-sm caption-top">
+							<caption>Pizzas</caption>
 							<thead>
 								<tr>
-									<th class="col-md-1"><h5>Produto</h5></th>
+									<th class="col-md-1"><h5>Pizza</h5></th>
 									<th class="col-md-1"><h5>Observação</h5></th>
 									<th class="col-md-1"><h5>R$</h5></th>
 									<th class="col-md-1"><h5>Borda Recheada</h5></th>
 								</tr>
 							</thead>
-							<tbody id="listaPizza"><tr><td colspan="7">Nenhuma pizza adicionada!</td></tr></tbody>
+							<tbody id="listaPizza"><tr><td colspan="4">Nenhuma pizza adicionada!</td></tr></tbody>
 						</table>
 					</div>
 				</div>
 				
 				<div id="divProdutos" class="hidden">
 					<hr>
-					<h3>Produtos</h3>
-					<hr>
 					
 					<div class="btn-group fRight" role="group" aria-label="Second group">
-						<button type="button"  class="removerProduto btn btn-danger"><i class="fas fa-ban"></i> Remover ultimo produto adicionado</button>
+						<button type="button"  class="removerProduto btn btn-danger"><i class="fas fa-ban"></i> Remover ultimo produto adicionada</button>
 					</div>
 					
 					<br><br>
 					<div class="table-responsive">
-						<table>
+						<table class="table table-striped table-hover table-sm caption-top">
+							<caption>Produtos</caption>
 							<thead>
 								<tr>
 									<th class="col-md-1"><h5>Produto</h5></th>
@@ -121,7 +118,7 @@
 									<th class="col-md-1"><h5>R$</h5></th>
 								</tr>
 							</thead>
-							<tbody id="listaProduto"><tr><td colspan="7">Nenhum produto adicionado!</td></tr></tbody>
+							<tbody id="listaProduto"><tr><td colspan="3">Nenhum produto adicionado!</td></tr></tbody>
 						</table>
 					</div>
 				</div>

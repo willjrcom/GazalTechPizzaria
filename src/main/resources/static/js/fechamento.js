@@ -14,8 +14,6 @@ var dinheiro = 0, cartao = 0;
 //impressao
 var [linhaPizzas, linhaProdutos, linhaBoy] = ['', '', ''];
 
-var linhaCinza = '<tr><td colspan="4" class="fundoList"></td></tr>';
-
 carregarLoading("block");
 
 
@@ -157,7 +155,7 @@ function carregarMotoboy(logmotoboys){
 		linhaBoy += '<tr>'
 				+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 20) + '</td>'
 				+ '<td class="text-center col-md-1">' + parseFloat(boy.taxa).toFixed(2) + '</td>'
-			+ '</tr>' + linhaCinza;
+			+ '</tr>';
 	}
 	
 	linhaBoy += '</tbody>'
@@ -183,7 +181,7 @@ function carregarMotoboy(logmotoboys){
 				+ '<td class="text-center col-md-1">' + boy.nome + '</td>'
 				+ '<td class="text-center col-md-1">' + boy.motoboy + '</td>'
 				+ '<td class="text-center col-md-1">R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
-			+ '</tr>' + linhaCinza;
+			+ '</tr>';
 	}
 	
 	linhaBoy += '</tbody>'

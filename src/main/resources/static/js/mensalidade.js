@@ -1,5 +1,4 @@
 var linhaHtml = '';
-var linhaCinza = '<tr><td colspan="3" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="3">Nenhuma mensalidade disponível!</td></tr>';
 $(document).ready(() => $("#nomePagina").text("Mensalidade"));
 
@@ -22,30 +21,13 @@ $.ajax({
 	for(pagamento of pagamentos){
 		linhaHtml += '<tr>'
 					+ '<td class="text-center col-md-1">' + pagamento.data.split("T")[0] + '</td>'
-					+ '<td class="text-center col-md-1">R$ ' + Number(pagamento.valor) + '</td>'
+					+ '<td class="text-center col-md-1">R$ ' + Number(pagamento.valor).toFixed(2) + '</td>'
 					+ '<td class="text-center col-md-1">' + pagamento.log + '</td>'
-				+ '</tr>' + linhaCinza;
+				+ '</tr>';
 	}
 	
 	$("#mensalidades").html(linhaHtml);
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*var url1 = "https://ws.sandbox.pagseguro.uol.com.br/pre-approvals/request/"; //recorrente
 var url2 = "https://ws.pagseguro.uol.com.br/recurring-payment/boletos"; //boleto
@@ -90,3 +72,4 @@ var dados = {
 	        }
 	    }
 	}*/
+	

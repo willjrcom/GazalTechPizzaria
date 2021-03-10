@@ -9,13 +9,13 @@
 <body>
 	
 	<div class="divbase">
-		<h1 class="h1Logo"><i class="fas fa-arrow-alt-circle-down"></i> Acompanhe seu pedido balcão</h1>
+		<h1 class="text-center"><i class="fas fa-arrow-alt-circle-down"></i> Acompanhe seu pedido - Balcão</h1>
 		<div class="table-responsive row">
-			<div  class="col-md-6">
-				<table>
+			<div class="col-md-6">
+				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th class="text-center raio20leftTop raio20RightTop" colspan="2" style="background-color: #8B0000;"><h3>Em Andamento</h3></th>
+							<th class="text-center raio20leftTop raio20RightTop bg-danger" colspan="2"><h3>Em Andamento</h3></th>
 						</tr>
 						<tr>
 							<th class="text-center col-md-6 raio20leftBottom"><h3>Comanda</h3></th>
@@ -23,15 +23,15 @@
 						</tr>
 					</thead>
 					
-					<tbody id="andamento"><tr><td colspan="2">Nenhum pedido a fazer!</td></tr></tbody>
+					<tbody id="andamento"><tr><td colspan="2">Nenhum pedido disponível!</td></tr></tbody>
 				</table>
 			</div>
 			
-			<div  class="col-md-6">
-				<table>
+			<div class="col-md-6">
+				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th class="text-center raio20leftTop raio20RightTop" colspan="2" style="background-color: green;"><h3>Pronto</h3></th>
+							<th class="text-center raio20leftTop raio20RightTop bg-success" colspan="2"><h3>Pronto</h3></th>
 						</tr>
 						<tr>
 							<th class="text-center col-md-6 raio20leftBottom"><h3>Comanda</h3></th>
@@ -39,7 +39,7 @@
 						</tr>
 					</thead>
 					
-					<tbody id="pronto"><tr><td colspan="2">Nenhum pedido pronto!</td></tr></tbody>
+					<tbody id="pronto"><tr><td colspan="2">Nenhum pedido disponível!</td></tr></tbody>
 				</table>
 			</div>
 		</div>

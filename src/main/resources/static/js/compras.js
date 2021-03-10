@@ -2,7 +2,6 @@
 var compra = {};
 var compras = [];
 var Tcompras = '';
-var linhaCinza = '<tr><td colspan="2" class="fundoList" ></td></tr>';
 
 carregarLoading("block");
 $(document).ready(() => $("#nomePagina").text("Compras do dia"));
@@ -103,7 +102,7 @@ function mostrarProdutos(e){
 			Tcompras += '<tr>'
 						+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
 						+ '<td class="text-center col-md-1">R$ ' + produto.valor.toFixed(2) + '</td>'
-					+ '</tr>' + linhaCinza;
+					+ '</tr>';
 			total += produto.valor;
 		}
 	}

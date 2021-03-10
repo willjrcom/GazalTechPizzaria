@@ -2,9 +2,6 @@ var codigo;
 var [dados, usuarios] = [{}, {}];
 var email, senha, confirmar;
 var [opSenha, confEmail] = [0, 0]; //-1 nao alterar, 0 alterar
-
-//linhas---------------------------------------------------------------------------
-var linhaCinza = '<tr id="linhaCinza"><td colspan="8" class="fundoList"></td></tr>';
 $(document).ready(() => $("#nomePagina").text("Desenvolvedor"));
 
 //---------------------------------------------------------------------------------
@@ -25,7 +22,7 @@ $.ajax({
 			usuarioHtml += '<tr>'
 				+ '<td class="col-md-1 text-center">' + usuario.codEmpresa + '</td>'
 				+ '<td class="col-md-1 text-center">' + usuario.dia + '</td>'
-				+ '<td class="col-md-1 text-center">' + usuario.dataLimite + '</td>'
+				+ '<td class="col-md-1 text-center">' + (usuario.dataLimite != null ? usuario.dataLimite : '') + '</td>'
 				+ '<td class="col-md-1 text-center">' + (usuario.empresa == null ? '' : usuario.empresa.nomeEstabelecimento) + '</td>'
 				+ '<td class="col-md-1 text-center">' + usuario.email + '</td>'
 				+ '<td class="col-md-1 text-center">' + usuario.perfil + '</td>';
@@ -48,8 +45,7 @@ $.ajax({
 				+ '</div>'
 				+ '</div>'
 				+ '</td>'
-				+ '</tr>'
-				+ linhaCinza;
+				+ '</tr>';
 
 		}
 		$("#todosUsuarios").html(usuarioHtml);
@@ -64,6 +60,7 @@ $.ajax({
 	type: 'GET'
 }).done(function(e) {
 	empresas = e;
+	console.log(e)
 	if (empresas.length == 0) {
 		$("#todosUsuarios").html('<tr><td colspan="6">Nenhuma empresa encontrada!</td></tr>');
 	} else {
@@ -83,14 +80,14 @@ $.ajax({
 			empresaHtml += '<td class="col-md-1 text-center">' + empresa.nomeEstabelecimento + '</td>'
 				+ '<td class="col-md-1 text-center">' + empresa.celular + '</td>'
 				+ '<td class="col-md-1 text-center">' + empresa.email + '</td>'
+				+ '<td class="col-md-1 text-center">' + empresa.mensalidade.length + '</td>'
 				+ '<td class="col-md-1 text-center">'
 				+ '<a title="Adicionar mensalidade" data-toggle="tooltip" data-html="true">'
 				+ '<button onclick="addMensalidade()" value="'
 				+ empresa.codEmpresa + '" class="botao"><i class="fas fa-external-link-alt"></i></button>'
 				+ '</a>'
 				+ '</td>'
-				+ '</tr>'
-				+ linhaCinza;
+				+ '</tr>';
 
 		}
 		$("#todosEmpresas").html(empresaHtml);

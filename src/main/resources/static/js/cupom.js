@@ -2,7 +2,6 @@
 var cupom = {};
 var Tcupons = '';
 var todosCupons = [];
-var linhaCinza = '<tr id="linhaCinza"><td colspan="7" class="fundoList" ></td></tr>';
 
 carregarLoading("block");
 $(document).ready(() => $("#nomePagina").text("Cupom"));
@@ -118,7 +117,7 @@ function mostrarCupons(){
 								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><i class="fas fa-edit"></i></button>'
 								+ '&nbsp;'
 								+ '<button class="btn btn-danger" value="' + cupom.id + '" onclick="excluirCupom()"><i class="fas fa-trash"></i></button>'
-						+ '</tr>' + linhaCinza;
+						+ '</tr>';
 			}
 		}else {
 			Tcupons = '<tr><td class="text-center col-md-1" colspan="5">Nenhum cupom cadastrado</td></tr>';

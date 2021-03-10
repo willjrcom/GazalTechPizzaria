@@ -30,37 +30,37 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<br>
 		<div class="row">
 			<div class="col-md-6 bloco border">
-		 		 <h2 align="center">Lucro bruto/líquido</h2>
+		 		 <h4 align="center" class="text-white">Lucro bruto/líquido</h4>
 		 		 <div class="border border-dark" id="totalVendas"></div>
 			</div>
 			<div class="col-md-6 bloco border">
-		 		 <h2 align="center">Comparativo de vendas</h2>
+		 		 <h4 align="center" class="text-white">Comparativo de vendas</h4>
 		 		 <div class="border border-dark" id="entregaBalcao"></div>
 			</div>
 		</div>
-		
+		<br>
 		<div class="row">
 			<div class="col-md-4 bloco border">
-				<h2 align="center">Crescimento da empresa</h2>
+				<h4 align="center" class="text-white">Crescimento da empresa</h4>
 				<div align="center" class="bg-light border border-dark"><label id="taxaCrescimento"><b>- 0.00 %</b></label></div>
 			</div>
 			
 			
 			<div class="col-md-4 bloco border">
-				<h2 align="center">Desvio padrão</h2>
+				<h4 align="center" class="text-white">Desvio padrão</h4>
 				<div align="center" class="bg-light border border-dark"><label id="desvioPadrao"><b>EM BREVE</b></label></div>
 			</div>
 			
 			<div class="col-md-4 bloco border">
-				<h2 align="center">Tendência</h2>
+				<h4 align="center" class="text-white">Tendência</h4>
 				<div align="center" class="bg-light border border-dark"><label id="tendencia"><b>EM BREVE</b></label></div>
 			</div>
 		</div>
-		
+		<br>
 		<div class="bloco border">
-	 		 <h2 align="center">Resumo</h2>
-	 		 <div class="table-responsive bg-white border border-dark">
-	 		 	<table class="table table-striped table-hover">
+	 		 <div class="table-responsive bg-white border">
+	 		 	<table class="table table-striped table-hover caption-top">
+	 		 		<caption>Resumo</caption>
 	 		 		<thead>
 	 		 			<tr>
 	 		 				<th class="text-center col-md-1">Dia</th>
@@ -72,7 +72,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	 		 				<th class="text-center col-md-1">Lucro liquído</th>
 	 		 			</tr>
 	 		 		</thead>
-	 		 		<tbody id="gerarDadosMensal" class="overflow-auto" style="max-height: 50vh; overflow: auto"><tr><td colspan="7">Nenhum dado encontrado!</td></tr></tbody>
+	 		 		<tbody id="gerarDadosMensal"><tr><td colspan="7">Nenhum dado encontrado!</td></tr></tbody>
 	 		 		<tfoot id="geralDadosSoma"></tfoot>
 	 		 	</table>
 	 		 </div>

@@ -3,8 +3,6 @@ $(document).ready(() => $("#nomePagina").text("Clientes cadastrados"));
 var clientes = [];
 var linhaHtml;
 var pedidoVazio = '<tr><td colspan="4">Nenhum cliente encontrado!</td></tr>';
-var linhaCinza = '<tr id="linhaCinza"><td colspan="4" class="fundoList"></td></tr>';
-
 
 $("#buscar").click(function(){
 	carregarLoading("block");
@@ -57,8 +55,7 @@ $("#buscar").click(function(){
 									+'</a>'
 								+'</div>'
 							+'</div>'
-						+ '</td></tr>'
-						+ linhaCinza;
+						+ '</td></tr>';
 			}
 			$("#todosClientes").html(linhaHtml);
 			$('[data-toggle="tooltip"]').tooltip();

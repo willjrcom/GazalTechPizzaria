@@ -3,7 +3,6 @@ $("#filtro").selectmenu().addClass("overflow");
 var pedidos = [];
 var funcionarios = [];
 var linhaHtml= "";
-var linhaCinza = '<tr><td colspan="6" class="fundoList" ></td></tr>';
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido em aberto!</td></tr>';
 var Tpedidos = 0, totalPedidos = 0;
 var totalTodosProdutos = 0;
@@ -109,8 +108,7 @@ function mostrar(pedidos, filtro) {
 							+'</a>'
 						+'</div>'
 					+ '</td></tr>'
-				+ '<tr>'
-			+ linhaCinza;
+				+ '<tr>';
 		}
 	}
 
@@ -213,13 +211,13 @@ function mostrarProdutosPedido(cliente){
 	for(pizza of cliente.pizzas) Tpizzas += pizza.qtd;
 	
 	if(cliente.pizzas.length != 0) {
-		linhaHtml += '<table>'
-					+ '<tr>'
+		linhaHtml += '<table class="table table-striped table-hover">'
+					+ '<thead><tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
 						+ '<th class="col-md-1"><h5>Borda</h5></th>'
-					+ '</tr>';
+					+ '</tr></thead>';
 		
 		for(pizza of cliente.pizzas){
 			linhaHtml += '<tr>'
@@ -233,12 +231,12 @@ function mostrarProdutosPedido(cliente){
 	}
 	
 	if(cliente.produtos.length != 0) {
-		linhaHtml += '<table>'
-					+ '<tr>'
+		linhaHtml += '<table class="table table-striped table-hover">'
+					+ '<thead><tr>'
 						+ '<th class="col-md-1"><h5>Sabor</h5></th>'
 						+ '<th class="col-md-1"><h5>Obs</h5></th>'
 						+ '<th class="col-md-1"><h5>Preço</h5></th>'
-					+ '</tr>';
+					+ '</tr></thead>';
 		
 		for(produto of cliente.produtos){
 			linhaHtml += '<tr>'
