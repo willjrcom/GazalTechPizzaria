@@ -1,12 +1,11 @@
-
+var [TnovosPedidos, TvelhosPedidos, Tpizzas, AllPizzas, divisao] = [0, 0, 0, 0, 0];
 var [pedidos, produtos, pizzas] = [[], [], []];
 var linhaHtml = "";
-var pedidoVazio = '<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>';
-var [Tpedidos, totalPedidos] = [0, 0];
-var divisao, impressaoPedido;
+var impressaoPedido;
 
-carregarLoading("block");
 $(document).ready(() => $("#nomePagina").text("Bar"));
+$("#filtro").selectmenu().addClass("overflow");
+$("#setor").selectmenu().addClass("overflow");
 
 //-------------------------------------------------------------------------------------------------------------------
 $("#ativarAudio").on('click', () => {
@@ -14,120 +13,121 @@ $("#ativarAudio").on('click', () => {
 });
 
 function buscarPedido() {
-	pedidos = [];
-	produtos = [];
-	pizzas = [];
-	Tpedidos = 0;
-	Tpizzas = 0;
+	[produtos, pizzas] = [[], []];
 	AllPizzas = 0;
+	carregarLoading("block");
 
 	$.ajax({
-		url: "/bar/todosPedidos",
-		type: 'GET',
-		beforeSend: function() {
-			$("#alertaPedidos").hide();
-		}
+		url: "/bar/todosPedidos/",
+		type: 'GET'
 	}).done(function(e) {
-		pedidos = e;
-		for (pedido of pedidos) {
-			Tpedidos++;
-			if (pedido.pizzas != null) {
+		//se o pedido vazio
+		if (e.length == 0) {
+			$("#todosPedidos").html('<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>');
+			return 300;
+		}
+
+		//salvar total de novos pedidos
+		TnovosPedidos = e.length;
+
+		//se houver diferenca de quantidade anterior e atual
+		if (TvelhosPedidos != TnovosPedidos) {
+			pedidos = salvarPedidos(e);
+
+			for (pedido of pedidos) {
 				pedido.pizzas = JSON.parse(pedido.pizzas);
-				for (pizza of pedido.pizzas) {
-					AllPizzas += pizza.qtd;
-				}
+				//contar total de pizzas
+				for (pizza of pedido.pizzas) AllPizzas += pizza.qtd;
+
 			}
-		}
-		if (AllPizzas == 1) {
-			$("#totalPizzas").val(AllPizzas + ' Bebida a fazer');
-		} else {
-			$("#totalPizzas").val(AllPizzas + ' Bebidas a fazer');
-		}
+			//mostrar total de pizzas a fazer
+			if (AllPizzas == 1) $("#totalPizzas").val(AllPizzas + ' Item a fazer');
+			else $("#totalPizzas").val(AllPizzas + ' Itens a fazer');
 
-		if (pedidos.length == 0)
-			$("#todosPedidos").html(pedidoVazio);
+			tocarSom();
+			mostrar();
 
-		if (totalPedidos != Tpedidos) {
-			//ativar so de novos pedidos
-			let startPlayPromise = document.getElementById('audio').play();
-
-			if (startPlayPromise !== undefined) {
-				startPlayPromise.then(() => {
-					document.getElementById('audio').play();
-				}).catch(error => {
-					if (error.name === "NotAllowedError") {
-						$("#ativarAudio").show('show');
-					} else {
-						$("#ativarAudio").show('show');
-					}
-				});
-			}
-
-			linhaHtml = "";
-			for ([i, pedido] of pedidos.entries()) {
-				if (pedido.pizzas != null) {
-					divisao = 1;
-					for ([j, pizza] of pedido.pizzas.entries()) {
-						linhaHtml += '<tr>';
-
-						if (j == 0) {//se for a primeira linha de cada pedido
-							linhaHtml += '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-								+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
-						} else if (j == 1) {//se for a segunda linha de cada pedido
-							Tpizzas = 0;
-							for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
-
-							//singular
-							if (Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' bebida</td>';
-							//plural
-							else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' bebidas</td>';
-
-
-						} else {//se for 3 linha a frente
-							linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
-						}
-
-						//mostrar pizza
-						linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor
-							//descricao
-							+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="btn-link botao p-0" onclick="descricao()" value="'
-								+ pizza.descricao + '"><i class="fas fa-question"></i></td>' : "")
-							//obs
-							+ (pizza.obs !== ""
-								? '<td class="text-center col-md-1 bg-danger text-white">' + pizza.obs + '</td>'
-								: '<td class="text-center col-md-1"></td>');
-						if (j == 0) {
-							linhaHtml += '<td class="text-center col-md-1">'
-								+ '<a class="enviarPedido">'
-								+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
-								+ 'value="' + pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'
-								+ '</tr>';
-						} else {
-							linhaHtml += '<td></td>';
-						}
-
-						if (divisao - pizza.qtd <= 0) {
-							divisao = 1;
-						} else {
-							divisao -= pizza.qtd;
-						}
-					}
-				}
-				linhaHtml += '<tr><td colspan="6"></td></tr>';
-			}
-			if (linhaHtml != "") {
-				$("#todosPedidos").html(linhaHtml);
-			} else {
-				$("#todosPedidos").html(pedidoVazio);
-			}
+			//atualizar total de pedidos
+			TvelhosPedidos = TnovosPedidos;
 		}
 
 		try { $("#enviar")[0].focus(); } catch { }
 
-		totalPedidos = Tpedidos;
 		carregarLoading("none");
 	});
 };
+
+buscarPedido();
+
+setInterval(function() {
+	buscarPedido();
+}, 10000);//recarregar a cada 10 segundos
+
+
+function salvarPedidos(e) {
+	return pedidos = e;;
+}
+
+
+//--------------------------------------------------------------------------
+function filtrar() {
+	mostrar();
+}
+
+
+//----------------------------------------------------------------------------------------------------------
+function mostrar() {
+	linhaHtml = "";
+	for ([i, pedido] of pedidos.entries()) {
+		if ($("#filtro").val() == pedido.envio || $("#filtro").val() == 'TODOS') {
+			divisao = 1;
+			for ([j, pizza] of pedido.pizzas.entries()) {
+				if ($("#setor").val() == pizza.setor) {
+					linhaHtml += '<tr>';
+
+					if (j == 0) {//se for a primeira linha de cada pedido
+						linhaHtml += '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
+							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
+					} else if (j == 1) {//se for a segunda linha de cada pedido
+						Tpizzas = 0;
+						for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
+
+						//singular
+						if (Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizza</td>';
+						//plural
+						else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+
+
+					} else {//se for 3 linha a frente
+						linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
+					}
+
+					//mostrar pizza
+					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor
+						//descricao
+						+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="btn-link botao p-0" onclick="descricao()" value="'
+							+ pizza.descricao + '"><i class="fas fa-question"></i></td>' : "")
+						//obs
+						+ (pizza.obs != ""
+							? '<td class="text-center col-md-1 bg-danger text-white">' + pizza.obs + '</td>'
+							: '<td class="text-center col-md-1"></td>');
+					if (j == 0) {
+						linhaHtml += '<td class="text-center col-md-1">'
+							+ '<a class="enviarPedido">'
+							+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
+							+ 'value="' + pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'
+							+ '</tr>';
+					} else {
+						linhaHtml += '<td></td></tr>';
+					}
+				}
+			}
+			linhaHtml += '<tr><td colspan="6"></td></tr>';
+		}
+	}
+	if (linhaHtml != "") $("#todosPedidos").html(linhaHtml);
+	else $("#todosPedidos").html('<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>');
+}
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -221,4 +221,22 @@ function imprimir(cliente) {
 		contentType: "application/json",
 		data: JSON.stringify(impressaoPedido)
 	});
+}
+
+
+function tocarSom() {
+	//ativar som de novos pedidos
+	let startPlayPromise = document.getElementById('audio').play();
+
+	if (startPlayPromise !== undefined) {
+		startPlayPromise.then(() => {
+			document.getElementById('audio').play();
+		}).catch(error => {
+			if (error.name === "NotAllowedError") {
+				$("#ativarAudio").show('show');
+			} else {
+				$("#ativarAudio").show('show');
+			}
+		});
+	}
 }

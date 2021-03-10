@@ -34,7 +34,7 @@ public class PedidoTemp extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String data;
 
-	private int setor; //1 - pizza / 2 - bar
+	private int setor; //1 - pizza / 2 - outros
 	
 	private int codEmpresa;
 	
