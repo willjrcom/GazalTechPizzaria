@@ -31,4 +31,6 @@ public interface Produtos extends JpaRepository<Produto, Long>{
 	@Query("SELECT COUNT(u) FROM Produto u WHERE u.codEmpresa=:cod")
     public int totalProdutos(@Param("cod") int codEmpresa);
 
+	@Query("SELECT nome, setor FROM Produto u WHERE u.codEmpresa=:cod AND u.setor != 'BORDA' ")
+	public List<String> nomesProdutos(@Param("cod") int codEmpresa);
 }

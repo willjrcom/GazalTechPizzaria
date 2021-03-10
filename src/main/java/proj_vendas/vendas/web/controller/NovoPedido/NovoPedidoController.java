@@ -217,6 +217,16 @@ public class NovoPedidoController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return empresas.findByCodEmpresa(user.getCodEmpresa()).getCupom();
 	}
+	
+	
+	@RequestMapping("/autoComplete")
+	@ResponseBody
+	public List<String> autoComplete() {
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		return produtos.nomesProdutos(user.getCodEmpresa());
+	}
+	
 
 	@RequestMapping("/garcons")
 	@ResponseBody

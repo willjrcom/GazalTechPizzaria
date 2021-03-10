@@ -74,7 +74,6 @@ tbody {
 	overflow-y: scroll;
 	max-height: 200px;
 }*/
-
 thead tr th {
 	color: white;
 }
@@ -288,6 +287,20 @@ th, td, h3, h4 {
 .bloco {
 	padding: 3vh;
 	background-color: #253b80;
+}
+
+.ui-autocomplete-category {
+	font-weight: bold;
+	padding: .2em .4em;
+	margin: .8em 0 .2em;
+	line-height: 1.5;
+}
+
+.ui-autocomplete {
+	max-height: 200px;
+	overflow-y: auto;
+	/* prevent horizontal scrollbar */
+	overflow-x: hidden;
 }
 
 #dados {

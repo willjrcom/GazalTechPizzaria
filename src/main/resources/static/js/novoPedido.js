@@ -340,6 +340,7 @@ function buscarCliente() {
 
 //------------------------------------------------------------------------------------
 function mostrarDivsPedido() {
+	buscarProdutosAutoComplete();
 	if (cliente.envio == "ENTREGA") {
 		$("#envioCliente").append('<option value="ENTREGA">Entrega</option>'
 			+ '<option value="BALCAO">Balcão</option>'
@@ -1260,3 +1261,50 @@ function confirmarTamanho() {
 		mostrarPrecoProduto(produto.precoG);
 	}
 }
+
+
+function buscarProdutosAutoComplete() {
+	$.widget("custom.catcomplete", $.ui.autocomplete, {
+		_create: function() {
+			this._super();
+			this.widget().menu("option", "items", "> :not(.ui-autocomplete-category)");
+		},
+		_renderMenu: function(ul, items) {
+			var that = this,
+				currentCategory = "";
+			$.each(items, function(index, item) {
+				var li;
+				if (item.category != currentCategory) {
+					ul.append("<li class='ui-autocomplete-category'>" + item.category + "</li>");
+					currentCategory = item.category;
+				}
+				li = that._renderItemData(ul, item);
+				if (item.category) {
+					li.attr("aria-label", item.category + " : " + item.label);
+				}
+			});
+		}
+	});
+
+	$.ajax({
+		url: '/novoPedido/autoComplete',
+		type: 'GET'
+	}).done(e => {
+		console.log(e)
+		let Produto = {};
+		let arrayProdutosAutoComplete = [];
+		for (let produto of e) {
+			Produto = {};
+			[Produto.label, Produto.category] = produto.split(',');
+			arrayProdutosAutoComplete.push(Produto);
+		}
+		//ordenar vetor decrescente
+		const arrayProdutosAutoCompleteOrder = arrayProdutosAutoComplete.sort((a, b) => (a.category > b.category) ? 1 : ((b.category > a.category) ? -1 : 0));
+		
+		console.log(arrayProdutosAutoCompleteOrder)
+		$("#nome").catcomplete({
+			source: arrayProdutosAutoCompleteOrder
+		});
+	});
+}
+//}).done(e => $("#nome").autocomplete({source: e}));
