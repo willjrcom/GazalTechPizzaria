@@ -53,11 +53,11 @@ public class Top10Controller {
 	
 	@RequestMapping("/top10/clientes")
 	@ResponseBody
-	public String top10() {
+	public List<String> top10() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return clientes.top10Clientes(user.getCodEmpresa()).toString();
+		return clientes.top10Clientes(user.getCodEmpresa());
 	}
 	
 	@RequestMapping("/top10/mesas")
