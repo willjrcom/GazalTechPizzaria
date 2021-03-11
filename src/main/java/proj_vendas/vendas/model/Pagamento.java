@@ -2,8 +2,8 @@ package proj_vendas.vendas.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,18 +13,19 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
+@Table(indexes = @Index(name = "data_index", columnList = "data"))
 public class Pagamento extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String usuario;
 	
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private String data;
 	
 	@Column(nullable=false)
 	private String logData;
 	
 	private int horas = 0;
+	private float taxas = 0;
 	private float gastos = 0;
 	private float diarias = 0;
 	private float pago = 0;

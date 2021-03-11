@@ -9,5 +9,4 @@ import proj_vendas.vendas.model.Divulgar;
 @Transactional(readOnly = true) //evitar duplo acesso ao banco
 @Repository
 public interface Divulgacoes extends JpaRepository<Divulgar, Long>{
-
 }

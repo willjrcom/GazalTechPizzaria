@@ -2,6 +2,8 @@ $(document).ready(() => $("#nomePagina").text("Estatísticas"));
 var [todosDados, objeto, objeto1, dados, dados1] = [[], [], [], [], []];
 var [dataInicio, dataFinal, dataAtual] = [0, 0];
 var [taxaCrescimentoInicio, taxaCrescimentoFinal, totalDados] = [0, 0, 0]
+var [totalVendas, totalLucro, taxa_entrega, totalPizza, totalPedidos, totalCompras, compraDiaria] = [0, 0, 0, 0, 0, 0, 0];
+let [todosBalcao, todosEntrega, todosMesa, todosDrive] = [0, 0, 0, 0];
 
 function filtrar() {
 	carregarLoading("block");
@@ -49,7 +51,7 @@ function gerarTotalVendas() {
 	data.addColumn('string', 'X');
 	data.addColumn('number', 'Bruto');
 	data.addColumn('number', 'Líquido');
-	
+
 	objeto.sort(function(a, b) {
 		return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2])
 			? 1
@@ -88,7 +90,7 @@ function gerarTotalVendas() {
 //--------------------------------------------------------------------------------------------
 function gerarEntregas() {
 	let data1 = null;
-	let [todosBalcao, todosEntrega, todosMesa, todosDrive] = [0, 0, 0, 0];
+	[todosBalcao, todosEntrega, todosMesa, todosDrive] = [0, 0, 0, 0];
 	/*
 	  objeto1.sort(function (a, b) {
 			return (a.data.split('-')[0] + a.data.split('-')[1] + a.data.split('-')[2] > b.data.split('-')[0] + b.data.split('-')[1] + b.data.split('-')[2]) 
@@ -125,8 +127,9 @@ function gerarEntregas() {
 //--------------------------------------------------------------------------------------------
 function gerarDadosMensal() {
 	let linhaHtml = '';
-	let [totalVendas, totalLucro, taxa_entrega, totalPizza, totalPedidos, totalCompras, compraDiaria] = [0, 0, 0, 0, 0, 0, 0];
-
+	[totalVendas, totalLucro, taxa_entrega, totalPizza, totalPedidos, totalCompras, compraDiaria] = [0, 0, 0, 0, 0, 0, 0];
+	[taxaCrescimentoInicio, taxaCrescimentoFinal] = [0, 0];
+	
 	for ([i, dado] of todosDados.entries()) {
 		//se for menor que a metade
 		if (i < todosDados.length / 2 && dado.totalVendas != 0) {
@@ -178,11 +181,14 @@ function gerarDadosMensal() {
 			+ '<i class="fas fa-arrow-up"></i> '
 			+ Math.pow(taxaCrescimentoFinal - taxaCrescimentoInicio, 1 / totalDados).toFixed(2)
 			+ ' %</b></label>');
-	else
+	else if ((taxaCrescimentoFinal - taxaCrescimentoInicio) < 0)
 		$("#taxaCrescimento").html('<label class="text-danger"><b>'
 			+ '<i class="fas fa-arrow-down"></i> '
 			+ Math.pow((taxaCrescimentoFinal - taxaCrescimentoInicio) * (-1), 1 / totalDados).toFixed(2)
 			+ ' %</b></label>');
+	else if ((taxaCrescimentoFinal - taxaCrescimentoInicio) == 0)
+		$("#taxaCrescimento").html('<label class="text-warning"><b>'
+			+ '<i class="fas fa-arrow-down"></i> 0.00 %</b></label>');
 }
 
 

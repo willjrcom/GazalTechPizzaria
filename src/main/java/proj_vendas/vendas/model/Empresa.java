@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,7 +18,7 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "EMPRESA")
+@Table(name = "EMPRESA", indexes = @Index(name = "codEmpresa_index", columnList = "codEmpresa"))
 public class Empresa extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)
@@ -56,6 +57,18 @@ public class Empresa extends AbstractEntity<Long>{
 	private Conquista conquista;
 	
 	@OneToMany(cascade = CascadeType.ALL)
+	private List<Cliente> cliente;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Funcionario> funcionario;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Produto> produto;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Dado> dado;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Mensalidade> mensalidade;
 
 	@OneToMany(cascade = CascadeType.ALL)
@@ -66,4 +79,7 @@ public class Empresa extends AbstractEntity<Long>{
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<LogPizza> logPizza;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<FichaTecnica> fichaTecnica;
 }

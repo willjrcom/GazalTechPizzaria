@@ -120,6 +120,9 @@ public class NovoPedidoController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		SimpleDateFormat formatHora = new SimpleDateFormat("dd/MM/yyyy kk:mm");
 
+		pedido.setCodEmpresa(user.getCodEmpresa());
+		pedido.setStatus("PRONTO");
+
 		// novo pedido
 		if (pedido.getId() == null) {
 			// setar hora
@@ -142,12 +145,11 @@ public class NovoPedidoController {
 			// ativar conquista
 			Conquista conquista = empresa.getConquista();
 			liberarConquistas(conquista, empresa);
+
 		}
+		pedidos.save(pedido);
 
-		pedido.setCodEmpresa(user.getCodEmpresa());
-		pedido.setStatus("PRONTO");
-
-		return ResponseEntity.ok(pedidos.save(pedido)); // salvar pedido
+		return ResponseEntity.ok(pedido); // salvar pedido
 	}
 
 	@RequestMapping(value = "/editarPedido/{id}")
@@ -155,7 +157,7 @@ public class NovoPedidoController {
 	public ResponseEntity<Pedido> editarPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		Pedido pedido = pedidos.findByIdAndCodEmpresa(id, user.getCodEmpresa());
+		Pedido pedido = pedidos.findById(id).get();
 
 		if (pedido.getCodEmpresa() == user.getCodEmpresa())
 			return ResponseEntity.ok(pedido);
@@ -186,6 +188,7 @@ public class NovoPedidoController {
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-");
 		SimpleDateFormat diaString = new SimpleDateFormat("dd");
 		SimpleDateFormat hora = new SimpleDateFormat("kk:mm");
@@ -198,6 +201,7 @@ public class NovoPedidoController {
 		temp.setCodEmpresa(user.getCodEmpresa());
 		temp.setData(user.getDia());
 		temp.setStatus("COZINHA");
+
 		temps.save(temp);
 	}
 
@@ -217,8 +221,7 @@ public class NovoPedidoController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return empresas.findByCodEmpresa(user.getCodEmpresa()).getCupom();
 	}
-	
-	
+
 	@RequestMapping("/autoComplete")
 	@ResponseBody
 	public List<String> autoComplete() {
@@ -226,7 +229,6 @@ public class NovoPedidoController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return produtos.nomesProdutos(user.getCodEmpresa());
 	}
-	
 
 	@RequestMapping("/garcons")
 	@ResponseBody

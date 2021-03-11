@@ -38,13 +38,12 @@ public class BarController{
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-
 		return temps.findByCodEmpresaAndSetorAndStatus(user.getCodEmpresa(), 2, "COZINHA"); //mostrar todos temporarios
 	}
 	
 	@RequestMapping(value = "/enviarPedido/{id}")
 	@ResponseBody
-	public PedidoTemp enviarPedido(@PathVariable long id) {//falta enviar as outras variaveis
+	public PedidoTemp enviarPedido(@PathVariable long id) {
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd kk");
 		SimpleDateFormat minutoString = new SimpleDateFormat("mm");
 		int minutoInt = Integer.parseInt(minutoString.format(new Date()));

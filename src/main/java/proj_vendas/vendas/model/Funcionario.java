@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -24,7 +25,13 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @EqualsAndHashCode(callSuper=true)
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "FUNCIONARIO")
+@Table(name = "FUNCIONARIO", indexes = { 
+		@Index(name = "codEmpresa_index", columnList = "codEmpresa"),
+		@Index(name = "nome_index", columnList = "nome"), 
+		@Index(name = "cpf_index", columnList = "cpf"),
+		@Index(name = "celular_index", columnList = "celular"),
+		@Index(name = "cargo_index", columnList = "cargo")
+})
 public class Funcionario extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)

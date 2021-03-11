@@ -15,8 +15,6 @@ import proj_vendas.vendas.model.Pedido;
 public interface Pedidos extends JpaRepository<Pedido, Long>{
 	
 	public Pedido findByCodEmpresaAndDataAndNomeAndStatusNotAndStatusNot(int codEmpresa, String data, String nome, String statusNot, String statusNot2);
-
-	public Pedido findByIdAndCodEmpresa(long id, int codEmpresa);
 	
 	public List<Pedido> findByCodEmpresaAndDataAndStatus(int codEmpresa, String data, String status);
 
