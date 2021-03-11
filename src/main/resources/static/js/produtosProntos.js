@@ -7,7 +7,7 @@ var Tpizzas = 0;
 var divisao;
 
 carregarLoading("block");
-$(document).ready(() => $("#nomePagina").text("Saída do bar"));
+$(document).ready(() => $("#nomePagina").text("Produtos prontos"));
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
@@ -18,15 +18,15 @@ function buscarPedidos() {
 	Tpizzas = 0;
 
 	$.ajax({
-		url: "/saidaBar/todosPedidos",
+		url: "/produtosProntos/todosPedidos",
 		type: 'GET'
 	}).done(function(e) {
 
 		pedidos = e;
-		for (var i = 0; i < e.length; i++) {
-			if (pedidos[i].pizzas != null) {
+		for (pedido of pedidos) {
+			if (pedido.pizzas != null) {
 				Tpedidos++;
-				pedidos[i].pizzas = JSON.parse(pedidos[i].pizzas);
+				pedido.pizzas = JSON.parse(pedido.pizzas);
 			}
 		}
 
@@ -56,9 +56,9 @@ function filtrar() {
 //-----------------------------------------------
 function mostrar(pedidos, filtro) {
 	linhaHtml = "";
-	for ([i, pedido] of pedidos.entries()) {//cada pedido
 
-		if (filtro == pedido.status || filtro == "TODOS") {//filtrar pedidos
+	for ([i, pedido] of pedidos.entries()) {//cada pedido
+		if (filtro === pedido.status || filtro == "TODOS") {//filtrar pedidos
 			if (pedido.pizzas != null) {
 				divisao = 1;
 				for ([j, pizza] of pedido.pizzas.entries()) {//cada pizza
@@ -66,23 +66,28 @@ function mostrar(pedidos, filtro) {
 
 					//adicionar total de pizzas
 					if (j == 0) {
-						linhaHtml += '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-							+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+						linhaHtml += '<td class="text-center col-md-1">'+ pedido.comanda + ' - ' + pedido.nome + '</td>'
 
 					} else if (j == 1) {
 						Tpizzas = 0;
 						for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd; //contar pizzas
 
-						if (Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizza</td>';
-						else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+						if (Tpizzas == 1)
+							linhaHtml += '<td class="text-center col-md-1">Total: '
+								+ Tpizzas + ' Item</td>';
+						else
+							linhaHtml += '<td class="text-center col-md-1">Total: '
+								+ Tpizzas + ' Itens</td>';
 
 					} else {
-						linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
+						linhaHtml += '<td class="text-center col-md-1"></td>';
 					}
 
 					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
-						+ (pizza.obs !== "" ? '<td class="text-center col-md-1" class="fundoAlert">' + pizza.obs + '</td>'
-							: '<td class="text-center col-md-1">' + pizza.obs + '</td>');
+						+ (pizza.obs !== ""
+							? ('<td class="text-center col-md-1" class="fundoAlert">' + pizza.obs + '</td>')
+							: ('<td class="text-center col-md-1">' + pizza.obs + '</td>'))
+						+ '<td class="text-center col-md-1">' + pizza.borda + '</td>';
 
 					//verificar a situacao do pedido
 					if (pedido.status == "PRONTO" && j == 0) {
@@ -90,6 +95,7 @@ function mostrar(pedidos, filtro) {
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success"'
 							+ 'value="' + pedido.id + '">Pronto</button></a></td>';
+
 					} else if (pedido.status == "COZINHA" && j == 0) {
 						linhaHtml += '<td class="text-center col-md-1">'
 							+ '<a class="enviarPedido">'

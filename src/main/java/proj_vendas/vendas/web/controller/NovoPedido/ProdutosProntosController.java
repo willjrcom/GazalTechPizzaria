@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,18 +18,18 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/bar")
-public class BarController{
+@RequestMapping("/produtosProntos")
+public class ProdutosProntosController{
 	
 	@Autowired
 	private PedidoTemps temps;
-	
+
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@RequestMapping
-	public ModelAndView Cozinha() {
-		return new ModelAndView("bar");
+	public ModelAndView tela() {
+		return new ModelAndView("produtosProntos");
 	}
 	
 	@RequestMapping(value = "/todosPedidos")
@@ -38,29 +37,17 @@ public class BarController{
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		return temps.findByCodEmpresaAndSetorAndStatus(user.getCodEmpresa(), 2, "COZINHA"); //mostrar todos temporarios
-	}
-	
-	@RequestMapping(value = "/enviarPedido/{id}")
-	@ResponseBody
-	public PedidoTemp enviarPedido(@PathVariable long id) {
-		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd kk");
-		SimpleDateFormat minutoString = new SimpleDateFormat("mm");
-		int minutoInt = Integer.parseInt(minutoString.format(new Date()));
-		
-		//pedido temp do cliente
-		PedidoTemp pedido = temps.findById((long)id).get();
+		List<PedidoTemp> pedidos = temps.findByCodEmpresaAndSetor(user.getCodEmpresa(), 1);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
-		//permite 4 minutos;
-		minutoInt += 4;
-		
-		pedido.setValidade(data.format(new Date()) + ":" + minutoInt);
-		pedido.setStatus("PRONTO");
-		return temps.save(pedido);
+		for(int i = 0; i < pedidos.size(); i++) {
+			if(pedidos.get(i).getStatus().equals("PRONTO")) {
+				if(pedidos.get(i).getValidade().compareTo(format.format(new Date()).toString()) < 0) {
+					temps.deleteById(pedidos.get(i).getId());
+					pedidos.remove(i);
+				}
+			}
+		}
+		return pedidos; //mostrar todos
 	}
-	/*
-	@RemoteMethod
-	public synchronized void init() {
-		System.out.println("dwr ativado ----------------");
-	}*/
 }

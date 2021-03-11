@@ -26,4 +26,6 @@ public interface PedidoTemps extends JpaRepository<PedidoTemp, Long>{
 	
 	@Query("SELECT COUNT(u) FROM PedidoTemp u WHERE u.codEmpresa=:cod AND u.data=:dia AND u.status=:status")
     public int totalPedidos(@Param("cod") int codEmpresa, @Param("dia") String dia, @Param("status") String status);
+
+	public List<PedidoTemp> findByCodEmpresaAndStatus(int codEmpresa, String status);
 }

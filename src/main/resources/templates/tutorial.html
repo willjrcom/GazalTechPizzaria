@@ -56,10 +56,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				    	<li><a href="#tabs-2">Entregar</a></li>
 				    	<li><a href="#tabs-3">Finalizar</a></li>
 				    	<li><a href="#tabs-4">Cozinha</a></li>
-				    	<li><a href="#tabs-5">Saída forno</a></li>
+				    	<li><a href="#tabs-5">Produtos prontos</a></li>
 				    	<li><a href="#tabs-6">Retirada</a></li>
-				    	<li><a href="#tabs-7">Bar</a></li>
-				    	<li><a href="#tabs-8">Saída bar</a></li>
 					</ul>
 					
 					<div id="tabs-0">
@@ -84,30 +82,19 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div>
 					
 					<div id="tabs-4">
-						<p class="lead">Aqui você pode ver todos os pedidos com pizzas que ainda estão em andamento.
+						<p class="lead">Aqui você pode ver todos os pedidos que ainda estão em andamento.
 						<br>Se o pedido ficar pronto, deve clicar no botão verde para ficar enviar.</p>
 						<a th:href="@{/cozinha}"><button class="btn btn-primary">Acessar Cozinha</button></a>
 					</div>
 					
 				  	<div id="tabs-5">
-				    	<p class="lead">Para ter controle, a tela de saída forno mostra cada pedido e sua situação.</p>
-						<a th:href="@{/saidaForno}"><button class="btn btn-primary">Acessar Saída forno</button></a>
+				    	<p class="lead">Para ter controle, a tela de pedidos prontos mostra cada pedido e sua situação.</p>
+						<a th:href="@{/produtosProntos}"><button class="btn btn-primary">Acessar Produtos prontos</button></a>
 					</div>
 					
 					<div id="tabs-6">
 						<p class="lead">Aqui você pode ver todos os pedidos para retirar no balção.</p>
-						<a th:href="@{/retirada}"><button class="btn btn-primary">Acessar Bar</button></a>
-					</div>
-					
-					<div id="tabs-7">
-						<p class="lead">Aqui você pode ver todos os pedidos com bebidas que ainda estão em andamento.
-						<br>Se o pedido ficar pronto, deve clicar no botão verde para ficar enviar.</p>
-						<a th:href="@{/bar}"><button class="btn btn-primary">Acessar Bar</button></a>
-					</div>
-					
-				  	<div id="tabs-8">
-				    	<p class="lead">Para ter controle, a tela de Saída bar mostra cada pedido e sua situação.</p>
-						<a th:href="@{/saidaBar}"><button class="btn btn-primary">Acessar Saída bar</button></a>
+						<a th:href="@{/retirada}"><button class="btn btn-primary">Acessar retirada</button></a>
 					</div>
 				</div>
 			</div>

@@ -5,19 +5,20 @@ var impressaoPedido;
 
 $(document).ready(() => $("#nomePagina").text("Cozinha"));
 $("#filtro").selectmenu().addClass("overflow");
+$("#setor").selectmenu().addClass("overflow");
 
+//-------------------------------------------------------------------------------------------------------------------
 $("#ativarAudio").on('click', () => {
 	$("#ativarAudio").hide('slow');
 });
 
-
 function buscarPedido() {
 	[produtos, pizzas] = [[], []];
 	AllPizzas = 0;
-
 	carregarLoading("block");
+
 	$.ajax({
-		url: "/cozinha/todosPedidos",
+		url: "/cozinha/todosPedidos/",
 		type: 'GET'
 	}).done(function(e) {
 		//se o pedido vazio
@@ -40,11 +41,11 @@ function buscarPedido() {
 
 			}
 			//mostrar total de pizzas a fazer
-			if (AllPizzas == 1) $("#totalPizzas").val(AllPizzas + ' Pizza a fazer');
-			else $("#totalPizzas").val(AllPizzas + ' Pizzas a fazer');
+			if (AllPizzas == 1) $("#totalPizzas").val(AllPizzas + ' Item a fazer');
+			else $("#totalPizzas").val(AllPizzas + ' Itens a fazer');
 
 			tocarSom();
-			mostrar(pedidos, $("#filtro").val());
+			mostrar();
 
 			//atualizar total de pedidos
 			TvelhosPedidos = TnovosPedidos;
@@ -70,62 +71,68 @@ function salvarPedidos(e) {
 
 //--------------------------------------------------------------------------
 function filtrar() {
-	mostrar(pedidos, $("#filtro").val());
+	mostrar();
 }
 
 
 //----------------------------------------------------------------------------------------------------------
-function mostrar(pedidos, filtro) {
+function mostrar() {
 	linhaHtml = "";
+	//mostrar coluna borda
+	if ($("#setor").val() == 'PIZZA') $("#colBorda").show();
+	else $("#colBorda").hide();
+
 	for ([i, pedido] of pedidos.entries()) {
-		if (filtro == pedido.envio || filtro == "TODOS") {
+		if ($("#filtro").val() == pedido.envio || $("#filtro").val() == 'TODOS') {
 			divisao = 1;
 			for ([j, pizza] of pedido.pizzas.entries()) {
-				linhaHtml += '<tr>';
+				if ($("#setor").val() == pizza.setor) {
+					linhaHtml += '<tr>';
 
-				if (j == 0) {//se for a primeira linha de cada pedido
-					linhaHtml += '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-						+ '<td class="text-center col-md-1">' + pedido.nome + '</td>';
-				} else if (j == 1) {//se for a segunda linha de cada pedido
-					Tpizzas = 0;
-					for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
+					if (j == 0) {//se for a primeira linha de cada pedido
+						linhaHtml += '<td class="text-left col-md-1">' + pedido.comanda + ' - ' + pedido.nome + '</td>';
+					} else if (j == 1) {//se for a segunda linha de cada pedido
+						Tpizzas = 0;
+						for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
 
-					//singular
-					if (Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizza</td>';
-					//plural
-					else linhaHtml += '<td class="text-center col-md-1" colspan="2">Total: ' + Tpizzas + ' pizzas</td>';
+						//singular
+						if (Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1">Total: ' + Tpizzas + ' Item</td>';
+						//plural
+						else linhaHtml += '<td class="text-center col-md-1" colspan="1">Total: ' + Tpizzas + ' Itens</td>';
 
 
-				} else {//se for 3 linha a frente
-					linhaHtml += '<td class="text-center col-md-1" colspan="2"></td>';
-				}
+					} else {//se for 3 linha a frente
+						linhaHtml += '<td class="text-center col-md-1"></td>';
+					}
 
-				//mostrar pizza
-				linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor
-					//descricao
-					+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="btn-link botao p-0" onclick="descricao()" value="'
-						+ pizza.descricao + '"><i class="fas fa-question"></i></td>' : "")
-					//obs
-					+ (pizza.obs != ""
-						? '<td class="text-center col-md-1 bg-danger text-white">' + pizza.obs + '</td>'
-						: '<td class="text-center col-md-1"></td>')
-					//borda recheada
-					+ '<td class="text-center col-md-1">' + pizza.borda + '</td>';
-				if (j == 0) {
-					linhaHtml += '<td class="text-center col-md-1">'
-						+ '<a class="enviarPedido">'
-						+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
-						+ 'value="' + pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'
-						+ '</tr>';
-				} else {
-					linhaHtml += '<td></td></tr>';
+					//mostrar pizza
+					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor
+						//descricao
+						+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="btn-link botao p-0" onclick="descricao()" value="'
+							+ pizza.descricao + '"><i class="fas fa-question"></i></td>' : "")
+						//obs
+						+ (pizza.obs != ""
+							? '<td class="text-center col-md-1 bg-danger text-white">' + pizza.obs + '</td>'
+							: '<td class="text-center col-md-1"></td>');
+
+					if ($("#setor").val() == 'PIZZA') {
+						linhaHtml += '<td class="text-center col-md-1">' + pizza.borda + '</td>';
+					}
+					if (j == 0) {
+						linhaHtml += '<td class="text-center col-md-1">'
+							+ '<a class="enviarPedido">'
+							+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
+							+ 'value="' + pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'
+							+ '</tr>';
+					} else {
+						linhaHtml += '<td></td></tr>';
+					}
 				}
 			}
-			linhaHtml += '<tr><td colspan="6"></td></tr>';
 		}
 	}
 	if (linhaHtml != "") $("#todosPedidos").html(linhaHtml);
-	else $("#todosPedidos").html('<tr><td colspan="6">Nenhum pedido a fazer!</td></tr>');
+	else $("#todosPedidos").html('<tr><td colspan="7">Nenhum pedido a fazer!</td></tr>');
 }
 
 
@@ -136,7 +143,7 @@ function descricao() {
 
 	$.alert({
 		type: 'blue',
-		title: 'Ingredientes:',
+		title: 'Modo de preparo:',
 		content: descricao,
 		buttons: {
 			confirm: {
@@ -169,14 +176,14 @@ function enviarPedido() {
 				btnClass: 'btn-green',
 				keys: ['enter'],
 				action: function() {
+					pedidos[idBusca].produtos = pedidos[idBusca].pizzas;
 					imprimir(pedidos[idBusca]);
-					pedidos[idBusca].pizzas = JSON.stringify(pedidos[idBusca].pizzas);
 
 					$.ajax({
 						url: "/cozinha/enviarPedido/" + idProduto,
 						type: 'PUT'
 					}).done(function() {
-						document.location.href = "/cozinha";
+						document.location.href = "/bar";
 					});
 				},
 			},
@@ -189,24 +196,36 @@ function enviarPedido() {
 };
 
 
-//----------------------------------------------------------------------------
-function imprimir(cliente) {
-	impressaoPedido = cliente;
-	impressaoPedido.setor = "C";
+buscarPedido();
 
-	$.ajax({
-		url: "/imprimir/imprimirPizza",
-		type: 'POST',
-		dataType: 'json',
-		contentType: "application/json",
-		data: JSON.stringify(impressaoPedido)
-	});
-}
+setInterval(function() {
+	buscarPedido();
+}, 10000);//recarregar a cada 10 segundos
+
+
+$("#alertaPedidos").on("click", function() {
+	buscarPedido();
+});
 
 
 function carregarLoading(texto) {
 	$(".loading").css({
 		"display": texto
+	});
+}
+
+
+//----------------------------------------------------------------------------
+function imprimir(cliente) {
+	impressaoPedido = cliente;
+	impressaoPedido.setor = "B";
+
+	$.ajax({
+		url: "/imprimir/imprimirProduto",
+		type: 'POST',
+		dataType: 'json',
+		contentType: "application/json",
+		data: JSON.stringify(impressaoPedido)
 	});
 }
 
@@ -227,6 +246,7 @@ function tocarSom() {
 		});
 	}
 }
+
 //ajax reverso
 /*
 
