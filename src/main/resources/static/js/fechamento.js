@@ -17,231 +17,228 @@ var [linhaPizzas, linhaProdutos, linhaBoy] = ['', '', ''];
 carregarLoading("block");
 
 
-$("#relatorio").click(function(){
+$("#relatorio").click(function() {
 
-		$("#relatorio").attr("disabled", true);
-		
-		carregarLoading("block");
-		
-		$.ajax({
-			url: '/imprimir/relatorioFechamento'
-		}).done(function(){
-			carregarLoading("none");
+	$("#relatorio").attr("disabled", true);
 
-			$("#relatorio").attr("disabled", false);
-			relatorio = $.alert({type: "green", title: "Relatório", content: "Gerado com sucesso!"});
-			relatorio.open();
-			setTimeout(function(){
-				relatorio.close();
-			}, 10000);
-		}).fail(function(){
-			carregarLoading("none");
-			$("#relatorio").attr("disabled", false);
-			$.alert("Erro, Pedidos não encontrados!");
-		});
+	carregarLoading("block");
+
+	$.ajax({
+		url: '/imprimir/relatorioFechamento'
+	}).done(function() {
+		carregarLoading("none");
+
+		$("#relatorio").attr("disabled", false);
+		relatorio = $.alert({ type: "green", title: "Relatório", content: "Gerado com sucesso!" });
+		relatorio.open();
+		setTimeout(function() {
+			relatorio.close();
+		}, 10000);
+	}).fail(function() {
+		carregarLoading("none");
+		$("#relatorio").attr("disabled", false);
+		$.alert("Erro, Pedidos não encontrados!");
 	});
+});
 
 //-------------------------------------------------------------------------------
 $.ajax({
-  	url: "/adm/fechamento/dados",
-  	type: "GET"
-}).done(function(e){
+	url: "/adm/fechamento/dados",
+	type: "GET"
+}).done(function(e) {
 	//motoboy-------------------------------------------------------------------
-	if(e.logMotoboy.length != 0)
+	if (e.logMotoboy.length != 0)
 		carregarMotoboy(e.logMotoboy);
 	else
 		$("#logmotoboys").html('<label>Nenhuma entrega feita hoje!</label>');
-		
+
 	setTimeout(() => $("#mostrarTaxasCompleto").show('slow'), 1000);
 	$("#logmotoboys").show();
-	
+
 
 	//compras---------------------------------------------------------------------
 	calcularCompra(e.compra);
-	
+
 	//sangrias---------------------------------------------------------------------
 	calcularSangria(e.sangria);
-		
-	
+
+
 	//graficos---------------------------------------------------------------------
-	google.charts.load("current", {packages:['corechart']});
+	google.charts.load("current", { packages: ['corechart'] });
 	google.charts.setOnLoadCallback(drawChart);
 
 	function drawChart() {
-	  var data = google.visualization.arrayToDataTable([
-	    ["Element", "Density", { role: "style" } ],
-	    ["Entrega", Number(e.entrega), "green"],
-	    ["Balcão", Number(e.balcao), "blue"],
-	    ["Mesa", Number(e.mesa), "Brown"],
-	    ["Drive-Thru", Number(e.drive), "color: yellow"]
-	  ]);
+		var data = google.visualization.arrayToDataTable([
+			["Element", "Density", { role: "style" }],
+			["Entrega", Number(e.entrega), "green"],
+			["Balcão", Number(e.balcao), "blue"],
+			["Mesa", Number(e.mesa), "Brown"],
+			["Drive-Thru", Number(e.drive), "color: yellow"]
+		]);
 
-	  var view = new google.visualization.DataView(data);
-	  view.setColumns([0, 1,
-	                   { calc: "stringify",
-	                     sourceColumn: 1,
-	                     type: "string",
-	                     role: "annotation" },
-	                   2]);
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{
+				calc: "stringify",
+				sourceColumn: 1,
+				type: "string",
+				role: "annotation"
+			},
+			2]);
 
-	  var options = {
-	    bar: {groupWidth: "80%"},
-	    legend: { position: "none" },
-	  };
-	  var chart = new google.visualization.ColumnChart(document.getElementById("totalPedidos"));
-	  chart.draw(view, options);
-	  
-	  //-------------------------------------------------------------------------------
-  	  var data = google.visualization.arrayToDataTable([
-  		["Element", "Density", { role: "style" } ],
-  		["Lucro Bruto", Number(e.totalVendas), "green"],
-  		["Lucro Liquido", Number(e.totalLucro), "blue"],
-  		  ]);
-  		
-  	  	  var view = new google.visualization.DataView(data);
-  		  view.setColumns([0, 1,
-  		                   { calc: "stringify",
-  		                 sourceColumn: 1,
-  		                 type: "string",
-  		                 role: "annotation" },
-  		                   2]);
-  		
-  		  var options = {
-  		    bar: {groupWidth: "60%"},
-  		    legend: { position: "none" },
-  		  };
-  		  var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
-  		  chart.draw(view, options);
+		var options = {
+			bar: { groupWidth: "80%" },
+			legend: { position: "none" },
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("totalPedidos"));
+		chart.draw(view, options);
+
+		//-------------------------------------------------------------------------------
+		var data = google.visualization.arrayToDataTable([
+			["Element", "Density", { role: "style" }],
+			["Lucro Bruto", Number(e.totalVendas), "green"],
+			["Lucro Liquido", Number(e.totalLucro), "blue"],
+		]);
+
+		var view = new google.visualization.DataView(data);
+		view.setColumns([0, 1,
+			{
+				calc: "stringify",
+				sourceColumn: 1,
+				type: "string",
+				role: "annotation"
+			},
+			2]);
+
+		var options = {
+			bar: { groupWidth: "60%" },
+			legend: { position: "none" },
+		};
+		var chart = new google.visualization.ColumnChart(document.getElementById("totalVendas"));
+		chart.draw(view, options);
 	}
 	carregarLoading("none");
-}).fail(function(){
+}).fail(function() {
 	carregarLoading("none");
 	$.alert("Nenhum valor encontrado!");
 });
 
 
 //-------------------------------------------------------------------------------------
-function carregarMotoboy(logmotoboys){
+function carregarMotoboy(logmotoboys) {
 	//resumo
 	const todosNomes = logmotoboys.map(logmotoboys => logmotoboys.motoboy);
 	var objsMotoboys = [];
 	const nomes = Array.from(new Set(todosNomes))
-	for(let nome of nomes){
+	for (let nome of nomes) {
 		objsMotoboys.push({
 			nome,
-			taxa: 0
+			taxa: 0,
+			cont: 0,
 		});
 	}
 
-	for(let boy of objsMotoboys){
-		for(let entrega of logmotoboys){
-			if(entrega.motoboy === boy.nome){
+	for (let boy of objsMotoboys) {
+		for (let entrega of logmotoboys) {
+			if (entrega.motoboy === boy.nome) {
 				boy.taxa += Number(entrega.taxa);
+				boy.cont += 1;
 			}
 		}
 	}
-	
+
 	totalMotoboys = objsMotoboys.reduce((a, b) => a.taxa + b.taxa);
-	
-	linhaBoy = '<div class="divMotoboys">'
-				+ '<table class="table table-striped table-hover">'
-					+'<thead><tr>'
-						+'<th class="text-center col-md-1"><h4>Motoboy</h4></th>'
-						+'<th class="text-center col-md-1"><h4>Taxa total</h4></th>'
-					+'</tr></thead>'
-				+ '<tbody>';
-	
-	for(boy of objsMotoboys) {
+
+	linhaBoy = ''
+
+	for (boy of objsMotoboys) {
 		linhaBoy += '<tr>'
-				+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 20) + '</td>'
-				+ '<td class="text-center col-md-1">' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+			+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 20) + '</td>'
+			+ '<td class="text-center col-md-1">' + boy.cont + '</td>'
+			+ '<td class="text-center col-md-1">R$ ' + Number(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>';
 	}
-	
-	linhaBoy += '</tbody>'
-			+'</table></div></div>';
-			
+
 	$("#logResumo").html(linhaBoy);
-			
-			
+
+
 	//completo-------------------------------------------------------------------------
-	linhaBoy = '<div class="divMotoboys">'
-				+ '<table class="table table-striped table-hover">'
-					+'<thead><tr>'
-						+'<th class="text-center col-md-1">Comanda</th>'
-						+'<th class="text-center col-md-1">Pedido</th>'
-						+'<th class="text-center col-md-1">Motoboy</th>'
-						+'<th class="text-center col-md-1">Taxa</th>'
-					+'</tr></thead>'
-				+ '<tbody>';
-					
-	for(boy of logmotoboys) {
+	linhaBoy = '<table class="table table-striped table-hover">'
+		+ '<thead><tr>'
+		+ '<th class="text-center col-md-1">Comanda</th>'
+		+ '<th class="text-center col-md-1">Pedido</th>'
+		+ '<th class="text-center col-md-1">Motoboy</th>'
+		+ '<th class="text-center col-md-1">Taxa</th>'
+		+ '</tr></thead>'
+		+ '<tbody>';
+
+	for (boy of logmotoboys) {
 		linhaBoy += '<tr>'
-				+ '<td class="text-center col-md-1">' + boy.comanda + '</td>'
-				+ '<td class="text-center col-md-1">' + boy.nome + '</td>'
-				+ '<td class="text-center col-md-1">' + boy.motoboy + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + parseFloat(boy.taxa).toFixed(2) + '</td>'
+			+ '<td class="text-center col-md-1">' + boy.comanda + '</td>'
+			+ '<td class="text-center col-md-1">' + boy.nome + '</td>'
+			+ '<td class="text-center col-md-1">' + boy.motoboy + '</td>'
+			+ '<td class="text-center col-md-1">R$ ' + Number(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>';
 	}
-	
+
 	linhaBoy += '</tbody>'
-			+'</table></div></div>';
-	
+		+ '</table>';
+
 	$(".divmotoboys").css({
 		'height': '30vh'
 	});
 }
 
 
-function calcularCompra(compras){
+function calcularCompra(compras) {
 	Tcompras = 0;
-	if(compras.length != 0) {
-		for(produto of compras) {
+	if (compras.length != 0) {
+		for (produto of compras) {
 			Tcompras += parseFloat(produto.valor);
 		}
-					
+
 		$("#compras").html('<thead class="table table-striped table-hover"><tr>'
-							+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
-						+ '</tr></thead>'
-						+ '<tr>'
-							+ '<td class="text-center col-md-1">R$ ' + Tcompras.toFixed(2) + '</td>'
-						+ '</tr>'
-					);
-	}else{
+			+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
+			+ '</tr></thead>'
+			+ '<tr>'
+			+ '<td class="text-center col-md-1">R$ ' + Tcompras.toFixed(2) + '</td>'
+			+ '</tr>'
+		);
+	} else {
 		$("#compras").text("Nenhuma compra feita hoje!");
 	}
 }
 
 
-function calcularSangria(sangrias){
-	if(typeof sangrias != "undefined") {
+function calcularSangria(sangrias) {
+	if (typeof sangrias != "undefined") {
 		let totalSangria = 0, sangriaHtml = '';
-		
+
 		sangriaHtml = '<thead><tr class="table table-striped table-hover">'
-						+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
-					+ '</tr></thead>';
-					
-		for(let sangria of sangrias) {
+			+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
+			+ '</tr></thead>';
+
+		for (let sangria of sangrias) {
 			totalSangria += parseFloat(sangria.valor);
-			
+
 			sangriaHtml += '<tr>'
-						+ '<td class="text-center col-md-1">' + sangria.nome + '</td>'
-						+ '<td class="text-center col-md-1">R$ ' + sangria.valor.toFixed(2) + '</td>'
-					+ '</tr>';
+				+ '<td class="text-center col-md-1">' + sangria.nome + '</td>'
+				+ '<td class="text-center col-md-1">R$ ' + sangria.valor.toFixed(2) + '</td>'
+				+ '</tr>';
 		}
-			
-		sangriaHtml += '<tr><td colspan="2">&nbsp;</td></tr>' 
-					+ '<tr>'
-						+ '<th class="text-center col-md-1" colspan="2">Total retirado do caixa</th>'
-					+ '</tr>'
-					
-					+ '<tr>'
-						+ '<td class="text-center col-md-1" colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
-					+ '</tr>';
-		
-					
+
+		sangriaHtml += '<tr><td colspan="2">&nbsp;</td></tr>'
+			+ '<tr>'
+			+ '<th class="text-center col-md-1" colspan="2">Total retirado do caixa</th>'
+			+ '</tr>'
+
+			+ '<tr>'
+			+ '<td class="text-center col-md-1" colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
+			+ '</tr>';
+
+
 		$("#todasSangrias").html(sangriaHtml);
-	}else{
+	} else {
 		$("#todasSangrias").text("Nenhuma sangria feita hoje!");
 	}
 }
@@ -252,10 +249,10 @@ $("#mostrarTaxasCompleto").click(() => {
 		type: 'blue',
 		title: 'Taxas de entrega completo',
 		content: linhaBoy,
-	    closeIcon: true,
-	    columnClass: 'col-md-12',
-		buttons:{
-			confirm:{
+		closeIcon: true,
+		columnClass: 'col-md-12',
+		buttons: {
+			confirm: {
 				isHidden: true,
 				keys: ['esc', 'enter']
 			}
@@ -265,86 +262,86 @@ $("#mostrarTaxasCompleto").click(() => {
 
 
 //---------------------------------------------------------------------------------------
-$("#finalizar_caixa").click(function(){
+$("#finalizar_caixa").click(function() {
 	$.confirm({
 		type: 'blue',
 		title: 'Finalizar caixa',
 		content: 'Faça isso apenas uma vez ao fim do dia',
-		buttons:{
-			confirm:{
-				text:'Sim',
+		buttons: {
+			confirm: {
+				text: 'Sim',
 				btnClass: 'btn-success',
-				keys:['enter'],
-				action: function(){
+				keys: ['enter'],
+				action: function() {
 					troco();
 				}
 			},
-			cancel:{
-				text:'Não',
+			cancel: {
+				text: 'Não',
 				btnClass: 'btn-danger',
-				keys:['esc'],
+				keys: ['esc'],
 			}
 		}
 	});
 });
 
 
-$("#sangria").click(function(){
+$("#sangria").click(function() {
 	$.confirm({
 		type: 'blue',
 		title: 'Sangria',
 		columnClass: 'col-md-8',
 		content: '<div class="row">'
-					+ '<div class="col-md-6">'
-						+ '<label>Nome:</label>'
-						+ '<input class="form-control pula" id="nomeSangria" placeholder="Digite o nome"/>'
-					+ '</div>'
-					
-					+ '<div class="col-md-6">'
-						+ '<label>Valor:</label>'
-						+ '<input class="form-control pula" id="valorSangria" placeholder="Digite o valor"/>'
-					+ '</div>'
-				+ '</div>',
-		buttons:{
-			confirm:{
+			+ '<div class="col-md-6">'
+			+ '<label>Nome:</label>'
+			+ '<input class="form-control pula" id="nomeSangria" placeholder="Digite o nome"/>'
+			+ '</div>'
+
+			+ '<div class="col-md-6">'
+			+ '<label>Valor:</label>'
+			+ '<input class="form-control pula" id="valorSangria" placeholder="Digite o valor"/>'
+			+ '</div>'
+			+ '</div>',
+		buttons: {
+			confirm: {
 				text: 'Salvar',
 				btnClass: 'btn-success',
-				keys:['enter'],
-				action: function(){
+				keys: ['enter'],
+				action: function() {
 					var nomeSangria = this.$content.find('#nomeSangria').val();
 					var valorSangria = this.$content.find('#valorSangria').val();
-					
-					valorSangria = parseFloat(valorSangria.toString().replace(",","."));
-					
-					if(Number.isFinite(valorSangria) == false || nomeSangria == '') {
+
+					valorSangria = parseFloat(valorSangria.toString().replace(",", "."));
+
+					if (Number.isFinite(valorSangria) == false || nomeSangria == '') {
 						$.alert({
 							type: 'red',
 							title: 'OPS...',
 							content: "Digite um valor válido",
 							buttons: {
-								confirm:{
+								confirm: {
 									text: 'Voltar',
 									btnClass: 'btn-danger',
 									keys: ['esc', 'enter']
 								}
 							}
 						});
-					}else {
+					} else {
 						carregarLoading("block");
 						$.ajax({
 							url: '/adm/fechamento/sangria/' + nomeSangria + '/' + valorSangria,
 							type: 'POST'
-						}).done(function(){
+						}).done(function() {
 							carregarLoading("none");
 							$.alert({
-								type:'green',
+								type: 'green',
 								title: 'Sucesso!',
 								content: 'Sangria adicionada com sucesso!',
-								buttons:{
-									confirm:{
-										text:'Continuar',
+								buttons: {
+									confirm: {
+										text: 'Continuar',
 										btnClass: 'btn-success',
-										keys:['enter', 'esc'],
+										keys: ['enter', 'esc'],
 										action: () => window.location.href = '/adm/fechamento'
 									}
 								}
@@ -353,10 +350,10 @@ $("#sangria").click(function(){
 					}
 				}
 			},
-			cancel:{
+			cancel: {
 				text: 'Voltar',
 				btnClass: 'btn-danger',
-				keys:['esc'],
+				keys: ['esc'],
 			}
 		}
 	});
@@ -364,55 +361,55 @@ $("#sangria").click(function(){
 
 
 //-------------------------------------------------------------------
-function troco(){
+function troco() {
 	$.confirm({
 		type: 'blue',
 		title: 'Troco final do caixa',
 		content: 'Troco:'
-				+ '<div class="input-group mb-3">'
-					+ '<span class="input-group-text">R$</span>'
-					+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>'
-				+ '</div>',
-		buttons:{
-			confirm:{
-				text:'Salvar',
+			+ '<div class="input-group mb-3">'
+			+ '<span class="input-group-text">R$</span>'
+			+ '<input class="form-control" id="troco" placeholder="Digite o valor do troco"/>'
+			+ '</div>',
+		buttons: {
+			confirm: {
+				text: 'Salvar',
 				btnClass: 'btn-success',
-				keys:['enter'],
-				action: function(){
-		
-					var troco = this.$content.find('#troco').val();
-					
-					troco = parseFloat(troco.toString().replace(",","."));
+				keys: ['enter'],
+				action: function() {
 
-					if(Number.isFinite(troco) == false) {
+					var troco = this.$content.find('#troco').val();
+
+					troco = parseFloat(troco.toString().replace(",", "."));
+
+					if (Number.isFinite(troco) == false) {
 						$.alert({
 							type: 'red',
 							title: 'OPS...',
 							content: "Digite um valor válido",
 							buttons: {
-								confirm:{
+								confirm: {
 									text: 'Voltar',
 									btnClass: 'btn-danger',
 									keys: ['esc', 'enter']
 								}
 							}
 						});
-					}else {
+					} else {
 						carregarLoading("block");
 						$.ajax({
 							url: '/adm/fechamento/finalizar/' + troco,
 							type: 'POST'
-						}).done(function(){
+						}).done(function() {
 							carregarLoading("none");
 							$.alert({
-								type:'green',
+								type: 'green',
 								title: 'Sucesso!',
 								content: 'Caixa finalizado com sucesso!',
-								buttons:{
-									confirm:{
-										text:'Continuar',
+								buttons: {
+									confirm: {
+										text: 'Continuar',
 										btnClass: 'btn-success',
-										keys:['enter', 'esc'],
+										keys: ['enter', 'esc'],
 									}
 								}
 							});
@@ -420,17 +417,17 @@ function troco(){
 					}
 				}
 			},
-			cancel:{
-				text:'Voltar',
+			cancel: {
+				text: 'Voltar',
 				btnClass: 'btn-danger',
-				keys:['esc'],
+				keys: ['esc'],
 			}
 		}
 	});
 }
 
 
-function carregarLoading(texto){
+function carregarLoading(texto) {
 	$(".loading").css({
 		"display": texto
 	});

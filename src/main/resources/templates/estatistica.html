@@ -1,95 +1,119 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/frag :: head}" ></head>
+<head th:replace="~{layouts/frag :: head}"></head>
 <head>
-	<title>Estatísticas</title>
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<title>Estatísticas</title>
+<script type="text/javascript"
+	src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
 <body>
-	
+
 	<div class="divbase">
 		<div class="row col-md-6">
 			<div class="col-md-4">
-				<label>Início</label>
-				<input type="date" id="dataInicio" class="form-control"/>
+				<label>Início</label> <input type="date" id="dataInicio"
+					class="form-control" />
 			</div>
 			<div class="col-md-4">
-				<label>Fim</label>
-				<input type="date" id="dataFinal" class="form-control"/>
+				<label>Fim</label> <input type="date" id="dataFinal"
+					class="form-control" />
 			</div>
 			<div class="col-md-4">
 				<div>&nbsp;</div>
 				<button class="btn btn-primary" onclick="filtrar()">Filtrar</button>
 			</div>
 		</div>
-		
+
 		<br>
 		<div class="row">
 			<div class="col-md-6 bloco border">
-		 		 <h4 align="center" class="text-white">Lucro bruto/líquido</h4>
-		 		 <div class="border border-dark" id="totalVendas"></div>
+				<h4 align="center" class="text-white">Lucro bruto/líquido</h4>
+				<div class="border border-dark" id="totalVendas"></div>
 			</div>
 			<div class="col-md-6 bloco border">
-		 		 <h4 align="center" class="text-white">Comparativo de vendas</h4>
-		 		 <div class="border border-dark" id="entregaBalcao"></div>
+				<h4 align="center" class="text-white">Comparativo de vendas</h4>
+				<div class="border border-dark" id="entregaBalcao"></div>
 			</div>
 		</div>
 		<br>
 		<div class="row">
-			<div class="col-md-4 bloco border">
-				<h4 align="center" class="text-white">Crescimento da empresa</h4>
-				<div align="center" class="bg-light border border-dark"><label id="taxaCrescimento"><b>- 0.00 %</b></label></div>
+			<div class="col-md-6 bloco border">
+				<div class="bloco">
+					<h4 align="center" class="text-white">Crescimento da empresa</h4>
+					<div align="center" class="bg-light border border-dark">
+						<label id="taxaCrescimento"><b>- 0.00 %</b></label>
+					</div>
+				</div>
+
+
+				<div class="bloco">
+					<h4 align="center" class="text-white">Variação de movimento</h4>
+					<div align="center" class="bg-light border border-dark">
+						<label id="desvioPadrao"><b>R$ 0.00</b></label>
+					</div>
+				</div>
+
+				<div class="bloco">
+					<h4 align="center" class="text-white">Média de vendas</h4>
+					<div align="center" class="bg-light border border-dark">
+						<label id="media"><b>R$ 0.00</b></label>
+					</div>
+				</div>
 			</div>
-			
-			
-			<div class="col-md-4 bloco border">
-				<h4 align="center" class="text-white">Desvio padrão</h4>
-				<div align="center" class="bg-light border border-dark"><label id="desvioPadrao"><b>EM BREVE</b></label></div>
-			</div>
-			
-			<div class="col-md-4 bloco border">
-				<h4 align="center" class="text-white">Tendência</h4>
-				<div align="center" class="bg-light border border-dark"><label id="tendencia"><b>EM BREVE</b></label></div>
+			<div class="col-md-6 bloco border">
+				<h4 align="center" class="text-white">Tendência de crescimento</h4>
+				<div class="border border-dark" id="tendencia"></div>
+				
+				<br>
+				<h4 align="center" class="text-white">Estabilidade de vendas</h4>
+				<div align="center" class="bg-light border border-dark">
+					<label id="correlacao"><b>0.00</b></label>
+				</div>
 			</div>
 		</div>
 		<br>
 		<div class="bloco border">
-	 		 <div class="table-responsive bg-white border">
-	 		 	<table class="table table-striped table-hover caption-top">
-	 		 		<caption>Resumo</caption>
-	 		 		<thead>
-	 		 			<tr>
-	 		 				<th class="text-center col-md-1">Dia</th>
-	 		 				<th class="text-center col-md-1">Taxas pagas</th>
-	 		 				<th class="text-center col-md-1">Total compras</th>
-	 		 				<th class="text-center col-md-1">Pizzas vendidas</th>
-	 		 				<th class="text-center col-md-1">Total pedidos</th>
-	 		 				<th class="text-center col-md-1">Lucro bruto</th>
-	 		 				<th class="text-center col-md-1">Lucro liquído</th>
-	 		 			</tr>
-	 		 		</thead>
-	 		 		<tbody id="gerarDadosMensal"><tr><td colspan="7">Nenhum dado encontrado!</td></tr></tbody>
-	 		 		<tfoot id="geralDadosSoma"></tfoot>
-	 		 	</table>
-	 		 </div>
+			<div class="table-responsive bg-white border">
+				<table class="table table-striped table-hover caption-top">
+					<caption>Resumo</caption>
+					<thead>
+						<tr>
+							<th class="text-center col-md-1">Dia</th>
+							<th class="text-center col-md-1">Taxas pagas</th>
+							<th class="text-center col-md-1">Total compras</th>
+							<th class="text-center col-md-1">Pizzas vendidas</th>
+							<th class="text-center col-md-1">Total pedidos</th>
+							<th class="text-center col-md-1">Total vendas</th>
+							<th class="text-center col-md-1">Custo</th>
+							<th class="text-center col-md-1">Lucro</th>
+						</tr>
+					</thead>
+					<tbody id="gerarDadosMensal">
+						<tr>
+							<td colspan="8">Nenhum dado encontrado!</td>
+						</tr>
+					</tbody>
+					<tfoot id="geralDadosSoma"></tfoot>
+				</table>
+			</div>
 		</div>
- 		 <hr>
+		<hr>
 	</div>
-	
+
 	<br>
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/estatistica.js}"></script>
 </body>
 
-	<div th:replace="~{layouts/frag :: empresa}"></div>
+<div th:replace="~{layouts/frag :: empresa}"></div>
 </html>
