@@ -113,6 +113,11 @@ function mostrarProdutos(e){
 }
 
 
+function imprimir(){
+	
+}
+
+
 function carregarLoading(texto){
 	$(".loading").css({
 		"display": texto
