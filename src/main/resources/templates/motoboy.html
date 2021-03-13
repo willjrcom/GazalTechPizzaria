@@ -20,7 +20,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				<div class="distMargin" id="divFiltro">
 					<select name="filtro" id="filtro" autofocus>
 						<option value="--">Selecione o motoboy</option>
-						<option th:each="fun : ${todosFun}" th:value="${fun.nome}" th:text="${fun.nome}"></option>
+						<option th:each="fun : ${todosFun}" th:value="${fun.id}" th:text="${fun.nome}"></option>
 					</select>
 				</div>
 			</div>

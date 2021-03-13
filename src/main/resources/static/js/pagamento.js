@@ -491,10 +491,11 @@ function addGastos() {
 
 //-------------------------------------------------------------------------
 function pagarSalario(e, funcionario, dataBusca) {
-	let [diarias, horas, gastos, pago] = [0, 0, 0, 0];
+	let [diarias, taxas, horas, gastos, pago] = [0, 0, 0, 0, 0];
 
 	for (j = 0; j < e.length; j++) {
 		diarias += e[j].diarias;
+		taxas += e[j].taxas;
 		gastos += e[j].gastos;
 		horas += e[j].horas;
 		pago += e[j].pago;
@@ -506,6 +507,7 @@ function pagarSalario(e, funcionario, dataBusca) {
 		+ '<thead><tr>'
 		+ '<th class="col-md-1"><h5>Salário</h5></th>'
 		+ '<th class="col-md-1"><h5>Diárias</h5></th>'
+		+ '<th class="col-md-1"><h5>Taxas</h5></th>'
 		+ '<th class="col-md-1"><h5>Extras</h5></th>'
 		+ '<th class="col-md-1"><h5>Gastos</h5></th>'
 		+ '<th class="col-md-1"><h5>Pago</h5></th>'
@@ -515,10 +517,11 @@ function pagarSalario(e, funcionario, dataBusca) {
 		+ '<tr>'
 		+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
 		+ '<td class="text-center col-md-1">R$ ' + diarias.toFixed(2) + '</td>'
+		+ '<td class="text-center col-md-1">R$ ' + taxas.toFixed(2) + '</td>'
 		+ '<td class="text-center col-md-1">R$ ' + totalExtra.toFixed(2) + '</td>'
 		+ '<td class="text-center col-md-1">R$ ' + gastos.toFixed(2) + '</td>'
 		+ '<td class="text-center col-md-1">R$ ' + pago.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + (funcionario.salario + diarias + totalExtra - gastos - pago).toFixed(2) + '</td>'
+		+ '<td class="text-center col-md-1">R$ ' + (funcionario.salario + diarias + taxas + totalExtra - gastos - pago).toFixed(2) + '</td>'
 		+ '</tr>'
 		+ '</table>'
 

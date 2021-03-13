@@ -76,7 +76,7 @@ function entregarPedido() {
 		});
 		return 0;
 	}
-	console.log(pedidos[idBusca].pago)
+
 	linhaHtml = '<div class="row">'
 		+ '<div class="col-md-6">'
 		+ '<b>Total de produtos:</b><br>' + pedidos[idBusca].Tpizzas
@@ -164,15 +164,13 @@ function carregarLoading(texto) {
 
 function gerarLogMotoboy(pedido) {
 	var objeto = {};
-
-	objeto.motoboy = $("#filtro").val();
 	objeto.taxa = pedido.taxa;
 	objeto.comanda = pedido.comanda;
 	objeto.endereco = pedido.endereco;
 	objeto.nome = pedido.nome;
 
 	$.ajax({
-		url: "/motoboy/salvarLogMotoboy",
+		url: "/motoboy/salvarLogMotoboy/" + $("#filtro").val(),
 		type: "POST",
 		dataType: 'json',
 		contentType: "application/json",
