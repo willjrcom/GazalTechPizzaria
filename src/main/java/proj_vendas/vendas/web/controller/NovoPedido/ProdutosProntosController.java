@@ -37,7 +37,7 @@ public class ProdutosProntosController{
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
-		List<PedidoTemp> pedidos = temps.findByCodEmpresaAndSetor(user.getCodEmpresa(), 1);
+		List<PedidoTemp> pedidos = temps.findByCodEmpresa(user.getCodEmpresa());
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
 		for(int i = 0; i < pedidos.size(); i++) {

@@ -16,7 +16,6 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Entity
 @Table(name = "PEDIDOTEMP", indexes = { 
 		@Index(name = "codEmpresa_index", columnList = "codEmpresa"),
-		@Index(name = "setor_index", columnList = "setor"),
 		@Index(name = "envio_index", columnList = "envio"),
 		@Index(name = "status_index", columnList = "status"),
 		@Index(name = "data_index", columnList = "data"),
@@ -41,8 +40,6 @@ public class PedidoTemp extends AbstractEntity<Long> {
 	
 	@Column(nullable=false)
 	private String data;
-
-	private int setor; //1 - pizza / 2 - outros
 	
 	private int codEmpresa;
 	

@@ -892,7 +892,6 @@ function criarTemp(setor, comanda) {
 	temp.comanda = comanda;
 	temp.nome = cliente.nome;
 	temp.envio = cliente.envio;
-	temp.setor = setor;
 
 	if (setor == 1) {
 		temp.pizzas = JSON.stringify(pizzas);
@@ -1180,7 +1179,7 @@ function mostrarProdutos() {//todos
 }
 
 
-function mostrarListaBuscaProdutos(buscaProdutos) {
+function mostrarListaBuscaProdutos(produtosEncontrados) {
 	//lista de produtos
 	linhaHtml = '<table class="h-100 table table-striped table-hover">'
 		+ '<thead>'
@@ -1192,10 +1191,13 @@ function mostrarListaBuscaProdutos(buscaProdutos) {
 		+ '</thead>'
 		+ '<tbody>';
 
-
-	if (buscaProdutos.length != 0) {
+		//ordenar vetor por setor crescente
+		const arrayProdutosCrescente = produtosEncontrados.sort((a, b) => (a.setor > b.setor) ? 1 : ((b.setor > a.setor) ? -1 : 0));
+		
+		
+	if (arrayProdutosCrescente.length != 0) {
 		//abrir modal de produtos encontrados
-		for (produto of buscaProdutos) {
+		for (let produto of arrayProdutosCrescente) {
 			linhaHtml += '<tr>'
 				+ '<td align="center">'
 				+ '<div>'
@@ -1206,15 +1208,16 @@ function mostrarListaBuscaProdutos(buscaProdutos) {
 				+ '</div>'
 				+ '</td>'
 				+ '<td align="left">' + produto.nome + '</td>'
-				+ '<td align="center">R$ ' + produto.preco.toFixed(2) + '</td>'
+				+ '<td align="center">R$ ' + produto.precoM.toFixed(2) + '</td>'
 				+ '</tr>';
 		}
-
 	} else {
 		linhaHtml += '<tr><td colspan="3"><label>Nenhum produto encontrado!</label></td></tr>';
 	}
 	linhaHtml += '</tbody>'
 		+ '</table>';
+		
+	return linhaHtml;
 }
 
 function mostrarPrecoProduto(precoProduto) {
@@ -1290,7 +1293,6 @@ function buscarProdutosAutoComplete() {
 		url: '/novoPedido/autoComplete',
 		type: 'GET'
 	}).done(e => {
-		console.log(e)
 		let Produto = {};
 		let arrayProdutosAutoComplete = [];
 		for (let produto of e) {
@@ -1298,13 +1300,11 @@ function buscarProdutosAutoComplete() {
 			[Produto.label, Produto.category] = produto.split(',');
 			arrayProdutosAutoComplete.push(Produto);
 		}
-		//ordenar vetor decrescente
+		//ordenar vetor crescente
 		const arrayProdutosAutoCompleteOrder = arrayProdutosAutoComplete.sort((a, b) => (a.category > b.category) ? 1 : ((b.category > a.category) ? -1 : 0));
 		
-		console.log(arrayProdutosAutoCompleteOrder)
 		$("#nome").catcomplete({
 			source: arrayProdutosAutoCompleteOrder
 		});
 	});
 }
-//}).done(e => $("#nome").autocomplete({source: e}));

@@ -36,6 +36,6 @@ public class RetiradaController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		
-		return temps.findByCodEmpresaAndSetorAndEnvio(user.getCodEmpresa(), 1,"BALCAO"); //mostrar todos
+		return temps.findByCodEmpresaAndEnvio(user.getCodEmpresa(), "BALCAO"); //mostrar todos
 	}
 }
