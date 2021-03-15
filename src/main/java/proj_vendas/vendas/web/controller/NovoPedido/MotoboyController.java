@@ -56,13 +56,13 @@ public class MotoboyController {
 				user.getCodEmpresa(), "MOTOBOY", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
 
 		mv.addObject("todosFun", fun);
+		mv.addObject("permissao", user.getPerfil());
 
 		if (fun.size() != 0) {
 			mv.addObject("btnCadastrar", 0);
 		} else {
 			mv.addObject("btnCadastrar", 1);
 		}
-
 		return mv;
 	}
 

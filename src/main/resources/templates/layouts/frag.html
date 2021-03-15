@@ -43,7 +43,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<input type="hidden" id="trocoInicial" th:value="${troco}" />
 			
 			<nav>
-				<ul class="menuPrincipal" style="padding-left:0;">
+				<ul th:if="${permissao} != 'MOTOBOY'" class="menuPrincipal" style="padding-left:0;">
 					<li><a th:href="@{/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
 					<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
 					<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
@@ -52,6 +52,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
 					<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> TUTORIAL</a></li>
 				</ul>
+				
+				<ul th:if="${permissao} == 'MOTOBOY'" class="menuPrincipal" style="padding-left:0;">
+					<li><a th:href="@{/motoboy}"><i class="fas fa-location-arrow"></i> ENTREGAS</a></li>
+					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
+				</ul>
 			</nav>
 		</div>
 		<br>
@@ -59,7 +64,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	
 	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="dadosMenu" class="container">
+	<div th:fragment="dadosMenu" class="container" th:if="${permissao} != 'MOTOBOY'">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
 				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
@@ -176,7 +181,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
 				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
+				<nav class="gn-menu-wrapper" th:if="${permissao} != 'MOTOBOY'">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>

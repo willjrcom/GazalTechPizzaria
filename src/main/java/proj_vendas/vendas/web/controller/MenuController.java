@@ -45,23 +45,23 @@ public class MenuController {
 
 	@RequestMapping
 	public ModelAndView tela() {
-		System.out.println("tela");
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		ModelAndView mv = new ModelAndView("menu");
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		estruturarTelaCompleta(empresa, mv, user);
 		mv.addObject("troco", acessarDados(user.getDia(), 0).getTrocoInicio());
-		System.out.println(acessarDados(user.getDia(), 0).getData());
-		mv.addObject("data",
-				user.getDia().split("-")[2] + "/" + user.getDia().split("-")[1] + "/" + user.getDia().split("-")[0]);
+		//se for motoboy nao tem necessidade
+		if(user.getPerfil().equals("MOTOBOY")) {
+			mv.addObject("troco", 1);
+		}
+		mv.addObject("data", user.getDia().split("-")[2] + "/" + user.getDia().split("-")[1] + "/" + user.getDia().split("-")[0]);
 		return mv;
 	}
 
 	@RequestMapping("/login")
 	@ResponseBody
 	public ModelAndView login() {
-		System.out.println("login");
 		// acessar o dia atual a cada login
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
@@ -71,10 +71,13 @@ public class MenuController {
 		estruturarTelaCompleta(empresa, mv, user);
 
 		liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
+		
 		mv.addObject("troco", acessarDados(format.format(new Date()), 1).getTrocoInicio());
-		System.out.println(acessarDados(format.format(new Date()), 1).getData());
-		mv.addObject("data",
-				user.getDia().split("-")[2] + "/" + user.getDia().split("-")[1] + "/" + user.getDia().split("-")[0]);
+		//se for motoboy nao tem necessidade
+		if(user.getPerfil().equals("MOTOBOY")) {
+			mv.addObject("troco", 1);
+		}
+		mv.addObject("data", user.getDia().split("-")[2] + "/" + user.getDia().split("-")[1] + "/" + user.getDia().split("-")[0]);
 		return mv;
 	}
 
@@ -149,12 +152,13 @@ public class MenuController {
 	public ResponseEntity<List<Dado>> todos() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-
-		return ResponseEntity.ok(dados.findByCodEmpresaAndTrocoFinal(user.getCodEmpresa(), 0));
+		if(!user.getPerfil().equals("MOTOBOY")) {
+			return ResponseEntity.ok(dados.findByCodEmpresaAndTrocoFinal(user.getCodEmpresa(), 0));
+		}
+		return ResponseEntity.ok(null);
 	}
 
 	private Empresa gerarEmpresa(int codEmpresa) {
-		System.out.println("gerar empresa");
 		Empresa empresa = null;
 		try {
 			empresa = empresas.findByCodEmpresa(codEmpresa);
@@ -189,7 +193,6 @@ public class MenuController {
 	}
 
 	private ModelAndView estruturarTelaCompleta(Empresa empresa, ModelAndView mv, Usuario user) {
-		System.out.println("estrutura completa");
 		mostrarDivulgacoes(mv);
 		Conquista conquista = empresa.getConquista();
 
@@ -253,7 +256,6 @@ public class MenuController {
 	}
 
 	private void verificarCupom(Empresa empresa) {
-		System.out.println("verificar cupom");
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 		int cont = 0;
@@ -276,7 +278,6 @@ public class MenuController {
 	}
 
 	private void liberarConquistas(int totalDias, int codEmpresa) {
-		System.out.println("liberar conquista");
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
 

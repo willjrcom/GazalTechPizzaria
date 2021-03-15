@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			//liberar acesso basico de scripts
 			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/naoEncontrado/**", "/expired", "/novaSenha/**", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
 			.antMatchers(HttpMethod.OPTIONS).permitAll()
-			  
+			
 			//acesso dev
 			.antMatchers("/dev/**").hasAnyAuthority("DEV")
 			
@@ -43,7 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers("/adm/**").hasAnyAuthority("ADM", "DEV")
 			
 			//acesso usuario
-			.antMatchers("/u/**").hasAnyAuthority("USUARIO","ADM", "DEV")
+			.antMatchers("/u/**").hasAnyAuthority("USUARIO", "ADM", "DEV")
+			
+			//acesso motoboy
+			.antMatchers("/m/**").hasAnyAuthority("USUARIO", "ADM", "DEV", "MOTOBOY")
 			
 			//autenticar
 			.anyRequest().authenticated()
