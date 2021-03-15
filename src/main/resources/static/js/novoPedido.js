@@ -887,18 +887,12 @@ function estruturarPedido(e, troco) {
 
 
 //-------------------------------------------------------------------------------------------------------------------
-function criarTemp(setor, comanda) {
+function criarTemp(produtoSetor, comanda) {
 	temp = {};
 	temp.comanda = comanda;
 	temp.nome = cliente.nome;
 	temp.envio = cliente.envio;
-
-	if (setor == 1) {
-		temp.pizzas = JSON.stringify(pizzas);
-	}
-	if (setor == 2) {
-		temp.pizzas = JSON.stringify(produtos);
-	}
+	temp.pizzas = JSON.stringify(produtoSetor);
 
 	//salvar pedido no temp
 	$.ajax({
@@ -924,12 +918,33 @@ function salvarPedido() {
 		cliente.comanda = e.comanda; //recebe numero do servidor
 
 		if (pizzas.length != 0) {
-			criarTemp(1, e.comanda);
+			criarTemp(pizzas, e.comanda);
 		}
-		if (produtos.length != 0) {
-			criarTemp(2, e.comanda);
+		
+		//ordenar vetor crescente
+		const arrayProdutos = produtos.sort((a, b) => (a.setor > b.setor) ? 1 : ((b.setor > a.setor) ? -1 : 0));
+		
+		let [arrayProdutosBebidas, arrayProdutosLanche, arrayProdutosEsfiha, 
+			arrayProdutosPastel, arrayProdutosPorcao, arrayProdutosOutros] = [[], [], [], [], [], []];
+			
+		//buscar produtos em diferentes setores
+		for(onlyProduto of arrayProdutos){
+			if(onlyProduto.setor == 'BEBIDA') arrayProdutosBebidas.push(onlyProduto);
+			if(onlyProduto.setor == 'LANCHE') arrayProdutosLanche.push(onlyProduto);
+			if(onlyProduto.setor == 'ESFIHA') arrayProdutosEsfiha.push(onlyProduto);
+			if(onlyProduto.setor == 'PASTEL') arrayProdutosPastel.push(onlyProduto);
+			if(onlyProduto.setor == 'PORCAO') arrayProdutosPorcao.push(onlyProduto);
+			if(onlyProduto.setor == 'OUTROS') arrayProdutosOutros.push(onlyProduto);
 		}
-
+		
+		//salvar setores temp
+		if(arrayProdutosBebidas.length != 0) criarTemp(arrayProdutosBebidas, e.comanda);
+		if(arrayProdutosLanche.length != 0) criarTemp(arrayProdutosLanche, e.comanda);
+		if(arrayProdutosEsfiha.length != 0) criarTemp(arrayProdutosEsfiha, e.comanda);
+		if(arrayProdutosPastel.length != 0) criarTemp(arrayProdutosPastel, e.comanda);
+		if(arrayProdutosPorcao.length != 0) criarTemp(arrayProdutosPorcao, e.comanda);
+		if(arrayProdutosOutros.length != 0) criarTemp(arrayProdutosOutros, e.comanda);
+		
 		carregarLoading("none");
 
 		$.alert({

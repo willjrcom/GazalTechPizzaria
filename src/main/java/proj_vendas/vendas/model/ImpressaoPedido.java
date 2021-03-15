@@ -1,5 +1,7 @@
 package proj_vendas.vendas.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -11,8 +13,8 @@ public class ImpressaoPedido {
 	private String endereco;
 	private String referencia;
 	
-	private ImpressaoPizza[] pizzas;
-	private ImpressaoProduto[] produtos;
+	private List<ImpressaoPizza> pizzas;
+	private List<ImpressaoProduto> produtos;
 	
 	private String motoboy;
 	private String ac;

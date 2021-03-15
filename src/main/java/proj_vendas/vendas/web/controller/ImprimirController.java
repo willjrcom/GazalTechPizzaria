@@ -133,33 +133,33 @@ public class ImprimirController {
 		impressaoCompleta += "Data: " + pedido.getHoraPedido() + "#$" + cortaString(pedido.getTexto1()) + "#$";
 
 		// pizzas------------------------------------------------------------------------------------------
-		if (pedido.getPizzas().length != 0) {
+		if (pedido.getPizzas().size() != 0) {
 			impressaoCompleta += "----------------------------------------#$" + "\t\tPIZZAS#$"
 					+ "QTD    PRODUTO         V.UNI    V.TOTAL#$#$";
 
-			for (int i = 0; i < pedido.getPizzas().length; i++) {
-				impressaoCompleta += limitaString(pedido.getPizzas()[i].getQtd(), 5) + "  "
-						+ limitaString(pedido.getPizzas()[i].getSabor(), 14) + "  "
-						+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco())), 7) + "  "
-						+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas()[i].getPreco())
-								/ Float.parseFloat(pedido.getPizzas()[i].getQtd())), 7)
+			for (int i = 0; i < pedido.getPizzas().size(); i++) {
+				impressaoCompleta += limitaString(pedido.getPizzas().get(i).getQtd(), 5) + "  "
+						+ limitaString(pedido.getPizzas().get(i).getSabor(), 14) + "  "
+						+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas().get(i).getPreco())), 7) + "  "
+						+ limitaString(decimal.format(Float.parseFloat(pedido.getPizzas().get(i).getPreco())
+								/ Float.parseFloat(pedido.getPizzas().get(i).getQtd())), 7)
 						+ "#$";
 
-				if (pedido.getPizzas()[i].getBorda() != "")
-					impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 30) + "#$";
+				if (pedido.getPizzas().get(i).getBorda().length() != 0)
+					impressaoCompleta += "Com " + limitaString(pedido.getPizzas().get(i).getBorda(), 30) + "#$";
 			}
 		}
 
-		if (pedido.getProdutos().length != 0) {
+		if (pedido.getProdutos().size() != 0) {
 			impressaoCompleta += "----------------------------------------#$" + "\t\tPRODUTOS#$"
 					+ "QTD    PRODUTO         V.UNI    V.TOTAL#$#$";
 
-			for (int i = 0; i < pedido.getProdutos().length; i++) {
-				impressaoCompleta += limitaString(pedido.getProdutos()[i].getQtd(), 5) + "  "
-						+ limitaString(pedido.getProdutos()[i].getSabor(), 14) + "  "
-						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco())), 7) + "  "
-						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos()[i].getPreco())
-								/ Float.parseFloat(pedido.getProdutos()[i].getQtd())), 7)
+			for (int i = 0; i < pedido.getProdutos().size(); i++) {
+				impressaoCompleta += limitaString(pedido.getProdutos().get(i).getQtd(), 5) + "  "
+						+ limitaString(pedido.getProdutos().get(i).getSabor(), 14) + "  "
+						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos().get(i).getPreco())), 7) + "  "
+						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos().get(i).getPreco())
+								/ Float.parseFloat(pedido.getProdutos().get(i).getQtd())), 7)
 						+ "#$";
 			}
 		}
@@ -216,29 +216,30 @@ public class ImprimirController {
 				+ pedido.getComanda() + "#$" + "Cliente:" + "#$" + cortaString(pedido.getNome()) + "#$";
 
 		//pizzas
-		if (pedido.getPizzas().length != 0) {
+		if (pedido.getPizzas().size() != 0) {
 			impressaoCompleta += "----------------------------------------#$" + "\t\tPIZZAS#$" + "QTD   PRODUTO#$#$";
 
-			for (int i = 0; i < pedido.getPizzas().length; i++) {
-				impressaoCompleta += limitaString(pedido.getPizzas()[i].getQtd(), 4) + "  "
-						+ cortaString(pedido.getPizzas()[i].getSabor()) + "#$";
-				if (pedido.getPizzas()[i].getBorda() != "")
-					impressaoCompleta += "Com " + limitaString(pedido.getPizzas()[i].getBorda(), 40) + "#$";
-				if (pedido.getPizzas()[i].getObs() != "")
-					impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas()[i].getObs(), 40) + "#$";
+			for (int i = 0; i < pedido.getPizzas().size(); i++) {
+				impressaoCompleta += limitaString(pedido.getPizzas().get(i).getQtd(), 4) + "  "
+						+ cortaString(pedido.getPizzas().get(i).getSabor()) + "#$";
+				if (pedido.getPizzas().get(i).getBorda() != null)
+					impressaoCompleta += "Com " + pedido.getPizzas().get(i).getBorda() + "#$";
+				
+				if (pedido.getPizzas().get(i).getObs().length() != 0)
+					impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas().get(i).getObs(), 35) + "#$";
 				impressaoCompleta += "#$";
 			}
 		}
 		
 		//produtos
-		if (pedido.getProdutos().length != 0) {
+		if (pedido.getProdutos().size() != 0) {
 			impressaoCompleta += "----------------------------------------#$" + "\t\tPRODUTOS#$" + "QTD   PRODUTO#$#$";
 
-			for (int i = 0; i < pedido.getProdutos().length; i++) {
-				impressaoCompleta += limitaString(pedido.getProdutos()[i].getQtd(), 4) + "  "
-						+ cortaString(pedido.getProdutos()[i].getSabor()) + "#$";
-				if (pedido.getProdutos()[i].getObs() != "")
-					impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos()[i].getObs(), 40) + "#$";
+			for (int i = 0; i < pedido.getProdutos().size(); i++) {
+				impressaoCompleta += limitaString(pedido.getProdutos().get(i).getQtd(), 4) + "  "
+						+ cortaString(pedido.getProdutos().get(i).getSabor()) + "#$";
+				if (pedido.getProdutos().get(i).getObs().length() != 0)
+					impressaoCompleta += "OBS: " + limitaString(pedido.getProdutos().get(i).getObs(), 40) + "#$";
 				impressaoCompleta += "#$";
 			}
 		}

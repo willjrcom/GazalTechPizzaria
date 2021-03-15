@@ -4,8 +4,8 @@ var linhaHtml = "";
 var impressaoPedido;
 
 $(document).ready(() => $("#nomePagina").text("Cozinha"));
-$("#filtro").selectmenu().addClass("overflow");
-$("#setor").selectmenu().addClass("overflow");
+$("#filtro, #setor").selectmenu().addClass("overflow");
+$("#filtro, #setor").change(() => mostrar());
 
 //-------------------------------------------------------------------------------------------------------------------
 $("#ativarAudio").on('click', () => {
@@ -51,8 +51,7 @@ function buscarPedido() {
 			TvelhosPedidos = TnovosPedidos;
 		}
 
-		try { $("#enviar")[0].focus(); } catch { }
-
+		try { $("#enviar")[0].focus(); } catch {}
 		carregarLoading("none");
 	});
 };
@@ -81,7 +80,7 @@ function mostrar() {
 		if ($("#filtro").val() == pedido.envio || $("#filtro").val() == 'TODOS') {
 			divisao = 1;
 			for ([j, pizza] of pedido.pizzas.entries()) {
-				if ($("#setor").val() == pizza.setor) {
+				if ($("#setor").val() == pizza.setor || $("#setor").val() == 'TODOS') {
 					linhaHtml += '<tr>';
 
 					if (j == 0) {//se for a primeira linha de cada pedido
@@ -178,7 +177,7 @@ function enviarPedido() {
 						url: "/cozinha/enviarPedido/" + idProduto,
 						type: 'PUT'
 					}).done(function() {
-						document.location.href = "/bar";
+						buscarPedido();
 					});
 				},
 			},
