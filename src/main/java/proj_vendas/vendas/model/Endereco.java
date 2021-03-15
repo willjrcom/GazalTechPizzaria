@@ -31,4 +31,6 @@ public class Endereco extends AbstractEntity<Long>{
 	private String referencia;
 	
 	private float taxa = 0;
+	
+	private int codEmpresa;
 }

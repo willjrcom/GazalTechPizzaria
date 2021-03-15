@@ -5,7 +5,7 @@ var linhaHtml = "";
 var impressaoPedido;
 
 carregarLoading("block");
-$(document).ready(() => $("#nomePagina").text("Produtos prontos"));
+$(document).ready(() => $("#nomePagina").text("Produtos Prontos"));
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------

@@ -16,9 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Cliente;
 import proj_vendas.vendas.model.Conquista;
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.Endereco;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Empresas;
+import proj_vendas.vendas.repository.Enderecos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
@@ -34,6 +36,9 @@ public class CadastroClienteController {
 	@Autowired
 	private Empresas empresas;
 
+	@Autowired
+	private Enderecos enderecos;
+	
 	@RequestMapping("/**")
 	public ModelAndView CadastroCliente() {
 		return new ModelAndView("cadastroCliente");
@@ -87,8 +92,12 @@ public class CadastroClienteController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
+		//set codEmpresa do cliente
 		cliente.setCodEmpresa(user.getCodEmpresa());
-
+		Endereco endereco = cliente.getEndereco();
+		endereco.setCodEmpresa(user.getCodEmpresa());
+		cliente.setEndereco(endereco);
+		
 		if (cliente.getId() == null) {
 			cliente.setDataCadastro(user.getDia());
 			liberarConquistas(clientes.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
@@ -117,6 +126,17 @@ public class CadastroClienteController {
 		return ResponseEntity.noContent().build();
 	}
 
+	
+	@RequestMapping("/enderecos")
+	@ResponseBody
+	public List<String> buscarEndereco(){
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		
+		return enderecos.buscarEnderecos(user.getCodEmpresa());
+	}
+	
+	
 	private void liberarConquistas(int cadastros, int codEmpresa) {
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
