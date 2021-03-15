@@ -213,7 +213,7 @@ function carregarLoading(texto) {
 //----------------------------------------------------------------------------
 function imprimir(cliente) {
 	impressaoPedido = cliente;
-	impressaoPedido.setor = "B";
+	impressaoPedido.setor = "C";
 
 	$.ajax({
 		url: "/imprimir/imprimirProduto",

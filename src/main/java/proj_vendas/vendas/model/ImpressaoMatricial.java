@@ -31,4 +31,6 @@ public class ImpressaoMatricial extends AbstractEntity<Long>{
 	//C - cozinha
 	@Column(nullable=false)
 	private String setor;
+	
+	private String validade;
 }
