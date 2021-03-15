@@ -3,20 +3,50 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Saída do forno</title></head>
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+<title>Saída do forno</title>
+</head>
 
 <body>
-	
+
 	<div class="divbase">
 		<br>
-		<div>
-			<select name="filtro" id="filtro" >
-				<option value="TODOS">Todos</option>
-				<option value="PRONTO">Pronto</option>
-				<option value="COZINHA">Em Andamento</option>
-			</select>
-			<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
+		<div class="row">
+			<div class="col-md-4">
+				<label>Status</label><br>
+				<select id="filtroStatus">
+					<option value="TODOS">Todos</option>
+					<option value="PRONTO">Pronto</option>
+					<option value="COZINHA">Em Andamento</option>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<label>Envio</label><br>
+				<select  id="filtroEnvio">
+					<option value="TODOS">Todos</option>
+					<option value="ENTREGA">Entrega</option>
+					<option value="BALCAO">Balcão</option>
+					<option value="MESA">Mesa</option>
+					<option value="DRIVE">Drive-thru</option>
+				</select>
+			</div>
+
+			<div class="col-md-4">
+				<label>Setor</label><br>
+				<select id="filtroSetor">
+					<option value="PIZZA">Pizza</option>
+					<option value="BEBIDA">Bebida</option>
+					<option value="LANCHE">Lanche</option>
+					<option value="ESFIHA">Esfiha</option>
+					<option value="PASTEL">Pastel</option>
+					<option value="PORCAO">Porção</option>
+					<option value="OUTROS">Outros</option>
+					<option value="TODOS">Todos</option>
+				</select>
+
+				<button onclick="filtrar()" class="btn btn-primary">Filtrar</button>
+			</div>
 		</div>
 		
 		<br>
@@ -24,28 +54,34 @@
 			<table class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th class="text-center col-md-1"><h3>Cliente</h3></th>
+						<th class="text-left col-md-1"><h3>Cliente</h3></th>
 						<th class="text-center col-md-1"><h3>Sabor</h3></th>
 						<th class="text-center col-md-1"><h3>Obs</h3></th>
-						<th class="text-center col-md-1"><h3>Borda</h3></th>
-						<th class="text-center col-md-1"><h3><i class="far fa-clock"></i></h3></th>
+						<th class="text-center col-md-1" id="colBorda"><h3>Borda</h3></th>
+						<th class="text-center col-md-1"><h3>
+								<i class="far fa-clock"></i>
+							</h3></th>
 					</tr>
 				</thead>
-				<tbody id="todosPedidos"><tr><td colspan="6">Nenhum pedido disponível!</td></tr></tbody>
+				<tbody id="todosPedidos">
+					<tr>
+						<td colspan="6">Nenhum pedido disponível!</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</div>
-	
+
 	<br>
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/produtosProntos.js}"></script>
 </body>
 
-	<div th:replace="~{layouts/frag :: inicio}"></div>
+<div th:replace="~{layouts/frag :: inicio}"></div>
 </html>

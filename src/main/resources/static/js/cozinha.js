@@ -32,7 +32,7 @@ function buscarPedido() {
 
 		//se houver diferenca de quantidade anterior e atual
 		if (TvelhosPedidos != TnovosPedidos) {
-			pedidos = salvarPedidos(e);
+			pedidos = e;
 
 			for (pedido of pedidos) {
 				pedido.pizzas = JSON.parse(pedido.pizzas);
@@ -62,11 +62,6 @@ buscarPedido();
 setInterval(function() {
 	buscarPedido();
 }, 10000);//recarregar a cada 10 segundos
-
-
-function salvarPedidos(e) {
-	return pedidos = e;;
-}
 
 
 //--------------------------------------------------------------------------

@@ -38,6 +38,11 @@ public class ProdutosProntosController{
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
 				.getAuthentication().getPrincipal()).getUsername());
 		List<PedidoTemp> pedidos = temps.findByCodEmpresa(user.getCodEmpresa());
+		limpezaAutomatica(pedidos);
+		return pedidos; //mostrar todos
+	}
+	
+	private void limpezaAutomatica(List<PedidoTemp> pedidos) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd kk:mm");
 
 		for(int i = 0; i < pedidos.size(); i++) {
@@ -48,6 +53,5 @@ public class ProdutosProntosController{
 				}
 			}
 		}
-		return pedidos; //mostrar todos
 	}
 }
