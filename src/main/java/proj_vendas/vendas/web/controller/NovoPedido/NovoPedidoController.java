@@ -147,6 +147,21 @@ public class NovoPedidoController {
 			liberarConquistas(conquista, empresa);
 
 		}
+		// validade
+		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-");
+		SimpleDateFormat diaString = new SimpleDateFormat("dd");
+		SimpleDateFormat hora = new SimpleDateFormat("kk:mm");
+		int diasInt = Integer.parseInt(diaString.format(new Date()));
+
+		// permite 4 dias;
+		diasInt += 4;
+
+		if (diasInt < 10)
+			pedido.setValidade(data.format(new Date()) + "0" + diasInt + " " + hora.format(new Date()));
+		else
+			pedido.setValidade(data.format(new Date()) + "" + diasInt + " " + hora.format(new Date()));
+
+		// salvar pedido
 		pedidos.save(pedido);
 
 		return ResponseEntity.ok(pedido); // salvar pedido
@@ -194,10 +209,14 @@ public class NovoPedidoController {
 		SimpleDateFormat hora = new SimpleDateFormat("kk:mm");
 		int diasInt = Integer.parseInt(diaString.format(new Date()));
 
-		// permite 4 dias;
-		diasInt += 2;
+		// permite 1 dias;
+		diasInt += 1;
 
-		temp.setValidade(data.format(new Date()) + "" + diasInt + "" + hora.format(new Date()));
+		if (diasInt < 10)
+			temp.setValidade(data.format(new Date()) + "0" + diasInt + " " + hora.format(new Date()));
+		else
+			temp.setValidade(data.format(new Date()) + "" + diasInt + " " + hora.format(new Date()));
+
 		temp.setCodEmpresa(user.getCodEmpresa());
 		temp.setData(user.getDia());
 		temp.setStatus("COZINHA");

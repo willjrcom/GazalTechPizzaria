@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import proj_vendas.vendas.model.Compra;
 import proj_vendas.vendas.model.Dado;
 import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.Funcionario;
@@ -48,7 +49,7 @@ public class ImprimirController {
 
 	@Autowired
 	private Dados dados;
-
+	
 	@RequestMapping("/online/{codEmpresa}/{setor}")
 	@ResponseBody
 	public String impressaoNetBeans(@PathVariable int codEmpresa, @PathVariable String setor) {// modo online
@@ -67,9 +68,10 @@ public class ImprimirController {
 			if (todosIm.get(i).getValidade().compareTo(validar.format(new Date()).toString()) < 0) {
 				impressoes.deleteById(todosIm.get(i).getId());
 				todosIm.remove(i);
+				System.out.println("apagou");
 			}
 		}
-
+		System.out.print("\npassou total: " + todosIm.size());
 		if (todosIm.size() != 0) {
 			ImpressaoMatricial im = todosIm.get(0);
 			impressoes.deleteById(im.getId());
@@ -262,7 +264,10 @@ public class ImprimirController {
 		pagamento.setUsuario(user.getEmail());
 
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		Funcionario funcionario = funcionarios.findById(id).get();
+		Funcionario funcionario = null;
+		
+		if(funcionarios.findById(id).isPresent())
+			funcionario = funcionarios.findById(id).get();
 
 		String impressaoCompleta = "";
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", "
@@ -385,6 +390,47 @@ public class ImprimirController {
 		return new ModelAndView("fechamento");
 	}
 
+	
+	@RequestMapping("/compras")
+	public void imprimirCompras() {
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
+
+		String impressaoCompleta = "";
+		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", "
+				+ empresa.getEndereco().getBairro();
+
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) 
+				+ "#$" + cortaString(endereco) + "#$"
+				+ "CNPJ: " + empresa.getCnpj() + "#$" 
+				+ "----------------------------------------#$"
+				+ "         REGISTRO DE PAGAMENTO          #$" 
+				+ "----------------------------------------#$"
+				+ "Usuario logado: " + user.getEmail() + "#$" 
+				+ "Data: " 	+ user.getDia().split("-")[2] + "/"
+							+ user.getDia().split("-")[1] + "/"
+							+ user.getDia().split("-")[0]
+				+ "#$" 
+				+ "----------------------------------------#$"
+				+ "\t\tCOMPRAS #$";
+		
+		List<Compra> todasCompras = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()).getCompra();
+		
+		if(todasCompras.size() != 0) {
+			for(int i = 0; i < todasCompras.size(); i++) {
+				impressaoCompleta += limitaString(todasCompras.get(i).getNome(), 20) 
+						+ "     R$ " + todasCompras.get(i).getValor() + "#$"; 
+			}
+		}else {
+			impressaoCompleta += "Nenhuma compra fita hoje!";
+		}
+		
+		//System.out.println(impressaoCompleta);
+		imprimirLocal(impressaoCompleta, "A");
+	}
+	
+	
 	private float calcularSangria(List<Sangria> sangria) {
 		int i;
 		float total = 0;
@@ -411,21 +457,24 @@ public class ImprimirController {
 
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
-		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd kk");
+		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd kk:");
 		SimpleDateFormat minutoString = new SimpleDateFormat("mm");
 		int minutoInt = Integer.parseInt(minutoString.format(new Date()));
 
-		if (empresa.isImprimir() == true) {
+		if (empresa.isImprimir()) {
 			impressaoCompleta = impressaoCompleta.replace("ç", "c").replace("á", "a").replace("ã", "a")
 					.replace("à", "a").replace("Á", "A").replace("À", "A").replace("ó", "o").replace("õ", "o")
 					.replace("ô", "o").replace("ò", "o").replace("é", "e").replace("ê", "e").replace("è", "e")
 					.replace("í", "i").replace("ú", "u").replace("ì", "i");
 
 			ImpressaoMatricial im = new ImpressaoMatricial();
-			// permite 4 minutos;
+			// validade + 2 minutos;
 			minutoInt += 2;
-
-			im.setValidade(data.format(new Date()) + ":" + minutoInt);
+			if(minutoInt < 10)
+				im.setValidade(data.format(new Date()) + "0" + minutoInt);
+			else
+				im.setValidade(data.format(new Date()) + minutoInt);
+				
 			im.setImpressao(impressaoCompleta);
 			im.setCodEmpresa(user.getCodEmpresa());
 			im.setSetor(setor);

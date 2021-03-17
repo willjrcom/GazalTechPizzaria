@@ -50,12 +50,16 @@ public class CozinhaController{
 		int minutoInt = Integer.parseInt(minutoString.format(new Date()));
 		
 		//pedido temp do cliente
-		PedidoTemp pedido = temps.findById((long)id).get();
+		PedidoTemp pedido = temps.findById(id).get();
 		
 		//permite 4 minutos;
 		minutoInt += 4;
 		
-		pedido.setValidade(data.format(new Date()) + ":" + minutoInt);
+		if(minutoInt < 10)
+			pedido.setValidade(data.format(new Date()) + ":0" + minutoInt);
+		else
+			pedido.setValidade(data.format(new Date()) + ":" + minutoInt);
+		
 		pedido.setStatus("PRONTO");
 		return temps.save(pedido);
 	}

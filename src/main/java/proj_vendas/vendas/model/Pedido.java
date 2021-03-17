@@ -61,4 +61,6 @@ public class Pedido extends AbstractEntity<Long> {
 	private float total = 0;
 	private float troco = 0;
 	private float servico = 0;
+	
+	private String validade;
 }

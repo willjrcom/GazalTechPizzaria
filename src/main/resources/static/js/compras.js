@@ -98,7 +98,7 @@ function mostrarProdutos(e){
 	produtos = e;
 	//se existir algum produto
 	if(produtos.length != 0) {
-		for(produto of produtos) {
+		for(let produto of produtos) {
 			Tcompras += '<tr>'
 						+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
 						+ '<td class="text-center col-md-1">R$ ' + produto.valor.toFixed(2) + '</td>'
@@ -114,7 +114,10 @@ function mostrarProdutos(e){
 
 
 function imprimir(){
-	
+	carregarLoading("block");
+	$.ajax({
+		url: '/imprimir/compras'
+	}).done(() => carregarLoading("none"));
 }
 
 
