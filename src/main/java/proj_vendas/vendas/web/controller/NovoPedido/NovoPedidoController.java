@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,7 @@ import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/novoPedido")
+@RequestMapping("/u")
 public class NovoPedidoController {
 
 	@Autowired
@@ -62,7 +63,7 @@ public class NovoPedidoController {
 	@Autowired
 	private Funcionarios funcionarios;
 
-	@RequestMapping("/**")
+	@GetMapping("/novoPedido/**")
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
@@ -72,7 +73,7 @@ public class NovoPedidoController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/numeroCliente/{celular}")
+	@RequestMapping("/novoPedido/numeroCliente/{celular}")
 	@ResponseBody
 	public Cliente buscarNumeroCliente(@PathVariable Long celular) {
 		Usuario user = usuarios.findByEmail(
@@ -80,7 +81,7 @@ public class NovoPedidoController {
 		return clientes.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
 	}
 
-	@RequestMapping(value = "/nomeProduto/{nome}")
+	@RequestMapping("/novoPedido/nomeProduto/{nome}")
 	@ResponseBody
 	public List<Produto> buscarProduto(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(
@@ -105,7 +106,7 @@ public class NovoPedidoController {
 		return produtos.findByCodEmpresaAndNomeContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
 	}
 
-	@RequestMapping(value = "/bordas")
+	@RequestMapping("/novoPedido/bordas")
 	@ResponseBody
 	public List<Produto> mostrarBordas() {
 		Usuario user = usuarios.findByEmail(
@@ -113,7 +114,7 @@ public class NovoPedidoController {
 		return produtos.findByCodEmpresaAndSetorAndDisponivel(user.getCodEmpresa(), "BORDA", true);
 	}
 
-	@RequestMapping(value = "/salvarPedido")
+	@RequestMapping("/novoPedido/salvarPedido")
 	@ResponseBody
 	public ResponseEntity<Pedido> salvarPedido(@RequestBody Pedido pedido) {
 		Usuario user = usuarios.findByEmail(
@@ -167,7 +168,7 @@ public class NovoPedidoController {
 		return ResponseEntity.ok(pedido); // salvar pedido
 	}
 
-	@RequestMapping(value = "/editarPedido/{id}")
+	@RequestMapping("/novoPedido/editarPedido/{id}")
 	@ResponseBody
 	public ResponseEntity<Pedido> editarPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(
@@ -180,7 +181,7 @@ public class NovoPedidoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/atualizarPedido/{nome}")
+	@RequestMapping("/novoPedido/atualizarPedido/{nome}")
 	@ResponseBody
 	public Pedido atualizarPedido(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(
@@ -198,7 +199,7 @@ public class NovoPedidoController {
 		return pedidoAntigo;
 	}
 
-	@RequestMapping(value = "/salvarTemp")
+	@RequestMapping("/novoPedido/salvarTemp")
 	@ResponseBody
 	public void salvarTemp(@RequestBody PedidoTemp temp) {
 		Usuario user = usuarios.findByEmail(
@@ -224,7 +225,7 @@ public class NovoPedidoController {
 		temps.save(temp);
 	}
 
-	@RequestMapping(value = "/excluirPedidosTemp/{comanda}")
+	@RequestMapping("/novoPedido/excluirPedidosTemp/{comanda}")
 	@ResponseBody
 	public void excluirPedidoTemp(@PathVariable long comanda) {
 		Usuario user = usuarios.findByEmail(
@@ -233,7 +234,7 @@ public class NovoPedidoController {
 		temps.deleteInBatch(temp);
 	}
 
-	@RequestMapping("/mostrarCupons")
+	@RequestMapping("/novoPedido/mostrarCupons")
 	@ResponseBody
 	public List<Cupom> cupons() {
 		Usuario user = usuarios.findByEmail(
@@ -241,7 +242,7 @@ public class NovoPedidoController {
 		return empresas.findByCodEmpresa(user.getCodEmpresa()).getCupom();
 	}
 
-	@RequestMapping("/autoComplete")
+	@RequestMapping("/novoPedido/autoComplete")
 	@ResponseBody
 	public List<String> autoComplete() {
 		Usuario user = usuarios.findByEmail(
@@ -249,7 +250,7 @@ public class NovoPedidoController {
 		return produtos.nomesProdutos(user.getCodEmpresa());
 	}
 
-	@RequestMapping("/garcons")
+	@RequestMapping("/novoPedido/garcons")
 	@ResponseBody
 	public List<Funcionario> garcons() {
 		Usuario user = usuarios.findByEmail(

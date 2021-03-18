@@ -15,7 +15,7 @@ if ($("#btnCadastrar").val() == 1) {
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");
 $.ajax({
-	url: "/motoboy/todosPedidos",
+	url: "/u/motoboy/todosPedidos",
 	type: 'GET'
 }).done(function(e) {
 	pedidos = e;
@@ -119,13 +119,13 @@ function entregarPedido() {
 
 					//ENVIAR PEDIDO
 					$.ajax({
-						url: "/motoboy/enviarMotoboy/" + idProduto + '/' + $("#filtro").val(),
+						url: "/u/motoboy/enviarMotoboy/" + idProduto + '/' + $("#filtro").val(),
 						beforeSend: function() {
 							imprimir(pedidos[idBusca]);
 						},
 						type: 'PUT'
 					}).done(function() {
-						document.location.href = "/motoboy";
+						document.location.href = "/u/motoboy";
 					});
 
 				}
@@ -170,7 +170,7 @@ function gerarLogMotoboy(pedido) {
 	objeto.nome = pedido.nome;
 
 	$.ajax({
-		url: "/motoboy/salvarLogMotoboy/" + $("#filtro").val(),
+		url: "/u/motoboy/salvarLogMotoboy/" + $("#filtro").val(),
 		type: "POST",
 		dataType: 'json',
 		contentType: "application/json",
@@ -182,7 +182,7 @@ function gerarLogMotoboy(pedido) {
 function verEntregasNaRua() {
 	carregarLoading("block");
 	$.ajax({
-		url: '/motoboy/entregasNaRua',
+		url: '/u/motoboy/entregasNaRua',
 		type: 'GET'
 	}).done(pedidos => {
 		let linhaHtml = "";

@@ -27,13 +27,7 @@ $("#relatorio").click(function() {
 		url: '/imprimir/relatorioFechamento'
 	}).done(function() {
 		carregarLoading("none");
-
 		$("#relatorio").attr("disabled", false);
-		relatorio = $.alert({ type: "green", title: "Relatório", content: "Gerado com sucesso!" });
-		relatorio.open();
-		setTimeout(function() {
-			relatorio.close();
-		}, 10000);
 	}).fail(function() {
 		carregarLoading("none");
 		$("#relatorio").attr("disabled", false);
@@ -46,7 +40,7 @@ $.ajax({
 	url: "/adm/fechamento/dados",
 	type: "GET"
 }).done(function(e) {
-	//motoboy-------------------------------------------------------------------
+	//u/motoboy-------------------------------------------------------------------
 	if (e.logMotoboy.length != 0)
 		carregarMotoboy(e.logMotoboy);
 	else
@@ -197,15 +191,10 @@ function calcularCompra(compras) {
 			Tcompras += parseFloat(produto.valor);
 		}
 
-		$("#compras").html('<thead class="table table-striped table-hover"><tr>'
-			+ '<th class="text-center"><h5><i class="fas fa-dollar-sign"></i> Total compras da empresa</h5></th>'
-			+ '</tr></thead>'
-			+ '<tr>'
+		$("#compras").html('<tr>'
 			+ '<td class="text-center col-md-1">R$ ' + Tcompras.toFixed(2) + '</td>'
 			+ '</tr>'
 		);
-	} else {
-		$("#compras").text("Nenhuma compra feita hoje!");
 	}
 }
 
@@ -214,9 +203,7 @@ function calcularSangria(sangrias) {
 	if (typeof sangrias != "undefined") {
 		let totalSangria = 0, sangriaHtml = '';
 
-		sangriaHtml = '<thead><tr class="table table-striped table-hover">'
-			+ '<th class="text-center" colspan="2"><h5><i class="fas fa-dollar-sign"></i> Sangrias do dia</h5></th>'
-			+ '</tr></thead>';
+		sangriaHtml = "";
 
 		for (let sangria of sangrias) {
 			totalSangria += parseFloat(sangria.valor);
@@ -238,8 +225,6 @@ function calcularSangria(sangrias) {
 
 
 		$("#todasSangrias").html(sangriaHtml);
-	} else {
-		$("#todasSangrias").text("Nenhuma sangria feita hoje!");
 	}
 }
 
@@ -397,7 +382,7 @@ function troco() {
 					} else {
 						carregarLoading("block");
 						$.ajax({
-							url: '/adm/fechamento/finalizar/' + troco,
+							url: '/adm/fechamento/u/finalizar/' + troco,
 							type: 'POST'
 						}).done(function() {
 							carregarLoading("none");

@@ -30,46 +30,46 @@
 
 		<br>
 		<div class="row">
-			<div class="col-md-6 bloco border">
-				<h4 align="center" class="text-white">Lucro bruto/líquido</h4>
+			<div class="col-md-4 border">
+				<h4 align="center" class="text-white bloco">Lucro bruto/líquido</h4>
 				<div class="border border-dark" id="totalVendas"></div>
 			</div>
-			<div class="col-md-6 bloco border">
-				<h4 align="center" class="text-white">Comparativo de vendas</h4>
+			
+			<div class="col-md-4 border">
+				<h4 align="center" class="text-white bloco">Comparativo de vendas</h4>
 				<div class="border border-dark" id="entregaBalcao"></div>
+			</div>
+			
+			<div class="col-md-4 border">
+				<h4 align="center" class="text-white bloco">Tendência de crescimento</h4>
+				<div class="border border-dark" id="tendencia"></div>
 			</div>
 		</div>
 		<br>
 		<div class="row">
-			<div class="col-md-6 bloco border">
-				<div class="bloco">
-					<h4 align="center" class="text-white">Crescimento da empresa</h4>
-					<div align="center" class="bg-light border border-dark">
-						<label id="taxaCrescimento"><b>- 0.00 %</b></label>
-					</div>
-				</div>
-
-
-				<div class="bloco">
-					<h4 align="center" class="text-white">Variação de movimento</h4>
-					<div align="center" class="bg-light border border-dark">
-						<label id="desvioPadrao"><b>R$ 0.00</b></label>
-					</div>
-				</div>
-
-				<div class="bloco">
-					<h4 align="center" class="text-white">Média de vendas</h4>
-					<div align="center" class="bg-light border border-dark">
-						<label id="media"><b>R$ 0.00</b></label>
-					</div>
+			<div class="col-md-3">
+				<h4 align="center" class="text-white bloco">Crescimento da empresa</h4>
+				<div align="center" class="bg-light border border-dark">
+					<label id="taxaCrescimento"><b>- 0.00 %</b></label>
 				</div>
 			</div>
-			<div class="col-md-6 bloco border">
-				<h4 align="center" class="text-white">Tendência de crescimento</h4>
-				<div class="border border-dark" id="tendencia"></div>
-				
-				<br>
-				<h4 align="center" class="text-white">Estabilidade de vendas</h4>
+
+			<div class="col-md-3">
+				<h4 align="center" class="text-white bloco">Variação de movimento</h4>
+				<div align="center" class="bg-light border border-dark">
+					<label id="desvioPadrao"><b>R$ 0.00</b></label>
+				</div>
+			</div>
+			
+			<div class="col-md-3">
+				<h4 align="center" class="text-white bloco">Média de vendas</h4>
+				<div align="center" class="bg-light border border-dark">
+					<label id="media"><b>R$ 0.00</b></label>
+				</div>
+			</div>
+
+			<div class="col-md-3">
+				<h4 align="center" class="text-white bloco">Estabilidade de vendas</h4>
 				<div align="center" class="bg-light border border-dark">
 					<label id="correlacao"><b>0.00</b></label>
 				</div>
@@ -115,5 +115,5 @@
 	<script th:src="@{/js/estatistica.js}"></script>
 </body>
 
-<div th:replace="~{layouts/frag :: empresa}"></div>
+<div th:replace="~{layouts/frag :: inicio}"></div>
 </html>

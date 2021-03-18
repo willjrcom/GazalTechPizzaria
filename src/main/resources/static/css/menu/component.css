@@ -26,7 +26,11 @@
 		text-transform: none;
 		font-weight: 300;
 		font-family: 'Lato', Arial, sans-serif;
-		line-height: 60px;
+		line-height: 35px;
+}
+
+.gn-menu-top{
+	line-height: 50px;
 }
 
 .gn-menu-main {
@@ -34,8 +38,9 @@
 		top: 0;
 		left: 0;
 		width: 100%;
-		height: 60px;
+		height: 50px;
 		font-size: 13px;
+		border-bottom: 0.5px solid #c6d0da;
 }
 
 .gn-menu-main a {
@@ -95,7 +100,7 @@
 
 .gn-menu-wrapper {
 		position: fixed;
-		top: 60px;
+		top: 50px;
 		bottom: 0;
 		left: 0;
 		overflow: hidden;
@@ -121,7 +126,7 @@
 .gn-menu {
 		border-bottom: 1px solid #c6d0da;
 		text-align: left;
-		font-size: 18px;
+		font-size: 15px;
 }
 
 .gn-menu li:not(:first-child),
@@ -328,4 +333,40 @@ input.gn-search:focus {
 	.gn-menu-wrapper.gn-open-all .gn-scroller {
 			width: 130%;
 	}
+}
+
+/* personalizar a barra em geral, aqui estou definindo 10px de largura para a barra vertical
+e 10px de altura para a barra horizontal */
+::-webkit-scrollbar {
+width:10px;
+height: 10px;
+}
+ 
+/* aqui é para personalizar o fundo da barra, neste caso estou colocando um fundo cinza escuro*/
+::-webkit-scrollbar-track {
+background:#333;
+}
+ 
+/* aqui é a alça da barra, que demonstra a altura que você está na página
+estou colocando uma cor azul clara nela*/
+::-webkit-scrollbar-thumb {
+background: #2e9dd8;
+}
+
+/* degrade para a barra vertical */
+::-webkit-scrollbar-thumb {
+background: #2e9dd8;
+background: -moz-linear-gradient(top, #333333 0%, #3f69b1 25%, #2e9dd8 50%, #3f69b1 76%, #333333 100%);
+background: -webkit-linear-gradient(top, #333333 0%,#3f69b1 25%,#2e9dd8 50%,#3f69b1 76%,#333333 100%);
+background: linear-gradient(to bottom, #333333 0%,#3f69b1 25%,#2e9dd8 50%,#3f69b1 76%,#333333 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#333333',GradientType=0 );
+}
+ 
+/* degrade para a barra horizontal com a direção do degrade alterada */
+::-webkit-scrollbar-thumb:horizontal {
+background: #2e9dd8;
+background: -moz-linear-gradient(left, #333333 0%, #3f69b1 25%, #2e9dd8 50%, #3f69b1 76%, #333333 100%);
+background: -webkit-linear-gradient(left, #333333 0%,#3f69b1 25%,#2e9dd8 50%,#3f69b1 76%,#333333 100%);
+background: linear-gradient(to right, #333333 0%,#3f69b1 25%,#2e9dd8 50%,#3f69b1 76%,#333333 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#333333',GradientType=0 );
 }

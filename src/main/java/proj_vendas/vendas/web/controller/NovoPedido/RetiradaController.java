@@ -16,7 +16,7 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/retirada")
+@RequestMapping("/u")
 public class RetiradaController{
 	
 	@Autowired
@@ -25,12 +25,12 @@ public class RetiradaController{
 	@Autowired
 	private Usuarios usuarios;
 
-	@RequestMapping
+	@RequestMapping("/retirada")
 	public ModelAndView pronto() {
 		return new ModelAndView("retirada");
 	}
 	
-	@RequestMapping(value = "/todosPedidos")
+	@RequestMapping(value = "/retirada/todosPedidos")
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()

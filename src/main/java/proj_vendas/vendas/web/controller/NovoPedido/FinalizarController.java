@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/finalizar")
+@RequestMapping("/u")
 public class FinalizarController {
 
 	@Autowired
@@ -50,7 +51,7 @@ public class FinalizarController {
 	@Autowired
 	private Clientes clientes;
 
-	@RequestMapping
+	@GetMapping("/finalizar")
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
@@ -69,7 +70,7 @@ public class FinalizarController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/todosPedidos")
+	@RequestMapping("/finalizar/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(
@@ -80,7 +81,7 @@ public class FinalizarController {
 
 	}
 
-	@RequestMapping("/dados/{id}")
+	@RequestMapping("/finalizar/dados/{id}")
 	@ResponseBody
 	public Dado salvarDados(@RequestBody Dado pedidoDados, @PathVariable Long id) {
 		Usuario user = usuarios.findByEmail(
@@ -124,7 +125,7 @@ public class FinalizarController {
 		return dados.save(dado);
 	}
 
-	@RequestMapping(value = "/finalizarPedido/{id}/{ac}")
+	@RequestMapping("/finalizar/finalizarPedido/{id}/{ac}")
 	@ResponseBody
 	public Pedido enviarPedido(@PathVariable long id, @PathVariable String ac) {
 		Usuario user = usuarios.findByEmail(
@@ -151,7 +152,7 @@ public class FinalizarController {
 		clientes.save(cliente);
 	}
 
-	@RequestMapping(value = "/top10Pizzas")
+	@RequestMapping("/finalizar/top10Pizzas")
 	@ResponseBody
 	public void top10Pizzas(@RequestBody List<String> pizzas) {
 		Usuario user = usuarios.findByEmail(

@@ -14,7 +14,7 @@ function buscarPedidos() {
 	[produtos, pizzas] = [[], []];
 
 	$.ajax({
-		url: "/produtosProntos/todosPedidos",
+		url: "/u/produtosProntos/todosPedidos",
 		type: 'GET'
 	}).done(function(e) {
 		//se o pedido vazio

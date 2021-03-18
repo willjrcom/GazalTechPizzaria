@@ -1,0 +1,14 @@
+{
+	"name": "gazaltechpizzaria",
+	"short_name": "Gazaltech",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#fff",
+	"description": "Sistema de pedidos online.",
+	"icons": [
+  {
+    "src": "img/iconePag.ico",
+    "sizes": "48x48",
+    "type": "image/x-icon"
+  }]
+}

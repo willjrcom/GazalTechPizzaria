@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +20,7 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/cozinha")
+@RequestMapping("/u")
 public class CozinhaController{
 	
 	@Autowired
@@ -28,12 +29,12 @@ public class CozinhaController{
 	@Autowired
 	private Usuarios usuarios;
 	
-	@RequestMapping
+	@GetMapping("/cozinha")
 	public ModelAndView Cozinha() {
 		return new ModelAndView("cozinha");
 	}
 	
-	@RequestMapping(value = "/todosPedidos")
+	@RequestMapping("/cozinha/todosPedidos")
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -42,7 +43,7 @@ public class CozinhaController{
 		return temps.findByCodEmpresaAndStatus(user.getCodEmpresa(), "COZINHA"); //mostrar todos temporarios
 	}
 	
-	@RequestMapping(value = "/enviarPedido/{id}")
+	@RequestMapping("/cozinha/enviarPedido/{id}")
 	@ResponseBody
 	public PedidoTemp enviarPedido(@PathVariable long id) {//falta enviar as outras variaveis
 		SimpleDateFormat data = new SimpleDateFormat("yyyy-MM-dd kk");

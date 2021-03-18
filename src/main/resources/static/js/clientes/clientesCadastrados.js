@@ -215,7 +215,7 @@ function excluirCliente() {
 									
 									//verificar permissao adm
 									$.ajax({
-										url: "/verpedido/autenticado"
+										url: "/u/verpedido/autenticado"
 									}).done(function(e){
 										if(e[0].authority === "ADM" || e[0].authority === "DEV") {
 											if(apagarSim === 'sim' || apagarSim === 'SIM') {

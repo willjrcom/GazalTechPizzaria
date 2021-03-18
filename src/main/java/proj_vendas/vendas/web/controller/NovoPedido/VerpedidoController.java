@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,7 +23,7 @@ import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/verpedido")
+@RequestMapping("/u")
 public class VerpedidoController{
 	
 	@Autowired
@@ -34,13 +35,13 @@ public class VerpedidoController{
 	@Autowired
 	private Usuarios usuarios;
 
-	@RequestMapping
+	@GetMapping("/verpedido")
 	public ModelAndView tela() {
 		return new ModelAndView("verpedido");
 	}
 	
 	
-	@RequestMapping(value = "/excluirPedido/{id}")
+	@RequestMapping("/verpedido/excluirPedido/{id}")
 	@ResponseBody
 	public ResponseEntity<Pedido> excluirPedido(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -58,7 +59,7 @@ public class VerpedidoController{
 	}
 	
 	
-	@RequestMapping(value = "/todosPedidos")
+	@RequestMapping(value = "/verpedido/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -67,7 +68,7 @@ public class VerpedidoController{
 	}
 	
 	
-	@RequestMapping("/autenticado")
+	@RequestMapping("/verpedido/autenticado")
 	@ResponseBody
 	public Collection<? extends GrantedAuthority> autenticado() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

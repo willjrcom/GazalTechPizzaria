@@ -22,7 +22,7 @@ if ($("#btnCadastrar").val() == 1) {
 carregarLoading("block");
 $(document).ready(function() {
 	$.ajax({
-		url: "/finalizar/todosPedidos",
+		url: "/u/finalizar/todosPedidos",
 		type: 'GET'
 	}).done(function(e) {
 		pedidos = e;
@@ -215,7 +215,7 @@ function jqueryFinalizar(cliente) {
 
 					//salvar dados
 					$.ajax({
-						url: "/finalizar/dados/" + cliente.id,
+						url: "/u/finalizar/dados/" + cliente.id,
 						type: "POST",
 						dataType: 'json',
 						contentType: "application/json",
@@ -223,7 +223,7 @@ function jqueryFinalizar(cliente) {
 					});
 
 					$.ajax({
-						url: '/finalizar/top10Pizzas',
+						url: '/u/finalizar/top10Pizzas',
 						type: "POST",
 						dataType: 'json',
 						contentType: "application/json",
@@ -231,10 +231,10 @@ function jqueryFinalizar(cliente) {
 					});
 
 					$.ajax({
-						url: "/finalizar/finalizarPedido/" + cliente.id + '/' + $("#filtro").val(),
+						url: "/u/finalizar/finalizarPedido/" + cliente.id + '/' + $("#filtro").val(),
 						type: 'POST'
 					}).done(function() {
-						window.location.href = "/finalizar";
+						window.location.href = "/u/finalizar";
 
 					}).fail(function() {
 						carregarLoading("none");

@@ -18,7 +18,7 @@ function buscarPedido() {
 	carregarLoading("block");
 
 	$.ajax({
-		url: "/cozinha/todosPedidos/",
+		url: "/u/cozinha/todosPedidos/",
 		type: 'GET'
 	}).done(function(e) {
 		//se o pedido vazio
@@ -174,7 +174,7 @@ function enviarPedido() {
 					imprimir(pedidos[idBusca]);
 
 					$.ajax({
-						url: "/cozinha/enviarPedido/" + idProduto,
+						url: "/u/cozinha/enviarPedido/" + idProduto,
 						type: 'PUT'
 					}).done(function() {
 						buscarPedido();

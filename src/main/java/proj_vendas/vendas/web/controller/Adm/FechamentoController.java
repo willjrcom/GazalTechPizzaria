@@ -59,7 +59,7 @@ public class FechamentoController {
 	}
 	
 	
-	@RequestMapping(value = "/fechamento/finalizar/{trocoFinal}")
+	@RequestMapping(value = "/fechamento/u/finalizar/{trocoFinal}")
 	@ResponseBody
 	public Dado finalizarCaixa(@PathVariable float trocoFinal) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()

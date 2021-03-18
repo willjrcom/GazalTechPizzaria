@@ -3,7 +3,6 @@ package proj_vendas.vendas.web.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -141,12 +140,6 @@ public class MenuController {
 		return dado;
 	}
 
-	@RequestMapping(value = "/mostrarDivulgacao")
-	@ResponseBody
-	public Optional<Divulgar> mostrarDivulgacao() {
-		return divulgacoes.findById((long) 1);
-	}
-
 	@RequestMapping(value = "/diaAberto")
 	@ResponseBody
 	public ResponseEntity<List<Dado>> todos() {
@@ -222,7 +215,6 @@ public class MenuController {
 	}
 
 	private ModelAndView mostrarDivulgacoes(ModelAndView mv) {
-		System.out.println("mostrar divulgacoes");
 		try {
 			Divulgar divulgar = divulgacoes.findById((long) 1).get();
 			if (divulgar.isMostrarNovidades()) {

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ import proj_vendas.vendas.repository.Pedidos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/motoboy")
+@RequestMapping("/u")
 public class MotoboyController {
 
 	@Autowired
@@ -47,7 +48,7 @@ public class MotoboyController {
 	@Autowired
 	private Empresas empresas;
 
-	@RequestMapping
+	@GetMapping("/motoboy")
 	public ModelAndView tela() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
@@ -66,7 +67,7 @@ public class MotoboyController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/todosPedidos")
+	@RequestMapping("/motoboy/todosPedidos")
 	@ResponseBody
 	public List<Pedido> todosPedidos() {
 		Usuario user = usuarios.findByEmail(
@@ -75,7 +76,7 @@ public class MotoboyController {
 				"PRONTO");
 	}
 
-	@RequestMapping(value = "/salvarLogMotoboy/{id}")
+	@RequestMapping("/motoboy/salvarLogMotoboy/{id}")
 	@ResponseBody
 	public LogMotoboy salvarLogMotoboys(@RequestBody LogMotoboy logMotoboy, @PathVariable long id) {
 		Usuario user = usuarios.findByEmail(
@@ -93,7 +94,7 @@ public class MotoboyController {
 		return logMotoboy;
 	}
 
-	@RequestMapping(value = "/enviarMotoboy/{idPedido}/{idMotoboy}")
+	@RequestMapping("/motoboy/enviarMotoboy/{idPedido}/{idMotoboy}")
 	@ResponseBody
 	public Pedido enviarPedido(@PathVariable long idPedido, @PathVariable long idMotoboy) {
 		Pedido pedido = pedidos.findById((long) idPedido).get();
@@ -104,7 +105,7 @@ public class MotoboyController {
 		return pedidos.save(pedido);
 	}
 
-	@RequestMapping("/entregasNaRua")
+	@RequestMapping("/motoboy/entregasNaRua")
 	@ResponseBody
 	public List<Pedido> entregasNaRua() {
 		Usuario user = usuarios.findByEmail(

@@ -15,7 +15,7 @@ function buscarPedido() {
 	Tpedidos = 0;
 
 	$.ajax({
-		url: "/verpedido/todosPedidos",
+		url: "/u/verpedido/todosPedidos",
 		type: 'GET'
 	}).done(function(e) {
 
@@ -75,7 +75,7 @@ function mostrar(pedidos, filtro) {
 
 			if (pedido.envio == "ENTREGA") {
 				linhaHtml += '<div class="col-md-1">'
-					+ '<a title="Adicionar ao pedido" href="/novoPedido/atualizar/' + pedido.celular + '" data-toggle="tooltip" data-html="true">'
+					+ '<a title="Adicionar ao pedido" href="/u/novoPedido/atualizar/' + pedido.celular + '" data-toggle="tooltip" data-html="true">'
 					+ '<button class="botao">'
 					+ '<i class="fas fa-plus"></i>'
 					+ '</button>'
@@ -83,7 +83,7 @@ function mostrar(pedidos, filtro) {
 					+ '</div>';
 			} else {
 				linhaHtml += '<div class="col-md-1">'
-					+ '<a title="Adicionar ao pedido" href="/novoPedido/atualizar/' + pedido.nome + '" data-toggle="tooltip" data-html="true">'
+					+ '<a title="Adicionar ao pedido" href="/u/novoPedido/atualizar/' + pedido.nome + '" data-toggle="tooltip" data-html="true">'
 					+ '<button class="botao">'
 					+ '<i class="fas fa-plus"></i>'
 					+ '</button>'
@@ -276,11 +276,11 @@ function editarPedido() {
 				action: function() {
 					//verificar permissao adm
 					$.ajax({
-						url: "/verpedido/autenticado"
+						url: "/u/verpedido/autenticado"
 					}).done(function(e) {
 						if (e[0].authority === "ADM" || e[0].authority === "DEV") {
 
-							window.location.href = "/novoPedido/editar/" + idProduto;
+							window.location.href = "/u/novoPedido/editar/" + idProduto;
 						} else {
 							//se nao for ADM
 							$.alert({
@@ -344,14 +344,14 @@ function excluirPedido() {
 
 									//verificar permissao adm
 									$.ajax({
-										url: "/verpedido/autenticado"
+										url: "/u/verpedido/autenticado"
 									}).done(function(e) {
 										if (e[0].authority === "ADM" || e[0].authority === "DEV") {
 
 											if (apagarSim === 'sim' || apagarSim === 'SIM' || apagarSim === 'Sim') {
 
 												$.ajax({
-													url: "/verpedido/excluirPedido/" + idProduto,
+													url: "/u/verpedido/excluirPedido/" + idProduto,
 													type: 'POST'
 												}).done(function() {
 													$.alert({
@@ -364,7 +364,7 @@ function excluirPedido() {
 																keys: ['enter'],
 																btnClass: 'btn-green',
 																action: function() {
-																	window.location.href = "/verpedido";
+																	window.location.href = "/u/verpedido";
 																}
 															}
 														}

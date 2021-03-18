@@ -23,8 +23,8 @@ var pizzaVazio = '<tr><td colspan="7">Nenhuma pizza adicionada!</td></tr>';
 var produtoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
 
 //url------------------------------------------------------------------------------------------------------
-var modoPedido = window.location.href.split("/")[4];//pega o modo de pedido
-var nomePedido = window.location.href.split("/")[5]; //pega o pedido de edicao do pedido
+var modoPedido = window.location.href.split("/")[5];//pega o modo de pedido
+var nomePedido = window.location.href.split("/")[6]; //pega o pedido de edicao do pedido
 
 //-------------------------------------------------------------------------
 //controlar qauntidade do produto
@@ -94,7 +94,7 @@ function qtdHtml() {
 	let html = "";
 
 	$.ajax({
-		url: '/novoPedido/bordas',
+		url: '/u/novoPedido/bordas',
 		type: 'GET',
 		success: todasBordas => {
 
@@ -112,7 +112,7 @@ function qtdHtml() {
 	});
 
 	$.ajax({
-		url: '/novoPedido/garcons',
+		url: '/u/novoPedido/garcons',
 		type: 'GET',
 		success: todosGarcons => {
 
@@ -151,7 +151,7 @@ if (modoPedido === 'editar') {
 	carregarLoading("block");
 
 	$.ajax({
-		url: "/novoPedido/editarPedido/" + nomePedido,
+		url: "/u/novoPedido/editarPedido/" + nomePedido,
 		type: 'GET'
 	}).done(function(e) {
 
@@ -166,7 +166,7 @@ if (modoPedido === 'editar') {
 						text: 'Recarregar',
 						btnClass: 'btn-success',
 						keys: ['enter', 'esc'],
-						action: () => window.location.href = "/novoPedido"
+						action: () => window.location.href = "/u/novoPedido"
 					}
 				}
 			});
@@ -284,7 +284,7 @@ function buscarCliente() {
 		carregarLoading("block");
 
 		$.ajax({
-			url: "/novoPedido/numeroCliente/" + $("#numeroCliente").val(),
+			url: "/u/novoPedido/numeroCliente/" + $("#numeroCliente").val(),
 			type: 'GET'
 		}).done(function(e) {
 			//verificar se existe
@@ -383,7 +383,7 @@ function mostrarDivsPedido() {
 function atualizarDados() {
 	//buscar pedido no sistema
 	$.ajax({
-		url: "/novoPedido/atualizarPedido/" + cliente.nome,
+		url: "/u/novoPedido/atualizarPedido/" + cliente.nome,
 		type: 'PUT',
 	}).done(function(e) {
 		cliente.data = e.data;
@@ -430,7 +430,7 @@ function buscarProdutos() {
 		carregarLoading("block");
 
 		$.ajax({
-			url: "/novoPedido/nomeProduto/" + $("#nome").val(),
+			url: "/u/novoPedido/nomeProduto/" + $("#nome").val(),
 			type: 'GET'
 		}).done(function(e) {
 			buscaProdutos = e;
@@ -826,7 +826,7 @@ $("#BotaoEnviarPedido").click(function() {
 
 					//buscar pedido no sistema
 					$.ajax({
-						url: "/novoPedido/atualizarPedido/" + cliente.nome,
+						url: "/u/novoPedido/atualizarPedido/" + cliente.nome,
 						type: 'PUT',
 					}).done(function(e) {
 						estruturarPedido(e, troco);
@@ -874,7 +874,7 @@ function estruturarPedido(e, troco) {
 	if (modo == "EDITAR") {
 		//excluir temporarios para nao duplicar
 		$.ajax({
-			url: "/novoPedido/excluirPedidosTemp/" + cliente.comanda,
+			url: "/u/novoPedido/excluirPedidosTemp/" + cliente.comanda,
 			type: 'POST'
 		});
 	}
@@ -896,7 +896,7 @@ function criarTemp(produtoSetor, comanda) {
 
 	//salvar pedido no temp
 	$.ajax({
-		url: '/novoPedido/salvarTemp',
+		url: '/u/novoPedido/salvarTemp',
 		type: 'POST',
 		dataType: 'json',
 		contentType: "application/json",
@@ -909,7 +909,7 @@ function criarTemp(produtoSetor, comanda) {
 function salvarPedido() {
 	//salvar pedido
 	$.ajax({
-		url: "/novoPedido/salvarPedido",
+		url: "/u/novoPedido/salvarPedido",
 		type: "PUT",
 		dataType: 'json',
 		contentType: "application/json",
@@ -957,7 +957,7 @@ function salvarPedido() {
 					btnClass: 'btn-green',
 					keys: ['enter', 'esc'],
 					action: function() {
-						window.location.href = "/novoPedido";
+						window.location.href = "/u/novoPedido";
 					}
 				}
 			}
@@ -982,7 +982,7 @@ function mostrarPedido() {
 
 //-------------------------------------------------------
 function recarregar() {
-	window.location.href = "/novoPedido";
+	window.location.href = "/u/novoPedido";
 }
 
 
@@ -1305,7 +1305,7 @@ function buscarProdutosAutoComplete() {
 	});
 
 	$.ajax({
-		url: '/novoPedido/autoComplete',
+		url: '/u/novoPedido/autoComplete',
 		type: 'GET'
 	}).done(e => {
 		let Produto = {};

@@ -11,7 +11,7 @@ function buscarPedidos() {
 	pedidos = [];
 	
 	$.ajax({
-		url: "/retirada/todosPedidos",
+		url: "/u/retirada/todosPedidos",
 		type: 'GET'
 	}).done(function(e){
 		

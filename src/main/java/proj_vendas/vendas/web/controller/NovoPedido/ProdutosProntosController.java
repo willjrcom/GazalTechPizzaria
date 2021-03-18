@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +19,7 @@ import proj_vendas.vendas.repository.PedidoTemps;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/produtosProntos")
+@RequestMapping("/u")
 public class ProdutosProntosController{
 	
 	@Autowired
@@ -27,12 +28,12 @@ public class ProdutosProntosController{
 	@Autowired
 	private Usuarios usuarios;
 
-	@RequestMapping
+	@GetMapping("/produtosProntos")
 	public ModelAndView tela() {
 		return new ModelAndView("produtosProntos");
 	}
 	
-	@RequestMapping(value = "/todosPedidos")
+	@RequestMapping("/produtosProntos/todosPedidos")
 	@ResponseBody
 	public List<PedidoTemp> todosPedidos() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()

@@ -28,6 +28,9 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	
 	<!-- css -->
     <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
 </head>
 
 <body>
@@ -44,7 +47,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			
 			<nav>
 				<ul th:if="${permissao} != 'MOTOBOY'" class="menuPrincipal" style="padding-left:0;">
-					<li><a th:href="@{/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
+					<li><a th:href="@{/u/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
 					<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
 					<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
 					<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
@@ -54,7 +57,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</ul>
 				
 				<ul th:if="${permissao} == 'MOTOBOY'" class="menuPrincipal" style="padding-left:0;">
-					<li><a th:href="@{/motoboy}"><i class="fas fa-location-arrow"></i> ENTREGAS</a></li>
+					<li><a th:href="@{/u/motoboy}"><i class="fas fa-location-arrow"></i> ENTREGAS</a></li>
 					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
 				</ul>
 			</nav>
@@ -67,7 +70,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<div th:fragment="dadosMenu" class="container" th:if="${permissao} != 'MOTOBOY'">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<a class="gn-icon gn-icon-menu gn-menu-top"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
@@ -154,18 +157,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<a th:href="@{/redefinirSenha}"><i class="fas fa-recycle"></i> <label>Redefinir senha</label></a>
 								<a class="cabecalho" onclick="ajuda()"><i class="fas fa-shield-alt"></i> Suporte</a>
 							</li>
+							
+							
+							<!-- ------------------------------------------------------------------------------------ -->
+							<li th:if="${permissao} == 'DEV'">
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
+								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
+								<a th:href="@{/dev/divulgar}"><i class="fab fa-dev"></i> Divulgar</a>
+							</li>
 						</ul>
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label class="hiddenAndroid" th:text="${empresa}"></label></a>
+			<li><a class="cabecalho gn-menu-top"><label class="hiddenAndroid" th:text="${empresa}"></label></a>
 			<li>
-				<a th:if="${contato} != ''" class="cabecalho hiddenAndroid"><label class="hiddenAndroid" th:text="${contato}"></label></a>
-				<a th:href="@{/adm/empresa}" class="bg-warning" th:unless="${contato} != ''">
+				<a th:if="${contato} != ''" class="cabecalho hiddenAndroid gn-menu-top"><label class="hiddenAndroid" th:text="${contato}"></label></a>
+				<a th:href="@{/adm/empresa}" class="bg-warning gn-menu-top" th:unless="${contato} != ''">
 					<button class="form-control btn btn-warning">Cadastre-se</button>
 				</a>
 			</li>
-			<li><a class="cabecalho" onclick="escolherData()"><i class="fas fa-calendar-check"></i> <span th:text="${data}"></span></a></li>
+			<li><a class="cabecalho gn-menu-top" onclick="escolherData()"><i class="fas fa-calendar-check"></i> <span th:text="${data}"></span></a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
@@ -180,47 +191,26 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<div th:fragment="inicio" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+				<a class="gn-icon gn-icon-menu gn-menu-top" onclick="rolarPagina()"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper" th:if="${permissao} != 'MOTOBOY'">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
 								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
-								<a th:href="@{/verpedido}" accesskey="V"><i class="fas fa-list"></i> Pedidos em aberto</a>
-								<a th:href="@{/novoPedido}" accesskey="N"><i class="fas fa-plus-circle"></i> Novo Pedido</a>
-								<a th:href="@{/motoboy}" accesskey="E"><i class="fas fa-location-arrow"></i> Entregar</a>
-								<a th:href="@{/finalizar}" accesskey="F"><i class="fas fa-hand-holding-usd"></i> Finalizar</a>
+								<a th:href="@{/u/verpedido}" accesskey="V"><i class="fas fa-list"></i> Pedidos em aberto</a>
+								<a th:href="@{/u/novoPedido}" accesskey="N"><i class="fas fa-plus-circle"></i> Novo Pedido</a>
+								<a th:href="@{/u/motoboy}" accesskey="E"><i class="fas fa-location-arrow"></i> Entregar</a>
+								<a th:href="@{/u/finalizar}" accesskey="F"><i class="fas fa-hand-holding-usd"></i> Finalizar</a>
 							</li>
 							
 							<li>
 								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Preparação</b></p>
-								<a th:href="@{/cozinha}" accesskey="C"><i class="far fa-clock"></i> Cozinha</a>
-								<a th:href="@{/produtosProntos}" accesskey="S"><i class="far fa-eye"></i> Produtos prontos</a>
-								<a th:href="@{/retirada}" accesskey="R"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
+								<a th:href="@{/u/cozinha}" accesskey="C"><i class="far fa-clock"></i> Cozinha</a>
+								<a th:href="@{/u/produtosProntos}" accesskey="S"><i class="far fa-eye"></i> Produtos prontos</a>
+								<a th:href="@{/u/retirada}" accesskey="R"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
-						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
-			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
-		</ul>
-		<script th:src="@{/js/menu/classie.js}"></script>
-		<script th:src="@{/js/menu/gnmenu.js}"></script>
-		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
-		</script>
-	</div><!-- /container -->
-	
-	
-	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="adm" class="container">
-		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
+							
+							<!-- ------------------------------------------------------------------------------------ -->
 							<li>
 								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Resumo diário</b></p>
 								<a th:href="@{/relatoriodia}"><i class="fas fa-list"></i> Relatório do dia</a>
@@ -228,33 +218,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							</li>
 							
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Administração</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Administração <i class="fas fa-lock"></i></b></p>
 								<a th:href="@{/adm/fechamento}"><i class="fas fa-cash-register"></i> Fechamento do Dia</a>
 								<a th:href="@{/adm/compras}"><i class="fas fa-cart-plus"></i> Compras do dia</a>
 							</li>
-						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li class="hiddenAndroid"><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
-			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
-		</ul>
-		<script th:src="@{/js/menu/classie.js}"></script>
-		<script th:src="@{/js/menu/gnmenu.js}"></script>
-		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
-		</script>
-	</div><!-- /container -->
-
-
-	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="cadastros" class="container">
-		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
+							
+							<!-- ------------------------------------------------------------------------------------ -->
 							<li>
 								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
 								<a th:href="@{/clientesCadastrados}"><i class="fas fa-user-friends"></i> Cadastrados</a>
@@ -267,47 +236,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							</li>
 							
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Funcionários</b> <i class="fas fa-lock"></i></p>
+								<a th:href="@{/adm/pagamento}"><i class="far fa-credit-card"></i> Pagamentos</a>
 								<a th:href="@{/adm/funcionariosCadastrados}"><i class="fas fa-user-tie"></i> Cadastrados</a>
 								<a th:href="@{/adm/cadastroFuncionario}"><i class="fas fa-plus"></i> Cadastrar</a>
 							</li>
-						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
-			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
-		</ul>
-		<script th:src="@{/js/menu/classie.js}"></script>
-		<script th:src="@{/js/menu/gnmenu.js}"></script>
-		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
-		</script>
-	</div><!-- /container -->
-	
-	
-	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="empresa" class="container">
-		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
+							
+							<!-- ------------------------------------------------------------------------------------ -->
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Gráficos</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Gráficos <i class="fas fa-lock"></i></b></p>
 								<a th:href="@{/adm/estatistica}"><i class="fas fa-chart-bar"></i> Estatística</a>
 								<a th:href="@{/adm/top10}"><i class="fas fa-trophy"></i> Top 10</a>
 								<a th:href="@{/adm/metas}"><i class="fas fa-award"></i> Metas</a>
 							</li>
 							
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Funcionários</b></p>
-								<a th:href="@{/adm/pagamento}"><i class="far fa-credit-card"></i> Pagamentos</a>
-							</li>
-							
-							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Dados</b></p>
+								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Dados <i class="fas fa-lock"></i></b></p>
 								<!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
 								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Empresa</a>
 								<a th:href="@{/adm/mensalidade}"><i class="fas fa-receipt"></i> Mensalidade</a>
@@ -316,8 +260,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					</div><!-- /gn-scroller -->
 				</nav>
 			</li>
-			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
-			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
+			<li><a class="cabecalho gn-menu-top"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
+			<li><a class="gn-menu-top" th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
@@ -325,41 +269,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			new gnMenu( document.getElementById( 'gn-menu' ) );
 		</script>
 	</div><!-- /container -->
-	
-	
-	
-	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="dev" class="container">
-		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
-							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
-								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
-								<a th:href="@{/dev/divulgar}"><i class="fab fa-dev"></i> Divulgar</a>
-							</li>
-							<!-- 
-							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Usuário conectado</b></p>
-								<a class="cabecalho"><label id="usuario"></label></a>
-							</li> -->
-						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li><a class="cabecalho"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
-			<li><a th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
-		</ul>
-		<script th:src="@{/js/menu/classie.js}"></script>
-		<script th:src="@{/js/menu/gnmenu.js}"></script>
-		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
-		</script>
-	</div><!-- /container -->
-	
 	
 	<!--------------------------------------------------------------------------------------------------------->
 	<footer th:fragment="footer">
