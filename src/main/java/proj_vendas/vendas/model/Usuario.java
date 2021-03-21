@@ -1,8 +1,11 @@
 package proj_vendas.vendas.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -18,6 +21,8 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Table(name = "USUARIO",
 		uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class Usuario extends AbstractEntity<Long> {
+	
+	private String nome;
 	
 	@Column(nullable=false)
 	private String email;
@@ -38,4 +43,7 @@ public class Usuario extends AbstractEntity<Long> {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Empresa empresa;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Duvida> duvida;
 }

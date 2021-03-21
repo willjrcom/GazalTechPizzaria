@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+<title>Relatório do Dia</title>
+</head>
+
+<body>
+	<div class="divbase">
+		<input type="hidden" th:value="${pergunta1}" />
+		<input type="hidden" th:value="${pergunta2}" />
+		<input type="hidden" th:value="${pergunta3}" />
+		<input type="hidden" th:value="${pergunta4}" />
+		<input type="hidden" th:value="${pergunta5}" />
+		
+		<br>
+		<div class="row">
+			<div class="col-md-8">
+				<h2 class="tituloMenu">Fórum</h2>
+				<div class="col-md-6">
+					<select id="setor">
+						<option value="PIZZA">Pizza</option>
+						<option value="BEBIDA">Bebida</option>
+						<option value="LANCHE">Lanche</option>
+						<option value="ESFIHA">Esfiha</option>
+						<option value="PASTEL">Pastel</option>
+						<option value="PORCAO">Porção</option>
+						<option value="TODOS">Todos</option>
+					</select>
+					<button class="btn btn-primary" onclick="filtrarPerguntas()">Filtrar</button>
+				</div>
+				<br>
+				<div id="forum" class="table-scroll"></div>
+			</div>
+
+			<div class="col-md-4">
+				<h2 class="tituloMenu">Minhas Perguntas</h2>
+				<div class="table-md-scroll">
+					<div id="pergunta1">
+						<div th:if="${op1} == 0" id="conteudo1">
+							<label><b>Pergunta 1</b></label> <input id="texto1" class="form-control"
+								placeholder="Digite sua pergunta" /> <br>
+							<div class="row">
+								<select class="col-md-6" id="setor1">
+									<option value="PIZZA">Pizza</option>
+									<option value="BEBIDA">Bebida</option>
+									<option value="LANCHE">Lanche</option>
+									<option value="ESFIHA">Esfiha</option>
+									<option value="PASTEL">Pastel</option>
+									<option value="PORCAO">Porção</option>
+								</select>
+								<button class="col-md-4 btn btn-success" onclick="criarPergunta(1)">Criar</button>
+							</div>
+						</div>
+
+						<div th:if="${op1} == 1" id="editar1">
+							<label><b>Pergunta 1:</b><br><span id="texto1" th:text="${pergunta1}"></span></label><br>
+							<button class="btn btn-primary" th:value="${id1}" onclick="verPergunta(1)">Acessar</button>
+						</div>
+					</div>
+					
+					<hr>
+					<div id="pergunta2">
+						<div th:if="${op2} == 0" id="conteudo2">
+							<label><b>Pergunta 2</b></label> <input id="texto2" class="form-control"
+								placeholder="Digite sua pergunta" /> <br>
+							<div class="row">
+								<select class="col-md-6" id="setor2">
+									<option value="PIZZA">Pizza</option>
+									<option value="BEBIDA">Bebida</option>
+									<option value="LANCHE">Lanche</option>
+									<option value="ESFIHA">Esfiha</option>
+									<option value="PASTEL">Pastel</option>
+									<option value="PORCAO">Porção</option>
+								</select>
+								<button class="col-md-4 btn btn-success" onclick="criarPergunta(2)">Criar</button>
+							</div>
+						</div>
+
+						<div th:if="${op2} == 1" id="editar2">
+							<label><b>Pergunta 2:</b><br><span id="texto2" th:text="${pergunta2}"></span></label><br>
+							<button class="btn btn-primary" th:value="${id2}" onclick="verPergunta(1)">Acessar</button>
+						</div>
+					</div>
+
+					<hr>
+					<div id="pergunta3">
+						<div th:if="${op3} == 0" id="conteudo3">
+							<label><b>Pergunta 3</b></label> <input id="texto3" class="form-control"
+								placeholder="Digite sua pergunta" /> <br>
+							<div class="row">
+								<select class="col-md-6" id="setor3">
+									<option value="PIZZA">Pizza</option>
+									<option value="BEBIDA">Bebida</option>
+									<option value="LANCHE">Lanche</option>
+									<option value="ESFIHA">Esfiha</option>
+									<option value="PASTEL">Pastel</option>
+									<option value="PORCAO">Porção</option>
+								</select>
+								<button class="col-md-4 btn btn-success" onclick="criarPergunta(3)">Criar</button>
+							</div>
+						</div>
+
+						<div th:if="${op3} == 1" id="editar3">
+							<label><b>Pergunta 3:</b><br><span id="texto3" th:text="${pergunta3}"></span></label><br>
+							<button class="btn btn-primary" th:value="${id3}" onclick="verPergunta(1)">Acessar</button>
+						</div>
+					</div>
+
+					<hr>
+					<div id="pergunta4">
+						<div th:if="${op4} == 0" id="conteudo4">
+							<label><b>Pergunta 4</b></label> <input id="texto4" class="form-control"
+								placeholder="Digite sua pergunta" /> <br>
+							<div class="row">
+								<select class="col-md-6" id="setor4">
+									<option value="PIZZA">Pizza</option>
+									<option value="BEBIDA">Bebida</option>
+									<option value="LANCHE">Lanche</option>
+									<option value="ESFIHA">Esfiha</option>
+									<option value="PASTEL">Pastel</option>
+									<option value="PORCAO">Porção</option>
+								</select>
+								<button class="col-md-4 btn btn-success" onclick="criarPergunta(4)">Criar</button>
+							</div>
+						</div>
+
+						<div th:if="${op4} == 1" id="editar1">
+							<label><b>Pergunta 4:</b><br><span id="texto4" th:text="${pergunta4}"></span></label><br>
+							<button class="btn btn-primary" th:value="${id4}" onclick="verPergunta(1)">Acessar</button>
+						</div>
+					</div>
+
+					<hr>
+					<div id="pergunta5">
+						<div th:if="${op5} == 0" id="conteudo1">
+							<label><b>Pergunta 5</b></label> <input id="texto5" class="form-control"
+								placeholder="Digite sua pergunta" /> <br>
+							<div class="row">
+								<select class="col-md-6" id="setor5">
+									<option value="PIZZA">Pizza</option>
+									<option value="BEBIDA">Bebida</option>
+									<option value="LANCHE">Lanche</option>
+									<option value="ESFIHA">Esfiha</option>
+									<option value="PASTEL">Pastel</option>
+									<option value="PORCAO">Porção</option>
+								</select>
+								<button class="col-md-4 btn btn-success" onclick="criarPergunta(5)">Criar</button>
+							</div>
+						</div>
+
+						<div th:if="${op5} == 1" id="editar5">
+							<label><b>Pergunta 5:</b><br><span id="texto5" th:text="${pergunta5}"></span></label><br>
+							<button class="btn btn-primary" th:value="${id5}" onclick="verPergunta(1)">Acessar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<br>
+	<div class="justify-content-center loading">
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
+	<script th:src="@{/js/forum.js}"></script>
+</body>
+
+<div th:replace="~{layouts/frag :: inicio}"></div>
+</html>
