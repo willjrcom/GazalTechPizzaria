@@ -1,63 +1,105 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
->
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-	<link th:href="@{/css/login.css}" rel="stylesheet"/>
-	<title>Menu</title>
+<link th:href="@{/css/login.css}" rel="stylesheet" />
+<title>Menu</title>
 </head>
 <head th:replace="~{layouts/frag :: head}"></head>
 
 
 <body>
-	<br>
-	<div class="card col-md-3 border border-danger bg-dark text-white bg-gradient hiddenAndroid" th:if="${mostrarConquistas} == true AND ${permissao} != 'MOTOBOY'">
-		<div class="card-body">
-	    	<h5 class="card-title">Complete as tarefas</h5>
-	    	<div class="row">
-				<div class="col-md-2" th:if="${cadEmpresa} == true"><i class="fas fa-check-circle colorGreen"></i></div>
-		    	<div class="col-md-2" th:if="${cadEmpresa} == false"><i class="fas fa-times-circle colorRed"></i></div>
-		    	<p class="col-md-10 card-text">Cadastre sua empresa</p>
-	    	</div>
-	    	
-	    	<div class="row">
-	    		<div class="col-md-2" th:if="${cadProduto} == true"><i class="fas fa-check-circle colorGreen"></i></div>
-		    	<div class="col-md-2" th:if="${cadProduto} == false"><i class="fas fa-times-circle colorRed"></i></div>
-		    	<p class="col-md-10 card-text">Cadastre seu primeiro produto</p>
-	    	</div>
-	    	
-	    	<div class="row">
-	    		<div class="col-md-2" th:if="${cadFuncionario} == true"><i class="fas fa-check-circle colorGreen"></i></div>
-		    	<div class="col-md-2" th:if="${cadFuncionario} == false"><i class="fas fa-times-circle colorRed"></i></div>
-		    	<p class="col-md-10 card-text">Cadastre seu primeiro funcionário</p>
-	    	</div>
-	    	
-	    	
-	    	<div class="row">
-		    	<div class="col-md-2" th:if="${cadPedido} == true"><i class="fas fa-check-circle colorGreen"></i></div>
-		    	<div class="col-md-2" th:if="${cadPedido} == false"><i class="fas fa-times-circle colorRed"></i></div>
-		    	<p class="col-md-10 card-text">Venda seu primeiro pedido</p>
-	    	</div>
-	  	</div>
+	<input type="hidden" id="trocoInicial" th:value="${troco}" />
+
+	<div class="row p-4 divbase">
+		<div class="col-md-4 p-2">
+			<h2 class="col-md-10 tituloMenu" align="center">Painel</h2>
+			<div class="blocoMenu" th:replace="~{layouts/frag :: conquistaMenu}"></div>
+
+			<div class="menuInicial">
+				<a href="" class="blocoMenu p-2 col border" id="escolherData"> <i
+					class="fas fa-calendar-check text-primary"></i>&nbsp;Data de
+					acesso: <label th:text="${data}"></label>
+				</a> <a href="" id="mostrarDias" class="blocoMenu p-2 col border"><i
+					class="fas fa-exclamation-triangle text-danger"></i>&nbsp;Verificando...
+
+					<div class="justify-content-center loadingAlert">
+						<div class="spinner-border" role="status">
+							<span class="visually-hidden">Loading...</span>
+						</div>
+					</div> </a>
+			</div>
+
+			<br>
+			<div class="menuInicial">
+				<a href="" id="suporte" class="blocoMenu p-2 col border"><i
+					class="fas fa-shield-alt text-dark"></i>&nbsp;Suporte </a> <a
+					th:href="@{/redefinirSenha}" class="blocoMenu p-2 col border">
+					<i class="fas fa-recycle text-success"></i>&nbsp;Redefinir senha
+				</a>
+			</div>
+		</div>
+
+		<div class="col-md-4 p-2">
+			<h2 class="col-md-10 tituloMenu" align="center">Menu</h2>
+			
+			<div class="row menuInicial" th:if="${permissao} != 'MOTOBOY'">
+				<a th:href="@{/u/novoPedido}"
+					class="blocoMenu p-2 col-md-3 border"> <i
+					class="fas fa-shopping-cart text-info"></i>&nbsp;Novo pedido
+				</a> <a th:href="@{/u/pedidosFinalizados}"
+					class="blocoMenu p-2 col-md-3 border"> <i
+					class="fas fa-cash-register text-success"></i>&nbsp;Fechamento do dia
+				</a>
+			</div>
+
+			<br>
+			<div class="row menuInicial" th:if="${permissao} != 'MOTOBOY'">
+				<a th:href="@{/u/cadastroCliente}"
+					class="blocoMenu p-2 col-md-3 border"><i
+					class="far fa-address-card text-warning"></i>&nbsp;Cadastrar
+					cliente </a> <a th:href="@{/f/forum}"
+					class="blocoMenu p-2 col-md-3 border"><i
+					class="far fa-comments text-primary"></i>&nbsp;Fórum </a>
+			</div>
+			<br>
+			<div class="row menuInicial" th:if="${permissao} != 'MOTOBOY'">
+				<a th:href="@{/u/fichaTecnica}"
+					class="blocoMenu p-2 col-md-3 border"> <i
+					class="fas fa-info text-primary"></i> &nbsp;Ficha técnica
+				</a> <a th:href="@{/tutorial}"
+					class="blocoMenu p-2 col-md-3 border"> <i
+					class="fas fa-info text-danger"></i> &nbsp;Tutorial
+				</a>
+			</div>
+
+			<div class="row menuInicial" th:if="${permissao} == 'MOTOBOY'">
+				<a th:href="@{/u/motoboy}"
+					class="blocoMenu p-2 col-md-3 border"><i
+					class="fas fa-location-arrow text-danger"></i>&nbsp;Entregas </a>
+			</div>
+		</div>
+		
+		<div class="col-md-4 p-2"><div th:replace="~{layouts/frag :: novidades}"></div></div>
 	</div>
-	
-	<header th:replace="~{layouts/frag :: menu}"></header>
-	
+
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
-	
+
 	<script th:src="@{/jquery/jquery.mask.min.js}"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 	<script th:src="@{/js/menu.js}"></script>
-    <script th:src="@{/js/trocoInicial.js}"></script>
-    <script th:src="@{/js/diaAberto.js}"></script>
+	<script th:src="@{/js/trocoInicial.js}"></script>
+	<script th:src="@{/js/diaAberto.js}"></script>
 </body>
-	<div th:replace="~{layouts/frag :: dadosMenu}"></div>
+<div th:replace="~{layouts/frag :: dadosMenu}"></div>
 </html>
