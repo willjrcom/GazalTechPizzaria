@@ -9,7 +9,7 @@ if(typeof url_atual != "undefined") {
 	carregarLoading("block");
 	
 	$.ajax({
-		url: "/cadastroProduto/editarProduto/" + url_atual,
+		url: "/u/cadastroProduto/editarProduto/" + url_atual,
 		type: 'GET',
 	}).done(function(e){
 		
@@ -90,7 +90,7 @@ $("#enviar").click(function() {
 						carregarLoading("block");
 		
 						$.ajax({
-							url: "/cadastroProduto/cadastrar",
+							url: "/u/cadastroProduto/cadastrar",
 							type: 'PUT',
 							dataType: "json",
 							contentType:'application/json',
@@ -108,7 +108,7 @@ $("#enviar").click(function() {
 							            btnClass: 'btn-blue',
 							            keys: ['esc','enter'],
 							            action: function(){
-											document.location.href = "/cadastroProduto";
+											document.location.href = "/u/cadastroProduto";
 										}
 									}
 								}

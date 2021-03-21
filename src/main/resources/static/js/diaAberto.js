@@ -10,11 +10,17 @@ $.ajax({
 	url: "/menu/diaAberto",
 	type: 'GET'
 }).done(function(e){
+	
+	$(".loadingAlert").css({
+		"display": 'none'
+	});
 	dias = e;
 	linhaHtml = "";
 
 	if(dias.length > 1){
-		$("#divAlertDias").show('slow');
+		$("#mostrarDias").html('<i class="fas fa-exclamation-triangle text-danger"></i>&nbsp;Corrigir dias!');
+	}else{
+		$("#mostrarDias").html('<i class="fas fa-exclamation-triangle text-danger"></i>&nbsp;Nenhum problema encontrado!')
 	}
 });	
 

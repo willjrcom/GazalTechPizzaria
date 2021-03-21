@@ -1,299 +1,392 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:fragment="~{head}">
-	<!-- menu -->
-	<link th:href="@{/css/menu/normalize.css}" rel="stylesheet" type="text/css" />
-	<link th:href="@{/css/menu/demo.css}" rel="stylesheet" type="text/css" />
-	<link th:href="@{/css/menu/component.css}" rel="stylesheet" type="text/css" />
-	<script th:src="@{/js/menu/modernizr.custom.js}"></script>
-	
-    <meta charset="utf-8" lang="pt-br"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <!-- jquery -->
-	<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet"/>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet"/>
-	<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-	
-	<!-- icones -->
-	<script src="https://kit.fontawesome.com/99986af71e.js"></script>
-	<link rel="sortcut icon" href="/img/iconePag.ico" type="image/x-icon" />
-	
-	<!-- bootstrap v5 -->
-	<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet"/>
-	<link th:href="@{/css/bstrap/bootstrap-utilities.min.css}" rel="stylesheet"/>
-	
-	<!-- css -->
-    <link th:href="@{/css/estilo.css}" rel="stylesheet"/>
-    
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
+<!-- menu -->
+<link th:href="@{/css/menu/normalize.css}" rel="stylesheet"
+	type="text/css" />
+<link th:href="@{/css/menu/demo.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/menu/component.css}" rel="stylesheet"
+	type="text/css" />
+<script th:src="@{/js/menu/modernizr.custom.js}"></script>
+
+<meta charset="utf-8" lang="pt-br" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- jquery -->
+<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet" />
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
+	rel="stylesheet" />
+<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+
+<!-- icones -->
+<script src="https://kit.fontawesome.com/99986af71e.js"></script>
+<link rel="sortcut icon" href="/img/iconePag.ico" type="image/x-icon" />
+
+<!-- bootstrap v5 -->
+<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet" />
+<link th:href="@{/css/bstrap/bootstrap-utilities.min.css}"
+	rel="stylesheet" />
+
+<!-- css -->
+<link th:href="@{/css/estilo.css}" rel="stylesheet" />
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
+	<!-- --------------------------------------------------------------------------------------------------- -->
+	<span th:fragment="conquistaMenu" class="hiddenAndroid p-2"
+		th:if="${mostrarConquistas} == true AND ${permissao} != 'MOTOBOY'">
+		<h5>Complete as tarefas</h5>
+		<div class="row">
+			<div class="col-md-2" th:if="${cadEmpresa} == true">
+				<i class="fas fa-check-circle colorGreen"></i>
+			</div>
+			<div class="col-md-2" th:if="${cadEmpresa} == false">
+				<i class="fas fa-times-circle colorRed"></i>
+			</div>
+			<p class="col-md-10 card-text">Cadastre sua empresa</p>
+		</div> <br>
+		<div class="row">
+			<div class="col-md-2" th:if="${cadProduto} == true">
+				<i class="fas fa-check-circle colorGreen"></i>
+			</div>
+			<div class="col-md-2" th:if="${cadProduto} == false">
+				<i class="fas fa-times-circle colorRed"></i>
+			</div>
+			<p class="col-md-10 card-text">Cadastre seu primeiro produto</p>
+		</div> <br>
+		<div class="row">
+			<div class="col-md-2" th:if="${cadFuncionario} == true">
+				<i class="fas fa-check-circle colorGreen"></i>
+			</div>
+			<div class="col-md-2" th:if="${cadFuncionario} == false">
+				<i class="fas fa-times-circle colorRed"></i>
+			</div>
+			<p class="col-md-10 card-text">Cadastre seu primeiro funcionário</p>
+		</div> <br>
+		<div class="row">
+			<div class="col-md-2" th:if="${cadPedido} == true">
+				<i class="fas fa-check-circle colorGreen"></i>
+			</div>
+			<div class="col-md-2" th:if="${cadPedido} == false">
+				<i class="fas fa-times-circle colorRed"></i>
+			</div>
+			<p class="col-md-10 card-text">Venda seu primeiro pedido</p>
+		</div>
+	</span>
+
+
+	<!-- ---------------------------------------------------------------------------------------------------- -->
+	<div th:fragment="novidades">
+		<div th:if="${mostrarNovidades} == true">
+			<h3 class="tituloMenu" align="center">Novidades</h3>
+			<div class="accordion" id="accordionExample">
+				<div class="accordion-item" th:if="${empresa1} != ''">
+					<h2 class="accordion-header" id="headingOne">
+						<button class="accordion-button" type="button"
+							data-bs-toggle="collapse" data-bs-target="#collapseOne"
+							aria-expanded="true" aria-controls="collapseOne">
+							<p th:text="${empresa1}"></p>
+						</button>
+					</h2>
+					<div id="collapseOne" class="accordion-collapse collapse"
+						aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<p th:text="${texto1}"></p>
+							<a th:href="@{${link1}}" target="_blank"><button
+									class="btn btn-primary">Acessar</button></a>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item" th:if="${empresa2} != ''">
+					<h2 class="accordion-header" id="headingTwo">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+							aria-expanded="false" aria-controls="collapseTwo">
+							<p th:text="${empresa2}"></p>
+						</button>
+					</h2>
+					<div id="collapseTwo" class="accordion-collapse collapse"
+						aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<p th:text="${texto2}"></p>
+							<a th:href="@{${link2}}" target="_blank"><button
+									class="btn btn-primary">Acessar</button></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item" th:if="${empresa3} != ''">
+					<h2 class="accordion-header" id="headingThree">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse" data-bs-target="#collapseThree"
+							aria-expanded="false" aria-controls="collapseThree">
+							<p th:text="${empresa3}"></p>
+						</button>
+					</h2>
+					<div id="collapseThree" class="accordion-collapse collapse"
+						aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<p th:text="${texto3}"></p>
+							<a th:href="@{${link3}}" target="_blank"><button
+									class="btn btn-primary">Acessar</button></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item" th:if="${empresa4} != ''">
+					<h2 class="accordion-header" id="headingFour">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse" data-bs-target="#collapseFour"
+							aria-expanded="false" aria-controls="collapseFour">
+							<p th:text="${empresa4}"></p>
+						</button>
+					</h2>
+					<div id="collapseFour" class="accordion-collapse collapse"
+						aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<p th:text="${texto4}"></p>
+							<a th:href="@{${link4}}" target="_blank"><button
+									class="btn btn-primary">Acessar</button></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="accordion-item" th:if="${empresa5} != ''">
+					<h2 class="accordion-header" id="headingFive">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse" data-bs-target="#collapseFive"
+							aria-expanded="false" aria-controls="collapseFive">
+							<p th:text="${empresa5}"></p>
+						</button>
+					</h2>
+					<div id="collapseFive" class="accordion-collapse collapse"
+						aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+						<div class="accordion-body">
+							<p th:text="${texto5}"></p>
+							<a th:href="@{${link5}}" target="_blank"><button
+									class="btn btn-primary">Acessar</button></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="menu" class="menuCentral">
-		<div class="alert alert-danger hidden" role="alert" id="divAlertDias">
-			<label><i class="fas fa-exclamation-triangle"></i></label>
-			<a href="" id="mostrarDias">Existem dias em aberto, clique aqui para corrigir!</a>
-		</div>
-		
-		<div class="corFundo centralizar border border-primary border-2">
-			<input type="hidden" id="trocoInicial" th:value="${troco}" />
-			
-			<nav>
-				<ul th:if="${permissao} != 'MOTOBOY'" class="menuPrincipal" style="padding-left:0;">
-					<li><a th:href="@{/u/novoPedido}"><i class="fas fa-shopping-cart"></i> NOVO PEDIDO</a></li>
-					<li><a th:href="@{/relatoriodia}"><i class="fas fa-chart-pie"></i> RESUMO DIÁRIO</a></li>
-					<li><a th:href="@{/cadastroCliente}"><i class="far fa-address-card"></i> CADASTROS</a></li>
-					<li><a th:href="@{/adm/estatistica}"><i class="fas fa-store-alt"></i> EMPRESA</a></li>
-					<li th:if="${dev} == '1'"><a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> DESENVOLVEDOR</a></li>
-					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
-					<li><a th:href="@{/tutorial}"><i class="fas fa-info"></i> TUTORIAL</a></li>
-				</ul>
-				
-				<ul th:if="${permissao} == 'MOTOBOY'" class="menuPrincipal" style="padding-left:0;">
-					<li><a th:href="@{/u/motoboy}"><i class="fas fa-location-arrow"></i> ENTREGAS</a></li>
-					<li><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> SAIR</a></li>
-				</ul>
-			</nav>
-		</div>
-		<br>
-	</div>
-	
-	
-	<!--------------------------------------------------------------------------------------------------------->
-	<div th:fragment="dadosMenu" class="container" th:if="${permissao} != 'MOTOBOY'">
+	<div th:fragment="dadosMenu" class="container"
+		th:if="${permissao} != 'MOTOBOY'">
 		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu gn-menu-top"><span>Menu</span></a>
+			<li class="gn-trigger"><a
+				class="gn-icon gn-icon-menu gn-menu-top"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<div th:if="${mostrarNovidades} == true">
-									<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Novidades</b></p>
-									<div class="accordion" id="accordionExample">
-									  <div class="accordion-item" th:if="${empresa1} != ''">
-									    <h2 class="accordion-header" id="headingOne">
-									      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									        <p th:text="${empresa1}"></p>
-									      </button>
-									    </h2>
-									    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-									      <div class="accordion-body">
-									        	<p th:text="${texto1}"></p>
-									        	<a th:href="@{${link1}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
-									      </div>
-									    </div>
-									  </div>
-									  <div class="accordion-item" th:if="${empresa2} != ''">
-									    <h2 class="accordion-header" id="headingTwo">
-									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-									        <p th:text="${empresa2}"></p>
-									      </button>
-									    </h2>
-									    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-									      <div class="accordion-body">
-								        	<p th:text="${texto2}"></p>
-									        	<a th:href="@{${link2}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
-									      </div>
-									    </div>
-									  </div>
-									  
-									  <div class="accordion-item" th:if="${empresa3} != ''">
-									    <h2 class="accordion-header" id="headingThree">
-									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-									        <p th:text="${empresa3}"></p>
-									      </button>
-									    </h2>
-									    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-									      <div class="accordion-body">
-								        	<p th:text="${texto3}"></p>
-									        	<a th:href="@{${link3}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
-									      </div>
-									    </div>
-									  </div>
-									  
-									  <div class="accordion-item" th:if="${empresa4} != ''">
-									    <h2 class="accordion-header" id="headingFour">
-									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-									        <p th:text="${empresa4}"></p>
-									      </button>
-									    </h2>
-									    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-									      <div class="accordion-body">
-								        	<p th:text="${texto4}"></p>
-									        	<a th:href="@{${link4}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
-									      </div>
-									    </div>
-									  </div>
-									  
-									  <div class="accordion-item" th:if="${empresa5} != ''">
-									    <h2 class="accordion-header" id="headingFive">
-									      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-									        <p th:text="${empresa5}"></p>
-									      </button>
-									    </h2>
-									    <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-									      <div class="accordion-body">
-								        	<p th:text="${texto5}"></p>
-									        	<a th:href="@{${link5}}" target="_blank"><button class="btn btn-primary">Acessar</button></a>
-									      </div>
-									    </div>
-									  </div>
-									</div>
-								</div>
+								<table class="table table-striped table-hover">
+									<tr class="bg-primary text-white">
+										<th>Informações da conta</th>
+									</tr>
+									<tbody>
+										<tr>
+											<td><i class="far fa-user-circle"></i> <label
+												th:text="${usuario}"></label></td>
+										</tr>
+										<tr>
+											<td><i class="fas fa-key"></i> <label>Perfil <span
+													th:text="${permissao}"></span></label></td>
+										</tr>
+									</tbody>
+								</table>
 							</li>
-							
-							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Informações da conta</b></p>
-								<a class="cabecalho"><i class="far fa-user-circle"></i> <label th:text="${usuario}"></label></a>
-								<a class="cabecalho"><i class="fas fa-key"></i> <label>Perfil <span th:text="${permissao}"></span></label></a>
-								<a th:href="@{/redefinirSenha}"><i class="fas fa-recycle"></i> <label>Redefinir senha</label></a>
-								<a class="cabecalho" onclick="ajuda()"><i class="fas fa-shield-alt"></i> Suporte</a>
-							</li>
-							
-							
 							<!-- ------------------------------------------------------------------------------------ -->
 							<li th:if="${permissao} == 'DEV'">
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b></p>
-								<a th:href="@{/dev/dev}"><i class="fab fa-dev"></i> Desenvolvedor</a>
-								<a th:href="@{/dev/divulgar}"><i class="fab fa-dev"></i> Divulgar</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b>
+								</p> <a th:href="@{/dev/dev}"><i class="fab fa-dev"></i>
+									Desenvolvedor</a> <a th:href="@{/dev/divulgar}"><i
+									class="fas fa-bullhorn"></i> Divulgar</a>
 							</li>
 						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li><a class="cabecalho gn-menu-top"><label class="hiddenAndroid" th:text="${empresa}"></label></a>
-			<li>
-				<a th:if="${contato} != ''" class="cabecalho hiddenAndroid gn-menu-top"><label class="hiddenAndroid" th:text="${contato}"></label></a>
-				<a th:href="@{/adm/empresa}" class="bg-warning gn-menu-top" th:unless="${contato} != ''">
+					</div>
+					<!-- /gn-scroller -->
+				</nav></li>
+			<li><a class="cabecalho gn-menu-top"><label
+					class="hiddenAndroid" th:text="${empresa}"></label></a>
+			<li><a th:if="${contato} != ''"
+				class="cabecalho hiddenAndroid gn-menu-top"><label
+					class="hiddenAndroid" th:text="${contato}"></label></a> <a
+				th:href="@{/adm/empresa}" class="bg-warning gn-menu-top"
+				th:unless="${contato} != ''">
 					<button class="form-control btn btn-warning">Cadastre-se</button>
-				</a>
-			</li>
-			<li><a class="cabecalho gn-menu-top" onclick="escolherData()"><i class="fas fa-calendar-check"></i> <span th:text="${data}"></span></a></li>
+			</a></li>
+			<li class="gn-menu-top"><a th:href="@{/logout}"><i
+					class="fas fa-sign-out-alt"></i> Sair</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
 		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
+			new gnMenu(document.getElementById('gn-menu'));
 		</script>
-	</div><!-- /container -->
-	
-	
-	
+	</div>
+	<!-- /container -->
+
+
+
 	<!--------------------------------------------------------------------------------------------------------->
 	<div th:fragment="inicio" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger">
-				<a class="gn-icon gn-icon-menu gn-menu-top" onclick="rolarPagina()"><span>Menu</span></a>
+			<li class="gn-trigger"><a
+				class="gn-icon gn-icon-menu gn-menu-top" onclick="rolarPagina()"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper" th:if="${permissao} != 'MOTOBOY'">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Pedidos</b></p>
-								<a th:href="@{/u/verpedido}" accesskey="V"><i class="fas fa-list"></i> Pedidos em aberto</a>
-								<a th:href="@{/u/novoPedido}" accesskey="N"><i class="fas fa-plus-circle"></i> Novo Pedido</a>
-								<a th:href="@{/u/motoboy}" accesskey="E"><i class="fas fa-location-arrow"></i> Entregar</a>
-								<a th:href="@{/u/finalizar}" accesskey="F"><i class="fas fa-hand-holding-usd"></i> Finalizar</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Pedidos</b>
+								</p> <a th:href="@{/u/verpedido}" accesskey="V"><i
+									class="fas fa-list"></i> Pedidos em aberto</a> <a
+								th:href="@{/u/novoPedido}" accesskey="N"><i
+									class="fas fa-plus-circle"></i> Novo Pedido</a> <a
+								th:href="@{/u/motoboy}" accesskey="E"><i
+									class="fas fa-location-arrow"></i> Entregar</a> <a
+								th:href="@{/u/finalizar}" accesskey="F"><i
+									class="fas fa-hand-holding-usd"></i> Finalizar</a>
 							</li>
-							
+
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Preparação</b></p>
-								<a th:href="@{/u/cozinha}" accesskey="C"><i class="far fa-clock"></i> Cozinha</a>
-								<a th:href="@{/u/produtosProntos}" accesskey="S"><i class="far fa-eye"></i> Produtos prontos</a>
-								<a th:href="@{/u/retirada}" accesskey="R"><i class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Preparação</b>
+								</p> <a th:href="@{/u/cozinha}" accesskey="C"><i
+									class="far fa-clock"></i> Cozinha</a> <a
+								th:href="@{/u/produtosProntos}" accesskey="S"><i
+									class="far fa-eye"></i> Produtos prontos</a> <a
+								th:href="@{/u/retirada}" accesskey="R"><i
+									class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
-							
+
 							<!-- ------------------------------------------------------------------------------------ -->
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Resumo diário</b></p>
-								<a th:href="@{/relatoriodia}"><i class="fas fa-list"></i> Relatório do dia</a>
-								<a th:href="@{/pedidosExcluidos}"><i class="fas fa-ban"></i> Pedidos Cancelados</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Resumo diário</b>
+								</p> <a th:href="@{/u/pedidosFinalizados}"><i
+									class="fas fa-th-list"></i> Pedidos Finalizados</a> <a
+								th:href="@{/u/pedidosExcluidos}"><i class="fas fa-ban"></i>
+									Pedidos Cancelados</a>
 							</li>
-							
+
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Administração <i class="fas fa-lock"></i></b></p>
-								<a th:href="@{/adm/fechamento}"><i class="fas fa-cash-register"></i> Fechamento do Dia</a>
-								<a th:href="@{/adm/compras}"><i class="fas fa-cart-plus"></i> Compras do dia</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Administração <i class="fas fa-lock"></i></b>
+								</p> <a th:href="@{/adm/fechamento}"><i
+									class="fas fa-cash-register"></i> Fechamento do Dia</a> <a
+								th:href="@{/adm/compras}"><i class="fas fa-cart-plus"></i>
+									Compras do dia</a>
 							</li>
-							
+
 							<!-- ------------------------------------------------------------------------------------ -->
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Clientes</b></p>
-								<a th:href="@{/clientesCadastrados}"><i class="fas fa-user-friends"></i> Cadastrados</a>
-								<a th:href="@{/cadastroCliente}"><i class="fas fa-plus"></i> Cadastrar</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Clientes</b>
+								</p> <a th:href="@{/u/clientesCadastrados}"><i
+									class="fas fa-user-friends"></i> Cadastrados</a> <a
+								th:href="@{/u/cadastroCliente}"><i class="fas fa-plus"></i>
+									Cadastrar</a>
 							</li>
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Produtos</b></p>
-								<a th:href="@{/produtosCadastrados}"><i class="fas fa-utensils"></i> Cadastrados</a>
-								<a th:href="@{/cadastroProduto}"><i class="fas fa-plus"></i> Cadastrar</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Produtos</b>
+								</p> <a th:href="@{/u/produtosCadastrados}"><i
+									class="fas fa-utensils"></i> Cadastrados</a> <a
+								th:href="@{/u/cadastroProduto}"><i class="fas fa-plus"></i>
+									Cadastrar</a>
 							</li>
-							
+
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Funcionários</b> <i class="fas fa-lock"></i></p>
-								<a th:href="@{/adm/pagamento}"><i class="far fa-credit-card"></i> Pagamentos</a>
-								<a th:href="@{/adm/funcionariosCadastrados}"><i class="fas fa-user-tie"></i> Cadastrados</a>
-								<a th:href="@{/adm/cadastroFuncionario}"><i class="fas fa-plus"></i> Cadastrar</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Funcionários</b> <i class="fas fa-lock"></i>
+								</p> <a th:href="@{/adm/pagamento}"><i
+									class="far fa-credit-card"></i> Pagamentos</a> <a
+								th:href="@{/adm/funcionariosCadastrados}"><i
+									class="fas fa-user-tie"></i> Cadastrados</a> <a
+								th:href="@{/adm/cadastroFuncionario}"><i class="fas fa-plus"></i>
+									Cadastrar</a>
 							</li>
-							
+
 							<!-- ------------------------------------------------------------------------------------ -->
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Gráficos <i class="fas fa-lock"></i></b></p>
-								<a th:href="@{/adm/estatistica}"><i class="fas fa-chart-bar"></i> Estatística</a>
-								<a th:href="@{/adm/top10}"><i class="fas fa-trophy"></i> Top 10</a>
-								<a th:href="@{/adm/metas}"><i class="fas fa-award"></i> Metas</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Gráficos <i class="fas fa-lock"></i></b>
+								</p> <a th:href="@{/adm/estatistica}"><i
+									class="fas fa-chart-bar"></i> Estatística</a> <a
+								th:href="@{/adm/top10}"><i class="fas fa-trophy"></i> Top 10</a>
+								<a th:href="@{/adm/metas}"><i class="fas fa-award"></i>
+									Metas</a>
 							</li>
-							
+
 							<li>
-								<p class="bg-primary text-white">&nbsp;&nbsp;&nbsp;<b>Dados <i class="fas fa-lock"></i></b></p>
-								<!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
-								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i> Empresa</a>
-								<a th:href="@{/adm/mensalidade}"><i class="fas fa-receipt"></i> Mensalidade</a>
+								<p class="bg-primary text-white">
+									&nbsp;&nbsp;&nbsp;<b>Dados <i class="fas fa-lock"></i></b>
+								</p> <!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
+								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i>
+									Empresa</a> <a th:href="@{/adm/mensalidade}"><i
+									class="fas fa-receipt"></i> Mensalidade</a>
 							</li>
 						</ul>
-					</div><!-- /gn-scroller -->
-				</nav>
-			</li>
-			<li><a class="cabecalho gn-menu-top"><label class="hiddenAndroid" id="nomePagina">Página</label></a></li>
-			<li><a class="gn-menu-top" th:href="@{/menu}"><i class="fas fa-home"></i> Menu</a></li>
+					</div>
+					<!-- /gn-scroller -->
+				</nav></li>
+			<li><a class="cabecalho gn-menu-top"><label
+					class="hiddenAndroid" id="nomePagina">Página</label></a></li>
+			<li><a class="gn-menu-top" th:href="@{/menu}"><i
+					class="fas fa-home"></i> Menu</a></li>
 		</ul>
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
 		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
+			new gnMenu(document.getElementById('gn-menu'));
 		</script>
-	</div><!-- /container -->
-	
+	</div>
+	<!-- /container -->
+
 	<!--------------------------------------------------------------------------------------------------------->
 	<footer th:fragment="footer">
 		<!-- menu -->
 		<script th:src="@{/js/menu/classie.js}"></script>
 		<script th:src="@{/js/menu/gnmenu.js}"></script>
 		<script>
-			new gnMenu( document.getElementById( 'gn-menu' ) );
+			new gnMenu(document.getElementById('gn-menu'));
 		</script>
-		
+
 		<!-- jquery -->
 		<script th:src="@{/jquery/jquery.mask.min.js}"></script>
 		<script th:src="@{/jquery/jquery-ui.min.js}"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
-		<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
-		
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+		<script
+			src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
 		<!-- bootstrap -->
 		<script th:src="@{/js/bstrap/bootstrap.min.js}"></script>
 		<script th:src="@{/js/bstrap/bootstrap.bundle.min.js}"></script>
-		
+
 		<!-- javascript -->
 		<script th:src="@{/js/validacoes.js}"></script>
 		<script th:src="@{/js/frag.js}"></script>
-		
+
 	</footer>
+
+
+	<!-- ---------------------------------------------------------------------------------------------- -->
+	
 </body>
 </html>

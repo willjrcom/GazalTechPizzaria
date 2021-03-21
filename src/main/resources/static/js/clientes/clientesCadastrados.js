@@ -10,7 +10,7 @@ $("#buscar").click(function(){
 	var nome = $("#nomeBusca").val();
 	
 	$.ajax({
-		url: '/clientesCadastrados/buscar/' + nome + '/' + (isNaN(Number(nome)) ? "0" : Number(nome)),
+		url: '/u/clientesCadastrados/buscar/' + nome + '/' + (isNaN(Number(nome)) ? "0" : Number(nome)),
 		type: 'GET'
 	}).done(function(e){
 		
@@ -167,7 +167,7 @@ function editarCliente() {
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){	
-					window.location.href = "/cadastroCliente/editar/" + idCliente;
+					window.location.href = "/u/cadastroCliente/editar/" + idCliente;
 				}
 			},
 	        cancel:{
@@ -221,7 +221,7 @@ function excluirCliente() {
 											if(apagarSim === 'sim' || apagarSim === 'SIM') {
 												
 												$.ajax({
-													url: "/clientesCadastrados/excluirCliente/" + idCliente,
+													url: "/u/clientesCadastrados/excluirCliente/" + idCliente,
 													type: 'PUT'
 													
 												}).done(function(){		
@@ -235,7 +235,7 @@ function excluirCliente() {
 													    		keys: ['enter'],
 													            btnClass: 'btn-green',
 													            action: function(){
-																	window.location.href = "/clientesCadastrados";
+																	window.location.href = "/u/clientesCadastrados";
 																}
 															}
 														}

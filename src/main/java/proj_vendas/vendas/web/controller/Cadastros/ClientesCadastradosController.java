@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +21,7 @@ import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/clientesCadastrados")
+@RequestMapping("/u")
 public class ClientesCadastradosController {
 
 	@Autowired
@@ -32,12 +33,12 @@ public class ClientesCadastradosController {
 	@Autowired
 	private Empresas empresas;
 
-	@RequestMapping
+	@GetMapping("/clientesCadastrados")
 	public ModelAndView tela() {
 		return new ModelAndView("clientesCadastrados");
 	}
 
-	@RequestMapping(value = "/buscar/{nome}/{celular}")
+	@RequestMapping("/clientesCadastrados/buscar/{nome}/{celular}")
 	@ResponseBody
 	public List<Cliente> buscar(@PathVariable String nome, @PathVariable Long celular) {
 		Usuario user = usuarios.findByEmail(
@@ -47,7 +48,7 @@ public class ClientesCadastradosController {
 				user.getCodEmpresa(), celular);
 	}
 
-	@RequestMapping(value = "/excluirCliente/{id}")
+	@RequestMapping("/clientesCadastrados/excluirCliente/{id}")
 	@ResponseBody
 	public ResponseEntity<Integer> excluirCliente(@PathVariable long id) {
 		Usuario user = usuarios.findByEmail(

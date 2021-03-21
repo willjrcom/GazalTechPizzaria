@@ -20,7 +20,7 @@ import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/cadastroProduto")
+@RequestMapping("/u")
 public class CadastroProdutoController {
 	
 	@Autowired
@@ -32,12 +32,12 @@ public class CadastroProdutoController {
 	@Autowired
 	private Empresas empresas;
 	
-	@RequestMapping("/**")
+	@RequestMapping("/cadastroProduto/**")
 	public ModelAndView cadastroProduto() {
 		return new ModelAndView("cadastroProduto");
 	}
 	
-	@RequestMapping(value = "/cadastrar")
+	@RequestMapping("/cadastroProduto/cadastrar")
 	@ResponseBody
 	public Produto cadastrarProduto(@RequestBody Produto produto) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -55,7 +55,7 @@ public class CadastroProdutoController {
 		return produtos.save(produto);
 	}
 	
-	@RequestMapping(value = "/editarProduto/{id}")
+	@RequestMapping("/cadastroProduto/editarProduto/{id}")
 	@ResponseBody
 	public ResponseEntity<Produto> buscarProduto(@PathVariable Long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
@@ -67,7 +67,7 @@ public class CadastroProdutoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	@RequestMapping(value = "/buscarCodigo/{codigo}/{id}")
+	@RequestMapping("/cadastroProduto/buscarCodigo/{codigo}/{id}")
 	@ResponseBody
 	public Produto buscarCodigo(@PathVariable String codigo, @PathVariable long id) {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()

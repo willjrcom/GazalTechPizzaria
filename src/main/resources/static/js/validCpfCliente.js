@@ -14,8 +14,8 @@ $('#cpf').on('blur', function(){
 		var id = $("#id").val();
 		
 		$.ajax({
-			url:  (id != '') ? '/cadastroCliente/buscarCpf/' + cpf + '/' + id
-							: '/cadastroCliente/buscarCpf/' + cpf + '/-2',
+			url:  (id != '') ? '/u/cadastroCliente/buscarCpf/' + cpf + '/' + id
+							: '/u/cadastroCliente/buscarCpf/' + cpf + '/-2',
 			type: 'GET',
 				
 		}).done(function(e){
@@ -52,8 +52,8 @@ $('#cel').on('blur', function(){
 		var id = $("#id").val();
 		
 		$.ajax({
-			url:  (id != '') ? '/cadastroCliente/buscarCelular/' + cel + '/' + id
-							: '/cadastroCliente/buscarCelular/' + cel + '/-2',
+			url:  (id != '') ? '/u/cadastroCliente/buscarCelular/' + cel + '/' + id
+							: '/u/cadastroCliente/buscarCelular/' + cel + '/-2',
 			type: 'GET',
 		}).done(function(e){
 			if(e.length != 0 && e.id != -1) {

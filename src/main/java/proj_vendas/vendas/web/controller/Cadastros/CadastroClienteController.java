@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ import proj_vendas.vendas.repository.Enderecos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/cadastroCliente")
+@RequestMapping("/u")
 public class CadastroClienteController {
 
 	@Autowired
@@ -38,13 +39,13 @@ public class CadastroClienteController {
 
 	@Autowired
 	private Enderecos enderecos;
-	
-	@RequestMapping("/**")
+
+	@GetMapping("/cadastroCliente/**")
 	public ModelAndView CadastroCliente() {
 		return new ModelAndView("cadastroCliente");
 	}
 
-	@RequestMapping(value = "/buscarCpf/{cpf}/{id}")
+	@RequestMapping("/cadastroCliente/buscarCpf/{cpf}/{id}")
 	@ResponseBody
 	public Cliente buscarCpf(@PathVariable String cpf, @PathVariable long id) {
 
@@ -65,7 +66,7 @@ public class CadastroClienteController {
 		return busca;
 	}
 
-	@RequestMapping(value = "/buscarCelular/{celular}/{id}")
+	@RequestMapping("/cadastroCliente/buscarCelular/{celular}/{id}")
 	@ResponseBody
 	public Cliente buscarCelular(@PathVariable Long celular, @PathVariable long id) {
 
@@ -85,19 +86,19 @@ public class CadastroClienteController {
 		return busca;
 	}
 
-	@RequestMapping(value = "/cadastrar")
+	@RequestMapping("/cadastroCliente/cadastrar")
 	@ResponseBody
 	public Cliente cadastrarCliente(@RequestBody Cliente cliente) {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 
-		//set codEmpresa do cliente
+		// set codEmpresa do cliente
 		cliente.setCodEmpresa(user.getCodEmpresa());
 		Endereco endereco = cliente.getEndereco();
 		endereco.setCodEmpresa(user.getCodEmpresa());
 		cliente.setEndereco(endereco);
-		
+
 		if (cliente.getId() == null) {
 			cliente.setDataCadastro(user.getDia());
 			liberarConquistas(clientes.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
@@ -113,7 +114,7 @@ public class CadastroClienteController {
 		return cliente;
 	}
 
-	@RequestMapping(value = "/editarCliente/{id}")
+	@RequestMapping("/cadastroCliente/editarCliente/{id}")
 	@ResponseBody
 	public ResponseEntity<Cliente> buscarCliente(@PathVariable Long id) {
 		Cliente cliente = clientes.findById(id).get();
@@ -126,17 +127,15 @@ public class CadastroClienteController {
 		return ResponseEntity.noContent().build();
 	}
 
-	
-	@RequestMapping("/enderecos")
+	@RequestMapping("/cadastroCliente/enderecos")
 	@ResponseBody
-	public List<String> buscarEndereco(){
+	public List<String> buscarEndereco() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		
+
 		return enderecos.buscarEnderecos(user.getCodEmpresa());
 	}
-	
-	
+
 	private void liberarConquistas(int cadastros, int codEmpresa) {
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();

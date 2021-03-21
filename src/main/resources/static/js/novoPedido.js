@@ -305,7 +305,7 @@ function buscarCliente() {
 				atualizarDados();
 				mostrarDivsPedido();
 			} else {
-				window.location.href = "/cadastroCliente/" + $("#numeroCliente").val();
+				window.location.href = "/u/cadastroCliente/" + $("#numeroCliente").val();
 			}
 			carregarLoading("none");
 		});

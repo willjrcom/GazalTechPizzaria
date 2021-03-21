@@ -3,14 +3,14 @@ var linhaHtml = "";
 var pedidoVazio = '<tr><td colspan="6">Nenhum pedido finalizado!</td></tr>';
 var Tpedidos = 0;
 var Tpizzas = 0;
-$(document).ready(() => $("#nomePagina").text("Relatório do dia"));
+$(document).ready(() => $("#nomePagina").text("Pedidos finalizados"));
 
 //Ao carregar a tela
 //-------------------------------------------------------------------------------------------------------------------
 carregarLoading("block");
 
 $.ajax({
-	url: "/relatoriodia/todosPedidos",
+	url: "/u/pedidosFinalizados/todosPedidos",
 	type: 'GET'
 }).done(function(e) {
 	pedidos = e;

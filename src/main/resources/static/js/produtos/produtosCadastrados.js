@@ -11,7 +11,7 @@ $("#buscar").click(function(){
 	var nome = $("#nomeBusca").val();
 	
 	$.ajax({
-		url: '/produtosCadastrados/buscar/' + nome,
+		url: '/u/produtosCadastrados/buscar/' + nome,
 		type: 'GET'
 	}).done(function(e){
 		
@@ -195,7 +195,7 @@ function editarProduto() {
 	            btnClass: 'btn-red',
 	            keys: ['enter'],
 	            action: function(){
-					window.location.href = "/cadastroProduto/editar/" + idProduto.toString();
+					window.location.href = "/u/cadastroProduto/editar/" + idProduto.toString();
 				}
 			},
 	        cancel:{
@@ -248,7 +248,7 @@ function excluirProduto() {
 											if(apagarSim === 'sim' || apagarSim === 'SIM') {
 												
 												$.ajax({
-													url: "/produtosCadastrados/excluirProduto/" + idProduto,
+													url: "/u/produtosCadastrados/excluirProduto/" + idProduto,
 													type: 'PUT'
 													
 												}).done(function(){		
@@ -262,7 +262,7 @@ function excluirProduto() {
 													    		keys: ['enter'],
 													            btnClass: 'btn-green',
 													            action: function(){
-																	window.location.href = "/produtosCadastrados";
+																	window.location.href = "/u/produtosCadastrados";
 																}
 															}
 														}

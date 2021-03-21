@@ -20,7 +20,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 <body>
 	<div class="divbase" align="center">
-		<a th:href="@{/index}"><button class="btn btn-primary">Voltar</button></a>
+		<a th:href="@{/index}" class="fLeft"><button class="btn btn-primary">Voltar</button></a>
 	
 		<h1 class="h1Logo">Tutorial</h1>
 		<hr>
@@ -104,7 +104,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			<div id="Tabs-2">
 				<div class="tabs">
 					<ul>
-				    	<li><a href="#tabs-0">Relatório do dia</a></li>
+				    	<li><a href="#tabs-0">Pedidos finalizados</a></li>
 				    	<li><a href="#tabs-1">Pedidos cancelados</a></li>
 				    	<li><a href="#tabs-2">Fechamento</a></li>
 				    	<li><a href="#tabs-3">Compras</a></li>
@@ -112,12 +112,12 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					
 					<div id="tabs-0">
 						<p class="lead">Veja todos pedidos finalizados com sucesso!</p>
-						<a th:href="@{/relatoriodia}"><button class="btn btn-primary">Acessar Relatório do dia</button></a>
+						<a th:href="@{/u/pedidosFinalizados}"><button class="btn btn-primary">Acessar Pedidos Finalizados</button></a>
 					</div>
 					
 				  	<div id="tabs-1">
 						<p class="lead">Veja todos pedidos cancelados.</p>
-						<a th:href="@{/pedidosExcluidos}"><button class="btn btn-primary">Acessar Pedidos cancelados</button></a>
+						<a th:href="@{/u/pedidosExcluidos}"><button class="btn btn-primary">Acessar Pedidos cancelados</button></a>
 					</div>
 					
 					<div id="tabs-2">
@@ -147,22 +147,22 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					
 					<div id="tabs-0">
 						<p class="lead">Buscar clientes cadastrados.</p>
-						<a th:href="@{/clientesCadastrados}"><button class="btn btn-primary">Acessar Clientes cadastrados</button></a>
+						<a th:href="@{/u/clientesCadastrados}"><button class="btn btn-primary">Acessar Clientes cadastrados</button></a>
 					</div>
 					
 				  	<div id="tabs-1">
 				    	<p class="lead">Cadastre seus clientes.</p>
-						<a th:href="@{/cadastroCliente}"><button class="btn btn-primary">Acessar Cadastrar clientes</button></a>
+						<a th:href="@{/u/cadastroCliente}"><button class="btn btn-primary">Acessar Cadastrar clientes</button></a>
 					</div>
 					
 				  	<div id="tabs-2">
 				    	<p class="lead">Buscar produtos cadastrados.</p>
-						<a th:href="@{/produtosCadastrados}"><button class="btn btn-primary">Acessar Produtos cadastrados</button></a>
+						<a th:href="@{/u/produtosCadastrados}"><button class="btn btn-primary">Acessar Produtos cadastrados</button></a>
 					</div>
 					
 				  	<div id="tabs-3">
 				    	<p class="lead">Cadastre seus produtos.</p>
-						<a th:href="@{/cadastroProduto}"><button class="btn btn-primary">Acessar Cadastrar produtos</button></a>
+						<a th:href="@{/u/cadastroProduto}"><button class="btn btn-primary">Acessar Cadastrar produtos</button></a>
 					</div>
 					
 				  	<div id="tabs-4">

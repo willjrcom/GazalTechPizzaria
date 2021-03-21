@@ -9,7 +9,7 @@ $(document).ready(() => $("#nomePagina").text("Pedidos excluídos"));
 carregarLoading("block");
 
 $.ajax({
-	url: "/pedidosExcluidos/todosPedidos",
+	url: "/u/pedidosExcluidos/todosPedidos",
 	type: 'GET'
 }).done(function(e){
 	pedidos = e;
