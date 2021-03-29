@@ -35,7 +35,11 @@ public class FechamentoController {
 
 	@GetMapping("/fechamento")
 	public ModelAndView tela() {
-		return new ModelAndView("fechamento");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("fechamento");
+		mv.addObject("permissao", user.getPerfil());
+		return mv;
 	}
 	
 	

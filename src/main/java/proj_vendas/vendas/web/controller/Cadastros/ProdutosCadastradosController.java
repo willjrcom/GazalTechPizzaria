@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import proj_vendas.vendas.model.Empresa;
+import proj_vendas.vendas.model.LogPizza;
 import proj_vendas.vendas.model.Produto;
 import proj_vendas.vendas.model.Usuario;
 import proj_vendas.vendas.repository.Empresas;
@@ -35,7 +36,11 @@ public class ProdutosCadastradosController {
 	
 	@GetMapping("/produtosCadastrados")
 	public ModelAndView tela() {
-		return new ModelAndView("produtosCadastrados");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("produtosCadastrados");
+		mv.addObject("produtos", produtos.totalProdutos(user.getCodEmpresa()));
+		return mv;
 	}
 
 	@RequestMapping("/produtosCadastrados/buscar/{nome}")
@@ -66,5 +71,14 @@ public class ProdutosCadastradosController {
 			}
 		}
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping("/produtosCadastrados/pizzas")
+	@ResponseBody
+	public List<LogPizza> buscarPizzas() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return empresas.findByCodEmpresa(user.getCodEmpresa()).getLogPizza();
 	}
 }

@@ -1,50 +1,6 @@
 $(document).ready(() => $("#nomePagina").text("Top 10"));
 
-var mesas = [], arrayClientes = [], top5 = [];
-var Cliente = {};
-var linhaClientesHtml = '';
-
-//cadastros------------------------------------------------------
-function mostrarClientes() {
-	if ($("#topClientes").is(":visible") == false) {
-		carregarLoading('block');
-
-		$.ajax({
-			url: '/adm/top10/clientes',
-			type: "GET"
-		}).done(todosClientes => {
-			if (todosClientes.length != 0) {
-				arrayClientes = [];
-				for (cliente of todosClientes) {
-					Cliente = {};
-					[Cliente.nome, Cliente.total] = cliente.split(',');
-					arrayClientes.push(Cliente);
-				}
-
-				linhaClientesHtml = "";
-				for (let [i, cliente] of arrayClientes.entries()) {
-					linhaClientesHtml += '<tr>'
-						+ '<td class="sombra" align="center">Top ' + (i + 1) + '</td>'
-						+ '<td class="sombra" align="center"><b>' + cliente.nome.substring(0, 20) + '</b></td>'
-						+ '<td class="sombra" align="center">' + cliente.total + '</td>'
-						+ '</tr>';
-				}
-
-				$("#clientes").html(linhaClientesHtml);
-			} else {
-				$("#clientes").html('<tr><td colspan="3" class="sombra" align="center"><label>Nenhum cliente encontrado!</label></td><tr>');
-			}
-
-			carregarLoading("none");
-			$("#topClientes").show("slow");
-			$("#btnClientes").text("Ocultar Top 10 Clientes");
-		});
-	} else {
-		$("#topClientes").hide("slow");
-		$("#btnClientes").text("Mostrar Top 10 Clientes");
-	}
-}
-
+var mesas = [], top5 = [];
 
 
 //mesas------------------------------------------------------
@@ -95,50 +51,6 @@ function mostrarMesas() {
 	} else {
 		$("#topMesas").hide("slow");
 		$("#btnMesas").text("Mostrar Top 10 Mesas");
-	}
-}
-
-
-//mesas------------------------------------------------------
-function mostrarPizzas() {
-	if ($("#topPizzas").is(":visible") == false) {
-		carregarLoading("block");
-
-		$.ajax({
-			url: "/adm/top10/pizzas",
-			type: "GET"
-		}).done(function(e) {
-			top5Pizzas = e;
-			//ordenar vetor decrescente
-			top5Pizzas = top5Pizzas.sort((a, b) => (a.contador < b.contador) ? 1 : ((b.contador < a.contador) ? -1 : 0));
-
-			//reduzir a 10 mesas
-			if (top5Pizzas.length > 10) {
-				top5Pizzas = top5Pizzas.slice(0, 10);
-			}
-
-			pizzasHtml = '';
-			if (top5Pizzas.length == 0) {
-				pizzasHtml = '<tr><td colspan="3" align="center"><label>Nenhuma pizza encontrada!</label></td><tr>';
-				carregarLoading("none");
-			} else {
-				for ([i, pizza] of top5Pizzas.entries()) {
-					pizzasHtml += '<tr>'
-						+ `<td align="center">Top ${i + 1}</td>`
-						+ `<td align="center"><b>${pizza.pizza}</b></td>`
-						+ `<td align="center">${pizza.contador} vezes</td>`
-						+ '</tr>';
-				}
-			}
-
-			carregarLoading("none");
-			$("#topPizzas").show("slow");
-			$("#btnPizzas").text("Ocultar Top 10 Pizzas");
-			$("#pizzasTop").html(pizzasHtml);
-		});
-	} else {
-		$("#topPizzas").hide("slow");
-		$("#btnPizzas").text("Mostrar Top 10 Mesas");
 	}
 }
 

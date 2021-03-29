@@ -1,4 +1,4 @@
-package proj_vendas.vendas.web.controller.Empresa;
+package proj_vendas.vendas.web.controller.Cadastros;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -47,7 +47,9 @@ public class PagamentoController {
 		float horaExtra = empresas.findByCodEmpresa(user.getCodEmpresa()).getHoraExtra();
 
 		ModelAndView mv = new ModelAndView("pagamento");
+
 		mv.addObject("horaExtra", decimal.format(horaExtra));
+		mv.addObject("permissao", user.getPerfil());
 		return mv;
 	}
 

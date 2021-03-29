@@ -19,43 +19,48 @@ import proj_vendas.vendas.repository.Usuarios;
 @Controller
 @RequestMapping("adm")
 public class EmpresaController {
-	
+
 	@Autowired
 	private Empresas empresas;
-	
+
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@GetMapping("/empresa")
 	public ModelAndView tela() {
-		return new ModelAndView ("empresa");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("empresa");
+		mv.addObject("permissao", user.getPerfil());
+		return mv;
 	}
-	
+
 	@RequestMapping(value = "/empresa/atualizar")
 	@ResponseBody
 	public Usuario salvar(@RequestBody Empresa empresa) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		empresa.setCodEmpresa(user.getCodEmpresa());
-		
+
 		try {
 			Conquista conquista = empresa.getConquista();
-			if(conquista.isCadEmpresa() == false) {
+			if (conquista.isCadEmpresa() == false) {
 				conquista.setCadEmpresa(true);
 				empresa.setConquista(conquista);
 			}
-		}catch(Exception e) {}
-		
+		} catch (Exception e) {
+		}
+
 		user.setEmpresa(empresa);
 		return usuarios.save(user);
 	}
-	
+
 	@RequestMapping(value = "/empresa/editar")
 	@ResponseBody
 	public Empresa editar() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+
 		return empresas.findByCodEmpresa(user.getCodEmpresa());
 	}
 }

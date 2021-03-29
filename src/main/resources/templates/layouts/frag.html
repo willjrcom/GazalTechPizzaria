@@ -34,8 +34,6 @@
 <!-- css -->
 <link th:href="@{/css/estilo.css}" rel="stylesheet" />
 
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
@@ -282,9 +280,9 @@
 									Pedidos Cancelados</a>
 							</li>
 
-							<li>
+							<li th:if="${permissao} != 'USUARIO'">
 								<p class="bg-primary text-white">
-									&nbsp;&nbsp;&nbsp;<b>Administração <i class="fas fa-lock"></i></b>
+									&nbsp;&nbsp;&nbsp;<b>Administração</b>
 								</p> <a th:href="@{/adm/fechamento}"><i
 									class="fas fa-cash-register"></i> Fechamento do Dia</a> <a
 								th:href="@{/adm/compras}"><i class="fas fa-cart-plus"></i>
@@ -309,9 +307,9 @@
 									Cadastrar</a>
 							</li>
 
-							<li>
+							<li th:if="${permissao} != 'USUARIO'">
 								<p class="bg-primary text-white">
-									&nbsp;&nbsp;&nbsp;<b>Funcionários</b> <i class="fas fa-lock"></i>
+									&nbsp;&nbsp;&nbsp;<b>Funcionários</b>
 								</p> <a th:href="@{/adm/pagamento}"><i
 									class="far fa-credit-card"></i> Pagamentos</a> <a
 								th:href="@{/adm/funcionariosCadastrados}"><i
@@ -321,19 +319,17 @@
 							</li>
 
 							<!-- ------------------------------------------------------------------------------------ -->
-							<li>
+							<li th:if="${permissao} != 'USUARIO'">
 								<p class="bg-primary text-white">
-									&nbsp;&nbsp;&nbsp;<b>Gráficos <i class="fas fa-lock"></i></b>
+									&nbsp;&nbsp;&nbsp;<b>Gráficos</b>
 								</p> <a th:href="@{/adm/estatistica}"><i
 									class="fas fa-chart-bar"></i> Estatística</a> <a
-								th:href="@{/adm/top10}"><i class="fas fa-trophy"></i> Top 10</a>
-								<a th:href="@{/adm/metas}"><i class="fas fa-award"></i>
-									Metas</a>
+								th:href="@{/adm/metas}"><i class="fas fa-award"></i> Metas</a>
 							</li>
 
-							<li>
+							<li th:if="${permissao} != 'USUARIO'">
 								<p class="bg-primary text-white">
-									&nbsp;&nbsp;&nbsp;<b>Dados <i class="fas fa-lock"></i></b>
+									&nbsp;&nbsp;&nbsp;<b>Dados</b>
 								</p> <!--<a th:href="@{/adm/cupom}"><i class="fas fa-tag"></i> Cupom</a> -->
 								<a th:href="@{/adm/empresa}"><i class="fas fa-database"></i>
 									Empresa</a> <a th:href="@{/adm/mensalidade}"><i
@@ -387,6 +383,6 @@
 
 
 	<!-- ---------------------------------------------------------------------------------------------- -->
-	
+
 </body>
 </html>

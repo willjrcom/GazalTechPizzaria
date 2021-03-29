@@ -17,7 +17,7 @@ var totalUnico; // valor fixo mesmo depois do sistema atualizar o pedido antigo 
 var modo = "CRIAR";
 
 //html------------------------------------------------------------------------------------------------------
-var [linhaHtml, bordasHtml, garconsHtml] = ['', '', ''];
+var [linhaHtml, bordasHtml, garconsHtml, nomeProduto] = ['', '', '', ''];
 
 var pizzaVazio = '<tr><td colspan="7">Nenhuma pizza adicionada!</td></tr>';
 var produtoVazio = '<tr><td colspan="7">Nenhum produto adicionado!</td></tr>';
@@ -76,9 +76,9 @@ function qtdHtml() {
 		+ '<div class="col-md-6">'
 		+ '<label>Tamanho:</label>'
 		+ '<select class="form-control" id="tamanhoProduto">'
-		+ '<option value="1">Grande G</option>'
+		+ '<option value="1">Medio M</option>'
 		+ '<option value="0">Pequeno P</option>'
-		+ '<option value="2">Gigante GG</option>'
+		+ '<option value="2">Grande G</option>'
 		+ '</select>'
 		+ '</div>'
 		+ '</div>'
@@ -500,7 +500,7 @@ function buscarProdutos() {
 //------------------------------------------------------------------------------------------------------------------------
 function enviarProduto(idUnico) {
 
-	borda = '';
+	[borda, nomeProduto] = ['', ''];
 	[produto, Borda] = [{}, {}];
 	Borda.nome = '';
 
@@ -602,17 +602,17 @@ function enviarProduto(idUnico) {
 					//verifica o tamanho do produto
 					if (tamanhoProduto == 0) {
 						if (produto.custoP == 0) return precoNulo('Pequeno P');
-						produto.nome += ' - P';
+						nomeProduto = produto.nome + ' - P';
 						produto.preco = produto.precoP;
 						produto.custo = produto.custoP;
 					} else if (tamanhoProduto == 1) {
-						if (produto.custoM == 0) return precoNulo('Grande G');
-						produto.nome += ' - G';
+						if (produto.custoM == 0) return precoNulo('Medio M');
+						nomeProduto = produto.nome + ' - M';
 						produto.preco = produto.precoM;
 						produto.custo = produto.custoM;
 					} else if (tamanhoProduto == 2) {
-						if (produto.custoG == 0) return precoNulo('Gigante GG');
-						produto.nome += ' - GG';
+						if (produto.custoG == 0) return precoNulo('Grande G');
+						nomeProduto = produto.nome + ' - G';
 						produto.preco = produto.precoG;
 						produto.custo = produto.custoG;
 					}
@@ -636,7 +636,7 @@ function enviarProduto(idUnico) {
 						pizzas.unshift({
 							qtd,
 							obs,
-							'sabor': produto.nome,
+							'sabor': nomeProduto,
 							'borda': Borda.nome,
 							'preco': produto.preco,
 							'custo': produto.custo,
@@ -647,7 +647,7 @@ function enviarProduto(idUnico) {
 						produtos.unshift({
 							qtd,
 							obs,
-							'sabor': produto.nome,
+							'sabor': nomeProduto,
 							'preco': produto.preco,
 							'custo': produto.custo,
 							'setor': produto.setor,

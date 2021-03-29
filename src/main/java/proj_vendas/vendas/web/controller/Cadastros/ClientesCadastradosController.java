@@ -35,7 +35,11 @@ public class ClientesCadastradosController {
 
 	@GetMapping("/clientesCadastrados")
 	public ModelAndView tela() {
-		return new ModelAndView("clientesCadastrados");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("clientesCadastrados");
+		mv.addObject("clientes", clientes.totalClientes(user.getCodEmpresa()));
+		return mv;
 	}
 
 	@RequestMapping("/clientesCadastrados/buscar/{nome}/{celular}")
@@ -66,5 +70,14 @@ public class ClientesCadastradosController {
 			}
 		}
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping("/clientesCadastrados/clientes")
+	@ResponseBody
+	public List<String> top10() {
+		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal()).getUsername());
+		
+		return clientes.top10Clientes(user.getCodEmpresa());
 	}
 }

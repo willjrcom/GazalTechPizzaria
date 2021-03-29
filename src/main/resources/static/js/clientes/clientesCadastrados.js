@@ -1,7 +1,8 @@
 $(document).ready(() => $("#nomePagina").text("Clientes cadastrados"));
 
-var clientes = [];
-var linhaHtml;
+var [clientes, arrayClientes] = [[], []];
+var Cliente = {};
+var [linhaHtml, linhaClientesHtml] = ['', ''];
 var pedidoVazio = '<tr><td colspan="4">Nenhum cliente encontrado!</td></tr>';
 
 $("#buscar").click(function(){
@@ -292,6 +293,47 @@ function excluirCliente() {
 	});
 }
 
+
+//cadastros------------------------------------------------------
+function mostrarClientes() {
+	if ($("#topClientes").is(":visible") == false) {
+		carregarLoading('block');
+
+		$.ajax({
+			url: '/u/clientesCadastrados/clientes',
+			type: "GET"
+		}).done(todosClientes => {
+			if (todosClientes.length != 0) {
+				arrayClientes = [];
+				for (cliente of todosClientes) {
+					Cliente = {};
+					[Cliente.nome, Cliente.total] = cliente.split(',');
+					arrayClientes.push(Cliente);
+				}
+
+				linhaClientesHtml = "";
+				for (let [i, cliente] of arrayClientes.entries()) {
+					linhaClientesHtml += '<tr>'
+						+ '<td class="sombra" align="center">Top ' + (i + 1) + '</td>'
+						+ '<td class="sombra" align="center"><b>' + cliente.nome.substring(0, 20) + '</b></td>'
+						+ '<td class="sombra" align="center">' + cliente.total + '</td>'
+						+ '</tr>';
+				}
+
+				$("#clientes").html(linhaClientesHtml);
+			} else {
+				$("#clientes").html('<tr><td colspan="3" class="sombra" align="center"><label>Nenhum cliente encontrado!</label></td><tr>');
+			}
+
+			carregarLoading("none");
+			$("#topClientes").show("slow");
+			$("#btnClientes").text("Ocultar Top 10 Clientes");
+		});
+	} else {
+		$("#topClientes").hide("slow");
+		$("#btnClientes").text("Mostrar Top 10 Clientes");
+	}
+}
 
 function carregarLoading(texto){
 	$(".loading").css({

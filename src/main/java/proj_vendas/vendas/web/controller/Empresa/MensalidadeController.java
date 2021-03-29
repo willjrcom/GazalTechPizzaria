@@ -22,36 +22,38 @@ import proj_vendas.vendas.repository.Usuarios;
 @Controller
 @RequestMapping("adm")
 public class MensalidadeController {
-	
+
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@Autowired
 	private Empresas empresas;
-	
+
 	@GetMapping("/mensalidade")
 	public ModelAndView tela() throws IOException {
-		return new ModelAndView ("mensalidade");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("mensalidade");
+		mv.addObject("permissao", user.getPerfil());
+		return mv;
 	}
-	
-	
+
 	@RequestMapping(value = "/mensalidade/mensalidades")
 	@ResponseBody
 	public List<Mensalidade> todos() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+
 		return empresas.findByCodEmpresa(user.getCodEmpresa()).getMensalidade();
 	}
-	
-	
+
 	@RequestMapping(value = "/mensalidade/pagar")
 	@ResponseBody
 	public Empresa cadastrar(@RequestBody Mensalidade mensalidade) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
-		
+
 		List<Mensalidade> mensalidades = empresa.getMensalidade();
 		mensalidades.add(mensalidade);
 		empresa.setMensalidade(mensalidades);

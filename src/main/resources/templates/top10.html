@@ -1,108 +1,52 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Top 10</title></head>
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+<title>Top 10</title>
+</head>
 
 <body>
-	
+
 	<div class="divbase">
 		<br>
 		<div class="row">
-				<div class="col-md-4 table-responsive">
-					<table class="table table-striped table-hover caption-top table-sm">
-	 		 			<caption>Clientes cadastrados</caption>
-						<tr><td th:text="${clientes}" class="text-center col-md-1">0</td></tr>
-					</table>
-				</div>
-	
-	
-				<div class="col-md-4 table-responsive">
-					<table class="table table-striped table-hover caption-top table-sm">
-	 		 			<caption>Funcionários cadastrados</caption>
-						<tr><td th:text="${funcionarios}" class="text-center col-md-1">0</td></tr>
-					</table>
-				</div>
-	
-				<div class="col-md-4 table-responsive">
-					<table class="table table-striped table-hover caption-top table-sm">
-	 		 			<caption>Produtos cadastrados</caption>
-						<tr><td th:text="${produtos}" class="text-center col-md-1">0</td></tr>
-					</table>
-				</div>
-				<div>&nbsp;</div>
-				
-				<div class="row">
-					<div class="col-md-4">
-						<button class="btn btn-primary" onclick="mostrarClientes()" id="btnClientes">Mostrar Top 10 Clientes</button>
-						<div>&nbsp;</div>
-					
-						<div class="table-responsive hidden" id="topClientes">
-							<table class="table table-striped table-hover table-sm">
-								<caption><i class="fas fa-trophy"></i> Top 10 Clientes</caption>
-								<thead>
-									<tr>
-					 		 			<th class="col-md-1">Ranking</th>
-										<th class="col-md-1">Cliente</th>
-			 		 					<th class="col-md-1">Pedidos</th>
-			 		 				</tr>
-								</thead>
-								<tbody id="clientes">
-									<tr><td colspan="3" align="center"><label>Nenhum cliente encontrado!</label></td><tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					
-					<div class="col-md-4">
-						<button class="btn btn-primary" onclick="mostrarMesas()" id="btnMesas">Mostrar Top 10 Mesas</button>
-						<div>&nbsp;</div>
-						
-						<div class="table-responsive hidden" id="topMesas">
-					 		<table class="table table-striped table-hover table-sm">
-					 			<caption><i class="fas fa-trophy"></i> Top 10 Mesas</caption>
-					 			<thead>
-					 		 		<tr>
-					 		 			<th class="col-md-1">Ranking</th>
-					 		 			<th class="col-md-1">Mesa</th>
-					 		 			<th class="col-md-1">Utilizada</th>
-					 		 		</tr>
-					 		 	</thead>
-					 		 	<tbody id="mesasTop" class="text-center col-md-1">
-					 		 		<tr><td colspan="3" align="center">Nenhuma mesa adicionada!</td></tr>
-					 		 	</tbody>
-					 		</table>
-			 		 	</div>
-					</div>
-					
-					<div class="col-md-4">
-						<button class="btn btn-primary" onclick="mostrarPizzas()" id="btnPizzas">Mostrar Top 10 Pizzas</button>
-						<div>&nbsp;</div>
-						
-						<div class="table-responsive hidden" id="topPizzas">
-					 		<table class="table table-striped table-hover table-sm">
-								<caption><i class="fas fa-trophy"></i> Top 10 Pizzas</caption>
-				 		 		<thead>
-					 		 		<tr>
-					 		 			<th class="col-md-1">Ranking</th>
-					 		 			<th class="col-md-1">Pizza</th>
-					 		 			<th class="col-md-1">Vendida</th>
-					 		 		</tr>
-				 		 		</thead>
-					 		 	<tbody id="pizzasTop" class="text-center col-md-1">
-					 		 		<tr><td colspan="3">Nenhuma pizza adicionada!</td></tr>
-					 		 	</tbody>
-					 		</table>
-			 		 	</div>
+			<div>&nbsp;</div>
+
+			<div class="row">
+				<div class="col-md-4">
+					<button class="btn btn-primary" onclick="mostrarMesas()"
+						id="btnMesas">Mostrar Top 10 Mesas</button>
+					<div>&nbsp;</div>
+
+					<div class="table-responsive hidden" id="topMesas">
+						<table class="table table-striped table-hover table-sm">
+							<caption>
+								<i class="fas fa-trophy"></i> Top 10 Mesas
+							</caption>
+							<thead>
+								<tr>
+									<th class="col-md-1">Ranking</th>
+									<th class="col-md-1">Mesa</th>
+									<th class="col-md-1">Utilizada</th>
+								</tr>
+							</thead>
+							<tbody id="mesasTop" class="text-center col-md-1">
+								<tr>
+									<td colspan="3" align="center">Nenhuma mesa adicionada!</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
-				<br><br>
 			</div>
-		
-	<!-- ------------------------------------------------------------------------------------------------ -->
-			<!-- <div>
+			<br> <br>
+		</div>
+
+		<!-- ------------------------------------------------------------------------------------------------ -->
+		<!-- <div>
 				<h2 class="centralizar h1Logo"><br>Clientes<br></h2>
 				<div class="table-responsive">
 				<table class="col-md-12">
@@ -137,17 +81,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 			</div> -->
 		<div>&nbsp;</div>
 	</div>
-	
+
 	<br>
-	
+
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/top10.js}"></script>
 </body>
 
-	<div th:replace="~{layouts/frag :: inicio}"></div>
+<div th:replace="~{layouts/frag :: inicio}"></div>
 </html>

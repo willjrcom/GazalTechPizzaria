@@ -23,20 +23,25 @@ public class EstatisticaController {
 
 	@Autowired
 	private Dados dados;
-	
+
 	@Autowired
 	private Usuarios usuarios;
 
 	@GetMapping("/estatistica")
 	public ModelAndView tela() {
-		return new ModelAndView("estatistica");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("estatistica");
+		mv.addObject("permissao", user.getPerfil());
+
+		return mv;
 	}
-	
+
 	@RequestMapping(value = "/estatistica/filtrar/{inicio}/{fim}")
 	@ResponseBody
 	public List<Dado> buscarTodos(@PathVariable String inicio, @PathVariable String fim) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		return dados.findByCodEmpresaAndDataBetween(user.getCodEmpresa(), inicio, fim);
 	}
 }

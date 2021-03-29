@@ -35,7 +35,12 @@ public class FuncionariosCadastradosController {
 
 	@GetMapping("/funcionariosCadastrados")
 	public ModelAndView tela() {
-		return new ModelAndView("funcionariosCadastrados");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("funcionariosCadastrados");
+		mv.addObject("permissao", user.getPerfil());
+		mv.addObject("funcionarios", funcionarios.totalFuncionarios(user.getCodEmpresa()));
+		return mv;
 	}
 
 	@RequestMapping(value = "/funcionariosCadastrados/buscar/{nome}")

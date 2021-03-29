@@ -22,56 +22,61 @@ import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
 @RequestMapping("adm")
-public class CadastroFuncionarioController{
-	
+public class CadastroFuncionarioController {
+
 	@Autowired
 	private Funcionarios funcionarios;
-	
+
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@Autowired
 	private Empresas empresas;
-	
+
 	@GetMapping("/cadastroFuncionario/**")
 	public ModelAndView CadastroFuncionario() {
-		return new ModelAndView("cadastroFuncionario");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("cadastroFuncionario");
+		mv.addObject("permissao", user.getPerfil());
+		return mv;
 	}
 
 	@RequestMapping(value = "/cadastroFuncionario/cadastrar")
 	@ResponseBody
 	public Funcionario cadastrarCliente(@RequestBody Funcionario funcionario) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		try {
 			Conquista conquista = empresa.getConquista();
-			if(conquista.isCadFuncionario() == false) {
+			if (conquista.isCadFuncionario() == false) {
 				conquista.setCadFuncionario(true);
 				empresa.setConquista(conquista);
 			}
-		}catch(Exception e) {}
+		} catch (Exception e) {
+		}
 		funcionario.setCodEmpresa(user.getCodEmpresa());
-		
-		if(funcionario.getId() != null) {
+
+		if (funcionario.getId() != null) {
 			Funcionario funcionarioCadastrado = funcionarios.findById(funcionario.getId()).get();
 			funcionario.setPagamento(funcionarioCadastrado.getPagamento());
 		}
 		return funcionarios.save(funcionario);
 	}
-		
+
 	@RequestMapping(value = "/cadastroFuncionario/buscarCpf/{cpf}/{id}")
 	@ResponseBody
 	public Funcionario buscarCpf(@PathVariable String cpf, @PathVariable long id) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+
 		Funcionario busca = funcionarios.findByCodEmpresaAndCpf(user.getCodEmpresa(), cpf);
-		
-		if(busca != null && id != -2) {
+
+		if (busca != null && id != -2) {
 			long funcionario = funcionarios.findById(id).get().getId();
-			
-			if(busca.getId() == funcionario) {
+
+			if (busca.getId() == funcionario) {
 				Funcionario vazio = new Funcionario();
 				vazio.setId((long) -1);
 				return vazio;
@@ -79,19 +84,19 @@ public class CadastroFuncionarioController{
 		}
 		return busca;
 	}
-	
+
 	@RequestMapping(value = "/cadastroFuncionario/buscarCelular/{celular}/{id}")
 	@ResponseBody
 	public Funcionario buscarCelular(@PathVariable String celular, @PathVariable long id) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
-		
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+
 		Funcionario busca = funcionarios.findByCodEmpresaAndCelular(user.getCodEmpresa(), celular);
-	
-		if(busca != null && id != -2) {
+
+		if (busca != null && id != -2) {
 			long funcionario = funcionarios.findById(id).get().getId();
-			
-			if(busca.getId() == funcionario) {
+
+			if (busca.getId() == funcionario) {
 				Funcionario vazio = new Funcionario();
 				vazio.setId((long) -1);
 				return vazio;
@@ -99,14 +104,14 @@ public class CadastroFuncionarioController{
 		}
 		return busca;
 	}
-	
+
 	@RequestMapping(value = "/cadastroFuncionario/editarFuncionario/{id}")
 	@ResponseBody
 	public ResponseEntity<Funcionario> buscarFuncionario(@PathVariable Long id) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-				.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Funcionario funcionario = funcionarios.findById(id).get();
-		if(funcionario.getCodEmpresa() == user.getCodEmpresa()) {
+		if (funcionario.getCodEmpresa() == user.getCodEmpresa()) {
 			return ResponseEntity.ok(funcionario);
 		}
 		return ResponseEntity.noContent().build();

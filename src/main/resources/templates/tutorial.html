@@ -1,17 +1,20 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head th:replace="~{layouts/frag :: head}"></head>
 <head>
-	<title>Tutorial</title>
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css" rel="stylesheet">
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link rel="stylesheet" href="/resources/demos/style.css">
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-	<script>
+<title>Tutorial</title>
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
 	  $( function() {
 	    $( ".tabs" ).tabs();
 	    $( "#Tabs" ).tabs();
@@ -20,16 +23,17 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 </head>
 <body>
 	<div class="divbase" align="center">
-		<a th:href="@{/index}" class="fLeft"><button class="btn btn-primary">Voltar</button></a>
-	
+		<a th:href="@{/menu}" class="fLeft"><button
+				class="btn btn-primary">Voltar</button></a>
+
 		<h1 class="h1Logo">Tutorial</h1>
 		<hr>
 		<div id="Tabs">
 			<ul>
-		    	<li><a href="#Tabs-1">Novo Pedido</a></li>
-		    	<li><a href="#Tabs-2">ADM</a></li>
-		    	<li><a href="#Tabs-3">Cadastros</a></li>
-		    	<li><a href="#Tabs-4">Empresa</a></li>
+				<li><a href="#Tabs-1">Novo Pedido</a></li>
+				<li><a href="#Tabs-2">Resumo diário</a></li>
+				<li><a href="#Tabs-3">Cadastros</a></li>
+				<li><a href="#Tabs-4">Empresa</a></li>
 			</ul>
 			<!-- <div class="fotorama"
 							data-allowfullscreen="true"
@@ -45,189 +49,224 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 					     	data-maxheight="50%">
 		 					<a href="https://vimeo.com/493530568">Ver pedidos</a>
 						</div> -->
-						
-						
+
+
 			<!-- Novo Pedido------------------------------------------------------------------------------------------------------- -->
 			<div id="Tabs-1">
 				<div class="tabs">
 					<ul>
-				    	<li><a href="#tabs-0">Pedidos em aberto</a></li>
-				    	<li><a href="#tabs-1">Novo Pedido</a></li>
-				    	<li><a href="#tabs-2">Entregar</a></li>
-				    	<li><a href="#tabs-3">Finalizar</a></li>
-				    	<li><a href="#tabs-4">Cozinha</a></li>
-				    	<li><a href="#tabs-5">Produtos prontos</a></li>
-				    	<li><a href="#tabs-6">Retirada</a></li>
+						<li><a href="#tabs-0">Pedidos em aberto</a></li>
+						<li><a href="#tabs-1">Novo Pedido</a></li>
+						<li><a href="#tabs-2">Entregar</a></li>
+						<li><a href="#tabs-3">Finalizar</a></li>
+						<li><a href="#tabs-4">Cozinha</a></li>
+						<li><a href="#tabs-5">Produtos prontos</a></li>
+						<li><a href="#tabs-6">Retirada</a></li>
 					</ul>
-					
+
 					<div id="tabs-0">
-						<p class="lead">Aqui você pode ver, editar, imprimir ou cancelar um pedido.</p>
-						<a th:href="@{/u/verpedido}"><button class="btn btn-primary">Acessar pedidos em aberto</button></a>
+						<p class="lead">Aqui você pode ver, editar, imprimir ou
+							cancelar um pedido.</p>
+						<a th:href="@{/u/verpedido}"><button class="btn btn-primary">Acessar
+								pedidos em aberto</button></a>
 					</div>
-					
+
 					<div id="tabs-1">
-						<p class="lead">Tire seus novos pedidos,
-						<br>Após o pedido ser confirmado, pode ser feita a impressão.</p>
-						<a th:href="@{/u/novoPedido}"><button class="btn btn-primary">Acessar Novo Pedido</button></a>
+						<p class="lead">
+							Tire seus novos pedidos, <br>Após o pedido ser confirmado,
+							pode ser feita a impressão.
+						</p>
+						<a th:href="@{/u/novoPedido}"><button class="btn btn-primary">Acessar
+								Novo Pedido</button></a>
 					</div>
-					
+
 					<div id="tabs-2">
-				    	<p class="lead">Aqui você pode selecionar qual pedido vai ser entregue e qual motoboy vai entregar.</p>
-						<a th:href="@{/u/motoboy}"><button class="btn btn-primary">Acessar Entregar</button></a>
+						<p class="lead">Aqui você pode selecionar qual pedido vai ser
+							entregue e qual motoboy vai entregar.</p>
+						<a th:href="@{/u/motoboy}"><button class="btn btn-primary">Acessar
+								Entregar</button></a>
 					</div>
-					
+
 					<div id="tabs-3">
-				    	<p class="lead">Para dar baixa em qualquer pedido, é necessario selecionar o funcionário responsável e finalizar com sucesso!</p>
-						<a th:href="@{/u/finalizar}"><button class="btn btn-primary">Acessar Finalizar</button></a>
+						<p class="lead">Para dar baixa em qualquer pedido, é
+							necessario selecionar o funcionário responsável e finalizar com
+							sucesso!</p>
+						<a th:href="@{/u/finalizar}"><button class="btn btn-primary">Acessar
+								Finalizar</button></a>
 					</div>
-					
+
 					<div id="tabs-4">
-						<p class="lead">Aqui você pode ver todos os pedidos que ainda estão em andamento.
-						<br>Se o pedido ficar pronto, deve clicar no botão verde para ficar enviar.</p>
-						<a th:href="@{/u/cozinha}"><button class="btn btn-primary">Acessar Cozinha</button></a>
+						<p class="lead">
+							Aqui você pode ver todos os pedidos que ainda estão em andamento.
+							<br>Se o pedido ficar pronto, deve clicar no botão verde
+							para ficar enviar.
+						</p>
+						<a th:href="@{/u/cozinha}"><button class="btn btn-primary">Acessar
+								Cozinha</button></a>
 					</div>
-					
-				  	<div id="tabs-5">
-				    	<p class="lead">Para ter controle, a tela de pedidos prontos mostra cada pedido e sua situação.</p>
-						<a th:href="@{/u/produtosProntos}"><button class="btn btn-primary">Acessar Produtos prontos</button></a>
+
+					<div id="tabs-5">
+						<p class="lead">Para ter controle, a tela de pedidos prontos
+							mostra cada pedido e sua situação.</p>
+						<a th:href="@{/u/produtosProntos}"><button
+								class="btn btn-primary">Acessar Produtos prontos</button></a>
 					</div>
-					
+
 					<div id="tabs-6">
-						<p class="lead">Aqui você pode ver todos os pedidos para retirar no balção.</p>
-						<a th:href="@{/u/retirada}"><button class="btn btn-primary">Acessar retirada</button></a>
+						<p class="lead">Aqui você pode ver todos os pedidos para
+							retirar no balção.</p>
+						<a th:href="@{/u/retirada}"><button class="btn btn-primary">Acessar
+								retirada</button></a>
 					</div>
 				</div>
 			</div>
-			
-			
+
+
 			<!-- ADM------------------------------------------------------------------------------------------------------- -->
 			<div id="Tabs-2">
 				<div class="tabs">
 					<ul>
-				    	<li><a href="#tabs-0">Pedidos finalizados</a></li>
-				    	<li><a href="#tabs-1">Pedidos cancelados</a></li>
-				    	<li><a href="#tabs-2">Fechamento</a></li>
-				    	<li><a href="#tabs-3">Compras</a></li>
+						<li><a href="#tabs-0">Pedidos finalizados</a></li>
+						<li><a href="#tabs-1">Pedidos cancelados</a></li>
+						<li><a href="#tabs-2">Fechamento</a></li>
+						<li><a href="#tabs-3">Compras</a></li>
 					</ul>
-					
+
 					<div id="tabs-0">
 						<p class="lead">Veja todos pedidos finalizados com sucesso!</p>
-						<a th:href="@{/u/pedidosFinalizados}"><button class="btn btn-primary">Acessar Pedidos Finalizados</button></a>
+						<a th:href="@{/u/pedidosFinalizados}"><button
+								class="btn btn-primary">Acessar Pedidos Finalizados</button></a>
 					</div>
-					
-				  	<div id="tabs-1">
+
+					<div id="tabs-1">
 						<p class="lead">Veja todos pedidos cancelados.</p>
-						<a th:href="@{/u/pedidosExcluidos}"><button class="btn btn-primary">Acessar Pedidos cancelados</button></a>
+						<a th:href="@{/u/pedidosExcluidos}"><button
+								class="btn btn-primary">Acessar Pedidos cancelados</button></a>
 					</div>
-					
+
 					<div id="tabs-2">
-						<p class="lead">Ao fim do turno, você pode finalizar o caixa e receber o relatório de vendas do dia.</p>
-						<a th:href="@{/adm/fechamento}"><button class="btn btn-primary">Acessar Fechamento</button></a>
+						<p class="lead">Ao fim do turno, você pode finalizar o caixa e
+							receber o relatório de vendas do dia.</p>
+						<a th:href="@{/adm/fechamento}"><button
+								class="btn btn-primary">Acessar Fechamento</button></a>
 					</div>
-					
-				  	<div id="tabs-3">
-				    	<p class="lead">Liste todas as compras feita no dia.</p>
-						<a th:href="@{/adm/compras}"><button class="btn btn-primary">Acessar Compras</button></a>
+
+					<div id="tabs-3">
+						<p class="lead">Liste todas as compras feita no dia.</p>
+						<a th:href="@{/adm/compras}"><button class="btn btn-primary">Acessar
+								Compras</button></a>
 					</div>
 				</div>
 			</div>
-			
-			
+
+
 			<!-- Cadastros------------------------------------------------------------------------------------------------------- -->
 			<div id="Tabs-3">
 				<div class="tabs">
 					<ul>
-				    	<li><a href="#tabs-0">Clientes cadastrados</a></li>
-				    	<li><a href="#tabs-1">Cadastrar clientes</a></li>
-				    	<li><a href="#tabs-2">Produtos cadastrados</a></li>
-				    	<li><a href="#tabs-3">Cadastrar produtos</a></li>
-				    	<li><a href="#tabs-4">Funcionários cadastrados</a></li>
-				    	<li><a href="#tabs-5">Cadastrar funcionários</a></li>
+						<li><a href="#tabs-0">Clientes cadastrados</a></li>
+						<li><a href="#tabs-1">Cadastrar clientes</a></li>
+						<li><a href="#tabs-2">Produtos cadastrados</a></li>
+						<li><a href="#tabs-3">Cadastrar produtos</a></li>
+						<li><a href="#tabs-4">Pagamentos</a></li>
+						<li><a href="#tabs-5">Funcionários cadastrados</a></li>
+						<li><a href="#tabs-6">Cadastrar funcionários</a></li>
 					</ul>
-					
+
 					<div id="tabs-0">
 						<p class="lead">Buscar clientes cadastrados.</p>
-						<a th:href="@{/u/clientesCadastrados}"><button class="btn btn-primary">Acessar Clientes cadastrados</button></a>
+						<a th:href="@{/u/clientesCadastrados}"><button
+								class="btn btn-primary">Acessar Clientes cadastrados</button></a>
 					</div>
-					
-				  	<div id="tabs-1">
-				    	<p class="lead">Cadastre seus clientes.</p>
-						<a th:href="@{/u/cadastroCliente}"><button class="btn btn-primary">Acessar Cadastrar clientes</button></a>
+
+					<div id="tabs-1">
+						<p class="lead">Cadastre seus clientes.</p>
+						<a th:href="@{/u/cadastroCliente}"><button
+								class="btn btn-primary">Acessar Cadastrar clientes</button></a>
 					</div>
-					
-				  	<div id="tabs-2">
-				    	<p class="lead">Buscar produtos cadastrados.</p>
-						<a th:href="@{/u/produtosCadastrados}"><button class="btn btn-primary">Acessar Produtos cadastrados</button></a>
+
+					<div id="tabs-2">
+						<p class="lead">Buscar produtos cadastrados.</p>
+						<a th:href="@{/u/produtosCadastrados}"><button
+								class="btn btn-primary">Acessar Produtos cadastrados</button></a>
 					</div>
-					
-				  	<div id="tabs-3">
-				    	<p class="lead">Cadastre seus produtos.</p>
-						<a th:href="@{/u/cadastroProduto}"><button class="btn btn-primary">Acessar Cadastrar produtos</button></a>
+
+					<div id="tabs-3">
+						<p class="lead">Cadastre seus produtos.</p>
+						<a th:href="@{/u/cadastroProduto}"><button
+								class="btn btn-primary">Acessar Cadastrar produtos</button></a>
 					</div>
-					
-				  	<div id="tabs-4">
-				    	<p class="lead">Buscar funcionários cadastrados</p>
-						<a th:href="@{/adm/funcionariosCadastrados}"><button class="btn btn-primary">Acessar Funcionários cadastrados</button></a>
+
+					<div id="tabs-4">
+						<p class="lead">
+							Aqui você pode gerenciar todas horas extras, gastos, <br>total
+							pago e a pagar de cada funcionário, além de imprimir os
+							relatórios
+						</p>
+						<a th:href="@{/adm/pagamento}"><button class="btn btn-primary">Acessar
+								Pagamentos</button></a>
 					</div>
-					
-				  	<div id="tabs-5">
-				    	<p class="lead">Cadastre seus funcionários</p>
-						<a th:href="@{/adm/cadastroFuncionario}"><button class="btn btn-primary">Acessar Cadastrar funcionários</button></a>
+
+					<div id="tabs-5">
+						<p class="lead">Buscar funcionários cadastrados</p>
+						<a th:href="@{/adm/funcionariosCadastrados}"><button
+								class="btn btn-primary">Acessar Funcionários
+								cadastrados</button></a>
+					</div>
+
+					<div id="tabs-6">
+						<p class="lead">Cadastre seus funcionários</p>
+						<a th:href="@{/adm/cadastroFuncionario}"><button
+								class="btn btn-primary">Acessar Cadastrar funcionários</button></a>
 					</div>
 				</div>
 			</div>
-			
-			
+
+
 			<!-- Empresa------------------------------------------------------------------------------------------------------- -->
 			<div id="Tabs-4">
 				<div class="tabs">
 					<ul>
-				    	<li><a href="#tabs-0">Estatísticas</a></li>
-				    	<li><a href="#tabs-1">Top 10</a></li>
-				    	<li><a href="#tabs-2">Metas</a></li>
-				    	<li><a href="#tabs-3">Pagamentos</a></li>
-				    	<li><a href="#tabs-5">Dados</a></li>
-				    	<li><a href="#tabs-6">Mensalidade</a></li>
+						<li><a href="#tabs-0">Estatísticas</a></li>
+						<li><a href="#tabs-1">Metas</a></li>
+						<li><a href="#tabs-2">Empresa</a></li>
+						<li><a href="#tabs-3">Mensalidade</a></li>
 					</ul>
-					
+
 					<div id="tabs-0">
-						<p class="lead">Graças aos nossos graficos, você pode ver o crescimento da sua empresa ao longo do tempo, aproveite!</p>
-						<a th:href="@{/adm/estatistica}"><button class="btn btn-primary">Acessar Estatísticas</button></a>
+						<p class="lead">Graças aos nossos graficos, você pode ver o
+							crescimento da sua empresa ao longo do tempo, aproveite!</p>
+						<a th:href="@{/adm/estatistica}"><button
+								class="btn btn-primary">Acessar Estatísticas</button></a>
 					</div>
-					
+
 					<div id="tabs-1">
-						<p class="lead">Veja as estatísticas de top 10!</p>
-						<a th:href="@{/adm/top10}"><button class="btn btn-primary">Acessar Top 10</button></a>
+						<p class="lead">Acesse todas as metas que sua empresa
+							conquistou.</p>
+						<a th:href="@{/adm/metas}"><button class="btn btn-primary">Acessar
+								Metas</button></a>
 					</div>
-					
+
 					<div id="tabs-2">
-				    	<p class="lead">Acesse todas as metas que sua empresa conquistou.</p>
-						<a th:href="@{/adm/metas}"><button class="btn btn-primary">Acessar Metas</button></a>
+						<p class="lead">Cadastre sua empresa!</p>
+						<a th:href="@{/adm/empresa}"><button class="btn btn-primary">Acessar
+								Dados</button></a>
 					</div>
-					
+
 					<div id="tabs-3">
-						<p class="lead">Aqui você pode gerenciar todas horas extras, gastos,
-						<br>total pago e a pagar de cada funcionário, além de imprimir os relatórios</p>
-						<a th:href="@{/adm/pagamento}"><button class="btn btn-primary">Acessar Pagamentos</button></a>
-					</div>
-					
-					<div id="tabs-5">
-				    	<p class="lead">Cadastre sua empresa!</p>
-						<a th:href="@{/adm/empresa}"><button class="btn btn-primary">Acessar Dados</button></a>
-					</div>
-					
-					<div id="tabs-6">
-				    	<p class="lead">Veja suas mensalidades pagas</p>
-						<a th:href="@{/adm/mensalidade}"><button class="btn btn-primary">Acessar Mensalidade</button></a>
+						<p class="lead">Veja suas mensalidades pagas</p>
+						<a th:href="@{/adm/mensalidade}"><button
+								class="btn btn-primary">Acessar Mensalidade</button></a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<br>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.4/fotorama.js"></script>
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
-	</body>
+</body>
 </html>

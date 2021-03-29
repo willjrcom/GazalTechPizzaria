@@ -1,29 +1,42 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Funcionários Cadastrados</title></head>
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+<title>Funcionários Cadastrados</title>
+</head>
 
 <body>
-	
+
 	<div class="divbase">
 		<br>
+		<div class="col-md-4 table-responsive">
+			<table class="table table-striped table-hover caption-top table-sm">
+				<caption>Funcionários cadastrados</caption>
+				<tr>
+					<td th:text="${funcionarios}" class="text-center col-md-1">0</td>
+				</tr>
+			</table>
+		</div>
+
 		<div class="row">
 			<div class="col-md-10">
-				<Label>Nome:</Label>
-				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control pula" 
-					placeholder="Qual funcionário você está procurando?" style="text-indent: 10px"/>
+				<Label>Nome:</Label> <input type="text" name="nome" id="nomeBusca"
+					autofocus="autofocus" class="form-control pula"
+					placeholder="Qual funcionário você está procurando?"
+					style="text-indent: 10px" />
 			</div>
-					
+
 			<div class="col-md-2">
-			<div>&nbsp;</div>
-				<button type="submit" name="buscarFunc" id="buscar" class="form-control btn btn-primary pula">Buscar</button>
+				<div>&nbsp;</div>
+				<button type="submit" name="buscarFunc" id="buscar"
+					class="form-control btn btn-primary pula">Buscar</button>
 			</div>
 		</div>
 		<br>
-<!-- ----------------------------------------------------------------------------------------------------------- -->
+		<!-- ----------------------------------------------------------------------------------------------------------- -->
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-sm">
 				<thead>
@@ -34,25 +47,29 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						<th class="col-md-1 text-center"><h3></h3></th>
 					</tr>
 				</thead>
-				<tbody id="todosFuncionarios"><tr><td colspan="4">Nenhum funcionário encontrado!</td></tr></tbody>
+				<tbody id="todosFuncionarios">
+					<tr>
+						<td colspan="4">Nenhum funcionário encontrado!</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
-	
-<!-- --------------------------------------------------------------------------------------------------------------- -->
-		
+
+		<!-- --------------------------------------------------------------------------------------------------------------- -->
+
 	</div>
-	
+
 	<br>
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/funcionarios/funcionariosCadastrados.js}"></script>
 	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
 
-	<div th:replace="~{layouts/frag :: inicio}"></div>
+<div th:replace="~{layouts/frag :: inicio}"></div>
 </html>

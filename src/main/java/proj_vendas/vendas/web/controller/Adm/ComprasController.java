@@ -24,29 +24,33 @@ public class ComprasController {
 
 	@Autowired
 	private Dados dados;
-	
+
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@GetMapping("/compras")
 	public ModelAndView tela() {
-		return new ModelAndView("compras");
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		ModelAndView mv = new ModelAndView("compras");
+		mv.addObject("permissao", user.getPerfil());
+		return mv;
 	}
-	
+
 	@RequestMapping(value = "/compras/dados")
 	@ResponseBody
 	public List<Compra> dados() {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-			.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 		return dado.getCompra();
 	}
-	
+
 	@RequestMapping("/compras/comprar")
 	@ResponseBody
 	public Compra comprar(@RequestBody Compra compra) {
-		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()
-			.getAuthentication().getPrincipal()).getUsername());
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		Dado dado = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia());
 		List<Compra> compras = dado.getCompra();
 		compras.add(compra);

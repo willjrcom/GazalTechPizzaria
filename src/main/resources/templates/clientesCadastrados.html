@@ -1,56 +1,103 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head th:replace="~{layouts/frag :: head}" ></head>
-<head><title>Clientes Cadastrados</title></head>
+<head th:replace="~{layouts/frag :: head}"></head>
+<head>
+<title>Clientes Cadastrados</title>
+</head>
 
 <body>
-	
+
 	<div class="divbase">
 		<br>
+		<div class="row">
+			<div class="col-md-4 table-responsive">
+				<table class="table table-striped table-hover caption-top table-sm">
+					<caption>Clientes cadastrados</caption>
+					<tr>
+						<td th:text="${clientes}" class="text-center col-md-1">0</td>
+					</tr>
+				</table>
+			</div>
+	
+			<div class="col-md-8">
+				<button class="btn btn-primary" onclick="mostrarClientes()"
+					id="btnClientes">Mostrar Top 10 Clientes</button>
+				<div>&nbsp;</div>
+	
+				<div class="table-responsive hidden" id="topClientes">
+					<table class="table table-striped table-hover table-sm">
+						<caption>
+							<i class="fas fa-trophy"></i> Top 10 Clientes
+						</caption>
+						<thead>
+							<tr>
+								<th class="col-md-1">Ranking</th>
+								<th class="col-md-1">Cliente</th>
+								<th class="col-md-1">Pedidos</th>
+							</tr>
+						</thead>
+						<tbody id="clientes">
+							<tr>
+								<td colspan="3" align="center"><label>Nenhum cliente
+										encontrado!</label></td>
+							<tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 		
 		<div class="row">
 			<div class="col-md-10">
-				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus" class="form-control pula" 
-					placeholder="Qual cliente você está procurando?" style="text-indent: 10px"/>
+				<input type="text" name="nome" id="nomeBusca" autofocus="autofocus"
+					class="form-control pula"
+					placeholder="Qual cliente você está procurando?"
+					style="text-indent: 10px" />
 			</div>
-					
+
 			<div class="col-md-2">
-				<button type="submit" name="buscarCliente" id="buscar" class="form-control btn btn-primary pula">Buscar</button>
+				<button type="submit" name="buscarCliente" id="buscar"
+					class="form-control btn btn-primary pula">Buscar</button>
 			</div>
 		</div>
 		<br>
-<!-- ---------------------------------------------------------------------------------------------------- -->
-		
+		<!-- ---------------------------------------------------------------------------------------------------- -->
+
 		<div class="table-responsive">
 			<table class="table table-striped table-hover table-sm">
 				<thead>
 					<tr>
-						<th class="col-md-1 text-center"><h3>Cliente</h3></th> 
+						<th class="col-md-1 text-center"><h3>Cliente</h3></th>
 						<th class="col-md-1 text-center"><h3>Celular</h3></th>
 						<th class="col-md-1 text-center"><h3>Endereço</h3></th>
 						<th class="col-md-1 text-center"></th>
 					</tr>
 				</thead>
-				<tbody id="todosClientes"><tr><td colspan="4">Nenhum cliente encontrado!</td></tr></tbody>
+				<tbody id="todosClientes">
+					<tr>
+						<td colspan="4">Nenhum cliente encontrado!</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
-		
-<!-- ----------------------------------------------------------------------------------------------------------- -->
+
+		<!-- ----------------------------------------------------------------------------------------------------------- -->
+
 	</div>
 	<br>
 	<div class="justify-content-center loading">
-  		<div class="spinner-border" role="status">
-    		<span class="visually-hidden">Loading...</span>
-  		</div>
+		<div class="spinner-border" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
 	</div>
-	
+
 	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/clientes/clientesCadastrados.js}"></script>
 	<script th:src="@{/js/pulaInput.js}"></script>
 </body>
 
-	<div th:replace="~{layouts/frag :: inicio}"></div>
+<div th:replace="~{layouts/frag :: inicio}"></div>
 </html>

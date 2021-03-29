@@ -1,6 +1,7 @@
 package proj_vendas.vendas.web.controller.Forum;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import proj_vendas.vendas.model.Comentario;
 import proj_vendas.vendas.model.Duvida;
 import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.repository.Comentarios;
 import proj_vendas.vendas.repository.Duvidas;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -30,6 +32,9 @@ public class ForumController {
 	private Duvidas duvidas;
 
 	@Autowired
+	private Comentarios comentarios;
+
+	@Autowired
 	private Usuarios usuarios;
 
 	@GetMapping("/forum")
@@ -38,7 +43,7 @@ public class ForumController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		List<Duvida> todasDuvidas = user.getDuvida();
 		ModelAndView mv = new ModelAndView("forum");
-		
+
 		for (int i = 1; i < 6; i++) {
 			mv.addObject("op" + i, 0);
 		}
@@ -83,6 +88,14 @@ public class ForumController {
 		return ResponseEntity.ok(duvida);
 	}
 
+	@RequestMapping("/forum/userId")
+	@ResponseBody
+	public long userId() {
+		Usuario user = usuarios.findByEmail(
+				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		return user.getId();
+	}
+
 	@RequestMapping("/forum/minhasPerguntas")
 	@ResponseBody
 	public List<Duvida> minhasPerguntas() {
@@ -105,12 +118,15 @@ public class ForumController {
 		comentario.setResponsavel(user.getNome());
 		comentario.setDescricao(mensagem);
 		comentario.setData(format.format(new Date()));
+		comentario.setDescurtida(new ArrayList<String>());
+		comentario.setCurtida(new ArrayList<String>());
+
 		comentarios.add(comentario);
 
 		duvida.setComentario(comentarios);
 		duvidas.save(duvida);
 
-		return comentario;
+		return duvida.getComentario().get(comentarios.size() - 1);
 	}
 
 	@RequestMapping("/forum/excluir/{id}")
@@ -119,7 +135,7 @@ public class ForumController {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		List<Duvida> todasDuvidas = user.getDuvida();
-
+		
 		for (int i = 0; i < todasDuvidas.size(); i++) {
 			if (todasDuvidas.get(i).getId() == id) {
 				todasDuvidas.remove(i);
@@ -128,6 +144,98 @@ public class ForumController {
 				duvidas.deleteById(id);
 				return ResponseEntity.ok(200);
 			}
+		}
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping("/forum/curtir/{op}/{userId}/{id}")
+	@ResponseBody
+	public ResponseEntity<?> curtir(@PathVariable int op, @PathVariable String userId, @PathVariable long id) {
+		// 1 curtir pergunta
+		// 2 descurtir pergunta
+		// 3 curtir comentario
+		// 4 descurtir comentario
+
+		if (op == 1 || op == 2) {
+			Duvida duvida = duvidas.findById(id).get();
+			if (op == 1) {
+				ArrayList<String> curtida = duvida.getCurtida();
+				curtida.add(userId);
+				duvida.setCurtida(curtida);
+
+			} else if (op == 2) {
+				ArrayList<String> descurtida = duvida.getDescurtida();
+				descurtida.add(userId);
+				duvida.setDescurtida(descurtida);
+			}
+			duvidas.save(duvida);
+		}
+		if (op == 3 || op == 4) {
+			Comentario comentario = comentarios.findById(id).get();
+			if (op == 3) {
+				ArrayList<String> curtida = comentario.getCurtida();
+				curtida.add(userId);
+				comentario.setCurtida(curtida);
+			} else if (op == 4) {
+				ArrayList<String> descurtida = comentario.getDescurtida();
+				descurtida.add(userId);
+				comentario.setDescurtida(descurtida);
+			}
+			comentarios.save(comentario);
+		}
+		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping("/forum/rmCurtir/{op}/{userId}/{id}")
+	@ResponseBody
+	public ResponseEntity<?> rmCurtir(@PathVariable int op, @PathVariable String userId, @PathVariable long id) {
+		// 1 curtir pergunta
+		// 2 descurtir pergunta
+		// 3 curtir comentario
+		// 4 descurtir comentario
+
+		if (op == 1 || op == 2) {
+			Duvida duvida = duvidas.findById(id).get();
+			if (op == 1) {
+				ArrayList<String> curtida = duvida.getCurtida();
+				for (int i = 0; i < curtida.size(); i++) {
+					if(curtida.get(i).equals(userId)) {
+						curtida.remove(i);
+					}
+				}
+				duvida.setCurtida(curtida);
+
+			} else if (op == 2) {
+				ArrayList<String> descurtida = duvida.getDescurtida();
+				for (int i = 0; i < descurtida.size(); i++) {
+					if(descurtida.get(i).equals(userId)) {
+						descurtida.remove(i);
+					}
+				}
+				duvida.setDescurtida(descurtida);
+			}
+			duvidas.save(duvida);
+		}
+		if (op == 3 || op == 4) {
+			Comentario comentario = comentarios.findById(id).get();
+			if (op == 3) {
+				ArrayList<String> curtida = comentario.getCurtida();
+				for (int i = 0; i < curtida.size(); i++) {
+					if(curtida.get(i).equals(userId)) {
+						curtida.remove(i);
+					}
+				}
+				comentario.setCurtida(curtida);
+			} else if (op == 4) {
+				ArrayList<String> descurtida = comentario.getDescurtida();
+				for (int i = 0; i < descurtida.size(); i++) {
+					if(descurtida.get(i).equals(userId)) {
+						descurtida.remove(i);
+					}
+				}
+				comentario.setDescurtida(descurtida);
+			}
+			comentarios.save(comentario);
 		}
 		return ResponseEntity.noContent().build();
 	}
@@ -144,6 +252,8 @@ public class ForumController {
 		duvida.setNome(user.getNome());
 		duvida.setConcluido(false);
 		duvida.setData(format.format(new Date()));
+		duvida.setCurtida(new ArrayList<String>());
+		duvida.setDescurtida(new ArrayList<String>());
 
 		int mesInt = Integer.parseInt(mesString.format(new Date()));
 
