@@ -12,16 +12,17 @@
 <body>
 	<input type="hidden" id="trocoInicial" th:value="${troco}" />
 
-	<div class="row p-4 divbase">
-		<div class="col-md-4 p-2">
-			<h2 class="col-md-10 tituloMenu" align="center">Painel</h2>
+	<div class="row divbase">
+		<!-- ----------------------------------------------------------------------------------------------------- -->
+		<div class="col-md-4">
+			<h2 class="tituloMenu" align="center">Painel</h2>
 			<div class="blocoMenu" th:replace="~{layouts/frag :: conquistaMenu}"></div>
 
 			<div class="menuInicial">
-				<a href="" class="blocoMenu p-2 col border" id="escolherData"> <i
+				<a href="" class="blocoMenu col-md-6 border" id="escolherData"> <i
 					class="fas fa-calendar-check text-primary"></i>&nbsp;Data de
 					acesso: <label th:text="${data}"></label>
-				</a> <a href="" id="mostrarDias" class="blocoMenu p-2 col border"><i
+				</a> <a href="" id="mostrarDias" class="blocoMenu col-md-6 border"><i
 					class="fas fa-exclamation-triangle text-danger"></i>&nbsp;Verificando...
 
 					<div class="justify-content-center loadingAlert">
@@ -33,55 +34,57 @@
 
 			<br>
 			<div class="menuInicial">
-				<a href="" id="suporte" class="blocoMenu p-2 col border"><i
+				<a href="" id="suporte" class="blocoMenu col-md-6 border"><i
 					class="fas fa-shield-alt text-dark"></i>&nbsp;Suporte </a> <a
-					th:href="@{/redefinirSenha}" class="blocoMenu p-2 col border">
+					th:href="@{/redefinirSenha}" class="blocoMenu col border">
 					<i class="fas fa-recycle text-success"></i>&nbsp;Redefinir senha
 				</a>
 			</div>
 		</div>
 
-		<div class="col-md-4 p-2">
-			<h2 class="col-md-10 tituloMenu" align="center">Menu</h2>
+		<!-- ----------------------------------------------------------------------------------------------------- -->
+		<div class="col-md-4">
+			<h2 class="tituloMenu" align="center">Menu</h2>
 			
 			<div class="row menuInicial" th:if="${permissao} != 'MOTOBOY'">
 				<a th:href="@{/u/novoPedido}"
-					class="blocoMenu p-2 col-md-3 border"> <i
+					class="blocoMenu col-md-6 border"> <i
 					class="fas fa-shopping-cart text-info"></i>&nbsp;Novo pedido
 				</a> <a th:href="@{/u/pedidosFinalizados}"
-					class="blocoMenu p-2 col-md-3 border"> <i
-					class="fas fa-cash-register text-success"></i>&nbsp;Fechamento do dia
+					class="blocoMenu col-md-6 border"> <i
+					class="fas fa-cash-register text-success"></i>&nbsp;Fechamento
 				</a>
 			</div>
 
 			<br>
-			<div class="row menuInicial" th:if="${permissao} != 'MOTOBOY'">
+			<div class="menuInicial" th:if="${permissao} != 'MOTOBOY'">
 				<a th:href="@{/u/cadastroCliente}"
-					class="blocoMenu p-2 col-md-3 border"><i
+					class="blocoMenu col-md-6 border"><i
 					class="far fa-address-card text-warning"></i>&nbsp;Cadastrar
 					cliente </a> <a th:href="@{/f/forum}"
-					class="blocoMenu p-2 col-md-3 border"><i
+					class="blocoMenu col-md-6 border"><i
 					class="far fa-comments text-primary"></i>&nbsp;Fórum </a>
 			</div>
 			<br>
-			<div class="row menuInicial" th:if="${permissao} != 'MOTOBOY'">
+			<div class="menuInicial" th:if="${permissao} != 'MOTOBOY'">
 				<a th:href="@{/u/fichaTecnica}"
-					class="blocoMenu p-2 col-md-3 border"> <i
+					class="blocoMenu col-md-6 border"> <i
 					class="fas fa-info text-primary"></i> &nbsp;Ficha técnica
 				</a> <a th:href="@{/tutorial}"
-					class="blocoMenu p-2 col-md-3 border"> <i
+					class="blocoMenu col-md-6 border"> <i
 					class="fas fa-info text-danger"></i> &nbsp;Tutorial
 				</a>
 			</div>
 
-			<div class="row menuInicial" th:if="${permissao} == 'MOTOBOY'">
+			<div class="menuInicial" th:if="${permissao} == 'MOTOBOY'">
 				<a th:href="@{/u/motoboy}"
-					class="blocoMenu p-2 col-md-3 border"><i
+					class="blocoMenu col-md-6 border"><i
 					class="fas fa-location-arrow text-danger"></i>&nbsp;Entregas </a>
 			</div>
 		</div>
 		
-		<div class="col-md-4 p-2"><div th:replace="~{layouts/frag :: novidades}"></div></div>
+		<!-- ----------------------------------------------------------------------------------------------------- -->
+		<div class="col-md-4"><div th:replace="~{layouts/frag :: novidades}"></div></div>
 	</div>
 
 	<div class="justify-content-center loading">

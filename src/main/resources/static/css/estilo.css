@@ -322,8 +322,8 @@ th, td, h3, h4 {
 }
 
 .blocoMenu {
-	width: 25vh;
-	height: 25vh;
+	min-width: 25vh;
+	min-height: 25vh;
 	text-align: center;
 	align-items: center;
 	display: flex;

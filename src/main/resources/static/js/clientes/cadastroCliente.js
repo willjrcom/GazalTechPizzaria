@@ -3,8 +3,8 @@ var todosEnderecos = [];
 var cliente = {};
 var url_atual = window.location.href;
 
-var celular = parseInt(url_atual.split("/")[4]);
-url_atual = url_atual.split("/")[5];
+var celular = parseInt(url_atual.split("/")[5]);
+url_atual = url_atual.split("/")[6];
 
 if (celular % 2 == 1 || celular % 2 == 0) $("#cel").val(celular);
 

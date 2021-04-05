@@ -73,7 +73,7 @@ public class ProdutosCadastradosController {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping("/produtosCadastrados/pizzas")
+	@RequestMapping("/produtosCadastrados/top10pizzas")
 	@ResponseBody
 	public List<LogPizza> buscarPizzas() {
 		Usuario user = usuarios.findByEmail(((UserDetails)SecurityContextHolder.getContext()

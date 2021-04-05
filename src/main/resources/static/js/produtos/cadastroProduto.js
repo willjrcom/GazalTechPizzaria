@@ -1,9 +1,7 @@
 $(document).ready(() => $("#nomePagina").text("Cadastrar produtos"));
 
 var produto = {};
-var url_atual = window.location.href;
-
-url_atual = url_atual.split("/")[5];
+var url_atual = window.location.href.split("/")[6];
 
 if(typeof url_atual != "undefined") {
 	carregarLoading("block");

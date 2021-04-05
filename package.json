@@ -1,0 +1,23 @@
+{
+  "name": "gazaltechpizzaria",
+  "version": "1.0.0",
+  "description": "sistema de vendas web",
+  "main": "index.js",
+  "dependencies": {
+    "chart.js": "^2.9.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/willjrcom/GazalTechPizzaria.git"
+  },
+  "author": "William Alfred Gazal Junior",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/willjrcom/GazalTechPizzaria/issues"
+  },
+  "homepage": "https://github.com/willjrcom/GazalTechPizzaria#readme"
+}
