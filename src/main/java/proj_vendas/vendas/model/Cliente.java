@@ -29,7 +29,11 @@ public class Cliente extends AbstractEntity<Long> {
 
 	@Column(nullable = false)
 	private String nome;
+	
+	@Column(nullable = false)
 	private String senha;
+	
+	@Column(nullable = false)
 	private String cpf;
 
 	@Column(nullable = false)
@@ -38,6 +42,9 @@ public class Cliente extends AbstractEntity<Long> {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
+	@Column(nullable = false)
 	private String dataCadastro;
+	
+	@Column(nullable = false)
 	private int contPedidos = 0;
 }

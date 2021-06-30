@@ -39,15 +39,30 @@ public class Empresa extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String celular;
 	
+	
+	@Column(nullable = false)
 	private float horaExtra = 10;
+	
+	@Column(nullable = false)
 	private int mesa;
+	
+	@Column(nullable = false)
 	private String funcionamento;
 	
 	//impressao
+	@Column(nullable = false)
 	private String promocao;
+	
+	@Column(nullable = false)
 	private String texto1;
+	
+	@Column(nullable = false)
 	private String texto2;
+	
+	@Column(nullable = false)
 	private boolean imprimir;
+	
+	@Column(nullable = false)
 	private boolean imprimirPizza;
 	
 	@OneToOne(cascade = CascadeType.ALL)

@@ -22,6 +22,10 @@ import proj_vendas.vendas.domain.AbstractEntity;
 		uniqueConstraints = {@UniqueConstraint(columnNames = {"email"})})
 public class Usuario extends AbstractEntity<Long> {
 	
+	@Column(nullable=false)
+	private int codEmpresa;
+	
+	@Column(nullable = false)
 	private String nome;
 	
 	@Column(nullable=false)
@@ -33,13 +37,14 @@ public class Usuario extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String perfil;
 
+	@Column(nullable = false)
 	private String dia;
+	
+	@Column(nullable = true)
 	private String dataLimite;
 	
+	@Column(nullable = false)
 	private boolean ativo;
-	
-	@Column(nullable=false)
-	private int codEmpresa;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private Empresa empresa;

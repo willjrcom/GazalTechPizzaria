@@ -4,7 +4,10 @@
   "description": "sistema de vendas web",
   "main": "index.js",
   "dependencies": {
-    "chart.js": "^2.9.4"
+    "bootstrap": "^5.0.2",
+    "chart.js": "^2.9.4",
+    "jquery": "^3.6.0",
+    "js-base64": "^3.6.1"
   },
   "devDependencies": {},
   "scripts": {

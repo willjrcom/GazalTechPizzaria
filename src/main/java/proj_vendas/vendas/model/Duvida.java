@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.OneToMany;
@@ -20,15 +21,31 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Table(name = "DUVIDA", indexes = @Index(name = "concluido_index", columnList = "concluido"))
 public class Duvida extends AbstractEntity<Long> {
 
+	@Column(nullable = false)
 	private String nome;
+	
+	@Column(nullable = false)
 	private String duvida;
+	
+	@Column(nullable = false)
 	private String data;
+	
+	@Column(nullable = false)
 	private String validade;
+	
+	@Column(nullable = false)
 	private String setor;
+	
+	@Column(nullable = false)
 	private int codigo = 0;
+	
+	@Column(nullable = false)
 	private boolean concluido;
 	
+	@Column(nullable = false)
 	private ArrayList<String> curtida;
+	
+	@Column(nullable = false)
 	private ArrayList<String> descurtida;
 	
 	@OneToMany(cascade = CascadeType.ALL)

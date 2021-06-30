@@ -10,7 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
+import proj_vendas.vendas.model.Cupom;
+import proj_vendas.vendas.model.Empresa;
 import proj_vendas.vendas.model.PedidoTemp;
+import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.PedidoTemps;
 
 @Service
@@ -20,6 +23,9 @@ public class LimpezaDiaria {
 
 	@Autowired
 	private PedidoTemps temps;
+	
+	@Autowired
+	private Empresas empresas;
 	
 	@Async("fileExecutor")
 	public void cleanAllTemps() {
@@ -38,4 +44,26 @@ public class LimpezaDiaria {
 		System.out.println("Fim - pedidos temporarios");
 	}
 	
+	// Limpar cupons
+	private void verificarCupom(Empresa empresa) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+		int cont = 0;
+		// controlar cupons validados
+		try {
+			List<Cupom> listCupom = empresa.getCupom();
+			for (int i = 0; i < listCupom.size(); i++) {
+				if (listCupom.get(i).getValidade().compareTo(format.format(new Date())) == -1) {
+					listCupom.remove(i);
+					cont++;
+				}
+			}
+			if (cont != 0) {
+				empresa.setCupom(listCupom);
+				empresas.save(empresa);
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }

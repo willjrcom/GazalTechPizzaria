@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.authorizeRequests()
 		
 			//liberar acesso basico de scripts
-			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/naoEncontrado/**", "/expired", "/novaSenha/**", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
+			.antMatchers("/css/**", "/jquery/**", "/img/**", "/js/**", "/fonts/**", "/erro/**", "/naoEncontrado/**", "/expired", "/criarUsuario", "/novaSenha/**", "/gazaltech/**", "/imprimir/**", "/email/**").permitAll()
 			.antMatchers(HttpMethod.OPTIONS).permitAll()
 			
 			//acesso dev
@@ -48,6 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			//acesso motoboy
 			.antMatchers("/m/**").hasAnyAuthority("USUARIO", "ADM", "DEV", "MOTOBOY")
 			
+			//acesso gratuito
+			.antMatchers("/f/**").hasAnyAuthority("USUARIO", "ADM", "DEV", "GRATUITO")
+			
 			//autenticar
 			.anyRequest().authenticated()
 			
@@ -55,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 				.formLogin()
 				.loginPage("/index")
-				.defaultSuccessUrl("/menu/login", true)
+				.defaultSuccessUrl("/menu", true)
 				.failureUrl("/login-erro")
 				.permitAll()
 				

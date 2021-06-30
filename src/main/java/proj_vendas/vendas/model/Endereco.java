@@ -15,6 +15,8 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Table(name = "ENDERECO")
 public class Endereco extends AbstractEntity<Long>{
 	
+	
+	@Column(nullable = false)
 	private int cep;
 	
 	@Column(nullable=false)
@@ -28,9 +30,13 @@ public class Endereco extends AbstractEntity<Long>{
 	
 	@Column(nullable=false)
 	private String cidade;
+	
+	@Column(nullable = false)
 	private String referencia;
 	
+	@Column(nullable = false)
 	private float taxa = 0;
 	
+	@Column(nullable = false)
 	private int codEmpresa;
 }

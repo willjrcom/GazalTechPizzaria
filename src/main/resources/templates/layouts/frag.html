@@ -5,11 +5,9 @@
 
 <head th:fragment="~{head}">
 <!-- menu -->
-<link th:href="@{/css/menu/normalize.css}" rel="stylesheet"
-	type="text/css" />
+<link th:href="@{/css/menu/normalize.css}" rel="stylesheet" type="text/css" />
 <link th:href="@{/css/menu/demo.css}" rel="stylesheet" type="text/css" />
-<link th:href="@{/css/menu/component.css}" rel="stylesheet"
-	type="text/css" />
+<link th:href="@{/css/menu/component.css}" rel="stylesheet" type="text/css" />
 <script th:src="@{/js/menu/modernizr.custom.js}"></script>
 
 <meta charset="utf-8" lang="pt-br" />
@@ -17,9 +15,7 @@
 
 <!-- jquery -->
 <link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet" />
-<link
-	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css"
-	rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" />
 <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 
 <!-- icones -->
@@ -28,8 +24,7 @@
 
 <!-- bootstrap v5 -->
 <link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet" />
-<link th:href="@{/css/bstrap/bootstrap-utilities.min.css}"
-	rel="stylesheet" />
+<link th:href="@{/css/bstrap/bootstrap-utilities.min.css}" rel="stylesheet" />
 
 <!-- css -->
 <link th:href="@{/css/estilo.css}" rel="stylesheet" />
@@ -38,7 +33,7 @@
 
 <body>
 	<!-- --------------------------------------------------------------------------------------------------- -->
-	<span th:fragment="conquistaMenu" class="hiddenAndroid p-2"
+	<div th:fragment="conquistaMenu" class="hiddenAndroid p-2"
 		th:if="${mostrarConquistas} == true AND ${permissao} != 'MOTOBOY'">
 		<h5>Complete as tarefas</h5>
 		<div class="row">
@@ -77,104 +72,6 @@
 			</div>
 			<p class="col-md-10 card-text">Venda seu primeiro pedido</p>
 		</div>
-	</span>
-
-
-	<!-- ---------------------------------------------------------------------------------------------------- -->
-	<div th:fragment="novidades">
-		<div th:if="${mostrarNovidades} == true">
-			<h3 class="tituloMenu" align="center">Novidades</h3>
-			<div class="accordion" id="accordionExample">
-				<div class="accordion-item" th:if="${empresa1} != ''">
-					<h2 class="accordion-header" id="headingOne">
-						<button class="accordion-button" type="button"
-							data-bs-toggle="collapse" data-bs-target="#collapseOne"
-							aria-expanded="true" aria-controls="collapseOne">
-							<p th:text="${empresa1}"></p>
-						</button>
-					</h2>
-					<div id="collapseOne" class="accordion-collapse collapse"
-						aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-							<p th:text="${texto1}"></p>
-							<a th:href="@{${link1}}" target="_blank"><button
-									class="btn btn-primary">Acessar</button></a>
-						</div>
-					</div>
-				</div>
-				<div class="accordion-item" th:if="${empresa2} != ''">
-					<h2 class="accordion-header" id="headingTwo">
-						<button class="accordion-button collapsed" type="button"
-							data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-							aria-expanded="false" aria-controls="collapseTwo">
-							<p th:text="${empresa2}"></p>
-						</button>
-					</h2>
-					<div id="collapseTwo" class="accordion-collapse collapse"
-						aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-							<p th:text="${texto2}"></p>
-							<a th:href="@{${link2}}" target="_blank"><button
-									class="btn btn-primary">Acessar</button></a>
-						</div>
-					</div>
-				</div>
-
-				<div class="accordion-item" th:if="${empresa3} != ''">
-					<h2 class="accordion-header" id="headingThree">
-						<button class="accordion-button collapsed" type="button"
-							data-bs-toggle="collapse" data-bs-target="#collapseThree"
-							aria-expanded="false" aria-controls="collapseThree">
-							<p th:text="${empresa3}"></p>
-						</button>
-					</h2>
-					<div id="collapseThree" class="accordion-collapse collapse"
-						aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-							<p th:text="${texto3}"></p>
-							<a th:href="@{${link3}}" target="_blank"><button
-									class="btn btn-primary">Acessar</button></a>
-						</div>
-					</div>
-				</div>
-
-				<div class="accordion-item" th:if="${empresa4} != ''">
-					<h2 class="accordion-header" id="headingFour">
-						<button class="accordion-button collapsed" type="button"
-							data-bs-toggle="collapse" data-bs-target="#collapseFour"
-							aria-expanded="false" aria-controls="collapseFour">
-							<p th:text="${empresa4}"></p>
-						</button>
-					</h2>
-					<div id="collapseFour" class="accordion-collapse collapse"
-						aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-							<p th:text="${texto4}"></p>
-							<a th:href="@{${link4}}" target="_blank"><button
-									class="btn btn-primary">Acessar</button></a>
-						</div>
-					</div>
-				</div>
-
-				<div class="accordion-item" th:if="${empresa5} != ''">
-					<h2 class="accordion-header" id="headingFive">
-						<button class="accordion-button collapsed" type="button"
-							data-bs-toggle="collapse" data-bs-target="#collapseFive"
-							aria-expanded="false" aria-controls="collapseFive">
-							<p th:text="${empresa5}"></p>
-						</button>
-					</h2>
-					<div id="collapseFive" class="accordion-collapse collapse"
-						aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-						<div class="accordion-body">
-							<p th:text="${texto5}"></p>
-							<a th:href="@{${link5}}" target="_blank"><button
-									class="btn btn-primary">Acessar</button></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	</div>
 
 
@@ -182,40 +79,6 @@
 	<div th:fragment="dadosMenu" class="container"
 		th:if="${permissao} != 'MOTOBOY'">
 		<ul id="gn-menu" class="gn-menu-main">
-			<li class="gn-trigger"><a
-				class="gn-icon gn-icon-menu gn-menu-top"><span>Menu</span></a>
-				<nav class="gn-menu-wrapper">
-					<div class="gn-scroller">
-						<ul class="gn-menu">
-							<li>
-								<table class="table table-striped table-hover">
-									<tr class="bg-primary text-white">
-										<th>Informações da conta</th>
-									</tr>
-									<tbody>
-										<tr>
-											<td><i class="far fa-user-circle"></i> <label
-												th:text="${usuario}"></label></td>
-										</tr>
-										<tr>
-											<td><i class="fas fa-key"></i> <label>Perfil <span
-													th:text="${permissao}"></span></label></td>
-										</tr>
-									</tbody>
-								</table>
-							</li>
-							<!-- ------------------------------------------------------------------------------------ -->
-							<li th:if="${permissao} == 'DEV'">
-								<p class="bg-primary text-white">
-									&nbsp;&nbsp;&nbsp;<b>Acesso Restrito</b>
-								</p> <a th:href="@{/dev/dev}"><i class="fab fa-dev"></i>
-									Desenvolvedor</a> <a th:href="@{/dev/divulgar}"><i
-									class="fas fa-bullhorn"></i> Divulgar</a>
-							</li>
-						</ul>
-					</div>
-					<!-- /gn-scroller -->
-				</nav></li>
 			<li><a class="cabecalho gn-menu-top"><label
 					class="hiddenAndroid" th:text="${empresa}"></label></a>
 			<li><a th:if="${contato} != ''"
@@ -242,31 +105,31 @@
 	<div th:fragment="inicio" class="container">
 		<ul id="gn-menu" class="gn-menu-main">
 			<li class="gn-trigger"><a
-				class="gn-icon gn-icon-menu gn-menu-top" onclick="rolarPagina()"><span>Menu</span></a>
+				class="gn-icon gn-icon-menu gn-menu-top"><span>Menu</span></a>
 				<nav class="gn-menu-wrapper" th:if="${permissao} != 'MOTOBOY'">
 					<div class="gn-scroller">
 						<ul class="gn-menu">
 							<li>
 								<p class="bg-primary text-white">
 									&nbsp;&nbsp;&nbsp;<b>Pedidos</b>
-								</p> <a th:href="@{/u/verpedido}" accesskey="V"><i
+								</p> <a th:href="@{/u/verpedido}"><i
 									class="fas fa-list"></i> Pedidos em aberto</a> <a
-								th:href="@{/u/novoPedido}" accesskey="N"><i
+								th:href="@{/u/novoPedido}"><i
 									class="fas fa-plus-circle"></i> Novo Pedido</a> <a
-								th:href="@{/u/motoboy}" accesskey="E"><i
+								th:href="@{/u/motoboy}"><i
 									class="fas fa-location-arrow"></i> Entregar</a> <a
-								th:href="@{/u/finalizar}" accesskey="F"><i
+								th:href="@{/u/finalizar}"><i
 									class="fas fa-hand-holding-usd"></i> Finalizar</a>
 							</li>
 
 							<li>
 								<p class="bg-primary text-white">
 									&nbsp;&nbsp;&nbsp;<b>Preparação</b>
-								</p> <a th:href="@{/u/cozinha}" accesskey="C"><i
+								</p> <a th:href="@{/u/cozinha}"><i
 									class="far fa-clock"></i> Cozinha</a> <a
-								th:href="@{/u/produtosProntos}" accesskey="S"><i
+								th:href="@{/u/produtosProntos}"><i
 									class="far fa-eye"></i> Produtos prontos</a> <a
-								th:href="@{/u/retirada}" accesskey="R"><i
+								th:href="@{/u/retirada}"><i
 									class="fas fa-arrow-alt-circle-down"></i> Retirada</a>
 							</li>
 
@@ -377,7 +240,6 @@
 
 		<!-- javascript -->
 		<script th:src="@{/js/validacoes.js}"></script>
-		<script th:src="@{/js/frag.js}"></script>
 
 	</footer>
 

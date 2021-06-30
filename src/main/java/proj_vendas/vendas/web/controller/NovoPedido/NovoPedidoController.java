@@ -231,7 +231,7 @@ public class NovoPedidoController {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), user.getDia(), comanda);
-		temps.deleteInBatch(temp);
+		temps.deleteAllInBatch(temp);
 	}
 
 	@RequestMapping("/novoPedido/mostrarCupons")

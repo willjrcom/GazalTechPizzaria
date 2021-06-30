@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 //@ImportResource(locations = "classpath:dwr-spring.xml")
 @SpringBootApplication
@@ -17,6 +18,7 @@ public class ProjetoProgramaDeVendasApplication extends SpringBootServletInitial
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
+		System.out.println(new BCryptPasswordEncoder().encode("root"));
 		SpringApplication.run(ProjetoProgramaDeVendasApplication.class, args);
 		//Thread.interrupted();
 		//Thread.sleep(60000);

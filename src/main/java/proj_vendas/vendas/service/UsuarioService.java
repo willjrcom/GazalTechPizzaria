@@ -1,5 +1,6 @@
 package proj_vendas.vendas.service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -58,6 +59,12 @@ public class UsuarioService implements UserDetailsService{
 			salvarLog("200", username);
 		}
 		
+		
+		// Setar nova data ao fazer login
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		usuario.setDia(format.format(new Date()));
+		usuarios.save(usuario);
+			
 		return new User(
 			usuario.getEmail(),
 			usuario.getSenha(),

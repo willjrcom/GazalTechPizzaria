@@ -49,7 +49,7 @@ public class ImprimirController {
 
 	@Autowired
 	private Dados dados;
-	
+
 	@RequestMapping("/online/{codEmpresa}/{setor}")
 	@ResponseBody
 	public String impressaoNetBeans(@PathVariable int codEmpresa, @PathVariable String setor) {// modo online
@@ -57,13 +57,13 @@ public class ImprimirController {
 
 		List<ImpressaoMatricial> todosIm = null;
 
-		if (setor.equals("A") || setor.equals("C") /*|| setor.contains("M")*/) {
+		if (setor.equals("A") || setor.equals("C") /* || setor.contains("M") */) {
 			todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
 		} else {
 			todosIm = impressoes.findByCodEmpresa(codEmpresa);
 		}
 
-		//validar
+		// validar
 		for (int i = 0; i < todosIm.size(); i++) {
 			if (todosIm.get(i).getValidade().compareTo(validar.format(new Date()).toString()) < 0) {
 				impressoes.deleteById(todosIm.get(i).getId());
@@ -159,8 +159,8 @@ public class ImprimirController {
 			for (int i = 0; i < pedido.getProdutos().size(); i++) {
 				impressaoCompleta += limitaString(pedido.getProdutos().get(i).getQtd(), 5) + "  "
 						+ limitaString(pedido.getProdutos().get(i).getSabor(), 14) + "  "
-						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos().get(i).getPreco())), 7) + "  "
-						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos().get(i).getPreco())
+						+ limitaString(decimal.format(Float.parseFloat(pedido.getProdutos().get(i).getPreco())), 7)
+						+ "  " + limitaString(decimal.format(Float.parseFloat(pedido.getProdutos().get(i).getPreco())
 								/ Float.parseFloat(pedido.getProdutos().get(i).getQtd())), 7)
 						+ "#$";
 			}
@@ -217,7 +217,7 @@ public class ImprimirController {
 				+ "----------------------------------------#$" + "\t\t" + pedido.getEnvio() + "#$" + "Comanda: "
 				+ pedido.getComanda() + "#$" + "Cliente:" + "#$" + cortaString(pedido.getNome()) + "#$";
 
-		//pizzas
+		// pizzas
 		if (pedido.getPizzas().size() != 0) {
 			impressaoCompleta += "----------------------------------------#$" + "\t\tPIZZAS#$" + "QTD   PRODUTO#$#$";
 
@@ -226,14 +226,14 @@ public class ImprimirController {
 						+ cortaString(pedido.getPizzas().get(i).getSabor()) + "#$";
 				if (pedido.getPizzas().get(i).getBorda() != null)
 					impressaoCompleta += "Com " + pedido.getPizzas().get(i).getBorda() + "#$";
-				
+
 				if (pedido.getPizzas().get(i).getObs().length() != 0)
 					impressaoCompleta += "OBS: " + limitaString(pedido.getPizzas().get(i).getObs(), 35) + "#$";
 				impressaoCompleta += "#$";
 			}
 		}
-		
-		//produtos
+
+		// produtos
 		if (pedido.getProdutos().size() != 0) {
 			impressaoCompleta += "----------------------------------------#$" + "\t\tPRODUTOS#$" + "QTD   PRODUTO#$#$";
 
@@ -265,8 +265,8 @@ public class ImprimirController {
 
 		Empresa empresa = empresas.findByCodEmpresa(user.getCodEmpresa());
 		Funcionario funcionario = null;
-		
-		if(funcionarios.findById(id).isPresent())
+
+		if (funcionarios.findById(id).isPresent())
 			funcionario = funcionarios.findById(id).get();
 
 		String impressaoCompleta = "";
@@ -390,7 +390,6 @@ public class ImprimirController {
 		return new ModelAndView("fechamento");
 	}
 
-	
 	@RequestMapping("/compras")
 	public void imprimirCompras() {
 		Usuario user = usuarios.findByEmail(
@@ -401,36 +400,28 @@ public class ImprimirController {
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", "
 				+ empresa.getEndereco().getBairro();
 
-		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) 
-				+ "#$" + cortaString(endereco) + "#$"
-				+ "CNPJ: " + empresa.getCnpj() + "#$" 
-				+ "----------------------------------------#$"
-				+ "         REGISTRO DE PAGAMENTO          #$" 
-				+ "----------------------------------------#$"
-				+ "Usuario logado: " + user.getEmail() + "#$" 
-				+ "Data: " 	+ user.getDia().split("-")[2] + "/"
-							+ user.getDia().split("-")[1] + "/"
-							+ user.getDia().split("-")[0]
-				+ "#$" 
-				+ "----------------------------------------#$"
-				+ "\t\tCOMPRAS #$";
-		
+		impressaoCompleta = "\t" + cortaString(empresa.getNomeEstabelecimento()) + "#$" + cortaString(endereco) + "#$"
+				+ "CNPJ: " + empresa.getCnpj() + "#$" + "----------------------------------------#$"
+				+ "         REGISTRO DE PAGAMENTO          #$" + "----------------------------------------#$"
+				+ "Usuario logado: " + user.getEmail() + "#$" + "Data: " + user.getDia().split("-")[2] + "/"
+				+ user.getDia().split("-")[1] + "/" + user.getDia().split("-")[0] + "#$"
+				+ "----------------------------------------#$" + "\t\tCOMPRAS #$";
+
 		List<Compra> todasCompras = dados.findByCodEmpresaAndData(user.getCodEmpresa(), user.getDia()).getCompra();
-		
-		if(todasCompras.size() != 0) {
-			for(int i = 0; i < todasCompras.size(); i++) {
-				impressaoCompleta += limitaString(todasCompras.get(i).getNome(), 20) 
-						+ "     R$ " + todasCompras.get(i).getValor() + "#$"; 
+
+		if (todasCompras.size() != 0) {
+			for (int i = 0; i < todasCompras.size(); i++) {
+				impressaoCompleta += limitaString(todasCompras.get(i).getNome(), 20) + "     R$ "
+						+ todasCompras.get(i).getValor() + "#$";
 			}
-		}else {
+		} else {
 			impressaoCompleta += "Nenhuma compra fita hoje!";
 		}
-		
-		//System.out.println(impressaoCompleta);
+
+		// System.out.println(impressaoCompleta);
 		imprimirLocal(impressaoCompleta, "A");
 	}
-	
-	
+
 	private float calcularSangria(List<Sangria> sangria) {
 		int i;
 		float total = 0;
@@ -470,11 +461,11 @@ public class ImprimirController {
 			ImpressaoMatricial im = new ImpressaoMatricial();
 			// validade + 2 minutos;
 			minutoInt += 2;
-			if(minutoInt < 10)
+			if (minutoInt < 10)
 				im.setValidade(data.format(new Date()) + "0" + minutoInt);
 			else
 				im.setValidade(data.format(new Date()) + minutoInt);
-				
+
 			im.setImpressao(impressaoCompleta);
 			im.setCodEmpresa(user.getCodEmpresa());
 			im.setSetor(setor);

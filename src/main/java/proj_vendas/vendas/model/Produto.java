@@ -28,19 +28,31 @@ public class Produto extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String nome;
 	
+	@Column(nullable = false)
 	private float precoP;
+	
+	@Column(nullable = false)
 	private float custoP;
-
+	
+	@Column(nullable = false)
 	private float precoM;
+	
+	@Column(nullable = false)
 	private float custoM;
-
+	
+	@Column(nullable = false)
 	private float precoG;
+	
+	@Column(nullable = false)
 	private float custoG;
 	
 	@Column(nullable=false)
 	private String setor;
+	
+	@Column(nullable = false)
 	private String descricao;
 	
+	@Column(nullable = false)
 	private boolean disponivel;
 	
 	@Column(nullable=false)

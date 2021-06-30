@@ -43,6 +43,7 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String cpf;
 
+	@Column(nullable = false)
 	private String email;
 	
 	@Column(nullable=false)
@@ -55,6 +56,7 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String sexo;
 	
+	@Column(nullable = false)
 	private boolean situacao;
 	
 	@Lob
@@ -71,8 +73,10 @@ public class Funcionario extends AbstractEntity<Long>{
 	@Temporal(TemporalType.DATE)
 	private Date admissao;
 
+	@Column(nullable = false)
 	private int diaPagamento = 10;
 	
+	@Column(nullable = false)
 	private BigDecimal salario;
 	
 	@OneToMany(cascade = CascadeType.ALL)

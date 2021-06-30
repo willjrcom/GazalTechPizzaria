@@ -51,7 +51,7 @@ public class VerpedidoController{
 			pedido.setStatus("EXCLUIDO");
 			
 			List<PedidoTemp> temp = temps.findByCodEmpresaAndDataAndComanda(user.getCodEmpresa(), user.getDia(), pedido.getComanda());
-			temps.deleteInBatch(temp);
+			temps.deleteAllInBatch(temp);
 			
 			return ResponseEntity.ok(pedidos.save(pedido));
 		}

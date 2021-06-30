@@ -1,5 +1,6 @@
 package proj_vendas.vendas.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import lombok.Data;
@@ -12,7 +13,9 @@ import proj_vendas.vendas.domain.AbstractEntity;
 @Entity
 public class Ingrediente extends AbstractEntity<Long> {
 
+	@Column(nullable = false)
 	private String nome;
 	
+	@Column(nullable = false)
 	private float preco;
 }

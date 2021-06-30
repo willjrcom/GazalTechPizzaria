@@ -23,8 +23,10 @@ public class FichaTecnica extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private int codEmpresa;
 
+	@Column(nullable = false)
 	private String nome;
 	
+	@Column(nullable = false)
 	private float preco;
 	
 	@OneToMany(cascade = CascadeType.ALL)

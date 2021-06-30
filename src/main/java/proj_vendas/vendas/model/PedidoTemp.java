@@ -41,7 +41,9 @@ public class PedidoTemp extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String data;
 	
+	@Column(nullable = false)
 	private int codEmpresa;
 	
+	@Column(nullable = false)
 	private String validade;
 }

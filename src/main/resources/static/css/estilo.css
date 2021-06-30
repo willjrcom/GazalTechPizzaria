@@ -200,9 +200,10 @@ th, td, h3, h4 {
 
 .indexCentral {
 	position: absolute;
-	top: 40%;
+	top: 25%;
 	left: 50%;
-	height: 70vh;
+	height: 50vh;
+	width: 70%;
 	transform: translate(-50%, -50%);
 	padding: 4vh 10vh 4vh 10vh;
 	min-width: 90vh;
@@ -303,11 +304,11 @@ th, td, h3, h4 {
 .menuInicial {
 	align-content: space-between;
 	flex-wrap: wrap;
-	display: grid;
 	grid-template-columns: repeat(auto-fill, 30vh);
 }
 
 .menuInicial > a {
+	width: 100%;
 	box-sizing: border-box;
 	border: 2px solid #8c8c8c;
 	display: flex;
@@ -322,8 +323,8 @@ th, td, h3, h4 {
 }
 
 .blocoMenu {
-	min-width: 25vh;
-	min-height: 25vh;
+	width: 100%;
+	padding: 1px;
 	text-align: center;
 	align-items: center;
 	display: flex;
@@ -346,6 +347,18 @@ th, td, h3, h4 {
 	overflow-y: auto;
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
+}
+
+.button-link-js {
+  background-color: transparent;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0;
+  position: relative;
+  text-decoration: none;
 }
 
 #dados {

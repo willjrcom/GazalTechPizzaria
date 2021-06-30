@@ -31,27 +31,57 @@ public class Dado extends AbstractEntity<Long> {
 	@Lob
 	private String clientes = "";
 	
+	@Column(nullable = false)
 	private float totalVendas = 0;
+	
+	@Column(nullable = false)
 	private float totalLucro = 0;
 	
+	
+	@Column(nullable = false)
 	private float trocoInicio = 0;
+	
+	@Column(nullable = false)
 	private float trocoFinal = 0;
 
+	@Column(nullable = false)
 	private int comanda = 0;
 	
+	@Column(nullable = false)
 	private int totalPedidos = 0;
+	
+	@Column(nullable = false)
 	private int totalPizza = 0;
+	
+	@Column(nullable = false)
 	private int totalProduto = 0;
 	
+	@Column(nullable = false)
 	private int entrega = 0;
+	
+	@Column(nullable = false)
 	private int balcao = 0;
+	
+	@Column(nullable = false)
 	private int mesa = 0;
+	
+	@Column(nullable = false)
 	private int drive = 0;
 	
+	
+	@Column(nullable = false)
 	private float venda_entrega = 0;
+	
+	@Column(nullable = false)
 	private float venda_balcao = 0;
+	
+	@Column(nullable = false)
 	private float venda_mesa = 0;
+	
+	@Column(nullable = false)
 	private float venda_drive = 0;
+	
+	@Column(nullable = false)
 	private float taxa_entrega = 0;
 	
 	@OneToMany(cascade = CascadeType.ALL)

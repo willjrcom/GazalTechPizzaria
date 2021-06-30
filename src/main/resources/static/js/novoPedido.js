@@ -586,6 +586,7 @@ function enviarProduto(idUnico) {
 
 					//adiciona o id da borda
 					lastBorda = bordaId = $("#borda").val();
+					
 					//pegar tamanho do produto
 					tamanhoProduto = $("#tamanhoProduto").val();
 

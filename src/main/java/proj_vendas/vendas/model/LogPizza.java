@@ -16,6 +16,7 @@ public class LogPizza extends AbstractEntity<Long> {
 	@Column(nullable=false)
 	private String pizza;
 	
+	@Column(nullable = false)
 	private int contador = 0;
 }
 

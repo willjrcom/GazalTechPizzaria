@@ -32,5 +32,6 @@ public class ImpressaoMatricial extends AbstractEntity<Long>{
 	@Column(nullable=false)
 	private String setor;
 	
+	@Column(nullable = false)
 	private String validade;
 }
