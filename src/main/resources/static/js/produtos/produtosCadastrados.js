@@ -11,7 +11,7 @@ $("#buscar").click(function() {
 	var nome = $("#nomeBusca").val();
 
 	$.ajax({
-		url: '/u/produtosCadastrados/buscar/' + nome,
+		url: '/f/produtosCadastrados/buscar/' + nome,
 		type: 'GET'
 	}).done(function(e) {
 
@@ -22,11 +22,11 @@ $("#buscar").click(function() {
 		} else {
 			for (produto of produtos) {
 				linhaHtml += '<tr>'
-					+ '<td class="text-center col-md-1">' + produto.codigoBusca + '</td>'
-					+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
-					+ '<td class="text-center col-md-1">' + produto.setor + '</td>'
+					+ '<td>' + produto.codigoBusca + '</td>'
+					+ '<td>' + produto.nome + '</td>'
+					+ '<td>' + produto.setor + '</td>'
 
-					+ '<td class="text-center col-md-1"><div class="row">'
+					+ '<td><div class="row">'
 					+ '<div class="col-md-1">'
 					+ '<a title="Ver produto" data-toggle="tooltip" data-html="true">'
 					+ '<button class="botao" onclick="verProduto()" value="' + produto.id + '">'
@@ -195,7 +195,7 @@ function editarProduto() {
 				btnClass: 'btn-red',
 				keys: ['enter'],
 				action: function() {
-					window.location.href = "/u/cadastroProduto/editar/" + idProduto.toString();
+					window.location.href = "/f/cadastroProduto/editar/" + idProduto.toString();
 				}
 			},
 			cancel: {
@@ -248,7 +248,7 @@ function excluirProduto() {
 											if (apagarSim === 'sim' || apagarSim === 'SIM') {
 
 												$.ajax({
-													url: "/u/produtosCadastrados/excluirProduto/" + idProduto,
+													url: "/f/produtosCadastrados/excluirProduto/" + idProduto,
 													type: 'PUT'
 
 												}).done(function() {
@@ -262,7 +262,7 @@ function excluirProduto() {
 																keys: ['enter'],
 																btnClass: 'btn-green',
 																action: function() {
-																	window.location.href = "/u/produtosCadastrados";
+																	window.location.href = "/f/produtosCadastrados";
 																}
 															}
 														}
@@ -326,7 +326,7 @@ function mostrarPizzas() {
 		carregarLoading("block");
 
 		$.ajax({
-			url: "/u/produtosCadastrados/top10pizzas",
+			url: "/f/produtosCadastrados/top10pizzas",
 			type: "GET"
 		}).done(function(e) {
 			top5Pizzas = e;
@@ -347,7 +347,7 @@ function mostrarPizzas() {
 				+ '<th class="col-md-1">Vendida</th>'
 				+ '</tr>'
 				+ '</thead>'
-				+ '<tbody class="text-center col-md-1">';
+				+ '<tbody>';
 
 			if (top5Pizzas.length == 0) {
 				linhaHtml += '<tr><td colspan="3" align="center"><label>Nenhuma pizza encontrada!</label></td><tr>';

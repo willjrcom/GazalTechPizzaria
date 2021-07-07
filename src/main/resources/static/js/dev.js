@@ -10,7 +10,6 @@ $.ajax({
 	url: '/dev/dev/todosUsuarios',
 	type: 'GET'
 }).done(function(e) {
-
 	if (e.length == 0) {
 		$("#todosUsuarios").html('<tr><td colspan="6">Nenhum usuário encontrado!</td></tr>');
 	} else {
@@ -19,18 +18,20 @@ $.ajax({
 		let usuarioHtml = '';
 
 		for (usuario of usuarios) {
+			usuario = usuario.split(",")
+			
 			usuarioHtml += '<tr>'
-				+ '<td class="col-md-1 text-center">' + usuario.codEmpresa + '</td>'
-				+ '<td class="col-md-1 text-center">' + usuario.dia + '</td>'
-				+ '<td class="col-md-1 text-center">' + (usuario.dataLimite != null ? usuario.dataLimite : '') + '</td>'
-				+ '<td class="col-md-1 text-center">' + (usuario.empresa == null ? '' : usuario.empresa.nomeEstabelecimento) + '</td>'
-				+ '<td class="col-md-1 text-center">' + usuario.email + '</td>'
-				+ '<td class="col-md-1 text-center">' + usuario.perfil + '</td>';
+				+ '<td>' + usuario[0] + '</td>'
+				+ '<td>' + (usuario[1]!= null ? usuario[1] : '') + '</td>'
+				+ '<td>' + (usuario[2] != null ? usuario[2] : '') + '</td>'
+				+ '<td>' + (usuario[3] == null ? '' : usuario[3]) + '</td>'
+				+ '<td>' + usuario[4] + '</td>'
+				+ '<td>' + usuario[5] + '</td>';
 
-			if (usuario.ativo == 1) usuarioHtml += '<td class="col-md-1 text-center"><i style="color: green" class="fas fa-check-circle"></i></td>';
+			if (usuario[6] == "true") usuarioHtml += '<td><i style="color: green" class="fas fa-check-circle"></i></td>';
 			else usuarioHtml += '<td align="center"><i style="color: red" class="fa fa-times-circle"></i></td>';
 
-			usuarioHtml += '<td class="col-md-1 text-center">'
+			usuarioHtml += '<td>'
 				+ '<div class="row">'
 				+ '<div class="col-md-1">'
 				+ '<a title="Editar usuario" data-toggle="tooltip" data-html="true">'
@@ -60,35 +61,34 @@ $.ajax({
 	type: 'GET'
 }).done(function(e) {
 	empresas = e;
-	console.log(e)
 	if (empresas.length == 0) {
 		$("#todosUsuarios").html('<tr><td colspan="6">Nenhuma empresa encontrada!</td></tr>');
 	} else {
 		empresas = empresas.sort((a, b) => a.codEmpresa - b.codEmpresa);
 		let empresaHtml = '';
 
-		for (empresa of empresas) {
+		for (let empresa of empresas) {
+			empresa = empresa.split(",")
+			console.log(empresa)
 			empresaHtml += '<tr>'
-
-				+ '<td class="col-md-1 text-center">' + empresa.codEmpresa + '</td>';
-
-			if (empresa.conquista.cadEmpresa == true && empresa.conquista.cadFuncionario == true && empresa.conquista.cadPedido == true && empresa.conquista.cadProduto == true)
-				empresaHtml += '<td class="col-md-1 text-center"><i style="color: green" class="fas fa-check-circle"></i></td>';
-			else {
-				empresaHtml += '<td class="col-md-1 text-center"><i style="color: red" class="fa fa-times-circle"></i></td>';
-			}
-			empresaHtml += '<td class="col-md-1 text-center">' + empresa.nomeEstabelecimento + '</td>'
-				+ '<td class="col-md-1 text-center">' + empresa.celular + '</td>'
-				+ '<td class="col-md-1 text-center">' + empresa.email + '</td>'
-				+ '<td class="col-md-1 text-center">' + empresa.mensalidade.length + '</td>'
-				+ '<td class="col-md-1 text-center">'
+				+ '<td>' + empresa[0] + '</td>'
+				+ '<td>' + empresa[1] + '</td>'
+				+ '<td>' + empresa[2] + '</td>'
+				+ '<td>'
 				+ '<a title="Adicionar mensalidade" data-toggle="tooltip" data-html="true">'
-				+ '<button onclick="addMensalidade()" value="'
-				+ empresa.codEmpresa + '" class="botao"><i class="fas fa-external-link-alt"></i></button>'
+				+ '<button onclick="addMensalidade(\'"' + empresa[0] + '"\')" class="botao">'
+				+ '<i class="fas fa-external-link-alt"></i></button>'
 				+ '</a>'
 				+ '</td>'
 				+ '</tr>';
 
+			/*
+			if (empresa.conquista.cadEmpresa == true && empresa.conquista.cadFuncionario == true && empresa.conquista.cadPedido == true && empresa.conquista.cadProduto == true)
+				empresaHtml += '<td><i style="color: green" class="fas fa-check-circle"></i></td>';
+			else {
+				empresaHtml += '<td><i style="color: red" class="fa fa-times-circle"></i></td>';
+			}
+			*/
 		}
 		$("#todosEmpresas").html(empresaHtml);
 		$('[data-toggle="tooltip"]').tooltip();

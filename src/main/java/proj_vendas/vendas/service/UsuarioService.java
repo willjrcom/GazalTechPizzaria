@@ -13,9 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import proj_vendas.vendas.model.Email;
-import proj_vendas.vendas.model.LogUsuario;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Email;
+import proj_vendas.vendas.model.log.LogUsuario;
 import proj_vendas.vendas.repository.LogUsuarios;
 import proj_vendas.vendas.repository.Usuarios;
 

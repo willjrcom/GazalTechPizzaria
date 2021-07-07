@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Comentario;
-import proj_vendas.vendas.model.Duvida;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Comentario;
+import proj_vendas.vendas.model.empresa.Duvida;
 import proj_vendas.vendas.repository.Comentarios;
 import proj_vendas.vendas.repository.Duvidas;
 import proj_vendas.vendas.repository.Usuarios;

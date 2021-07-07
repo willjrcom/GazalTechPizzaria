@@ -25,11 +25,11 @@ $("#buscar").click(function(){
 				funcionario.endereco = funcionario.endereco.rua + ', ' + funcionario.endereco.n + ' - ' + funcionario.endereco.bairro;
 				
 				linhaHtml += '<tr>'
-							+ '<td class="text-center col-md-1">' + funcionario.nome + '</td>'
-							+ '<td class="text-center col-md-1">' + funcionario.celular + '</td>'
-							+ '<td class="text-center col-md-1">' + funcionario.cargo + '</td>'
+							+ '<td>' + funcionario.nome + '</td>'
+							+ '<td>' + funcionario.celular + '</td>'
+							+ '<td>' + funcionario.cargo + '</td>'
 
-							+ '<td class="text-center col-md-1"><div class="row">'
+							+ '<td><div class="row">'
 								+'<div class="col-md-1">'
 									+'<a title="Ver funcionario" data-toggle="tooltip" data-html="true">'
 										+'<button class="botao" onclick="verFuncionario()" value="'+ funcionario.id + '">'

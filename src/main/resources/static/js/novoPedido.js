@@ -261,8 +261,8 @@ function buscarCliente() {
 	//se for nulo
 	if ($("#numeroCliente").val() == '') {
 		//voltar campo para digitar numero
-		var campo = $(".pula");
-		indice = $(".pula").index(this);
+		let campo = $(".pula");
+		let indice = $(".pula").index(this);
 		campo[indice - 1].focus();
 
 		$.alert({
@@ -305,7 +305,7 @@ function buscarCliente() {
 				atualizarDados();
 				mostrarDivsPedido();
 			} else {
-				window.location.href = "/u/cadastroCliente/" + $("#numeroCliente").val();
+				window.location.href = "/f/cadastroCliente/" + $("#numeroCliente").val();
 			}
 			carregarLoading("none");
 		});
@@ -1163,9 +1163,9 @@ function mostrarProdutos() {//todos
 
 		for (produto of produtos) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
-				+ '<td class="text-center col-md-1">' + produto.obs + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
+				+ '<td>' + produto.qtd + " x " + produto.sabor + '</td>'
+				+ '<td>' + produto.obs + '</td>'
+				+ '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 				+ '</tr>';
 		}
 		$("#listaProduto").html(linhaHtml);
@@ -1180,10 +1180,10 @@ function mostrarProdutos() {//todos
 
 		for (pizza of pizzas) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
-				+ '<td class="text-center col-md-1">' + pizza.obs + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">' + pizza.borda + '</td>'
+				+ '<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
+				+ '<td>' + pizza.obs + '</td>'
+				+ '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+				+ '<td>' + pizza.borda + '</td>'
 				+ '</tr>';
 		}
 		$("#listaPizza").html(linhaHtml);

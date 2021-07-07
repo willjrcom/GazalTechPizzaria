@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Mensalidade;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Mensalidade;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Usuarios;
 
@@ -73,15 +73,15 @@ public class DevController {
 	
 	@RequestMapping(value = "/dev/todosUsuarios")
 	@ResponseBody
-	public List<Usuario> todosUsuarios(){
-		return usuarios.findAll();
+	public List<String> todosUsuarios(){
+		return usuarios.mostrarTodos();
 	}
 	
 	
 	@RequestMapping(value = "/dev/todosEmpresas")
 	@ResponseBody
-	public List<Empresa> todosEmpresas(){
-		return empresas.findAll();
+	public List<String> todosEmpresas(){
+		return empresas.mostrarTodos();
 	}
 	
 
@@ -95,7 +95,7 @@ public class DevController {
 
 	@RequestMapping(value = "/dev/controlAcess/{codEmpresa}/{type}")
 	@ResponseBody
-	public ResponseEntity<?> controlAcess(@PathVariable int codEmpresa, @PathVariable int type) {
+	public ResponseEntity<?> controlAcess(@PathVariable Long codEmpresa, @PathVariable int type) {
 		
 		List<Usuario> todosUsuarios = usuarios.findByCodEmpresa(codEmpresa);
 		
@@ -115,7 +115,7 @@ public class DevController {
 	
 	@RequestMapping(value = "/dev/addMensalidade/{codEmpresa}")
 	@ResponseBody
-	public ResponseEntity<?> addMensalidade(@RequestBody Mensalidade mensalidade, @PathVariable int codEmpresa) {
+	public ResponseEntity<?> addMensalidade(@RequestBody Mensalidade mensalidade, @PathVariable Long codEmpresa) {
 		SimpleDateFormat format = new SimpleDateFormat ("yyyy-MM-dd");
 		mensalidade.setData(format.format(new Date()));
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);

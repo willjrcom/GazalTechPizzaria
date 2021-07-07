@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.Pagamento;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Funcionario;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Pagamento;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
 import proj_vendas.vendas.repository.Usuarios;

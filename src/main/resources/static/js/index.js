@@ -118,6 +118,11 @@ $("#novoUsuario").click(event => {
 		+ '<label><b>Email:</b></label>'
 		+ '<input type="email" class="form-control" id="novoEmail" placeholder="Digite seu email"/>'
 		+ '</div><br>'
+		
+		+ '<div>'
+		+ '<label><b>Cnpj:</b></label>'
+		+ '<input type="text" class="form-control" id="novoCnpj" placeholder="Digite seu cnpj"/>'
+		+ '</div><br>'
 
 		+ '<p id="avisoSenha">As senhas não conferem!</p>'
 		+ '<div>'
@@ -166,8 +171,7 @@ $("#novoUsuario").click(event => {
 				btnClass: 'btn btn-success',
 				keys: ['enter'],
 				action: function() {
-					if(senhasIguais == 1)
-						cadastrarUsuario()
+					cadastrarUsuario()
 				}
 			}
 		}
@@ -180,7 +184,20 @@ function cadastrarUsuario() {
 	novoUsuario.email = $('#novoEmail').val();
 	novoUsuario.nome = $("#novoNome").val();
 	novoUsuario.senha = $("#novoSenha").val();
-
+	novoUsuario.id = Number($("#novoCnpj").val());
+	novoUsuario.empresa = {};
+	novoUsuario.empresa.cnpj = $("#novoCnpj").val();
+	
+	if(novoUsuario.email == ""
+			|| novoUsuario.nome == ""
+			|| novoUsuario.senha == ""
+			|| $("confSenha").val() == ""
+			|| novoUsuario.empresa.cnpj == ""){
+		let title = 'OPS...'
+		let content = 'Existem campos vazios!'
+		openModal(title, content)
+		return 300;
+	}
 	carregarLoading("block");
 	
 	$.ajax({
@@ -193,44 +210,36 @@ function cadastrarUsuario() {
 		carregarLoading("none");
 
 		if (status == 200) {
-			$.alert({
-				type: 'green',
-				title: 'Sucesso',
-				content: 'Usuário cadastrado!',
-				buttons: {
-					confirm: {
-						text: 'Continuar',
-						btnClass: 'btn btn-success',
-						keys: ['esc', 'enter']
-					}
-				}
-			});
+			let title = 'Sucesso'
+			let content = 'Usuário cadastrado!'
+			openModal(title, content)
+			
 		} else if (status == 404) {
-			$.alert({
-				type: 'red',
-				title: 'Erro',
-				content: 'Erro ao realizar cadastro!',
-				buttons: {
-					confirm: {
-						text: 'Continuar',
-						btnClass: 'btn btn-danger',
-						keys: ['esc', 'enter']
-					}
-				}
-			});
+			let title = 'OPS...'
+			let content = 'Erro do sistema ao realizar cadastro!'
+			openModal(title, content)
+			
 		} else {
-			$.alert({
-				type: 'red',
-				title: 'OPS...',
-				content: 'Email já cadastrado!',
-				buttons: {
-					confirm: {
-						text: 'Continuar',
-						btnClass: 'btn btn-danger',
-						keys: ['esc', 'enter']
-					}
-				}
-			});
+			let title = 'OPS...'
+			let content = 'Email já cadastrado!'
+			openModal(title, content)
+		}
+	});
+}
+
+
+const openModal = (title, content) => {
+	$.confirm({
+		type: 'blue',
+		title: title,
+		content: content,
+		columnClass: 'col-md-4',
+		closeIcon: true,
+		buttons: {
+			confirm: {
+				isHidden: true,
+				keys: ['enter', 'esc'],
+			}
 		}
 	});
 }

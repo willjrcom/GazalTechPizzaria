@@ -9,132 +9,60 @@
 <body>
 	<input type="hidden" id="trocoInicial" th:value="${trocoInicial}" />
 				
-	<div class="divbase">
-		<div id="divBuscarCliente">
+	<div class="divbase" align="center">
+		<!-- Div de busca ---------------------------------------->
+		<div class="col-md-6" id="divBuscarCliente">
+			<h4><b>Iniciar pedido</b></h4>
+			<hr>
+			<!-- Input -->
+			<div class="form-group">
+				<input type="search" id="numeroCliente"
+				autofocus="autofocus" class="form-control textIndent pula"
+				placeholder="Digite o nome do pedido ou telefone do cliente"/>
+			</div>
+			
 			<br>
-			<div class="col-md-2">
-				<a th:href="@{/u/cadastroCliente}">
-					<button class="form-control btn btn-success"><i class="fas fa-plus" id="cadastroCliente"></i> Cliente</button>
+			<!-- Adicionar cliente -->
+			<div class="form-group d-inline">
+				<a th:href="@{/f/cadastroCliente}">
+					<button class="btn btn-success">
+						<i class="fas fa-plus" id="cadastroCliente"></i> Cliente
+					</button>
 				</a>
 			</div>
 			
+			<!-- Adicionar pedido -->
+			<div class="form-group d-inline">
+				<button name="buscarCliente" onclick="buscarCliente()"
+					class="btn btn-primary pula">
+					<i class="fas fa-plus"></i> Iniciar pedido
+				</button>
+			</div>
+		</div>
+		
+		<!-- Div de dados --------------------------------------->
+		<div align="left" id="mostrarDadosCliente">
+			<div>
+				<h4><b>Pedido</b></h4>
+				<ul class="list-group list-group-horizontal-sm">
+				 	<li class="list-group-item"><i class="fas fa-user-circle text-primary"></i> <span id="nomeCliente"></span></li>
+				 	<li class="list-group-item iconesEntrega"><i class="fas fa-phone-alt text-success"></i> <span id="celCliente"></span></li>
+					<li class="list-group-item iconesEntrega"><i class="fas fa-motorcycle text-info"></i> <span id="enderecoCliente"></span></li>
+				  	<li class="list-group-item iconesEntrega"><i class="fas fa-money-bill-wave-alt text-success"></i> <span id="taxaCliente"></span></li>
+				 	<li class="list-group-item"><i class="fas fa-user-circle text-primary"></i> Total: R$ <span id="TotalPedido">R$ 0.00</span></li>
+				 	<li class="list-group-item"><i class="fas fa-user-circle text-primary"></i> Qtd: <span id="TotalProdutos">0</span></li>
+				 	<li class="list-group-item">
+				 		<button class="btn btn-success" onclick="BotaoEnviarPedido()">
+							<i class="fas fa-check"></i> Finalizar</button>
+					</li>
+				</ul>
+			</div>
 			<br>
-			<div class="row">
-				<div class="col-md-10">
-					<input type="search" name="celular" id="numeroCliente"
-					autofocus="autofocus" class="form-control textIndent pula"
-					placeholder="Digite o nome do pedido ou telefone do cliente"/>
-				</div>
-				
-				<div class="col-md-2">
-					<button name="buscarCliente" id="buscarCliente" onclick="buscarCliente()"
-						class="form-control btn btn-primary pula"><i class="fas fa-plus"></i> Iniciar pedido</button>
-				</div>
-			</div>
-			<br>
-		</div>
-		<div id="mostrarDadosCliente">
-			<div class="table-responsive">
-				<table class="table table-striped table-hover table-sm">
-					<thead>
-						<tr>
-							<th class="text-center" colspan="4"><h5>Cliente</h5></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class="text-center col-md-1"><i class="fas fa-user-circle"></i> <span id="nomeCliente"></span></td>
-							<td class="text-center col-md-1 iconesEntrega"><i class="fas fa-phone-alt"></i> <span id="celCliente"></span></td>
-							<td class="text-center col-md-1 iconesEntrega"><i class="fas fa-motorcycle"></i> <span id="enderecoCliente"></span></td>
-							<td class="text-center col-md-1 iconesEntrega"><i class="fas fa-money-bill-wave-alt"></i> <span id="taxaCliente"></span></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-
-	<!-------------------------------------------------------------------------------------------------------------------------->
-	
-	<br>
-	<div class="alert alert-warning hidden" role="alert" id="alertPedidoAberto">Esse pedido ja existe!</div>
-	
-	<div class="row">
-		<div class="col-md-6">
-			<div class="divbase" id="divBuscarProdutos">
+			<button class="btn" onclick="btnMaisOpcoes()" id="btnMaisOpcoes">Mais opções <i class="fas fa-sort-down"></i></button>
 			
-				<div class="row">
-					<div class="form-group col-md-8">
-						<input type="search" name="nome" class="form-control textIndent pula" id="nome"
-						placeholder="Digite o nome/codigo do produto"/>
-					</div>
-			
-					<div class="form-group col-md-4">
-						<button name="buscarProduto" id="buscarProduto" onclick="buscarProdutos()"
-						class="form-control btn btn-primary pula"><i class='fas fa-search-plus'></i> Buscar</button>
-					</div>
-				</div>
-			</div>
-	
-	<!-- ------------------------------------------------------------------------------------------------- -->
-			<div class="divbase divListaGeral">
-				<div id="divPizzas" class="hidden">
-					<div class="btn-group fRight" role="group" aria-label="Second group">
-						<button type="button"  class="removerPizza btn btn-danger"><i class="fas fa-ban"></i> Remover ultima pizza adicionado</button>
-					</div>
-					
-					<br><br>
-					<div class="table-responsive">
-						<table class="table table-striped table-hover table-sm caption-top">
-							<caption>Pizzas</caption>
-							<thead>
-								<tr>
-									<th class="col-md-1"><h5>Pizza</h5></th>
-									<th class="col-md-1"><h5>Observação</h5></th>
-									<th class="col-md-1"><h5>R$</h5></th>
-									<th class="col-md-1"><h5>Borda Recheada</h5></th>
-								</tr>
-							</thead>
-							<tbody id="listaPizza"><tr><td colspan="4">Nenhuma pizza adicionada!</td></tr></tbody>
-						</table>
-					</div>
-				</div>
-				
-				<div id="divProdutos" class="hidden">
-					<hr>
-					
-					<div class="btn-group fRight" role="group" aria-label="Second group">
-						<button type="button"  class="removerProduto btn btn-danger"><i class="fas fa-ban"></i> Remover ultimo produto adicionada</button>
-					</div>
-					
-					<br><br>
-					<div class="table-responsive">
-						<table class="table table-striped table-hover table-sm caption-top">
-							<caption>Produtos</caption>
-							<thead>
-								<tr>
-									<th class="col-md-1"><h5>Produto</h5></th>
-									<th class="col-md-1"><h5>Observação</h5></th>
-									<th class="col-md-1"><h5>R$</h5></th>
-								</tr>
-							</thead>
-							<tbody id="listaProduto"><tr><td colspan="3">Nenhum produto adicionado!</td></tr></tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-		<div class="col-md-6">
-			<div class="divbase divListaGeral">
-				<h4 class="h1Logo" align="center">Finalizar Pedido</h4>
-				<hr>
-				<div class="row">
-					<div class="col-md-6" id="TotalProdutos"><label><b>Total de produtos:</b> 0</label></div>
-					<div class="col-md-6" id="TotalPedido"><label><b>Total do pedido:</b> R$ 0,00</label></div>
-					<div class="col-md-6 hidden" id="totalTodosProdutosAnteriores"><label><b>Total de produtos anteriores:</b> 0</label></div>
-				</div>
-				
+			<div id="divMaisOpcoes" class="hidden">
+				<br>
+				<br>
 				<div class="row">
 				<!-- ------------------------------------------------------------------------------------------- -->
 					<div class="col-md-6">
@@ -146,6 +74,7 @@
 							</select>
 						</div>
 						
+						<br>
 						<div class="row hidden" id="divPagamentoGeral">
 							<div id="divModoPagamento">
 								<label><b>Modo de pagamento:</b></label>
@@ -155,15 +84,17 @@
 								</select>
 							</div>
 							
+							<br>
 							<div id="divModoPagamentoDinheiro">
 								<label><b>Receber:</b></label>
 								<div class="input-group mb-3">
 									<span class="input-group-text">R$</span>
-									<input class="form-control" id="troco" placeholder="Precisa de troco?"/>
+									<input class="form-control calcular" id="troco" placeholder="Precisa de troco?"/>
 								</div>
 							</div>
 							
 							<div class="hidden" id="divModoPagamentoCartao">
+								<br>
 								<label><b>Bandeira:</b></label>
 								<select class="form-control" id="modoPagamentoCartao">
 									<option value="--">---</option>
@@ -191,7 +122,7 @@
 					</div>
 				
 				<!-- ------------------------------------------------------------------------------------------- -->
-					<div class="row col-md-6">
+					<div class="col-md-6">
 						<div id="divEnvio">
 							<label><b>Envio:</b></label>
 							<select class="form-control" name="envioCliente" id="envioCliente">
@@ -199,6 +130,7 @@
 						</div>
 						
 						<div class="hidden" id="divGarcon">
+							<br>
 							<label><b>Garçon:</b></label>
 							<select class="form-control" name="garcon" id="garcon">
 								<option value="--">---</option>
@@ -206,32 +138,113 @@
 						</div>
 						
 						<div class="hidden" id="divCobrarTaxa">
+							<br>
 							<label><b>Cobrar taxa?</b></label>
-							<select class="form-control" name="cobrarTaxa" id="cobrarTaxa">
+							<select class="form-control calcular" name="cobrarTaxa" id="cobrarTaxa">
 								<option value="0">Sim</option>
 								<option value="1">Não</option>
 							</select>
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		
+		<div class="alert alert-warning hidden" role="alert" id="alertPedidoAberto">Esse pedido ja existe!</div>
+
+	<!-------------------------------------------------------------------------------------------------------------------------->
+		<hr>
+		<div class="row">
+			<div class="col-md-6">
+				<div id="divBuscarProdutos" class="float-left">
 				
-				<br>
-				<div id="divCupom"></div>
-				<div>
-					<label><b>Observação do Pedido:</b></label>
-					<textarea id="obsPedido" name="obsPedido" class="form-control" placeholder="Observação do pedido"></textarea>
+					<div class="row">
+						<div class="form-group col-md-8">
+							<input type="search" name="nome" class="form-control textIndent pula" id="nome"
+							placeholder="Digite o nome/codigo do produto"/>
+						</div>
+				
+						<div class="form-group col-md-4">
+							<button name="buscarProduto" id="buscarProduto" onclick="buscarProdutos()"
+							class="form-control btn btn-primary pula"><i class='fas fa-search-plus'></i> Buscar</button>
+						</div>
+					</div>
 				</div>
-				<br>
-				
-				<div class="row">
-					<div class="col-md-8">
-						<button class="btn btn-danger" id="cancelar" onclick="recarregar()">
-						<i class="fas fa-ban"></i> Cancelar pedido</button>
+		
+		<!-- ------------------------------------------------------------------------------------------------- -->
+				<div class="divbase divListaGeral">
+					<div id="divPizzas" class="hidden">
+						<div class="btn-group fRight" role="group" aria-label="Second group">
+							<button type="button"  class="removerPizza btn btn-danger"><i class="fas fa-ban"></i> Remover ultima pizza adicionado</button>
+						</div>
+						
+						<br><br>
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-sm caption-top">
+								<caption>Pizzas</caption>
+								<thead>
+									<tr>
+										<th class="col-md-1"><h5>Pizza</h5></th>
+										<th class="col-md-1"><h5>Observação</h5></th>
+										<th class="col-md-1"><h5>R$</h5></th>
+										<th class="col-md-1"><h5>Borda Recheada</h5></th>
+									</tr>
+								</thead>
+								<tbody id="listaPizza"><tr><td colspan="4">Nenhuma pizza adicionada!</td></tr></tbody>
+							</table>
+						</div>
 					</div>
 					
-					<div class="col-md-4">
-						<button class="btn btn-success pula" id="BotaoEnviarPedido">
-						<i class="fas fa-check"></i> Salvar pedido</button>
+					<div id="divProdutos" class="hidden">
+						<hr>
+						
+						<div class="btn-group fRight" role="group" aria-label="Second group">
+							<button type="button"  class="removerProduto btn btn-danger"><i class="fas fa-ban"></i> Remover ultimo produto adicionada</button>
+						</div>
+						
+						<br><br>
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-sm caption-top">
+								<caption>Produtos</caption>
+								<thead>
+									<tr>
+										<th class="col-md-1"><h5>Produto</h5></th>
+										<th class="col-md-1"><h5>Observação</h5></th>
+										<th class="col-md-1"><h5>R$</h5></th>
+									</tr>
+								</thead>
+								<tbody id="listaProduto"><tr><td colspan="3">Nenhum produto adicionado!</td></tr></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		
+			<div class="col-md-6">
+				<div class="divbase divListaGeral">
+					<h4 class="h1Logo" align="center">Finalizar Pedido</h4>
+					<hr>
+					<div class="row">
+						<div class="col-md-6 hidden" id="totalTodosProdutosAnteriores"><label><b>Total de produtos anteriores:</b> 0</label></div>
+					</div>
+					
+					<br>
+					<div id="divCupom"></div>
+					<div>
+						<label><b>Observação do Pedido:</b></label>
+						<textarea id="obsPedido" name="obsPedido" class="form-control" placeholder="Observação do pedido"></textarea>
+					</div>
+					<br>
+					
+					<div class="row">
+						<div class="col-md-8">
+							<button class="btn btn-danger" id="cancelar" onclick="recarregar()">
+							<i class="fas fa-ban"></i> Cancelar pedido</button>
+						</div>
+						
+						<div class="col-md-4">
+							
+						</div>
 					</div>
 				</div>
 			</div>

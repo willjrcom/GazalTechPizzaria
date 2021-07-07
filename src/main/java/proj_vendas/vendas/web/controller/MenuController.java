@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Conquista;
-import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Divulgar;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Endereco;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Endereco;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Conquista;
+import proj_vendas.vendas.model.empresa.Dado;
+import proj_vendas.vendas.model.empresa.Divulgar;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Divulgacoes;
 import proj_vendas.vendas.repository.Empresas;
@@ -51,7 +51,7 @@ public class MenuController {
 		 
 		// Se a empresa não existir
 		if(empresa == null) {
-			empresa = gerarEmpresa(user.getCodEmpresa());
+			empresa = gerarEmpresa((long)user.getCodEmpresa());
 		}
 
 		// Procurar divulgação
@@ -96,22 +96,23 @@ public class MenuController {
 
 		// dados
 		mv.addObject("usuario", user.getEmail());
-		mv.addObject("permissao", user.getPerfil());
+		mv.addObject("perfil", user.getPerfil());
+		
+		if(user.getPerfil().equals("DEV")|| user.getPerfil().equals("USUARIO") || user.getPerfil().equals("ADM")) {
+			mv.addObject("permissao", true);
+		}else {
+			mv.addObject("permissao", false);
+		}
 		
 		// Menu
 		mv.addObject("empresa", empresa.getNomeEstabelecimento());
 		mv.addObject("contato", empresa.getCelular());
 		
 		// Se for motoboy nao tem necessidade
-		if (user.getPerfil().equals("MOTOBOY")) {
+		if (user.getPerfil().equals("MOTOBOY") || user.getPerfil().equals("GRATUITO")) {
 			// É definido 1 pois, qualquer numero diferente de 0 quer dizer que não precisa de troco
 			mv.addObject("troco", 1);
 		}
-
-		// Se perfil Dev
-		if (user.getPerfil().equals("DEV"))
-			mv.addObject("dev", 1);
-
 		
 		// Mostrar data atual
 		mv.addObject("data", user.getDia().split("-")[2] + "/" + user.getDia().split("-")[1] + "/" + user.getDia().split("-")[0]);
@@ -188,7 +189,7 @@ public class MenuController {
 			empresas.save(empresa);
 			
 			// Verificar se é necessario
-			liberarConquistas(dados.findByCodEmpresa(user.getCodEmpresa()).size(), user.getCodEmpresa());
+			liberarConquistas(dados.findByCodEmpresa((long)user.getCodEmpresa()).size(), user.getCodEmpresa());
 		}
 
 		return dado;
@@ -207,7 +208,7 @@ public class MenuController {
 
 	
 	// Apenas no login
-	private Empresa gerarEmpresa(int codEmpresa) {
+	public Empresa gerarEmpresa(Long codEmpresa) {
 		// Procurar empresa
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		
@@ -222,6 +223,7 @@ public class MenuController {
 			empresa.setCelular("");
 
 			Endereco endereco = new Endereco();
+			endereco.setCodEmpresa(codEmpresa);
 			endereco.setBairro("");
 			endereco.setCidade("");
 			endereco.setN(0);
@@ -240,7 +242,7 @@ public class MenuController {
 	}
 
 
-	private void liberarConquistas(int totalDias, int codEmpresa) {
+	private void liberarConquistas(int totalDias, Long codEmpresa) {
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
 

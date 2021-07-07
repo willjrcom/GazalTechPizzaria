@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Cliente;
-import proj_vendas.vendas.model.Conquista;
-import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.LogMesa;
-import proj_vendas.vendas.model.LogPizza;
-import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Cliente;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Funcionario;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Conquista;
+import proj_vendas.vendas.model.empresa.Dado;
+import proj_vendas.vendas.model.empresa.Pedido;
+import proj_vendas.vendas.model.log.LogMesa;
+import proj_vendas.vendas.model.log.LogPizza;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Empresas;
@@ -146,7 +146,7 @@ public class FinalizarController {
 		return pedidos.save(pedido);
 	}
 
-	private void aumentarContPedidosCliente(int codEmpresa, Long celular) {
+	private void aumentarContPedidosCliente(Long codEmpresa, Long celular) {
 		Cliente cliente = clientes.findByCodEmpresaAndCelular(codEmpresa, celular);// buscar cliente nos dados
 		cliente.setContPedidos(cliente.getContPedidos() + 1);// adicionar contador de pedidos
 		clientes.save(cliente);

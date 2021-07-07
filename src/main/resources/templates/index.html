@@ -3,98 +3,78 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
+<head th:replace="~{layouts/frag :: head}"></head>
 <head>
-<meta charset="utf-8" lang="pt-br" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Login</title>
-
-<link th:href="@{/jquery/jquery-ui.min.css}" rel="stylesheet" />
-<link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" rel="stylesheet" />
-<script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-
-<!-- icones -->
-<script src="https://kit.fontawesome.com/99986af71e.js"></script>
-<link rel="sortcut icon" href="/img/iconePag.ico" type="image/x-icon" />
-
-<!-- bootstrap v5 -->
-<link th:href="@{/css/bstrap/bootstrap.min.css}" rel="stylesheet" />
-<link th:href="@{/css/bstrap/bootstrap-utilities.min.css}" rel="stylesheet" />
-
-<!-- css -->
-<link th:href="@{/css/estilo.css}" rel="stylesheet" />
-<link th:href="@{/css/login.css}" rel="stylesheet" />
-
-<!-- PWA -->
-<script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js"></script>
-<link rel="manifest" th:href="@{/manifest/manifest.json}">
-<link rel="manifest" th:href="@{/manifest/manifest.webmanifest}">
+	<title>Login</title>
+	
+	<!-- PWA -->
+	<script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js"></script>
+	<link rel="manifest" th:href="@{/manifest/manifest.json}">
+	<link rel="manifest" th:href="@{/manifest/manifest.webmanifest}">
 </head>
 
 <body>
-	<div class="indexCentral">
-		<div class="corFundo centralizar col-md-8" id="login">
+	<div class="container bg-white col-md-8" align="center">
+		<img th:src="@{/img/logoPizzaria.png}" class="img-fluid rounded col-md-6"/>
+		
+		<div id="erro" class="alert alert-danger hidden" role="alert">
+			<h4 class="alert-heading" th:text="${titulo}"></h4>
+			<p th:text="${texto}"></p>
+		</div>
 
-			<img th:src="@{/img/logoPizzaria.png}" width="80%" />
-			<div id="erro" class="alert alert-danger hidden" role="alert">
-				<h4 th:text="${titulo}"></h4>
-				<p th:text="${texto}"></p>
+		<form class="form-signin was-validated" method="post" th:action="@{/index}">
+			<div class="form-label-group form-floating">
+				<input type="text" id="floatingInput"
+					class="form-control has-validation" placeholder="Digite seu Email"
+					name="username" required autofocus> <label
+					for=" floatingInput">Login</label>
 			</div>
 
-			<form class="form-signin was-validated" method="post"
-				th:action="@{/index}">
+			<br>
+			<div class="form-label-group form-floating">
+				<input type="password" class="form-control has-validation"
+					placeholder="Digite sua senha" name="password" required> <label
+					for="floatingInput">Senha</label>
+			</div>
+			
+			<br>
+			<div class="form-group form-check" align="left">
+				<input type="checkbox" class="form-check-input" id="exampleCheck1" value="remember-me">
+			    <label class="form-check-label" for="exampleCheck1"> Manter conectado</label>
+			</div>
+			
+			<br>
+			<button class="btn btn-lg btn-success btn-block" type="submit">Entrar</button>
 
-				<div class="form-label-group form-floating">
-					<input type="text" id="floatingInput"
-						class="form-control has-validation" placeholder="Digite seu Email"
-						name="username" required autofocus> <label
-						for=" floatingInput">Login</label>
+			<br>
+			<div class="row">
+				<div class="col-md-6">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
+						href="" id="esqueciSenha"><i class="far fa-question-circle"></i>&nbsp;Esqueceu
+						a senha</a>
 				</div>
 
-				<br>
-				<div class="form-label-group form-floating">
-					<input type="password" class="form-control has-validation"
-						placeholder="Digite sua senha" name="password" required> <label
-						for="floatingInput">Senha</label>
-				</div>
-				<!--
-				<div class="checkbox mb-3">
-					<label> <input type="checkbox" value="remember-me">Ficar conectado</label>
-				</div> -->
-				<br>
-				<button class="btn btn-lg btn-success btn-block" type="submit">Entrar</button>
-
-				<br>
-				<div class="row">
-					<div class="col-md-6">
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
-							href="" id="esqueciSenha"><i class="far fa-question-circle"></i>&nbsp;Esqueceu
-							a senha</a>
-					</div>
-
-					<div class="col-md-6">
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
-							href="" id="novoUsuario">Cadastrar-se</a>
-					</div>
-
-					<div class="col-md-6">
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
-							th:href="@{gazaltech}"><i class="fas fa-star"></i>&nbsp;Ajuda</a>
-					</div>
-
-					<div class="col-md-6">
-						<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
-							href="https://www.gazal.com.br"><i class="fas fa-link"></i>&nbsp;Nosso
-							site</a>
-					</div>
+				<div class="col-md-6">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
+						href="" id="novoUsuario">Cadastrar-se</a>
 				</div>
 
-				<p class="p-2 text-muted text-center">GazalTech &copy;
-					2021</p>
+				<div class="col-md-6">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
+						th:href="@{gazaltech}"><i class="fas fa-star"></i>&nbsp;Ajuda</a>
+				</div>
 
-			</form>
+				<div class="col-md-6">
+					<a class="flex-sm-fill text-sm-left nav-link text-decoration-none"
+						href="https://www.gazal.com.br"><i class="fas fa-link"></i>&nbsp;Nosso
+						site</a>
+				</div>
+			</div>
 
-		</div>
+			<p class="p-2 text-muted text-center">GazalTech &copy;
+				2021</p>
+
+		</form>
 	</div>
 
 	<div class="justify-content-center loading">
@@ -103,6 +83,7 @@
 		</div>
 	</div>
 
+	<footer th:replace="~{layouts/frag :: footer}"></footer>
 	<script th:src="@{/js/index.js}"></script>
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>

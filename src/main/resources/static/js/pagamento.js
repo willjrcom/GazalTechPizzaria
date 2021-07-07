@@ -39,12 +39,12 @@ function mostrar(funcionarios, filtro) {
 	for (funcionario of funcionarios) {
 		if (filtro == funcionario.situacao || filtro == 2) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + funcionario.nome + '</td>'
-				+ '<td class="text-center col-md-1">' + funcionario.celular + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">' + funcionario.diaPagamento + '</td>'
-				+ '<td class="text-center col-md-1">' + funcionario.cargo + '</td>'
-				+ '<td class="text-center col-md-1">'
+				+ '<td>' + funcionario.nome + '</td>'
+				+ '<td>' + funcionario.celular + '</td>'
+				+ '<td>R$ ' + funcionario.salario.toFixed(2) + '</td>'
+				+ '<td>' + funcionario.diaPagamento + '</td>'
+				+ '<td>' + funcionario.cargo + '</td>'
+				+ '<td>'
 				+ '<div class="row">'
 				+ '<div class="col-md-1">'
 				+ '<a title="Adicionar diaria" data-toggle="tooltip" data-html="true">'
@@ -515,13 +515,13 @@ function pagarSalario(e, funcionario, dataBusca) {
 		+ '</tr></thead>'
 
 		+ '<tr>'
-		+ '<td class="text-center col-md-1">R$ ' + funcionario.salario.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + diarias.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + taxas.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + totalExtra.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + gastos.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + pago.toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + (funcionario.salario + diarias + taxas + totalExtra - gastos - pago).toFixed(2) + '</td>'
+		+ '<td>R$ ' + funcionario.salario.toFixed(2) + '</td>'
+		+ '<td>R$ ' + diarias.toFixed(2) + '</td>'
+		+ '<td>R$ ' + taxas.toFixed(2) + '</td>'
+		+ '<td>R$ ' + totalExtra.toFixed(2) + '</td>'
+		+ '<td>R$ ' + gastos.toFixed(2) + '</td>'
+		+ '<td>R$ ' + pago.toFixed(2) + '</td>'
+		+ '<td>R$ ' + (funcionario.salario + diarias + taxas + totalExtra - gastos - pago).toFixed(2) + '</td>'
 		+ '</tr>'
 		+ '</table>'
 
@@ -637,16 +637,16 @@ function imprimirResumo(e, funcionario) {
 	if (e != 0) {
 		for (log of e) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + log.logData + '</td>';
+				+ '<td>' + log.logData + '</td>';
 
-			if (log.gastos != 0) linhaHtml += '<td class="text-center col-md-1">gasto</td>'
-				+ '<td class="text-center col-md-1">R$ ' + log.gastos.toFixed(2) + '</td>';
-			if (log.horas != 0) linhaHtml += '<td class="text-center col-md-1">hora extra</td>'
-				+ '<td class="text-center col-md-1">R$ ' + log.horas.toFixed(2) + '</td>';
-			if (log.pago != 0) linhaHtml += '<td class="text-center col-md-1">pago</td>'
-				+ '<td class="text-center col-md-1">R$ ' + log.pago.toFixed(2) + '</td>';
-			if (log.diarias != 0) linhaHtml += '<td class="text-center col-md-1">diária</td>'
-				+ '<td class="text-center col-md-1">R$ ' + log.diarias.toFixed(2) + '</td>';
+			if (log.gastos != 0) linhaHtml += '<td>gasto</td>'
+				+ '<td>R$ ' + log.gastos.toFixed(2) + '</td>';
+			if (log.horas != 0) linhaHtml += '<td>hora extra</td>'
+				+ '<td>R$ ' + log.horas.toFixed(2) + '</td>';
+			if (log.pago != 0) linhaHtml += '<td>pago</td>'
+				+ '<td>R$ ' + log.pago.toFixed(2) + '</td>';
+			if (log.diarias != 0) linhaHtml += '<td>diária</td>'
+				+ '<td>R$ ' + log.diarias.toFixed(2) + '</td>';
 			linhaHtml += '</tr>';
 		}
 	} else {

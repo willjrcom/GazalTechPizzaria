@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Conquista;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Produto;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Produto;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Conquista;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Produtos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/u")
+@RequestMapping("/f")
 public class CadastroProdutoController {
 	
 	@Autowired
@@ -50,7 +50,7 @@ public class CadastroProdutoController {
 				empresa.setConquista(conquista);
 			}
 		}catch(Exception e) {}
-		produto.setCodEmpresa(user.getCodEmpresa());
+		produto.setCodEmpresa((long)user.getCodEmpresa());
 		
 		return produtos.save(produto);
 	}

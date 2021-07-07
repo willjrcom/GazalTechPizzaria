@@ -60,11 +60,11 @@ function mostrar(pedidos, filtro) {
 			pedido.totalTodosProdutos = totalTodosProdutos;
 
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-				+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
-				+ '<td class="text-center col-md-1"><div class="row">'
+				+ '<td>' + pedido.comanda + '</td>'
+				+ '<td>' + pedido.nome + '</td>'
+				+ '<td>R$ ' + mostrarTotalComTaxa(pedido).toFixed(2) + '</td>'
+				+ '<td>' + pedido.envio + '</td>'
+				+ '<td><div class="row">'
 				+ '<div class="col-md-1">'
 				+ '<a title="Ver pedido" data-toggle="tooltip" data-html="true">'
 				+ '<button class="botao" onclick="verPedido()" value="' + pedido.id + '">'
@@ -214,10 +214,10 @@ function mostrarProdutosPedido(cliente) {
 
 		for (pizza of cliente.pizzas) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
-				+ '<td class="text-center col-md-1">' + pizza.obs + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">' + pizza.borda + '</td>'
+				+ '<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
+				+ '<td>' + pizza.obs + '</td>'
+				+ '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+				+ '<td>' + pizza.borda + '</td>'
 				+ '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -233,9 +233,9 @@ function mostrarProdutosPedido(cliente) {
 
 		for (produto of cliente.produtos) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
-				+ '<td class="text-center col-md-1">' + produto.obs + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
+				+ '<td>' + produto.qtd + " x " + produto.sabor + '</td>'
+				+ '<td>' + produto.obs + '</td>'
+				+ '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 				+ '</tr>';
 		}
 		linhaHtml += '</table>';

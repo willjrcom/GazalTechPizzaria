@@ -168,14 +168,14 @@ async function gerarDadosMensal() {
 				+ dado.data.split('-')[0];
 
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + dataAtual + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + Number(dado.taxa_entrega).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + Number(compraDiaria).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">' + dado.totalPizza + '</td>'
-				+ '<td class="text-center col-md-1">' + dado.totalPedidos + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + Number(dado.totalVendas).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + Number(dado.totalLucro).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + Number(dado.totalVendas - dado.totalLucro).toFixed(2) + '</td>'
+				+ '<td>' + dataAtual + '</td>'
+				+ '<td>R$ ' + Number(dado.taxa_entrega).toFixed(2) + '</td>'
+				+ '<td>R$ ' + Number(compraDiaria).toFixed(2) + '</td>'
+				+ '<td>' + dado.totalPizza + '</td>'
+				+ '<td>' + dado.totalPedidos + '</td>'
+				+ '<td>R$ ' + Number(dado.totalVendas).toFixed(2) + '</td>'
+				+ '<td>R$ ' + Number(dado.totalLucro).toFixed(2) + '</td>'
+				+ '<td>R$ ' + Number(dado.totalVendas - dado.totalLucro).toFixed(2) + '</td>'
 				+ '</tr>';
 		}
 	}
@@ -186,14 +186,14 @@ async function gerarDadosMensal() {
 
 
 	let somaHtml = '<tr>'
-		+ '<td class="text-center col-md-1">Total:</td>'
-		+ '<td class="text-center col-md-1">R$ ' + Number(taxa_entrega).toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + Number(totalCompras).toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">' + totalPizza + '</td>'
-		+ '<td class="text-center col-md-1">' + totalPedidos + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + Number(totalVendas).toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + Number(totalLucro).toFixed(2) + '</td>'
-		+ '<td class="text-center col-md-1">R$ ' + Number(totalVendas - totalLucro).toFixed(2) + '</td>'
+		+ '<td>Total:</td>'
+		+ '<td>R$ ' + Number(taxa_entrega).toFixed(2) + '</td>'
+		+ '<td>R$ ' + Number(totalCompras).toFixed(2) + '</td>'
+		+ '<td>' + totalPizza + '</td>'
+		+ '<td>' + totalPedidos + '</td>'
+		+ '<td>R$ ' + Number(totalVendas).toFixed(2) + '</td>'
+		+ '<td>R$ ' + Number(totalLucro).toFixed(2) + '</td>'
+		+ '<td>R$ ' + Number(totalVendas - totalLucro).toFixed(2) + '</td>'
 		+ '</tr>';
 	$("#geralDadosSoma").html(somaHtml);
 

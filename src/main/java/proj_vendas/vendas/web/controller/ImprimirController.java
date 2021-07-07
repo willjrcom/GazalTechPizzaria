@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Compra;
-import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.ImpressaoMatricial;
-import proj_vendas.vendas.model.ImpressaoPedido;
-import proj_vendas.vendas.model.LogMotoboy;
-import proj_vendas.vendas.model.Pagamento;
-import proj_vendas.vendas.model.Sangria;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Funcionario;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Compra;
+import proj_vendas.vendas.model.empresa.Dado;
+import proj_vendas.vendas.model.empresa.Pagamento;
+import proj_vendas.vendas.model.empresa.Sangria;
+import proj_vendas.vendas.model.impressora.ImpressaoMatricial;
+import proj_vendas.vendas.model.impressora.ImpressaoPedido;
+import proj_vendas.vendas.model.log.LogMotoboy;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Funcionarios;
@@ -58,9 +58,9 @@ public class ImprimirController {
 		List<ImpressaoMatricial> todosIm = null;
 
 		if (setor.equals("A") || setor.equals("C") /* || setor.contains("M") */) {
-			todosIm = impressoes.findByCodEmpresaAndSetor(codEmpresa, setor);
+			todosIm = impressoes.findByCodEmpresaAndSetor((long)codEmpresa, setor);
 		} else {
-			todosIm = impressoes.findByCodEmpresa(codEmpresa);
+			todosIm = impressoes.findByCodEmpresa((long)codEmpresa);
 		}
 
 		// validar
@@ -80,8 +80,8 @@ public class ImprimirController {
 		return null;
 	}
 
-	public ImpressaoPedido receberEmpresa(ImpressaoPedido pedido, int codEmpresa) {
-		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
+	public ImpressaoPedido receberEmpresa(ImpressaoPedido pedido, Long codEmpresa) {
+		Empresa empresa = empresas.findByCodEmpresa((long)codEmpresa);
 		String endereco = empresa.getEndereco().getRua() + " " + empresa.getEndereco().getN() + ", "
 				+ empresa.getEndereco().getBairro();
 
@@ -104,7 +104,7 @@ public class ImprimirController {
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
 		DecimalFormat decimal = new DecimalFormat("0.00");
 		String impressaoCompleta = "";
-		receberEmpresa(pedido, user.getCodEmpresa());
+		receberEmpresa(pedido, (long)user.getCodEmpresa());
 
 		impressaoCompleta = "\t" + cortaString(pedido.getNomeEstabelecimento()) + "#$"
 				+ cortaString(pedido.getEnderecoEmpresa()) + "#$" + "CNPJ: " + pedido.getCnpj() + "#$"

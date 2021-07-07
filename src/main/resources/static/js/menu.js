@@ -70,7 +70,7 @@ function carregarLoading(texto) {
 //------------------------------------------------------------
 const abrirModal = (title, content) => {
 	$.alert({
-		type:'blue',
+		type: 'blue',
 		title: title,
 		content: content,
 		columnClass: 'col',
@@ -141,16 +141,16 @@ const estruturarDiasEmAberto = dias => {
 				+ '<table class="table table-striped table-hover">';
 	
 	if (dias.length == 0){
-		linhaHtml += '<tr><td class="text-center col-md-1">Nenhum dia em aberto</td></tr>'
+		linhaHtml += '<tr><td>Nenhum dia em aberto</td></tr>'
 	}else{
 		for(let dia of dias){
 			linhaHtml += '<tr>'
-							+ '<td class="text-center col-md-1">' 
+							+ '<td>' 
 								+ dia.split('-')[2] 
 								+ '/' + dia.split('-')[1] 
 								+ '/' + dia.split('-')[0] 
 							+ '</td>'
-							+ '<td class="text-center col-md-1"><button class="btn btn-primary" onclick="acessarDataAjax(\'' 
+							+ '<td><button class="btn btn-primary" onclick="acessarDataAjax(\'' 
 								+ dia + '\')">Acessar</button></td>'
 						+ '</tr>';
 		}

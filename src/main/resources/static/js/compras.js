@@ -100,8 +100,8 @@ function mostrarProdutos(e){
 	if(produtos.length != 0) {
 		for(let produto of produtos) {
 			Tcompras += '<tr>'
-						+ '<td class="text-center col-md-1">' + produto.nome + '</td>'
-						+ '<td class="text-center col-md-1">R$ ' + produto.valor.toFixed(2) + '</td>'
+						+ '<td>' + produto.nome + '</td>'
+						+ '<td>R$ ' + produto.valor.toFixed(2) + '</td>'
 					+ '</tr>';
 			total += produto.valor;
 		}

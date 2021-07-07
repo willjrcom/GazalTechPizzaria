@@ -11,7 +11,7 @@ $("#buscar").click(function() {
 	var nome = $("#nomeBusca").val();
 
 	$.ajax({
-		url: '/u/clientesCadastrados/buscar/' + nome + '/' + (isNaN(Number(nome)) ? "0" : Number(nome)),
+		url: '/f/clientesCadastrados/buscar/' + nome + '/' + (isNaN(Number(nome)) ? "0" : Number(nome)),
 		type: 'GET'
 	}).done(function(e) {
 
@@ -27,11 +27,11 @@ $("#buscar").click(function() {
 				cliente.endereco = cliente.endereco.rua + ' - ' + cliente.endereco.n + ' - ' + cliente.endereco.bairro
 
 				linhaHtml += '<tr>'
-					+ '<td class="text-center col-md-1">' + cliente.nome + '</td>'
-					+ '<td class="text-center col-md-1">' + cliente.celular + '</td>'
-					+ '<td class="text-center col-md-1">' + cliente.endereco + '</td>'
+					+ '<td>' + cliente.nome + '</td>'
+					+ '<td>' + cliente.celular + '</td>'
+					+ '<td>' + cliente.endereco + '</td>'
 
-					+ '<td class="text-center col-md-1"><div class="row">'
+					+ '<td><div class="row">'
 					+ '<div class="col-md-1">'
 					+ '<a title="Ver cliente" data-toggle="tooltip" data-html="true">'
 					+ '<button class="botao" onclick="verCliente()" value="' + cliente.id + '">'
@@ -168,7 +168,7 @@ function editarCliente() {
 				btnClass: 'btn-red',
 				keys: ['enter'],
 				action: function() {
-					window.location.href = "/u/cadastroCliente/editar/" + idCliente;
+					window.location.href = "/f/cadastroCliente/editar/" + idCliente;
 				}
 			},
 			cancel: {
@@ -222,7 +222,7 @@ function excluirCliente() {
 											if (apagarSim === 'sim' || apagarSim === 'SIM') {
 
 												$.ajax({
-													url: "/u/clientesCadastrados/excluirCliente/" + idCliente,
+													url: "/f/clientesCadastrados/excluirCliente/" + idCliente,
 													type: 'PUT'
 
 												}).done(function() {
@@ -236,7 +236,7 @@ function excluirCliente() {
 																keys: ['enter'],
 																btnClass: 'btn-green',
 																action: function()  {
-																	indow.location.href = "/u/clientesCadastrados";
+																	indow.location.href = "/f/clientesCadastrados";
 																}
 															}
 														}
@@ -299,7 +299,7 @@ function mostrarClientes() {
 	carregarLoading('block');
 
 	$.ajax({
-		url: '/u/clientesCadastrados/clientes',
+		url: '/f/clientesCadastrados/clientes',
 		type: "GET"
 	}).done(todosClientes => {
 
@@ -312,7 +312,7 @@ function mostrarClientes() {
 			+ '<th class="col-md-1">Pedidos</th>'
 			+ '</tr>'
 			+ '</thead>'
-			+ '<tbody class="text-center col-md-1">';
+			+ '<tbody>';
 
 		if (todosClientes.length != 0) {
 			arrayClientes = [];

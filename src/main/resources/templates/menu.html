@@ -8,7 +8,6 @@
 </head>
 <head th:replace="~{layouts/frag :: head}"></head>
 
-
 <body>
 	<input type="hidden" id="trocoInicial" th:value="${troco}" />
 
@@ -20,7 +19,7 @@
 			</li>
 			<li class="list-group-item">
 				<i class="fas fa-key text-warning"></i>&nbsp;Permissão
-				<span th:text="${permissao}"></span>
+				<span th:text="${perfil}"></span>
 			</li>
 		  	<li class="list-group-item">
 		  		<i class="fas fa-calendar-check text-primary"></i>&nbsp;Data de acesso:
@@ -35,31 +34,31 @@
 			<h2 class="tituloMenu" align="center">Menu</h2>
 			
 			<div class="list-group list-group-flush">
-				<a class="list-group-item list-group-item-action" th:href="@{/u/novoPedido}" th:if="${permissao} != 'MOTOBOY'">
+				<a class="list-group-item list-group-item-action" th:href="@{/u/novoPedido}" th:if="${permissao} == true">
 					<i class="fas fa-shopping-cart text-info"></i>&nbsp;Novo pedido
 				</a> 
-				<a class="list-group-item list-group-item-action" th:href="@{/u/pedidosFinalizados}">
+				<a class="list-group-item list-group-item-action" th:href="@{/u/pedidosFinalizados}" th:if="${permissao} == true">
 					<i class="fas fa-cash-register text-success"></i>&nbsp;Fechamento
 				</a> 
-				<a class="list-group-item list-group-item-action" th:href="@{/u/cadastroCliente}">
+				<a class="list-group-item list-group-item-action" th:href="@{/f/cadastroCliente}">
 					<i class="far fa-address-card text-warning"></i>&nbsp;Cadastrar cliente 
 				</a> 
-				<a class="list-group-item list-group-item-action" th:href="@{/adm/empresa}">
+				<a class="list-group-item list-group-item-action" th:href="@{/adm/empresa}" th:if="${permissao} == true">
 					<i class="fas fa-cash-register text-info"></i>&nbsp;Cadastrar empresa
 				</a> 
-				<a class="list-group-item list-group-item-action" th:href="@{/u/motoboy}">
+				<a class="list-group-item list-group-item-action" th:href="@{/u/motoboy}" th:if="${permissao} == true">
 					<i class="fas fa-location-arrow text-danger"></i>&nbsp;Entregas 
 				</a>
-				<a class="list-group-item list-group-item-action" th:href="@{/u/fichaTecnica}"> 
+				<a class="list-group-item list-group-item-action" th:href="@{/u/fichaTecnica}" th:if="${permissao} == true"> 
 					<i class="fas fa-info text-primary"></i> &nbsp;Ficha técnica
 				</a> 
 				<a class="list-group-item list-group-item-action" th:href="@{/f/forum}">
 					<i class="far fa-comments text-primary"></i>&nbsp;Fórum 
 				</a>
-				<a class="list-group-item list-group-item-action" th:href="@{/dev/dev}" th:if="${permissao} == 'DEV'">
+				<a class="list-group-item list-group-item-action" th:href="@{/dev/dev}" th:if="${perfil} == DEV">
 					<i class="fab fa-dev text-primary"></i>&nbsp;Desenvolvedor
 				</a>
-				<a class="list-group-item list-group-item-action" th:href="@{/dev/divulgar}" th:if="${permissao} == 'DEV'">
+				<a class="list-group-item list-group-item-action" th:href="@{/dev/divulgar}" th:if="${perfil} == DEV">
 					<i class="fas fa-bullhorn text-warning"></i>&nbsp;Divulgar marcas
 				</a>
 			</div>
@@ -69,7 +68,7 @@
 				<a class="list-group-item list-group-item-action" th:href="@{/tutorial}"> 
 					<i class="fas fa-info text-info"></i> &nbsp;Tutorial
 				</a> 
-				<a class="list-group-item list-group-item-action">
+				<a class="list-group-item list-group-item-action" th:if="${permissao} == true">
 					<button class="button-link-js" onclick="verificarDiasEmAberto()">
 						<i class="fas fa-exclamation-triangle text-danger"></i>&nbsp;Verificar dias em aberto
 					</button>
@@ -83,10 +82,6 @@
 					<i class="fas fa-recycle text-success"></i>&nbsp;Redefinir senha
 				</a>
 			</div>
-			
-			<div class="blocoMenu border"
-				th:replace="~{layouts/frag :: conquistaMenu}"></div>
-
 		</div>
 
 		<!-- ----------------------------------------------------------------------------------------------------- -->
@@ -184,6 +179,8 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="blocoMenu border" th:replace="~{layouts/frag :: conquistaMenu}"></div>
 		</div>
 	</div>
 

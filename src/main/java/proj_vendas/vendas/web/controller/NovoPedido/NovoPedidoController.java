@@ -16,16 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Cliente;
-import proj_vendas.vendas.model.Conquista;
-import proj_vendas.vendas.model.Cupom;
-import proj_vendas.vendas.model.Dado;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Funcionario;
-import proj_vendas.vendas.model.Pedido;
-import proj_vendas.vendas.model.PedidoTemp;
-import proj_vendas.vendas.model.Produto;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Cliente;
+import proj_vendas.vendas.model.cadastros.Cupom;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Produto;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Conquista;
+import proj_vendas.vendas.model.empresa.Dado;
+import proj_vendas.vendas.model.empresa.Pedido;
+import proj_vendas.vendas.model.empresa.PedidoTemp;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Dados;
 import proj_vendas.vendas.repository.Empresas;
@@ -86,23 +85,27 @@ public class NovoPedidoController {
 	public List<Produto> buscarProduto(@PathVariable String nome) {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
+		
+		// busca apenas 1 item
+		// Buscar por codigo
+		List<Produto> list_produtos = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", true);
 
-		// buscar apenas codigo
-		List<Produto> produto = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(),
-				nome, "BORDA", true);// busca apenas 1 item
-
-		if (produto.size() >= 1) {
-			return produto;
-		} else {// buscar se esta indisponivel
-			List<Produto> produtoIndisponivel = produtos
-					.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", false);// busca
-																														// produto
-																														// indisponivel
-			if (produtoIndisponivel.size() != 0) {
-				produtoIndisponivel.get(0).setId((long) -1);// codigo -1: nao disponivel
-				return produtoIndisponivel;
-			}
+		// Se existirem produtos disponiveis
+		if (list_produtos.size() >= 1) {
+			return list_produtos;
 		}
+		
+		// Buscar por indisponivel
+		List<Produto> produtoIndisponivel = produtos.findByCodEmpresaAndCodigoBuscaAndSetorNotAndDisponivel(user.getCodEmpresa(), nome, "BORDA", false);
+		
+		// Se existirem produtos indisponiveis
+		if (produtoIndisponivel.size() != 0) {
+			produtoIndisponivel.get(0).setId((long) -1);// codigo -1: nao disponivel)
+			produtoIndisponivel.get(0).setDescricao("Não disponível em estoque!");
+			return produtoIndisponivel;
+		}
+		
+		// Busca por nome
 		return produtos.findByCodEmpresaAndNomeContainingAndSetorNot(user.getCodEmpresa(), nome, "BORDA");
 	}
 
@@ -247,16 +250,15 @@ public class NovoPedidoController {
 	public List<String> autoComplete() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		return produtos.nomesProdutos(user.getCodEmpresa());
+		return produtos.nomesProdutos((long) user.getCodEmpresa());
 	}
 
 	@RequestMapping("/novoPedido/garcons")
 	@ResponseBody
-	public List<Funcionario> garcons() {
+	public List<String> garcons() {
 		Usuario user = usuarios.findByEmail(
 				((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-		return funcionarios.findByCodEmpresaAndCargoOrCodEmpresaAndCargoOrCodEmpresaAndCargo(user.getCodEmpresa(),
-				"GARCON", user.getCodEmpresa(), "GERENTE", user.getCodEmpresa(), "ANALISTA");
+		return funcionarios.mostrarGarcons(user.getCodEmpresa());
 	}
 
 	private void liberarConquistas(Conquista conquista, Empresa empresa) {

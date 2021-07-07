@@ -147,9 +147,9 @@ function carregarMotoboy(logmotoboys) {
 
 	for (boy of objsMotoboys) {
 		linhaBoy += '<tr>'
-			+ '<td class="text-center col-md-1">' + boy.nome.substring(0, 20) + '</td>'
-			+ '<td class="text-center col-md-1">' + boy.cont + '</td>'
-			+ '<td class="text-center col-md-1">R$ ' + Number(boy.taxa).toFixed(2) + '</td>'
+			+ '<td>' + boy.nome.substring(0, 20) + '</td>'
+			+ '<td>' + boy.cont + '</td>'
+			+ '<td>R$ ' + Number(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>';
 	}
 
@@ -168,10 +168,10 @@ function carregarMotoboy(logmotoboys) {
 
 	for (boy of logmotoboys) {
 		linhaBoy += '<tr>'
-			+ '<td class="text-center col-md-1">' + boy.comanda + '</td>'
-			+ '<td class="text-center col-md-1">' + boy.nome + '</td>'
-			+ '<td class="text-center col-md-1">' + boy.motoboy + '</td>'
-			+ '<td class="text-center col-md-1">R$ ' + Number(boy.taxa).toFixed(2) + '</td>'
+			+ '<td>' + boy.comanda + '</td>'
+			+ '<td>' + boy.nome + '</td>'
+			+ '<td>' + boy.motoboy + '</td>'
+			+ '<td>R$ ' + Number(boy.taxa).toFixed(2) + '</td>'
 			+ '</tr>';
 	}
 
@@ -192,7 +192,7 @@ function calcularCompra(compras) {
 		}
 
 		$("#compras").html('<tr>'
-			+ '<td class="text-center col-md-1">R$ ' + Tcompras.toFixed(2) + '</td>'
+			+ '<td>R$ ' + Tcompras.toFixed(2) + '</td>'
 			+ '</tr>'
 		);
 	}
@@ -209,8 +209,8 @@ function calcularSangria(sangrias) {
 			totalSangria += parseFloat(sangria.valor);
 
 			sangriaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + sangria.nome + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + sangria.valor.toFixed(2) + '</td>'
+				+ '<td>' + sangria.nome + '</td>'
+				+ '<td>R$ ' + sangria.valor.toFixed(2) + '</td>'
 				+ '</tr>';
 		}
 
@@ -220,7 +220,7 @@ function calcularSangria(sangrias) {
 			+ '</tr>'
 
 			+ '<tr>'
-			+ '<td class="text-center col-md-1" colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
+			+ '<td colspan="2">R$ ' + totalSangria.toFixed(2) + '</td>'
 			+ '</tr>';
 
 

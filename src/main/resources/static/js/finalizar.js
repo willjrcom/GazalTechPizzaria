@@ -49,16 +49,16 @@ function mostrar(pedidos, filtro) {
 	for (pedido of pedidos) {
 		if (filtro == pedido.envio || filtro == "TODOS") {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-				+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + mostrarTotalComTaxaOurServico(pedido, 10).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">'
+				+ '<td>' + pedido.comanda + '</td>'
+				+ '<td>' + pedido.nome + '</td>'
+				+ '<td>R$ ' + mostrarTotalComTaxaOurServico(pedido, 10).toFixed(2) + '</td>'
+				+ '<td>'
 				+ (pedido.pago == 1
 					? '<i style="color: green" class="fas fa-check-circle"></i>'
 					: '<i style="color: red" class="fa fa-times-circle"></i>')
 				+ '</td>'
-				+ '<td class="text-center col-md-1">' + pedido.envio + '</td>'
-				+ '<td class="text-center col-md-1">'
+				+ '<td>' + pedido.envio + '</td>'
+				+ '<td>'
 				+ '<a class="enviarPedido">'
 				+ '<button type="button" title="finalizar" class="btn btn-success" onclick="finalizarPedido()"'
 				+ 'value="' + pedido.id + '"><i class="fas fa-cart-arrow-down"></i></button></a></td>'
@@ -319,9 +319,9 @@ function mostrarProdutosPedido(pedido) {
 
 		for (pizza of pedido.pizzas) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + pizza.qtd + " x " + pizza.sabor + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + pizza.preco.toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">' + pizza.borda + '</td>'
+				+ '<td>' + pizza.qtd + " x " + pizza.sabor + '</td>'
+				+ '<td>R$ ' + pizza.preco.toFixed(2) + '</td>'
+				+ '<td>' + pizza.borda + '</td>'
 				+ '</tr>';
 		}
 		linhaHtml += '</table>';
@@ -336,8 +336,8 @@ function mostrarProdutosPedido(pedido) {
 
 		for (produto of pedido.produtos) {
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + produto.qtd + " x " + produto.sabor + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + produto.preco.toFixed(2) + '</td>'
+				+ '<td>' + produto.qtd + " x " + produto.sabor + '</td>'
+				+ '<td>R$ ' + produto.preco.toFixed(2) + '</td>'
 				+ '</tr>';
 		}
 		linhaHtml += '</table>';

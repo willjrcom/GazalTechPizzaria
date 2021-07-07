@@ -65,7 +65,7 @@ function trocoInicial() {
 										btnClass: 'btn-success',
 										keys: ['esc', 'enter'],
 										action: function(){
-											window.location.href= "/menu";
+											window.location.reload(true);
 										}
 									}
 								}

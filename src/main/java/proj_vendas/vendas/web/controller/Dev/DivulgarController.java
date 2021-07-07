@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Divulgar;
+import proj_vendas.vendas.model.empresa.Divulgar;
 import proj_vendas.vendas.repository.Divulgacoes;
 
 @Controller

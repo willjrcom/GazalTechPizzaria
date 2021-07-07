@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
-import proj_vendas.vendas.model.Cupom;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.PedidoTemp;
+import proj_vendas.vendas.model.cadastros.Cupom;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.empresa.PedidoTemp;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.PedidoTemps;
 

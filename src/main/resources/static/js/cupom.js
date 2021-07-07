@@ -109,18 +109,18 @@ function mostrarCupons(){
 		if(cupons.length != 0) {
 			for(let cupom of cupons) {
 				Tcupons += '<tr>'
-							+ '<td class="text-center col-md-1">' + cupom.nome + '</td>'
-							+ '<td class="text-center col-md-1">' + cupom.descricao + '</td>'
-							+ '<td class="text-center col-md-1">R$' +  cupom.desconto + '</td>'
-							+ '<td class="text-center col-md-1">' + cupom.validade + '</td>'
-							+ '<td class="text-center col-md-1">'
+							+ '<td>' + cupom.nome + '</td>'
+							+ '<td>' + cupom.descricao + '</td>'
+							+ '<td>R$' +  cupom.desconto + '</td>'
+							+ '<td>' + cupom.validade + '</td>'
+							+ '<td>'
 								+ '<button class="btn btn-warning" value="' + cupom.id + '" onclick="editarCupom()"><i class="fas fa-edit"></i></button>'
 								+ '&nbsp;'
 								+ '<button class="btn btn-danger" value="' + cupom.id + '" onclick="excluirCupom()"><i class="fas fa-trash"></i></button>'
 						+ '</tr>';
 			}
 		}else {
-			Tcupons = '<tr><td class="text-center col-md-1" colspan="5">Nenhum cupom cadastrado</td></tr>';
+			Tcupons = '<tr><td colspan="5">Nenhum cupom cadastrado</td></tr>';
 		}
 
 		$("#todosCupons").html(Tcupons);

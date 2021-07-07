@@ -20,9 +20,9 @@ $.ajax({
 
 	for (pagamento of pagamentos) {
 		linhaHtml += '<tr>'
-			+ '<td class="text-center col-md-1">' + pagamento.data.split("T")[0] + '</td>'
-			+ '<td class="text-center col-md-1">R$ ' + Number(pagamento.valor).toFixed(2) + '</td>'
-			+ '<td class="text-center col-md-1">' + pagamento.log + '</td>'
+			+ '<td>' + pagamento.data.split("T")[0] + '</td>'
+			+ '<td>R$ ' + Number(pagamento.valor).toFixed(2) + '</td>'
+			+ '<td>' + pagamento.log + '</td>'
 			+ '</tr>';
 	}
 

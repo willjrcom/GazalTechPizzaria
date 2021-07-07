@@ -37,12 +37,12 @@ $.ajax({
 			pedido.Tpizzas = Tpizzas;
 
 			linhaHtml += '<tr>'
-				+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-				+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+				+ '<td>' + pedido.comanda + '</td>'
+				+ '<td>' + pedido.nome + '</td>'
 				+ '<td class="text-center col-md-2">' + pedido.endereco + '</td>'
-				+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
-				+ '<td class="text-center col-md-1">R$ ' + (pedido.troco - (pedido.total + pedido.taxa)).toFixed(2) + '</td>'
-				+ '<td class="text-center col-md-1">'
+				+ '<td>' + pedido.modoPagamento + '</td>'
+				+ '<td>R$ ' + (pedido.troco - (pedido.total + pedido.taxa)).toFixed(2) + '</td>'
+				+ '<td>'
 				+ '<button type="button" class="btn btn-success" onclick="entregarPedido()"'
 				+ 'value="' + pedido.id + '"><i class="fas fa-location-arrow"></i></button></td>'
 				+ '<tr>';
@@ -192,20 +192,20 @@ function verEntregasNaRua() {
 		} else {
 			linhaHtml = '<table class="table table-striped table-hover">'
 				+ '<thead><tr>'
-				+ '<td class="text-center col-md-1">Comanda</td>'
-				+ '<td class="text-center col-md-1">Cliente</td>'
+				+ '<td>Comanda</td>'
+				+ '<td>Cliente</td>'
 				+ '<td class="text-center col-md-2">Endereco</td>'
-				+ '<td class="text-center col-md-1">Pagamento</td>'
-				+ '<td class="text-center col-md-1">Motoboy</td>'
+				+ '<td>Pagamento</td>'
+				+ '<td>Motoboy</td>'
 				+ '</tr></thead>';
 
 			for (pedido of pedidos) {
 				linhaHtml += '<tr>'
-					+ '<td class="text-center col-md-1">' + pedido.comanda + '</td>'
-					+ '<td class="text-center col-md-1">' + pedido.nome + '</td>'
+					+ '<td>' + pedido.comanda + '</td>'
+					+ '<td>' + pedido.nome + '</td>'
 					+ '<td class="text-center col-md-2">' + pedido.endereco + '</td>'
-					+ '<td class="text-center col-md-1">' + pedido.modoPagamento + '</td>'
-					+ '<td class="text-center col-md-1">' + pedido.motoboy + '</td>'
+					+ '<td>' + pedido.modoPagamento + '</td>'
+					+ '<td>' + pedido.motoboy + '</td>'
 					+ '</tr>';
 			}
 			linhaHtml += '</table>';

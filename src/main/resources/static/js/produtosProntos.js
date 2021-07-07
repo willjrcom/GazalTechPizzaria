@@ -82,33 +82,33 @@ function mostrar() {
 						for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd; //contar pizzas
 
 						if (Tpizzas == 1)
-							linhaHtml += '<td class="text-center col-md-1">Total: '
+							linhaHtml += '<td>Total: '
 								+ Tpizzas + ' Item</td>';
 						else
-							linhaHtml += '<td class="text-center col-md-1">Total: '
+							linhaHtml += '<td>Total: '
 								+ Tpizzas + ' Itens</td>';
 
 					} else {
-						linhaHtml += '<td class="text-center col-md-1"></td>';
+						linhaHtml += '<td></td>';
 					}
 
-					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
+					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor + '</td>'
 						//obs
 						+ (pizza.obs != ""
 							? '<td class="text-center col-md-1 bg-danger text-white">' + pizza.obs + '</td>'
-							: '<td class="text-center col-md-1"></td>');
+							: '<td></td>');
 
 					if ($("#filtroSetor").val() == "PIZZA") {
-						linhaHtml += '<td class="text-center col-md-1">' + pizza.borda + '</td>';
+						linhaHtml += '<td>' + pizza.borda + '</td>';
 					}
 
 					//verificar a situacao do pedido
 					if (pedido.status == "PRONTO" && j == 0) {
-						linhaHtml += '<td class="text-center col-md-1">'
+						linhaHtml += '<td>'
 							+ '<button type="button" class="btn btn-success">Pronto</button></td>';
 
 					} else if (pedido.status == "COZINHA" && j == 0) {
-						linhaHtml += '<td class="text-center col-md-1">'
+						linhaHtml += '<td>'
 							+ '<button type="button" class="btn btn-danger">Andamento</button></td>';
 					} else {
 						linhaHtml += '<td></td>';

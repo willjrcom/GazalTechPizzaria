@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import proj_vendas.vendas.model.Cliente;
-import proj_vendas.vendas.model.Conquista;
-import proj_vendas.vendas.model.Empresa;
-import proj_vendas.vendas.model.Endereco;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Cliente;
+import proj_vendas.vendas.model.cadastros.Empresa;
+import proj_vendas.vendas.model.cadastros.Endereco;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Conquista;
 import proj_vendas.vendas.repository.Clientes;
 import proj_vendas.vendas.repository.Empresas;
 import proj_vendas.vendas.repository.Enderecos;
 import proj_vendas.vendas.repository.Usuarios;
 
 @Controller
-@RequestMapping("/u")
+@RequestMapping("/f")
 public class CadastroClienteController {
 
 	@Autowired
@@ -136,7 +136,7 @@ public class CadastroClienteController {
 		return enderecos.buscarEnderecos(user.getCodEmpresa());
 	}
 
-	private void liberarConquistas(int cadastros, int codEmpresa) {
+	private void liberarConquistas(int cadastros, Long codEmpresa) {
 		Empresa empresa = empresas.findByCodEmpresa(codEmpresa);
 		Conquista conquista = empresa.getConquista();
 

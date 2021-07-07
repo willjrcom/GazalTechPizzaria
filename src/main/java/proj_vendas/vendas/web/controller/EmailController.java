@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import proj_vendas.vendas.model.Email;
-import proj_vendas.vendas.model.Usuario;
+import proj_vendas.vendas.model.cadastros.Usuario;
+import proj_vendas.vendas.model.empresa.Email;
 import proj_vendas.vendas.repository.Usuarios;
 
 @RestController

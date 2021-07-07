@@ -11,7 +11,7 @@ if (celular % 2 == 1 || celular % 2 == 0) $("#cel").val(celular);
 if (typeof url_atual != "undefined") {
 
 	$.ajax({
-		url: "/u/cadastroCliente/editarCliente/" + url_atual,
+		url: "/f/cadastroCliente/editarCliente/" + url_atual,
 		type: 'GET',
 	}).done(function(e) {
 
@@ -56,7 +56,7 @@ if (typeof url_atual != "undefined") {
 
 
 $.ajax({
-	url: "/u/cadastroCliente/enderecos/",
+	url: "/f/cadastroCliente/enderecos",
 	type: 'GET',
 }).done(function(e) {
 	//remover duplicado completo
@@ -147,7 +147,7 @@ $("#enviar").click(function() {
 						carregarLoading("block");
 
 						$.ajax({
-							url: "/u/cadastroCliente/cadastrar",
+							url: "/f/cadastroCliente/cadastrar",
 							type: 'PUT',
 							dataType: "json",
 							contentType: 'application/json',

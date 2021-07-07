@@ -90,30 +90,30 @@ function mostrar() {
 						for (contPizza of pedido.pizzas) Tpizzas += contPizza.qtd;//contar total de pizzas de cada pedido
 
 						//singular
-						if (Tpizzas == 1) linhaHtml += '<td class="text-center col-md-1">Total: ' + Tpizzas + ' Item</td>';
+						if (Tpizzas == 1) linhaHtml += '<td>Total: ' + Tpizzas + ' Item</td>';
 						//plural
-						else linhaHtml += '<td class="text-center col-md-1" colspan="1">Total: ' + Tpizzas + ' Itens</td>';
+						else linhaHtml += '<td colspan="1">Total: ' + Tpizzas + ' Itens</td>';
 
 
 					} else {//se for 3 linha a frente
-						linhaHtml += '<td class="text-center col-md-1"></td>';
+						linhaHtml += '<td></td>';
 					}
 
 					//mostrar pizza
-					linhaHtml += '<td class="text-center col-md-1">' + pizza.qtd + ' x ' + pizza.sabor
+					linhaHtml += '<td>' + pizza.qtd + ' x ' + pizza.sabor
 						//descricao
 						+ (pizza.descricao != '' ? '&nbsp;&nbsp;<button class="btn-link botao p-0" onclick="descricao()" value="'
 							+ pizza.descricao + '"><i class="fas fa-question"></i></td>' : "")
 						//obs
 						+ (pizza.obs != ""
 							? '<td class="text-center col-md-1 bg-danger text-white">' + pizza.obs + '</td>'
-							: '<td class="text-center col-md-1"></td>');
+							: '<td></td>');
 
 					if ($("#setor").val() == 'PIZZA') {
-						linhaHtml += '<td class="text-center col-md-1">' + pizza.borda + '</td>';
+						linhaHtml += '<td>' + pizza.borda + '</td>';
 					}
 					if (j == 0) {
-						linhaHtml += '<td class="text-center col-md-1">'
+						linhaHtml += '<td>'
 							+ '<a class="enviarPedido">'
 							+ '<button type="button" class="btn btn-success" id="enviar" onclick="enviarPedido()"'
 							+ 'value="' + pedido.id + '"><i class="far fa-check-circle"></i></button></a></td>'
