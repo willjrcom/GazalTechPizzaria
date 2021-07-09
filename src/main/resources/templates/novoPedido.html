@@ -11,7 +11,7 @@
 				
 	<div class="divbase" align="center">
 		<!-- Div de busca ---------------------------------------->
-		<div class="col-md-6" id="divBuscarCliente">
+		<div class="col-md-6 divBuscarCliente">
 			<h4><b>Iniciar pedido</b></h4>
 			<hr>
 			<!-- Input -->
@@ -41,7 +41,7 @@
 		</div>
 		
 		<!-- Div de dados --------------------------------------->
-		<div align="left" id="mostrarDadosCliente">
+		<div align="left" class="dadosCliente hidden">
 			<div>
 				<h4><b>Pedido</b></h4>
 				<ul class="list-group list-group-horizontal-sm">
@@ -57,46 +57,46 @@
 					</li>
 				</ul>
 			</div>
+			
 			<br>
 			<button class="btn" onclick="btnMaisOpcoes()" id="btnMaisOpcoes">Mais opções <i class="fas fa-sort-down"></i></button>
 			
-			<div id="divMaisOpcoes" class="hidden">
-				<br>
-				<br>
+			<div class="divMaisOpcoes hidden">
+				<br><br>
 				<div class="row">
 				<!-- ------------------------------------------------------------------------------------------- -->
 					<div class="col-md-6">
 						<div>
 							<label><b>O pedido foi pago:</b></label>
-							<select name="pagoCliente" class="form-control" id="pagoCliente">
-								<option value="0">Não</option>
-								<option value="1">Sim</option>
+							<select class="form-control calcularPedido" id="pagoCliente">
+								<option value="nao">Não</option>
+								<option value="sim">Sim</option>
 							</select>
 						</div>
 						
 						<br>
-						<div class="row hidden" id="divPagamentoGeral">
-							<div id="divModoPagamento">
-								<label><b>Modo de pagamento:</b></label>
-								<select class="form-control" id="modoPagamento">
-									<option value="0">Dinheiro</option>
-									<option value="1">Cartão</option>
+						<div class="row">
+							<div>
+								<label><b>Forma de pagamento:</b></label>
+								<select class="form-control calcularPedido" id="selectModoPagamento">
+									<option value="dinheiro">Dinheiro</option>
+									<option value="cartao">Cartão</option>
 								</select>
 							</div>
 							
-							<br>
 							<div id="divModoPagamentoDinheiro">
+								<br>
 								<label><b>Receber:</b></label>
 								<div class="input-group mb-3">
 									<span class="input-group-text">R$</span>
-									<input class="form-control calcular" id="troco" placeholder="Precisa de troco?"/>
+									<input class="form-control calcularPedido preco" id="modoPagamentoDinheiro" placeholder="Precisa de troco?"/>
 								</div>
 							</div>
 							
-							<div class="hidden" id="divModoPagamentoCartao">
+							<div id="divModoPagamentoCartao" class="hidden">
 								<br>
 								<label><b>Bandeira:</b></label>
-								<select class="form-control" id="modoPagamentoCartao">
+								<select class="form-control calcularPedido" id="modoPagamentoCartao">
 									<option value="--">---</option>
 									<option value="Mastercard">Mastercard</option>
 									<option value="Visa">Visa</option>
@@ -124,26 +124,32 @@
 				<!-- ------------------------------------------------------------------------------------------- -->
 					<div class="col-md-6">
 						<div id="divEnvio">
-							<label><b>Envio:</b></label>
-							<select class="form-control" name="envioCliente" id="envioCliente">
+							<label><b>Modo de envio:</b></label>
+							<select class="form-control calcularPedido" id="envioCliente">
 							</select>
 						</div>
 						
-						<div class="hidden" id="divGarcon">
+						<div id="divGarcon" class="hidden">
 							<br>
 							<label><b>Garçon:</b></label>
-							<select class="form-control" name="garcon" id="garcon">
+							<select class="form-control calcularPedido" id="garcon">
 								<option value="--">---</option>
 							</select>
 						</div>
 						
-						<div class="hidden" id="divCobrarTaxa">
+						<div id="divCobrarTaxa" class="hidden">
 							<br>
 							<label><b>Cobrar taxa?</b></label>
-							<select class="form-control calcular" name="cobrarTaxa" id="cobrarTaxa">
-								<option value="0">Sim</option>
-								<option value="1">Não</option>
+							<select class="form-control calcularPedido" id="cobrarTaxa">
+								<option value="sim">Sim</option>
+								<option value="nao">Não</option>
 							</select>
+						</div>
+						
+						<br>
+						<div>
+							<label><b>Observação do Pedido:</b></label>
+							<textarea id="obsPedido" class="form-control" placeholder="Observação do pedido"></textarea>
 						</div>
 					</div>
 				</div>
@@ -153,99 +159,58 @@
 		<div class="alert alert-warning hidden" role="alert" id="alertPedidoAberto">Esse pedido ja existe!</div>
 
 	<!-------------------------------------------------------------------------------------------------------------------------->
-		<hr>
-		<div class="row">
-			<div class="col-md-6">
-				<div id="divBuscarProdutos" class="float-left">
-				
-					<div class="row">
-						<div class="form-group col-md-8">
-							<input type="search" name="nome" class="form-control textIndent pula" id="nome"
-							placeholder="Digite o nome/codigo do produto"/>
-						</div>
-				
-						<div class="form-group col-md-4">
-							<button name="buscarProduto" id="buscarProduto" onclick="buscarProdutos()"
-							class="form-control btn btn-primary pula"><i class='fas fa-search-plus'></i> Buscar</button>
-						</div>
-					</div>
+		<div>
+			<hr>
+			<div class="row">
+				<label><b>Buscar produtos:</b></label>
+				<div class="form-group col-md-8">
+					<input type="search" class="form-control textIndent pula" id="nome"
+					placeholder="Digite o nome/codigo do produto"/>
 				</div>
 		
-		<!-- ------------------------------------------------------------------------------------------------- -->
-				<div class="divbase divListaGeral">
-					<div id="divPizzas" class="hidden">
-						<div class="btn-group fRight" role="group" aria-label="Second group">
-							<button type="button"  class="removerPizza btn btn-danger"><i class="fas fa-ban"></i> Remover ultima pizza adicionado</button>
-						</div>
-						
-						<br><br>
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-sm caption-top">
-								<caption>Pizzas</caption>
-								<thead>
-									<tr>
-										<th class="col-md-1"><h5>Pizza</h5></th>
-										<th class="col-md-1"><h5>Observação</h5></th>
-										<th class="col-md-1"><h5>R$</h5></th>
-										<th class="col-md-1"><h5>Borda Recheada</h5></th>
-									</tr>
-								</thead>
-								<tbody id="listaPizza"><tr><td colspan="4">Nenhuma pizza adicionada!</td></tr></tbody>
-							</table>
-						</div>
-					</div>
-					
-					<div id="divProdutos" class="hidden">
-						<hr>
-						
-						<div class="btn-group fRight" role="group" aria-label="Second group">
-							<button type="button"  class="removerProduto btn btn-danger"><i class="fas fa-ban"></i> Remover ultimo produto adicionada</button>
-						</div>
-						
-						<br><br>
-						<div class="table-responsive">
-							<table class="table table-striped table-hover table-sm caption-top">
-								<caption>Produtos</caption>
-								<thead>
-									<tr>
-										<th class="col-md-1"><h5>Produto</h5></th>
-										<th class="col-md-1"><h5>Observação</h5></th>
-										<th class="col-md-1"><h5>R$</h5></th>
-									</tr>
-								</thead>
-								<tbody id="listaProduto"><tr><td colspan="3">Nenhum produto adicionado!</td></tr></tbody>
-							</table>
-						</div>
-					</div>
+				<div class="form-group col-md-4">
+					<button id="buscarProduto" onclick="buscarProdutos()"
+					class="form-control btn btn-primary pula"><i class='fas fa-search-plus'></i> Buscar</button>
+				</div>
+			</div>
+			<br>
+		</div>
+		<br>
+		<div class="row">
+			<br>
+			<hr>
+			<div class="col-md-6">
+				
+				<label><b>Resultado busca:</b></label>
+				<div class="table-responsive">
+					<table class="table table-striped table-hover table-sm caption-top">
+						<thead>
+							<tr>
+								<th class="col-md-1">add</th>
+								<th class="col-md-1">Produto</th>
+								<th class="col-md-1">R$</th>
+							</tr>
+						</thead>
+						<tbody id="listaProdutosEncontrados"><tr><td colspan="3">Nenhum produto encontrado!</td></tr></tbody>
+					</table>
 				</div>
 			</div>
 		
+		<!-- ------------------------------------------------------------------------------------------------- -->
 			<div class="col-md-6">
-				<div class="divbase divListaGeral">
-					<h4 class="h1Logo" align="center">Finalizar Pedido</h4>
-					<hr>
-					<div class="row">
-						<div class="col-md-6 hidden" id="totalTodosProdutosAnteriores"><label><b>Total de produtos anteriores:</b> 0</label></div>
-					</div>
-					
-					<br>
-					<div id="divCupom"></div>
-					<div>
-						<label><b>Observação do Pedido:</b></label>
-						<textarea id="obsPedido" name="obsPedido" class="form-control" placeholder="Observação do pedido"></textarea>
-					</div>
-					<br>
-					
-					<div class="row">
-						<div class="col-md-8">
-							<button class="btn btn-danger" id="cancelar" onclick="recarregar()">
-							<i class="fas fa-ban"></i> Cancelar pedido</button>
-						</div>
-						
-						<div class="col-md-4">
-							
-						</div>
-					</div>
+				<label><b>Produtos adicionados:</b></label>
+				<div class="table-responsive">
+					<table class="table table-striped table-hover table-sm caption-top">
+						<thead>
+							<tr>
+								<th class="col-md-1">Produto</th>
+								<th class="col-md-1">Observação</th>
+								<th class="col-md-1">R$</th>
+								<th class="col-md-1">rm</th>
+							</tr>
+						</thead>
+						<tbody id="listaProdutosAdicionados"><tr><td colspan="4">Nenhum produto adicionado!</td></tr></tbody>
+					</table>
 				</div>
 			</div>
 		</div>
